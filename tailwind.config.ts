@@ -1,12 +1,12 @@
 import type { Config } from 'tailwindcss';
 
 /**
- * Token desain Tani Muda. Sumber: design/extracted/pages/00.html (papan sistem desain)
- * dan docs/RINGKASAN-DESAIN.md bagian 1.
+ * Token desain Tani Muda. Sumber: design/extracted/pages/00-sistem-desain-desktop.html (papan sistem desain)
+ * dan docs/ringkasan-desain.md bagian 1.
  *
  * Bagian tema di bawah sengaja MENGGANTI tema bawaan Tailwind (bukan `extend`), sehingga
  * warna bawaan (`bg-green-600`), ukuran teks kecil (`text-sm`), dan bayangan (`shadow-md`)
- * tidak tersedia sama sekali. Menambah token: ubah di sini DAN di RINGKASAN-DESAIN.md.
+ * tidak tersedia sama sekali. Menambah token: ubah di sini DAN di ringkasan-desain.md.
  */
 
 /** 17 warna desain. Satu-satunya tempat hex boleh ditulis. */
@@ -92,7 +92,7 @@ const config: Config = {
       current: 'currentColor',
       inherit: 'inherit',
       ...warna,
-      // Tirai di belakang dialog/sheet: warna teks 56% (papan 11 dan 13).
+      // Tirai di belakang dialog/sheet: warna teks 56% (papan 11).
       tirai: 'rgb(31 36 32 / 0.56)',
     },
     fontFamily: {

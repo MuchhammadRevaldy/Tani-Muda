@@ -1,5 +1,5 @@
 /**
- * Pemeriksa aturan proyek (ATURAN-PROYEK.md bagian 2, 1, dan 6; KEPUTUSAN.md D-09).
+ * Pemeriksa aturan proyek (aturan-proyek.md bagian 2, 1, dan 6; keputusan.md D-09).
  * Fungsi murni supaya bisa diuji; dijalankan oleh scripts/cek-aturan.mjs.
  */
 

@@ -1,10 +1,10 @@
 import { useEffect, type ReactNode } from 'react';
 import { createBrowserRouter, Outlet, type RouteObject } from 'react-router-dom';
-import { HeaderHalaman } from './komponen/Navigasi';
-import { KerangkaPanel, KerangkaPembeli, KerangkaPetani } from './komponen/Kerangka';
-import { Galat } from './halaman/Galat';
-import { TidakDitemukan } from './halaman/TidakDitemukan';
-import { HalamanKomponen } from './halaman/Komponen';
+import { HeaderHalaman } from './komponen/navigasi';
+import { KerangkaPanel, KerangkaPembeli, KerangkaPetani } from './komponen/kerangka';
+import { Galat } from './halaman/galat';
+import { TidakDitemukan } from './halaman/tidak-ditemukan';
+import { HalamanKomponen } from './halaman/komponen';
 import { judulRute, type KunciRute } from './teks/rute';
 import { teksUmum } from './teks/umum';
 
@@ -55,7 +55,7 @@ const panel = (kunci: KunciRute): ReactNode => (
   </KerangkaPanel>
 );
 
-/** Daftar rute. Rute sama dengan tabel di docs/RINGKASAN-DESAIN.md bagian 3. */
+/** Daftar rute. Rute sama dengan tabel di docs/ringkasan-desain.md bagian 3. */
 export const daftarRute: RouteObject[] = [
   {
     element: <Outlet />,

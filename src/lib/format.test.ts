@@ -15,7 +15,7 @@ import {
   titikRibuan,
 } from './format';
 
-/** Salinan fungsi pustaka desain (design/extracted/assets/18ad3183d4.js) sebagai pembanding. */
+/** Salinan fungsi pustaka desain (design/extracted/assets/pustaka-komponen-tani-muda.js) sebagai pembanding. */
 const desain = (() => {
   const titik = (n: number) => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, '.');
   const S = [

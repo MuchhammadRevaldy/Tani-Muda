@@ -13,7 +13,8 @@
     "test:pantau": "vitest",
     "lint": "eslint . && node scripts/cek-aturan.mjs",
     "format": "prettier --write .",
-    "tangkap": "node scripts/tangkap-layar.mjs"
+    "tangkap": "node scripts/tangkap-layar.mjs",
+    "ekstrak-desain": "node scripts/ekstrak-desain.mjs"
   },
   "dependencies": {
     "react": "19.3.0",

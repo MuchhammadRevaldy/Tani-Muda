@@ -1,4 +1,4 @@
-/** Teks UI umum. Semua teks yang dilihat pengguna ditulis di src/teks/ (ATURAN-PROYEK.md 1.3). */
+/** Teks UI umum. Semua teks yang dilihat pengguna ditulis di src/teks/ (aturan-proyek.md 1.3). */
 export const teksUmum = {
   namaAplikasi: 'Tani Muda',
   memuat: 'Sedang memuat…',

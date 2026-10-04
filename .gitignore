@@ -1,10 +1,19 @@
+# Dependensi dan hasil build
 node_modules/
 dist/
 coverage/
+
+# Rahasia: hanya .env.example yang masuk repo
 .env
 .env.*
 !.env.example
+
+# Bahan kerja hasil bongkar desain (buat ulang dengan `npm run ekstrak-desain`)
+design/extracted/
+
+# Lain-lain
 *.log
 .DS_Store
-# Hasil tangkapan sementara (tangkapan untuk pemilik produk disimpan di docs/tangkapan)
+Thumbs.db
+# Tangkapan sementara (tangkapan untuk pemilik produk disimpan di docs/tangkapan/)
 .tangkapan-sementara/

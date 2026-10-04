@@ -3,20 +3,20 @@ import userEvent from '@testing-library/user-event';
 import { useState } from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import { describe, expect, it, vi } from 'vitest';
-import { Banner } from './Banner';
-import { BarisTugas } from './BarisTugas';
-import { ChipStatus } from './ChipStatus';
-import { Dialog } from './Dialog';
-import { Ikon } from './Ikon';
-import { InputRupiah } from './InputRupiah';
-import { Kartu } from './Kartu';
-import { KolomIsian } from './KolomIsian';
-import { NavigasiBawah, Sidebar } from './Navigasi';
-import { KotakOtp } from './Pelengkap';
-import { PenggarisUmurTanam } from './PenggarisUmurTanam';
-import { GrupRadio, KartuPilihan, PilPilihan, Saklar } from './Pilihan';
-import { Tombol } from './Tombol';
-import { Uang } from './Uang';
+import { Banner } from './banner';
+import { BarisTugas } from './baris-tugas';
+import { ChipStatus } from './chip-status';
+import { Dialog } from './dialog';
+import { Ikon } from './ikon';
+import { InputRupiah } from './input-rupiah';
+import { Kartu } from './kartu';
+import { KolomIsian } from './kolom-isian';
+import { NavigasiBawah, Sidebar } from './navigasi';
+import { KotakOtp } from './pelengkap';
+import { PenggarisUmurTanam } from './penggaris-umur-tanam';
+import { GrupRadio, KartuPilihan, PilPilihan, Saklar } from './pilihan';
+import { Tombol } from './tombol';
+import { Uang } from './uang';
 
 const denganRouter = (ui: React.ReactNode, rute = '/beranda') => (
   <MemoryRouter initialEntries={[rute]}>{ui}</MemoryRouter>
@@ -284,6 +284,24 @@ describe('Navigasi', () => {
     ).toEqual(['Profil', 'Pengaturan notifikasi', 'Keluar']);
     await userEvent.keyboard('{Escape}');
     expect(screen.queryByRole('menu')).toBeNull();
+    expect(screen.queryByRole('tooltip')).toBeNull();
+  });
+  it('teks akun yang terpotong tampil lengkap di tooltip dan di menu', async () => {
+    const lebarIsi = vi.spyOn(HTMLElement.prototype, 'scrollWidth', 'get').mockReturnValue(300);
+    const lebarKotak = vi.spyOn(HTMLElement.prototype, 'clientWidth', 'get').mockReturnValue(120);
+    try {
+      const akun = { nama: 'Arif Setiawan Wicaksono', keterangan: 'Petani · Cikahuripan, Lembang' };
+      render(denganRouter(<Sidebar akun={akun} />));
+      const tombol = screen.getByRole('button', { name: 'Buka menu akun' });
+      expect(tombol).toHaveAccessibleDescription(`${akun.nama}${akun.keterangan}`);
+      expect(screen.getByRole('tooltip')).toHaveTextContent(akun.keterangan);
+      await userEvent.click(tombol);
+      expect(screen.queryByRole('tooltip')).toBeNull();
+      expect(within(screen.getByRole('menu')).getByText(akun.keterangan)).toBeInTheDocument();
+    } finally {
+      lebarIsi.mockRestore();
+      lebarKotak.mockRestore();
+    }
   });
 });
 

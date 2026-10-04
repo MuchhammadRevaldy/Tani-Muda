@@ -29,7 +29,7 @@ for (const berkas of telusuri(join(akar, 'src'))) {
 
 if (pelanggaran.length) {
   for (const p of pelanggaran) console.error(`${p.jalur}:${p.baris}  [${p.kode}] ${p.pesan}`);
-  console.error(`\n${pelanggaran.length} pelanggaran aturan proyek. Lihat docs/ATURAN-PROYEK.md.`);
+  console.error(`\n${pelanggaran.length} pelanggaran aturan proyek. Lihat docs/aturan-proyek.md.`);
   process.exit(1);
 }
 console.log('Aturan proyek: tidak ada pelanggaran.');

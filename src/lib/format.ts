@@ -1,7 +1,7 @@
 /**
  * Format angka, uang, dan tanggal untuk tampilan. Fungsi murni: tanpa Intl/toLocaleString
  * supaya hasilnya sama di semua browser dan di Edge Function.
- * Aturan format: docs/RINGKASAN-DESAIN.md bagian 4, KEPUTUSAN.md D-09.
+ * Aturan format: docs/ringkasan-desain.md bagian 4, keputusan.md D-09.
  */
 
 /** Tanda minus tipografis (U+2212) untuk angka negatif. */

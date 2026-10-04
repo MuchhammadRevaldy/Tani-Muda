@@ -20,7 +20,7 @@ export default defineConfig({
         test: {
           name: 'komponen',
           environment: 'jsdom',
-          setupFiles: ['./src/uji/setup.ts'],
+          setupFiles: ['./src/uji/persiapan.ts'],
           include: ['src/**/*.test.tsx'],
         },
       },
