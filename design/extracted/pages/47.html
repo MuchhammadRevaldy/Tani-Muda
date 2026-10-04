@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="id"><head>
+<meta charset="utf-8">
+<title>Profil petani, versi HP</title>
+<script src="2a8bc1a7-f1b6-489c-85aa-6e9563f0b06b"></script>
+<style>/* Tani Muda — gaya komponen. Semua nilai diambil dari tokens.css. */
+body { margin: 0; font-family: var(--font-sans); font-size: 16px; line-height: 24px; color: var(--teks); background: var(--embun-pagi); -webkit-font-smoothing: antialiased; }
+.tm-ikon { display: block; flex: none; }
+.tm-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* Tombol */
+.tm-tombol { box-sizing: border-box; display: inline-flex; align-items: center; justify-content: center; gap: var(--space-2); min-height: var(--tinggi-kontrol); min-width: var(--target-sentuh); padding: 0 var(--space-5); border: 2px solid transparent; border-radius: var(--radius-md); font: inherit; font-size: 16px; line-height: 24px; font-weight: 600; text-align: center; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.tm-tombol--utama { background: var(--daun-tua); color: var(--putih); }
+.tm-tombol--utama:hover, .tm-tombol--utama:active { background: var(--daun-tekan); }
+.tm-tombol--sekunder { background: var(--putih); color: var(--daun-tua); border-color: var(--daun-tua); }
+.tm-tombol--sekunder:hover, .tm-tombol--sekunder:active { background: var(--daun-lembut); }
+.tm-tombol:active { transform: translateY(1px); }
+.tm-tombol:focus-visible { outline: 2px solid transparent; box-shadow: var(--cincin-fokus); }
+.tm-tombol:disabled { background: var(--garis); border-color: var(--garis); color: var(--teks-pendukung); cursor: not-allowed; transform: none; }
+.tm-tombol--penuh { display: flex; width: 100%; }
+
+/* Kartu */
+.tm-kartu { background: var(--putih); border: 1px solid var(--garis); border-radius: var(--radius-lg); overflow: hidden; }
+.tm-kartu__kepala { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--space-3); padding: var(--space-4) var(--space-4) 0; }
+.tm-kartu__judulblok { min-width: 0; }
+.tm-kartu__judul { margin: 0; font-size: 18px; line-height: 26px; font-weight: 600; color: var(--teks); }
+.tm-kartu__keterangan { margin: var(--space-1) 0 0; font-size: 16px; line-height: 22px; color: var(--teks-pendukung); }
+.tm-kartu__kanan { flex: none; }
+.tm-kartu__isi { padding: var(--space-4); }
+.tm-kartu__isi--rapat { padding: var(--space-2) 0; }
+.tm-kartu__kaki { display: flex; flex-wrap: wrap; gap: var(--space-3) var(--space-6); padding: var(--space-3) var(--space-4); border-top: 1px solid var(--garis); }
+.tm-kartu__kaki--uang { background: var(--tanah-lembut); border-top-color: var(--tanah-lembut); }
+
+/* Kolom isian dan input rupiah */
+.tm-kolom { display: flex; flex-direction: column; gap: var(--space-2); }
+.tm-kolom__label { font-size: 16px; line-height: 24px; font-weight: 500; color: var(--teks); }
+.tm-kolom__bingkai { box-sizing: border-box; display: flex; align-items: stretch; min-height: var(--tinggi-kontrol); background: var(--putih); border: 1.5px solid var(--garis-kuat); border-radius: var(--radius-md); overflow: hidden; }
+.tm-kolom__bingkai:focus-within { border-color: var(--daun-tua); box-shadow: var(--cincin-fokus); }
+.tm-kolom__input { flex: 1; min-width: 0; border: 0; margin: 0; background: transparent; font: inherit; font-size: 16px; line-height: 24px; color: var(--teks); padding: 0 var(--space-4); outline: none; }
+.tm-kolom__input::placeholder { color: var(--teks-pendukung); opacity: 1; }
+.tm-kolom__akhiran { display: flex; align-items: center; padding: 0 var(--space-4) 0 0; color: var(--teks-pendukung); font-weight: 500; }
+.tm-kolom__bantuan { margin: 0; font-size: 16px; line-height: 22px; color: var(--teks-pendukung); }
+.tm-kolom__galat { display: flex; gap: var(--space-2); align-items: flex-start; margin: 0; font-size: 16px; line-height: 22px; font-weight: 500; color: var(--tomat); }
+.tm-kolom__galat .tm-ikon { margin-top: 1px; }
+.tm-kolom--galat .tm-kolom__bingkai { border-color: var(--tomat); border-width: 2px; }
+.tm-rupiah__awalan { display: flex; align-items: center; padding: 0 var(--space-3) 0 var(--space-4); background: var(--tanah-lembut); color: var(--tanah); font-weight: 600; font-size: 18px; border-right: 1px solid var(--garis); }
+.tm-rupiah__input { font-size: 20px; line-height: 28px; font-weight: 600; color: var(--tanah); font-variant-numeric: tabular-nums; padding-left: var(--space-3); }
+.tm-rupiah__input::placeholder { font-weight: 400; }
+
+/* Uang */
+.tm-uang { font-variant-numeric: tabular-nums; }
+.tm-uang--berlabel { display: inline-flex; flex-direction: column; gap: 2px; }
+.tm-uang__label { font-size: 16px; line-height: 22px; color: var(--teks-pendukung); }
+.tm-uang__angka { color: var(--tanah); font-weight: 600; white-space: nowrap; }
+.tm-uang__angka--besar { font-size: 20px; line-height: 28px; }
+.tm-uang__angka--rugi { color: var(--tomat); }
+.tm-uang__keterangan { font-size: 16px; line-height: 22px; color: var(--teks-pendukung); }
+
+/* Chip status */
+.tm-chip { box-sizing: border-box; display: inline-flex; align-items: center; gap: var(--space-2); min-height: 34px; padding: 0 var(--space-3); border: 1.5px solid transparent; border-radius: var(--radius-full); font-size: 16px; line-height: 22px; font-weight: 500; white-space: nowrap; vertical-align: middle; }
+.tm-chip__titik { width: 10px; height: 10px; border-radius: var(--radius-full); background: currentColor; flex: none; }
+.tm-chip--selesai { background: var(--daun-lembut); color: var(--daun-tua); }
+.tm-chip--hari-ini { background: var(--putih); color: var(--daun-tua); border: 2px solid var(--daun-tua); }
+.tm-chip--besok { background: var(--matahari-lembut); color: var(--matahari-teks); border-color: var(--matahari); }
+.tm-chip--terlambat { background: var(--tomat-lembut); color: var(--tomat-teks); border-color: var(--tomat); }
+.tm-chip--uang-muka-ditahan { background: var(--tanah-lembut); color: var(--tanah); }
+.tm-chip--menunggu-konfirmasi { background: var(--putih); color: var(--teks-pendukung); border-color: var(--garis-kuat); }
+.tm-chip--dana-cair { background: var(--daun-tua); color: var(--putih); }
+
+/* Baris tugas */
+.tm-tugas { box-sizing: border-box; display: flex; align-items: center; gap: var(--space-2); min-height: 72px; padding: var(--space-2) var(--space-3) var(--space-2) var(--space-1); background: var(--putih); }
+.tm-tugas + .tm-tugas { border-top: 1px solid var(--garis); }
+.tm-tugas__centang { flex: none; display: grid; place-items: center; width: var(--target-sentuh); height: var(--target-sentuh); padding: 0; border: 0; background: none; border-radius: var(--radius-full); cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.tm-tugas__lingkaran { box-sizing: border-box; display: grid; place-items: center; width: 30px; height: 30px; border: 2px solid var(--garis-kuat); border-radius: var(--radius-full); background: var(--putih); color: var(--putih); }
+.tm-tugas__centang:hover .tm-tugas__lingkaran { border-color: var(--daun-tua); }
+.tm-tugas--selesai .tm-tugas__lingkaran { background: var(--daun-tua); border-color: var(--daun-tua); }
+.tm-tugas__centang:focus-visible, .tm-tugas__kamera:focus-visible { outline: 2px solid transparent; box-shadow: var(--cincin-fokus); }
+.tm-tugas__teks { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: var(--space-1); padding: var(--space-1) 0; }
+.tm-tugas__judul { font-size: 16px; line-height: 24px; font-weight: 600; color: var(--teks); }
+.tm-tugas--selesai .tm-tugas__judul { color: var(--teks-pendukung); font-weight: 500; }
+.tm-tugas__meta { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2) var(--space-3); font-size: 16px; line-height: 22px; color: var(--teks-pendukung); }
+.tm-tugas__kamera { box-sizing: border-box; position: relative; flex: none; display: grid; place-items: center; width: var(--target-sentuh); height: var(--target-sentuh); padding: 0; border: 1.5px solid var(--garis-kuat); border-radius: var(--radius-sm); background: var(--putih); color: var(--teks); cursor: pointer; }
+.tm-tugas__kamera:hover { border-color: var(--daun-tua); color: var(--daun-tua); }
+.tm-tugas__jumlah { box-sizing: border-box; position: absolute; top: -9px; right: -9px; min-width: 26px; height: 26px; padding: 0 6px; border: 2px solid var(--putih); border-radius: var(--radius-full); background: var(--daun-tua); color: var(--putih); font-size: 16px; line-height: 22px; font-weight: 600; text-align: center; }
+
+/* Penggaris Umur Tanam */
+.tm-penggaris { position: relative; }
+.tm-penggaris__grafik { position: relative; width: 100%; }
+.tm-penggaris__jalur { position: absolute; border-radius: var(--radius-full); background: var(--garis); overflow: hidden; }
+.tm-penggaris__isi { position: absolute; left: 0; top: 0; bottom: 0; background: var(--daun-tua); }
+.tm-penggaris__tik { position: absolute; width: 2px; height: 6px; border-radius: 1px; background: var(--garis-kuat); }
+.tm-penggaris__penanda { position: absolute; width: 4px; border-radius: 2px; background: var(--teks); }
+.tm-penggaris__hariini { box-sizing: border-box; position: absolute; height: 32px; padding: 0 var(--space-3); border-radius: var(--radius-full); background: var(--teks); color: var(--putih); font-size: 16px; line-height: 32px; font-weight: 600; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.tm-penggaris__ujung { position: absolute; font-size: 16px; line-height: 22px; color: var(--teks-pendukung); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.tm-penggaris__tangkai { position: absolute; width: 2px; margin-left: -1px; background: var(--garis-kuat); }
+.tm-penggaris__tangkai--selesai { background: var(--daun-tua); }
+.tm-penggaris__tangkai--besok { background: var(--matahari); }
+.tm-penggaris__tangkai--terlambat { background: var(--tomat); }
+.tm-penggaris__tangkai--panen { background: var(--tanah); }
+.tm-penggaris__labelpin { position: absolute; display: flex; flex-direction: column; white-space: nowrap; }
+.tm-penggaris__namapin { font-size: 16px; line-height: 24px; font-weight: 600; color: var(--teks); }
+.tm-penggaris__kalimat { font-size: 16px; line-height: 22px; color: var(--teks-pendukung); font-variant-numeric: tabular-nums; }
+.tm-penggaris__kalimat--selesai { color: var(--daun-tua); }
+.tm-penggaris__kalimat--besok { color: var(--matahari-teks); font-weight: 500; }
+.tm-penggaris__kalimat--terlambat { color: var(--tomat); font-weight: 500; }
+.tm-penggaris__kalimat--panen { color: var(--tanah); }
+.tm-penggaris__daftar { list-style: none; margin: var(--space-4) 0 0; padding: var(--space-3) 0 0; border-top: 1px solid var(--garis); display: grid; gap: var(--space-2); }
+.tm-penggaris__daftar li { display: flex; align-items: center; flex-wrap: wrap; gap: 0 var(--space-3); min-height: 32px; }
+.tm-penggaris__daftar .tm-pin { margin-right: 0; }
+.tm-pin { box-sizing: border-box; display: grid; place-items: center; flex: none; border-radius: var(--radius-full); }
+.tm-pin--selesai { background: var(--daun-tua); color: var(--putih); }
+.tm-pin--besok { background: var(--matahari-lembut); border: 3px solid var(--matahari); color: var(--matahari-teks); }
+.tm-pin--belum { background: var(--putih); border: 2px solid var(--garis-kuat); }
+.tm-pin--terlambat { background: var(--tomat-lembut); border: 2.5px solid var(--tomat); color: var(--tomat-teks); }
+.tm-pin--panen { background: var(--putih); border: 3px solid var(--tanah); color: var(--tanah); }
+
+/* Banner */
+.tm-banner { box-sizing: border-box; display: flex; align-items: flex-start; gap: var(--space-3); padding: var(--space-3) var(--space-4); border: 1.5px solid; border-radius: var(--radius-md); color: var(--teks); }
+.tm-banner__ikon { margin-top: 0; }
+.tm-banner__teks { flex: 1; min-width: 0; }
+.tm-banner__judul { margin: 0; font-size: 16px; line-height: 24px; font-weight: 600; }
+.tm-banner__isi { margin: 2px 0 0; font-size: 16px; line-height: 22px; }
+.tm-banner__aksi { display: inline-flex; align-items: center; min-height: var(--target-sentuh); margin: 0 0 -12px -8px; padding: 0 var(--space-2); border: 0; background: none; font: inherit; font-size: 16px; line-height: 24px; font-weight: 600; color: inherit; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; border-radius: var(--radius-sm); }
+.tm-banner__aksi:focus-visible { outline: 2px solid transparent; box-shadow: var(--cincin-fokus); }
+.tm-banner--peringatan { background: var(--matahari-lembut); border-color: var(--matahari); }
+.tm-banner--peringatan .tm-banner__ikon { color: var(--matahari-teks); }
+.tm-banner--bahaya { background: var(--tomat-lembut); border-color: var(--tomat); }
+.tm-banner--bahaya .tm-banner__ikon, .tm-banner--bahaya .tm-banner__judul { color: var(--tomat-teks); }
+.tm-banner--offline { padding: var(--space-3) var(--space-4); background: var(--teks); border-color: var(--teks); border-radius: var(--radius-sm); color: var(--putih); }
+.tm-banner--offline .tm-banner__aksi:focus-visible { box-shadow: none; outline: 2px solid var(--putih); outline-offset: -2px; }
+
+/* Navigasi bawah */
+.tm-nav { box-sizing: border-box; display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-1); padding: var(--space-2) var(--space-2) calc(var(--space-2) + env(safe-area-inset-bottom, 0px)); background: var(--putih); border-top: 1px solid var(--garis); }
+.tm-nav__item { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: var(--space-1); min-height: 64px; padding: var(--space-1) 0; border: 0; background: none; border-radius: var(--radius-md); font: inherit; font-size: 16px; line-height: 20px; font-weight: 500; color: var(--teks-pendukung); cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.tm-nav__ikon { position: relative; display: grid; place-items: center; width: 56px; height: 32px; border-radius: var(--radius-full); }
+.tm-nav__item[aria-current="page"] { color: var(--daun-tua); font-weight: 600; }
+.tm-nav__item[aria-current="page"] .tm-nav__ikon { background: var(--daun-lembut); }
+.tm-nav__item:focus-visible { outline: 2px solid transparent; box-shadow: var(--cincin-fokus); }
+.tm-nav__lencana { box-sizing: border-box; position: absolute; top: -6px; left: 34px; min-width: 24px; height: 24px; padding: 0 5px; border: 2px solid var(--putih); border-radius: var(--radius-full); background: var(--teks); color: var(--putih); font-size: 16px; line-height: 20px; font-weight: 600; text-align: center; }
+
+/* Pembantu untuk pratinjau */
+.tm-pratinjau { padding: var(--space-4); display: flex; flex-wrap: wrap; gap: var(--space-3); align-items: center; }
+.tm-pratinjau--kolom { flex-direction: column; align-items: stretch; }
+.tm-hp { width: 360px; max-width: 100%; box-sizing: border-box; }
+</style>
+<script src="09a5ff69-397d-4362-9b50-68555a419470"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>/* cyrillic-ext */
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("cdf98e8d-3014-40fc-84e0-049d7dcba839") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("27732646-f40e-4051-ada2-ea7951db2a36") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("a3664c1f-2361-4930-82c1-212da4d30223") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("a6a9c97f-89cc-4790-a054-ebf215bb447c") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("cdf98e8d-3014-40fc-84e0-049d7dcba839") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("27732646-f40e-4051-ada2-ea7951db2a36") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("a3664c1f-2361-4930-82c1-212da4d30223") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("a6a9c97f-89cc-4790-a054-ebf215bb447c") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("cdf98e8d-3014-40fc-84e0-049d7dcba839") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("27732646-f40e-4051-ada2-ea7951db2a36") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("a3664c1f-2361-4930-82c1-212da4d30223") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("a6a9c97f-89cc-4790-a054-ebf215bb447c") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+</style>
+<style>
+:root{--daun-tua:#1e6b45;--daun-tekan:#16573a;--daun-lembut:#e3f0e5;--embun-pagi:#f3f7ef;--putih:#ffffff;--tanah:#6b4a2e;--tanah-lembut:#f4ece3;--matahari:#d99a1e;--matahari-teks:#8a5a00;--matahari-lembut:#fff4da;--tomat:#c8402e;--tomat-teks:#a93624;--tomat-lembut:#fcebe7;--teks:#1f2420;--teks-pendukung:#5b665d;--garis:#dde6d8;--garis-kuat:#738076;--font-sans:"Plus Jakarta Sans",system-ui,"Segoe UI",sans-serif;--space-1:4px;--space-2:8px;--space-3:12px;--space-4:16px;--space-5:20px;--space-6:24px;--space-8:32px;--target-sentuh:48px;--tinggi-kontrol:52px;--radius-sm:8px;--radius-md:12px;--radius-lg:16px;--radius-full:9999px;--cincin-fokus:0 0 0 2px #ffffff,0 0 0 4px #1e6b45}
+body{margin:0;background:#f3f7ef}
+a{color:#1e6b45}a:hover{color:#16573a}
+</style>
+</helmet>
+<div style="width:390px;height:2060px;box-sizing:border-box;display:flex;flex-direction:column;background:#f3f7ef;color:#1f2420;font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-size:16px;line-height:24px">
+<main style="flex:1;display:flex;flex-direction:column;gap:20px;padding:8px 16px 24px">
+<header style="display:flex;flex-direction:column;gap:4px">
+<a href="W03-Beranda-HP.dc.html" style="display:inline-flex;align-items:center;gap:4px;min-height:48px;margin-left:-8px;padding:0 12px 0 4px;align-self:flex-start;border-radius:12px;color:#1e6b45;font-weight:500;text-decoration:none"><x-import component-from-global-scope="TaniMuda.Ikon" nama="panah-kiri"></x-import><span>Beranda</span></a>
+<h1 style="margin:0;font-size:22px;line-height:28px;font-weight:600">Profil</h1>
+</header>
+
+<section aria-label="Ringkasan profil" style="display:flex;flex-direction:column;align-items:center;gap:4px;padding:24px 16px 16px;background:#ffffff;border:1px solid #dde6d8;border-radius:16px;text-align:center">
+<div style="position:relative;width:96px;height:96px;margin-bottom:12px">
+<span aria-hidden="true" style="display:block;width:96px;height:96px;border-radius:9999px;overflow:hidden;background:#f4ece3"><svg sc-camel-view-box="0 0 40 40" width="96" height="96" style="display:block"><circle cx="20" cy="16" r="7" fill="#6B4A2E"></circle><path d="M5 40c1-9 7-14 15-14s14 5 15 14Z" fill="#1E6B45"></path></svg></span>
+<a href="W15b-Ubah-Profil-HP.dc.html" aria-label="Ganti foto profil" style="position:absolute;right:-6px;bottom:-6px;width:44px;height:44px;box-sizing:border-box;border-radius:9999px;border:3px solid #ffffff;background:#1e6b45;color:#ffffff;display:grid;place-items:center;text-decoration:none"><x-import component-from-global-scope="TaniMuda.Ikon" nama="kamera" ukuran="{{n20}}"></x-import></a>
+</div>
+<h2 style="margin:0;font-size:20px;line-height:28px;font-weight:600">Arif Setiawan</h2>
+<span style="color:#5b665d;line-height:22px">@arif.tani · Petani di Cibodas, Lembang</span>
+<div style="display:flex;align-items:center;gap:6px;margin-top:4px">
+<svg width="20" height="20" sc-camel-view-box="0 0 24 24" aria-hidden="true"><path d="M12 3.5l2.6 5.3 5.8.8-4.2 4.1 1 5.8L12 16.8l-5.2 2.7 1-5.8-4.2-4.1 5.8-.8Z" fill="#D99A1E" stroke="#8A5A00" stroke-width="1.2" stroke-linejoin="round"></path></svg>
+<span style="font-weight:600">4,8</span><span style="color:#5b665d">dari 9 ulasan pembeli</span>
+</div>
+<div style="align-self:stretch;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));margin:16px 0;border-top:1px solid #dde6d8;border-bottom:1px solid #dde6d8">
+<div style="display:flex;flex-direction:column;padding:12px 8px"><span style="font-size:20px;line-height:28px;font-weight:600;font-variant-numeric:tabular-nums">6</span><span style="color:#5b665d;line-height:22px">siklus selesai</span></div>
+<div style="display:flex;flex-direction:column;padding:12px 8px;border-left:1px solid #dde6d8"><span style="font-size:20px;line-height:28px;font-weight:600;color:#6b4a2e;font-variant-numeric:tabular-nums">412 kg</span><span style="color:#5b665d;line-height:22px">panen terjual</span></div>
+</div>
+<a href="W15b-Ubah-Profil-HP.dc.html" class="tm-tombol tm-tombol--sekunder tm-tombol--penuh" style="text-decoration:none">Ubah profil</a>
+</section>
+
+<x-import component-from-global-scope="TaniMuda.Kartu" style="display:block" judul="Akun" tanpa-isi="{{yes}}" tingkat-judul="{{n2}}">
+<a href="W15b-Ubah-Profil-HP.dc.html" style="display:flex;align-items:center;gap:12px;min-height:64px;padding:8px 16px;color:#1f2420;text-decoration:none"><span style="flex:1;min-width:0;display:flex;flex-direction:column"><span style="color:#5b665d;line-height:22px">Nama</span><span style="font-weight:500">Arif Setiawan</span></span><span style="display:flex;color:#5b665d"><x-import component-from-global-scope="TaniMuda.Ikon" nama="panah-kanan"></x-import></span></a>
+<div style="height:1px;margin:0 16px;background:#dde6d8"></div>
+<a href="W15b-Ubah-Profil-HP.dc.html" style="display:flex;align-items:center;gap:12px;min-height:64px;padding:8px 16px;color:#1f2420;text-decoration:none"><span style="flex:1;min-width:0;display:flex;flex-direction:column"><span style="color:#5b665d;line-height:22px">Nama pengguna</span><span style="font-weight:500">@arif.tani</span></span><span style="display:flex;color:#5b665d"><x-import component-from-global-scope="TaniMuda.Ikon" nama="panah-kanan"></x-import></span></a>
+<div style="height:1px;margin:0 16px;background:#dde6d8"></div>
+<a href="W15b-Ubah-Profil-HP.dc.html" style="display:flex;align-items:center;gap:12px;min-height:64px;padding:8px 16px;color:#1f2420;text-decoration:none"><span style="flex:1;min-width:0;display:flex;flex-direction:column"><span style="color:#5b665d;line-height:22px">Nomor HP</span><span style="font-weight:500;font-variant-numeric:tabular-nums">0812••••4521</span></span><span style="display:flex;color:#5b665d"><x-import component-from-global-scope="TaniMuda.Ikon" nama="panah-kanan"></x-import></span></a>
+<div style="height:1px;margin:0 16px;background:#dde6d8"></div>
+<a href="W15b-Ubah-Profil-HP.dc.html" style="display:flex;align-items:center;gap:12px;min-height:64px;padding:8px 16px;color:#1f2420;text-decoration:none"><span style="flex:1;min-width:0;display:flex;flex-direction:column"><span style="color:#5b665d;line-height:22px">Kata sandi</span><span style="font-weight:500">Belum dibuat · masuk dengan kode SMS</span></span><span style="display:flex;color:#5b665d"><x-import component-from-global-scope="TaniMuda.Ikon" nama="panah-kanan"></x-import></span></a>
+</x-import>
+
+<x-import component-from-global-scope="TaniMuda.Kartu" style="display:block" judul="Kebun" tanpa-isi="{{yes}}" tingkat-judul="{{n2}}">
+<div style="display:flex;flex-direction:column;padding:8px 16px"><span style="color:#5b665d;line-height:22px">Desa</span><span style="font-weight:500">Cibodas, Kec. Lembang, Bandung Barat</span></div>
+<div style="height:1px;margin:0 16px;background:#dde6d8"></div>
+<div style="display:flex;flex-direction:column;padding:8px 16px"><span style="color:#5b665d;line-height:22px">Luas lahan</span><span style="font-weight:500">120 m² · 2 petak</span></div>
+<div style="height:1px;margin:0 16px;background:#dde6d8"></div>
+<div style="display:flex;flex-direction:column;gap:6px;padding:8px 16px 12px"><span style="color:#5b665d;line-height:22px">Komoditas</span><span style="display:flex;flex-wrap:wrap;gap:8px"><span style="display:inline-flex;align-items:center;min-height:32px;box-sizing:border-box;padding:0 12px;border:1.5px solid #738076;border-radius:9999px;font-weight:500">Sawi</span><span style="display:inline-flex;align-items:center;min-height:32px;box-sizing:border-box;padding:0 12px;border:1.5px solid #738076;border-radius:9999px;font-weight:500">Kangkung</span></span></div>
+<div style="height:1px;margin:0 16px;background:#dde6d8"></div>
+<div style="display:flex;flex-direction:column;align-items:flex-start;gap:6px;padding:8px 16px 12px"><span style="color:#5b665d;line-height:22px">Pupuk subsidi</span><x-import component-from-global-scope="TaniMuda.ChipStatus" status="selesai">Terdaftar</x-import><span style="line-height:22px">Kelompok Tani Tunas Harapan, Cibodas</span></div>
+</x-import>
+
+<x-import component-from-global-scope="TaniMuda.Kartu" style="display:block" judul="Pengingat" tanpa-isi="{{yes}}" tingkat-judul="{{n2}}">
+<a href="#jam-pengingat" style="display:flex;align-items:center;gap:12px;min-height:56px;padding:4px 16px;color:#1f2420;text-decoration:none"><span style="flex:1">Jam pengingat pagi</span><span style="font-weight:600;font-variant-numeric:tabular-nums">06.00</span><span style="display:flex;color:#5b665d"><x-import component-from-global-scope="TaniMuda.Ikon" nama="panah-kanan"></x-import></span></a>
+<div style="height:1px;margin:0 16px;background:#dde6d8"></div>
+<div style="display:flex;align-items:center;gap:12px;min-height:64px;padding:4px 8px 4px 16px">
+<span style="flex:1;display:flex;flex-direction:column"><span style="font-weight:500">Pengingat pagi</span><span style="color:#5b665d;line-height:22px">Daftar tugas hari ini</span></span>
+<sc-if value="{{pagi}}" hint-placeholder-val="{{true}}"><button type="button" role="switch" aria-checked="true" aria-label="Pengingat pagi" sc-camel-on-click="{{ubahPagi}}" style="flex:none;width:64px;height:48px;padding:0;border:0;background:none;display:grid;place-items:center;cursor:pointer"><span style="position:relative;display:block;width:52px;height:32px;border-radius:9999px;background:#1e6b45"><span style="position:absolute;top:4px;left:24px;width:24px;height:24px;border-radius:9999px;background:#ffffff"></span></span></button></sc-if>
+<sc-if value="{{pagiMati}}" hint-placeholder-val="{{false}}"><button type="button" role="switch" aria-checked="false" aria-label="Pengingat pagi" sc-camel-on-click="{{ubahPagi}}" style="flex:none;width:64px;height:48px;padding:0;border:0;background:none;display:grid;place-items:center;cursor:pointer"><span style="position:relative;display:block;width:52px;height:32px;box-sizing:border-box;border-radius:9999px;background:#ffffff;border:2px solid #738076"><span style="position:absolute;top:2px;left:2px;width:24px;height:24px;border-radius:9999px;background:#738076"></span></span></button></sc-if>
+</div>
+<div style="height:1px;margin:0 16px;background:#dde6d8"></div>
+<div style="display:flex;align-items:center;gap:12px;min-height:64px;padding:4px 8px 4px 16px">
+<span style="flex:1;display:flex;flex-direction:column"><span style="font-weight:500">Pengingat sore</span><span style="color:#5b665d;line-height:22px">Siram sore, pukul 16.00</span></span>
+<sc-if value="{{sore}}" hint-placeholder-val="{{true}}"><button type="button" role="switch" aria-checked="true" aria-label="Pengingat sore" sc-camel-on-click="{{ubahSore}}" style="flex:none;width:64px;height:48px;padding:0;border:0;background:none;display:grid;place-items:center;cursor:pointer"><span style="position:relative;display:block;width:52px;height:32px;border-radius:9999px;background:#1e6b45"><span style="position:absolute;top:4px;left:24px;width:24px;height:24px;border-radius:9999px;background:#ffffff"></span></span></button></sc-if>
+<sc-if value="{{soreMati}}" hint-placeholder-val="{{false}}"><button type="button" role="switch" aria-checked="false" aria-label="Pengingat sore" sc-camel-on-click="{{ubahSore}}" style="flex:none;width:64px;height:48px;padding:0;border:0;background:none;display:grid;place-items:center;cursor:pointer"><span style="position:relative;display:block;width:52px;height:32px;box-sizing:border-box;border-radius:9999px;background:#ffffff;border:2px solid #738076"><span style="position:absolute;top:2px;left:2px;width:24px;height:24px;border-radius:9999px;background:#738076"></span></span></button></sc-if>
+</div>
+</x-import>
+
+<x-import component-from-global-scope="TaniMuda.Kartu" style="display:block" judul="Bantuan" tanpa-isi="{{yes}}" tingkat-judul="{{n2}}">
+<a href="#pusat-bantuan" style="display:flex;align-items:center;gap:12px;min-height:56px;padding:4px 16px;color:#1f2420;text-decoration:none"><span style="flex:1">Pusat bantuan</span><span style="display:flex;color:#5b665d"><x-import component-from-global-scope="TaniMuda.Ikon" nama="panah-kanan"></x-import></span></a>
+<div style="height:1px;margin:0 16px;background:#dde6d8"></div>
+<a href="#hubungi" style="display:flex;align-items:center;gap:12px;min-height:56px;padding:4px 16px;color:#1f2420;text-decoration:none"><span style="flex:1">Hubungi tim Tani Muda</span><span style="display:flex;color:#5b665d"><x-import component-from-global-scope="TaniMuda.Ikon" nama="panah-kanan"></x-import></span></a>
+<div style="height:1px;margin:0 16px;background:#dde6d8"></div>
+<a href="#aturan" style="display:flex;align-items:center;gap:12px;min-height:56px;padding:4px 16px;color:#1f2420;text-decoration:none"><span style="flex:1">Aturan pakai dan privasi</span><span style="display:flex;color:#5b665d"><x-import component-from-global-scope="TaniMuda.Ikon" nama="panah-kanan"></x-import></span></a>
+</x-import>
+
+<button type="button" style="align-self:center;min-height:48px;padding:0 16px;border:0;border-radius:12px;background:none;color:#c8402e;font-family:inherit;font-size:16px;font-weight:600;cursor:pointer">Keluar</button>
+</main>
+<x-import component-from-global-scope="TaniMuda.NavigasiBawah" style="display:block" aktif="profil"></x-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script="" data-props="{&quot;$preview&quot;:{&quot;width&quot;:390,&quot;height&quot;:2060}}">
+class Component extends DCLogic {
+renderVals() {
+var self = this;
+var st = this.state || {};
+var pagi = st.pagi === undefined ? true : st.pagi;
+var sore = st.sore === undefined ? true : st.sore;
+return {
+yes: true, n2: 2, n20: 20,
+pagi: pagi, pagiMati: !pagi,
+sore: sore, soreMati: !sore,
+ubahPagi: function () { self.setState({ pagi: !pagi }); },
+ubahSore: function () { self.setState({ sore: !sore }); }
+};
+}
+}
+</script>
+
+
+</body></html>

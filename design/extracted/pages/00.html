@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="id"><head>
+<meta charset="utf-8">
+<title>Tani Muda · sistem desain</title>
+<script src="0f2d59bf-a510-4eaf-9fc2-fc7cc649f2d6"></script>
+<style>/* Tani Muda — gaya komponen. Semua nilai diambil dari tokens.css. */
+body { margin: 0; font-family: var(--font-sans); font-size: 16px; line-height: 24px; color: var(--teks); background: var(--embun-pagi); -webkit-font-smoothing: antialiased; }
+.tm-ikon { display: block; flex: none; }
+.tm-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* Tombol */
+.tm-tombol { box-sizing: border-box; display: inline-flex; align-items: center; justify-content: center; gap: var(--space-2); min-height: var(--tinggi-kontrol); min-width: var(--target-sentuh); padding: 0 var(--space-5); border: 2px solid transparent; border-radius: var(--radius-md); font: inherit; font-size: 16px; line-height: 24px; font-weight: 600; text-align: center; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.tm-tombol--utama { background: var(--daun-tua); color: var(--putih); }
+.tm-tombol--utama:hover, .tm-tombol--utama:active { background: var(--daun-tekan); }
+.tm-tombol--sekunder { background: var(--putih); color: var(--daun-tua); border-color: var(--daun-tua); }
+.tm-tombol--sekunder:hover, .tm-tombol--sekunder:active { background: var(--daun-lembut); }
+.tm-tombol:active { transform: translateY(1px); }
+.tm-tombol:focus-visible { outline: 2px solid transparent; box-shadow: var(--cincin-fokus); }
+.tm-tombol:disabled { background: var(--garis); border-color: var(--garis); color: var(--teks-pendukung); cursor: not-allowed; transform: none; }
+.tm-tombol--penuh { display: flex; width: 100%; }
+
+/* Kartu */
+.tm-kartu { background: var(--putih); border: 1px solid var(--garis); border-radius: var(--radius-lg); overflow: hidden; }
+.tm-kartu__kepala { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--space-3); padding: var(--space-4) var(--space-4) 0; }
+.tm-kartu__judulblok { min-width: 0; }
+.tm-kartu__judul { margin: 0; font-size: 18px; line-height: 26px; font-weight: 600; color: var(--teks); }
+.tm-kartu__keterangan { margin: var(--space-1) 0 0; font-size: 16px; line-height: 22px; color: var(--teks-pendukung); }
+.tm-kartu__kanan { flex: none; }
+.tm-kartu__isi { padding: var(--space-4); }
+.tm-kartu__isi--rapat { padding: var(--space-2) 0; }
+.tm-kartu__kaki { display: flex; flex-wrap: wrap; gap: var(--space-3) var(--space-6); padding: var(--space-3) var(--space-4); border-top: 1px solid var(--garis); }
+.tm-kartu__kaki--uang { background: var(--tanah-lembut); border-top-color: var(--tanah-lembut); }
+
+/* Kolom isian dan input rupiah */
+.tm-kolom { display: flex; flex-direction: column; gap: var(--space-2); }
+.tm-kolom__label { font-size: 16px; line-height: 24px; font-weight: 500; color: var(--teks); }
+.tm-kolom__bingkai { box-sizing: border-box; display: flex; align-items: stretch; min-height: var(--tinggi-kontrol); background: var(--putih); border: 1.5px solid var(--garis-kuat); border-radius: var(--radius-md); overflow: hidden; }
+.tm-kolom__bingkai:focus-within { border-color: var(--daun-tua); box-shadow: var(--cincin-fokus); }
+.tm-kolom__input { flex: 1; min-width: 0; border: 0; margin: 0; background: transparent; font: inherit; font-size: 16px; line-height: 24px; color: var(--teks); padding: 0 var(--space-4); outline: none; }
+.tm-kolom__input::placeholder { color: var(--teks-pendukung); opacity: 1; }
+.tm-kolom__akhiran { display: flex; align-items: center; padding: 0 var(--space-4) 0 0; color: var(--teks-pendukung); font-weight: 500; }
+.tm-kolom__bantuan { margin: 0; font-size: 16px; line-height: 22px; color: var(--teks-pendukung); }
+.tm-kolom__galat { display: flex; gap: var(--space-2); align-items: flex-start; margin: 0; font-size: 16px; line-height: 22px; font-weight: 500; color: var(--tomat); }
+.tm-kolom__galat .tm-ikon { margin-top: 1px; }
+.tm-kolom--galat .tm-kolom__bingkai { border-color: var(--tomat); border-width: 2px; }
+.tm-rupiah__awalan { display: flex; align-items: center; padding: 0 var(--space-3) 0 var(--space-4); background: var(--tanah-lembut); color: var(--tanah); font-weight: 600; font-size: 18px; border-right: 1px solid var(--garis); }
+.tm-rupiah__input { font-size: 20px; line-height: 28px; font-weight: 600; color: var(--tanah); font-variant-numeric: tabular-nums; padding-left: var(--space-3); }
+.tm-rupiah__input::placeholder { font-weight: 400; }
+
+/* Uang */
+.tm-uang { font-variant-numeric: tabular-nums; }
+.tm-uang--berlabel { display: inline-flex; flex-direction: column; gap: 2px; }
+.tm-uang__label { font-size: 16px; line-height: 22px; color: var(--teks-pendukung); }
+.tm-uang__angka { color: var(--tanah); font-weight: 600; white-space: nowrap; }
+.tm-uang__angka--besar { font-size: 20px; line-height: 28px; }
+.tm-uang__angka--rugi { color: var(--tomat); }
+.tm-uang__keterangan { font-size: 16px; line-height: 22px; color: var(--teks-pendukung); }
+
+/* Chip status */
+.tm-chip { box-sizing: border-box; display: inline-flex; align-items: center; gap: var(--space-2); min-height: 34px; padding: 0 var(--space-3); border: 1.5px solid transparent; border-radius: var(--radius-full); font-size: 16px; line-height: 22px; font-weight: 500; white-space: nowrap; vertical-align: middle; }
+.tm-chip__titik { width: 10px; height: 10px; border-radius: var(--radius-full); background: currentColor; flex: none; }
+.tm-chip--selesai { background: var(--daun-lembut); color: var(--daun-tua); }
+.tm-chip--hari-ini { background: var(--putih); color: var(--daun-tua); border: 2px solid var(--daun-tua); }
+.tm-chip--besok { background: var(--matahari-lembut); color: var(--matahari-teks); border-color: var(--matahari); }
+.tm-chip--terlambat { background: var(--tomat-lembut); color: var(--tomat-teks); border-color: var(--tomat); }
+.tm-chip--uang-muka-ditahan { background: var(--tanah-lembut); color: var(--tanah); }
+.tm-chip--menunggu-konfirmasi { background: var(--putih); color: var(--teks-pendukung); border-color: var(--garis-kuat); }
+.tm-chip--dana-cair { background: var(--daun-tua); color: var(--putih); }
+
+/* Baris tugas */
+.tm-tugas { box-sizing: border-box; display: flex; align-items: center; gap: var(--space-2); min-height: 72px; padding: var(--space-2) var(--space-3) var(--space-2) var(--space-1); background: var(--putih); }
+.tm-tugas + .tm-tugas { border-top: 1px solid var(--garis); }
+.tm-tugas__centang { flex: none; display: grid; place-items: center; width: var(--target-sentuh); height: var(--target-sentuh); padding: 0; border: 0; background: none; border-radius: var(--radius-full); cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.tm-tugas__lingkaran { box-sizing: border-box; display: grid; place-items: center; width: 30px; height: 30px; border: 2px solid var(--garis-kuat); border-radius: var(--radius-full); background: var(--putih); color: var(--putih); }
+.tm-tugas__centang:hover .tm-tugas__lingkaran { border-color: var(--daun-tua); }
+.tm-tugas--selesai .tm-tugas__lingkaran { background: var(--daun-tua); border-color: var(--daun-tua); }
+.tm-tugas__centang:focus-visible, .tm-tugas__kamera:focus-visible { outline: 2px solid transparent; box-shadow: var(--cincin-fokus); }
+.tm-tugas__teks { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: var(--space-1); padding: var(--space-1) 0; }
+.tm-tugas__judul { font-size: 16px; line-height: 24px; font-weight: 600; color: var(--teks); }
+.tm-tugas--selesai .tm-tugas__judul { color: var(--teks-pendukung); font-weight: 500; }
+.tm-tugas__meta { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2) var(--space-3); font-size: 16px; line-height: 22px; color: var(--teks-pendukung); }
+.tm-tugas__kamera { box-sizing: border-box; position: relative; flex: none; display: grid; place-items: center; width: var(--target-sentuh); height: var(--target-sentuh); padding: 0; border: 1.5px solid var(--garis-kuat); border-radius: var(--radius-sm); background: var(--putih); color: var(--teks); cursor: pointer; }
+.tm-tugas__kamera:hover { border-color: var(--daun-tua); color: var(--daun-tua); }
+.tm-tugas__jumlah { box-sizing: border-box; position: absolute; top: -9px; right: -9px; min-width: 26px; height: 26px; padding: 0 6px; border: 2px solid var(--putih); border-radius: var(--radius-full); background: var(--daun-tua); color: var(--putih); font-size: 16px; line-height: 22px; font-weight: 600; text-align: center; }
+
+/* Penggaris Umur Tanam */
+.tm-penggaris { position: relative; }
+.tm-penggaris__grafik { position: relative; width: 100%; }
+.tm-penggaris__jalur { position: absolute; border-radius: var(--radius-full); background: var(--garis); overflow: hidden; }
+.tm-penggaris__isi { position: absolute; left: 0; top: 0; bottom: 0; background: var(--daun-tua); }
+.tm-penggaris__tik { position: absolute; width: 2px; height: 6px; border-radius: 1px; background: var(--garis-kuat); }
+.tm-penggaris__penanda { position: absolute; width: 4px; border-radius: 2px; background: var(--teks); }
+.tm-penggaris__hariini { box-sizing: border-box; position: absolute; height: 32px; padding: 0 var(--space-3); border-radius: var(--radius-full); background: var(--teks); color: var(--putih); font-size: 16px; line-height: 32px; font-weight: 600; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.tm-penggaris__ujung { position: absolute; font-size: 16px; line-height: 22px; color: var(--teks-pendukung); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.tm-penggaris__tangkai { position: absolute; width: 2px; margin-left: -1px; background: var(--garis-kuat); }
+.tm-penggaris__tangkai--selesai { background: var(--daun-tua); }
+.tm-penggaris__tangkai--besok { background: var(--matahari); }
+.tm-penggaris__tangkai--terlambat { background: var(--tomat); }
+.tm-penggaris__tangkai--panen { background: var(--tanah); }
+.tm-penggaris__labelpin { position: absolute; display: flex; flex-direction: column; white-space: nowrap; }
+.tm-penggaris__namapin { font-size: 16px; line-height: 24px; font-weight: 600; color: var(--teks); }
+.tm-penggaris__kalimat { font-size: 16px; line-height: 22px; color: var(--teks-pendukung); font-variant-numeric: tabular-nums; }
+.tm-penggaris__kalimat--selesai { color: var(--daun-tua); }
+.tm-penggaris__kalimat--besok { color: var(--matahari-teks); font-weight: 500; }
+.tm-penggaris__kalimat--terlambat { color: var(--tomat); font-weight: 500; }
+.tm-penggaris__kalimat--panen { color: var(--tanah); }
+.tm-penggaris__daftar { list-style: none; margin: var(--space-4) 0 0; padding: var(--space-3) 0 0; border-top: 1px solid var(--garis); display: grid; gap: var(--space-2); }
+.tm-penggaris__daftar li { display: flex; align-items: center; flex-wrap: wrap; gap: 0 var(--space-3); min-height: 32px; }
+.tm-penggaris__daftar .tm-pin { margin-right: 0; }
+.tm-pin { box-sizing: border-box; display: grid; place-items: center; flex: none; border-radius: var(--radius-full); }
+.tm-pin--selesai { background: var(--daun-tua); color: var(--putih); }
+.tm-pin--besok { background: var(--matahari-lembut); border: 3px solid var(--matahari); color: var(--matahari-teks); }
+.tm-pin--belum { background: var(--putih); border: 2px solid var(--garis-kuat); }
+.tm-pin--terlambat { background: var(--tomat-lembut); border: 2.5px solid var(--tomat); color: var(--tomat-teks); }
+.tm-pin--panen { background: var(--putih); border: 3px solid var(--tanah); color: var(--tanah); }
+
+/* Banner */
+.tm-banner { box-sizing: border-box; display: flex; align-items: flex-start; gap: var(--space-3); padding: var(--space-3) var(--space-4); border: 1.5px solid; border-radius: var(--radius-md); color: var(--teks); }
+.tm-banner__ikon { margin-top: 0; }
+.tm-banner__teks { flex: 1; min-width: 0; }
+.tm-banner__judul { margin: 0; font-size: 16px; line-height: 24px; font-weight: 600; }
+.tm-banner__isi { margin: 2px 0 0; font-size: 16px; line-height: 22px; }
+.tm-banner__aksi { display: inline-flex; align-items: center; min-height: var(--target-sentuh); margin: 0 0 -12px -8px; padding: 0 var(--space-2); border: 0; background: none; font: inherit; font-size: 16px; line-height: 24px; font-weight: 600; color: inherit; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; border-radius: var(--radius-sm); }
+.tm-banner__aksi:focus-visible { outline: 2px solid transparent; box-shadow: var(--cincin-fokus); }
+.tm-banner--peringatan { background: var(--matahari-lembut); border-color: var(--matahari); }
+.tm-banner--peringatan .tm-banner__ikon { color: var(--matahari-teks); }
+.tm-banner--bahaya { background: var(--tomat-lembut); border-color: var(--tomat); }
+.tm-banner--bahaya .tm-banner__ikon, .tm-banner--bahaya .tm-banner__judul { color: var(--tomat-teks); }
+.tm-banner--offline { padding: var(--space-3) var(--space-4); background: var(--teks); border-color: var(--teks); border-radius: var(--radius-sm); color: var(--putih); }
+.tm-banner--offline .tm-banner__aksi:focus-visible { box-shadow: none; outline: 2px solid var(--putih); outline-offset: -2px; }
+
+/* Navigasi bawah */
+.tm-nav { box-sizing: border-box; display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-1); padding: var(--space-2) var(--space-2) calc(var(--space-2) + env(safe-area-inset-bottom, 0px)); background: var(--putih); border-top: 1px solid var(--garis); }
+.tm-nav__item { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: var(--space-1); min-height: 64px; padding: var(--space-1) 0; border: 0; background: none; border-radius: var(--radius-md); font: inherit; font-size: 16px; line-height: 20px; font-weight: 500; color: var(--teks-pendukung); cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.tm-nav__ikon { position: relative; display: grid; place-items: center; width: 56px; height: 32px; border-radius: var(--radius-full); }
+.tm-nav__item[aria-current="page"] { color: var(--daun-tua); font-weight: 600; }
+.tm-nav__item[aria-current="page"] .tm-nav__ikon { background: var(--daun-lembut); }
+.tm-nav__item:focus-visible { outline: 2px solid transparent; box-shadow: var(--cincin-fokus); }
+.tm-nav__lencana { box-sizing: border-box; position: absolute; top: -6px; left: 34px; min-width: 24px; height: 24px; padding: 0 5px; border: 2px solid var(--putih); border-radius: var(--radius-full); background: var(--teks); color: var(--putih); font-size: 16px; line-height: 20px; font-weight: 600; text-align: center; }
+
+/* Pembantu untuk pratinjau */
+.tm-pratinjau { padding: var(--space-4); display: flex; flex-wrap: wrap; gap: var(--space-3); align-items: center; }
+.tm-pratinjau--kolom { flex-direction: column; align-items: stretch; }
+.tm-hp { width: 360px; max-width: 100%; box-sizing: border-box; }
+</style>
+<script src="ff7c64b9-193b-4cdc-802f-9e92097ebc74"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>/* cyrillic-ext */
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("6ab5ee42-51fe-447f-8aac-f2bb850a4b97") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("477c3ac9-472d-4bff-96a0-7d851e6abcf5") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("0b98775b-a0cb-4b3c-b0dc-068e4ba3263c") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("1e3179b1-c821-4f99-9946-fd0021ef2202") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("6ab5ee42-51fe-447f-8aac-f2bb850a4b97") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("477c3ac9-472d-4bff-96a0-7d851e6abcf5") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("0b98775b-a0cb-4b3c-b0dc-068e4ba3263c") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("1e3179b1-c821-4f99-9946-fd0021ef2202") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("6ab5ee42-51fe-447f-8aac-f2bb850a4b97") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("477c3ac9-472d-4bff-96a0-7d851e6abcf5") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("0b98775b-a0cb-4b3c-b0dc-068e4ba3263c") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("1e3179b1-c821-4f99-9946-fd0021ef2202") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+</style>
+<style>
+:root{--daun-tua:#1e6b45;--daun-tekan:#16573a;--daun-lembut:#e3f0e5;--embun-pagi:#f3f7ef;--putih:#ffffff;--tanah:#6b4a2e;--tanah-lembut:#f4ece3;--matahari:#d99a1e;--matahari-teks:#8a5a00;--matahari-lembut:#fff4da;--tomat:#c8402e;--tomat-teks:#a93624;--tomat-lembut:#fcebe7;--teks:#1f2420;--teks-pendukung:#5b665d;--garis:#dde6d8;--garis-kuat:#738076;--font-sans:"Plus Jakarta Sans",system-ui,"Segoe UI",sans-serif;--space-1:4px;--space-2:8px;--space-3:12px;--space-4:16px;--space-5:20px;--space-6:24px;--space-8:32px;--target-sentuh:48px;--tinggi-kontrol:52px;--radius-sm:8px;--radius-md:12px;--radius-lg:16px;--radius-full:9999px;--cincin-fokus:0 0 0 2px #ffffff,0 0 0 4px #1e6b45}
+body{margin:0;background:#f3f7ef}
+a{color:#1e6b45}a:hover{color:#16573a}
+</style>
+</helmet>
+<div style="width:1440px;height:3950px;box-sizing:border-box;padding:64px 80px;display:flex;flex-direction:column;gap:72px;background:#f3f7ef;color:#1f2420;font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-size:16px;line-height:24px">
+
+<header style="display:flex;flex-direction:column;gap:16px;max-width:900px">
+<div style="display:flex;align-items:center;gap:8px;color:#1e6b45;font-size:20px;line-height:28px;font-weight:600">
+<x-import component-from-global-scope="TaniMuda.Ikon" nama="kebun" ukuran="{{n28}}"></x-import>
+<span>Tani Muda</span>
+</div>
+<h1 style="margin:0;font-size:48px;line-height:56px;font-weight:600;letter-spacing:-0.01em">Sistem desain: kebun di pagi hari</h1>
+<p style="margin:0;font-size:18px;line-height:28px;color:#5b665d">Terang, tenang, kontras tinggi. Dibuat untuk petani muda yang membuka HP di lahan, di bawah matahari, dengan sinyal lemah dan tangan basah, dan untuk pembeli yang memakai laptop. Hanya mode terang, teks paling kecil 16px, apa pun yang disentuh paling kecil 48px.</p>
+</header>
+
+<section style="display:flex;flex-direction:column;gap:24px">
+<div style="display:flex;flex-direction:column;gap:6px">
+<h2 style="margin:0;font-size:28px;line-height:36px;font-weight:600">Warna</h2>
+<p style="margin:0;color:#5b665d">Hijau daun hanya untuk yang tumbuh atau harus dikerjakan. Cokelat tanah hanya untuk uang dan panen. Arti status selalu dibawa juga oleh ikon dan kata, bukan warna saja.</p>
+</div>
+<div style="display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:20px">
+<div style="display:flex;flex-direction:column;gap:12px;padding:12px;background:#ffffff;border:1px solid #dde6d8;border-radius:16px">
+<div style="height:88px;border-radius:10px;background:#1e6b45"></div>
+<div style="display:flex;flex-direction:column;gap:2px"><span style="font-weight:600">Daun tua</span><span style="color:#5b665d;font-variant-numeric:tabular-nums">#1E6B45</span><span style="color:#5b665d;line-height:22px">Tombol utama, progres, navigasi aktif</span></div>
+</div>
+<div style="display:flex;flex-direction:column;gap:12px;padding:12px;background:#ffffff;border:1px solid #dde6d8;border-radius:16px">
+<div style="height:88px;box-sizing:border-box;border-radius:10px;background:#f3f7ef;border:1px solid #dde6d8"></div>
+<div style="display:flex;flex-direction:column;gap:2px"><span style="font-weight:600">Embun pagi</span><span style="color:#5b665d;font-variant-numeric:tabular-nums">#F3F7EF</span><span style="color:#5b665d;line-height:22px">Latar aplikasi</span></div>
+</div>
+<div style="display:flex;flex-direction:column;gap:12px;padding:12px;background:#ffffff;border:1px solid #dde6d8;border-radius:16px">
+<div style="height:88px;box-sizing:border-box;border-radius:10px;background:#ffffff;border:1px solid #dde6d8"></div>
+<div style="display:flex;flex-direction:column;gap:2px"><span style="font-weight:600">Putih</span><span style="color:#5b665d;font-variant-numeric:tabular-nums">#FFFFFF</span><span style="color:#5b665d;line-height:22px">Kartu dan formulir</span></div>
+</div>
+<div style="display:flex;flex-direction:column;gap:12px;padding:12px;background:#ffffff;border:1px solid #dde6d8;border-radius:16px">
+<div style="height:88px;border-radius:10px;background:#6b4a2e"></div>
+<div style="display:flex;flex-direction:column;gap:2px"><span style="font-weight:600">Tanah</span><span style="color:#5b665d;font-variant-numeric:tabular-nums">#6B4A2E</span><span style="color:#5b665d;line-height:22px">Angka uang, modal, untung, penanda panen</span></div>
+</div>
+<div style="display:flex;flex-direction:column;gap:12px;padding:12px;background:#ffffff;border:1px solid #dde6d8;border-radius:16px">
+<div style="height:88px;border-radius:10px;background:#d99a1e"></div>
+<div style="display:flex;flex-direction:column;gap:2px"><span style="font-weight:600">Matahari</span><span style="color:#5b665d;font-variant-numeric:tabular-nums">#D99A1E</span><span style="color:#5b665d;line-height:22px">Isian dan garis tugas besok. Bukan untuk teks</span></div>
+</div>
+<div style="display:flex;flex-direction:column;gap:12px;padding:12px;background:#ffffff;border:1px solid #dde6d8;border-radius:16px">
+<div style="height:88px;border-radius:10px;background:#8a5a00"></div>
+<div style="display:flex;flex-direction:column;gap:2px"><span style="font-weight:600">Teks matahari</span><span style="color:#5b665d;font-variant-numeric:tabular-nums">#8A5A00</span><span style="color:#5b665d;line-height:22px">Teks dan ikon tugas besok</span></div>
+</div>
+<div style="display:flex;flex-direction:column;gap:12px;padding:12px;background:#ffffff;border:1px solid #dde6d8;border-radius:16px">
+<div style="height:88px;box-sizing:border-box;border-radius:10px;background:#fff4da;border:1px solid #dde6d8"></div>
+<div style="display:flex;flex-direction:column;gap:2px"><span style="font-weight:600">Matahari lembut</span><span style="color:#5b665d;font-variant-numeric:tabular-nums">#FFF4DA</span><span style="color:#5b665d;line-height:22px">Latar tugas besok, peringatan ringan</span></div>
+</div>
+<div style="display:flex;flex-direction:column;gap:12px;padding:12px;background:#ffffff;border:1px solid #dde6d8;border-radius:16px">
+<div style="height:88px;border-radius:10px;background:#c8402e"></div>
+<div style="display:flex;flex-direction:column;gap:2px"><span style="font-weight:600">Tomat</span><span style="color:#5b665d;font-variant-numeric:tabular-nums">#C8402E</span><span style="color:#5b665d;line-height:22px">Terlambat, rugi, kiriman ditolak</span></div>
+</div>
+<div style="display:flex;flex-direction:column;gap:12px;padding:12px;background:#ffffff;border:1px solid #dde6d8;border-radius:16px">
+<div style="height:88px;border-radius:10px;background:#1f2420"></div>
+<div style="display:flex;flex-direction:column;gap:2px"><span style="font-weight:600">Teks utama</span><span style="color:#5b665d;font-variant-numeric:tabular-nums">#1F2420</span><span style="color:#5b665d;line-height:22px">15,8:1 di atas putih</span></div>
+</div>
+<div style="display:flex;flex-direction:column;gap:12px;padding:12px;background:#ffffff;border:1px solid #dde6d8;border-radius:16px">
+<div style="height:88px;border-radius:10px;background:#5b665d"></div>
+<div style="display:flex;flex-direction:column;gap:2px"><span style="font-weight:600">Teks pendukung</span><span style="color:#5b665d;font-variant-numeric:tabular-nums">#5B665D</span><span style="color:#5b665d;line-height:22px">Keterangan, 5,5:1 di embun pagi</span></div>
+</div>
+<div style="display:flex;flex-direction:column;gap:12px;padding:12px;background:#ffffff;border:1px solid #dde6d8;border-radius:16px">
+<div style="height:88px;border-radius:10px;background:#dde6d8"></div>
+<div style="display:flex;flex-direction:column;gap:2px"><span style="font-weight:600">Garis</span><span style="color:#5b665d;font-variant-numeric:tabular-nums">#DDE6D8</span><span style="color:#5b665d;line-height:22px">Pemisah dan tepi kartu</span></div>
+</div>
+</div>
+<h3 style="margin:8px 0 0;font-size:18px;line-height:26px;font-weight:600">Tambahan agar teks dan batas kontrol lolos kontras</h3>
+<div style="display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:20px">
+<div style="display:flex;flex-direction:column;gap:12px;padding:12px;background:#ffffff;border:1px solid #dde6d8;border-radius:16px">
+<div style="height:64px;border-radius:10px;background:#16573a"></div>
+<div style="display:flex;flex-direction:column;gap:2px"><span style="font-weight:600">Daun ditekan</span><span style="color:#5b665d;font-variant-numeric:tabular-nums">#16573A</span><span style="color:#5b665d;line-height:22px">Tombol utama saat ditekan</span></div>
+</div>
+<div style="display:flex;flex-direction:column;gap:12px;padding:12px;background:#ffffff;border:1px solid #dde6d8;border-radius:16px">
+<div style="height:64px;border-radius:10px;background:#e3f0e5"></div>
+<div style="display:flex;flex-direction:column;gap:2px"><span style="font-weight:600">Daun lembut</span><span style="color:#5b665d;font-variant-numeric:tabular-nums">#E3F0E5</span><span style="color:#5b665d;line-height:22px">Chip selesai, menu aktif, kartu tawaran</span></div>
+</div>
+<div style="display:flex;flex-direction:column;gap:12px;padding:12px;background:#ffffff;border:1px solid #dde6d8;border-radius:16px">
+<div style="height:64px;border-radius:10px;background:#f4ece3"></div>
+<div style="display:flex;flex-direction:column;gap:2px"><span style="font-weight:600">Tanah lembut</span><span style="color:#5b665d;font-variant-numeric:tabular-nums">#F4ECE3</span><span style="color:#5b665d;line-height:22px">Kaki kartu uang</span></div>
+</div>
+<div style="display:flex;flex-direction:column;gap:12px;padding:12px;background:#ffffff;border:1px solid #dde6d8;border-radius:16px">
+<div style="height:64px;border-radius:10px;background:#a93624"></div>
+<div style="display:flex;flex-direction:column;gap:2px"><span style="font-weight:600">Teks tomat</span><span style="color:#5b665d;font-variant-numeric:tabular-nums">#A93624</span><span style="color:#5b665d;line-height:22px">Teks di atas tomat lembut</span></div>
+</div>
+<div style="display:flex;flex-direction:column;gap:12px;padding:12px;background:#ffffff;border:1px solid #dde6d8;border-radius:16px">
+<div style="height:64px;border-radius:10px;background:#fcebe7"></div>
+<div style="display:flex;flex-direction:column;gap:2px"><span style="font-weight:600">Tomat lembut</span><span style="color:#5b665d;font-variant-numeric:tabular-nums">#FCEBE7</span><span style="color:#5b665d;line-height:22px">Latar terlambat dan bahaya</span></div>
+</div>
+<div style="display:flex;flex-direction:column;gap:12px;padding:12px;background:#ffffff;border:1px solid #dde6d8;border-radius:16px">
+<div style="height:64px;border-radius:10px;background:#738076"></div>
+<div style="display:flex;flex-direction:column;gap:2px"><span style="font-weight:600">Garis kuat</span><span style="color:#5b665d;font-variant-numeric:tabular-nums">#738076</span><span style="color:#5b665d;line-height:22px">Batas kolom isian, pin belum</span></div>
+</div>
+</div>
+</section>
+
+<div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:32px;align-items:start">
+<section style="display:flex;flex-direction:column;gap:24px">
+<h2 style="margin:0;font-size:28px;line-height:36px;font-weight:600">Huruf</h2>
+<div style="display:flex;flex-direction:column;gap:16px;padding:24px;background:#ffffff;border:1px solid #dde6d8;border-radius:16px">
+<div style="display:flex;align-items:flex-end;gap:24px;padding-bottom:8px">
+<span style="font-size:96px;line-height:96px;font-weight:600;color:#1e6b45">Aa</span>
+<div style="display:flex;flex-direction:column;gap:2px;padding-bottom:8px"><span style="font-size:18px;line-height:26px;font-weight:600">Plus Jakarta Sans</span><span style="color:#5b665d;line-height:22px">400, 500, 600. Angka tabular untuk uang dan hari.</span></div>
+</div>
+<div style="display:grid;grid-template-columns:200px minmax(0,1fr);gap:16px;align-items:baseline;padding-top:16px;border-top:1px solid #dde6d8">
+<div style="display:flex;flex-direction:column"><span style="font-weight:600">Judul halaman</span><span style="color:#5b665d;line-height:22px">22/28 · 600</span></div>
+<span style="font-size:22px;line-height:28px;font-weight:600">Sawi · Petak 1</span>
+</div>
+<div style="display:grid;grid-template-columns:200px minmax(0,1fr);gap:16px;align-items:baseline;padding-top:16px;border-top:1px solid #dde6d8">
+<div style="display:flex;flex-direction:column"><span style="font-weight:600">Judul bagian</span><span style="color:#5b665d;line-height:22px">18/26 · 600</span></div>
+<span style="font-size:18px;line-height:26px;font-weight:600">Tugas hari ini</span>
+</div>
+<div style="display:grid;grid-template-columns:200px minmax(0,1fr);gap:16px;align-items:baseline;padding-top:16px;border-top:1px solid #dde6d8">
+<div style="display:flex;flex-direction:column"><span style="font-weight:600">Angka uang</span><span style="color:#5b665d;line-height:22px">20/28 · 600 · tanah</span></div>
+<span style="font-size:20px;line-height:28px;font-weight:600;color:#6b4a2e;font-variant-numeric:tabular-nums">Rp1.250.000</span>
+</div>
+<div style="display:grid;grid-template-columns:200px minmax(0,1fr);gap:16px;align-items:baseline;padding-top:16px;border-top:1px solid #dde6d8">
+<div style="display:flex;flex-direction:column"><span style="font-weight:600">Isi</span><span style="color:#5b665d;line-height:22px">16/24 · 400</span></div>
+<span>Besok pupuk susulan di petak 1.</span>
+</div>
+<div style="display:grid;grid-template-columns:200px minmax(0,1fr);gap:16px;align-items:baseline;padding-top:16px;border-top:1px solid #dde6d8">
+<div style="display:flex;flex-direction:column"><span style="font-weight:600">Label</span><span style="color:#5b665d;line-height:22px">16/24 · 500</span></div>
+<span style="font-weight:500">Luas lahan</span>
+</div>
+<div style="display:grid;grid-template-columns:200px minmax(0,1fr);gap:16px;align-items:baseline;padding-top:16px;border-top:1px solid #dde6d8">
+<div style="display:flex;flex-direction:column"><span style="font-weight:600">Keterangan</span><span style="color:#5b665d;line-height:22px">16/22 · 400 · pendukung</span></div>
+<span style="color:#5b665d;line-height:22px">Hari ke-13 · panen 15 hari lagi</span>
+</div>
+</div>
+</section>
+
+<section style="display:flex;flex-direction:column;gap:24px">
+<h2 style="margin:0;font-size:28px;line-height:36px;font-weight:600">Tombol dan isian</h2>
+<div style="display:flex;flex-direction:column;gap:20px;padding:24px;background:#ffffff;border:1px solid #dde6d8;border-radius:16px">
+<div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center">
+<x-import component-from-global-scope="TaniMuda.Tombol" varian="utama">Simpan rencana</x-import>
+<x-import component-from-global-scope="TaniMuda.Tombol" varian="sekunder">Tunda 1 hari</x-import>
+<x-import component-from-global-scope="TaniMuda.Tombol" varian="utama" ikon="centang">Tandai selesai</x-import>
+<x-import component-from-global-scope="TaniMuda.Tombol" varian="sekunder" ikon="kamera">Tambah foto bukti</x-import>
+</div>
+<p style="margin:0;color:#5b665d;line-height:22px">Tinggi 52px, label diawali kata kerja. Paling banyak satu tombol utama di satu layar; pilihan lain memakai tombol sekunder.</p>
+<div style="height:1px;background:#dde6d8"></div>
+<div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;align-items:start">
+<x-import component-from-global-scope="TaniMuda.KolomIsian" style="display:block" label="Luas lahan" akhiran="m²" input-mode="decimal" default-value="100" bantuan="Kira-kira saja."></x-import>
+<x-import component-from-global-scope="TaniMuda.KolomIsian" style="display:block" label="Jumlah per kiriman" akhiran="kg" input-mode="decimal" galat="Jumlah belum diisi. Isi dulu agar petani bisa menghitung lahannya."></x-import>
+</div>
+<div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;align-items:start">
+<x-import component-from-global-scope="TaniMuda.InputRupiah" style="display:block" label="Harga per kg" akhiran="/kg" nilai-awal="{{p5000}}"></x-import>
+<p style="margin:32px 0 0;color:#5b665d;line-height:22px">Kolom uang menulis titik ribuan sendiri dan mengeja angkanya, supaya salah ketik nol langsung ketahuan.</p>
+</div>
+</div>
+</section>
+</div>
+
+<div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:32px;align-items:start">
+<section style="display:flex;flex-direction:column;gap:24px">
+<h2 style="margin:0;font-size:28px;line-height:36px;font-weight:600">Kartu</h2>
+<x-import component-from-global-scope="TaniMuda.Kartu" style="display:block" judul="Tugas hari ini" keterangan="Sawi · Petak 1" tanpa-isi="{{yes}}">
+<x-import component-from-global-scope="TaniMuda.BarisTugas" style="display:block" judul="Siram pagi dan sore" keterangan="Sebelum 08.00 dan setelah 16.00" waktu="hari-ini" jumlah-foto="{{n1}}"></x-import>
+<x-import component-from-global-scope="TaniMuda.BarisTugas" style="display:block;border-top:1px solid #dde6d8" judul="Pupuk susulan 2" keterangan="NPK 1 kg" waktu="besok"></x-import>
+</x-import>
+<section class="tm-kartu">
+<div class="tm-kartu__kepala"><div class="tm-kartu__judulblok"><h3 class="tm-kartu__judul">Modal sawi · Petak 1</h3><p class="tm-kartu__keterangan">Rencana untuk 100 m²</p></div></div>
+<div class="tm-kartu__isi"><p style="margin:0">Kaki berwarna tanah lembut hanya untuk ringkasan uang.</p></div>
+<div class="tm-kartu__kaki tm-kartu__kaki--uang">
+<x-import component-from-global-scope="TaniMuda.Uang" label="Total modal" nilai="{{modal}}" besar="{{yes}}"></x-import>
+<x-import component-from-global-scope="TaniMuda.Uang" label="Kalau panen jelek" nilai="{{rugi}}" besar="{{yes}}"></x-import>
+</div>
+</section>
+<p style="margin:0;color:#5b665d;line-height:22px">Putih, garis 1px, sudut 16px, tanpa bayangan. Kartu dibedakan oleh isinya, bukan oleh hiasan. Rugi selalu bertanda minus dan berwarna tomat.</p>
+</section>
+
+<section style="display:flex;flex-direction:column;gap:24px">
+<h2 style="margin:0;font-size:28px;line-height:36px;font-weight:600">Chip status</h2>
+<div style="display:flex;flex-direction:column;gap:16px;padding:24px;background:#ffffff;border:1px solid #dde6d8;border-radius:16px">
+<span style="font-weight:500">Tugas</span>
+<div style="display:flex;flex-wrap:wrap;gap:12px">
+<x-import component-from-global-scope="TaniMuda.ChipStatus" status="selesai"></x-import>
+<x-import component-from-global-scope="TaniMuda.ChipStatus" status="hari-ini"></x-import>
+<x-import component-from-global-scope="TaniMuda.ChipStatus" status="besok"></x-import>
+<x-import component-from-global-scope="TaniMuda.ChipStatus" status="terlambat">Terlambat 2 hari</x-import>
+</div>
+<span style="font-weight:500;padding-top:8px;border-top:1px solid #dde6d8">Uang, selalu tampil di setiap pesanan</span>
+<div style="display:flex;flex-wrap:wrap;gap:12px">
+<x-import component-from-global-scope="TaniMuda.ChipStatus" status="uang-muka-ditahan"></x-import>
+<x-import component-from-global-scope="TaniMuda.ChipStatus" status="menunggu-konfirmasi"></x-import>
+<x-import component-from-global-scope="TaniMuda.ChipStatus" status="dana-cair"></x-import>
+</div>
+</div>
+<h2 style="margin:8px 0 0;font-size:28px;line-height:36px;font-weight:600">Banner</h2>
+<div style="display:flex;flex-direction:column;gap:12px">
+<x-import component-from-global-scope="TaniMuda.Banner" style="display:block" jenis="peringatan" judul="Besok: pupuk susulan 2">NPK 1 kg untuk petak 1, pagi sebelum siram.</x-import>
+<x-import component-from-global-scope="TaniMuda.Banner" style="display:block" jenis="bahaya" judul="Kiriman ditolak sebagian" aksi="Lihat foto pembeli">1 kg bayam daun berlubang. Bagian ini tidak dibayar.</x-import>
+<x-import component-from-global-scope="TaniMuda.Banner" style="display:block" jenis="offline">Perubahan disimpan dan dikirim saat sinyal kembali.</x-import>
+</div>
+</section>
+</div>
+
+<section style="display:flex;flex-direction:column;gap:24px">
+<div style="display:flex;flex-direction:column;gap:6px;max-width:900px">
+<h2 style="margin:0;font-size:28px;line-height:36px;font-weight:600">Penggaris Umur Tanam</h2>
+<p style="margin:0;color:#5b665d">Elemen khas Tani Muda. Garis dari hari ke-0 (tanam) sampai hari panen. Bagian yang sudah dilalui hijau daun, penanda gelap untuk hari ini, dan pin di atas garis untuk setiap jadwal. Muncul di beranda petani, di detail siklus, dan di dasbor pembeli.</p>
+</div>
+<div style="display:grid;grid-template-columns:392px minmax(0,1fr);gap:32px;align-items:start">
+<div style="display:flex;flex-direction:column;gap:12px">
+<span style="font-weight:500">Versi HP: pin tanpa label, daftar di bawah</span>
+<x-import component-from-global-scope="TaniMuda.Kartu" style="display:block" judul="Sawi · Petak 1" keterangan="Panen 15 hari lagi">
+<x-import component-from-global-scope="TaniMuda.PenggarisUmurTanam" style="display:block" varian="hp" hari-ini="{{h13}}" hari-panen="{{h28}}" jadwal="{{jadwal}}"></x-import>
+</x-import>
+</div>
+<div style="display:flex;flex-direction:column;gap:12px">
+<span style="font-weight:500">Versi lebar untuk pembeli: nama, hari dan status di atas pin</span>
+<x-import component-from-global-scope="TaniMuda.Kartu" style="display:block" judul="Sawi dari Kebun Dimas" keterangan="Ditanam Minggu, 20 September · perkiraan panen Minggu, 18 Oktober">
+<x-import component-from-global-scope="TaniMuda.PenggarisUmurTanam" style="display:block" varian="lebar" hari-ini="{{h13}}" hari-panen="{{h28}}" jadwal="{{jadwal}}"></x-import>
+</x-import>
+<div style="display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;padding:16px;background:#ffffff;border:1px solid #dde6d8;border-radius:16px">
+<div style="display:flex;align-items:center;gap:8px"><span class="tm-pin tm-pin--selesai" aria-hidden="true" style="width:28px;height:28px"><x-import component-from-global-scope="TaniMuda.Ikon" nama="centang" ukuran="{{n17}}" tebal="{{n3}}"></x-import></span><span style="line-height:22px">Selesai</span></div>
+<div style="display:flex;align-items:center;gap:8px"><span class="tm-pin tm-pin--besok" aria-hidden="true" style="width:28px;height:28px"><x-import component-from-global-scope="TaniMuda.Ikon" nama="jam" ukuran="{{n16}}" tebal="{{t25}}"></x-import></span><span style="line-height:22px">Besok</span></div>
+<div style="display:flex;align-items:center;gap:8px"><span class="tm-pin tm-pin--belum" aria-hidden="true" style="width:28px;height:28px"></span><span style="line-height:22px">Belum</span></div>
+<div style="display:flex;align-items:center;gap:8px"><span class="tm-pin tm-pin--terlambat" aria-hidden="true" style="width:28px;height:28px"><x-import component-from-global-scope="TaniMuda.Ikon" nama="peringatan" ukuran="{{n16}}" tebal="{{t25}}"></x-import></span><span style="line-height:22px">Terlambat</span></div>
+<div style="display:flex;align-items:center;gap:8px"><span class="tm-pin tm-pin--panen" aria-hidden="true" style="width:28px;height:28px"><x-import component-from-global-scope="TaniMuda.Ikon" nama="panen" ukuran="{{n16}}" tebal="{{t25}}"></x-import></span><span style="line-height:22px">Panen</span></div>
+</div>
+</div>
+</div>
+</section>
+
+<div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:32px;align-items:start">
+<section style="display:flex;flex-direction:column;gap:16px">
+<h2 style="margin:0;font-size:28px;line-height:36px;font-weight:600">Ikon</h2>
+<p style="margin:0;color:#5b665d">Garis 2px di kotak 24px, ujung membulat, hemat kuota. Selalu bersama kata, kecuali tombol kamera dan centang yang punya label untuk pembaca layar.</p>
+<div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px">
+<div style="display:flex;flex-direction:column;align-items:center;gap:6px;padding:14px 4px;background:#ffffff;border:1px solid #dde6d8;border-radius:12px"><x-import component-from-global-scope="TaniMuda.Ikon" nama="beranda"></x-import><span style="color:#5b665d;line-height:22px">beranda</span></div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:6px;padding:14px 4px;background:#ffffff;border:1px solid #dde6d8;border-radius:12px"><x-import component-from-global-scope="TaniMuda.Ikon" nama="kebun"></x-import><span style="color:#5b665d;line-height:22px">kebun</span></div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:6px;padding:14px 4px;background:#ffffff;border:1px solid #dde6d8;border-radius:12px"><x-import component-from-global-scope="TaniMuda.Ikon" nama="pesanan"></x-import><span style="color:#5b665d;line-height:22px">pesanan</span></div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:6px;padding:14px 4px;background:#ffffff;border:1px solid #dde6d8;border-radius:12px"><x-import component-from-global-scope="TaniMuda.Ikon" nama="belajar"></x-import><span style="color:#5b665d;line-height:22px">belajar</span></div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:6px;padding:14px 4px;background:#ffffff;border:1px solid #dde6d8;border-radius:12px"><x-import component-from-global-scope="TaniMuda.Ikon" nama="centang"></x-import><span style="color:#5b665d;line-height:22px">centang</span></div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:6px;padding:14px 4px;background:#ffffff;border:1px solid #dde6d8;border-radius:12px"><x-import component-from-global-scope="TaniMuda.Ikon" nama="kamera"></x-import><span style="color:#5b665d;line-height:22px">kamera</span></div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:6px;padding:14px 4px;background:#ffffff;border:1px solid #dde6d8;border-radius:12px"><x-import component-from-global-scope="TaniMuda.Ikon" nama="jam"></x-import><span style="color:#5b665d;line-height:22px">jam</span></div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:6px;padding:14px 4px;background:#ffffff;border:1px solid #dde6d8;border-radius:12px"><x-import component-from-global-scope="TaniMuda.Ikon" nama="peringatan"></x-import><span style="color:#5b665d;line-height:22px">peringatan</span></div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:6px;padding:14px 4px;background:#ffffff;border:1px solid #dde6d8;border-radius:12px"><x-import component-from-global-scope="TaniMuda.Ikon" nama="kunci"></x-import><span style="color:#5b665d;line-height:22px">kunci</span></div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:6px;padding:14px 4px;background:#ffffff;border:1px solid #dde6d8;border-radius:12px"><x-import component-from-global-scope="TaniMuda.Ikon" nama="jam-pasir"></x-import><span style="color:#5b665d;line-height:22px">jam-pasir</span></div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:6px;padding:14px 4px;background:#ffffff;border:1px solid #dde6d8;border-radius:12px"><x-import component-from-global-scope="TaniMuda.Ikon" nama="uang"></x-import><span style="color:#5b665d;line-height:22px">uang</span></div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:6px;padding:14px 4px;background:#ffffff;border:1px solid #dde6d8;border-radius:12px"><x-import component-from-global-scope="TaniMuda.Ikon" nama="offline"></x-import><span style="color:#5b665d;line-height:22px">offline</span></div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:6px;padding:14px 4px;background:#ffffff;border:1px solid #dde6d8;border-radius:12px"><x-import component-from-global-scope="TaniMuda.Ikon" nama="panen"></x-import><span style="color:#5b665d;line-height:22px">panen</span></div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:6px;padding:14px 4px;background:#ffffff;border:1px solid #dde6d8;border-radius:12px"><x-import component-from-global-scope="TaniMuda.Ikon" nama="lonceng"></x-import><span style="color:#5b665d;line-height:22px">lonceng</span></div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:6px;padding:14px 4px;background:#ffffff;border:1px solid #dde6d8;border-radius:12px"><x-import component-from-global-scope="TaniMuda.Ikon" nama="panah-kanan"></x-import><span style="color:#5b665d;line-height:22px">panah-kanan</span></div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:6px;padding:14px 4px;background:#ffffff;border:1px solid #dde6d8;border-radius:12px"><x-import component-from-global-scope="TaniMuda.Ikon" nama="panah-kiri"></x-import><span style="color:#5b665d;line-height:22px">panah-kiri</span></div>
+</div>
+</section>
+<section style="display:flex;flex-direction:column;gap:16px">
+<h2 style="margin:0;font-size:28px;line-height:36px;font-weight:600">Navigasi bawah</h2>
+<p style="margin:0;color:#5b665d">Empat menu untuk petani, label selalu tampil. Lencana berlatar gelap, bukan merah, karena pesanan baru bukan masalah. Pembeli di laptop memakai bilah atas.</p>
+<div style="width:390px;border:1px solid #dde6d8;border-radius:16px;overflow:hidden">
+<x-import component-from-global-scope="TaniMuda.NavigasiBawah" style="display:block" aktif-awal="beranda" lencana="{{lencana}}"></x-import>
+</div>
+</section>
+</div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script="" data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:3950}}">
+class Component extends DCLogic {
+renderVals() {
+return {
+yes: true,
+n1: 1, n3: 3, n16: 16, n17: 17, n28: 28, t25: 2.5,
+h13: 13, h28: 28,
+p5000: 5000,
+modal: 430000,
+rugi: -80000,
+lencana: { pesanan: 2 },
+jadwal: [
+{ hari: 7, label: 'Pupuk 1', status: 'selesai' },
+{ hari: 14, label: 'Pupuk 2', status: 'besok' },
+{ hari: 20, label: 'Cek hama', status: 'belum' },
+{ hari: 28, label: 'Panen', status: 'panen' }
+]
+};
+}
+}
+</script>
+
+
+</body></html>

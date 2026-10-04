@@ -1,0 +1,5 @@
+{
+  "_keterangan": "Kata yang dilarang muncul di teks tampilan (KEPUTUSAN.md D-09). Dicek oleh scripts/cek-aturan.mjs pada string di src/teks/ dan teks JSX. Boleh dipakai di kode, basis data, dan komentar.",
+  "kata": ["escrow", "task", "pending", "submit", "dashboard", "login", "logout", "upload", "download", "checkout", "invoice"],
+  "kataPersis": ["DP", "HST"]
+}
