@@ -4,7 +4,7 @@ Tani Muda adalah aplikasi web responsif (PWA) yang menemani petani muda melewati
 
 Aplikasi ini dirancang untuk HP di lahan, di bawah matahari, dengan sinyal lemah. Karena itu teksnya paling kecil 16px, target sentuh paling kecil 48px, dan aplikasi tetap bisa dipakai saat offline.
 
-> **Status:** v1 untuk lomba dan pilot di satu kecamatan. Tahap 1 (fondasi: sistem desain, komponen, kerangka halaman) sudah selesai. Rincian progres ada di [`docs/rencana-kerja.md`](docs/rencana-kerja.md).
+> **Status:** v1 untuk lomba dan pilot di satu kecamatan. Tahap 1 (fondasi: sistem desain, komponen, kerangka halaman) sudah selesai. Tampilan dikerjakan lebih dulu dengan data tiruan; backend Laravel menyusul setelah semua halaman selesai. Rincian progres ada di [`docs/rencana-kerja.md`](docs/rencana-kerja.md).
 
 ## Fitur utama
 
@@ -32,14 +32,15 @@ Semua tangkapan ada di [`docs/tangkapan/`](docs/tangkapan/). Penamaannya mengiku
 
 ## Stack
 
-| Bagian          | Teknologi                                                                  |
-| --------------- | -------------------------------------------------------------------------- |
-| Antarmuka       | React 19, TypeScript (strict), Vite, vite-plugin-pwa                       |
-| Tampilan        | Tailwind CSS 3.4 dengan token dari sistem desain (tema bawaan diganti)     |
-| Data dan server | Supabase: PostgreSQL + PostGIS, Auth OTP nomor HP, Storage, Edge Functions |
-| Offline         | Dexie (IndexedDB) dan TanStack Query                                       |
-| Pengujian       | Vitest (fungsi murni di Node, komponen di jsdom), Testing Library          |
-| Mutu            | ESLint, Prettier, pemeriksa aturan proyek (`scripts/cek-aturan.mjs`)       |
+| Bagian            | Teknologi                                                                                                          |
+| ----------------- | ------------------------------------------------------------------------------------------------------------------ |
+| Antarmuka         | React 19, TypeScript (strict), Vite, vite-plugin-pwa                                                               |
+| Tampilan          | Tailwind CSS 3.4 dengan token dari sistem desain (tema bawaan diganti)                                             |
+| Data (sekarang)   | Klien API dengan implementasi tiruan berisi data contoh (memori dan localStorage)                                  |
+| Backend (Tahap 5) | Laravel 13 (PHP 8.3+), Sanctum (login nomor HP + OTP), Pest, MySQL/MariaDB dari XAMPP, berjalan lokal tanpa Docker |
+| Offline           | Dexie (IndexedDB) dan TanStack Query                                                                               |
+| Pengujian         | Vitest (fungsi murni di Node, komponen di jsdom), Testing Library                                                  |
+| Mutu              | ESLint, Prettier, pemeriksa aturan proyek (`scripts/cek-aturan.mjs`)                                               |
 
 ## Menjalankan
 
@@ -51,16 +52,16 @@ cp .env.example .env    # isi nilainya; jangan commit .env
 npm run dev             # http://localhost:5173
 ```
 
-| Perintah                                 | Fungsi                                                                                                                   |
-| ---------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
-| `npm run dev`                            | Server pengembangan                                                                                                      |
-| `npm test`                               | Semua tes                                                                                                                |
-| `npm run test:cakupan`                   | Tes dan cakupan `src/lib` (ambang 90%)                                                                                   |
-| `npm run lint`                           | ESLint dan pemeriksa aturan proyek (warna di luar token, teks di bawah 16px, bayangan, kata terlarang, service role key) |
-| `npm run typecheck`                      | Cek tipe TypeScript                                                                                                      |
-| `npm run build`                          | Cek tipe dan build produksi ke `dist/`                                                                                   |
-| `npm run ekstrak-desain`                 | Bongkar file desain ke `design/extracted/` (bahan kerja, tidak masuk git)                                                |
-| `npm run tangkap -- <url> <jalur-dasar>` | Tangkapan layar 390px dan 1440px dengan Chrome atau Edge yang terpasang                                                  |
+| Perintah                                 | Fungsi                                                                                                                  |
+| ---------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| `npm run dev`                            | Server pengembangan                                                                                                     |
+| `npm test`                               | Semua tes                                                                                                               |
+| `npm run test:cakupan`                   | Tes dan cakupan `src/lib` (ambang 90%)                                                                                  |
+| `npm run lint`                           | ESLint dan pemeriksa aturan proyek (warna di luar token, teks di bawah 16px, bayangan, kata terlarang, rahasia backend) |
+| `npm run typecheck`                      | Cek tipe TypeScript                                                                                                     |
+| `npm run build`                          | Cek tipe dan build produksi ke `dist/`                                                                                  |
+| `npm run ekstrak-desain`                 | Bongkar file desain ke `design/extracted/` (bahan kerja, tidak masuk git)                                               |
+| `npm run tangkap -- <url> <jalur-dasar>` | Tangkapan layar 390px dan 1440px dengan Chrome atau Edge yang terpasang                                                 |
 
 ## Struktur folder
 
@@ -90,7 +91,7 @@ tani-muda/
     └── main.tsx            titik masuk
 ```
 
-Folder yang akan ditambahkan di tahap berikutnya: `src/data/` (akses Supabase dan antrean offline), `src/penyedia/` (antarmuka pembayaran dan OTP), `src/tipe/`, dan `supabase/` (migrasi, seed, Edge Functions).
+Folder yang akan ditambahkan di tahap berikutnya: `src/api/` (kontrak, klien API tiruan lalu HTTP), `src/penyedia/` (antarmuka pembayaran dan OTP), dan `src/tipe/`. Di Tahap 5 repositori dipecah menjadi `frontend/` (proyek React ini), `backend/` (Laravel), dan `shared/kasus-uji/` (kasus uji perhitungan yang dipakai Vitest dan Pest). Rancangannya di [`docs/arsitektur-backend.md`](docs/arsitektur-backend.md).
 
 ## Dokumen penting
 
@@ -100,13 +101,14 @@ Baca berurutan sebelum mengerjakan tugas:
 2. [`docs/aturan-proyek.md`](docs/aturan-proyek.md): aturan wajib di setiap tugas.
 3. [`docs/rencana-kerja.md`](docs/rencana-kerja.md): daftar tugas dan progres.
 4. [`docs/ringkasan-desain.md`](docs/ringkasan-desain.md): token, komponen, dan halaman.
+5. [`docs/arsitektur-backend.md`](docs/arsitektur-backend.md): rancangan backend Laravel.
 
 ## Keamanan
 
 - Hanya variabel berawalan `VITE_` yang sampai ke browser, dan semuanya terbuka untuk publik.
-- Service role key Supabase, kunci payment gateway, dan kunci VAPID privat hanya disimpan sebagai rahasia Edge Function, tidak pernah di frontend.
-- Hak akses data dijaga Row Level Security di basis data.
-- `npm run lint` gagal bila ada pola service role di `src/`.
+- Kunci rahasia (`APP_KEY`, kata sandi basis data, kunci VAPID privat, kunci pembayaran) hanya ada di file `.env` backend dan tidak pernah dikirim ke frontend.
+- Hak akses data dijaga di server lewat Policy per peran. Klien API tiruan menegakkan aturan yang sama selama backend belum ada.
+- `npm run lint` gagal bila kode frontend atau `.env.example` menyebut nama kunci rahasia backend atau variabel selain `VITE_*`.
 
 ## Data contoh
 

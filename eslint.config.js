@@ -18,7 +18,14 @@ export default tseslint.config(
         {
           patterns: [
             {
-              group: ['react', 'react-dom', '@supabase/*', '**/data/**', '**/komponen/**'],
+              group: [
+                'react',
+                'react-dom',
+                '**/api/**',
+                '**/data/**',
+                '**/komponen/**',
+                '**/penyedia/**',
+              ],
               message: 'src/lib hanya berisi fungsi murni (aturan-proyek.md bagian 3).',
             },
           ],

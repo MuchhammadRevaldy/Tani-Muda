@@ -3,10 +3,10 @@
  * Jalankan pemeriksa aturan proyek pada src/. Gagal (kode keluar 1) bila ada pelanggaran.
  * Dipanggil oleh `npm run lint`.
  */
-import { readFileSync, readdirSync, statSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { join, relative, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { periksaBerkas } from './aturan.mjs';
+import { periksaBerkas, periksaEnvContoh } from './aturan.mjs';
 
 const akar = fileURLToPath(new URL('..', import.meta.url));
 const daftar = JSON.parse(readFileSync(new URL('./kata-terlarang.json', import.meta.url), 'utf8'));
@@ -26,6 +26,10 @@ for (const berkas of telusuri(join(akar, 'src'))) {
   const jalur = relative(akar, berkas).split(sep).join('/');
   pelanggaran.push(...periksaBerkas(jalur, readFileSync(berkas, 'utf8'), daftar));
 }
+// .env.example frontend hanya boleh berisi variabel publik VITE_* (rahasia di .env backend, D-19).
+const envContoh = join(akar, '.env.example');
+if (existsSync(envContoh))
+  pelanggaran.push(...periksaEnvContoh('.env.example', readFileSync(envContoh, 'utf8')));
 
 if (pelanggaran.length) {
   for (const p of pelanggaran) console.error(`${p.jalur}:${p.baris}  [${p.kode}] ${p.pesan}`);

@@ -1,6 +1,13 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
-import { buangKomentar, cekTeksTampil, periksaBerkas, stringLiteral, teksJsx } from './aturan.mjs';
+import {
+  buangKomentar,
+  cekTeksTampil,
+  periksaBerkas,
+  periksaEnvContoh,
+  stringLiteral,
+  teksJsx,
+} from './aturan.mjs';
 
 const daftar = JSON.parse(readFileSync(new URL('./kata-terlarang.json', import.meta.url), 'utf8'));
 const kode = (jalur, isi) => periksaBerkas(jalur, isi, daftar).map((p) => p.kode);
@@ -24,10 +31,41 @@ describe('aturan warna dan ukuran', () => {
     expect(kode('src/komponen/A.tsx', '<p className="w-[53px]" />')).toContain('NILAI_SEMBARANG');
     expect(kode('src/komponen/A.tsx', '<p className="bg-[#fff]" />')).toContain('NILAI_SEMBARANG');
   });
-  it('menolak service role', () => {
-    expect(
-      kode('src/data/x.ts', 'const k = import.meta.env.VITE_SUPABASE_SERVICE_ROLE_KEY;'),
-    ).toContain('SERVICE_ROLE');
+  it('menolak nama kunci rahasia backend di frontend', () => {
+    for (const nama of [
+      'APP_KEY',
+      'DB_PASSWORD',
+      'VAPID_PRIVATE_KEY',
+      'PEMBAYARAN_SERVER_KEY',
+      'X_SECRET',
+    ]) {
+      expect(kode('src/api/x.ts', `const k = '${nama}';`)).toContain('RAHASIA_BACKEND');
+    }
+    expect(kode('src/api/x.ts', 'const k = import.meta.env.VITE_SERVICE_ROLE_KEY;')).toContain(
+      'RAHASIA_BACKEND',
+    );
+  });
+  it('variabel publik dan nama biasa lolos', () => {
+    expect(kode('src/api/x.ts', 'const k = import.meta.env.VITE_VAPID_PUBLIC_KEY;')).toEqual([]);
+    expect(kode('src/api/x.ts', 'const dev = import.meta.env.DEV;')).toEqual([]);
+    expect(kode('src/api/x.ts', 'const kunci = kunciKueri.pesanan;')).toEqual([]);
+  });
+  it('menolak path khusus Windows', () => {
+    expect(kode('src/api/x.ts', "const d = 'C:\\\\data\\\\a.json';")).toContain('PATH_WINDOWS');
+    expect(kode('src/api/x.ts', 'const d = "D:/tani/a.json";')).toContain('PATH_WINDOWS');
+    expect(kode('src/api/x.ts', "const jam = 'Pukul 06:00';")).toEqual([]);
+  });
+  it('menolak membaca env bukan VITE_', () => {
+    expect(kode('src/api/x.ts', 'const u = import.meta.env.API_URL;')).toContain(
+      'ENV_BUKAN_PUBLIK',
+    );
+  });
+  it('.env.example frontend hanya berisi variabel publik', () => {
+    const kodeEnv = (isi) => periksaEnvContoh('.env.example', isi).map((p) => p.kode);
+    expect(kodeEnv('# komentar\nVITE_API_URL=\nVITE_VAPID_PUBLIC_KEY=\n')).toEqual([]);
+    expect(kodeEnv('DB_PASSWORD=\n')).toEqual(['ENV_BUKAN_PUBLIK']);
+    expect(kodeEnv('VITE_APP_KEY=\n')).toEqual(['RAHASIA_BACKEND']);
+    expect(kodeEnv('VITE_VAPID_PRIVATE_KEY=abc\n')).toEqual(['RAHASIA_BACKEND']);
   });
   it('kelas token lolos', () => {
     expect(

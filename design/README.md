@@ -106,6 +106,7 @@ Halaman ini belum punya papan desain. Halaman dibuat dari pola desain yang ada (
 | 41 | Pilih tanggal tanam | petani | T4.08 | `41-pilih-tanggal-tanam-mobile.png`, `…-desktop.png` |
 | 42 | Pemutar modul belajar | petani | T4.31 | `42-pemutar-modul-mobile.png`, `…-desktop.png` |
 | 43 | Pilih akun demo (hanya mode pengembangan) | publik | T4.01 | `43-pilih-akun-demo-mobile.png`, `…-desktop.png` |
+| 44 | Bayar uang muka (mode uji coba) | pembeli | T4.41 | `44-bayar-uang-muka-mobile.png`, `…-desktop.png` |
 
 Halaman turunan lain (panel mentor dan admin, halaman statis, rating, gagal panen) diberi nomor berikutnya saat tugasnya dikerjakan. Panel mentor dan admin hanya punya versi desktop.
 

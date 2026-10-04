@@ -8,6 +8,13 @@ const WARNA_BAWAAN =
 const AWALAN_WARNA =
   'bg|text|border|ring|fill|stroke|from|to|via|outline|divide|placeholder|shadow|accent|caret|decoration';
 
+/**
+ * Nama kunci rahasia backend (D-19): APP_KEY, DB_PASSWORD, VAPID_PRIVATE_KEY, …_SECRET, …_TOKEN
+ * milik server, dan service role. Hanya boleh ada di .env backend, tidak pernah di frontend.
+ */
+const POLA_NAMA_RAHASIA =
+  /\b(?:VITE_)?(?:APP_KEY|DB_PASSWORD|DB_USERNAME|[A-Z0-9_]*(?:SECRET|PRIVATE_KEY|SERVER_KEY|PASSWORD|SERVICE_ROLE)[A-Z0-9_]*)\b|service[_-]?role/;
+
 /** Aturan pola untuk semua berkas di src/. */
 export const ATURAN_POLA = [
   {
@@ -37,11 +44,49 @@ export const ATURAN_POLA = [
     pola: /-\[(-?\d+(\.\d+)?(px|rem|em)|#)[^\]]*\]/,
   },
   {
-    kode: 'SERVICE_ROLE',
-    pesan: 'Service role key Supabase dilarang di frontend',
-    pola: /service[_-]?role|SERVICE_ROLE|VITE_SUPABASE_SERVICE/i,
+    kode: 'RAHASIA_BACKEND',
+    pesan: 'Nama kunci rahasia backend di frontend. Rahasia hanya di .env backend (D-19)',
+    pola: POLA_NAMA_RAHASIA,
+  },
+  {
+    kode: 'PATH_WINDOWS',
+    pesan: 'Path khusus Windows (huruf drive). Bangun jalur dengan path.join atau dari .env (D-24)',
+    pola: /['"`][A-Za-z]:[\\/]/,
+  },
+  {
+    kode: 'ENV_BUKAN_PUBLIK',
+    pesan: 'Frontend hanya boleh membaca import.meta.env.VITE_* dan variabel bawaan Vite',
+    pola: /import\.meta\.env\.(?!VITE_|MODE\b|DEV\b|PROD\b|SSR\b|BASE_URL\b)\w+/,
   },
 ];
+
+/**
+ * Periksa isi `.env.example` frontend: setiap variabel harus berawalan VITE_ (publik) dan namanya
+ * tidak boleh tampak seperti rahasia. Mengembalikan pelanggaran { jalur, baris, kode, pesan }.
+ */
+export function periksaEnvContoh(jalur, isi) {
+  const pelanggaran = [];
+  isi.split('\n').forEach((baris, i) => {
+    const m = baris.match(/^\s*([A-Za-z_][A-Za-z0-9_]*)\s*=/);
+    if (!m) return;
+    const nama = m[1];
+    if (!nama.startsWith('VITE_'))
+      pelanggaran.push({
+        jalur,
+        baris: i + 1,
+        kode: 'ENV_BUKAN_PUBLIK',
+        pesan: `${nama}: .env frontend hanya berisi variabel publik VITE_*; rahasia di .env backend`,
+      });
+    else if (POLA_NAMA_RAHASIA.test(nama))
+      pelanggaran.push({
+        jalur,
+        baris: i + 1,
+        kode: 'RAHASIA_BACKEND',
+        pesan: `${nama}: variabel VITE_ terbuka di browser; jangan simpan rahasia di sini`,
+      });
+  });
+  return pelanggaran;
+}
 
 /** Ambil isi string literal ('…', "…", `…`) dari kode TS. Sederhana, cukup untuk berkas teks. */
 export function stringLiteral(kode) {

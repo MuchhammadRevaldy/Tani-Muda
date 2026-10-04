@@ -90,7 +90,7 @@ Aturan:
 ## D-10. Hambatan PRD tidak menghentikan pekerjaan
 - **Resep dan rentang pH/PPM:** data contoh dengan status **`draf`** dan label **"CONTOH, belum divalidasi penyuluh"** di data seed. Pemilik produk menggantinya setelah bertemu penyuluh.
 - **Payment gateway:** antarmuka **`PenyediaPembayaran`** dengan implementasi **tiruan** untuk demo (menahan, mencairkan, mengembalikan dana secara simulasi). Penyedia sungguhan dipasang nanti tanpa mengubah halaman.
-- **OTP:** **nomor uji Supabase** selama pengembangan, di balik antarmuka **`PenyediaOtp`** supaya penyedia SMS mudah dipasang nanti.
+- **OTP:** di balik antarmuka **`PenyediaOtp`** supaya penyedia SMS mudah dipasang nanti. Selama Tahap 3–4 memakai implementasi tiruan di frontend; mulai Tahap 5 memakai backend Laravel dengan driver log untuk pengembangan (D-19).
 - Berdampak ke: T3.09–T3.12, T4.33, T5.08, T5.09.
 
 ## D-11. Resep `draf` tetap tampil di demo (dikonfirmasi di D-12)
@@ -115,11 +115,11 @@ Ditetapkan oleh pemilik produk, 5 Oktober 2026 (jawaban atas pertanyaan P-1 samp
 - `pengguna.status_akun` (`aktif` | `dinonaktifkan_sementara`) dan tabel `catatan_petani` disetujui.
 - Petani yang dinonaktifkan sementara **tetap bisa melihat daftar pesanan** dan detailnya, serta jadwal dan jurnal siklusnya.
 - Tombol **"Ambil pesanan" diganti penjelasan singkat** beserta **cara menghubungi admin**, misalnya: "Akunmu sedang dinonaktifkan sementara, jadi belum bisa mengambil pesanan baru. Hubungi admin lewat WhatsApp 08xx." Kontak admin diambil dari konfigurasi, tidak ditulis langsung.
-- Basis data juga menolak pengambilan pesanan oleh akun nonaktif (fungsi `ambil_pesanan`), tidak hanya tombolnya yang disembunyikan.
+- Server juga menolak pengambilan pesanan oleh akun nonaktif (klien API tiruan di Tahap 3, lalu Policy dan endpoint `ambil pesanan` di backend), tidak hanya tombolnya yang disembunyikan.
 - Berdampak ke: T3.02, T3.08, T4.18, T4.19, T4.29.
 
 ## D-14. Alasan penolakan kiriman (jawaban P-3)
-- Pemetaan disetujui. Pilihan **"Lainnya" wajib disertai keterangan teks**. Kolom tambahan: `pengiriman.keterangan_penolakan` (teks). Basis data menolak `alasan_penolakan = 'lainnya'` tanpa keterangan (CHECK), dan formulir pembeli menampilkan galat "Tulis alasannya dulu".
+- Pemetaan disetujui. Pilihan **"Lainnya" wajib disertai keterangan teks**. Kolom tambahan: `pengiriman.keterangan_penolakan` (teks). Server menolak `alasan_penolakan = 'lainnya'` tanpa keterangan (validasi permintaan dan batasan CHECK di tabel), dan formulir pembeli menampilkan galat "Tulis alasannya dulu".
 
 | Alasan di desain | Pilihan di aplikasi (`alasan_penolakan`) |
 | --- | --- |
@@ -162,6 +162,68 @@ Ditetapkan oleh pemilik produk, 5 Oktober 2026 (jawaban atas pertanyaan P-1 samp
   - `docs/tangkapan/desain/…` untuk papan desain asli.
   - Halaman turunan (tanpa desain) memakai nomor lanjutan mulai 39, yang tercantum di `design/README.md`.
 
+Ditetapkan oleh pemilik produk, 5 Oktober 2026 (perubahan arsitektur).
+
+## D-19. Backend Laravel dan MariaDB, tanpa Docker
+- **Backend memakai Laravel versi terbaru sebagai API** (saat ini Laravel 13), **bukan Supabase**. Semua rujukan Supabase, PostGIS, RLS, Edge Function, dan Supabase Storage di dokumen proyek tidak berlaku lagi.
+- **Database: MySQL/MariaDB dari XAMPP** (terpasang: MariaDB 10.4.32; Laravel 13 mendukung MariaDB 10.3+).
+- **Frontend React yang sudah ada tetap dipakai** sebagai aplikasi terpisah yang berbicara dengan backend lewat API JSON.
+- **Semuanya harus bisa berjalan lokal tanpa Docker**: frontend dengan `npm run dev`, backend dengan `php artisan serve`, database dari XAMPP, scheduler dengan `php artisan schedule:work`, dan antrean dengan `php artisan queue:work`.
+- **Prasyarat lokal:** Laravel 13 membutuhkan **PHP 8.3 atau lebih baru**. PHP di PATH saat ini 8.1.25 (XAMPP), jadi PHP perlu diperbarui sebelum Tahap 5.
+- **Kunci rahasia hanya ada di file `.env` backend dan tidak pernah dikirim ke frontend.** Frontend hanya punya variabel publik berawalan `VITE_`.
+- Hak akses dijaga di server (Policy per peran dan validasi permintaan), bukan di frontend.
+- Mulai Tahap 5, struktur repositori menjadi:
+  - `frontend/` untuk proyek React;
+  - `backend/` untuk Laravel;
+  - `shared/kasus-uji/` untuk kasus uji perhitungan dalam JSON, yang dipakai Vitest dan Pest.
+- Rancangan rinci ada di `docs/arsitektur-backend.md`. Bentuk data dan endpoint ada di `docs/kontrak-api.md` (dibuat di Tahap 3).
+- Berdampak ke: `rencana-kerja.md` Tahap 3–6, `aturan-proyek.md` bagian 6–9, `ringkasan-desain.md`, `.env.example`, dan pemeriksa lint.
+
+## D-20. Tampilan dulu, backend setelah semua halaman selesai
+- **Fokus saat ini adalah tampilan.** Backend Laravel baru dikerjakan setelah semua halaman selesai.
+- Urutan tahap:
+  - Tahap 2: logika inti di `src/lib`.
+  - Tahap 3: kontrak API dan data tiruan.
+  - Tahap 4: semua halaman memakai data tiruan.
+  - Tahap 5: backend Laravel.
+  - Tahap 6: penyambungan ke backend, mode offline, notifikasi, dan uji menyeluruh.
+- **Halaman hanya mengambil data lewat klien API**, tidak pernah langsung dari data tiruan. Dengan begitu, peralihan ke backend cukup dilakukan dengan mengganti implementasi klien API tiruan menjadi HTTP.
+- Klien API tiruan menegakkan aturan yang sama dengan server nanti (kepemilikan data, peran, status akun, verifikasi pembeli, batas alokasi, privasi titik lahan), supaya perilaku halaman tidak berubah saat disambungkan.
+- Berdampak ke: `rencana-kerja.md` (urutan dan isi Tahap 3–6).
+
+Ditetapkan oleh pemilik produk, 5 Oktober 2026 (jawaban atas pertanyaan backend P-15 sampai P-19 di `rencana-kerja.md`).
+
+## D-21. Sesi login: cookie Sanctum untuk web, token untuk aplikasi seluler
+- Aplikasi web memakai **Sanctum mode SPA dengan cookie sesi** (`HttpOnly`, dilindungi CSRF). Tidak ada token yang disimpan di `localStorage`.
+- Saat deploy, frontend dan backend harus berada di domain induk yang sama (mis. `app.contoh.id` dan `api.contoh.id`), dengan `SESSION_DOMAIN` dan `SANCTUM_STATEFUL_DOMAINS` diatur lewat `.env`.
+- **Bila nanti ada aplikasi React Native, aplikasi itu memakai mode token Sanctum** (token API per perangkat). Endpoint OTP dan kontrak API tetap sama; hanya cara menyimpan sesi yang berbeda.
+- Berdampak ke: `arsitektur-backend.md` bagian 5, T5.09, T6.01.
+
+## D-22. Data milik pengguna lain dijawab 404
+- Permintaan atas data milik pengguna lain dijawab **404**, sehingga keberadaan data itu tidak bocor.
+- **403** dipakai bila peran atau status akun tidak mengizinkan tindakan (mis. pembeli membuka halaman petani, petani nonaktif mengambil pesanan, pembeli belum terverifikasi memasang pesanan).
+- Berlaku sama di klien API tiruan (Tahap 3) dan backend (Policy, Tahap 5).
+- Berdampak ke: `kontrak-api.md`, T3.09, T3.10, T3.12, T5.10.
+
+## D-23. Konfirmasi otomatis kiriman setiap 15 menit
+- Perintah konfirmasi otomatis kiriman berjalan **setiap 15 menit**, bersamaan dengan scheduler pengingat. Keterlambatan pencairan setelah batas 6 jam (rutin) atau 24 jam (sekali panen) paling lama 15 menit.
+- Mengganti: jadwal per jam di rancangan sebelumnya.
+- Berdampak ke: `arsitektur-backend.md` bagian 11, T5.17.
+
+## D-24. Demo dari laptop, siap deploy ke VPS
+- **Demo lomba dijalankan dari laptop** untuk sekarang (D-19).
+- Aplikasi harus **siap di-deploy ke VPS kapan saja**:
+  - **semua konfigurasi lewat `.env`** (alamat, basis data, domain sesi, kunci, driver OTP dan pembayaran), tidak ada nilai lingkungan yang ditulis di kode;
+  - **tidak ada path khusus Windows di kode** (huruf drive, garis miring terbalik, `C:\…`). Jalur dibangun dengan fungsi bawaan (`base_path()`, `storage_path()`, `path.join`) atau dari `.env`;
+  - langkah deploy dicatat di `arsitektur-backend.md` bagian 17.
+- Berdampak ke: `aturan-proyek.md` bagian 6 dan 7, T5.03, T6.08.
+
+## D-25. PHP 8.3+ dipasang terpisah, MariaDB XAMPP tetap
+- **PHP 8.3 atau lebih baru dipasang terpisah** dari XAMPP. PHP XAMPP (8.1.25) tidak dipakai untuk backend.
+- **MariaDB dari XAMPP tetap dipakai** sebagai basis data lokal.
+- Langkah pemasangan dan cara memeriksanya ada di `arsitektur-backend.md` bagian 2. Pemasangan yang lolos pemeriksaan itu menjadi **prasyarat Tahap 5** (tugas T5.00).
+- Berdampak ke: `rencana-kerja.md` Tahap 5.
+
 ---
 
 ## Riwayat
@@ -169,3 +231,5 @@ Ditetapkan oleh pemilik produk, 5 Oktober 2026 (jawaban atas pertanyaan P-1 samp
 | --- | --- |
 | 2026-10-04 | D-01 sampai D-11 ditetapkan |
 | 2026-10-05 | D-12 sampai D-18 ditetapkan. Butir turunan di D-03, D-06, dan D-11 dikonfirmasi dan dirujuk ke keputusan baru. Jalur tangkapan layar di D-07 diganti mengikuti D-18 |
+| 2026-10-05 | D-19 dan D-20 ditetapkan: backend Laravel + MariaDB tanpa Docker, tampilan dikerjakan lebih dulu. Butir OTP di D-10 dan butir penegakan di D-13 dan D-14 disesuaikan |
+| 2026-10-05 | D-21 sampai D-25 ditetapkan: cookie Sanctum (token untuk React Native), 404 untuk data orang lain, konfirmasi otomatis setiap 15 menit, siap deploy VPS, PHP 8.3+ terpisah |

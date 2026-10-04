@@ -1,6 +1,6 @@
 /**
  * Format angka, uang, dan tanggal untuk tampilan. Fungsi murni: tanpa Intl/toLocaleString
- * supaya hasilnya sama di semua browser dan di Edge Function.
+ * supaya hasilnya sama di semua browser dan dengan port PHP di backend.
  * Aturan format: docs/ringkasan-desain.md bagian 4, keputusan.md D-09.
  */
 
