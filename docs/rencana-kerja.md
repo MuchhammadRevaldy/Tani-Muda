@@ -188,124 +188,141 @@ Tujuan tahap: proyek jalan, token dan komponen dasar sama dengan desain, halaman
 
 Semua fungsi murni, tanpa React, klien API, atau `Date.now()`. Kasus tes rumus uang, kapasitas, dan jarak ditulis sebagai tabel data (`it.each`) supaya di T5.02 mudah dipindah ke `shared/kasus-uji/` dan dipakai juga oleh Pest. Setiap tugas dianggap selesai hanya bila tes lulus dan cakupan berkas ≥ 90%. Contoh angka di tes adalah **contoh** (aturan 5).
 
-### [ ] T2.01 Tipe domain dan fixture contoh resep **[DEMO]**
+### [x] T2.01 Tipe domain dan fixture contoh resep **[DEMO]**
 - **Tujuan:** Tipe TypeScript untuk Resep, input, tugas, rencana, siklus, pesanan, dst. (nama sesuai Model Data PRD), dan fixture resep contoh sawi bedengan, sawi hidroponik NFT, padi sawah, bayam, kangkung dari data desain (papan 13 mobile, 16 mobile, 18 mobile, 19 mobile, 20 mobile, 21 mobile dan 23 mobile).
 - **Berkas:** `src/tipe/*.ts`, `src/lib/fixtures/contoh-resep-*.ts`, `src/lib/fixtures/contoh-resep.test.ts` (fixture konsisten: hasil per m², HST tugas ≤ umur panen).
 - **PRD:** P0-03, Model Data.
 - **Selesai bila:** `typecheck` hijau; fixture memuat angka contoh dengan tanda `CONTOH` di nama dan komentar; `bacaTampilkanResepContoh(nilaiEnv)` di `src/lib/pengaturan.ts` hanya mengembalikan `true` untuk nilai persis `"true"` (kosong, tidak ada, atau nilai lain → `false`; D-12), dengan tes.
 - **Prasyarat:** T1.01.
+- **Catatan (5 Okt 2026):** Tipe di `src/tipe/` (resep, kebun, pesanan, belajar; camelCase, dipetakan ke snake_case di T3.03). Fixture 5 resep CONTOH + `contoh-referensi.ts` (komoditas, metode, konversi, faktor sistem hidroponik, konfigurasi bisnis). Ditambah `src/lib/hasil.ts` (tipe `Hasil<T>` dan daftar `KodeGalat`), `src/lib/tanggal.ts`, dan `src/teks/galat.ts` (teks setiap kode galat).
 
-### [ ] T2.02 Konversi satuan luas `konversi-satuan.ts` **[DEMO]**
+### [x] T2.02 Konversi satuan luas `konversi-satuan.ts` **[DEMO]**
 - **Tujuan:** `keM2(nilai, satuan, konversi)`, `dariM2(m2, satuan, konversi)`, `teksBantuanLuas(...)` ("7 ru ≈ 100 m²", "0,1 hektare = 1.000 m²"); `konversi` (ru/bata ke m²) dikirim sebagai argumen.
 - **Berkas:** `src/lib/konversi-satuan.ts` + `.test.ts`.
 - **PRD:** P0-33, US-25; rumus konversi; `konversi_satuan`.
 - **Selesai bila:** tes: 1 ha = 10.000 m², 7 ru ≈ 98 m² (dengan 14), 100 m² ≈ 7 ru, nilai 0 atau kosong → galat `UKURAN_KOSONG`, nilai negatif ditolak, konversi bukan 14 (mis. 12 m² per ru) menghasilkan hasil berbeda, pembulatan tampilan konsisten dengan teks desain (papan 13 mobile).
 - **Prasyarat:** T1.05, T2.01.
+- **Catatan (5 Okt 2026):** Teks bantuan mengikuti papan 13: ru dibulatkan ke bilangan bulat, di bawah 1 ru memakai satu desimal ("10 m² ≈ 0,7 ru"). Satuan lokal tanpa nilai konversi → `SATUAN_TIDAK_DIKENAL`.
 
-### [ ] T2.03 Kebutuhan input `kebutuhan.ts` **[DEMO]**
+### [x] T2.03 Kebutuhan input `kebutuhan.ts` **[DEMO]**
 - **Tujuan:** `hitungKebutuhan(input, ukuran)` = dosis × ukuran sesuai dasar dosis (per m², per tanaman, per liter larutan), `bulatkanKeKemasan(jumlah, ukuranKemasan)` selalu ke atas; kebutuhan nutrisi hidroponik = dosis pekatan per liter × volume tandon × jumlah pengisian ulang; validasi ukuran > 0 dengan pesan sesuai metode ("Isi luas lahan dulu", "Isi jumlah lubang tanam dulu", "Isi jumlah polybag dulu").
 - **Berkas:** `src/lib/kebutuhan.ts` + `.test.ts`.
 - **PRD:** P0-07, US-03, rumus "Kebutuhan input" dan "Kebutuhan nutrisi hidroponik".
 - **Selesai bila:** tes contoh PRD (5 g/m² × 100 m² = 500 g → kemasan 1 kg → 1 kg); kelipatan kemasan (1,01 kg dengan kemasan 1 kg → 2 kg); ukuran 0/kosong → kode galat per metode; per tanaman dan per liter; dosis 0; kemasan tidak valid.
 - **Prasyarat:** T2.01.
+- **Catatan (5 Okt 2026):** Model dosis: `satuanDosis` → `satuanBeli` (konversi g/kg dan ml/liter otomatis, atau `isiSatuanBeli` mis. 25 g per bungkus), lalu dibulatkan ke kemasan. Nutrisi = dosis per liter × volume tandon × `jumlahPengisianLarutan` resep. Jumlah untuk 100 m² sama dengan papan 16.
 
-### [ ] T2.04 Harga item: subsidi dan merek `harga-item.ts` **[DEMO]**
+### [x] T2.04 Harga item: subsidi dan merek `harga-item.ts` **[DEMO]**
 - **Tujuan:** Penentuan harga satuan efektif sebuah item: urutan prioritas (subsidi aktif → harga isi sendiri → merek terpilih → rata-rata sekitar → harga contoh resep); kelayakan subsidi per input, komoditas, tanggal (`kelayakan_subsidi`); jawaban petani "dapat jatah subsidi"; harga per satuan dari harga kemasan; urutan daftar merek menurut laporan terbaru; merek lain → laporan harga baru; sumber harga sebagai kode (untuk teks "Rata-rata di sekitarmu Rp…/kg").
 - **Berkas:** `src/lib/harga-item.ts` + `.test.ts`.
 - **PRD:** P0-08, P0-09, P0-34, P0-35 (promo tidak mengubah urutan), US-05, US-26.
 - **Selesai bila:** tes: tidak dapat jatah subsidi → semua nonsubsidi; kelayakan di luar rentang tanggal → nonsubsidi; urutan merek tidak dipengaruhi promo (tes eksplisit); harga per satuan = harga kemasan ÷ isi; item "merek lain" dengan isi 0 → galat; harga negatif ditolak (kode `HARGA_NEGATIF`); item tanpa harga ditandai `BELUM_ADA_HARGA`.
 - **Prasyarat:** T2.01.
+- **Catatan (5 Okt 2026):** Rata-rata sekitar dihitung dari laporan sekecamatan; rentang hari dan minimal laporan dikirim sebagai argumen. Ditambah `validasiMerekLain`. Promo tidak menjadi masukan fungsi mana pun.
 
-### [ ] T2.05 Total modal `modal.ts` **[DEMO]**
+### [x] T2.05 Total modal `modal.ts` **[DEMO]**
 - **Tujuan:** `hitungModal(item[], opsi)`: subtotal item, subtotal per grup, total bahan, biaya alat per siklus (harga alat ÷ jumlah siklus pembagian atau seluruhnya bila tidak dibagi), total modal, daftar item belum berharga + peringatan "total belum lengkap".
 - **Berkas:** `src/lib/modal.ts` + `.test.ts`.
 - **PRD:** P0-08, P0-36, US-04, US-27; rumus "Total modal" dan "Biaya alat per siklus".
 - **Selesai bila:** tes dengan fixture sawi bedengan (total modal contoh Rp430.000) dan hidroponik (alat Rp1.500.000 ÷ 10); pembagian 1 siklus; item dihapus; item tambahan (tenaga kerja, sewa); item tanpa harga tidak merusak total dan memunculkan peringatan; pembulatan rupiah.
 - **Prasyarat:** T2.03, T2.04.
+- **Catatan (5 Okt 2026):** Sawi bedengan Rp430.000; hidroponik bahan Rp247.500 + alat Rp150.000/siklus = Rp397.500; padi nonsubsidi Rp1.715.000.
 
-### [ ] T2.06 Ringkasan hasil `ringkasan.ts` **[DEMO]**
+### [x] T2.06 Ringkasan hasil `ringkasan.ts` **[DEMO]**
 - **Tujuan:** `hitungRingkasan({totalModal, perkiraanPanen, hargaJual, ukuranM2})`: modal per m², titik impas (kg, dibulatkan ke atas), pendapatan, untung, skenario "kalau panen jelek", pesan rugi; harga jual dari harga kesepakatan bila siklus terhubung pesanan.
 - **Berkas:** `src/lib/ringkasan.ts` + `.test.ts`.
 - **PRD:** P0-10, US-06, P1-03 (struktur skenario); rumus pendapatan/untung/titik impas.
 - **Selesai bila:** tes: contoh sawi (panen 150 kg × Rp5.000 − Rp430.000 = Rp320.000; titik impas 86 kg); untung negatif → `rugi: true` + pesan "Dengan angka ini, kamu berpotensi rugi."; harga jual 0 → titik impas tak terhingga ditangani (kode `HARGA_JUAL_KOSONG`); harga kesepakatan menimpa harga jual.
 - **Prasyarat:** T2.05.
+- **Catatan (5 Okt 2026):** Ditambah `sumberHargaJual` (isian/kesepakatan) dan validasi modal negatif. Teks rugi ada di `src/teks`.
 
-### [ ] T2.07 Perkiraan panen dan ukuran hidroponik `ukuran-metode.ts` **[DEMO]**
+### [x] T2.07 Perkiraan panen dan ukuran hidroponik `ukuran-metode.ts` **[DEMO]**
 - **Tujuan:** Perkiraan panen per metode (luas × hasil/m²; lubang × hasil/lubang; polybag), saran volume tandon per sistem, kebutuhan tempat (m²) dengan dan tanpa vertikultur, jumlah per ukuran lahan, pembulatan tampilan.
 - **Berkas:** `src/lib/ukuran-metode.ts` + `.test.ts`.
 - **PRD:** P0-33, P0-32, US-24, US-25, US-27.
 - **Selesai bila:** tes: sawah 1.000 m² × 0,55 = 550 kg gabah; NFT 200 lubang × 0,15 = 30 kg; tandon NFT 200 lubang = 100 liter; vertikultur mengurangi tempat; semua parameter dari argumen (`hasilPerSatuan`, `faktorTandon`) bukan konstanta.
 - **Prasyarat:** T2.02, T2.03.
+- **Catatan (5 Okt 2026):** Faktor sistem (sumbu/NFT/rakit) dari papan 14 disimpan sebagai fixture, bukan konstanta. Perkiraan panen dibulatkan 0,01 kg.
 
-### [ ] T2.08 Jadwal otomatis `jadwal-buat.ts` **[DEMO]**
+### [x] T2.08 Jadwal otomatis `jadwal-buat.ts` **[DEMO]**
 - **Tujuan:** `buatJadwal(resepTugas[], tanggalTanam)` menghasilkan tugas bertipe **sekali** (tanggal + HST), **berulang** (tanggal tanam + HST mulai + k × interval sampai HST selesai), **pengukuran** (berulang + isian angka). Tugas berulang digabung menjadi satu pengingat dengan keterangan frekuensi ("setiap 3 hari") untuk tampilan. Tanggal sebagai string `YYYY-MM-DD` tanpa jam supaya bebas zona waktu.
 - **Berkas:** `src/lib/jadwal-buat.ts` + `.test.ts`.
 - **PRD:** P0-12, US-07; rumus tanggal tugas.
 - **Selesai bila:** tes: sekali HST 14 dari tanam 20 Sep → 4 Okt; berulang 1–28 tiap 3 hari menghasilkan 10 kemunculan; interval 1; HST selesai < HST mulai ditolak; tipe `ukur` membawa besaran, batas bawah, batas atas; tanggal tanam di masa lalu (siklus pilot) tetap dihitung; lompat bulan dan tahun kabisat.
 - **Prasyarat:** T2.01.
+- **Catatan (5 Okt 2026):** ID tugas stabil `pola@hst` (mis. `pupuk-1@7`); hasil langsung bertipe `Tugas` berstatus `belum`.
 
-### [ ] T2.09 Ubah jadwal `jadwal-ubah.ts` **[DEMO]**
+### [x] T2.09 Ubah jadwal `jadwal-ubah.ts` **[DEMO]**
 - **Tujuan:** `tundaTugas(jadwal, tugasId, hari 1–3, perkiraanPanen)` (menggeser tugas itu dan tugas **sejenis berikutnya**, hanya yang `bolehDigeser`, mengembalikan `perluKonfirmasi` bila melewati perkiraan panen); `ubahTanggalTanam(jadwal, tanggalBaru)` (hanya yang belum selesai dihitung ulang); `statusTugas(tugas, hariIni)` ("hari-ini", "besok", "terlambat n hari", "selesai"); `kelompokkanPerHari`; `saringTipe`; ringkas tugas berulang.
 - **Berkas:** `src/lib/jadwal-ubah.ts` + `.test.ts`.
 - **PRD:** P0-15, P0-16, P0-17, P0-12 (saring tipe), US-08; "Status terlambat tidak disimpan".
 - **Selesai bila:** tes: tunda 1/2/3 hari; tunda 4 ditolak; tunda tugas yang tidak boleh digeser; tugas selesai tidak berubah saat ganti tanggal tanam; terlambat 2 hari pada contoh papan 20 mobile (1 Okt dibanding 3 Okt); penundaan melewati panen → `perluKonfirmasi`; filter tipe "ukur" pada siklus bedengan → daftar kosong dan kode `TIDAK_ADA_TIPE`.
 - **Prasyarat:** T2.08.
+- **Catatan (5 Okt 2026):** Tunda menggeser tugas sepola yang belum selesai pada tanggal yang sama atau sesudahnya. `ringkasBerulang` mewakili pola berulang dengan kemunculan belum selesai paling awal.
 
-### [ ] T2.10 Pengukuran `pengukuran.ts` **[DEMO]**
+### [x] T2.10 Pengukuran `pengukuran.ts` **[DEMO]**
 - **Tujuan:** `nilaiPengukuran(nilai, batasBawah, batasAtas)` → `normal | terlalu-rendah | terlalu-tinggi | kosong`; saran tindakan dari resep; `perluUkurUlang` (tugas "Ukur ulang" pada hari berikutnya bila di luar rentang); posisi pada batang rentang (`skala`) dan titik grafik 7 pengukuran terakhir.
 - **Berkas:** `src/lib/pengukuran.ts` + `.test.ts`.
 - **PRD:** P0-37, US-28; rumus status pengukuran.
 - **Selesai bila:** tes: batas bawah dan atas dihitung **normal** (pH 5,5 dan 6,5), 6,6 terlalu tinggi, 5,4 terlalu rendah; nilai 0 dan kosong → `kosong`; koma desimal ("6,2") diterima lewat `parseAngka`; hasil di luar rentang menghasilkan tugas ukur ulang pada tanggal + 1; hasil normal tidak menambah tugas; grafik dengan < 7 data.
 - **Prasyarat:** T1.05, T2.01.
+- **Catatan (5 Okt 2026):** Nilai 0 dianggap kosong sesuai rencana. Grafik memakai pita normal ± setengah lebar rentang.
 
-### [ ] T2.11 Pengingat harian `pengingat.ts` **[DEMO]**
+### [x] T2.11 Pengingat harian `pengingat.ts` **[DEMO]**
 - **Tujuan:** `tugasUntukNotifikasi(tugas[], pengaturan, hariIni)`: tugas hari ini (plus terlambat) menurut tipe yang diaktifkan, teks judul "n tugas hari ini" dan isi ("Siangi rumput (terlambat), Siram pagi dan sore"), jam pagi; kondisi pengingat sore (hanya bila ada tugas belum selesai); banner pengganti bila izin ditolak.
 - **Berkas:** `src/lib/pengingat.ts` + `.test.ts`.
 - **PRD:** P0-13, P0-38, P1-05, P2-02 (logika dipisah dari saluran).
 - **Selesai bila:** tes: mematikan tipe tidak menghapus tugas dari daftar jadwal tetapi menghilangkannya dari notifikasi; semua tipe mati → `tanpaPengingatPagi`; tidak ada tugas hari ini → tidak mengirim; sore hanya bila ada belum selesai.
 - **Prasyarat:** T2.09.
+- **Catatan (5 Okt 2026):** Tugas berulang yang tertunggak beberapa kali disebut sekali. Teks "n tugas hari ini" ada di `src/teks/jadwal.ts`.
 
-### [ ] T2.12 Nilai pesanan dan pembayaran `pesanan-nilai.ts` **[DEMO]**
+### [x] T2.12 Nilai pesanan dan pembayaran `pesanan-nilai.ts` **[DEMO]**
 - **Tujuan:** `hitungNilaiPesanan(jumlahTotal, hargaPerKg, konfigurasi)`: nilai pesanan, uang muka (20% dari konfigurasi), biaya layanan (5%, dibayar pembeli), dibayar sekarang; jumlah total dari kiriman × frekuensi untuk rutin; `hitungPembayaranKiriman(nilaiKiriman, saldoUangMuka, konfigurasi)` (D-02): pembeli membayar **80%** nilai kiriman, **20% diambil dari saldo uang muka**; sisa saldo setelah tiap kiriman; kiriman ditolak sebagian menghitung dari bagian diterima.
 - **Berkas:** `src/lib/pesanan-nilai.ts` + `.test.ts`.
 - **PRD:** P0-19, P0-23, P0-26, US-15; **D-02** (mengganti rumus pembayaran per kiriman PRD).
 - **Selesai bila:** tes: 10 kg × 12 kiriman × Rp5.000 = Rp600.000, uang muka Rp120.000, layanan Rp30.000, dibayar sekarang Rp150.000; tiap kiriman Rp50.000 → bayar Rp40.000 + Rp10.000 dari saldo, saldo habis tepat setelah kiriman ke-12; persen 0; jumlah 0 → galat; biaya layanan tidak memotong bagian petani; sekali panen = satu kiriman 80% + 20% saldo; saldo tidak pernah negatif.
 - **Prasyarat:** T1.05.
+- **Catatan (5 Okt 2026):** Bagian dari uang muka = persen uang muka × nilai yang diterima; kiriman terakhir yang diterima penuh memakai seluruh sisa saldo supaya selisih pembulatan tidak tertinggal. Ditambah `jumlahKirimanRutin(frekuensi, durasi, maksDurasi)`.
 
-### [ ] T2.13 Lahan untuk pesanan `pesanan-lahan.ts` **[DEMO]**
+### [x] T2.13 Lahan untuk pesanan `pesanan-lahan.ts` **[DEMO]**
 - **Tujuan:** `luasPerPanen`, `luasPesananRutin` (luas per panen × petak yang tumbuh bersamaan), `saranTanamBertahap` (mingguan + umur panen 4 minggu → 4 petak berjarak 1 minggu, tanggal tanam dan panen), `cekAmbilSebagian(jumlah, hasilPerM2, lahanKosong)` → cukup atau tidak + jumlah maksimal disarankan, `batasAlokasi` (total alokasi semua petani ≤ pesanan).
 - **Berkas:** `src/lib/pesanan-lahan.ts` + `.test.ts`.
 - **PRD:** P0-21, US-12; rumus luas per panen dan luas rutin.
 - **Selesai bila:** tes: lahan kosong 20 m², hasil per m² dari fixture → luas per panen dan petak bertahap dihitung dari rumus (bukan "6 kg" dari desain; **D-08**); jumlah yang melebihi kapasitas → jumlah maksimal disarankan dari rumus; alokasi melebihi pesanan ditolak (kode `MELEBIHI_PESANAN`); hasil per m² 0 ditolak; pesanan sekali panen tidak memakai petak bertahap; kapasitas lahan datang sebagai argumen dari T2.15a.
 - **Prasyarat:** T2.07.
+- **Catatan (5 Okt 2026):** Satuan kapasitas mengikuti lahan: m² atau lubang (D-15). Jumlah maksimal dibulatkan ke bawah ke 0,1 kg.
 
-### [ ] T2.14 Kiriman dan konfirmasi `kiriman.ts` **[DEMO]**
+### [x] T2.14 Kiriman dan konfirmasi `kiriman.ts` **[DEMO]**
 - **Tujuan:** `konfirmasiKiriman(kiriman, keputusan)`: terima semua, tolak sebagian (berat, alasan `layu_atau_busuk | jumlah_kurang | tidak_sesuai_standar | lainnya`), dana cair untuk petani, bagian dibayar pembeli (80%) dan dari uang muka (20%) lewat T2.12; `statusOtomatis(kiriman, sekarang, konfigurasiJam)` (**D-01**: 6 jam untuk rutin, 24 jam untuk sekali panen; lewat batas = dianggap diterima); `aturanGagalPanen(jadwalKirim, waktuKabar, batasHari)` (**D-03**: kabar ≥ 3 hari sebelum jadwal → bagian ditawarkan ulang; tanpa pengganti → sisa uang muka bagian itu dikembalikan; tidak memberi kabar → `catatanProfil: true`); pembatalan pembeli setelah petani menanam (uang muka jadi kompensasi).
 - **Berkas:** `src/lib/kiriman.ts` + `.test.ts`.
 - **PRD:** P0-25, P0-26, P0-27, US-14, US-17; **D-01, D-03**.
 - **Selesai bila:** tes: bayam Rp6.000/kg, 5 kg, tolak 1 kg → dana cair Rp24.000; batas 6 jam (rutin) dan 24 jam (sekali panen) dari argumen, diuji tepat di batas, sebelum, dan sesudah; kabar tepat 3 hari sebelum jadwal diterima, kurang dari itu → catatan profil; tanpa pengganti → `dikembalikan` sebesar sisa uang muka bagian itu saja; **tidak ada denda**; tolak lebih berat dari kiriman → galat; alasan di luar daftar → galat.
 - **Prasyarat:** T2.12.
+- **Catatan (5 Okt 2026):** Waktu batas periksa memakai milidetik epoch sebagai argumen; tepat di batas sudah dianggap diterima.
 
-### [ ] T2.15 Jarak dan urutan pesanan `jarak.ts`
+### [x] T2.15 Jarak dan urutan pesanan `jarak.ts`
 - **Tujuan:** `jarakKm(a, b)` (haversine), `urutkanTerdekat`, `dalamRadius(titik, pusat, radiusKm)`, teks jarak ("4 km", "9,5 km").
 - **Berkas:** `src/lib/jarak.ts` + `.test.ts`.
 - **PRD:** P0-20, US-11.
 - **Selesai bila:** tes jarak titik yang sama = 0, Bandung–Jakarta ≈ 120 km, di tepi radius 10 km, urutan stabil untuk jarak sama.
 - **Prasyarat:** T1.05.
+- **Catatan (5 Okt 2026):** Bandung–Jakarta terukur 116,4 km (rencana menyebut ≈ 120). Fungsi `angkaJarak` memberi angka saja; satuan "km" ditulis di `src/teks`.
 
-### [ ] T2.15a Kapasitas lahan `kapasitas-lahan.ts` **[DEMO]**
+### [x] T2.15a Kapasitas lahan `kapasitas-lahan.ts` **[DEMO]**
 - **Tujuan:** `kapasitasLahan(lahan, siklusAktif[])`. Untuk lahan tanah: luas lahan dikurangi luas siklus aktif di lahan itu (m²). Untuk lahan hidroponik: `kapasitas_lubang` dikurangi jumlah lubang siklus aktif, **bukan luas** (D-15). Satu lahan boleh punya beberapa siklus aktif. Juga `luasDipakai`/`lubangDipakai` dan `muatSiklusBaru(lahan, siklusAktif[], ukuranBaru)`.
 - **Berkas:** `src/lib/kapasitas-lahan.ts` + `.test.ts`.
 - **PRD:** P0-21, US-12; **D-06**, **D-15** (rumus kapasitas), **D-08**.
 - **Selesai bila:** tes: lahan 120 m² dengan siklus aktif 100 m² → 20 m²; tanpa siklus → seluruh luas; siklus selesai tidak dihitung; luas dipakai melebihi luas lahan → 0 (tidak negatif); hidroponik 200 lubang dengan dua siklus aktif 100 + 50 lubang → 50 lubang (luas lahan hidroponik diabaikan); tiga siklus aktif di satu lahan tanah dijumlahkan; `muatSiklusBaru` menolak siklus yang melebihi sisa; satuan asli tidak memengaruhi hitungan.
 - **Prasyarat:** T2.01.
+- **Catatan (5 Okt 2026):** Hanya siklus berstatus `aktif` yang dihitung (siklus `rencana` belum memakai lahan).
 
-### [ ] T2.16 Progres belajar `belajar.ts` dan gerbang cakupan
+### [x] T2.16 Progres belajar `belajar.ts` dan gerbang cakupan
 - **Tujuan:** `ringkasProgres(modul[], selesai[])` ("3 dari 6 modul selesai", persen, modul lanjutan); pemeriksaan cakupan seluruh `src/lib`.
 - **Berkas:** `src/lib/belajar.ts` + `.test.ts`, perbarui `vitest.config.ts` (ambang cakupan gagal bila < 90%).
 - **PRD:** P0-05, US-01, US-02.
 - **Selesai bila:** `npm run test -- --coverage` lulus dengan ≥ 90% di semua berkas `src/lib`; semua fungsi murni (tidak ada impor React atau `src/api` di `src/lib`, dicek ESLint).
 - **Prasyarat:** T2.02–T2.15, T2.15a.
+- **Catatan (5 Okt 2026):** Cakupan setiap berkas `src/lib` minimal 95,8% baris dan 93,9% cabang (total 99,2% baris). ESLint melarang impor React, `api`, `data`, `komponen`, dan `penyedia` di `src/lib`. Tes teks di `src/teks/*.test.ts` ikut dijalankan. Lint, typecheck, 491 tes, dan build hijau.
 
 ---
 

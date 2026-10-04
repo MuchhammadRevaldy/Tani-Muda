@@ -12,7 +12,7 @@ export default defineConfig({
         test: {
           name: 'murni',
           environment: 'node',
-          include: ['src/lib/**/*.test.ts', 'scripts/**/*.test.mjs'],
+          include: ['src/lib/**/*.test.ts', 'src/teks/**/*.test.ts', 'scripts/**/*.test.mjs'],
         },
       },
       {
