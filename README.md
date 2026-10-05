@@ -55,6 +55,7 @@ npm run dev             # http://localhost:5173
 | Perintah                                 | Fungsi                                                                                                                  |
 | ---------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
 | `npm run dev`                            | Server pengembangan                                                                                                     |
+| `npm run demo`                           | Server pengembangan dengan pengaturan demo (data tiruan, resep contoh)                                                  |
 | `npm test`                               | Semua tes                                                                                                               |
 | `npm run test:cakupan`                   | Tes dan cakupan `src/lib` (ambang 90%)                                                                                  |
 | `npm run lint`                           | ESLint dan pemeriksa aturan proyek (warna di luar token, teks di bawah 16px, bayangan, kata terlarang, rahasia backend) |
@@ -66,7 +67,19 @@ npm run dev             # http://localhost:5173
 
 Sumber data dipilih dengan `VITE_SUMBER_DATA` di `.env`: `tiruan` (bawaan, data contoh di browser) atau `http` (backend Laravel, tersedia mulai Tahap 6). Data tiruan yang diubah selama demo tersimpan di `localStorage` browser.
 
-Untuk demo dengan data contoh, isi `.env` dengan `VITE_TAMPILKAN_RESEP_CONTOH=true`. Tanpa itu semua resep contoh disembunyikan (D-12), sehingga komoditas tampil "Segera hadir" dan tidak ada pesanan di sekitar. Di mode pengembangan (`npm run dev`), halaman `/akun-demo` memilih pengguna uji tanpa kode SMS, dan halaman Masuk menampilkan kode uji OTP. Keduanya tidak ikut `npm run build` (dicek otomatis).
+### Menjalankan demo
+
+```bash
+npm run demo            # http://localhost:5173, semua pengaturan demo menyala
+```
+
+`npm run demo` menjalankan mode pengembangan dengan data tiruan dan resep contoh tampil, tanpa bergantung pada isi `.env` (D-37). Lalu:
+
+1. Buka `/akun-demo` dan pilih pengguna uji (petani, pembeli, penyuluh, admin) tanpa kode SMS.
+2. Atau buka `/masuk`: kode OTP uji tampil di kotak "Mode pengembangan".
+3. Tombol **Atur ulang data demo** di `/akun-demo` mengembalikan semua data ke data contoh awal.
+
+Dengan `npm run dev`, resep contoh hanya tampil bila `.env` berisi `VITE_TAMPILKAN_RESEP_CONTOH=true` (D-12). Pemilih akun demo dan kode uji tidak pernah ikut `npm run build` (dicek otomatis). Build statis khusus demo untuk juri direncanakan sebagai tugas opsional T6.09 (`build:demo`).
 
 ## Struktur folder
 

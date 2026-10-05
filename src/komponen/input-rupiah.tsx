@@ -26,6 +26,8 @@ export interface InputRupiahProps extends Omit<
   akhiran?: ReactNode;
   /** Matikan ejaan angka di bawah kolom. */
   tanpaTerbilang?: boolean;
+  /** Label hanya untuk pembaca layar (isian di dalam tabel kalkulator desktop). */
+  labelTersembunyi?: boolean;
 }
 
 /**
@@ -41,6 +43,7 @@ export function InputRupiah({
   galat,
   akhiran,
   tanpaTerbilang,
+  labelTersembunyi,
   className,
   id,
   ...lain
@@ -77,7 +80,10 @@ export function InputRupiah({
   const adaPesan = Boolean(galat || pesanBantuan);
   return (
     <div className={cx('flex flex-col gap-2', className)}>
-      <label htmlFor={idKolom} className="text-isi font-medium text-teks">
+      <label
+        htmlFor={idKolom}
+        className={cx('text-isi font-medium text-teks', labelTersembunyi && 'sr-saja')}
+      >
         {label}
       </label>
       <div className={kelasBingkai(Boolean(galat))}>

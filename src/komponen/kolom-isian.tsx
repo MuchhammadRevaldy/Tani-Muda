@@ -49,6 +49,8 @@ export interface KolomIsianProps extends Omit<InputHTMLAttributes<HTMLInputEleme
   galat?: ReactNode;
   /** Satuan di kanan kolom: "m²", "kg", "liter". */
   akhiran?: ReactNode;
+  /** Label hanya untuk pembaca layar (isian di dalam tabel kalkulator desktop). */
+  labelTersembunyi?: boolean;
 }
 
 export function KolomIsian({
@@ -56,6 +58,7 @@ export function KolomIsian({
   bantuan,
   galat,
   akhiran,
+  labelTersembunyi,
   className,
   id,
   ...lain
@@ -65,7 +68,10 @@ export function KolomIsian({
   const adaPesan = Boolean(galat || bantuan);
   return (
     <div className={cx('flex flex-col gap-2', className)}>
-      <label htmlFor={idKolom} className="text-isi font-medium text-teks">
+      <label
+        htmlFor={idKolom}
+        className={cx('text-isi font-medium text-teks', labelTersembunyi && 'sr-saja')}
+      >
         {label}
       </label>
       <div className={kelasBingkai(Boolean(galat))}>

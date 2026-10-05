@@ -5,7 +5,7 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { useCallback, useEffect, useState } from 'react';
 import type { TanggalISO } from '../lib/format';
-import { tanggalLokal, ZONA_BAWAAN } from '../lib/zona-waktu';
+import { jamLokal, tanggalLokal, ZONA_BAWAAN } from '../lib/zona-waktu';
 import { useAkun, useKeluar } from './kueri';
 import type { Akun, Peran } from './tipe';
 
@@ -43,15 +43,24 @@ export function berandaPeran(peran: Peran | null): string {
   }
 }
 
-/** Tanggal hari ini menurut zona waktu pengguna (D-31); diperbarui tiap menit (lewat tengah malam). */
-export function useHariIni(): TanggalISO {
+/**
+ * Tanggal dan jam setempat pengguna (D-31); diperbarui tiap menit supaya salam dan "hari ini"
+ * berganti sendiri.
+ */
+export function useWaktuLokal(): { tanggal: TanggalISO; jam: number } {
   const { akun } = useSesi();
   const [sekarang, setSekarang] = useState(() => Date.now());
   useEffect(() => {
     const id = window.setInterval(() => setSekarang(Date.now()), 60_000);
     return () => window.clearInterval(id);
   }, []);
-  return tanggalLokal(sekarang, akun?.pengguna.zona_waktu ?? ZONA_BAWAAN);
+  const zona = akun?.pengguna.zona_waktu ?? ZONA_BAWAAN;
+  return { tanggal: tanggalLokal(sekarang, zona), jam: jamLokal(sekarang, zona).jam };
+}
+
+/** Tanggal hari ini menurut zona waktu pengguna. */
+export function useHariIni(): TanggalISO {
+  return useWaktuLokal().tanggal;
 }
 
 /**

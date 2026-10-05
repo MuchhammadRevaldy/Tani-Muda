@@ -5,6 +5,7 @@ import { useWilayahSatu } from '../api/kueri';
 import { useKeluarSesi, useSesi } from '../api/sesi';
 import { keteranganAkun } from '../teks/sesi';
 import { KerangkaPembeli, KerangkaPetani } from './kerangka';
+import type { MenuPetani } from './navigasi';
 
 /** Nama desa pengguna yang sedang masuk (null bila belum ada atau masih dimuat). */
 export function useDesaSaya(): string | null {
@@ -16,9 +17,11 @@ export function useDesaSaya(): string | null {
 export function KerangkaPetaniSesi({
   children,
   tanpaNav,
+  menuAktif,
 }: {
   children: ReactNode;
   tanpaNav?: boolean;
+  menuAktif?: MenuPetani;
 }) {
   const { akun } = useSesi();
   const desa = useDesaSaya();
@@ -29,6 +32,7 @@ export function KerangkaPetaniSesi({
     <KerangkaPetani
       akun={{ nama: p?.nama ?? '', keterangan: keteranganAkun(p?.peran ?? null, desa) }}
       tanpaNav={tanpaNav}
+      menuAktif={menuAktif}
       onKeluar={() => void keluar().then(() => navigate('/masuk', { replace: true }))}
     >
       {children}

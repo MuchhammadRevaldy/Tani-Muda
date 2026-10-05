@@ -25,6 +25,7 @@ export type KodeGalat =
   | 'PANEN_NEGATIF'
   | 'HASIL_KOSONG'
   | 'NAMA_KOSONG'
+  | 'NAMA_ITEM_KOSONG'
   | 'PEMBAGIAN_TIDAK_VALID'
   // jadwal
   | 'HST_TIDAK_VALID'

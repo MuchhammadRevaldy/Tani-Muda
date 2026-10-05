@@ -1,5 +1,5 @@
 /** Pembungkus TanStack Query yang seragam untuk semua hook kueri. */
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQueries, useQuery, useQueryClient } from '@tanstack/react-query';
 import { awalanKunci } from '../../lib/kunci-kueri';
 import type { GalatApi } from '../galat';
 import type { KlienApi } from '../klien';
@@ -12,6 +12,22 @@ export function useKueriApi<T>(
 ) {
   const klien = useKlienApi();
   return useQuery<T, GalatApi>({ queryKey: kunci, queryFn: () => ambil(klien), enabled: aktif });
+}
+
+/** Satu kueri per parameter; hasil digabung: `data` baru ada bila semuanya selesai. */
+export function useKueriBanyak<P, T>(
+  daftar: P[],
+  kunci: (p: P) => readonly unknown[],
+  ambil: (k: KlienApi, p: P) => Promise<T>,
+): { data: T[] | undefined; isPending: boolean } {
+  const klien = useKlienApi();
+  return useQueries({
+    queries: daftar.map((p) => ({ queryKey: kunci(p), queryFn: () => ambil(klien, p) })),
+    combine: (hasil) => ({
+      data: hasil.every((h) => h.isSuccess) ? hasil.map((h) => h.data as T) : undefined,
+      isPending: hasil.some((h) => h.isPending),
+    }),
+  });
 }
 
 /** Mutasi yang membatalkan cache fitur-fitur terkait setelah berhasil. */

@@ -112,3 +112,37 @@ export function persenTerpakai(sudahKeluar: number, rencana: number): number {
   if (!(rencana > 0) || !(sudahKeluar > 0)) return 0;
   return Math.round((sudahKeluar / rencana) * 100);
 }
+
+export type WaktuSalam = 'pagi' | 'siang' | 'sore' | 'malam';
+
+/** Bagian hari untuk salam (D-37): pagi 04–10, siang 11–14, sore 15–17, malam 18–03. */
+export function waktuSalam(jam: number): WaktuSalam {
+  if (jam >= 4 && jam < 11) return 'pagi';
+  if (jam >= 11 && jam < 15) return 'siang';
+  if (jam >= 15 && jam < 18) return 'sore';
+  return 'malam';
+}
+
+/**
+ * Siklus yang dipilih saat Beranda dibuka (D-37): yang punya tugas belum selesai paling mendesak,
+ * berurutan terlambat, hari ini, lalu besok. Bila sama, siklus yang lebih dulu di `urutan`.
+ */
+export function siklusPalingMendesak(
+  urutan: string[],
+  tugas: TugasSiklus[],
+  hariIni: TanggalISO,
+): string | null {
+  const peringkat = new Map<string, number>(urutan.map((id) => [id, 3]));
+  for (const t of tugas) {
+    if (!peringkat.has(t.siklusId)) continue;
+    const s = statusTugas(t, hariIni).jenis;
+    const p = s === 'terlambat' ? 0 : s === 'hari-ini' ? 1 : s === 'besok' ? 2 : 3;
+    if (p < (peringkat.get(t.siklusId) as number)) peringkat.set(t.siklusId, p);
+  }
+  let terbaik: string | null = null;
+  for (const id of urutan) {
+    if (terbaik === null || (peringkat.get(id) as number) < (peringkat.get(terbaik) as number))
+      terbaik = id;
+  }
+  return terbaik;
+}

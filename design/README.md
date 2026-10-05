@@ -44,26 +44,26 @@ Kolom **Tangkapan aplikasi** adalah nama file tangkapan layar halaman aplikasi y
 | 08 | Belajar, hidroponik | petani | desktop | `08-belajar-hidroponik-desktop.html` | `08-belajar-hidroponik-desktop.png` |
 | 09 | Belajar, bedengan | petani | mobile | `09-belajar-bedengan-mobile.html` | `09-belajar-bedengan-mobile.png` |
 | 09 | Belajar, bedengan | petani | desktop | `09-belajar-bedengan-desktop.html` | `09-belajar-bedengan-desktop.png` |
-| 10 | Hitung 1: Mau tanam apa? | petani | mobile | `10-hitung-pilih-tanaman-mobile.html` | `10-hitung-pilih-tanaman-mobile.png` |
-| 10 | Hitung 1: Mau tanam apa? | petani | desktop | `10-hitung-pilih-tanaman-desktop.html` | `10-hitung-pilih-tanaman-desktop.png` |
-| 11 | Hitung: segera hadir | petani | mobile | `11-hitung-segera-hadir-mobile.html` | `11-hitung-segera-hadir-mobile.png` |
-| 11 | Hitung: segera hadir | petani | desktop | `11-hitung-segera-hadir-desktop.html` | `11-hitung-segera-hadir-desktop.png` |
-| 12 | Hitung: segera hadir, sudah diminta | petani | mobile | `12-hitung-segera-hadir-sudah-diminta-mobile.html` | `12-hitung-segera-hadir-sudah-diminta-mobile.png` |
-| 12 | Hitung: segera hadir, sudah diminta | petani | desktop | `12-hitung-segera-hadir-sudah-diminta-desktop.html` | `12-hitung-segera-hadir-sudah-diminta-desktop.png` |
-| 13 | Hitung 2: cara tanam sawi bedengan | petani | mobile | `13-hitung-cara-tanam-sawi-bedengan-mobile.html` | `13-hitung-cara-tanam-sawi-bedengan-mobile.png` |
-| 13 | Hitung 2: cara tanam sawi bedengan | petani | desktop | `13-hitung-cara-tanam-sawi-bedengan-desktop.html` | `13-hitung-cara-tanam-sawi-bedengan-desktop.png` |
-| 14 | Hitung 2: cara tanam sawi hidroponik | petani | mobile | `14-hitung-cara-tanam-sawi-hidroponik-mobile.html` | `14-hitung-cara-tanam-sawi-hidroponik-mobile.png` |
-| 14 | Hitung 2: cara tanam sawi hidroponik | petani | desktop | `14-hitung-cara-tanam-sawi-hidroponik-desktop.html` | `14-hitung-cara-tanam-sawi-hidroponik-desktop.png` |
-| 15 | Hitung 2: cara tanam padi sawah | petani | mobile | `15-hitung-cara-tanam-padi-sawah-mobile.html` | `15-hitung-cara-tanam-padi-sawah-mobile.png` |
-| 15 | Hitung 2: cara tanam padi sawah | petani | desktop | `15-hitung-cara-tanam-padi-sawah-desktop.html` | `15-hitung-cara-tanam-padi-sawah-desktop.png` |
-| 16 | Hitung 3: modal sawi bedengan | petani | mobile | `16-hitung-modal-sawi-bedengan-mobile.html` | `16-hitung-modal-sawi-bedengan-mobile.png` |
-| 16 | Hitung 3: modal sawi bedengan | petani | desktop | `16-hitung-modal-sawi-bedengan-desktop.html` | `16-hitung-modal-sawi-bedengan-desktop.png` |
-| 17 | Hitung 3: pilih merek NPK | petani | mobile | `17-hitung-modal-pilih-merek-npk-mobile.html` | `17-hitung-modal-pilih-merek-npk-mobile.png` |
-| 17 | Hitung 3: pilih merek NPK | petani | desktop | `17-hitung-modal-pilih-merek-npk-desktop.html` | `17-hitung-modal-pilih-merek-npk-desktop.png` |
-| 18 | Hitung 3: modal sawi hidroponik | petani | mobile | `18-hitung-modal-sawi-hidroponik-mobile.html` | `18-hitung-modal-sawi-hidroponik-mobile.png` |
-| 18 | Hitung 3: modal sawi hidroponik | petani | desktop | `18-hitung-modal-sawi-hidroponik-desktop.html` | `18-hitung-modal-sawi-hidroponik-desktop.png` |
-| 19 | Hitung 3: modal padi sawah | petani | mobile | `19-hitung-modal-padi-sawah-mobile.html` | `19-hitung-modal-padi-sawah-mobile.png` |
-| 19 | Hitung 3: modal padi sawah | petani | desktop | `19-hitung-modal-padi-sawah-desktop.html` | `19-hitung-modal-padi-sawah-desktop.png` |
+| 10 | Hitung 1: Mau tanam apa? | petani | mobile | `10-hitung-pilih-tanaman-mobile.html` | `10-hitung-pilih-tanaman-mobile.png` ✓ |
+| 10 | Hitung 1: Mau tanam apa? | petani | desktop | `10-hitung-pilih-tanaman-desktop.html` | `10-hitung-pilih-tanaman-desktop.png` ✓ |
+| 11 | Hitung: segera hadir | petani | mobile | `11-hitung-segera-hadir-mobile.html` | `11-hitung-segera-hadir-mobile.png` ✓ |
+| 11 | Hitung: segera hadir | petani | desktop | `11-hitung-segera-hadir-desktop.html` | `11-hitung-segera-hadir-desktop.png` ✓ |
+| 12 | Hitung: segera hadir, sudah diminta | petani | mobile | `12-hitung-segera-hadir-sudah-diminta-mobile.html` | `12-hitung-segera-hadir-sudah-diminta-mobile.png` ✓ |
+| 12 | Hitung: segera hadir, sudah diminta | petani | desktop | `12-hitung-segera-hadir-sudah-diminta-desktop.html` | `12-hitung-segera-hadir-sudah-diminta-desktop.png` ✓ |
+| 13 | Hitung 2: cara tanam sawi bedengan | petani | mobile | `13-hitung-cara-tanam-sawi-bedengan-mobile.html` | `13-hitung-cara-tanam-sawi-bedengan-mobile.png` ✓ |
+| 13 | Hitung 2: cara tanam sawi bedengan | petani | desktop | `13-hitung-cara-tanam-sawi-bedengan-desktop.html` | `13-hitung-cara-tanam-sawi-bedengan-desktop.png` ✓ |
+| 14 | Hitung 2: cara tanam sawi hidroponik | petani | mobile | `14-hitung-cara-tanam-sawi-hidroponik-mobile.html` | `14-hitung-cara-tanam-sawi-hidroponik-mobile.png` ✓ |
+| 14 | Hitung 2: cara tanam sawi hidroponik | petani | desktop | `14-hitung-cara-tanam-sawi-hidroponik-desktop.html` | `14-hitung-cara-tanam-sawi-hidroponik-desktop.png` ✓ |
+| 15 | Hitung 2: cara tanam padi sawah | petani | mobile | `15-hitung-cara-tanam-padi-sawah-mobile.html` | `15-hitung-cara-tanam-padi-sawah-mobile.png` ✓ |
+| 15 | Hitung 2: cara tanam padi sawah | petani | desktop | `15-hitung-cara-tanam-padi-sawah-desktop.html` | `15-hitung-cara-tanam-padi-sawah-desktop.png` ✓ |
+| 16 | Hitung 3: modal sawi bedengan | petani | mobile | `16-hitung-modal-sawi-bedengan-mobile.html` | `16-hitung-modal-sawi-bedengan-mobile.png` ✓ |
+| 16 | Hitung 3: modal sawi bedengan | petani | desktop | `16-hitung-modal-sawi-bedengan-desktop.html` | `16-hitung-modal-sawi-bedengan-desktop.png` ✓ |
+| 17 | Hitung 3: pilih merek NPK | petani | mobile | `17-hitung-modal-pilih-merek-npk-mobile.html` | `17-hitung-modal-pilih-merek-npk-mobile.png` ✓ |
+| 17 | Hitung 3: pilih merek NPK | petani | desktop | `17-hitung-modal-pilih-merek-npk-desktop.html` | `17-hitung-modal-pilih-merek-npk-desktop.png` ✓ |
+| 18 | Hitung 3: modal sawi hidroponik | petani | mobile | `18-hitung-modal-sawi-hidroponik-mobile.html` | `18-hitung-modal-sawi-hidroponik-mobile.png` ✓ |
+| 18 | Hitung 3: modal sawi hidroponik | petani | desktop | `18-hitung-modal-sawi-hidroponik-desktop.html` | `18-hitung-modal-sawi-hidroponik-desktop.png` ✓ |
+| 19 | Hitung 3: modal padi sawah | petani | mobile | `19-hitung-modal-padi-sawah-mobile.html` | `19-hitung-modal-padi-sawah-mobile.png` ✓ |
+| 19 | Hitung 3: modal padi sawah | petani | desktop | `19-hitung-modal-padi-sawah-desktop.html` | `19-hitung-modal-padi-sawah-desktop.png` ✓ |
 | 20 | Jadwal sawi bedengan | petani | mobile | `20-jadwal-sawi-bedengan-mobile.html` | `20-jadwal-sawi-bedengan-mobile.png` |
 | 20 | Jadwal sawi bedengan | petani | desktop | `20-jadwal-sawi-bedengan-desktop.html` | `20-jadwal-sawi-bedengan-desktop.png` |
 | 21 | Jadwal sawi hidroponik | petani | mobile | `21-jadwal-sawi-hidroponik-mobile.html` | `21-jadwal-sawi-hidroponik-mobile.png` |
@@ -102,8 +102,8 @@ Halaman ini belum punya papan desain. Halaman dibuat dari pola desain yang ada (
 | Nomor | Halaman | Peran | Tugas | Tangkapan aplikasi |
 | --- | --- | --- | --- | --- |
 | 39 | Pilih peran dan desa | publik | T4.34 | `39-pilih-peran-dan-desa-mobile.png`, `…-desktop.png` ✓ |
-| 40 | Lahan saya | petani | T4.36a | `40-lahan-saya-mobile.png`, `…-desktop.png` |
-| 41 | Pilih tanggal tanam | petani | T4.08 | `41-pilih-tanggal-tanam-mobile.png`, `…-desktop.png` |
+| 40 | Lahan saya | petani | T4.36a | `40-lahan-saya-mobile.png`, `…-desktop.png` ✓ |
+| 41 | Pilih tanggal tanam | petani | T4.08 | `41-pilih-tanggal-tanam-mobile.png`, `…-desktop.png` ✓ |
 | 42 | Pemutar modul belajar | petani | T4.31 | `42-pemutar-modul-mobile.png`, `…-desktop.png` |
 | 43 | Pilih akun demo (hanya mode pengembangan) | publik | T4.01 | `43-pilih-akun-demo-mobile.png`, `…-desktop.png` ✓ |
 | 44 | Bayar uang muka (mode uji coba) | pembeli | T4.41 | `44-bayar-uang-muka-mobile.png`, `…-desktop.png` |

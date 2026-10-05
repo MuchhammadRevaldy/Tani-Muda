@@ -43,6 +43,7 @@ const ukuranBernama = {
   'baris-tugas': '72px',
   sidebar: '256px',
   'tab-siklus': '360px',
+  panel: '360px', // panel samping desktop alur Hitung (papan 10–19)
   dialog: '480px',
 };
 

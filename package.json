@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "demo": "node scripts/demo.mjs",
     "build": "tsc -p tsconfig.json --noEmit && vite build && node scripts/cek-build.mjs",
     "preview": "vite preview",
     "typecheck": "tsc -p tsconfig.json --noEmit",

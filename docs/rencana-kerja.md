@@ -617,61 +617,68 @@ Catatan pembagian:
 
 ## 4B. Pilar Hitung
 
-### [ ] T4.02 Langkah 1: Mau tanam apa? **[DEMO]**
+### [x] T4.02 Langkah 1: Mau tanam apa? **[DEMO]**
 - **Tujuan:** Pilih jenis lahan (Semua/Sawah/Kebun/Pekarangan), cari, daftar per kategori dengan umur panen, jumlah pesanan di sekitar, label "Ada pesanan"/"Segera hadir"; ringkasan pilihan + tombol "Lanjut pilih metode".
 - **Berkas:** `src/halaman/hitung/pilih-tanaman.tsx`, `src/teks/hitung.ts`, hook dari `src/api/kueri` (sudah ada sejak T3.04).
 - **PRD:** P0-30, US-22, US-23; **D-05** (bayam dan kangkung hidroponik "Segera hadir").
 - **Selesai bila:** papan 10 (desktop dengan menu profil terbuka) cocok; filter lahan hanya menampilkan yang cocok; komoditas tanpa resep tetap bisa diketuk; hasil pencarian kosong menampilkan "Tanaman ini belum ada di daftar" dengan "Minta tanaman baru".
 - **Tangkapan (D-07):** `docs/tangkapan/aplikasi/10-hitung-pilih-tanaman-mobile.png` (390px) dan `10-hitung-pilih-tanaman-desktop.png` (1440px), ditunjukkan ke pemilik produk; **berhenti menunggu tanggapan** sebelum tugas berikutnya.
 - **Prasyarat:** T3.09, T4.01, T1.11, T1.15.
+- **Catatan (6 Okt 2026):** Pilihan alur Hitung disimpan di alamat (`?komoditas=…&metode=…&nilai=…`), sehingga setiap langkah bisa dibuka langsung dan dimuat ulang. Jenis lahan memakai 4 pil seperti desain (Hidroponik dipilih di langkah 2). Panel kanan desktop memuat ringkasan komoditas, pesanan terdekat, dan cara tanam yang tersedia; menu profil terbuka di papan 10 desktop tidak ditiru (itu keadaan peraga). Tanaman tanpa resep tetap bisa diketuk. Pencarian kosong menawarkan "Minta tanaman baru" lewat kontak admin, karena `permintaan_resep` hanya bisa untuk komoditas yang ada.
 
-### [ ] T4.03 Segera hadir dan Minta resep **[DEMO]**
+### [x] T4.03 Segera hadir dan Minta resep **[DEMO]**
 - **Tujuan:** Sheet (HP) / dialog (desktop) untuk komoditas tanpa resep; "Minta resep ini" menulis `permintaan_resep`; pesan "Permintaanmu tercatat. Kami kabari saat resepnya siap."; mencegah permintaan ganda.
 - **Berkas:** `src/halaman/hitung/segera-hadir.tsx`, `src/api/kueri/permintaan-resep.ts`.
 - **PRD:** P0-31, US-23.
 - **Selesai bila:** papan 11 dan 12 (dua keadaan) cocok; permintaan tercatat per komoditas dan desa; ketuk ulang menampilkan keadaan "sudah diminta".
 - **Tangkapan (D-07):** `docs/tangkapan/aplikasi/11-hitung-segera-hadir-mobile.png` (390px) dan `11-hitung-segera-hadir-desktop.png` (1440px) (juga `12-hitung-segera-hadir-sudah-diminta`), ditunjukkan ke pemilik produk; **berhenti menunggu tanggapan** sebelum tugas berikutnya.
 - **Prasyarat:** T4.02, T1.12.
+- **Catatan (6 Okt 2026):** Satu komponen `SegeraHadir` dipakai untuk komoditas tanpa resep dan cara tanam tanpa resep. Keadaan "sudah diminta" dibaca dari `GET /permintaan-resep/saya`; untuk komoditas, permintaan dengan cara tanam apa pun dihitung. Arif sudah meminta cabai di data contoh, jadi tangkapan 11 dan 12 memakai tomat.
 
-### [ ] T4.04 Langkah 2: Pilih cara tanam dan ukuran **[DEMO]**
+### [x] T4.04 Langkah 2: Pilih cara tanam dan ukuran **[DEMO]**
 - **Tujuan:** Kartu metode (modal awal, lahan, perawatan, "Cocok untuk pemula", "Resep tersedia"/"Segera hadir"); ukuran sesuai metode: luas dengan satuan m²/ru-bata/hektare, jumlah polybag, sistem hidroponik + lubang + tandon, vertikultur; teks bantuan konversi; perkiraan panen langsung; padi hanya Sawah; "Minta resep ini" untuk metode tanpa resep.
 - **Berkas:** `src/halaman/hitung/pilih-metode.tsx`, `src/halaman/hitung/form-ukuran.tsx`.
 - **PRD:** P0-32, P0-33, US-24, US-25; fungsi `konversi-satuan`, `ukuran-metode`, `kebutuhan` (validasi ukuran).
 - **Selesai bila:** papan 13, 14 dan 15 cocok; "7 ru ≈ 100 m²" muncul dari `teksBantuanLuas`; ukuran kosong menampilkan "Isi luas lahan dulu" / "Isi jumlah lubang tanam dulu"; tombol lanjut nonaktif sampai valid; perkiraan panen berubah saat ukuran berubah. Hidroponik hanya aktif untuk sawi; bayam dan kangkung menampilkan hidroponik "Segera hadir" dengan "Minta resep ini" (D-05). Label contoh (D-36): "CONTOH, belum divalidasi penyuluh" terlihat di setiap tempat angka resep muncul.
 - **Tangkapan (D-07):** `docs/tangkapan/aplikasi/13-hitung-cara-tanam-sawi-bedengan-mobile.png` (390px) dan `13-hitung-cara-tanam-sawi-bedengan-desktop.png` (1440px) (juga nomor 14 dan 15), ditunjukkan ke pemilik produk; **berhenti menunggu tanggapan** sebelum tugas berikutnya.
 - **Prasyarat:** T4.03, T2.02, T2.03, T2.07.
+- **Catatan (6 Okt 2026):** Cara tanam yang ditawarkan mengikuti jenis lahan komoditas (bedengan–kebun, polybag–pekarangan, hidroponik–hidroponik, sawah–sawah). Cara pertama yang punya resep dipilih otomatis, begitu juga sistem hidroponik pertama. Kalimat pendek tiap cara tanam ada di `src/teks/hitung.ts`; baris Lahan dan Perawatan dari data. Padi menampilkan label contoh, bukan "Resepnya sudah dicek penyuluh" seperti papan 15, karena resepnya belum divalidasi. Faktor vertikultur belum ada di data, jadi saklar vertikultur belum mengubah kebutuhan tempat. Formulir ukuran ada di panel kanan desktop dan di kolom isi HP (dirender sekali, `useLayarLebar`).
 
-### [ ] T4.05 Langkah 3: Kalkulator, daftar item dan grup **[DEMO]**
+### [x] T4.05 Langkah 3: Kalkulator, daftar item dan grup **[DEMO]**
 - **Tujuan:** Daftar item per grup dengan subtotal; ubah jumlah dan harga (`InputRupiah`), tambah item (tenaga kerja, sewa lahan), hapus item, harga negatif ditolak, "Harga belum diisi" + peringatan total belum lengkap.
 - **Berkas:** `src/halaman/hitung/kalkulator.tsx`, `src/halaman/hitung/baris-item.tsx`, `src/halaman/hitung/use-rencana.ts` (keadaan rencana di memori, memakai `src/lib/modal`, `kebutuhan`).
 - **PRD:** P0-07, P0-08, US-03, US-04.
 - **Selesai bila:** papan 16 (sawi bedengan 100 m²) dan 19 (padi) cocok; ubah jumlah memperbarui subtotal dan total sama dengan hasil `modal.ts`; item tanpa harga ditandai dan ringkasan memberi peringatan; catatan "Semua harga di halaman ini adalah contoh…" tampil; label "CONTOH, belum divalidasi penyuluh" terlihat di setiap bagian yang memuat angka resep, termasuk lembar dan panel (D-12). Label contoh (D-36): "CONTOH, belum divalidasi penyuluh" terlihat di setiap tempat angka resep muncul.
 - **Tangkapan (D-07):** `docs/tangkapan/aplikasi/16-hitung-modal-sawi-bedengan-mobile.png` (390px) dan `16-hitung-modal-sawi-bedengan-desktop.png` (1440px) (juga nomor 19), ditunjukkan ke pemilik produk; **berhenti menunggu tanggapan** sebelum tugas berikutnya.
 - **Prasyarat:** T4.04, T2.05, T1.08.
+- **Catatan (6 Okt 2026):** Keadaan rencana di `src/halaman/hitung/use-rencana.tsx` (bukan `.ts`, karena memuat penyedia React) dan fungsi murni baru `src/lib/rencana.ts` + 6 tes (total sawi bedengan 100 m² dengan harga contoh Rp430.000). Harga mengikuti prioritas `harga-item.ts`: rata-rata sekitar dipakai sebelum harga contoh, sehingga total di layar (Rp445.008) berbeda dari papan (Rp430.000). Item tambahan tanpa nama menahan simpan (kode baru `NAMA_ITEM_KOSONG`). Ikon baru bergaya sama: cari, label, pensil, info, tambah, hapus. KolomIsian dan InputRupiah mendapat opsi `labelTersembunyi` untuk isian di tabel desktop.
 
-### [ ] T4.06 Subsidi, pilih merek, merek lain, promo **[DEMO]**
+### [x] T4.06 Subsidi, pilih merek, merek lain, promo **[DEMO]**
 - **Tujuan:** Pilihan Subsidi/Nonsubsidi per item yang memenuhi syarat dengan catatan "Subsidi hanya untuk petani yang terdaftar di kelompok tani."; lembar "Pilih merek" (harga per kemasan, per satuan, jumlah pelapor, hari lalu), "Merek lain, isi sendiri" yang membuat laporan harga baru; tips pembelian di kios resmi; bagian "Promo dari toko tani" terpisah dengan label "Promo".
 - **Berkas:** `src/halaman/hitung/lembar-merek.tsx`, `src/halaman/hitung/bagian-promo.tsx`, `src/halaman/hitung/pilihan-subsidi.tsx`, `src/api/kueri/laporan-harga.ts`.
 - **PRD:** P0-09, P0-34, P0-35, US-05, US-26.
 - **Selesai bila:** papan 17 cocok; urutan merek berasal dari `harga-item.ts` (laporan terbaru), tidak pernah berubah karena promo; merek lain menulis ke `laporan_harga`; tidak ada merek yang diberi label "rekomendasi". Label contoh (D-36): "CONTOH, belum divalidasi penyuluh" terlihat di setiap tempat angka resep muncul.
 - **Tangkapan (D-07):** `docs/tangkapan/aplikasi/17-hitung-modal-pilih-merek-npk-mobile.png` (390px) dan `17-hitung-modal-pilih-merek-npk-desktop.png` (1440px), ditunjukkan ke pemilik produk; **berhenti menunggu tanggapan** sebelum tugas berikutnya.
 - **Prasyarat:** T4.05, T2.04, T1.12.
+- **Catatan (6 Okt 2026):** Pilihan Subsidi/Nonsubsidi bawaan Nonsubsidi (petani belum tentu terdaftar di kelompok tani). Di lembar Pilih merek tidak ada merek yang terpilih otomatis, berbeda dari papan 17, supaya tidak terkesan merekomendasikan merek (P0-34). Merek lain menulis laporan harga lewat `POST /laporan-harga`.
 
-### [ ] T4.07 Alat sekali beli dan ringkasan hasil **[DEMO]**
+### [x] T4.07 Alat sekali beli dan ringkasan hasil **[DEMO]**
 - **Tujuan:** Bagian "Alat sekali beli" dengan saklar "Bagi biaya alat ke 10 siklus" dan teks pembagian; ringkasan: total modal (atau "Modal siklus ini"), modal per m², perkiraan untung, titik impas, "kalau panen jelek" dengan alasan, pesan rugi merah "Dengan angka ini, kamu berpotensi rugi."; harga jual otomatis memakai harga kesepakatan bila terhubung pesanan; kartu "Jadwal yang akan dibuat" dengan penggaris.
 - **Berkas:** `src/halaman/hitung/bagian-alat.tsx`, `src/halaman/hitung/ringkasan-hasil.tsx`.
 - **PRD:** P0-10, P0-36, US-06, US-27.
 - **Selesai bila:** papan 18 (hidroponik NFT 200 lubang) cocok: modal per siklus dan total alat tampil terpisah; angka sama dengan `ringkasan.ts`; untung negatif tampil merah dengan ikon dan kata; tombol utama tunggal "Simpan rencana". Label contoh (D-36): "CONTOH, belum divalidasi penyuluh" terlihat di setiap tempat angka resep muncul.
 - **Tangkapan (D-07):** `docs/tangkapan/aplikasi/18-hitung-modal-sawi-hidroponik-mobile.png` (390px) dan `18-hitung-modal-sawi-hidroponik-desktop.png` (1440px), ditunjukkan ke pemilik produk; **berhenti menunggu tanggapan** sebelum tugas berikutnya.
 - **Prasyarat:** T4.05, T2.06, T1.14.
+- **Catatan (6 Okt 2026):** Harga jual per kg diisi petani; bawaannya harga pesanan terdekat untuk komoditas itu, dengan keterangan asalnya. Bagian "kalau panen jelek" belum ditampilkan karena resep contoh belum punya angka dan alasan panen jelek (P-20). Pembagian alat bawaan 10 siklus (`SIKLUS_PEMBAGIAN_ALAT`, sama dengan data contoh).
 
-### [ ] T4.08 Simpan rencana dan pilih tanggal tanam (turunan) **[DEMO]**
+### [x] T4.08 Simpan rencana dan pilih tanggal tanam (turunan) **[DEMO]**
 - **Tujuan:** "Simpan rencana" membuat `siklus_tanam` + `rencana_item`; langkah pilih tanggal tanam (turunan; boleh tanggal lampau untuk siklus pilot); pembuatan `tugas` dari resep memakai `jadwal-buat`; rencana masih bisa diubah sebelum tanggal tanam; kembali ke Beranda.
 - **Berkas:** `src/halaman/hitung/pilih-tanggal-tanam.tsx`, hook dari `src/api/kueri` (sudah ada sejak T3.04) (mutasi), `src/lib/rencana-ke-baris.ts` + tes (pemetaan rencana → baris `rencana_item`).
 - **PRD:** P0-11, P0-12, P0-04 (siklus menyimpan versi resep), US-07.
 - **Selesai bila:** setelah simpan, `siklus_tanam.resep_id` = versi resep terpakai; jumlah `tugas` sama dengan `buatJadwal`; mengubah resep di database tidak mengubah siklus lama (diuji); waktu dari rencana sampai simpan terukur (tujuan < 5 menit, P0 tujuan pengguna 1) di catatan demo. Label contoh (D-36): "CONTOH, belum divalidasi penyuluh" terlihat di setiap tempat angka resep muncul.
 - **Tangkapan (D-07):** `docs/tangkapan/aplikasi/41-pilih-tanggal-tanam-mobile.png` (390px) dan `41-pilih-tanggal-tanam-desktop.png` (1440px), ditunjukkan ke pemilik produk; **berhenti menunggu tanggapan** sebelum tugas berikutnya.
 - **Prasyarat:** T4.07, T2.08, T3.09.
+- **Catatan (6 Okt 2026):** Langkah simpan di `/hitung/simpan`: pilih lahan yang cocok (sisa kapasitas tampil; lahan yang tidak cukup tidak bisa dipilih), lalu Hari ini, Pilih tanggal (boleh tanggal lampau), atau Nanti saja. Satu panggilan `POST /siklus`; pemetaan baris rencana ada di `keBarisRencana` (`src/lib/rencana.ts`), bukan berkas `rencana-ke-baris.ts` terpisah. Setelah simpan dengan tanggal, petani dibawa ke Beranda dengan siklus baru terpilih. Rencana tanpa tanggal belum tampil di Beranda; daftar rencana dikerjakan bersama menu Kebun (gelombang 3). Waktu dari rencana sampai simpan belum diukur (catatan demo di T6.08).
 
 ## 4C. Pilar Jadwal dan pengingat
 
@@ -683,6 +690,7 @@ Catatan pembagian:
 - **Tangkapan (D-07):** `docs/tangkapan/aplikasi/03-beranda-petani-mobile.png` (390px) dan `03-beranda-petani-desktop.png` (1440px) (juga nomor 04 sampai 07), ditunjukkan ke pemilik produk; **berhenti menunggu tanggapan** sebelum tugas berikutnya.
 - **Prasyarat:** T4.08, T1.10, T1.14, T2.09.
 - **Catatan (5 Okt 2026):** Fungsi murni baru `src/lib/beranda.ts` (tugas hari ini, tugas besok, pin penggaris, hasil ukur terakhir, persen modal) + 14 tes. Beda dari papan: salam selalu "Halo, …" (papan 05–07 memakai "Selamat pagi"); tombol kanan atas HP selalu avatar ke Profil; bila ada beberapa siklus aktif, pil memilih siklus untuk kartu (`?siklus=`), sedangkan "Tugas hari ini" memuat semua siklus dikelompokkan per siklus; kartu hasil ukur dan modal hanya tampil mulai 1024px seperti papan desktop. Isi banner besok umum ("Siapkan bahan dan alatnya…") karena resep contoh belum punya `cara_mengerjakan`; langkah cara mengerjakan ditambahkan di T4.11. Tautan belajar di keadaan kosong tanpa angka menit. Lencana Pesanan belum ditampilkan sampai gelombang 4 menetapkan arti "baru". Penanda "tersimpan di HP, belum terkirim" (papan 06) menunggu antrean offline T6.05. Galat Tahap 1 diperbaiki: garis tepi chip "Hari ini", "Besok", dan "Terlambat" tertimpa `border-transparent`.
+- **Catatan (6 Okt 2026, D-37):** Salam kini "Selamat pagi/siang/sore/malam" menurut jam setempat (`waktuSalam`), dan siklus yang terpilih saat Beranda dibuka adalah yang tugasnya paling mendesak (`siklusPalingMendesak`). Tangkapan 03–07 diperbarui.
 
 ### [ ] T4.10 Jadwal siklus **[DEMO]**
 - **Tujuan:** Halaman jadwal: header siklus + tab Jadwal/Modal/Jurnal, filter tipe (Semua/Sekali/Berulang/Pengukuran), daftar dikelompokkan per hari (Terlambat, Hari ini, Besok, tanggal, Sudah selesai), tugas berulang sebagai satu baris dengan frekuensi, keadaan kosong per filter; panel samping desktop ("Tiga jenis tugas", "Pengingat").
@@ -749,6 +757,7 @@ Catatan pembagian:
 - **Tujuan:** Daftar pesanan dalam radius (konfigurasi, default 10 km) terurut terdekat, filter Semua/Rutin/Sekali panen dengan penanda jenis, keterangan jumlah, "Boleh ambil sebagian", hanya pesanan berresep, keadaan kosong + "Cari sampai 25 km"; tab Di sekitar / Kiriman saya.
 - **Berkas:** `src/halaman/pesanan/sekitar.tsx`, hook dari `src/api/kueri` (sudah ada sejak T3.04).
 - **PRD:** P0-19 (penanda dan filter), P0-20, US-11.
+- **Lencana menu Pesanan (D-37):** jumlah pesanan baru di sekitar sejak petani terakhir membuka menu Pesanan.
 - **Selesai bila:** papan 29 dan 30 cocok; daftar dari endpoint pesanan di sekitar (jarak dari titik tengah desa); urutan sama dengan `jarak.ts`; radius dan batas bukan angka tetap; petani `dinonaktifkan_sementara` tetap melihat daftar (D-13).
 - **Tangkapan (D-07):** `docs/tangkapan/aplikasi/29-pesanan-di-sekitar-mobile.png` (390px) dan `29-pesanan-di-sekitar-desktop.png` (1440px) (juga nomor 30), ditunjukkan ke pemilik produk; **berhenti menunggu tanggapan** sebelum tugas berikutnya.
 - **Prasyarat:** T3.10, T2.15, T1.15.
@@ -898,13 +907,14 @@ Catatan pembagian:
 - **Selesai bila:** papan 35 cocok tanpa kartu Kata sandi dan isian Nama pengguna; perubahan desa memperbarui jarak pesanan.
 - **Prasyarat:** T4.35, T4.11 (AmbilFoto).
 
-### [ ] T4.36a Lahan saya (turunan) **[DEMO]**
+### [x] T4.36a Lahan saya (turunan) **[DEMO]**
 - **Tujuan:** Petani mengelola lahan: nama, jenis lahan, luas dengan satuan lokal (nilai asli disimpan), desa, titik koordinat, kapasitas lubang hidroponik; tampil luas yang sedang dipakai dan kapasitas tersisa.
 - **Berkas:** `src/halaman/lahan-saya.tsx`, `src/halaman/lahan/form-lahan.tsx`, hook dari `src/api/kueri` (sudah ada sejak T3.04).
 - **PRD:** P0-21, P0-33; **D-06**.
 - **Selesai bila:** luas disimpan sebagai `luas_m2` + `satuan_asli` + `nilai_asli` lewat `konversi-satuan.ts`; kapasitas tersisa dari `kapasitas-lahan.ts`; titik lahan tidak pernah tampil ke pembeli; 390px (navigasi bawah) dan 1440px (sidebar kiri, dua kolom: daftar dan form).
 - **Tangkapan (D-07):** `docs/tangkapan/aplikasi/40-lahan-saya-mobile.png` (390px) dan `40-lahan-saya-desktop.png` (1440px), ditunjukkan ke pemilik produk; **berhenti menunggu tanggapan** sebelum tugas berikutnya.
 - **Prasyarat:** T4.34, T3.09, T2.15a, T2.02.
+- **Catatan (6 Okt 2026):** Dikerjakan di gelombang 2 karena simpan rencana memilih lahan. Desa lahan mengikuti desa profil. Titik lahan opsional, bisa diisi dari lokasi HP. Tombol "Tambah lahan" di langkah simpan membuka halaman ini dan kembali lagi setelah lahan tersimpan.
 
 ### [ ] T4.37 Halaman statis: aturan pakai, privasi, tentang, kontak, bantuan (turunan)
 - **Tujuan:** Halaman teks yang ditautkan dari desain; isi singkat sebagai draf yang menunggu peninjauan hukum.
@@ -1352,6 +1362,13 @@ Tujuan tahap: frontend memakai backend Laravel lewat klien API HTTP tanpa mengub
   - catatan hasil ada di dokumen.
 - **Prasyarat:** semua tugas [DEMO].
 
+### [ ] T6.09 Build khusus demo `build:demo` (opsional)
+- **Tujuan:** Bila juri membutuhkan tautan sebelum backend siap, `npm run build:demo` menghasilkan build statis dengan data tiruan, pemilih akun demo, kode uji OTP, dan label **"Mode demo"** yang selalu terlihat di setiap halaman, untuk di-deploy ke hosting statis (D-37). Build produksi biasa (`npm run build`) tetap tanpa akun demo dan tetap dicek `scripts/cek-build.mjs`.
+- **Berkas:** `package.json` (`build:demo`, `vite build --mode demo` dengan keluaran `dist-demo/`), `src/api/sumber.ts` (kontrol pengembangan aktif bila mode demo), komponen label "Mode demo", `scripts/cek-build.mjs` (memastikan build biasa tetap bersih dan build demo selalu berlabel), README (cara deploy statis dan fallback rute SPA).
+- **PRD:** –; D-20, D-36, D-37.
+- **Selesai bila:** build demo bisa dibuka dari hosting statis tanpa backend; label "Mode demo" terlihat di semua halaman 390px dan 1440px; data demo bisa diatur ulang; build biasa lolos `cek-build.mjs`.
+- **Prasyarat:** T4.40.
+
 ---
 
 # Pertanyaan dan hal yang ambigu
@@ -1362,4 +1379,10 @@ Pertanyaan P-1 sampai P-5 versi kedua **sudah dijawab** pada 5 Oktober 2026: res
 
 ## Keputusan teknis dan produk yang masih terbuka
 
-Semua pertanyaan P-6 sampai P-14 dijawab pada 5 Oktober 2026 (D-26 sampai D-33). Belum ada pertanyaan terbuka baru; pertanyaan berikutnya ditambahkan di sini dengan nomor P-20 dan seterusnya.
+Semua pertanyaan P-6 sampai P-14 dijawab pada 5 Oktober 2026 (D-26 sampai D-33).
+
+| No | Pertanyaan | Bawaan yang dipakai sementara |
+| --- | --- | --- |
+| P-20 | Papan 16–19 menampilkan "Kalau panen jelek: hanya 70 kg karena hujan terus atau ulat". Angka dan alasannya tidak ada di data resep. Apakah resep perlu kolom panen jelek (kg per satuan dan alasan) yang diisi penyuluh? | Bagian "kalau panen jelek" tidak ditampilkan sampai datanya ada (T4.07). |
+| P-21 | Harga jual di kalkulator: papan memakai "harga jual contoh" per komoditas. Perlukah harga jual contoh disimpan di data (per komoditas dan wilayah), atau cukup diisi petani? | Bawaan harga pesanan terdekat untuk komoditas itu, bisa diubah petani; kosong bila tidak ada pesanan. |
+| P-22 | Bundel utama aplikasi sudah lebih dari 500 kB (peringatan Vite). Pemecahan per halaman (lazy route) direncanakan di Tahap 6 bersama PWA. Setuju? | Belum dipecah; tidak mengubah perilaku. |

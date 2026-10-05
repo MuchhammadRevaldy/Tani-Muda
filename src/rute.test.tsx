@@ -9,7 +9,7 @@ import { daftarRute } from './rute';
 const jalur = [
   ['/', 'Tani Muda', null],
   ['/masuk', 'Masuk dengan nomor HP', null],
-  ['/beranda', 'Halo, Arif', 'petani-arif'],
+  ['/beranda', /^Selamat (pagi|siang|sore|malam), Arif$/, 'petani-arif'],
   ['/hitung/tanaman', 'Mau tanam apa?', 'petani-arif'],
   ['/kebun/1/jadwal', 'Jadwal', 'petani-arif'],
   ['/tugas/1/ukur', 'Cek pH dan PPM', 'petani-arif'],

@@ -133,7 +133,7 @@ Tema bawaan Tailwind **diganti**, bukan diperluas: warna bawaan, `text-sm`, dan 
 | Warna | `daun-tua` … `garis-kuat` (17) + `tirai` | `tirai` = warna teks 56% untuk latar dialog/sheet (papan 11) |
 | Teks | `text-keterangan` 16/22, `text-isi` 16/24, `text-nav` 16/20, `text-judul-bagian` 18/26, `text-uang` 20/28, `text-judul-halaman` 22/28, `text-tampil-1…5` (24/32, 26/34, 34/42, 36/44, 52/60), `text-judul-masuk` 32/40 (judul Masuk desktop, papan 02), `text-dok-1…3` (hanya `/komponen`) | Ukuran landing dijadikan token `tampil` (D-16) |
 | Jarak dan ukuran | skala 4px: `1`=4 … `24`=96, ditambah `0.5`=2, `1.5`=6, `2.5`=10, `3.5`=14, `4.5`=18, `6.5`=26, `7`=28, `7.5`=30 | Nilai kecil yang muncul di desain (label 26/30px, pin 28px) |
-| Ukuran bernama | `sentuh` 48, `kontrol` 52, `chip` 34, `lingkaran` 30, `pin` 28, `pin-lebar` 32, `nav-ikon` 56, `nav-item` 64, `baris-tugas` 72, `sidebar` 256, `tab-siklus` 360, `dialog` 480 | |
+| Ukuran bernama | `sentuh` 48, `kontrol` 52, `chip` 34, `lingkaran` 30, `pin` 28, `pin-lebar` 32, `nav-ikon` 56, `nav-item` 64, `baris-tugas` 72, `sidebar` 256, `tab-siklus` 360, `panel` 360 (panel samping alur Hitung), `dialog` 480 | |
 | Radius | `xs` 2, `sm` 8, `ikon` 10, `md` 12, `tab` 14, `lg` 16, `sheet` 20, `full` | |
 | Garis | `border` 1, `border-1.5`, `border-2`, `border-2.5`, `border-3` | |
 | Bayangan | `shadow-fokus`, `shadow-pilihan`, `shadow-garis` | Tidak ada bayangan jatuh |

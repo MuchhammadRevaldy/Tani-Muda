@@ -1,6 +1,13 @@
 import type { ReactNode } from 'react';
 import { cx } from './gabung-kelas';
-import { HeaderPembeli, NavigasiBawah, Sidebar, type Akun, type Lencana } from './navigasi';
+import {
+  HeaderPembeli,
+  NavigasiBawah,
+  Sidebar,
+  type Akun,
+  type Lencana,
+  type MenuPetani,
+} from './navigasi';
 
 /**
  * Kerangka halaman petani (D-07):
@@ -13,9 +20,11 @@ export function KerangkaPetani({
   children,
   tanpaNav,
   onKeluar,
+  menuAktif,
   className,
 }: {
   akun: Akun;
+  menuAktif?: MenuPetani;
   lencana?: Lencana;
   children: ReactNode;
   /** Halaman alur (Hitung) tidak memakai navigasi bawah di HP, sama dengan desain. */
@@ -29,6 +38,7 @@ export function KerangkaPetani({
         akun={akun}
         lencana={lencana}
         onKeluar={onKeluar}
+        menuAktif={menuAktif}
         className="sticky top-0 hidden h-screen lg:flex"
       />
       <div className="flex min-w-0 flex-1 flex-col">

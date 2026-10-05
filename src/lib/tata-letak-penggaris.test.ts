@@ -193,6 +193,17 @@ describe('hitungTataLetakPenggaris', () => {
     expect(t.pin[0]?.status).toBe('belum');
     expect(t.pin[0]?.frasa).toBe('14 hari lagi');
   });
+  it('label hari antar-tik siklus panjang tidak saling menimpa (padi 110 hari)', () => {
+    const t = hitung(490, 0, 110, [{ hari: 14, label: 'Pupuk 1' }], 'lebar');
+    const kotak = t.ujung
+      .map((u) => ({ kiri: u.kiri, kanan: u.kiri + ukurTeksPerkiraan(u.teks, 400) }))
+      .sort((a, b) => a.kiri - b.kiri);
+    for (let i = 1; i < kotak.length; i++) {
+      expect(kotak[i]!.kiri).toBeGreaterThan(kotak[i - 1]!.kanan);
+    }
+    expect(t.ujung.length).toBeGreaterThan(2);
+    expect(t.ujung.length).toBeLessThan(t.tik.length);
+  });
   it('pin bertabrakan di varian lebar naik tingkat', () => {
     const t = hitung(
       320,

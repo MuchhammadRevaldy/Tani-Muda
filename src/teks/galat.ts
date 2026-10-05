@@ -22,6 +22,7 @@ export const teksGalat: Record<KodeGalat, string> = {
   PANEN_NEGATIF: 'Perkiraan panen tidak boleh kurang dari nol',
   HASIL_KOSONG: 'Perkiraan hasil panen belum ada di resep',
   NAMA_KOSONG: 'Isi nama mereknya dulu',
+  NAMA_ITEM_KOSONG: 'Isi nama item dulu',
   PEMBAGIAN_TIDAK_VALID: 'Jumlah siklus pembagian minimal 1',
   HST_TIDAK_VALID: 'Hari di resep tidak masuk akal',
   INTERVAL_TIDAK_VALID: 'Jarak hari tugas berulang minimal 1',

@@ -4,7 +4,7 @@
  */
 import { kunciKueri as kk } from '../../lib/kunci-kueri';
 import type * as T from '../tipe';
-import { useKueriApi as q, useMutasiApi as m } from './bantu';
+import { useKueriApi as q, useKueriBanyak as qBanyak, useMutasiApi as m } from './bantu';
 
 export { kunciIdempotenBaru } from './bantu';
 
@@ -48,6 +48,13 @@ export const useHargaSekitar = (inputId: string | null) =>
     (k) => k.referensi.hargaSekitar(inputId as string),
     !!inputId,
   );
+/** Harga rata-rata sekitar untuk banyak input sekaligus (kalkulator). */
+export const useHargaSekitarBanyak = (inputIds: string[]) =>
+  qBanyak(
+    inputIds,
+    (id) => kk('referensi', 'harga-sekitar', id),
+    (k, id) => k.referensi.hargaSekitar(id),
+  );
 export const useLaporHarga = () =>
   m((k, x: T.LaporHargaMasukan) => k.referensi.laporHarga(x), ['referensi']);
 export const usePromo = () => q(kk('referensi', 'promo'), (k) => k.referensi.promo());
@@ -89,6 +96,13 @@ export const useAkhiriSiklus = () =>
   );
 export const useTugas = (siklusId: string | null) =>
   q(kk('kebun', 'tugas', siklusId), (k) => k.kebun.daftarTugas(siklusId as string), !!siklusId);
+/** Tugas beberapa siklus sekaligus (kunci sama dengan useTugas, jadi berbagi cache). */
+export const useTugasBanyakSiklus = (ids: string[]) =>
+  qBanyak(
+    ids,
+    (id) => kk('kebun', 'tugas', id),
+    (k, id) => k.kebun.daftarTugas(id),
+  );
 export const useTugasHariIni = () =>
   q(kk('kebun', 'tugas-hari-ini'), (k) => k.kebun.tugasHariIni());
 export const useSelesaikanTugas = () =>

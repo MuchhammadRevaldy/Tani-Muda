@@ -1,8 +1,10 @@
 /** Teks Beranda petani (papan 03–07, T4.09). Petani disapa "kamu". */
+import type { WaktuSalam } from '../lib/beranda';
 import { formatDesimal, formatTanggal, titikRibuan } from '../lib/format';
 
 export const teksBeranda = {
-  salam: (nama: string) => `Halo, ${nama.split(/\s+/)[0] ?? nama}`,
+  /** "Selamat pagi, Arif" (D-37). */
+  salam: (waktu: WaktuSalam, nama: string) => `Selamat ${waktu}, ${nama.split(/\s+/)[0] ?? nama}`,
   /** "Sabtu, 3 Oktober · Lembang" */
   tanggalDesa: (tanggal: string, desa: string | null) =>
     [formatTanggal(tanggal), desa].filter(Boolean).join(' · '),

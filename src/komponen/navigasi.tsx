@@ -193,10 +193,13 @@ export function Sidebar({
   lencana = {},
   menuTerbukaAwal = false,
   onKeluar,
+  menuAktif,
   className,
 }: {
   akun: Akun;
   lencana?: Lencana;
+  /** Menu yang ditandai aktif walau alamatnya lain (mis. alur Hitung di bawah Kebun). */
+  menuAktif?: MenuPetani;
   /** Untuk halaman /komponen dan tangkapan layar (papan 10 desktop). */
   menuTerbukaAwal?: boolean;
   onKeluar?: () => void;
@@ -223,10 +226,11 @@ export function Sidebar({
             <NavLink
               key={m.id}
               to={m.ke}
+              aria-current={m.id === menuAktif ? 'page' : undefined}
               className={({ isActive }) =>
                 cx(
                   'fokus-cincin flex min-h-sentuh items-center gap-3 rounded-md px-3 no-underline',
-                  isActive
+                  isActive || m.id === menuAktif
                     ? 'bg-daun-lembut font-semibold text-daun-tua hover:text-daun-tua'
                     : 'font-medium text-teks-pendukung hover:bg-embun-pagi hover:text-teks',
                 )

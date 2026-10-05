@@ -198,6 +198,7 @@ export function hitungTataLetakPenggaris(masukan: {
   ];
   if (L) for (const d of hariTik) calonUjung.push({ d, teks: t.hariKe(d), rata: 'tengah' });
   const ujung: TataLetakPenggaris['ujung'] = [];
+  const dipakai: { kiri: number; w: number }[] = [];
   for (const u of calonUjung) {
     const w = ukurTeks(u.teks, 400);
     const kiri =
@@ -208,6 +209,9 @@ export function hitungTataLetakPenggaris(masukan: {
           : xHari(u.d) - w / 2;
     if (bertabrakan(kiri, w)) continue;
     if (L && pins.some((p) => p.jadwal.hari === u.d)) continue;
+    // Label hari antar-tik tidak boleh saling menimpa (siklus panjang seperti padi 110 hari).
+    if (dipakai.some((x) => !(kiri + w + 12 < x.kiri || kiri > x.kiri + x.w + 12))) continue;
+    dipakai.push({ kiri, w });
     ujung.push({ teks: u.teks, kiri, atas: yLabel + 5 });
   }
 

@@ -56,7 +56,9 @@ describe('Masuk (T4.33)', () => {
     await userEvent.click(screen.getByLabelText('Angka ke-1'));
     await userEvent.paste(benar);
     await userEvent.click(screen.getByRole('button', { name: 'Masuk' }));
-    expect(await screen.findByRole('heading', { name: 'Halo, Arif' })).toBeInTheDocument();
+    expect(
+      await screen.findByRole('heading', { name: /^Selamat (pagi|siang|sore|malam), Arif$/ }),
+    ).toBeInTheDocument();
     expect(router.state.location.pathname).toBe('/beranda');
   });
 
@@ -127,7 +129,9 @@ describe('Pemilih akun demo (T4.01)', () => {
 describe('Beranda petani (T4.09)', () => {
   it('menampilkan siklus, label contoh, tugas terlambat, dan tawaran pesanan', async () => {
     await buka('/beranda', (t) => t.kontrol.masukSebagai('petani-arif'));
-    expect(await screen.findByRole('heading', { name: 'Halo, Arif' })).toBeInTheDocument();
+    expect(
+      await screen.findByRole('heading', { name: /^Selamat (pagi|siang|sore|malam), Arif$/ }),
+    ).toBeInTheDocument();
     expect(
       await screen.findByRole('heading', { name: 'Sawi hijau · Kebun belakang rumah', level: 2 }),
     ).toBeInTheDocument();

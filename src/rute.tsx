@@ -1,5 +1,6 @@
 import { lazy, Suspense, useEffect, type ReactNode } from 'react';
 import { createBrowserRouter, Outlet, type RouteObject } from 'react-router-dom';
+import type { MenuPetani } from './komponen/navigasi';
 import { HeaderHalaman } from './komponen/navigasi';
 import { KerangkaPanel } from './komponen/kerangka';
 import { KerangkaPembeliSesi, KerangkaPetaniSesi } from './komponen/kerangka-sesi';
@@ -10,6 +11,12 @@ import { HalamanKomponen } from './halaman/komponen';
 import { HalamanMasuk } from './halaman/masuk';
 import { HalamanPilihPeran } from './halaman/pilih-peran';
 import { HalamanBeranda } from './halaman/beranda';
+import { HalamanKalkulator } from './halaman/hitung/kalkulator';
+import { HalamanPilihMetode } from './halaman/hitung/pilih-metode';
+import { HalamanPilihTanaman } from './halaman/hitung/pilih-tanaman';
+import { HalamanPilihTanggalTanam } from './halaman/hitung/pilih-tanggal-tanam';
+import { PenyediaRencana } from './halaman/hitung/use-rencana';
+import { HalamanLahanSaya } from './halaman/lahan-saya';
 import { Memuat } from './halaman/memuat';
 import { judulRute, type KunciRute } from './teks/rute';
 import { teksUmum } from './teks/umum';
@@ -43,10 +50,10 @@ function Sementara({ kunci }: { kunci: KunciRute }) {
 const halamanPetani = (
   kunci: KunciRute,
   isi: ReactNode = <Sementara kunci={kunci} />,
-  opsi: { tanpaNav?: boolean } = {},
+  opsi: { tanpaNav?: boolean; menuAktif?: MenuPetani } = {},
 ): ReactNode => (
   <PenjagaRute peran={['petani']}>
-    <KerangkaPetaniSesi tanpaNav={opsi.tanpaNav}>
+    <KerangkaPetaniSesi tanpaNav={opsi.tanpaNav} menuAktif={opsi.menuAktif}>
       <JudulDokumen kunci={kunci} />
       {isi}
     </KerangkaPetaniSesi>
@@ -54,6 +61,9 @@ const halamanPetani = (
 );
 const petani = (kunci: KunciRute, opsi: { tanpaNav?: boolean } = {}): ReactNode =>
   halamanPetani(kunci, <Sementara kunci={kunci} />, opsi);
+
+const hitung = (kunci: KunciRute, isi: ReactNode): ReactNode =>
+  halamanPetani(kunci, isi, { tanpaNav: true, menuAktif: 'kebun' });
 
 const pembeli = (kunci: KunciRute): ReactNode => (
   <PenjagaRute peran={['pembeli']}>
@@ -127,9 +137,21 @@ export const daftarRute: RouteObject[] = [
         ),
       },
       { path: '/beranda', element: halamanPetani('beranda', <HalamanBeranda />) },
-      { path: '/hitung/tanaman', element: petani('pilihTanaman', { tanpaNav: true }) },
-      { path: '/hitung/metode', element: petani('pilihMetode', { tanpaNav: true }) },
-      { path: '/hitung/modal', element: petani('hitungModal', { tanpaNav: true }) },
+      {
+        // Alur Hitung: suntingan rencana bertahan saat pindah langkah (T4.05–T4.08).
+        path: '/hitung',
+        element: (
+          <PenyediaRencana>
+            <Outlet />
+          </PenyediaRencana>
+        ),
+        children: [
+          { path: 'tanaman', element: hitung('pilihTanaman', <HalamanPilihTanaman />) },
+          { path: 'metode', element: hitung('pilihMetode', <HalamanPilihMetode />) },
+          { path: 'modal', element: hitung('hitungModal', <HalamanKalkulator />) },
+          { path: 'simpan', element: hitung('simpanRencana', <HalamanPilihTanggalTanam />) },
+        ],
+      },
       { path: '/kebun', element: petani('kebun') },
       { path: '/kebun/:id/jadwal', element: petani('jadwal') },
       { path: '/kebun/:id/modal', element: petani('modal') },
@@ -146,7 +168,7 @@ export const daftarRute: RouteObject[] = [
       { path: '/profil', element: petani('profil') },
       { path: '/profil/ubah', element: petani('ubahProfil') },
       { path: '/profil/notifikasi', element: petani('pengingat') },
-      { path: '/lahan', element: petani('lahan') },
+      { path: '/lahan', element: halamanPetani('lahan', <HalamanLahanSaya />) },
       { path: '/pembeli', element: pembeli('dasborPembeli') },
       { path: '/pembeli/riwayat', element: pembeli('riwayat') },
       { path: '/pembeli/pembayaran', element: pembeli('pembayaran') },

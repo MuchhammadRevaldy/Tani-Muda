@@ -303,6 +303,20 @@ Tafsiran teknis saat menulis `docs/kontrak-api.md`. Tidak mengubah perilaku prod
 - **Tahap 4 dikerjakan per gelombang** berisi paling banyak 8 tugas, mengikuti alur demo (tabel di `rencana-kerja.md`). Setiap gelombang ditutup dengan lint, typecheck, test, build, tangkapan layar setiap halaman, dan satu commit lokal.
 - Berdampak ke: T4.01–T4.41, T5.08.
 
+## D-37. Tanggapan atas gelombang 1 Tahap 4
+- Tangkapan layar gelombang 1 disetujui tanpa catatan.
+- **Beberapa siklus aktif**: pil pemilih siklus di Beranda disetujui. Saat halaman dibuka, pil yang terpilih adalah **siklus dengan tugas paling mendesak**: yang punya tugas terlambat lebih dulu, lalu tugas hari ini, lalu tugas besok. Bila sama, ikuti urutan daftar siklus.
+- **Salam ikut desain**: "Selamat pagi/siang/sore/malam, {nama}" menurut **jam setempat pengguna** (`pengguna.zona_waktu`), di semua keadaan Beranda. Batas jam: pagi 04.00–10.59, siang 11.00–14.59, sore 15.00–17.59, malam 18.00–03.59.
+- **Tombol kanan atas Beranda di HP tetap avatar ke Profil.** Lonceng tidak dipakai di v1.
+- **Banner "Besok" yang rinci** dikerjakan di gelombang 3 bersama langkah cara mengerjakan di resep (T4.11).
+- **Lencana menu Pesanan** dikerjakan di gelombang 4: jumlah pesanan baru di sekitar sejak petani terakhir membuka menu Pesanan.
+- **Penanda "tersimpan di HP, belum terkirim"** dikerjakan di T6.05.
+- **Token `judul-masuk` 32/40** disetujui.
+- **Persiapan demo**:
+  - `npm run demo` menjalankan mode pengembangan dengan semua pengaturan demo menyala (sumber data tiruan, resep contoh tampil) tanpa bergantung pada isi `.env`. Halaman akun demo punya tombol "Atur ulang data demo".
+  - Tugas opsional **T6.09 `build:demo`**: build khusus demo (data tiruan, pemilih akun demo, label "Mode demo" yang selalu terlihat) untuk hosting statis bila juri butuh tautan sebelum backend siap. Build produksi biasa tetap tanpa akun demo.
+- Berdampak ke: T4.09, T4.18, T6.05, T6.09.
+
 ---
 
 ## Riwayat
@@ -314,4 +328,5 @@ Tafsiran teknis saat menulis `docs/kontrak-api.md`. Tidak mengubah perilaku prod
 | 2026-10-05 | D-21 sampai D-25 ditetapkan: cookie Sanctum (token untuk React Native), 404 untuk data orang lain, konfirmasi otomatis setiap 15 menit, siap deploy VPS, PHP 8.3+ terpisah |
 | 2026-10-05 | D-26 sampai D-34 ditetapkan: menu Kebun, wilayah berkode Kemendagri, konfigurasi lewat git, video, persetujuan privasi draf, UTC + zona waktu per pengguna, iPhone, repositori, tanggapan tafsiran Tahap 2 (kapasitas dan nilai pengukuran diubah) |
 | 2026-10-05 | D-35 ditetapkan: tafsiran teknis kontrak API dan data tiruan (kolom tambahan, format waktu UTC, tanggal relatif, penyimpanan tiruan, OTP tiruan) |
+| 2026-10-06 | D-37 ditetapkan: tanggapan gelombang 1 (pil siklus paling mendesak, salam menurut jam setempat, avatar ke profil, lencana pesanan di gelombang 4, `npm run demo`, tugas opsional `build:demo`) |
 | 2026-10-05 | D-36 ditetapkan: tanggapan Tahap 3 (wilayah Lembang sementara dan wajib dicocokkan dengan data resmi, label contoh sebagai kriteria Tahap 4, pemilih akun demo hanya mode tiruan, gelombang Tahap 4) |

@@ -5,8 +5,10 @@ import {
   jumlahTerlambat,
   pinPenggaris,
   persenTerpakai,
+  siklusPalingMendesak,
   tugasBesok,
   tugasHariIni,
+  waktuSalam,
   type TugasSiklus,
 } from './beranda';
 
@@ -187,5 +189,62 @@ describe('persenTerpakai', () => {
     expect(persenTerpakai(100, 0)).toBe(0);
     expect(persenTerpakai(-5, 100)).toBe(0);
     expect(persenTerpakai(150, 100)).toBe(150);
+  });
+});
+
+describe('waktuSalam', () => {
+  it('batas jam pagi, siang, sore, malam', () => {
+    expect([3, 4, 10, 11, 14, 15, 17, 18, 23, 0].map(waktuSalam)).toEqual([
+      'malam',
+      'pagi',
+      'pagi',
+      'siang',
+      'siang',
+      'sore',
+      'sore',
+      'malam',
+      'malam',
+      'malam',
+    ]);
+  });
+});
+
+describe('siklusPalingMendesak', () => {
+  const urutan = ['a', 'b', 'c'];
+  it('terlambat mengalahkan hari ini, hari ini mengalahkan besok', () => {
+    expect(
+      siklusPalingMendesak(
+        urutan,
+        [
+          tugas('x', HARI_INI, { siklusId: 'a' }),
+          tugas('y', '2026-10-01', { siklusId: 'b' }),
+          tugas('z', '2026-10-04', { siklusId: 'c' }),
+        ],
+        HARI_INI,
+      ),
+    ).toBe('b');
+    expect(
+      siklusPalingMendesak(
+        urutan,
+        [tugas('z', '2026-10-04', { siklusId: 'a' }), tugas('x', HARI_INI, { siklusId: 'c' })],
+        HARI_INI,
+      ),
+    ).toBe('c');
+  });
+  it('tugas selesai dan tugas siklus lain diabaikan; seri → urutan daftar; kosong → null', () => {
+    expect(
+      siklusPalingMendesak(
+        urutan,
+        [
+          tugas('x', '2026-10-01', { siklusId: 'c', status: 'selesai' }),
+          tugas('y', HARI_INI, { siklusId: 'z' }),
+          tugas('w', '2026-10-04', { siklusId: 'b' }),
+          tugas('v', '2026-10-04', { siklusId: 'c' }),
+        ],
+        HARI_INI,
+      ),
+    ).toBe('b');
+    expect(siklusPalingMendesak(urutan, [], HARI_INI)).toBe('a');
+    expect(siklusPalingMendesak([], [], HARI_INI)).toBeNull();
   });
 });

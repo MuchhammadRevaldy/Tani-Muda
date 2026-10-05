@@ -12,10 +12,11 @@ import {
   useRiwayatPengukuran,
   useSiklus,
   useTugas,
+  useTugasBanyakSiklus,
   useTugasHariIni,
 } from '../api/kueri';
 import { tugasKeDomain } from '../api/peta';
-import { useHariIni, useSesi } from '../api/sesi';
+import { useSesi, useWaktuLokal } from '../api/sesi';
 import type { SiklusTanam, Tugas } from '../api/tipe';
 import { Avatar } from '../komponen/avatar';
 import { Banner } from '../komponen/banner';
@@ -24,7 +25,14 @@ import { useDesaSaya } from '../komponen/kerangka-sesi';
 import { DaftarLangkah } from '../komponen/pelengkap';
 import { PilPilihan } from '../komponen/pilihan';
 import { kelasTombol, Tombol } from '../komponen/tombol';
-import { hasilUkurTerakhir, tugasBesok, tugasHariIni } from '../lib/beranda';
+import {
+  hasilUkurTerakhir,
+  siklusPalingMendesak,
+  tugasBesok,
+  tugasHariIni,
+  waktuSalam,
+  type WaktuSalam,
+} from '../lib/beranda';
 import { statusTugas } from '../lib/jadwal-ubah';
 import { teksBeranda as t } from '../teks/beranda';
 import { teksSesi } from '../teks/sesi';
@@ -38,11 +46,13 @@ import { useDaring, useIzinNotifikasi } from './beranda/keadaan-perangkat';
 
 function Kepala({
   nama,
+  waktu,
   tanggal,
   desa,
   tombolBaru = true,
 }: {
   nama: string;
+  waktu: WaktuSalam;
   tanggal: string;
   desa: string | null;
   tombolBaru?: boolean;
@@ -51,7 +61,7 @@ function Kepala({
     <header className="flex flex-wrap items-center justify-between gap-3 pt-1 lg:items-end lg:gap-4 lg:pt-2">
       <div className="flex flex-col gap-0.5">
         <p className="m-0 text-keterangan text-teks-pendukung">{t.tanggalDesa(tanggal, desa)}</p>
-        <h1 className="m-0 text-judul-halaman font-semibold">{t.salam(nama)}</h1>
+        <h1 className="m-0 text-judul-halaman font-semibold">{t.salam(waktu, nama)}</h1>
       </div>
       <Link
         to="/profil"
@@ -71,7 +81,8 @@ function Kepala({
 
 export function HalamanBeranda() {
   const navigate = useNavigate();
-  const hariIni = useHariIni();
+  const { tanggal: hariIni, jam } = useWaktuLokal();
+  const waktu = waktuSalam(jam);
   const { akun } = useSesi();
   const desa = useDesaSaya();
   const daring = useDaring();
@@ -86,7 +97,18 @@ export function HalamanBeranda() {
   const pesananQ = usePesananSekitar({ per_halaman: 1 });
 
   const aktif = siklusQ.data ?? [];
-  const dipilih = aktif.find((s) => s.id === param.get('siklus')) ?? aktif[0] ?? null;
+  // Tanpa ?siklus=, pilih siklus dengan tugas paling mendesak (D-37).
+  const semuaTugas = useTugasBanyakSiklus(param.get('siklus') ? [] : aktif.map((s) => s.id));
+  const idMendesak = semuaTugas.data
+    ? siklusPalingMendesak(
+        aktif.map((s) => s.id),
+        semuaTugas.data.flat().map((x) => ({ ...tugasKeDomain(x), siklusId: x.siklus_id })),
+        hariIni,
+      )
+    : null;
+  const dipilih =
+    aktif.find((s) => s.id === (param.get('siklus') ?? idMendesak)) ??
+    (semuaTugas.isPending ? null : (aktif[0] ?? null));
   const detailQ = useSiklus(dipilih?.id ?? null);
   const tugasSiklusQ = useTugas(dipilih?.id ?? null);
   const ukurQ = useRiwayatPengukuran(dipilih?.id ?? null);
@@ -98,10 +120,10 @@ export function HalamanBeranda() {
       lahanQ.data?.find((l) => l.id === s.lahan_id)?.nama ?? '',
     );
 
-  const kepala = <Kepala nama={nama} tanggal={hariIni} desa={desa} />;
+  const kepala = <Kepala nama={nama} waktu={waktu} tanggal={hariIni} desa={desa} />;
   const bannerOffline = daring ? null : <Banner jenis="offline">{t.offlineIsi}</Banner>;
 
-  if (siklusQ.isPending || tugasQ.isPending) {
+  if (siklusQ.isPending || tugasQ.isPending || (aktif.length > 0 && !dipilih)) {
     return (
       <>
         {kepala}
@@ -134,7 +156,7 @@ export function HalamanBeranda() {
     return (
       <>
         {bannerOffline}
-        <Kepala nama={nama} tanggal={hariIni} desa={desa} tombolBaru={false} />
+        <Kepala nama={nama} waktu={waktu} tanggal={hariIni} desa={desa} tombolBaru={false} />
         <BerandaKosong />
       </>
     );

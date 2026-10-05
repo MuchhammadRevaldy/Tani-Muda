@@ -10,6 +10,7 @@ export const judulRute = {
   pilihTanaman: 'Mau tanam apa?',
   pilihMetode: 'Pilih cara tanam',
   hitungModal: 'Hitung modal',
+  simpanRencana: 'Simpan rencana',
   kebun: 'Kebun',
   jadwal: 'Jadwal',
   modal: 'Modal',
