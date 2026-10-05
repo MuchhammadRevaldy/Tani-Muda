@@ -1,0 +1,279 @@
+{
+  "pengguna": [
+    {
+      "id": "petani-arif",
+      "nomor_hp": "+6281200000001",
+      "nama": "Arif Setiawan",
+      "peran": "petani",
+      "wilayah_id": "32.17.01.2003",
+      "foto_profil": null,
+      "status_akun": "aktif",
+      "zona_waktu": "Asia/Jakarta",
+      "setuju_privasi_pada": "H-60T08:00",
+      "versi_privasi": "draf-2026-10",
+      "dibuat_pada": "H-60T08:00"
+    },
+    {
+      "id": "petani-dewi",
+      "nomor_hp": "+6281200000002",
+      "nama": "Dewi Lestari",
+      "peran": "petani",
+      "wilayah_id": "32.17.01.2013",
+      "foto_profil": null,
+      "status_akun": "aktif",
+      "zona_waktu": "Asia/Jakarta",
+      "setuju_privasi_pada": "H-60T08:00",
+      "versi_privasi": "draf-2026-10",
+      "dibuat_pada": "H-60T08:00"
+    },
+    {
+      "id": "petani-budi",
+      "nomor_hp": "+6281200000003",
+      "nama": "Budi Santoso",
+      "peran": "petani",
+      "wilayah_id": "32.17.01.2004",
+      "foto_profil": null,
+      "status_akun": "dinonaktifkan_sementara",
+      "zona_waktu": "Asia/Jakarta",
+      "setuju_privasi_pada": "H-60T08:00",
+      "versi_privasi": "draf-2026-10",
+      "dibuat_pada": "H-60T08:00"
+    },
+    {
+      "id": "petani-sari",
+      "nomor_hp": "+6281200000004",
+      "nama": "Sari Wulandari",
+      "peran": "petani",
+      "wilayah_id": "32.17.01.2005",
+      "foto_profil": null,
+      "status_akun": "aktif",
+      "zona_waktu": "Asia/Jakarta",
+      "setuju_privasi_pada": "H-60T08:00",
+      "versi_privasi": "draf-2026-10",
+      "dibuat_pada": "H-60T08:00"
+    },
+    {
+      "id": "petani-yogi",
+      "nomor_hp": "+6281200000005",
+      "nama": "Yogi Pratama",
+      "peran": "petani",
+      "wilayah_id": "32.17.01.2001",
+      "foto_profil": null,
+      "status_akun": "aktif",
+      "zona_waktu": "Asia/Jakarta",
+      "setuju_privasi_pada": "H-60T08:00",
+      "versi_privasi": "draf-2026-10",
+      "dibuat_pada": "H-60T08:00"
+    },
+    {
+      "id": "pembeli-ratna",
+      "nomor_hp": "+6281300000001",
+      "nama": "Ratna Kusuma",
+      "peran": "pembeli",
+      "wilayah_id": "32.17.01.2002",
+      "foto_profil": null,
+      "status_akun": "aktif",
+      "zona_waktu": "Asia/Jakarta",
+      "setuju_privasi_pada": "H-60T08:00",
+      "versi_privasi": "draf-2026-10",
+      "dibuat_pada": "H-60T08:00"
+    },
+    {
+      "id": "pembeli-imas",
+      "nomor_hp": "+6281300000002",
+      "nama": "Imas Rohimah",
+      "peran": "pembeli",
+      "wilayah_id": "32.17.01.2005",
+      "foto_profil": null,
+      "status_akun": "aktif",
+      "zona_waktu": "Asia/Jakarta",
+      "setuju_privasi_pada": "H-60T08:00",
+      "versi_privasi": "draf-2026-10",
+      "dibuat_pada": "H-60T08:00"
+    },
+    {
+      "id": "pembeli-kafe",
+      "nomor_hp": "+6281300000003",
+      "nama": "Galih Ramadhan",
+      "peran": "pembeli",
+      "wilayah_id": "32.73.03.1004",
+      "foto_profil": null,
+      "status_akun": "aktif",
+      "zona_waktu": "Asia/Jakarta",
+      "setuju_privasi_pada": "H-60T08:00",
+      "versi_privasi": "draf-2026-10",
+      "dibuat_pada": "H-60T08:00"
+    },
+    {
+      "id": "pembeli-koperasi",
+      "nomor_hp": "+6281300000004",
+      "nama": "Hendra Wijaya",
+      "peran": "pembeli",
+      "wilayah_id": "32.17.01.2013",
+      "foto_profil": null,
+      "status_akun": "aktif",
+      "zona_waktu": "Asia/Jakarta",
+      "setuju_privasi_pada": "H-60T08:00",
+      "versi_privasi": "draf-2026-10",
+      "dibuat_pada": "H-60T08:00"
+    },
+    {
+      "id": "pembeli-lestari",
+      "nomor_hp": "+6281300000005",
+      "nama": "Lestari Ayu",
+      "peran": "pembeli",
+      "wilayah_id": "32.73.10.1001",
+      "foto_profil": null,
+      "status_akun": "aktif",
+      "zona_waktu": "Asia/Jakarta",
+      "setuju_privasi_pada": "H-60T08:00",
+      "versi_privasi": "draf-2026-10",
+      "dibuat_pada": "H-60T08:00"
+    },
+    {
+      "id": "pembeli-baru",
+      "nomor_hp": "+6281300000006",
+      "nama": "Nina Marlina",
+      "peran": "pembeli",
+      "wilayah_id": "32.17.01.2001",
+      "foto_profil": null,
+      "status_akun": "aktif",
+      "zona_waktu": "Asia/Jakarta",
+      "setuju_privasi_pada": "H-60T08:00",
+      "versi_privasi": "draf-2026-10",
+      "dibuat_pada": "H-60T08:00"
+    },
+    {
+      "id": "mentor-rahmat",
+      "nomor_hp": "+6281400000001",
+      "nama": "Rahmat Hidayat",
+      "peran": "mentor",
+      "wilayah_id": "32.17.01.2003",
+      "foto_profil": null,
+      "status_akun": "aktif",
+      "zona_waktu": "Asia/Jakarta",
+      "setuju_privasi_pada": "H-60T08:00",
+      "versi_privasi": "draf-2026-10",
+      "dibuat_pada": "H-60T08:00"
+    },
+    {
+      "id": "admin-tani",
+      "nomor_hp": "+6281500000001",
+      "nama": "Admin Tani Muda",
+      "peran": "admin",
+      "wilayah_id": "32.17.01.2003",
+      "foto_profil": null,
+      "status_akun": "aktif",
+      "zona_waktu": "Asia/Jakarta",
+      "setuju_privasi_pada": "H-60T08:00",
+      "versi_privasi": "draf-2026-10",
+      "dibuat_pada": "H-60T08:00"
+    }
+  ],
+  "profil_pembeli": [
+    {
+      "pengguna_id": "pembeli-ratna",
+      "nama_usaha": "Katering Bu Ratna",
+      "jenis_usaha": "katering",
+      "alamat": "Alamat contoh Katering Bu Ratna",
+      "wilayah_id": "32.17.01.2002",
+      "foto_tempat_usaha": null,
+      "status_verifikasi": "terverifikasi",
+      "alasan_ditolak": null
+    },
+    {
+      "pengguna_id": "pembeli-imas",
+      "nama_usaha": "Warung Nasi Bu Imas",
+      "jenis_usaha": "warung",
+      "alamat": "Alamat contoh Warung Nasi Bu Imas",
+      "wilayah_id": "32.17.01.2005",
+      "foto_tempat_usaha": null,
+      "status_verifikasi": "terverifikasi",
+      "alasan_ditolak": null
+    },
+    {
+      "pengguna_id": "pembeli-kafe",
+      "nama_usaha": "Kafe Daun Pagi",
+      "jenis_usaha": "restoran",
+      "alamat": "Alamat contoh Kafe Daun Pagi",
+      "wilayah_id": "32.73.03.1004",
+      "foto_tempat_usaha": null,
+      "status_verifikasi": "terverifikasi",
+      "alasan_ditolak": null
+    },
+    {
+      "pengguna_id": "pembeli-koperasi",
+      "nama_usaha": "Koperasi Desa Sumber Rejeki",
+      "jenis_usaha": "koperasi",
+      "alamat": "Alamat contoh Koperasi Desa Sumber Rejeki",
+      "wilayah_id": "32.17.01.2013",
+      "foto_tempat_usaha": null,
+      "status_verifikasi": "terverifikasi",
+      "alasan_ditolak": null
+    },
+    {
+      "pengguna_id": "pembeli-lestari",
+      "nama_usaha": "Katering Sehat Lestari",
+      "jenis_usaha": "katering",
+      "alamat": "Alamat contoh Katering Sehat Lestari",
+      "wilayah_id": "32.73.10.1001",
+      "foto_tempat_usaha": null,
+      "status_verifikasi": "terverifikasi",
+      "alasan_ditolak": null
+    },
+    {
+      "pengguna_id": "pembeli-baru",
+      "nama_usaha": "Kedai Sayur Pagi",
+      "jenis_usaha": "warung",
+      "alamat": "Alamat contoh Kedai Sayur Pagi",
+      "wilayah_id": "32.17.01.2001",
+      "foto_tempat_usaha": null,
+      "status_verifikasi": "menunggu",
+      "alasan_ditolak": null
+    }
+  ],
+  "catatan_petani": [
+    {
+      "id": "catatan-1",
+      "petani_id": "petani-budi",
+      "jenis": "tidak_memberi_kabar",
+      "pengiriman_id": null,
+      "isi": "Tidak memberi kabar gagal panen paling lambat 3 hari sebelum jadwal kirim.",
+      "dibuat_pada": "H-12T09:00"
+    }
+  ],
+  "pengguna_uji": [
+    {
+      "pengguna_id": "petani-arif",
+      "keterangan": "Petani aktif dengan tiga siklus dan dua lahan"
+    },
+    {
+      "pengguna_id": "petani-dewi",
+      "keterangan": "Petani padi dengan pesanan sekali panen"
+    },
+    {
+      "pengguna_id": "petani-budi",
+      "keterangan": "Petani dinonaktifkan sementara"
+    },
+    {
+      "pengguna_id": "pembeli-ratna",
+      "keterangan": "Pembeli terverifikasi, pesanan rutin"
+    },
+    {
+      "pengguna_id": "pembeli-imas",
+      "keterangan": "Pembeli dengan kiriman menunggu konfirmasi"
+    },
+    {
+      "pengguna_id": "pembeli-baru",
+      "keterangan": "Pembeli menunggu verifikasi"
+    },
+    {
+      "pengguna_id": "mentor-rahmat",
+      "keterangan": "Mentor (penyuluh)"
+    },
+    {
+      "pengguna_id": "admin-tani",
+      "keterangan": "Admin"
+    }
+  ]
+}

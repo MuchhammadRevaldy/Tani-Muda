@@ -1,0 +1,1647 @@
+{
+  "komoditas": [
+    {
+      "id": "sawi",
+      "nama": "Sawi hijau",
+      "kategori": "sayuran_daun",
+      "jenis_lahan_cocok": ["kebun", "pekarangan", "hidroponik"],
+      "satuan_panen": "kg",
+      "umur_panen_hari": 28
+    },
+    {
+      "id": "bayam",
+      "nama": "Bayam",
+      "kategori": "sayuran_daun",
+      "jenis_lahan_cocok": ["kebun", "pekarangan", "hidroponik"],
+      "satuan_panen": "kg",
+      "umur_panen_hari": 25
+    },
+    {
+      "id": "kangkung",
+      "nama": "Kangkung",
+      "kategori": "sayuran_daun",
+      "jenis_lahan_cocok": ["kebun", "pekarangan", "hidroponik"],
+      "satuan_panen": "kg",
+      "umur_panen_hari": 21
+    },
+    {
+      "id": "pakcoy",
+      "nama": "Pakcoy",
+      "kategori": "sayuran_daun",
+      "jenis_lahan_cocok": ["kebun", "pekarangan", "hidroponik"],
+      "satuan_panen": "kg",
+      "umur_panen_hari": 40
+    },
+    {
+      "id": "cabai",
+      "nama": "Cabai rawit",
+      "kategori": "sayuran_buah",
+      "jenis_lahan_cocok": ["kebun", "pekarangan"],
+      "satuan_panen": "kg",
+      "umur_panen_hari": 90
+    },
+    {
+      "id": "tomat",
+      "nama": "Tomat",
+      "kategori": "sayuran_buah",
+      "jenis_lahan_cocok": ["kebun", "pekarangan"],
+      "satuan_panen": "kg",
+      "umur_panen_hari": 75
+    },
+    {
+      "id": "mentimun",
+      "nama": "Mentimun",
+      "kategori": "sayuran_buah",
+      "jenis_lahan_cocok": ["kebun", "pekarangan"],
+      "satuan_panen": "kg",
+      "umur_panen_hari": 40
+    },
+    {
+      "id": "terong",
+      "nama": "Terong",
+      "kategori": "sayuran_buah",
+      "jenis_lahan_cocok": ["kebun", "pekarangan"],
+      "satuan_panen": "kg",
+      "umur_panen_hari": 65
+    },
+    {
+      "id": "padi",
+      "nama": "Padi sawah",
+      "kategori": "tanaman_pangan",
+      "jenis_lahan_cocok": ["sawah"],
+      "satuan_panen": "kg gabah",
+      "umur_panen_hari": 110
+    },
+    {
+      "id": "jagung",
+      "nama": "Jagung manis",
+      "kategori": "tanaman_pangan",
+      "jenis_lahan_cocok": ["kebun", "sawah"],
+      "satuan_panen": "kg",
+      "umur_panen_hari": 75
+    }
+  ],
+  "metode": [
+    {
+      "id": "bedengan",
+      "nama": "Bedengan",
+      "dasar_ukuran": "luas",
+      "modal_awal": "rendah",
+      "bisa_vertikultur": false,
+      "kebutuhan_lahan": "Lahan terbuka kena matahari, mulai 10 m²",
+      "frekuensi_perawatan": "Siram setiap hari"
+    },
+    {
+      "id": "polybag",
+      "nama": "Polybag",
+      "dasar_ukuran": "polybag",
+      "modal_awal": "rendah",
+      "bisa_vertikultur": true,
+      "kebutuhan_lahan": "Pekarangan atau teras",
+      "frekuensi_perawatan": "Siram setiap hari"
+    },
+    {
+      "id": "hidroponik",
+      "nama": "Hidroponik",
+      "dasar_ukuran": "lubang",
+      "modal_awal": "tinggi",
+      "bisa_vertikultur": true,
+      "kebutuhan_lahan": "Tempat teduh, tanpa tanah",
+      "frekuensi_perawatan": "Cek larutan 2 hari sekali"
+    },
+    {
+      "id": "sawah",
+      "nama": "Sawah",
+      "dasar_ukuran": "luas",
+      "modal_awal": "sedang",
+      "bisa_vertikultur": false,
+      "kebutuhan_lahan": "Sawah dengan pengairan",
+      "frekuensi_perawatan": "Cek air seminggu sekali"
+    }
+  ],
+  "sistem_hidroponik": [
+    {
+      "id": "sumbu",
+      "nama": "Sumbu",
+      "keterangan": "Tanpa pompa dan listrik. Cocok untuk mulai kecil, 20 sampai 50 lubang.",
+      "liter_tandon_per_lubang": 0.3,
+      "tempat_per_lubang_m2": 0.06
+    },
+    {
+      "id": "nft",
+      "nama": "NFT",
+      "keterangan": "Air bernutrisi mengalir tipis di dalam pipa. Pompa menyala terus.",
+      "liter_tandon_per_lubang": 0.5,
+      "tempat_per_lubang_m2": 0.05
+    },
+    {
+      "id": "rakit",
+      "nama": "Rakit apung",
+      "keterangan": "Papan styrofoam mengapung di bak air. Tetap aman saat listrik padam sebentar.",
+      "liter_tandon_per_lubang": 1,
+      "tempat_per_lubang_m2": 0.05
+    }
+  ],
+  "konversi_satuan": [
+    {
+      "wilayah_id": "32.17.01.2003",
+      "satuan": "ru",
+      "nilai_m2": 14
+    },
+    {
+      "wilayah_id": "32.17.01.2003",
+      "satuan": "bata",
+      "nilai_m2": 14
+    },
+    {
+      "wilayah_id": "32.17.01.2013",
+      "satuan": "ru",
+      "nilai_m2": 14
+    },
+    {
+      "wilayah_id": "32.17.01.2013",
+      "satuan": "bata",
+      "nilai_m2": 14
+    },
+    {
+      "wilayah_id": "32.17.01.2001",
+      "satuan": "ru",
+      "nilai_m2": 14
+    },
+    {
+      "wilayah_id": "32.17.01.2001",
+      "satuan": "bata",
+      "nilai_m2": 14
+    },
+    {
+      "wilayah_id": "32.17.01.2002",
+      "satuan": "ru",
+      "nilai_m2": 14
+    },
+    {
+      "wilayah_id": "32.17.01.2002",
+      "satuan": "bata",
+      "nilai_m2": 14
+    },
+    {
+      "wilayah_id": "32.17.01.2004",
+      "satuan": "ru",
+      "nilai_m2": 14
+    },
+    {
+      "wilayah_id": "32.17.01.2004",
+      "satuan": "bata",
+      "nilai_m2": 14
+    },
+    {
+      "wilayah_id": "32.17.01.2005",
+      "satuan": "ru",
+      "nilai_m2": 14
+    },
+    {
+      "wilayah_id": "32.17.01.2005",
+      "satuan": "bata",
+      "nilai_m2": 14
+    },
+    {
+      "wilayah_id": "32.73.03.1004",
+      "satuan": "ru",
+      "nilai_m2": 14
+    },
+    {
+      "wilayah_id": "32.73.03.1004",
+      "satuan": "bata",
+      "nilai_m2": 14
+    },
+    {
+      "wilayah_id": "32.73.10.1001",
+      "satuan": "ru",
+      "nilai_m2": 14
+    },
+    {
+      "wilayah_id": "32.73.10.1001",
+      "satuan": "bata",
+      "nilai_m2": 14
+    }
+  ],
+  "input_pertanian": [
+    {
+      "id": "benih-sawi",
+      "nama": "Benih sawi hijau",
+      "kategori": "benih",
+      "kandungan": null,
+      "satuan": "bungkus"
+    },
+    {
+      "id": "pupuk-kandang",
+      "nama": "Pupuk kandang",
+      "kategori": "organik_padat",
+      "kandungan": null,
+      "satuan": "kg"
+    },
+    {
+      "id": "dolomit",
+      "nama": "Dolomit",
+      "kategori": "pembenah_tanah",
+      "kandungan": null,
+      "satuan": "kg"
+    },
+    {
+      "id": "npk-16",
+      "nama": "NPK 16-16-16",
+      "kategori": "anorganik_majemuk",
+      "kandungan": "N 16%, P 16%, K 16%",
+      "satuan": "kg"
+    },
+    {
+      "id": "poc",
+      "nama": "Pupuk organik cair",
+      "kategori": "organik_cair",
+      "kandungan": null,
+      "satuan": "liter"
+    },
+    {
+      "id": "pestisida-nabati",
+      "nama": "Pestisida nabati",
+      "kategori": "bahan_lain",
+      "kandungan": null,
+      "satuan": "liter"
+    },
+    {
+      "id": "mulsa",
+      "nama": "Mulsa plastik hitam perak",
+      "kategori": "bahan_lain",
+      "kandungan": null,
+      "satuan": "m"
+    },
+    {
+      "id": "rockwool",
+      "nama": "Rockwool",
+      "kategori": "bahan_lain",
+      "kandungan": null,
+      "satuan": "lembar"
+    },
+    {
+      "id": "netpot",
+      "nama": "Netpot 5 cm",
+      "kategori": "bahan_lain",
+      "kandungan": null,
+      "satuan": "buah"
+    },
+    {
+      "id": "ab-mix",
+      "nama": "Nutrisi AB mix sayuran daun",
+      "kategori": "nutrisi_hidroponik",
+      "kandungan": null,
+      "satuan": "paket"
+    },
+    {
+      "id": "ph-down",
+      "nama": "pH down",
+      "kategori": "nutrisi_hidroponik",
+      "kandungan": null,
+      "satuan": "ml"
+    },
+    {
+      "id": "benih-padi",
+      "nama": "Benih padi bersertifikat",
+      "kategori": "benih",
+      "kandungan": null,
+      "satuan": "kg"
+    },
+    {
+      "id": "urea",
+      "nama": "Urea (N 46%)",
+      "kategori": "anorganik_tunggal",
+      "kandungan": "N 46%",
+      "satuan": "kg"
+    },
+    {
+      "id": "npk-15",
+      "nama": "NPK 15-15-15",
+      "kategori": "anorganik_majemuk",
+      "kandungan": "N 15%, P 15%, K 15%",
+      "satuan": "kg"
+    },
+    {
+      "id": "organik-padat",
+      "nama": "Pupuk organik padat",
+      "kategori": "organik_padat",
+      "kandungan": null,
+      "satuan": "kg"
+    },
+    {
+      "id": "benih-bayam",
+      "nama": "Benih bayam",
+      "kategori": "benih",
+      "kandungan": null,
+      "satuan": "bungkus"
+    },
+    {
+      "id": "benih-kangkung",
+      "nama": "Benih kangkung",
+      "kategori": "benih",
+      "kandungan": null,
+      "satuan": "kg"
+    }
+  ],
+  "merek_input": [
+    {
+      "id": "merek-1",
+      "input_id": "benih-sawi",
+      "nama": "Benih Daun Lebat",
+      "produsen": null,
+      "isi_kemasan": 1,
+      "teks_kemasan": "bungkus 25 g",
+      "nomor_pendaftaran": null
+    },
+    {
+      "id": "merek-2",
+      "input_id": "benih-sawi",
+      "nama": "Benih Tunas Tani",
+      "produsen": null,
+      "isi_kemasan": 1,
+      "teks_kemasan": "bungkus 25 g",
+      "nomor_pendaftaran": null
+    },
+    {
+      "id": "merek-3",
+      "input_id": "pupuk-kandang",
+      "nama": "Kandang Subur",
+      "produsen": null,
+      "isi_kemasan": 25,
+      "teks_kemasan": "25 kg",
+      "nomor_pendaftaran": null
+    },
+    {
+      "id": "merek-4",
+      "input_id": "pupuk-kandang",
+      "nama": "Organik Lembang",
+      "produsen": null,
+      "isi_kemasan": 25,
+      "teks_kemasan": "25 kg",
+      "nomor_pendaftaran": null
+    },
+    {
+      "id": "merek-5",
+      "input_id": "pupuk-kandang",
+      "nama": "Tanah Gembur",
+      "produsen": null,
+      "isi_kemasan": 20,
+      "teks_kemasan": "20 kg",
+      "nomor_pendaftaran": null
+    },
+    {
+      "id": "merek-6",
+      "input_id": "dolomit",
+      "nama": "Kapur Tani Putih",
+      "produsen": null,
+      "isi_kemasan": 25,
+      "teks_kemasan": "25 kg",
+      "nomor_pendaftaran": null
+    },
+    {
+      "id": "merek-7",
+      "input_id": "dolomit",
+      "nama": "Dolomit Bumi Hijau",
+      "produsen": null,
+      "isi_kemasan": 25,
+      "teks_kemasan": "25 kg",
+      "nomor_pendaftaran": null
+    },
+    {
+      "id": "merek-8",
+      "input_id": "dolomit",
+      "nama": "Kalsium Prima",
+      "produsen": null,
+      "isi_kemasan": 5,
+      "teks_kemasan": "5 kg",
+      "nomor_pendaftaran": null
+    },
+    {
+      "id": "merek-9",
+      "input_id": "npk-16",
+      "nama": "Daun Lebat",
+      "produsen": null,
+      "isi_kemasan": 25,
+      "teks_kemasan": "25 kg",
+      "nomor_pendaftaran": "CONTOH-PUPUK-009"
+    },
+    {
+      "id": "merek-10",
+      "input_id": "npk-16",
+      "nama": "Bumi Hijau",
+      "produsen": null,
+      "isi_kemasan": 25,
+      "teks_kemasan": "25 kg",
+      "nomor_pendaftaran": "CONTOH-PUPUK-010"
+    },
+    {
+      "id": "merek-11",
+      "input_id": "npk-16",
+      "nama": "Sari Tani",
+      "produsen": null,
+      "isi_kemasan": 5,
+      "teks_kemasan": "5 kg",
+      "nomor_pendaftaran": "CONTOH-PUPUK-011"
+    },
+    {
+      "id": "merek-12",
+      "input_id": "poc",
+      "nama": "Cair Subur",
+      "produsen": null,
+      "isi_kemasan": 1,
+      "teks_kemasan": "1 liter",
+      "nomor_pendaftaran": null
+    },
+    {
+      "id": "merek-13",
+      "input_id": "poc",
+      "nama": "Hayati Tani",
+      "produsen": null,
+      "isi_kemasan": 1,
+      "teks_kemasan": "1 liter",
+      "nomor_pendaftaran": null
+    },
+    {
+      "id": "merek-14",
+      "input_id": "poc",
+      "nama": "Daun Lebat Cair",
+      "produsen": null,
+      "isi_kemasan": 2.5,
+      "teks_kemasan": "2,5 liter",
+      "nomor_pendaftaran": null
+    },
+    {
+      "id": "merek-15",
+      "input_id": "pestisida-nabati",
+      "nama": "Nimba Tani",
+      "produsen": null,
+      "isi_kemasan": 1,
+      "teks_kemasan": "1 liter",
+      "nomor_pendaftaran": null
+    },
+    {
+      "id": "merek-16",
+      "input_id": "pestisida-nabati",
+      "nama": "Serai Wangi Lestari",
+      "produsen": null,
+      "isi_kemasan": 0.5,
+      "teks_kemasan": "500 ml",
+      "nomor_pendaftaran": null
+    },
+    {
+      "id": "merek-17",
+      "input_id": "mulsa",
+      "nama": "Mulsa Perak Jaya",
+      "produsen": null,
+      "isi_kemasan": 500,
+      "teks_kemasan": "roll 500 m",
+      "nomor_pendaftaran": null
+    },
+    {
+      "id": "merek-18",
+      "input_id": "mulsa",
+      "nama": "Mulsa Tani Makmur",
+      "produsen": null,
+      "isi_kemasan": 500,
+      "teks_kemasan": "roll 500 m",
+      "nomor_pendaftaran": null
+    },
+    {
+      "id": "merek-19",
+      "input_id": "urea",
+      "nama": "Urea Bumi Hijau",
+      "produsen": null,
+      "isi_kemasan": 50,
+      "teks_kemasan": "50 kg",
+      "nomor_pendaftaran": "CONTOH-PUPUK-019"
+    },
+    {
+      "id": "merek-20",
+      "input_id": "urea",
+      "nama": "Urea Tunas Tani",
+      "produsen": null,
+      "isi_kemasan": 50,
+      "teks_kemasan": "50 kg",
+      "nomor_pendaftaran": "CONTOH-PUPUK-020"
+    },
+    {
+      "id": "merek-21",
+      "input_id": "npk-15",
+      "nama": "Daun Lebat 15-15-15",
+      "produsen": null,
+      "isi_kemasan": 50,
+      "teks_kemasan": "50 kg",
+      "nomor_pendaftaran": "CONTOH-PUPUK-021"
+    },
+    {
+      "id": "merek-22",
+      "input_id": "npk-15",
+      "nama": "Sari Tani 15-15-15",
+      "produsen": null,
+      "isi_kemasan": 25,
+      "teks_kemasan": "25 kg",
+      "nomor_pendaftaran": "CONTOH-PUPUK-022"
+    },
+    {
+      "id": "merek-23",
+      "input_id": "organik-padat",
+      "nama": "Kandang Subur",
+      "produsen": null,
+      "isi_kemasan": 25,
+      "teks_kemasan": "25 kg",
+      "nomor_pendaftaran": null
+    },
+    {
+      "id": "merek-24",
+      "input_id": "organik-padat",
+      "nama": "Organik Granul Lestari",
+      "produsen": null,
+      "isi_kemasan": 40,
+      "teks_kemasan": "40 kg",
+      "nomor_pendaftaran": null
+    },
+    {
+      "id": "merek-25",
+      "input_id": "ab-mix",
+      "nama": "AB Mix Daun Segar",
+      "produsen": null,
+      "isi_kemasan": 1,
+      "teks_kemasan": "paket A+B",
+      "nomor_pendaftaran": null
+    },
+    {
+      "id": "merek-26",
+      "input_id": "ab-mix",
+      "nama": "Nutrisi Hidro Lestari",
+      "produsen": null,
+      "isi_kemasan": 1,
+      "teks_kemasan": "paket A+B",
+      "nomor_pendaftaran": null
+    },
+    {
+      "id": "merek-27",
+      "input_id": "ph-down",
+      "nama": "pH Turun Tani",
+      "produsen": null,
+      "isi_kemasan": 100,
+      "teks_kemasan": "botol 100 ml",
+      "nomor_pendaftaran": null
+    },
+    {
+      "id": "merek-28",
+      "input_id": "ph-down",
+      "nama": "Asam Hidro Prima",
+      "produsen": null,
+      "isi_kemasan": 250,
+      "teks_kemasan": "botol 250 ml",
+      "nomor_pendaftaran": null
+    },
+    {
+      "id": "merek-29",
+      "input_id": "rockwool",
+      "nama": "Rockwool Tani Hidro",
+      "produsen": null,
+      "isi_kemasan": 1,
+      "teks_kemasan": "1 lembar",
+      "nomor_pendaftaran": null
+    },
+    {
+      "id": "merek-30",
+      "input_id": "rockwool",
+      "nama": "Wol Batu Prima",
+      "produsen": null,
+      "isi_kemasan": 5,
+      "teks_kemasan": "5 lembar",
+      "nomor_pendaftaran": null
+    },
+    {
+      "id": "merek-31",
+      "input_id": "netpot",
+      "nama": "Netpot Hijau",
+      "produsen": null,
+      "isi_kemasan": 100,
+      "teks_kemasan": "100 buah",
+      "nomor_pendaftaran": null
+    },
+    {
+      "id": "merek-32",
+      "input_id": "netpot",
+      "nama": "Netpot Kuat",
+      "produsen": null,
+      "isi_kemasan": 200,
+      "teks_kemasan": "200 buah",
+      "nomor_pendaftaran": null
+    },
+    {
+      "id": "merek-33",
+      "input_id": "benih-padi",
+      "nama": "Benih Padi Unggul Tani",
+      "produsen": null,
+      "isi_kemasan": 5,
+      "teks_kemasan": "5 kg",
+      "nomor_pendaftaran": null
+    },
+    {
+      "id": "merek-34",
+      "input_id": "benih-padi",
+      "nama": "Benih Padi Sari",
+      "produsen": null,
+      "isi_kemasan": 5,
+      "teks_kemasan": "5 kg",
+      "nomor_pendaftaran": null
+    }
+  ],
+  "laporan_harga": [
+    {
+      "id": "laporan-1",
+      "merek_id": "merek-1",
+      "pelapor_id": "petani-arif",
+      "harga_kemasan": 25000,
+      "kecamatan": "Lembang",
+      "tanggal": "H-9"
+    },
+    {
+      "id": "laporan-2",
+      "merek_id": "merek-1",
+      "pelapor_id": "petani-dewi",
+      "harga_kemasan": 25000,
+      "kecamatan": "Lembang",
+      "tanggal": "H-12"
+    },
+    {
+      "id": "laporan-3",
+      "merek_id": "merek-1",
+      "pelapor_id": "petani-budi",
+      "harga_kemasan": 25000,
+      "kecamatan": "Lembang",
+      "tanggal": "H-15"
+    },
+    {
+      "id": "laporan-4",
+      "merek_id": "merek-1",
+      "pelapor_id": "petani-sari",
+      "harga_kemasan": 25000,
+      "kecamatan": "Lembang",
+      "tanggal": "H-18"
+    },
+    {
+      "id": "laporan-5",
+      "merek_id": "merek-1",
+      "pelapor_id": "petani-yogi",
+      "harga_kemasan": 25000,
+      "kecamatan": "Lembang",
+      "tanggal": "H-21"
+    },
+    {
+      "id": "laporan-6",
+      "merek_id": "merek-2",
+      "pelapor_id": "petani-arif",
+      "harga_kemasan": 22000,
+      "kecamatan": "Lembang",
+      "tanggal": "H-15"
+    },
+    {
+      "id": "laporan-7",
+      "merek_id": "merek-2",
+      "pelapor_id": "petani-dewi",
+      "harga_kemasan": 22000,
+      "kecamatan": "Lembang",
+      "tanggal": "H-18"
+    },
+    {
+      "id": "laporan-8",
+      "merek_id": "merek-2",
+      "pelapor_id": "petani-budi",
+      "harga_kemasan": 22000,
+      "kecamatan": "Lembang",
+      "tanggal": "H-21"
+    },
+    {
+      "id": "laporan-9",
+      "merek_id": "merek-3",
+      "pelapor_id": "petani-arif",
+      "harga_kemasan": 15000,
+      "kecamatan": "Lembang",
+      "tanggal": "H-5"
+    },
+    {
+      "id": "laporan-10",
+      "merek_id": "merek-3",
+      "pelapor_id": "petani-dewi",
+      "harga_kemasan": 15000,
+      "kecamatan": "Lembang",
+      "tanggal": "H-8"
+    },
+    {
+      "id": "laporan-11",
+      "merek_id": "merek-3",
+      "pelapor_id": "petani-budi",
+      "harga_kemasan": 15000,
+      "kecamatan": "Lembang",
+      "tanggal": "H-11"
+    },
+    {
+      "id": "laporan-12",
+      "merek_id": "merek-3",
+      "pelapor_id": "petani-sari",
+      "harga_kemasan": 15000,
+      "kecamatan": "Lembang",
+      "tanggal": "H-14"
+    },
+    {
+      "id": "laporan-13",
+      "merek_id": "merek-3",
+      "pelapor_id": "petani-yogi",
+      "harga_kemasan": 15000,
+      "kecamatan": "Lembang",
+      "tanggal": "H-17"
+    },
+    {
+      "id": "laporan-14",
+      "merek_id": "merek-4",
+      "pelapor_id": "petani-arif",
+      "harga_kemasan": 18000,
+      "kecamatan": "Lembang",
+      "tanggal": "H-9"
+    },
+    {
+      "id": "laporan-15",
+      "merek_id": "merek-4",
+      "pelapor_id": "petani-dewi",
+      "harga_kemasan": 18000,
+      "kecamatan": "Lembang",
+      "tanggal": "H-12"
+    },
+    {
+      "id": "laporan-16",
+      "merek_id": "merek-4",
+      "pelapor_id": "petani-budi",
+      "harga_kemasan": 18000,
+      "kecamatan": "Lembang",
+      "tanggal": "H-15"
+    },
+    {
+      "id": "laporan-17",
+      "merek_id": "merek-5",
+      "pelapor_id": "petani-arif",
+      "harga_kemasan": 12500,
+      "kecamatan": "Lembang",
+      "tanggal": "H-15"
+    },
+    {
+      "id": "laporan-18",
+      "merek_id": "merek-5",
+      "pelapor_id": "petani-dewi",
+      "harga_kemasan": 12500,
+      "kecamatan": "Lembang",
+      "tanggal": "H-18"
+    },
+    {
+      "id": "laporan-19",
+      "merek_id": "merek-6",
+      "pelapor_id": "petani-arif",
+      "harga_kemasan": 37500,
+      "kecamatan": "Lembang",
+      "tanggal": "H-10"
+    },
+    {
+      "id": "laporan-20",
+      "merek_id": "merek-6",
+      "pelapor_id": "petani-dewi",
+      "harga_kemasan": 37500,
+      "kecamatan": "Lembang",
+      "tanggal": "H-13"
+    },
+    {
+      "id": "laporan-21",
+      "merek_id": "merek-6",
+      "pelapor_id": "petani-budi",
+      "harga_kemasan": 37500,
+      "kecamatan": "Lembang",
+      "tanggal": "H-16"
+    },
+    {
+      "id": "laporan-22",
+      "merek_id": "merek-6",
+      "pelapor_id": "petani-sari",
+      "harga_kemasan": 37500,
+      "kecamatan": "Lembang",
+      "tanggal": "H-19"
+    },
+    {
+      "id": "laporan-23",
+      "merek_id": "merek-7",
+      "pelapor_id": "petani-arif",
+      "harga_kemasan": 45000,
+      "kecamatan": "Lembang",
+      "tanggal": "H-21"
+    },
+    {
+      "id": "laporan-24",
+      "merek_id": "merek-7",
+      "pelapor_id": "petani-dewi",
+      "harga_kemasan": 45000,
+      "kecamatan": "Lembang",
+      "tanggal": "H-24"
+    },
+    {
+      "id": "laporan-25",
+      "merek_id": "merek-8",
+      "pelapor_id": "petani-arif",
+      "harga_kemasan": 8000,
+      "kecamatan": "Lembang",
+      "tanggal": "H-6"
+    },
+    {
+      "id": "laporan-26",
+      "merek_id": "merek-8",
+      "pelapor_id": "petani-dewi",
+      "harga_kemasan": 8000,
+      "kecamatan": "Lembang",
+      "tanggal": "H-9"
+    },
+    {
+      "id": "laporan-27",
+      "merek_id": "merek-8",
+      "pelapor_id": "petani-budi",
+      "harga_kemasan": 8000,
+      "kecamatan": "Lembang",
+      "tanggal": "H-12"
+    },
+    {
+      "id": "laporan-28",
+      "merek_id": "merek-9",
+      "pelapor_id": "petani-arif",
+      "harga_kemasan": 380000,
+      "kecamatan": "Lembang",
+      "tanggal": "H-12"
+    },
+    {
+      "id": "laporan-29",
+      "merek_id": "merek-9",
+      "pelapor_id": "petani-dewi",
+      "harga_kemasan": 380000,
+      "kecamatan": "Lembang",
+      "tanggal": "H-15"
+    },
+    {
+      "id": "laporan-30",
+      "merek_id": "merek-9",
+      "pelapor_id": "petani-budi",
+      "harga_kemasan": 380000,
+      "kecamatan": "Lembang",
+      "tanggal": "H-18"
+    },
+    {
+      "id": "laporan-31",
+      "merek_id": "merek-9",
+      "pelapor_id": "petani-sari",
+      "harga_kemasan": 380000,
+      "kecamatan": "Lembang",
+      "tanggal": "H-21"
+    },
+    {
+      "id": "laporan-32",
+      "merek_id": "merek-9",
+      "pelapor_id": "petani-yogi",
+      "harga_kemasan": 380000,
+      "kecamatan": "Lembang",
+      "tanggal": "H-24"
+    },
+    {
+      "id": "laporan-33",
+      "merek_id": "merek-10",
+      "pelapor_id": "petani-arif",
+      "harga_kemasan": 355000,
+      "kecamatan": "Lembang",
+      "tanggal": "H-4"
+    },
+    {
+      "id": "laporan-34",
+      "merek_id": "merek-10",
+      "pelapor_id": "petani-dewi",
+      "harga_kemasan": 355000,
+      "kecamatan": "Lembang",
+      "tanggal": "H-7"
+    },
+    {
+      "id": "laporan-35",
+      "merek_id": "merek-10",
+      "pelapor_id": "petani-budi",
+      "harga_kemasan": 355000,
+      "kecamatan": "Lembang",
+      "tanggal": "H-10"
+    },
+    {
+      "id": "laporan-36",
+      "merek_id": "merek-11",
+      "pelapor_id": "petani-arif",
+      "harga_kemasan": 80000,
+      "kecamatan": "Lembang",
+      "tanggal": "H-20"
+    },
+    {
+      "id": "laporan-37",
+      "merek_id": "merek-11",
+      "pelapor_id": "petani-dewi",
+      "harga_kemasan": 80000,
+      "kecamatan": "Lembang",
+      "tanggal": "H-23"
+    },
+    {
+      "id": "laporan-38",
+      "merek_id": "merek-12",
+      "pelapor_id": "petani-arif",
+      "harga_kemasan": 40000,
+      "kecamatan": "Lembang",
+      "tanggal": "H-8"
+    },
+    {
+      "id": "laporan-39",
+      "merek_id": "merek-12",
+      "pelapor_id": "petani-dewi",
+      "harga_kemasan": 40000,
+      "kecamatan": "Lembang",
+      "tanggal": "H-11"
+    },
+    {
+      "id": "laporan-40",
+      "merek_id": "merek-12",
+      "pelapor_id": "petani-budi",
+      "harga_kemasan": 40000,
+      "kecamatan": "Lembang",
+      "tanggal": "H-14"
+    },
+    {
+      "id": "laporan-41",
+      "merek_id": "merek-12",
+      "pelapor_id": "petani-sari",
+      "harga_kemasan": 40000,
+      "kecamatan": "Lembang",
+      "tanggal": "H-17"
+    },
+    {
+      "id": "laporan-42",
+      "merek_id": "merek-12",
+      "pelapor_id": "petani-yogi",
+      "harga_kemasan": 40000,
+      "kecamatan": "Lembang",
+      "tanggal": "H-20"
+    },
+    {
+      "id": "laporan-43",
+      "merek_id": "merek-13",
+      "pelapor_id": "petani-arif",
+      "harga_kemasan": 35000,
+      "kecamatan": "Lembang",
+      "tanggal": "H-14"
+    },
+    {
+      "id": "laporan-44",
+      "merek_id": "merek-13",
+      "pelapor_id": "petani-dewi",
+      "harga_kemasan": 35000,
+      "kecamatan": "Lembang",
+      "tanggal": "H-17"
+    },
+    {
+      "id": "laporan-45",
+      "merek_id": "merek-14",
+      "pelapor_id": "petani-arif",
+      "harga_kemasan": 95000,
+      "kecamatan": "Lembang",
+      "tanggal": "H-30"
+    },
+    {
+      "id": "laporan-46",
+      "merek_id": "merek-15",
+      "pelapor_id": "petani-arif",
+      "harga_kemasan": 35000,
+      "kecamatan": "Lembang",
+      "tanggal": "H-11"
+    },
+    {
+      "id": "laporan-47",
+      "merek_id": "merek-15",
+      "pelapor_id": "petani-dewi",
+      "harga_kemasan": 35000,
+      "kecamatan": "Lembang",
+      "tanggal": "H-14"
+    },
+    {
+      "id": "laporan-48",
+      "merek_id": "merek-15",
+      "pelapor_id": "petani-budi",
+      "harga_kemasan": 35000,
+      "kecamatan": "Lembang",
+      "tanggal": "H-17"
+    },
+    {
+      "id": "laporan-49",
+      "merek_id": "merek-15",
+      "pelapor_id": "petani-sari",
+      "harga_kemasan": 35000,
+      "kecamatan": "Lembang",
+      "tanggal": "H-20"
+    },
+    {
+      "id": "laporan-50",
+      "merek_id": "merek-16",
+      "pelapor_id": "petani-arif",
+      "harga_kemasan": 30000,
+      "kecamatan": "Lembang",
+      "tanggal": "H-18"
+    },
+    {
+      "id": "laporan-51",
+      "merek_id": "merek-16",
+      "pelapor_id": "petani-dewi",
+      "harga_kemasan": 30000,
+      "kecamatan": "Lembang",
+      "tanggal": "H-21"
+    },
+    {
+      "id": "laporan-52",
+      "merek_id": "merek-17",
+      "pelapor_id": "petani-arif",
+      "harga_kemasan": 375000,
+      "kecamatan": "Lembang",
+      "tanggal": "H-13"
+    },
+    {
+      "id": "laporan-53",
+      "merek_id": "merek-17",
+      "pelapor_id": "petani-dewi",
+      "harga_kemasan": 375000,
+      "kecamatan": "Lembang",
+      "tanggal": "H-16"
+    },
+    {
+      "id": "laporan-54",
+      "merek_id": "merek-17",
+      "pelapor_id": "petani-budi",
+      "harga_kemasan": 375000,
+      "kecamatan": "Lembang",
+      "tanggal": "H-19"
+    },
+    {
+      "id": "laporan-55",
+      "merek_id": "merek-17",
+      "pelapor_id": "petani-sari",
+      "harga_kemasan": 375000,
+      "kecamatan": "Lembang",
+      "tanggal": "H-22"
+    },
+    {
+      "id": "laporan-56",
+      "merek_id": "merek-17",
+      "pelapor_id": "petani-yogi",
+      "harga_kemasan": 375000,
+      "kecamatan": "Lembang",
+      "tanggal": "H-25"
+    },
+    {
+      "id": "laporan-57",
+      "merek_id": "merek-18",
+      "pelapor_id": "petani-arif",
+      "harga_kemasan": 340000,
+      "kecamatan": "Lembang",
+      "tanggal": "H-25"
+    },
+    {
+      "id": "laporan-58",
+      "merek_id": "merek-18",
+      "pelapor_id": "petani-dewi",
+      "harga_kemasan": 340000,
+      "kecamatan": "Lembang",
+      "tanggal": "H-28"
+    },
+    {
+      "id": "laporan-59",
+      "merek_id": "merek-19",
+      "pelapor_id": "petani-arif",
+      "harga_kemasan": 450000,
+      "kecamatan": "Lembang",
+      "tanggal": "H-12"
+    },
+    {
+      "id": "laporan-60",
+      "merek_id": "merek-19",
+      "pelapor_id": "petani-dewi",
+      "harga_kemasan": 450000,
+      "kecamatan": "Lembang",
+      "tanggal": "H-15"
+    },
+    {
+      "id": "laporan-61",
+      "merek_id": "merek-19",
+      "pelapor_id": "petani-budi",
+      "harga_kemasan": 450000,
+      "kecamatan": "Lembang",
+      "tanggal": "H-18"
+    },
+    {
+      "id": "laporan-62",
+      "merek_id": "merek-19",
+      "pelapor_id": "petani-sari",
+      "harga_kemasan": 450000,
+      "kecamatan": "Lembang",
+      "tanggal": "H-21"
+    },
+    {
+      "id": "laporan-63",
+      "merek_id": "merek-19",
+      "pelapor_id": "petani-yogi",
+      "harga_kemasan": 450000,
+      "kecamatan": "Lembang",
+      "tanggal": "H-24"
+    },
+    {
+      "id": "laporan-64",
+      "merek_id": "merek-20",
+      "pelapor_id": "petani-arif",
+      "harga_kemasan": 440000,
+      "kecamatan": "Lembang",
+      "tanggal": "H-8"
+    },
+    {
+      "id": "laporan-65",
+      "merek_id": "merek-20",
+      "pelapor_id": "petani-dewi",
+      "harga_kemasan": 440000,
+      "kecamatan": "Lembang",
+      "tanggal": "H-11"
+    },
+    {
+      "id": "laporan-66",
+      "merek_id": "merek-20",
+      "pelapor_id": "petani-budi",
+      "harga_kemasan": 440000,
+      "kecamatan": "Lembang",
+      "tanggal": "H-14"
+    },
+    {
+      "id": "laporan-67",
+      "merek_id": "merek-21",
+      "pelapor_id": "petani-arif",
+      "harga_kemasan": 600000,
+      "kecamatan": "Lembang",
+      "tanggal": "H-14"
+    },
+    {
+      "id": "laporan-68",
+      "merek_id": "merek-21",
+      "pelapor_id": "petani-dewi",
+      "harga_kemasan": 600000,
+      "kecamatan": "Lembang",
+      "tanggal": "H-17"
+    },
+    {
+      "id": "laporan-69",
+      "merek_id": "merek-21",
+      "pelapor_id": "petani-budi",
+      "harga_kemasan": 600000,
+      "kecamatan": "Lembang",
+      "tanggal": "H-20"
+    },
+    {
+      "id": "laporan-70",
+      "merek_id": "merek-21",
+      "pelapor_id": "petani-sari",
+      "harga_kemasan": 600000,
+      "kecamatan": "Lembang",
+      "tanggal": "H-23"
+    },
+    {
+      "id": "laporan-71",
+      "merek_id": "merek-22",
+      "pelapor_id": "petani-arif",
+      "harga_kemasan": 295000,
+      "kecamatan": "Lembang",
+      "tanggal": "H-9"
+    },
+    {
+      "id": "laporan-72",
+      "merek_id": "merek-22",
+      "pelapor_id": "petani-dewi",
+      "harga_kemasan": 295000,
+      "kecamatan": "Lembang",
+      "tanggal": "H-12"
+    },
+    {
+      "id": "laporan-73",
+      "merek_id": "merek-23",
+      "pelapor_id": "petani-arif",
+      "harga_kemasan": 25000,
+      "kecamatan": "Lembang",
+      "tanggal": "H-7"
+    },
+    {
+      "id": "laporan-74",
+      "merek_id": "merek-23",
+      "pelapor_id": "petani-dewi",
+      "harga_kemasan": 25000,
+      "kecamatan": "Lembang",
+      "tanggal": "H-10"
+    },
+    {
+      "id": "laporan-75",
+      "merek_id": "merek-23",
+      "pelapor_id": "petani-budi",
+      "harga_kemasan": 25000,
+      "kecamatan": "Lembang",
+      "tanggal": "H-13"
+    },
+    {
+      "id": "laporan-76",
+      "merek_id": "merek-23",
+      "pelapor_id": "petani-sari",
+      "harga_kemasan": 25000,
+      "kecamatan": "Lembang",
+      "tanggal": "H-16"
+    },
+    {
+      "id": "laporan-77",
+      "merek_id": "merek-23",
+      "pelapor_id": "petani-yogi",
+      "harga_kemasan": 25000,
+      "kecamatan": "Lembang",
+      "tanggal": "H-19"
+    },
+    {
+      "id": "laporan-78",
+      "merek_id": "merek-24",
+      "pelapor_id": "petani-arif",
+      "harga_kemasan": 45000,
+      "kecamatan": "Lembang",
+      "tanggal": "H-15"
+    },
+    {
+      "id": "laporan-79",
+      "merek_id": "merek-24",
+      "pelapor_id": "petani-dewi",
+      "harga_kemasan": 45000,
+      "kecamatan": "Lembang",
+      "tanggal": "H-18"
+    },
+    {
+      "id": "laporan-80",
+      "merek_id": "merek-24",
+      "pelapor_id": "petani-budi",
+      "harga_kemasan": 45000,
+      "kecamatan": "Lembang",
+      "tanggal": "H-21"
+    },
+    {
+      "id": "laporan-81",
+      "merek_id": "merek-25",
+      "pelapor_id": "petani-arif",
+      "harga_kemasan": 45000,
+      "kecamatan": "Lembang",
+      "tanggal": "H-3"
+    },
+    {
+      "id": "laporan-82",
+      "merek_id": "merek-25",
+      "pelapor_id": "petani-dewi",
+      "harga_kemasan": 45000,
+      "kecamatan": "Lembang",
+      "tanggal": "H-6"
+    },
+    {
+      "id": "laporan-83",
+      "merek_id": "merek-25",
+      "pelapor_id": "petani-budi",
+      "harga_kemasan": 45000,
+      "kecamatan": "Lembang",
+      "tanggal": "H-9"
+    },
+    {
+      "id": "laporan-84",
+      "merek_id": "merek-25",
+      "pelapor_id": "petani-sari",
+      "harga_kemasan": 45000,
+      "kecamatan": "Lembang",
+      "tanggal": "H-12"
+    },
+    {
+      "id": "laporan-85",
+      "merek_id": "merek-25",
+      "pelapor_id": "petani-yogi",
+      "harga_kemasan": 45000,
+      "kecamatan": "Lembang",
+      "tanggal": "H-15"
+    },
+    {
+      "id": "laporan-86",
+      "merek_id": "merek-26",
+      "pelapor_id": "petani-arif",
+      "harga_kemasan": 40000,
+      "kecamatan": "Lembang",
+      "tanggal": "H-10"
+    },
+    {
+      "id": "laporan-87",
+      "merek_id": "merek-26",
+      "pelapor_id": "petani-dewi",
+      "harga_kemasan": 40000,
+      "kecamatan": "Lembang",
+      "tanggal": "H-13"
+    },
+    {
+      "id": "laporan-88",
+      "merek_id": "merek-26",
+      "pelapor_id": "petani-budi",
+      "harga_kemasan": 40000,
+      "kecamatan": "Lembang",
+      "tanggal": "H-16"
+    },
+    {
+      "id": "laporan-89",
+      "merek_id": "merek-27",
+      "pelapor_id": "petani-arif",
+      "harga_kemasan": 25000,
+      "kecamatan": "Lembang",
+      "tanggal": "H-9"
+    },
+    {
+      "id": "laporan-90",
+      "merek_id": "merek-27",
+      "pelapor_id": "petani-dewi",
+      "harga_kemasan": 25000,
+      "kecamatan": "Lembang",
+      "tanggal": "H-12"
+    },
+    {
+      "id": "laporan-91",
+      "merek_id": "merek-27",
+      "pelapor_id": "petani-budi",
+      "harga_kemasan": 25000,
+      "kecamatan": "Lembang",
+      "tanggal": "H-15"
+    },
+    {
+      "id": "laporan-92",
+      "merek_id": "merek-27",
+      "pelapor_id": "petani-sari",
+      "harga_kemasan": 25000,
+      "kecamatan": "Lembang",
+      "tanggal": "H-18"
+    },
+    {
+      "id": "laporan-93",
+      "merek_id": "merek-28",
+      "pelapor_id": "petani-arif",
+      "harga_kemasan": 45000,
+      "kecamatan": "Lembang",
+      "tanggal": "H-17"
+    },
+    {
+      "id": "laporan-94",
+      "merek_id": "merek-28",
+      "pelapor_id": "petani-dewi",
+      "harga_kemasan": 45000,
+      "kecamatan": "Lembang",
+      "tanggal": "H-20"
+    },
+    {
+      "id": "laporan-95",
+      "merek_id": "merek-29",
+      "pelapor_id": "petani-arif",
+      "harga_kemasan": 35000,
+      "kecamatan": "Lembang",
+      "tanggal": "H-9"
+    },
+    {
+      "id": "laporan-96",
+      "merek_id": "merek-29",
+      "pelapor_id": "petani-dewi",
+      "harga_kemasan": 35000,
+      "kecamatan": "Lembang",
+      "tanggal": "H-12"
+    },
+    {
+      "id": "laporan-97",
+      "merek_id": "merek-29",
+      "pelapor_id": "petani-budi",
+      "harga_kemasan": 35000,
+      "kecamatan": "Lembang",
+      "tanggal": "H-15"
+    },
+    {
+      "id": "laporan-98",
+      "merek_id": "merek-29",
+      "pelapor_id": "petani-sari",
+      "harga_kemasan": 35000,
+      "kecamatan": "Lembang",
+      "tanggal": "H-18"
+    },
+    {
+      "id": "laporan-99",
+      "merek_id": "merek-30",
+      "pelapor_id": "petani-arif",
+      "harga_kemasan": 150000,
+      "kecamatan": "Lembang",
+      "tanggal": "H-16"
+    },
+    {
+      "id": "laporan-100",
+      "merek_id": "merek-30",
+      "pelapor_id": "petani-dewi",
+      "harga_kemasan": 150000,
+      "kecamatan": "Lembang",
+      "tanggal": "H-19"
+    },
+    {
+      "id": "laporan-101",
+      "merek_id": "merek-31",
+      "pelapor_id": "petani-arif",
+      "harga_kemasan": 30000,
+      "kecamatan": "Lembang",
+      "tanggal": "H-5"
+    },
+    {
+      "id": "laporan-102",
+      "merek_id": "merek-31",
+      "pelapor_id": "petani-dewi",
+      "harga_kemasan": 30000,
+      "kecamatan": "Lembang",
+      "tanggal": "H-8"
+    },
+    {
+      "id": "laporan-103",
+      "merek_id": "merek-31",
+      "pelapor_id": "petani-budi",
+      "harga_kemasan": 30000,
+      "kecamatan": "Lembang",
+      "tanggal": "H-11"
+    },
+    {
+      "id": "laporan-104",
+      "merek_id": "merek-31",
+      "pelapor_id": "petani-sari",
+      "harga_kemasan": 30000,
+      "kecamatan": "Lembang",
+      "tanggal": "H-14"
+    },
+    {
+      "id": "laporan-105",
+      "merek_id": "merek-31",
+      "pelapor_id": "petani-yogi",
+      "harga_kemasan": 30000,
+      "kecamatan": "Lembang",
+      "tanggal": "H-17"
+    },
+    {
+      "id": "laporan-106",
+      "merek_id": "merek-32",
+      "pelapor_id": "petani-arif",
+      "harga_kemasan": 65000,
+      "kecamatan": "Lembang",
+      "tanggal": "H-12"
+    },
+    {
+      "id": "laporan-107",
+      "merek_id": "merek-32",
+      "pelapor_id": "petani-dewi",
+      "harga_kemasan": 65000,
+      "kecamatan": "Lembang",
+      "tanggal": "H-15"
+    },
+    {
+      "id": "laporan-108",
+      "merek_id": "merek-33",
+      "pelapor_id": "petani-arif",
+      "harga_kemasan": 75000,
+      "kecamatan": "Lembang",
+      "tanggal": "H-6"
+    },
+    {
+      "id": "laporan-109",
+      "merek_id": "merek-33",
+      "pelapor_id": "petani-dewi",
+      "harga_kemasan": 75000,
+      "kecamatan": "Lembang",
+      "tanggal": "H-9"
+    },
+    {
+      "id": "laporan-110",
+      "merek_id": "merek-33",
+      "pelapor_id": "petani-budi",
+      "harga_kemasan": 75000,
+      "kecamatan": "Lembang",
+      "tanggal": "H-12"
+    },
+    {
+      "id": "laporan-111",
+      "merek_id": "merek-33",
+      "pelapor_id": "petani-sari",
+      "harga_kemasan": 75000,
+      "kecamatan": "Lembang",
+      "tanggal": "H-15"
+    },
+    {
+      "id": "laporan-112",
+      "merek_id": "merek-33",
+      "pelapor_id": "petani-yogi",
+      "harga_kemasan": 75000,
+      "kecamatan": "Lembang",
+      "tanggal": "H-18"
+    },
+    {
+      "id": "laporan-113",
+      "merek_id": "merek-34",
+      "pelapor_id": "petani-arif",
+      "harga_kemasan": 70000,
+      "kecamatan": "Lembang",
+      "tanggal": "H-11"
+    },
+    {
+      "id": "laporan-114",
+      "merek_id": "merek-34",
+      "pelapor_id": "petani-dewi",
+      "harga_kemasan": 70000,
+      "kecamatan": "Lembang",
+      "tanggal": "H-14"
+    },
+    {
+      "id": "laporan-115",
+      "merek_id": "merek-34",
+      "pelapor_id": "petani-budi",
+      "harga_kemasan": 70000,
+      "kecamatan": "Lembang",
+      "tanggal": "H-17"
+    },
+    {
+      "id": "laporan-116",
+      "merek_id": "merek-34",
+      "pelapor_id": "petani-sari",
+      "harga_kemasan": 70000,
+      "kecamatan": "Lembang",
+      "tanggal": "H-20"
+    }
+  ],
+  "kelayakan_subsidi": [
+    {
+      "input_id": "urea",
+      "komoditas_id": "padi",
+      "berlaku_mulai": "2026-01-01",
+      "berlaku_sampai": "2026-12-31",
+      "het_per_satuan": 2250
+    },
+    {
+      "input_id": "npk-15",
+      "komoditas_id": "padi",
+      "berlaku_mulai": "2026-01-01",
+      "berlaku_sampai": "2026-12-31",
+      "het_per_satuan": 2300
+    },
+    {
+      "input_id": "npk-16",
+      "komoditas_id": "sawi",
+      "berlaku_mulai": "2026-01-01",
+      "berlaku_sampai": "2026-12-31",
+      "het_per_satuan": 2300
+    }
+  ],
+  "promo": [
+    {
+      "id": "promo-1",
+      "pemasang": "Toko Tani Sumber Rezeki",
+      "isi": "Pupuk kandang karung 25 kg: beli 4, gratis 1.",
+      "wilayah_id": "32.17.01.2003",
+      "jarak_km": 2,
+      "berlaku_mulai": "H-5",
+      "berlaku_sampai": "H+10"
+    },
+    {
+      "id": "promo-2",
+      "pemasang": "Kios Tani Mekar",
+      "isi": "Mulsa plastik hitam perak 1 roll, hemat Rp20.000.",
+      "wilayah_id": "32.17.01.2005",
+      "jarak_km": 3.5,
+      "berlaku_mulai": "H-5",
+      "berlaku_sampai": "H+26"
+    },
+    {
+      "id": "promo-3",
+      "pemasang": "Toko Hidro Lembang",
+      "isi": "Paket rockwool dan netpot untuk 200 lubang, hemat 10%.",
+      "wilayah_id": "32.17.01.2001",
+      "jarak_km": 5,
+      "berlaku_mulai": "H-2",
+      "berlaku_sampai": "H+15"
+    },
+    {
+      "id": "promo-4",
+      "pemasang": "Kios Pupuk Resmi Cisarua",
+      "isi": "Pupuk organik granul 40 kg, gratis antar ke sawah.",
+      "wilayah_id": "32.17.01.2004",
+      "jarak_km": 6,
+      "berlaku_mulai": "H-5",
+      "berlaku_sampai": "H+26"
+    }
+  ]
+}

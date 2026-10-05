@@ -12,7 +12,10 @@ export default tseslint.config(
     plugins: { 'react-hooks': reactHooks },
     rules: {
       ...reactHooks.configs.recommended.rules,
-      '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
+      '@typescript-eslint/no-unused-vars': [
+        'error',
+        { argsIgnorePattern: '^_', varsIgnorePattern: '^_', ignoreRestSiblings: true },
+      ],
       'no-restricted-imports': [
         'error',
         {
@@ -38,6 +41,33 @@ export default tseslint.config(
     files: ['src/**/*.{ts,tsx}'],
     ignores: ['src/lib/**'],
     rules: { 'no-restricted-imports': 'off' },
+  },
+  {
+    // D-20: halaman dan komponen hanya memakai klien API lewat hook src/api/kueri, tidak pernah
+    // data atau implementasi tiruan, penyedia, atau fetch langsung (T3.12).
+    files: ['src/halaman/**/*.{ts,tsx}', 'src/komponen/**/*.{ts,tsx}'],
+    ignores: ['**/*.test.{ts,tsx}'],
+    rules: {
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: [
+            {
+              group: ['**/api/tiruan/**', '**/api/sumber', '**/penyedia/**'],
+              message:
+                'Halaman dan komponen hanya mengambil data lewat hook di src/api/kueri (keputusan D-20).',
+            },
+          ],
+        },
+      ],
+      'no-restricted-globals': [
+        'error',
+        {
+          name: 'fetch',
+          message: 'Ambil data lewat klien API (src/api/kueri), bukan fetch langsung (D-20).',
+        },
+      ],
+    },
   },
   {
     files: ['vite.config.ts', 'tailwind.config.ts'],

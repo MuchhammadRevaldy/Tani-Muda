@@ -121,7 +121,7 @@ Rincian ada di `kontrak-api.md`. Ringkasnya:
 - **Sukses:** `{ "data": … }`. Daftar berhalaman memakai `{ "data": [ … ], "meta": { "halaman", "per_halaman", "total", "halaman_terakhir" } }` dengan parameter `?halaman=&per_halaman=` (bawaan 20, maksimal 100).
 - **Galat:** `{ "galat": { "kode": "UKURAN_KOSONG", "pesan": "Isi luas lahan dulu", "rincian": { "luas_m2": ["…"] } } }`. `kode` stabil dan dipakai frontend; `pesan` siap tampil dalam Bahasa Indonesia; `rincian` berisi galat per kolom untuk validasi.
 - **Kode status:** 200/201, 204, 401 (belum masuk), 403 (peran atau status akun tidak mengizinkan), 404 (tidak ada **atau milik pengguna lain**, supaya keberadaan data orang lain tidak bocor; D-22), 409 (bentrok, mis. alokasi melebihi pesanan), 422 (validasi), 429 (terlalu sering).
-- **Uang** dalam rupiah bulat (integer, kolom `BIGINT UNSIGNED`). **Berat** dalam kg desimal. **Tanggal** tanpa jam `YYYY-MM-DD`, sama dengan `src/lib`. **Waktu** dalam ISO 8601 dengan zona `+07:00`.
+- **Uang** dalam rupiah bulat (integer, kolom `BIGINT UNSIGNED`). **Berat** dalam kg desimal. **Tanggal** tanpa jam `YYYY-MM-DD`, sama dengan `src/lib`. **Waktu** dalam ISO 8601 UTC berakhiran `Z` (D-31); frontend menampilkannya menurut `pengguna.zona_waktu`.
 - Laravel menangani semua galat lewat satu handler (`bootstrap/app.php` → `withExceptions`) yang mengubah `ValidationException`, `AuthorizationException`, `ModelNotFoundException`, dan sejenisnya ke format galat di atas.
 
 ## 5. Masuk dengan nomor HP dan OTP (Sanctum)
@@ -198,7 +198,7 @@ Ditambah kasus khusus: pembeli tidak menerima koordinat lahan, pembeli belum ter
 | Persen | `DECIMAL(5,2)` |
 | Koordinat | `DECIMAL(9,6)` lintang dan bujur (tanpa tipe spasial) |
 | Tanggal tanpa jam | `DATE` |
-| Waktu | `TIMESTAMP` dalam UTC; aplikasi menampilkan `+07:00` |
+| Waktu | `TIMESTAMP` dalam UTC (`config/app.php` `timezone = UTC`); dikirim sebagai ISO 8601 `Z`, ditampilkan menurut `pengguna.zona_waktu` (D-31) |
 | Pilihan tetap | kolom `enum` Laravel dipadukan dengan PHP backed enum |
 
 Batasan di tingkat tabel (MariaDB 10.4 menegakkan `CHECK`):

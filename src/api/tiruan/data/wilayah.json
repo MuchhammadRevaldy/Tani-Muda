@@ -1,0 +1,82 @@
+[
+  {
+    "id": "32.17.01.2003",
+    "desa": "Lembang",
+    "kecamatan": "Lembang",
+    "kabupaten": "Kabupaten Bandung Barat",
+    "provinsi": "Jawa Barat",
+    "lintang": -6.8117,
+    "bujur": 107.6175,
+    "kode_terverifikasi": true
+  },
+  {
+    "id": "32.17.01.2013",
+    "desa": "Sukajaya",
+    "kecamatan": "Lembang",
+    "kabupaten": "Kabupaten Bandung Barat",
+    "provinsi": "Jawa Barat",
+    "lintang": -6.793,
+    "bujur": 107.639,
+    "kode_terverifikasi": true
+  },
+  {
+    "id": "32.17.01.2001",
+    "desa": "Gudangkahuripan",
+    "kecamatan": "Lembang",
+    "kabupaten": "Kabupaten Bandung Barat",
+    "provinsi": "Jawa Barat",
+    "lintang": -6.817,
+    "bujur": 107.626,
+    "kode_terverifikasi": false
+  },
+  {
+    "id": "32.17.01.2002",
+    "desa": "Cikahuripan",
+    "kecamatan": "Lembang",
+    "kabupaten": "Kabupaten Bandung Barat",
+    "provinsi": "Jawa Barat",
+    "lintang": -6.804,
+    "bujur": 107.633,
+    "kode_terverifikasi": false
+  },
+  {
+    "id": "32.17.01.2004",
+    "desa": "Jayagiri",
+    "kecamatan": "Lembang",
+    "kabupaten": "Kabupaten Bandung Barat",
+    "provinsi": "Jawa Barat",
+    "lintang": -6.826,
+    "bujur": 107.608,
+    "kode_terverifikasi": false
+  },
+  {
+    "id": "32.17.01.2005",
+    "desa": "Kayuambon",
+    "kecamatan": "Lembang",
+    "kabupaten": "Kabupaten Bandung Barat",
+    "provinsi": "Jawa Barat",
+    "lintang": -6.82,
+    "bujur": 107.621,
+    "kode_terverifikasi": false
+  },
+  {
+    "id": "32.73.03.1004",
+    "desa": "Ledeng",
+    "kecamatan": "Cidadap",
+    "kabupaten": "Kota Bandung",
+    "provinsi": "Jawa Barat",
+    "lintang": -6.861,
+    "bujur": 107.597,
+    "kode_terverifikasi": false
+  },
+  {
+    "id": "32.73.10.1001",
+    "desa": "Batununggal",
+    "kecamatan": "Bandung Kidul",
+    "kabupaten": "Kota Bandung",
+    "provinsi": "Jawa Barat",
+    "lintang": -6.945,
+    "bujur": 107.628,
+    "kode_terverifikasi": false
+  }
+]

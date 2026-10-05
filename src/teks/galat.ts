@@ -40,4 +40,5 @@ export const teksGalat: Record<KodeGalat, string> = {
   KETERANGAN_WAJIB: 'Tulis alasannya dulu',
   FREKUENSI_TIDAK_VALID: 'Jadwal kiriman belum benar',
   LAHAN_TIDAK_CUKUP: 'Lahanmu tidak cukup untuk jumlah ini',
+  NOMOR_HP_TIDAK_VALID: 'Nomor HP belum benar. Contoh: 0812 3456 7890',
 };

@@ -14,9 +14,11 @@
     "lint": "eslint . && node scripts/cek-aturan.mjs",
     "format": "prettier --write .",
     "tangkap": "node scripts/tangkap-layar.mjs",
-    "ekstrak-desain": "node scripts/ekstrak-desain.mjs"
+    "ekstrak-desain": "node scripts/ekstrak-desain.mjs",
+    "data-contoh": "node scripts/tulis-data-contoh.mjs"
   },
   "dependencies": {
+    "@tanstack/react-query": "5.104.1",
     "react": "19.3.0",
     "react-dom": "19.3.0",
     "react-router-dom": "7.18.4"

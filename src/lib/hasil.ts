@@ -44,7 +44,9 @@ export type KodeGalat =
   | 'ALASAN_TIDAK_DIKENAL'
   | 'KETERANGAN_WAJIB'
   | 'FREKUENSI_TIDAK_VALID'
-  | 'LAHAN_TIDAK_CUKUP';
+  | 'LAHAN_TIDAK_CUKUP'
+  // akun
+  | 'NOMOR_HP_TIDAK_VALID';
 
 export type Hasil<T> = { ok: true; nilai: T } | { ok: false; galat: KodeGalat };
 

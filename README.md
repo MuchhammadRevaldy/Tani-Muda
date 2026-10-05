@@ -62,6 +62,9 @@ npm run dev             # http://localhost:5173
 | `npm run build`                          | Cek tipe dan build produksi ke `dist/`                                                                                  |
 | `npm run ekstrak-desain`                 | Bongkar file desain ke `design/extracted/` (bahan kerja, tidak masuk git)                                               |
 | `npm run tangkap -- <url> <jalur-dasar>` | Tangkapan layar 390px dan 1440px dengan Chrome atau Edge yang terpasang                                                 |
+| `npm run data-contoh`                    | Tulis ulang `src/api/tiruan/data/*.json` dari `pembuat-data.ts`                                                         |
+
+Sumber data dipilih dengan `VITE_SUMBER_DATA` di `.env`: `tiruan` (bawaan, data contoh di browser) atau `http` (backend Laravel, tersedia mulai Tahap 6). Data tiruan yang diubah selama demo tersimpan di `localStorage` browser.
 
 ## Struktur folder
 
@@ -73,6 +76,8 @@ tani-muda/
 │   └── README.md               indeks papan desain
 ├── docs/
 │   ├── keputusan.md        keputusan produk; mengalahkan PRD dan desain
+│   ├── kontrak-api.md      bentuk data dan endpoint frontend ↔ backend
+│   ├── arsitektur-backend.md rancangan backend Laravel
 │   ├── aturan-proyek.md    aturan wajib di setiap tugas
 │   ├── rencana-kerja.md    tahap, tugas, dan progres
 │   ├── ringkasan-desain.md token, komponen, dan daftar halaman
@@ -82,7 +87,10 @@ tani-muda/
 ├── public/fonts/           Plus Jakarta Sans (lokal)
 ├── scripts/                pemeriksa aturan, ekstraksi desain, tangkapan layar
 └── src/
-    ├── lib/                fungsi murni dan tesnya (format, tata letak penggaris, ...)
+    ├── lib/                fungsi murni dan tesnya (format, hitungan modal, jadwal, ...)
+    ├── tipe/               tipe domain (camelCase)
+    ├── api/                kontrak (tipe snake_case), klien API, hook kueri, klien tiruan + data contoh
+    ├── penyedia/           antarmuka OTP dan pembayaran beserta implementasi tiruannya
     ├── teks/               semua teks antarmuka (Bahasa Indonesia)
     ├── komponen/           komponen bersama (tombol, kartu, penggaris umur tanam, ...)
     ├── halaman/            halaman
@@ -91,7 +99,7 @@ tani-muda/
     └── main.tsx            titik masuk
 ```
 
-Folder yang akan ditambahkan di tahap berikutnya: `src/api/` (kontrak, klien API tiruan lalu HTTP), `src/penyedia/` (antarmuka pembayaran dan OTP), dan `src/tipe/`. Di Tahap 5 repositori dipecah menjadi `frontend/` (proyek React ini), `backend/` (Laravel), dan `shared/kasus-uji/` (kasus uji perhitungan yang dipakai Vitest dan Pest). Rancangannya di [`docs/arsitektur-backend.md`](docs/arsitektur-backend.md).
+Halaman dan komponen hanya mengambil data lewat hook di `src/api/kueri` (dijaga lint). Di Tahap 5 repositori dipecah menjadi `frontend/` (proyek React ini), `backend/` (Laravel), dan `shared/kasus-uji/` (kasus uji perhitungan yang dipakai Vitest dan Pest). Rancangannya di [`docs/arsitektur-backend.md`](docs/arsitektur-backend.md).
 
 ## Dokumen penting
 
@@ -101,7 +109,8 @@ Baca berurutan sebelum mengerjakan tugas:
 2. [`docs/aturan-proyek.md`](docs/aturan-proyek.md): aturan wajib di setiap tugas.
 3. [`docs/rencana-kerja.md`](docs/rencana-kerja.md): daftar tugas dan progres.
 4. [`docs/ringkasan-desain.md`](docs/ringkasan-desain.md): token, komponen, dan halaman.
-5. [`docs/arsitektur-backend.md`](docs/arsitektur-backend.md): rancangan backend Laravel.
+5. [`docs/kontrak-api.md`](docs/kontrak-api.md): bentuk data dan endpoint API.
+6. [`docs/arsitektur-backend.md`](docs/arsitektur-backend.md): rancangan backend Laravel.
 
 ## Keamanan
 

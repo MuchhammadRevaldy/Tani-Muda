@@ -337,14 +337,14 @@ Aturan tahap:
 - Angka uang di klien tiruan dihitung dengan fungsi `src/lib` (D-08), seperti yang nanti dilakukan server dengan rumus yang sama.
 - Data contoh ditulis sebagai **JSON** supaya di Tahap 5 bisa dipindah ke `shared/data-contoh/` dan dipakai seeder Laravel tanpa ditulis ulang.
 
-### [ ] T3.01 Kontrak API: konvensi dan bentuk data **[DEMO]**
+### [x] T3.01 Kontrak API: konvensi dan bentuk data **[DEMO]**
 - **Tujuan:** `docs/kontrak-api.md` bagian 1 dan 2.
   - **Konvensi:**
     - awalan `/api/v1` dan nama kolom `snake_case` sesuai Model Data PRD dan `keputusan.md`;
     - format sukses `{ data }`;
     - **format galat** `{ galat: { kode, pesan, rincian } }` dengan daftar kode galat stabil (`UKURAN_KOSONG`, `MELEBIHI_PESANAN`, `LAHAN_TIDAK_CUKUP`, `AKUN_NONAKTIF`, `BELUM_TERVERIFIKASI`, `KETERANGAN_WAJIB`, `OTP_KEDALUWARSA`, `OTP_TERKUNCI`, …) dan kode status HTTP masing-masing;
     - **paginasi** `{ data: [], meta: { halaman, per_halaman, total, halaman_terakhir } }` dengan parameter `halaman` dan `per_halaman`;
-    - uang dalam rupiah bulat, berat dalam kg desimal, tanggal `YYYY-MM-DD`, waktu ISO 8601 `+07:00`;
+    - uang dalam rupiah bulat, berat dalam kg desimal, tanggal `YYYY-MM-DD`, waktu ISO 8601 UTC berakhiran `Z` (D-31);
     - autentikasi dengan cookie sesi Sanctum.
   - **Bentuk data** setiap entitas Model Data PRD ditambah `keputusan.md`:
     - `pengguna` (`foto_profil`, `status_akun`), `profil_pembeli`, `catatan_petani`, `wilayah`, `lahan`, `kelompok_tani`;
@@ -361,8 +361,9 @@ Aturan tahap:
   - contoh JSON sukses, galat validasi, galat bentrok, dan daftar berhalaman tersedia;
   - tidak ada kolom kata sandi atau nama pengguna (D-04).
 - **Prasyarat:** T2.01.
+- **Catatan (5 Okt 2026):** Kolom tambahan di luar Model Data PRD ditandai † dan dirangkum di D-35. Waktu memakai UTC (`Z`) sesuai D-31, bukan `+07:00`. `kelompok_tani` hanya tabel (belum ada endpoint sampai P1).
 
-### [ ] T3.02 Kontrak API: endpoint per fitur **[DEMO]**
+### [x] T3.02 Kontrak API: endpoint per fitur **[DEMO]**
 - **Tujuan:** `docs/kontrak-api.md` bagian 3. Daftar endpoint dikelompokkan per fitur:
   - masuk (OTP kirim/verifikasi, keluar, akun);
   - pilih peran dan desa;
@@ -395,8 +396,9 @@ Aturan tahap:
   - setiap operasi uang menyebut bahwa nominal dihitung server dan tidak diterima dari klien;
   - setiap endpoint menyebut aturan aksesnya.
 - **Prasyarat:** T3.01.
+- **Catatan (5 Okt 2026):** 80 endpoint dalam 11 kelompok; tiap baris menyebut metode klien yang menjalankannya. Tabel halaman → endpoint ada di bagian 4 `kontrak-api.md`.
 
-### [ ] T3.03 Tipe TypeScript dari kontrak **[DEMO]**
+### [x] T3.03 Tipe TypeScript dari kontrak **[DEMO]**
 - **Tujuan:**
   - Tipe untuk setiap bentuk data, masukan, dan respons di kontrak, termasuk `Respons<T>`, `Halaman<T>`, `GalatApi` (kode galat sebagai union string), dan bentuk per penonton.
   - Tipe domain di `src/tipe/` (T2.01) dipakai ulang bila sama, atau dipetakan lewat fungsi murni.
@@ -408,8 +410,9 @@ Aturan tahap:
   - nama kolom sama persis dengan kontrak (tanpa pengubahan camelCase diam-diam);
   - pemetaan teruji.
 - **Prasyarat:** T3.02.
+- **Catatan (5 Okt 2026):** Pemetaan ditaruh di `src/api/peta.ts` + tes, bukan `src/lib/peta-api.ts`, karena `src/lib` dilarang mengimpor lapisan API (T1.03). Tipe dibagi `umum`, `akun`, `referensi`, `resep`, `kebun`, `belajar`, `pesanan`, `lain`.
 
-### [ ] T3.04 Antarmuka klien API, galat, dan kueri **[DEMO]**
+### [x] T3.04 Antarmuka klien API, galat, dan kueri **[DEMO]**
 - **Tujuan:**
   - Antarmuka `KlienApi` dikelompokkan per fitur (`klien.akun`, `klien.lahan`, `klien.kebun`, `klien.pesanan`, …), satu metode per endpoint, mengembalikan `Promise` dari tipe T3.03 atau melempar `GalatApi`.
   - Penyedia React `PenyediaKlienApi` dan hook `useKlienApi`.
@@ -423,8 +426,9 @@ Aturan tahap:
   - `GalatApi` membawa `kode`, `pesan`, dan `rincian`;
   - tidak ada `fetch` atau data tiruan di luar `src/api/`.
 - **Prasyarat:** T3.03.
+- **Catatan (5 Okt 2026):** Semua hook ada di satu berkas `src/api/kueri/index.ts` (pembantu di `kueri/bantu.ts`). Galat diulang otomatis hanya untuk 5xx dan jaringan, tidak untuk 4xx. Klien tiruan dimuat dinamis (potongan terpisah ±192 kB) supaya mode `http` kelak tidak membawanya. `src/main.tsx` sudah dibungkus `PenyediaKlienApi`. Ditambah `src/lib/zona-waktu.ts` + tes (D-31).
 
-### [ ] T3.05 Penyimpanan tiruan **[DEMO]**
+### [x] T3.05 Penyimpanan tiruan **[DEMO]**
 - **Tujuan:** Penyimpanan untuk klien tiruan:
   - data di memori yang disimpan ke `localStorage` (bisa dimatikan untuk tes);
   - versi skema dan reset ke data contoh;
@@ -438,8 +442,9 @@ Aturan tahap:
   - `localStorage` yang kosong atau rusak tidak membuat aplikasi gagal (kembali ke data contoh);
   - tes memakai penyimpanan memori saja.
 - **Prasyarat:** T3.04.
+- **Catatan (5 Okt 2026):** Jam disuntikkan lewat opsi `jam` di `buatKlienTiruan` (tanpa berkas `jam.ts` terpisah). Latensi 200–400 ms hanya di mode pengembangan, 0 di tes dan produksi. Galat buatan lewat `galatBuatan.gagalkanBerikutnya(kode)`. Atur ulang lewat `kontrol.aturUlang()` (dipakai pemilih akun demo T4.01). Penyimpanan dan latensi ada di `penyimpanan.ts`, `latensi.ts`, `basis-data.ts`, `konteks.ts`.
 
-### [ ] T3.06 Data contoh: referensi, wilayah, konfigurasi **[DEMO]**
+### [x] T3.06 Data contoh: referensi, wilayah, konfigurasi **[DEMO]**
 - **Tujuan:**
   - Data contoh dari desain: 10 komoditas (4 berresep), 4 metode, konversi ru 14 m² untuk wilayah demo, input pertanian dan merek (nomor pendaftaran), laporan harga, kelayakan subsidi (urea, NPK), promo toko tani.
   - **Wilayah**: desa demo di Lembang dan sekitarnya, dengan titik tengah desa.
@@ -452,8 +457,9 @@ Aturan tahap:
   - tidak ada nama atau nomor HP asli;
   - angka bisnis hanya ada di `konfigurasi.json`.
 - **Prasyarat:** T3.03.
+- **Catatan (5 Okt 2026):** Wilayah pilot Kecamatan Lembang, Kab. Bandung Barat (D-27; nama pilot dari pemilik produk masih templat). Kode Kecamatan Lembang 32.17.01, Desa Lembang 32.17.01.2003, dan Sukajaya 32.17.01.2013 sudah dicek; kode lain ditandai `kode_terverifikasi: false` dan wajib dicek sebelum seeder Tahap 5. Tanda "contoh" ada di catatan `indeks.json` (berlaku untuk seluruh berkas) dan di setiap resep (`contoh: true`), bukan di setiap baris. JSON dibuat dari `pembuat-data.ts` dengan `npm run data-contoh`; tes gagal bila JSON diubah manual.
 
-### [ ] T3.07 Data contoh: resep draf dan modul belajar **[DEMO]**
+### [x] T3.07 Data contoh: resep draf dan modul belajar **[DEMO]**
 - **Tujuan:**
   - Resep **sawi bedengan** (input dengan dosis, dasar dosis, kemasan; tugas pupuk 1 HST 7, pupuk 2 HST 14, cek hama HST 20, siangi rumput HST 11, siram setiap hari, cek daun berlubang setiap 3 hari, panen HST 28; hasil 1,5 kg/m²; standar kualitas).
   - Resep **sawi hidroponik NFT** (alat sekali beli, nutrisi per liter, tugas ukur pH/PPM tiap 2 hari dengan rentang pH 5,5–6,5 dan PPM 1.050–1.400 serta saran, ganti larutan HST 21, pindah tanam HST 10).
@@ -469,8 +475,9 @@ Aturan tahap:
   - bayam dan kangkung tidak punya resep hidroponik;
   - setiap resep punya label contoh.
 - **Prasyarat:** T3.06, T2.01.
+- **Catatan (5 Okt 2026):** 5 resep × 6 modul = 30 modul. 3 modul punya contoh video (MP4 360p, ≤ 15 MB), sisanya placeholder (D-29). Resep bayam dan kangkung bertanda `asal_angka_contoh: 'dikarang'` (D-34).
 
-### [ ] T3.08 Data contoh: pengguna uji, lahan, siklus, pesanan **[DEMO]**
+### [x] T3.08 Data contoh: pengguna uji, lahan, siklus, pesanan **[DEMO]**
 - **Tujuan:** **Pengguna uji untuk setiap peran**, semuanya fiktif:
   - petani aktif "Arif" dengan dua lahan (bedengan 120 m² dan hidroponik 200 lubang);
   - petani kedua di desa lain;
@@ -499,8 +506,9 @@ Aturan tahap:
   - jarak pesanan untuk petani demo sesuai urutan papan 29 mobile (dihitung `jarak.ts` dari titik tengah desa);
   - nilai uang konsisten dengan `pesanan-nilai.ts` dan `kiriman.ts`.
 - **Prasyarat:** T3.07, T2.12, T2.14, T2.15, T2.15a.
+- **Catatan (5 Okt 2026):** Lahan bedengan Arif 140 m² (10 ru), bukan 120 m², supaya cukup untuk siklus sawi, bayam, dan rencana berpesanan sekaligus (sisa 20 m²). Tanggal ditulis relatif terhadap hari ini (D-35). Berkas JSON dibagi `indeks`, `konfigurasi`, `wilayah`, `referensi`, `resep`, `modul`, `pengguna`, `kebun`, `pesanan`; lahan dan siklus ada di `kebun.json`.
 
-### [ ] T3.09 Klien tiruan: akun, referensi, lahan, kebun, belajar **[DEMO]**
+### [x] T3.09 Klien tiruan: akun, referensi, lahan, kebun, belajar **[DEMO]**
 - **Tujuan:** Implementasi tiruan untuk endpoint masuk dan akun (memakai `PenyediaOtp` tiruan T3.11), pilih peran dan desa, profil, wilayah, referensi, resep (resep `contoh` disaring keluar bila `VITE_TAMPILKAN_RESEP_CONTOH` mati; D-12), permintaan resep, lahan, siklus (buat dari rencana dengan `jadwal-buat`, ubah tanggal tanam), tugas (selesai, tunda), pengukuran (tugas ukur ulang), pengeluaran, jurnal (foto disimpan sebagai data URL yang dikecilkan), pengaturan pengingat, modul, dan progres.
 
   Aturan yang ditegakkan seperti server:
@@ -516,8 +524,9 @@ Aturan tahap:
   - resep draf bukan contoh tidak pernah keluar;
   - paginasi dan format galat sesuai kontrak.
 - **Prasyarat:** T3.05, T3.08, T3.11, T2.08, T2.09, T2.10.
+- **Catatan (5 Okt 2026):** Berkas fitur dikelompokkan `fitur/akun.ts`, `referensi.ts` (termasuk wilayah, resep, belajar), dan `kebun.ts` (termasuk lahan). Tes per endpoint ada di rangkaian kontrak (T3.12), bukan berkas tes per fitur. OTP tiruan dipakai di dalam `klien.akun`, sehingga halaman Masuk hanya memanggil klien API.
 
-### [ ] T3.10 Klien tiruan: pesanan, kiriman, pembayaran, admin, mentor **[DEMO]**
+### [x] T3.10 Klien tiruan: pesanan, kiriman, pembayaran, admin, mentor **[DEMO]**
 - **Tujuan:** Implementasi tiruan untuk:
   - pesanan di sekitar: radius dari titik tengah desa dengan `jarak.ts`; hanya nama desa dan jarak yang dikirim (D-06);
   - detail pesanan dan **ambil pesanan**: tolak bila akun nonaktif (D-13), alokasi melebihi pesanan (`409 MELEBIHI_PESANAN`), atau lahan tidak cukup (`409 LAHAN_TIDAK_CUKUP`); membuat alokasi dan siklus dengan harga kesepakatan;
@@ -537,8 +546,9 @@ Aturan tahap:
   - pembeli tidak pernah menerima koordinat lahan (diuji pada semua respons pembeli);
   - mengulang permintaan bayar dengan `kunci_idempoten` yang sama tidak membayar dua kali.
 - **Prasyarat:** T3.09, T2.12, T2.13, T2.14.
+- **Catatan (5 Okt 2026):** Berkas dikelompokkan `fitur/pesanan.ts` (pesanan, kiriman, pembeli) dan `fitur/admin.ts` (admin, mentor). Keadaan dana di pembayaran tiruan diturunkan dari baris `pembayaran`, sehingga tetap benar setelah muat ulang.
 
-### [ ] T3.11 PenyediaOtp dan PenyediaPembayaran tiruan **[DEMO]**
+### [x] T3.11 PenyediaOtp dan PenyediaPembayaran tiruan **[DEMO]**
 - **Tujuan:**
   - Antarmuka **`PenyediaOtp`** (`kirimKode`, `verifikasi`) dan **`PenyediaPembayaran`** (`tahan`, `cairkan`, `kembalikan`, `status`).
   - **OTP tiruan** meniru aturan backend nanti: kode 6 digit hanya disimpan sebagai hash, kedaluwarsa 5 menit, paling banyak 5 percobaan, kirim ulang setelah 60 detik. Kode ditampilkan di panel "Kode uji" yang hanya muncul di mode pengembangan.
@@ -550,8 +560,9 @@ Aturan tahap:
   - tes pembayaran: tahan lalu cairkan, kembalikan, cairkan melebihi saldo ditolak;
   - panel kode uji tidak ikut di `build` produksi.
 - **Prasyarat:** T3.05.
+- **Catatan (5 Okt 2026):** Kode uji dibaca lewat `kontrol.kodeUji(nomor)`. Kontrol pengembangan bernilai `null` di build produksi, sehingga panelnya (dibuat di T4.01) tidak bisa tampil. Ditambah batas 5 kali kirim per jam.
 
-### [ ] T3.12 Tes kontrak dan pagar impor **[DEMO]**
+### [x] T3.12 Tes kontrak dan pagar impor **[DEMO]**
 - **Tujuan:**
   - **Satu rangkaian tes kontrak** yang dijalankan terhadap implementasi `KlienApi` mana pun: bentuk respons, kode galat, paginasi, dan aturan akses utama. Di Tahap 3 dijalankan terhadap klien tiruan; di Tahap 6 rangkaian yang sama dijalankan terhadap klien HTTP.
   - **Aturan ESLint**: `src/halaman/` dan `src/komponen/` dilarang mengimpor `src/api/tiruan/**` dan `src/penyedia/**/…-tiruan`.
@@ -562,6 +573,7 @@ Aturan tahap:
   - impor data tiruan dari halaman membuat `npm run lint` gagal (diuji dengan berkas contoh di tes aturan);
   - setiap endpoint di `kontrak-api.md` punya minimal satu kasus.
 - **Prasyarat:** T3.09, T3.10.
+- **Catatan (5 Okt 2026):** Pagar juga melarang `src/api/sumber` dan `fetch` langsung di halaman dan komponen. Tes aturan ada di `scripts/eslint-pagar.test.mjs`. Satu tes memastikan setiap metode `KlienApi` dipanggil oleh rangkaian kontrak. Lint, typecheck, 648 tes, dan build hijau.
 
 ---
 
@@ -583,7 +595,7 @@ Setiap tugas halaman: dibuat di **390px dan 1440px**, dibandingkan dengan papan 
 
 ### [ ] T4.02 Langkah 1: Mau tanam apa? **[DEMO]**
 - **Tujuan:** Pilih jenis lahan (Semua/Sawah/Kebun/Pekarangan), cari, daftar per kategori dengan umur panen, jumlah pesanan di sekitar, label "Ada pesanan"/"Segera hadir"; ringkasan pilihan + tombol "Lanjut pilih metode".
-- **Berkas:** `src/halaman/hitung/pilih-tanaman.tsx`, `src/teks/hitung.ts`, `src/api/kueri/komoditas.ts`.
+- **Berkas:** `src/halaman/hitung/pilih-tanaman.tsx`, `src/teks/hitung.ts`, hook dari `src/api/kueri` (sudah ada sejak T3.04).
 - **PRD:** P0-30, US-22, US-23; **D-05** (bayam dan kangkung hidroponik "Segera hadir").
 - **Selesai bila:** papan 10 (desktop dengan menu profil terbuka) cocok; filter lahan hanya menampilkan yang cocok; komoditas tanpa resep tetap bisa diketuk; hasil pencarian kosong menampilkan "Tanaman ini belum ada di daftar" dengan "Minta tanaman baru".
 - **Tangkapan (D-07):** `docs/tangkapan/aplikasi/10-hitung-pilih-tanaman-mobile.png` (390px) dan `10-hitung-pilih-tanaman-desktop.png` (1440px), ditunjukkan ke pemilik produk; **berhenti menunggu tanggapan** sebelum tugas berikutnya.
@@ -631,7 +643,7 @@ Setiap tugas halaman: dibuat di **390px dan 1440px**, dibandingkan dengan papan 
 
 ### [ ] T4.08 Simpan rencana dan pilih tanggal tanam (turunan) **[DEMO]**
 - **Tujuan:** "Simpan rencana" membuat `siklus_tanam` + `rencana_item`; langkah pilih tanggal tanam (turunan; boleh tanggal lampau untuk siklus pilot); pembuatan `tugas` dari resep memakai `jadwal-buat`; rencana masih bisa diubah sebelum tanggal tanam; kembali ke Beranda.
-- **Berkas:** `src/halaman/hitung/pilih-tanggal-tanam.tsx`, `src/api/kueri/siklus.ts` (mutasi), `src/lib/rencana-ke-baris.ts` + tes (pemetaan rencana → baris `rencana_item`).
+- **Berkas:** `src/halaman/hitung/pilih-tanggal-tanam.tsx`, hook dari `src/api/kueri` (sudah ada sejak T3.04) (mutasi), `src/lib/rencana-ke-baris.ts` + tes (pemetaan rencana → baris `rencana_item`).
 - **PRD:** P0-11, P0-12, P0-04 (siklus menyimpan versi resep), US-07.
 - **Selesai bila:** setelah simpan, `siklus_tanam.resep_id` = versi resep terpakai; jumlah `tugas` sama dengan `buatJadwal`; mengubah resep di database tidak mengubah siklus lama (diuji); waktu dari rencana sampai simpan terukur (tujuan < 5 menit, P0 tujuan pengguna 1) di catatan demo.
 - **Tangkapan (D-07):** `docs/tangkapan/aplikasi/41-pilih-tanggal-tanam-mobile.png` (390px) dan `41-pilih-tanggal-tanam-desktop.png` (1440px), ditunjukkan ke pemilik produk; **berhenti menunggu tanggapan** sebelum tugas berikutnya.
@@ -649,7 +661,7 @@ Setiap tugas halaman: dibuat di **390px dan 1440px**, dibandingkan dengan papan 
 
 ### [ ] T4.10 Jadwal siklus **[DEMO]**
 - **Tujuan:** Halaman jadwal: header siklus + tab Jadwal/Modal/Jurnal, filter tipe (Semua/Sekali/Berulang/Pengukuran), daftar dikelompokkan per hari (Terlambat, Hari ini, Besok, tanggal, Sudah selesai), tugas berulang sebagai satu baris dengan frekuensi, keadaan kosong per filter; panel samping desktop ("Tiga jenis tugas", "Pengingat").
-- **Berkas:** `src/halaman/kebun/jadwal.tsx`, `src/halaman/kebun/kerangka-siklus.tsx`, `src/api/kueri/tugas.ts`.
+- **Berkas:** `src/halaman/kebun/jadwal.tsx`, `src/halaman/kebun/kerangka-siklus.tsx`, hook dari `src/api/kueri` (sudah ada sejak T3.04).
 - **PRD:** P0-12, US-07.
 - **Selesai bila:** papan 20 dan 21 cocok; ikon tipe berbeda di semua daftar; filter "Pengukuran" di siklus bedengan menampilkan pesan papan 20 mobile; pengelompokan = `kelompokkanPerHari`; label "CONTOH, belum divalidasi penyuluh" terlihat di jadwal dan detail tugas bila resepnya contoh (D-12).
 - **Tangkapan (D-07):** `docs/tangkapan/aplikasi/20-jadwal-sawi-bedengan-mobile.png` (390px) dan `20-jadwal-sawi-bedengan-desktop.png` (1440px) (juga nomor 21), ditunjukkan ke pemilik produk; **berhenti menunggu tanggapan** sebelum tugas berikutnya.
@@ -680,7 +692,7 @@ Setiap tugas halaman: dibuat di **390px dan 1440px**, dibandingkan dengan papan 
 
 ### [ ] T4.14 Pengingat per siklus
 - **Tujuan:** Pilih siklus, jam pengingat pagi (05.00–07.00), saklar pengingat sore, saklar per tipe tugas, contoh tampilan notifikasi, "Lewati siram saat hujan — Segera hadir", simpan ke `pengaturan_pengingat`.
-- **Berkas:** `src/halaman/kebun/pengingat.tsx`, `src/api/kueri/pengingat.ts`.
+- **Berkas:** `src/halaman/kebun/pengingat.tsx`, hook dari `src/api/kueri` (sudah ada sejak T3.04).
 - **PRD:** P0-38, US-29, P1-05 (sore).
 - **Selesai bila:** papan 26 cocok; mematikan tipe tidak menghapus tugas dari jadwal dan beranda; contoh notifikasi sama dengan hasil `pengingat.ts`.
 - **Prasyarat:** T4.10, T2.11.
@@ -710,7 +722,7 @@ Setiap tugas halaman: dibuat di **390px dan 1440px**, dibandingkan dengan papan 
 
 ### [ ] T4.18 Pesanan di sekitar **[DEMO]**
 - **Tujuan:** Daftar pesanan dalam radius (konfigurasi, default 10 km) terurut terdekat, filter Semua/Rutin/Sekali panen dengan penanda jenis, keterangan jumlah, "Boleh ambil sebagian", hanya pesanan berresep, keadaan kosong + "Cari sampai 25 km"; tab Di sekitar / Kiriman saya.
-- **Berkas:** `src/halaman/pesanan/sekitar.tsx`, `src/api/kueri/pesanan.ts`.
+- **Berkas:** `src/halaman/pesanan/sekitar.tsx`, hook dari `src/api/kueri` (sudah ada sejak T3.04).
 - **PRD:** P0-19 (penanda dan filter), P0-20, US-11.
 - **Selesai bila:** papan 29 dan 30 cocok; daftar dari endpoint pesanan di sekitar (jarak dari titik tengah desa); urutan sama dengan `jarak.ts`; radius dan batas bukan angka tetap; petani `dinonaktifkan_sementara` tetap melihat daftar (D-13).
 - **Tangkapan (D-07):** `docs/tangkapan/aplikasi/29-pesanan-di-sekitar-mobile.png` (390px) dan `29-pesanan-di-sekitar-desktop.png` (1440px) (juga nomor 30), ditunjukkan ke pemilik produk; **berhenti menunggu tanggapan** sebelum tugas berikutnya.
@@ -718,7 +730,7 @@ Setiap tugas halaman: dibuat di **390px dan 1440px**, dibandingkan dengan papan 
 
 ### [ ] T4.19 Detail pesanan dan ambil sebagian **[DEMO]**
 - **Tujuan:** Rincian pesanan, "Mau ambil berapa?" (pilihan jumlah), cek lahan (cukup/tidak, jumlah maksimal disarankan), saran tanam bertahap, "Uang yang kamu terima"; tombol "Ambil" nonaktif bila lahan tidak cukup; status uang muka "Uang muka diterima" sebelum diminta menanam. **Kapasitas lahan dari tabel `lahan` lewat `kapasitas-lahan.ts` (D-06, D-08).** Petani memilih lahan; bila belum punya lahan diarahkan ke "Lahan saya" (T4.36a).
-- **Berkas:** `src/halaman/pesanan/detail-pesanan.tsx`, `src/api/kueri/alokasi.ts`.
+- **Berkas:** `src/halaman/pesanan/detail-pesanan.tsx`, hook dari `src/api/kueri` (sudah ada sejak T3.04).
 - **PRD:** P0-21, P0-23 (status uang muka), US-12, US-13.
 - **Selesai bila:** papan 31 cocok (desktop diturunkan); semua angka dari `pesanan-lahan.ts` dan `pesanan-nilai.ts`; total alokasi tidak melebihi pesanan (galat `409 MELEBIHI_PESANAN` diterjemahkan ke pesan yang jelas); mengambil memanggil endpoint ambil pesanan dan membuat siklus dengan harga kesepakatan; untuk petani `dinonaktifkan_sementara` tombol "Ambil pesanan" diganti penjelasan singkat dan cara menghubungi admin dari konfigurasi (D-13).
 - **Tangkapan (D-07):** `docs/tangkapan/aplikasi/31-detail-pesanan-mobile.png` (390px) dan `31-detail-pesanan-desktop.png` (1440px), ditunjukkan ke pemilik produk; **berhenti menunggu tanggapan** sebelum tugas berikutnya.
@@ -734,7 +746,7 @@ Setiap tugas halaman: dibuat di **390px dan 1440px**, dibandingkan dengan papan 
 
 ### [ ] T4.21 Kiriman saya dan foto kualitas **[DEMO]**
 - **Tujuan:** Kiriman hari ini dengan tahap uang (Uang muka ditahan → Menunggu konfirmasi → Dana cair), unggah foto kualitas sebelum kirim, daftar berikutnya dan sebelumnya (termasuk sebagian ditolak).
-- **Berkas:** `src/halaman/pesanan/kiriman-saya.tsx`, `src/api/kueri/pengiriman.ts`.
+- **Berkas:** `src/halaman/pesanan/kiriman-saya.tsx`, hook dari `src/api/kueri` (sudah ada sejak T3.04).
 - **PRD:** P0-25, US-14.
 - **Selesai bila:** papan 33 cocok (desktop diturunkan); tidak bisa menandai "dikirim" tanpa foto kualitas; chip uang memakai `ChipStatus`.
 - **Tangkapan (D-07):** `docs/tangkapan/aplikasi/33-kiriman-saya-mobile.png` (390px) dan `33-kiriman-saya-desktop.png` (1440px), ditunjukkan ke pemilik produk; **berhenti menunggu tanggapan** sebelum tugas berikutnya.
@@ -805,7 +817,7 @@ Setiap tugas halaman: dibuat di **390px dan 1440px**, dibandingkan dengan papan 
 
 ### [ ] T4.30 Daftar modul belajar **[DEMO]**
 - **Tujuan:** Pilih tanaman dan cara tanam, kemajuan "n dari 6 modul selesai", "Lanjutkan: …", baris modul (selesai, sedang, tersimpan offline, belum), tombol unduh.
-- **Berkas:** `src/halaman/belajar.tsx`, `src/api/kueri/modul.ts`.
+- **Berkas:** `src/halaman/belajar.tsx`, hook dari `src/api/kueri` (sudah ada sejak T3.04).
 - **PRD:** P0-05, US-01, US-02.
 - **Selesai bila:** papan 08 dan 09 cocok; progres dari `belajar.ts`; modul yang sudah ditonton diberi tanda; tautan dari tugas hari ini membuka modul tahap berjalan (P0-06). Hidroponik hanya muncul untuk sawi (D-05).
 - **Tangkapan (D-07):** `docs/tangkapan/aplikasi/08-belajar-hidroponik-mobile.png` (390px) dan `08-belajar-hidroponik-desktop.png` (1440px) (juga nomor 09), ditunjukkan ke pemilik produk; **berhenti menunggu tanggapan** sebelum tugas berikutnya.
@@ -830,16 +842,16 @@ Setiap tugas halaman: dibuat di **390px dan 1440px**, dibandingkan dengan papan 
 - **Prasyarat:** T1.14, T1.16.
 
 ### [ ] T4.33 Masuk dengan nomor HP dan OTP **[DEMO]**
-- **Tujuan:** Nomor HP → kirim OTP → 6 digit → sesi; hitung mundur kirim ulang; galat jelas untuk kode salah, kedaluwarsa (5 menit), dan terkunci (5 percobaan); **tanpa kata sandi (D-04)**; semua lewat antarmuka `PenyediaOtp` dengan implementasi tiruan T3.11 (D-10); menggantikan pemilih akun demo (T4.01) di luar mode pengembangan.
-- **Berkas:** `src/halaman/masuk.tsx`, `src/teks/masuk.ts` (memakai `src/lib/nomor-hp.ts` dan `PenyediaOtp` dari T3.11).
+- **Tujuan:** Nomor HP → kirim OTP → 6 digit → sesi; hitung mundur kirim ulang; galat jelas untuk kode salah, kedaluwarsa (5 menit), dan terkunci (5 percobaan); **tanpa kata sandi (D-04)**; centang persetujuan kebijakan privasi berteks draf untuk pengguna baru (D-30); semua lewat klien API (`useKirimOtp`, `useVerifikasiOtp`), yang di mode tiruan memakai `PenyediaOtp` tiruan T3.11 (D-10); menggantikan pemilih akun demo (T4.01) di luar mode pengembangan.
+- **Berkas:** `src/halaman/masuk.tsx`, `src/teks/masuk.ts` (memakai `src/lib/nomor-hp.ts` dan hook dari `src/api/kueri`).
 - **PRD:** P0-01.
-- **Selesai bila:** papan 02 cocok; halaman hanya memakai `PenyediaOtp`; nomor tidak valid ditolak dengan pesan; sesi bertahan setelah muat ulang; mengganti penyedia SMS tidak mengubah halaman.
+- **Selesai bila:** papan 02 cocok; halaman hanya memakai klien API, tidak pernah `PenyediaOtp` langsung (dijaga lint T3.12); nomor tidak valid ditolak dengan pesan; pengguna baru tanpa centang privasi tidak bisa lanjut; sesi bertahan setelah muat ulang; mengganti penyedia SMS tidak mengubah halaman.
 - **Tangkapan (D-07):** `docs/tangkapan/aplikasi/02-masuk-mobile.png` (390px) dan `02-masuk-desktop.png` (1440px), ditunjukkan ke pemilik produk; **berhenti menunggu tanggapan** sebelum tugas berikutnya.
 - **Prasyarat:** T4.01, T1.16, T3.11.
 
 ### [ ] T4.34 Pilih peran dan desa (turunan) **[DEMO]**
 - **Tujuan:** Setelah OTP pertama: pilih peran (petani/pembeli/mentor), petani wajib mengisi desa lokasi lahan (dengan pencarian desa dan koordinat setingkat desa); pembeli lanjut ke T4.28.
-- **Berkas:** `src/halaman/pilih-peran.tsx`, `src/api/kueri/wilayah.ts` (data wilayah tiruan T3.06).
+- **Berkas:** `src/halaman/pilih-peran.tsx`, hook dari `src/api/kueri` (sudah ada sejak T3.04) (data wilayah tiruan T3.06).
 - **PRD:** P0-01.
 - **Selesai bila:** petani tanpa desa tidak bisa lanjut ("Isi desa lahanmu dulu"); peran admin tidak bisa dipilih sendiri; desa tersimpan dan dipakai untuk radius pesanan.
 - **Tangkapan (D-07):** `docs/tangkapan/aplikasi/39-pilih-peran-dan-desa-mobile.png` (390px) dan `39-pilih-peran-dan-desa-desktop.png` (1440px), ditunjukkan ke pemilik produk; **berhenti menunggu tanggapan** sebelum tugas berikutnya.
@@ -847,7 +859,7 @@ Setiap tugas halaman: dibuat di **390px dan 1440px**, dibandingkan dengan papan 
 
 ### [ ] T4.35 Profil petani
 - **Tujuan:** Profil dengan statistik (rating, siklus selesai, kg terjual), kartu Akun (nama, nomor HP), Kebun (desa, ringkasan dari tabel `lahan`, komoditas), Pengingat, Bantuan, tombol Keluar. **Tanpa kata sandi, nama pengguna, dan kartu kelompok tani (D-04, D-06).**
-- **Berkas:** `src/halaman/profil.tsx`, `src/api/kueri/profil.ts`.
+- **Berkas:** `src/halaman/profil.tsx`, hook dari `src/api/kueri` (sudah ada sejak T3.04).
 - **PRD:** P0-01, P0-09, P0-28 (rating di profil).
 - **Selesai bila:** papan 34 cocok tanpa bagian yang dihapus; statistik dari data nyata; catatan petani (D-03) tampil ke petani sendiri.
 - **Prasyarat:** T4.34, T4.26.
@@ -861,7 +873,7 @@ Setiap tugas halaman: dibuat di **390px dan 1440px**, dibandingkan dengan papan 
 
 ### [ ] T4.36a Lahan saya (turunan) **[DEMO]**
 - **Tujuan:** Petani mengelola lahan: nama, jenis lahan, luas dengan satuan lokal (nilai asli disimpan), desa, titik koordinat, kapasitas lubang hidroponik; tampil luas yang sedang dipakai dan kapasitas tersisa.
-- **Berkas:** `src/halaman/lahan-saya.tsx`, `src/halaman/lahan/form-lahan.tsx`, `src/api/kueri/lahan.ts`.
+- **Berkas:** `src/halaman/lahan-saya.tsx`, `src/halaman/lahan/form-lahan.tsx`, hook dari `src/api/kueri` (sudah ada sejak T3.04).
 - **PRD:** P0-21, P0-33; **D-06**.
 - **Selesai bila:** luas disimpan sebagai `luas_m2` + `satuan_asli` + `nilai_asli` lewat `konversi-satuan.ts`; kapasitas tersisa dari `kapasitas-lahan.ts`; titik lahan tidak pernah tampil ke pembeli; 390px (navigasi bawah) dan 1440px (sidebar kiri, dua kolom: daftar dan form).
 - **Tangkapan (D-07):** `docs/tangkapan/aplikasi/40-lahan-saya-mobile.png` (390px) dan `40-lahan-saya-desktop.png` (1440px), ditunjukkan ke pemilik produk; **berhenti menunggu tanggapan** sebelum tugas berikutnya.
@@ -892,7 +904,7 @@ Setiap tugas halaman: dibuat di **390px dan 1440px**, dibandingkan dengan papan 
 
 ### [ ] T4.41 Bayar uang muka, pembayaran, dan riwayat pembeli (turunan) **[DEMO]**
 - **Tujuan:** Dari "Lanjut bayar Rp…" ke lembar bayar mode uji coba, halaman hasil (berhasil/gagal/menunggu), status "Uang muka sudah masuk" di sisi petani sebelum mulai menanam, konfirmasi kiriman memicu pencairan; halaman Pembayaran dan Riwayat pembeli. Semua lewat klien API dan `PenyediaPembayaran` tiruan (T3.11) dengan label "Mode uji coba"; teks memakai bahasa petani (D-09).
-- **Berkas:** `src/halaman/pembeli/bayar.tsx`, `src/halaman/pembeli/pembayaran.tsx`, `src/halaman/pembeli/riwayat.tsx`, `src/api/kueri/pembayaran.ts`.
+- **Berkas:** `src/halaman/pembeli/bayar.tsx`, `src/halaman/pembeli/pembayaran.tsx`, `src/halaman/pembeli/riwayat.tsx`, hook dari `src/api/kueri` (sudah ada sejak T3.04).
 - **PRD:** P0-23, P0-26, US-13, US-14; D-02, D-10.
 - **Selesai bila:** alur penuh dengan data tiruan: pesan → bayar → petani melihat "Uang muka sudah masuk" → kirim → konfirmasi → status "Dana cair"; gagal bayar tidak membuat pesanan aktif; nominal dari klien API (dihitung `pesanan-nilai.ts`), bukan dari halaman; klik ganda tidak membayar dua kali.
 - **Tangkapan (D-07):** `docs/tangkapan/aplikasi/44-bayar-uang-muka-mobile.png` (390px) dan `44-bayar-uang-muka-desktop.png` (1440px), ditunjukkan ke pemilik produk; **berhenti menunggu tanggapan** sebelum tugas berikutnya.

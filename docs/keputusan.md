@@ -283,6 +283,16 @@ Ditetapkan oleh pemilik produk, 5 Oktober 2026 (jawaban P-6 sampai P-14 dan tang
   - PPM 0 menghasilkan status **Terlalu rendah** beserta sarannya.
 - **Jarak Haversine**: sudah benar.
 
+## D-35. Kontrak API dan data tiruan (Tahap 3)
+Tafsiran teknis saat menulis `docs/kontrak-api.md`. Tidak mengubah perilaku produk; bila ada yang keliru, pemilik produk tinggal mengoreksi.
+- **Kolom tambahan di luar Model Data PRD** (ditandai † di kontrak), masing-masing turunan keputusan yang sudah ada: `status`, `contoh`, `asal_angka_contoh` resep (D-11, D-12, D-34); `skala_min`/`skala_maks` besaran ukur (D-34); `status` dan `resep_contoh` siklus; `jumlah_polybag` dan `volume_tandon_liter` (D-15); `ke`, `harga_per_kg`, `dikirim_pada`, `batas_periksa_pada`, `dikonfirmasi_pada`, `dianggap_diterima`, `nilai_diterima` pada pengiriman dan status pengiriman `gagal` (D-01, D-03); jenis pembayaran `pencairan`, `pengembalian`, `kompensasi` dan `mode_uji_coba` (D-02, D-03, D-10); tabel `jurnal`, `sistem_hidroponik`, `konfigurasi` (P0-14, papan 14, D-28); `zona_waktu`, `setuju_privasi_pada`, `versi_privasi` (D-30, D-31); `alasan_ditolak` profil pembeli; `het_per_satuan` kelayakan subsidi.
+- **Format waktu**: ISO 8601 UTC berakhiran `Z`; tanggal kalender `YYYY-MM-DD`; uang bilangan bulat rupiah.
+- **Data contoh** memakai tanggal relatif (`H-13`, `H+0T07:00`, `B+2`) yang diterjemahkan saat dimuat, supaya demo selalu "hari ini" tanpa mengubah jam komputer.
+- **Klien tiruan menyimpan perubahan di `localStorage`** perangkat (kunci `tani-muda:data-tiruan`), dan bisa diatur ulang lewat kontrol pengembangan. Bila versi data contoh berubah, data tersimpan diabaikan.
+- **Kode OTP tiruan** tidak pernah dikirim lewat respons. Di mode tiruan, kode dibaca lewat kontrol pengembangan (pemilih akun demo, T4.01); aturan 5 menit, 5 percobaan, 60 detik kirim ulang, dan 5 kali per jam sama dengan backend.
+- **`VITE_SUMBER_DATA=http`** sampai Tahap 6 menghasilkan galat `SUMBER_BELUM_TERSEDIA` di setiap pemanggilan, bukan layar kosong.
+- Berdampak ke: T3.01 sampai T3.12, T5.03, T5.04.
+
 ---
 
 ## Riwayat
@@ -293,3 +303,4 @@ Ditetapkan oleh pemilik produk, 5 Oktober 2026 (jawaban P-6 sampai P-14 dan tang
 | 2026-10-05 | D-19 dan D-20 ditetapkan: backend Laravel + MariaDB tanpa Docker, tampilan dikerjakan lebih dulu. Butir OTP di D-10 dan butir penegakan di D-13 dan D-14 disesuaikan |
 | 2026-10-05 | D-21 sampai D-25 ditetapkan: cookie Sanctum (token untuk React Native), 404 untuk data orang lain, konfirmasi otomatis setiap 15 menit, siap deploy VPS, PHP 8.3+ terpisah |
 | 2026-10-05 | D-26 sampai D-34 ditetapkan: menu Kebun, wilayah berkode Kemendagri, konfigurasi lewat git, video, persetujuan privasi draf, UTC + zona waktu per pengguna, iPhone, repositori, tanggapan tafsiran Tahap 2 (kapasitas dan nilai pengukuran diubah) |
+| 2026-10-05 | D-35 ditetapkan: tafsiran teknis kontrak API dan data tiruan (kolom tambahan, format waktu UTC, tanggal relatif, penyimpanan tiruan, OTP tiruan) |

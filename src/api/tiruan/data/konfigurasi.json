@@ -1,0 +1,21 @@
+{
+  "persen_uang_muka": 20,
+  "persen_layanan": 5,
+  "jam_periksa_rutin": 6,
+  "jam_periksa_sekali_panen": 24,
+  "hari_kabar_gagal_panen": 3,
+  "radius_km": 10,
+  "radius_maks_km": 25,
+  "maks_durasi_rutin_hari": 92,
+  "hari_kembali_uang_muka": 7,
+  "laporan_harga_minimal": 3,
+  "laporan_harga_rentang_hari": 30,
+  "kontak_admin": {
+    "whatsapp": "+62 812-0000-0099",
+    "jam_layanan": "Senin–Jumat, 08.00–16.00 WIB"
+  },
+  "batas_video_mb": 15,
+  "batas_unduhan_offline_mb": 200,
+  "versi_privasi": "draf-2026-10",
+  "diperbarui_pada": "H-30T09:00"
+}

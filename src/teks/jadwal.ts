@@ -2,6 +2,11 @@
 import type { StatusWaktu } from '../lib/jadwal-ubah';
 import type { IsiPengingat } from '../lib/pengingat';
 
+/** Judul tugas tambahan bila hasil ukur di luar rentang (P0-37). */
+export function judulUkurUlang(judul: string): string {
+  return `Ukur ulang: ${judul}`;
+}
+
 /** "setiap hari", "setiap 3 hari". */
 export function teksFrekuensi(interval: number): string {
   return interval === 1 ? 'setiap hari' : `setiap ${interval} hari`;

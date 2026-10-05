@@ -1,0 +1,50 @@
+/**
+ * Pembagian data contoh ke beberapa berkas JSON dan penggabungannya kembali. Nama berkas inilah yang
+ * kelak dipindah ke shared/data-contoh/ (T5.01).
+ */
+import type { DataContoh } from './jenis-data';
+
+export interface BerkasDataContoh {
+  indeks: { versi: number; catatan: string };
+  konfigurasi: DataContoh['konfigurasi'];
+  wilayah: DataContoh['wilayah'];
+  referensi: DataContoh['referensi'];
+  resep: DataContoh['resep'];
+  modul: DataContoh['modul'];
+  pengguna: DataContoh['pengguna'];
+  kebun: DataContoh['kebun'];
+  pesanan: DataContoh['pesanan'];
+}
+
+const CATATAN =
+  'DATA CONTOH dan fiktif, bukan rekomendasi. Resep berstatus draf dan berlabel "CONTOH, belum divalidasi penyuluh". ' +
+  'Tanggal relatif: "H-13" = 13 hari sebelum hari ini; "H+0T07:00" = hari ini pukul 07.00 waktu pengguna; "B+2" = dua bulan dari bulan ini. ' +
+  'Dibuat dari src/api/tiruan/data/pembuat-data.ts dengan "npm run data-contoh"; jangan diubah manual.';
+
+export function pecahDataContoh(d: DataContoh): BerkasDataContoh {
+  return {
+    indeks: { versi: d.versi, catatan: CATATAN },
+    konfigurasi: d.konfigurasi,
+    wilayah: d.wilayah,
+    referensi: d.referensi,
+    resep: d.resep,
+    modul: d.modul,
+    pengguna: d.pengguna,
+    kebun: d.kebun,
+    pesanan: d.pesanan,
+  };
+}
+
+export function gabungDataContoh(b: BerkasDataContoh): DataContoh {
+  return {
+    versi: b.indeks.versi,
+    konfigurasi: b.konfigurasi,
+    wilayah: b.wilayah,
+    referensi: b.referensi,
+    resep: b.resep,
+    modul: b.modul,
+    pengguna: b.pengguna,
+    kebun: b.kebun,
+    pesanan: b.pesanan,
+  };
+}
