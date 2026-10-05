@@ -1,16 +1,26 @@
-import { useEffect, type ReactNode } from 'react';
+import { lazy, Suspense, useEffect, type ReactNode } from 'react';
 import { createBrowserRouter, Outlet, type RouteObject } from 'react-router-dom';
 import { HeaderHalaman } from './komponen/navigasi';
-import { KerangkaPanel, KerangkaPembeli, KerangkaPetani } from './komponen/kerangka';
+import { KerangkaPanel } from './komponen/kerangka';
+import { KerangkaPembeliSesi, KerangkaPetaniSesi } from './komponen/kerangka-sesi';
+import { PenjagaRute, PenjagaTamu, PenjagaTanpaPeran } from './komponen/penjaga-rute';
 import { Galat } from './halaman/galat';
 import { TidakDitemukan } from './halaman/tidak-ditemukan';
 import { HalamanKomponen } from './halaman/komponen';
+import { HalamanMasuk } from './halaman/masuk';
+import { HalamanPilihPeran } from './halaman/pilih-peran';
+import { HalamanBeranda } from './halaman/beranda';
+import { Memuat } from './halaman/memuat';
 import { judulRute, type KunciRute } from './teks/rute';
 import { teksUmum } from './teks/umum';
 
-/** Akun sementara sampai sesi tersedia (T4.01). Nama fiktif, sama dengan contoh desain. */
-const AKUN_SEMENTARA = { nama: 'Arif Setiawan', keterangan: 'Petani · Lembang' };
-const USAHA_SEMENTARA = 'Katering Bu Ratna';
+/**
+ * Pemilih akun demo hanya ada di mode pengembangan (D-36). Di build produksi cabang ini dibuang
+ * Vite, sehingga modulnya tidak ikut dibundel (dicek scripts/cek-build.mjs).
+ */
+const HalamanPilihAkunDemo = import.meta.env.DEV
+  ? lazy(() => import('./halaman/pilih-akun-demo'))
+  : null;
 
 function JudulDokumen({ kunci }: { kunci: KunciRute }) {
   useEffect(() => {
@@ -30,16 +40,27 @@ function Sementara({ kunci }: { kunci: KunciRute }) {
   );
 }
 
-const petani = (kunci: KunciRute, opsi: { tanpaNav?: boolean } = {}): ReactNode => (
-  <KerangkaPetani akun={AKUN_SEMENTARA} tanpaNav={opsi.tanpaNav}>
-    <Sementara kunci={kunci} />
-  </KerangkaPetani>
+const halamanPetani = (
+  kunci: KunciRute,
+  isi: ReactNode = <Sementara kunci={kunci} />,
+  opsi: { tanpaNav?: boolean } = {},
+): ReactNode => (
+  <PenjagaRute peran={['petani']}>
+    <KerangkaPetaniSesi tanpaNav={opsi.tanpaNav}>
+      <JudulDokumen kunci={kunci} />
+      {isi}
+    </KerangkaPetaniSesi>
+  </PenjagaRute>
 );
+const petani = (kunci: KunciRute, opsi: { tanpaNav?: boolean } = {}): ReactNode =>
+  halamanPetani(kunci, <Sementara kunci={kunci} />, opsi);
 
 const pembeli = (kunci: KunciRute): ReactNode => (
-  <KerangkaPembeli namaUsaha={USAHA_SEMENTARA}>
-    <Sementara kunci={kunci} />
-  </KerangkaPembeli>
+  <PenjagaRute peran={['pembeli']}>
+    <KerangkaPembeliSesi>
+      <Sementara kunci={kunci} />
+    </KerangkaPembeliSesi>
+  </PenjagaRute>
 );
 
 const polos = (kunci: KunciRute): ReactNode => (
@@ -48,11 +69,13 @@ const polos = (kunci: KunciRute): ReactNode => (
   </main>
 );
 
-const panel = (kunci: KunciRute): ReactNode => (
-  <KerangkaPanel judul={judulRute[kunci]}>
-    <JudulDokumen kunci={kunci} />
-    <p className="m-0 text-teks-pendukung">{teksUmum.segeraDibangun}</p>
-  </KerangkaPanel>
+const panel = (kunci: KunciRute, peran: 'admin' | 'mentor'): ReactNode => (
+  <PenjagaRute peran={peran === 'mentor' ? ['mentor', 'admin'] : ['admin']}>
+    <KerangkaPanel judul={judulRute[kunci]}>
+      <JudulDokumen kunci={kunci} />
+      <p className="m-0 text-teks-pendukung">{teksUmum.segeraDibangun}</p>
+    </KerangkaPanel>
+  </PenjagaRute>
 );
 
 /** Daftar rute. Rute sama dengan tabel di docs/ringkasan-desain.md bagian 3. */
@@ -62,7 +85,38 @@ export const daftarRute: RouteObject[] = [
     errorElement: <Galat />,
     children: [
       { path: '/', element: polos('landing') },
-      { path: '/masuk', element: polos('masuk') },
+      {
+        path: '/masuk',
+        element: (
+          <PenjagaTamu>
+            <JudulDokumen kunci="masuk" />
+            <HalamanMasuk />
+          </PenjagaTamu>
+        ),
+      },
+      {
+        path: '/pilih-peran',
+        element: (
+          <PenjagaTanpaPeran>
+            <JudulDokumen kunci="pilihPeran" />
+            <HalamanPilihPeran />
+          </PenjagaTanpaPeran>
+        ),
+      },
+      ...(HalamanPilihAkunDemo
+        ? [
+            {
+              path: '/akun-demo',
+              element: (
+                <Suspense fallback={<Memuat />}>
+                  <JudulDokumen kunci="akunDemo" />
+                  <HalamanPilihAkunDemo />
+                </Suspense>
+              ),
+            },
+          ]
+        : []),
+      { path: '/aturan-pakai', element: polos('aturanPakai') },
       {
         path: '/komponen',
         element: (
@@ -72,7 +126,7 @@ export const daftarRute: RouteObject[] = [
           </>
         ),
       },
-      { path: '/beranda', element: petani('beranda') },
+      { path: '/beranda', element: halamanPetani('beranda', <HalamanBeranda />) },
       { path: '/hitung/tanaman', element: petani('pilihTanaman', { tanpaNav: true }) },
       { path: '/hitung/metode', element: petani('pilihMetode', { tanpaNav: true }) },
       { path: '/hitung/modal', element: petani('hitungModal', { tanpaNav: true }) },
@@ -98,8 +152,8 @@ export const daftarRute: RouteObject[] = [
       { path: '/pembeli/pembayaran', element: pembeli('pembayaran') },
       { path: '/pembeli/pesanan/baru', element: pembeli('buatPesanan') },
       { path: '/pembeli/kiriman/:id', element: pembeli('konfirmasiKiriman') },
-      { path: '/admin', element: panel('admin') },
-      { path: '/mentor', element: panel('mentor') },
+      { path: '/admin', element: panel('admin', 'admin') },
+      { path: '/mentor', element: panel('mentor', 'mentor') },
       { path: '*', element: <TidakDitemukan /> },
     ],
   },

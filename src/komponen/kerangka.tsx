@@ -12,6 +12,7 @@ export function KerangkaPetani({
   lencana,
   children,
   tanpaNav,
+  onKeluar,
   className,
 }: {
   akun: Akun;
@@ -19,11 +20,17 @@ export function KerangkaPetani({
   children: ReactNode;
   /** Halaman alur (Hitung) tidak memakai navigasi bawah di HP, sama dengan desain. */
   tanpaNav?: boolean;
+  onKeluar?: () => void;
   className?: string;
 }) {
   return (
     <div className="flex min-h-layar bg-embun-pagi text-teks">
-      <Sidebar akun={akun} lencana={lencana} className="sticky top-0 hidden h-screen lg:flex" />
+      <Sidebar
+        akun={akun}
+        lencana={lencana}
+        onKeluar={onKeluar}
+        className="sticky top-0 hidden h-screen lg:flex"
+      />
       <div className="flex min-w-0 flex-1 flex-col">
         <main className={cx('flex-1 px-4 pb-6 pt-2 lg:px-10 lg:pb-12 lg:pt-6', className)}>
           <div className="mx-auto flex max-w-konten flex-col gap-6">{children}</div>

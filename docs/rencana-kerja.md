@@ -581,15 +581,39 @@ Aturan tahap:
 
 Setiap tugas halaman: dibuat di **390px dan 1440px**, dibandingkan dengan papan yang disebut, teks di `src/teks/`, hanya komponen Tahap 1, logika dari `src/lib`. **Data hanya lewat klien API** (hook di `src/api/kueri/`) yang di tahap ini memakai implementasi tiruan Tahap 3; halaman tidak pernah mengimpor data tiruan (D-20). Setiap halaman menangani keadaan memuat, kosong, dan gagal. "Turunan" = desain belum ada, dibuat dari pola yang ada (K6).
 
+**Label contoh (D-36):** setiap tugas yang menampilkan angka resep (kalkulator, perkiraan panen, jadwal termasuk penggaris dan detail tugas, rentang pengukuran) baru selesai bila label "CONTOH, belum divalidasi penyuluh" terlihat di layar di setiap tempat angka itu muncul, untuk siklus atau resep yang `contoh`. Tugas yang terkena ditandai "Label contoh (D-36)" di kriteria selesainya.
+
+### Gelombang Tahap 4 (D-36)
+
+42 tugas dibagi menjadi 8 gelombang, masing-masing paling banyak 8 tugas, mengikuti alur demo. Setiap gelombang ditutup dengan lint, typecheck, test, build, tangkapan layar mobile dan desktop setiap halamannya, dan satu commit lokal "Tahap 4 gelombang n: …". Lalu pekerjaan berhenti sampai pemilik produk memeriksa tangkapan layar (D-07). Gelombang berikutnya baru dimulai setelah ada tanggapan.
+
+| Gelombang | Isi | Tugas | Jumlah |
+| --- | --- | --- | --- |
+| 1 | Akun demo, penjaga rute, Masuk, pilih peran, Beranda petani | T4.01, T4.33, T4.34, T4.09 | 4 |
+| 2 | Hitung: pilih tanaman, metode, kalkulator, simpan rencana, lahan | T4.02, T4.03, T4.04, T4.05, T4.06, T4.07, T4.08, T4.36a | 8 |
+| 3 | Kebun: jadwal, tugas, pengukuran, pengingat, modal, jurnal, akhir siklus | T4.10, T4.11, T4.12, T4.13, T4.14, T4.15, T4.16, T4.17 | 8 |
+| 4 | Jual sisi petani | T4.18, T4.19, T4.20, T4.21 | 4 |
+| 5 | Sisi pembeli, termasuk bayar uang muka, rating, gagal panen | T4.22, T4.23, T4.24, T4.25, T4.26, T4.27, T4.28, T4.41 | 8 |
+| 6 | Belajar | T4.30, T4.31 | 2 |
+| 7 | Landing page, profil, halaman statis | T4.32, T4.35, T4.36, T4.37 | 4 |
+| 8 | Mentor, admin, pemeriksaan akhir | T4.29, T4.38, T4.39, T4.40 | 4 |
+
+Catatan pembagian:
+- T4.34 (pilih peran dan desa) ikut gelombang 1 karena pengguna baru langsung diarahkan ke sana setelah Masuk. Tanpa halaman itu alur Masuk buntu.
+- T4.36a (lahan saya) ikut gelombang 2 karena simpan rencana (T4.08) memilih lahan.
+- T4.26 dan T4.27 (rating, gagal panen, pembatalan) ikut gelombang 5 karena dipicu dari konfirmasi kiriman pembeli. Sisi petani untuk lapor gagal panen memakai halaman kiriman dari gelombang 4.
+- T4.40 (uji responsif menyeluruh) ada di gelombang terakhir karena memeriksa semua halaman.
+
 ## 4A. Sesi dan penjaga rute
 
-### [ ] T4.01 Sesi pengembangan dan penjaga rute **[DEMO]**
+### [x] T4.01 Sesi pengembangan dan penjaga rute **[DEMO]**
 - **Tujuan:** Penyedia sesi (`useSesi`) dan penjaga rute berdasarkan peran, sehingga halaman bisa dikerjakan sebelum halaman Masuk selesai. Di mode pengembangan tersedia pemilih pengguna uji dari data tiruan (satu per peran dan keadaan, T3.10); di produksi pemilih ini tidak ikut.
 - **Berkas:** `src/api/sesi.tsx` (sesi dari `klien.akun`), `src/komponen/penjaga-rute.tsx`, `src/halaman/pilih-akun-demo.tsx` (hanya mode pengembangan), tes `PenjagaRute`.
 - **PRD:** P0-01.
-- **Selesai bila:** rute petani menolak pembeli dan sebaliknya; rute tanpa sesi mengarah ke `/masuk`; produksi tidak memuat pemilih akun demo (dicek di `build`).
+- **Selesai bila:** rute petani menolak pembeli dan sebaliknya; rute tanpa sesi mengarah ke `/masuk`; pemilih akun demo hanya aktif di mode data tiruan; produksi tidak memuat pemilih akun demo (dicek otomatis di `build`, D-36).
 - **Tangkapan (D-07):** `docs/tangkapan/aplikasi/43-pilih-akun-demo-mobile.png` (390px) dan `43-pilih-akun-demo-desktop.png` (1440px), ditunjukkan ke pemilik produk; **berhenti menunggu tanggapan** sebelum tugas berikutnya.
 - **Prasyarat:** T3.09, T1.15.
+- **Catatan (5 Okt 2026):** Sesi dari `GET /akun` (`useSesi`, `berandaPeran`, `useHariIni`, `useGantiPengguna` di `src/api/sesi.tsx`). Penjaga: `PenjagaRute` (per peran; peran salah diarahkan ke halaman awal perannya), `PenjagaTamu` (/masuk), `PenjagaTanpaPeran` (/pilih-peran); 7 tes. Kerangka mengambil nama dan desa dari sesi (`src/komponen/kerangka-sesi.tsx`); Keluar di menu akun berfungsi. Pemilih akun demo di `/akun-demo` dimuat malas hanya bila `import.meta.env.DEV` dan hanya aktif bila kontrol tiruan ada; `scripts/cek-build.mjs` (bagian `npm run build`) gagal bila teksnya ada di `dist/`. Saat masuk, keluar, atau ganti akun, cache kueri dikosongkan agar data pengguna lain tidak terlihat. Data contoh versi 2: petani Sari (tanpa siklus) ditambahkan ke pengguna uji.
 
 ## 4B. Pilar Hitung
 
@@ -613,7 +637,7 @@ Setiap tugas halaman: dibuat di **390px dan 1440px**, dibandingkan dengan papan 
 - **Tujuan:** Kartu metode (modal awal, lahan, perawatan, "Cocok untuk pemula", "Resep tersedia"/"Segera hadir"); ukuran sesuai metode: luas dengan satuan m²/ru-bata/hektare, jumlah polybag, sistem hidroponik + lubang + tandon, vertikultur; teks bantuan konversi; perkiraan panen langsung; padi hanya Sawah; "Minta resep ini" untuk metode tanpa resep.
 - **Berkas:** `src/halaman/hitung/pilih-metode.tsx`, `src/halaman/hitung/form-ukuran.tsx`.
 - **PRD:** P0-32, P0-33, US-24, US-25; fungsi `konversi-satuan`, `ukuran-metode`, `kebutuhan` (validasi ukuran).
-- **Selesai bila:** papan 13, 14 dan 15 cocok; "7 ru ≈ 100 m²" muncul dari `teksBantuanLuas`; ukuran kosong menampilkan "Isi luas lahan dulu" / "Isi jumlah lubang tanam dulu"; tombol lanjut nonaktif sampai valid; perkiraan panen berubah saat ukuran berubah. Hidroponik hanya aktif untuk sawi; bayam dan kangkung menampilkan hidroponik "Segera hadir" dengan "Minta resep ini" (D-05).
+- **Selesai bila:** papan 13, 14 dan 15 cocok; "7 ru ≈ 100 m²" muncul dari `teksBantuanLuas`; ukuran kosong menampilkan "Isi luas lahan dulu" / "Isi jumlah lubang tanam dulu"; tombol lanjut nonaktif sampai valid; perkiraan panen berubah saat ukuran berubah. Hidroponik hanya aktif untuk sawi; bayam dan kangkung menampilkan hidroponik "Segera hadir" dengan "Minta resep ini" (D-05). Label contoh (D-36): "CONTOH, belum divalidasi penyuluh" terlihat di setiap tempat angka resep muncul.
 - **Tangkapan (D-07):** `docs/tangkapan/aplikasi/13-hitung-cara-tanam-sawi-bedengan-mobile.png` (390px) dan `13-hitung-cara-tanam-sawi-bedengan-desktop.png` (1440px) (juga nomor 14 dan 15), ditunjukkan ke pemilik produk; **berhenti menunggu tanggapan** sebelum tugas berikutnya.
 - **Prasyarat:** T4.03, T2.02, T2.03, T2.07.
 
@@ -621,7 +645,7 @@ Setiap tugas halaman: dibuat di **390px dan 1440px**, dibandingkan dengan papan 
 - **Tujuan:** Daftar item per grup dengan subtotal; ubah jumlah dan harga (`InputRupiah`), tambah item (tenaga kerja, sewa lahan), hapus item, harga negatif ditolak, "Harga belum diisi" + peringatan total belum lengkap.
 - **Berkas:** `src/halaman/hitung/kalkulator.tsx`, `src/halaman/hitung/baris-item.tsx`, `src/halaman/hitung/use-rencana.ts` (keadaan rencana di memori, memakai `src/lib/modal`, `kebutuhan`).
 - **PRD:** P0-07, P0-08, US-03, US-04.
-- **Selesai bila:** papan 16 (sawi bedengan 100 m²) dan 19 (padi) cocok; ubah jumlah memperbarui subtotal dan total sama dengan hasil `modal.ts`; item tanpa harga ditandai dan ringkasan memberi peringatan; catatan "Semua harga di halaman ini adalah contoh…" tampil; label "CONTOH, belum divalidasi penyuluh" terlihat di setiap bagian yang memuat angka resep, termasuk lembar dan panel (D-12).
+- **Selesai bila:** papan 16 (sawi bedengan 100 m²) dan 19 (padi) cocok; ubah jumlah memperbarui subtotal dan total sama dengan hasil `modal.ts`; item tanpa harga ditandai dan ringkasan memberi peringatan; catatan "Semua harga di halaman ini adalah contoh…" tampil; label "CONTOH, belum divalidasi penyuluh" terlihat di setiap bagian yang memuat angka resep, termasuk lembar dan panel (D-12). Label contoh (D-36): "CONTOH, belum divalidasi penyuluh" terlihat di setiap tempat angka resep muncul.
 - **Tangkapan (D-07):** `docs/tangkapan/aplikasi/16-hitung-modal-sawi-bedengan-mobile.png` (390px) dan `16-hitung-modal-sawi-bedengan-desktop.png` (1440px) (juga nomor 19), ditunjukkan ke pemilik produk; **berhenti menunggu tanggapan** sebelum tugas berikutnya.
 - **Prasyarat:** T4.04, T2.05, T1.08.
 
@@ -629,7 +653,7 @@ Setiap tugas halaman: dibuat di **390px dan 1440px**, dibandingkan dengan papan 
 - **Tujuan:** Pilihan Subsidi/Nonsubsidi per item yang memenuhi syarat dengan catatan "Subsidi hanya untuk petani yang terdaftar di kelompok tani."; lembar "Pilih merek" (harga per kemasan, per satuan, jumlah pelapor, hari lalu), "Merek lain, isi sendiri" yang membuat laporan harga baru; tips pembelian di kios resmi; bagian "Promo dari toko tani" terpisah dengan label "Promo".
 - **Berkas:** `src/halaman/hitung/lembar-merek.tsx`, `src/halaman/hitung/bagian-promo.tsx`, `src/halaman/hitung/pilihan-subsidi.tsx`, `src/api/kueri/laporan-harga.ts`.
 - **PRD:** P0-09, P0-34, P0-35, US-05, US-26.
-- **Selesai bila:** papan 17 cocok; urutan merek berasal dari `harga-item.ts` (laporan terbaru), tidak pernah berubah karena promo; merek lain menulis ke `laporan_harga`; tidak ada merek yang diberi label "rekomendasi".
+- **Selesai bila:** papan 17 cocok; urutan merek berasal dari `harga-item.ts` (laporan terbaru), tidak pernah berubah karena promo; merek lain menulis ke `laporan_harga`; tidak ada merek yang diberi label "rekomendasi". Label contoh (D-36): "CONTOH, belum divalidasi penyuluh" terlihat di setiap tempat angka resep muncul.
 - **Tangkapan (D-07):** `docs/tangkapan/aplikasi/17-hitung-modal-pilih-merek-npk-mobile.png` (390px) dan `17-hitung-modal-pilih-merek-npk-desktop.png` (1440px), ditunjukkan ke pemilik produk; **berhenti menunggu tanggapan** sebelum tugas berikutnya.
 - **Prasyarat:** T4.05, T2.04, T1.12.
 
@@ -637,7 +661,7 @@ Setiap tugas halaman: dibuat di **390px dan 1440px**, dibandingkan dengan papan 
 - **Tujuan:** Bagian "Alat sekali beli" dengan saklar "Bagi biaya alat ke 10 siklus" dan teks pembagian; ringkasan: total modal (atau "Modal siklus ini"), modal per m², perkiraan untung, titik impas, "kalau panen jelek" dengan alasan, pesan rugi merah "Dengan angka ini, kamu berpotensi rugi."; harga jual otomatis memakai harga kesepakatan bila terhubung pesanan; kartu "Jadwal yang akan dibuat" dengan penggaris.
 - **Berkas:** `src/halaman/hitung/bagian-alat.tsx`, `src/halaman/hitung/ringkasan-hasil.tsx`.
 - **PRD:** P0-10, P0-36, US-06, US-27.
-- **Selesai bila:** papan 18 (hidroponik NFT 200 lubang) cocok: modal per siklus dan total alat tampil terpisah; angka sama dengan `ringkasan.ts`; untung negatif tampil merah dengan ikon dan kata; tombol utama tunggal "Simpan rencana".
+- **Selesai bila:** papan 18 (hidroponik NFT 200 lubang) cocok: modal per siklus dan total alat tampil terpisah; angka sama dengan `ringkasan.ts`; untung negatif tampil merah dengan ikon dan kata; tombol utama tunggal "Simpan rencana". Label contoh (D-36): "CONTOH, belum divalidasi penyuluh" terlihat di setiap tempat angka resep muncul.
 - **Tangkapan (D-07):** `docs/tangkapan/aplikasi/18-hitung-modal-sawi-hidroponik-mobile.png` (390px) dan `18-hitung-modal-sawi-hidroponik-desktop.png` (1440px), ditunjukkan ke pemilik produk; **berhenti menunggu tanggapan** sebelum tugas berikutnya.
 - **Prasyarat:** T4.05, T2.06, T1.14.
 
@@ -645,25 +669,26 @@ Setiap tugas halaman: dibuat di **390px dan 1440px**, dibandingkan dengan papan 
 - **Tujuan:** "Simpan rencana" membuat `siklus_tanam` + `rencana_item`; langkah pilih tanggal tanam (turunan; boleh tanggal lampau untuk siklus pilot); pembuatan `tugas` dari resep memakai `jadwal-buat`; rencana masih bisa diubah sebelum tanggal tanam; kembali ke Beranda.
 - **Berkas:** `src/halaman/hitung/pilih-tanggal-tanam.tsx`, hook dari `src/api/kueri` (sudah ada sejak T3.04) (mutasi), `src/lib/rencana-ke-baris.ts` + tes (pemetaan rencana → baris `rencana_item`).
 - **PRD:** P0-11, P0-12, P0-04 (siklus menyimpan versi resep), US-07.
-- **Selesai bila:** setelah simpan, `siklus_tanam.resep_id` = versi resep terpakai; jumlah `tugas` sama dengan `buatJadwal`; mengubah resep di database tidak mengubah siklus lama (diuji); waktu dari rencana sampai simpan terukur (tujuan < 5 menit, P0 tujuan pengguna 1) di catatan demo.
+- **Selesai bila:** setelah simpan, `siklus_tanam.resep_id` = versi resep terpakai; jumlah `tugas` sama dengan `buatJadwal`; mengubah resep di database tidak mengubah siklus lama (diuji); waktu dari rencana sampai simpan terukur (tujuan < 5 menit, P0 tujuan pengguna 1) di catatan demo. Label contoh (D-36): "CONTOH, belum divalidasi penyuluh" terlihat di setiap tempat angka resep muncul.
 - **Tangkapan (D-07):** `docs/tangkapan/aplikasi/41-pilih-tanggal-tanam-mobile.png` (390px) dan `41-pilih-tanggal-tanam-desktop.png` (1440px), ditunjukkan ke pemilik produk; **berhenti menunggu tanggapan** sebelum tugas berikutnya.
 - **Prasyarat:** T4.07, T2.08, T3.09.
 
 ## 4C. Pilar Jadwal dan pengingat
 
-### [ ] T4.09 Beranda petani **[DEMO]**
+### [x] T4.09 Beranda petani **[DEMO]**
 - **Tujuan:** Salam + kota, kartu siklus dengan penggaris, banner "Besok: …", daftar tugas hari ini (`BarisTugas`) termasuk terlambat dan "Isi angka" untuk tugas ukur, kartu "Tawaran pesanan"; keadaan kosong "Mulai siklus tanam pertamamu"; offline dan pengingat diblokir.
 - **Berkas:** `src/halaman/beranda.tsx`, `src/halaman/beranda/*.tsx`, `src/teks/beranda.ts`.
 - **PRD:** P0-06, P0-13 (banner bila izin ditolak), P0-16, P0-29, US-02, US-11.
-- **Selesai bila:** papan 03, 04 (hidroponik), 05, 06, dan 07 cocok; centang tugas menandai selesai (T4.11); tugas terlambat memakai chip "Terlambat n hari"; tautan ke modul tahap yang sedang berjalan.
+- **Selesai bila:** papan 03, 04 (hidroponik), 05, 06, dan 07 cocok; centang tugas menandai selesai (T4.11); tugas terlambat memakai chip "Terlambat n hari"; tautan ke modul tahap yang sedang berjalan. Label contoh (D-36): "CONTOH, belum divalidasi penyuluh" terlihat di setiap tempat angka resep muncul.
 - **Tangkapan (D-07):** `docs/tangkapan/aplikasi/03-beranda-petani-mobile.png` (390px) dan `03-beranda-petani-desktop.png` (1440px) (juga nomor 04 sampai 07), ditunjukkan ke pemilik produk; **berhenti menunggu tanggapan** sebelum tugas berikutnya.
 - **Prasyarat:** T4.08, T1.10, T1.14, T2.09.
+- **Catatan (5 Okt 2026):** Fungsi murni baru `src/lib/beranda.ts` (tugas hari ini, tugas besok, pin penggaris, hasil ukur terakhir, persen modal) + 14 tes. Beda dari papan: salam selalu "Halo, …" (papan 05–07 memakai "Selamat pagi"); tombol kanan atas HP selalu avatar ke Profil; bila ada beberapa siklus aktif, pil memilih siklus untuk kartu (`?siklus=`), sedangkan "Tugas hari ini" memuat semua siklus dikelompokkan per siklus; kartu hasil ukur dan modal hanya tampil mulai 1024px seperti papan desktop. Isi banner besok umum ("Siapkan bahan dan alatnya…") karena resep contoh belum punya `cara_mengerjakan`; langkah cara mengerjakan ditambahkan di T4.11. Tautan belajar di keadaan kosong tanpa angka menit. Lencana Pesanan belum ditampilkan sampai gelombang 4 menetapkan arti "baru". Penanda "tersimpan di HP, belum terkirim" (papan 06) menunggu antrean offline T6.05. Galat Tahap 1 diperbaiki: garis tepi chip "Hari ini", "Besok", dan "Terlambat" tertimpa `border-transparent`.
 
 ### [ ] T4.10 Jadwal siklus **[DEMO]**
 - **Tujuan:** Halaman jadwal: header siklus + tab Jadwal/Modal/Jurnal, filter tipe (Semua/Sekali/Berulang/Pengukuran), daftar dikelompokkan per hari (Terlambat, Hari ini, Besok, tanggal, Sudah selesai), tugas berulang sebagai satu baris dengan frekuensi, keadaan kosong per filter; panel samping desktop ("Tiga jenis tugas", "Pengingat").
 - **Berkas:** `src/halaman/kebun/jadwal.tsx`, `src/halaman/kebun/kerangka-siklus.tsx`, hook dari `src/api/kueri` (sudah ada sejak T3.04).
 - **PRD:** P0-12, US-07.
-- **Selesai bila:** papan 20 dan 21 cocok; ikon tipe berbeda di semua daftar; filter "Pengukuran" di siklus bedengan menampilkan pesan papan 20 mobile; pengelompokan = `kelompokkanPerHari`; label "CONTOH, belum divalidasi penyuluh" terlihat di jadwal dan detail tugas bila resepnya contoh (D-12).
+- **Selesai bila:** papan 20 dan 21 cocok; ikon tipe berbeda di semua daftar; filter "Pengukuran" di siklus bedengan menampilkan pesan papan 20 mobile; pengelompokan = `kelompokkanPerHari`; label "CONTOH, belum divalidasi penyuluh" terlihat di jadwal dan detail tugas bila resepnya contoh (D-12). Label contoh (D-36): "CONTOH, belum divalidasi penyuluh" terlihat di setiap tempat angka resep muncul.
 - **Tangkapan (D-07):** `docs/tangkapan/aplikasi/20-jadwal-sawi-bedengan-mobile.png` (390px) dan `20-jadwal-sawi-bedengan-desktop.png` (1440px) (juga nomor 21), ditunjukkan ke pemilik produk; **berhenti menunggu tanggapan** sebelum tugas berikutnya.
 - **Prasyarat:** T4.08, T2.09, T1.10.
 
@@ -671,7 +696,7 @@ Setiap tugas halaman: dibuat di **390px dan 1440px**, dibandingkan dengan papan 
 - **Tujuan:** Detail tugas (chip waktu, banner saran terlambat dari resep, cara mengerjakan, foto bukti, tunda 1–3 hari dengan tanggal baru), "Tandai selesai"; foto opsional diunggah lewat klien API dan masuk jurnal; konfirmasi bila tunda melewati panen (turunan); tugas berulang dan sekali (turunan tampilan non-terlambat).
 - **Berkas:** `src/halaman/kebun/detail-tugas.tsx`, `src/komponen/ambil-foto.tsx` (kamera/galeri, kecilkan sisi klien), `src/lib/kecilkan-foto.ts` + tes (hitung ukuran target), `src/api/kueri/tugas-mutasi.ts`.
 - **PRD:** P0-14, P0-15, P0-16, US-08.
-- **Selesai bila:** papan 22 cocok; tunda menggeser tugas sejenis lewat `tundaTugas`; foto masuk jurnal dengan tanggal dan nama tugas; tugas terlambat tetap bisa ditandai selesai.
+- **Selesai bila:** papan 22 cocok; tunda menggeser tugas sejenis lewat `tundaTugas`; foto masuk jurnal dengan tanggal dan nama tugas; tugas terlambat tetap bisa ditandai selesai. Label contoh (D-36): "CONTOH, belum divalidasi penyuluh" terlihat di setiap tempat angka resep muncul.
 - **Tangkapan (D-07):** `docs/tangkapan/aplikasi/22-detail-tugas-mobile.png` (390px) dan `22-detail-tugas-desktop.png` (1440px), ditunjukkan ke pemilik produk; **berhenti menunggu tanggapan** sebelum tugas berikutnya.
 - **Prasyarat:** T4.10, T3.09, T1.12.
 
@@ -679,7 +704,7 @@ Setiap tugas halaman: dibuat di **390px dan 1440px**, dibandingkan dengan papan 
 - **Tujuan:** Isian angka, batang rentang normal dengan posisi, status dengan ikon dan kata, saran dari resep, grafik mini 7 pengukuran dengan pita normal, simpan ke `hasil_pengukuran`, tugas "Ukur ulang" hari berikutnya bila di luar rentang, keterangan "Rentang dari Resep Tanam yang dicek penyuluh."
 - **Berkas:** `src/halaman/kebun/ukur-ph-ppm.tsx`, `src/komponen/batang-rentang.tsx`, `src/komponen/grafik-mini.tsx`, tes kedua komponen.
 - **PRD:** P0-37, US-28.
-- **Selesai bila:** papan 23, 24 dan 25 (normal, pH terlalu tinggi, PPM terlalu rendah) cocok; keadaan dihitung `pengukuran.ts`; hasil di luar rentang membuat tugas `Ukur ulang` pada tanggal + 1; riwayat tujuh pengukuran terakhir; label "CONTOH, belum divalidasi penyuluh" terlihat di samping rentang pH/PPM (D-12).
+- **Selesai bila:** papan 23, 24 dan 25 (normal, pH terlalu tinggi, PPM terlalu rendah) cocok; keadaan dihitung `pengukuran.ts`; hasil di luar rentang membuat tugas `Ukur ulang` pada tanggal + 1; riwayat tujuh pengukuran terakhir; label "CONTOH, belum divalidasi penyuluh" terlihat di samping rentang pH/PPM (D-12). Label contoh (D-36): "CONTOH, belum divalidasi penyuluh" terlihat di setiap tempat angka resep muncul.
 - **Tangkapan (D-07):** `docs/tangkapan/aplikasi/23-cek-ph-ppm-normal-mobile.png` (390px) dan `23-cek-ph-ppm-normal-desktop.png` (1440px) (juga nomor 24 dan 25), ditunjukkan ke pemilik produk; **berhenti menunggu tanggapan** sebelum tugas berikutnya.
 - **Prasyarat:** T4.11, T2.10.
 
@@ -687,7 +712,7 @@ Setiap tugas halaman: dibuat di **390px dan 1440px**, dibandingkan dengan papan 
 - **Tujuan:** Dari jadwal/Detail siklus: ubah tanggal tanam dengan penjelasan "Tugas yang sudah selesai tidak berubah"; tampilan perubahan sebelum konfirmasi.
 - **Berkas:** `src/halaman/kebun/ubah-tanggal-tanam.tsx`.
 - **PRD:** P0-17.
-- **Selesai bila:** tugas belum selesai dihitung ulang, tugas selesai tidak berubah (cocok dengan `ubahTanggalTanam`); tampil di 390 dan 1440.
+- **Selesai bila:** tugas belum selesai dihitung ulang, tugas selesai tidak berubah (cocok dengan `ubahTanggalTanam`); tampil di 390 dan 1440. Label contoh (D-36): "CONTOH, belum divalidasi penyuluh" terlihat di setiap tempat angka resep muncul.
 - **Prasyarat:** T4.10, T2.09.
 
 ### [ ] T4.14 Pengingat per siklus
@@ -701,7 +726,7 @@ Setiap tugas halaman: dibuat di **390px dan 1440px**, dibandingkan dengan papan 
 - **Tujuan:** Rencana dan realisasi (sudah keluar % dari rencana, perkiraan modal akhir, perkiraan untung), per item (hemat/lebih/belum dibeli); form "Catat pengeluaran" (item rencana, nominal, tanggal, foto nota; turunan).
 - **Berkas:** `src/halaman/kebun/modal.tsx`, `src/halaman/kebun/catat-pengeluaran.tsx`, `src/lib/realisasi.ts` + `.test.ts` (selisih per item, persen, modal akhir).
 - **PRD:** P0-18, US-09.
-- **Selesai bila:** papan 27 cocok (desktop diturunkan); selisih dihitung `realisasi.ts` (teruji: sesuai rencana, hemat, lebih, belum dibeli, tanpa rencana); catat pengeluaran memperbarui angka tanpa muat ulang.
+- **Selesai bila:** papan 27 cocok (desktop diturunkan); selisih dihitung `realisasi.ts` (teruji: sesuai rencana, hemat, lebih, belum dibeli, tanpa rencana); catat pengeluaran memperbarui angka tanpa muat ulang. Label contoh (D-36): "CONTOH, belum divalidasi penyuluh" terlihat di setiap tempat angka resep muncul.
 - **Prasyarat:** T4.10, T2.06.
 
 ### [ ] T4.16 Detail siklus: Jurnal
@@ -715,7 +740,7 @@ Setiap tugas halaman: dibuat di **390px dan 1440px**, dibandingkan dengan papan 
 - **Tujuan:** Setelah panen, input pendapatan nyata, ringkasan untung sebenarnya = pendapatan nyata − pengeluaran nyata, dibandingkan dengan rencana.
 - **Berkas:** `src/halaman/kebun/akhir-siklus.tsx`, tambahan `src/lib/realisasi.ts`.
 - **PRD:** P0-18, tujuan pengguna 3.
-- **Selesai bila:** untung sebenarnya dihitung dari data nyata dan selisih terhadap rencana ditampilkan (teruji); status siklus menjadi selesai.
+- **Selesai bila:** untung sebenarnya dihitung dari data nyata dan selisih terhadap rencana ditampilkan (teruji); status siklus menjadi selesai. Label contoh (D-36): "CONTOH, belum divalidasi penyuluh" terlihat di setiap tempat angka resep muncul.
 - **Prasyarat:** T4.15.
 
 ## 4D. Pilar Jual (petani)
@@ -732,7 +757,7 @@ Setiap tugas halaman: dibuat di **390px dan 1440px**, dibandingkan dengan papan 
 - **Tujuan:** Rincian pesanan, "Mau ambil berapa?" (pilihan jumlah), cek lahan (cukup/tidak, jumlah maksimal disarankan), saran tanam bertahap, "Uang yang kamu terima"; tombol "Ambil" nonaktif bila lahan tidak cukup; status uang muka "Uang muka diterima" sebelum diminta menanam. **Kapasitas lahan dari tabel `lahan` lewat `kapasitas-lahan.ts` (D-06, D-08).** Petani memilih lahan; bila belum punya lahan diarahkan ke "Lahan saya" (T4.36a).
 - **Berkas:** `src/halaman/pesanan/detail-pesanan.tsx`, hook dari `src/api/kueri` (sudah ada sejak T3.04).
 - **PRD:** P0-21, P0-23 (status uang muka), US-12, US-13.
-- **Selesai bila:** papan 31 cocok (desktop diturunkan); semua angka dari `pesanan-lahan.ts` dan `pesanan-nilai.ts`; total alokasi tidak melebihi pesanan (galat `409 MELEBIHI_PESANAN` diterjemahkan ke pesan yang jelas); mengambil memanggil endpoint ambil pesanan dan membuat siklus dengan harga kesepakatan; untuk petani `dinonaktifkan_sementara` tombol "Ambil pesanan" diganti penjelasan singkat dan cara menghubungi admin dari konfigurasi (D-13).
+- **Selesai bila:** papan 31 cocok (desktop diturunkan); semua angka dari `pesanan-lahan.ts` dan `pesanan-nilai.ts`; total alokasi tidak melebihi pesanan (galat `409 MELEBIHI_PESANAN` diterjemahkan ke pesan yang jelas); mengambil memanggil endpoint ambil pesanan dan membuat siklus dengan harga kesepakatan; untuk petani `dinonaktifkan_sementara` tombol "Ambil pesanan" diganti penjelasan singkat dan cara menghubungi admin dari konfigurasi (D-13). Label contoh (D-36): "CONTOH, belum divalidasi penyuluh" terlihat di setiap tempat angka resep muncul.
 - **Tangkapan (D-07):** `docs/tangkapan/aplikasi/31-detail-pesanan-mobile.png` (390px) dan `31-detail-pesanan-desktop.png` (1440px), ditunjukkan ke pemilik produk; **berhenti menunggu tanggapan** sebelum tugas berikutnya.
 - **Prasyarat:** T4.18, T2.12, T2.13, T2.15a, T3.10, T4.36a.
 
@@ -841,21 +866,23 @@ Setiap tugas halaman: dibuat di **390px dan 1440px**, dibandingkan dengan papan 
 - **Tangkapan (D-07):** `docs/tangkapan/aplikasi/01-halaman-depan-mobile.png` (390px) dan `01-halaman-depan-desktop.png` (1440px), ditunjukkan ke pemilik produk; **berhenti menunggu tanggapan** sebelum tugas berikutnya.
 - **Prasyarat:** T1.14, T1.16.
 
-### [ ] T4.33 Masuk dengan nomor HP dan OTP **[DEMO]**
+### [x] T4.33 Masuk dengan nomor HP dan OTP **[DEMO]**
 - **Tujuan:** Nomor HP → kirim OTP → 6 digit → sesi; hitung mundur kirim ulang; galat jelas untuk kode salah, kedaluwarsa (5 menit), dan terkunci (5 percobaan); **tanpa kata sandi (D-04)**; centang persetujuan kebijakan privasi berteks draf untuk pengguna baru (D-30); semua lewat klien API (`useKirimOtp`, `useVerifikasiOtp`), yang di mode tiruan memakai `PenyediaOtp` tiruan T3.11 (D-10); menggantikan pemilih akun demo (T4.01) di luar mode pengembangan.
 - **Berkas:** `src/halaman/masuk.tsx`, `src/teks/masuk.ts` (memakai `src/lib/nomor-hp.ts` dan hook dari `src/api/kueri`).
 - **PRD:** P0-01.
 - **Selesai bila:** papan 02 cocok; halaman hanya memakai klien API, tidak pernah `PenyediaOtp` langsung (dijaga lint T3.12); nomor tidak valid ditolak dengan pesan; pengguna baru tanpa centang privasi tidak bisa lanjut; sesi bertahan setelah muat ulang; mengganti penyedia SMS tidak mengubah halaman.
 - **Tangkapan (D-07):** `docs/tangkapan/aplikasi/02-masuk-mobile.png` (390px) dan `02-masuk-desktop.png` (1440px), ditunjukkan ke pemilik produk; **berhenti menunggu tanggapan** sebelum tugas berikutnya.
 - **Prasyarat:** T4.01, T1.16, T3.11.
+- **Catatan (5 Okt 2026):** Alur dua langkah: "Kirim kode" lalu "Masuk" (papan 02 hanya menggambar langkah kedua). Pengguna baru baru diketahui saat verifikasi; bila server menjawab `PRIVASI_WAJIB`, kotak persetujuan muncul dan teks draf dibuka di dialog. Panel "Kode uji" hanya di mode pengembangan. `KotakOtp` ditambah `onUbah` dan `galat`. Token huruf baru `judul-masuk` 32/40 untuk judul desktop. Tautan "aturan pakai" menuju halaman sementara sampai T4.37. Tangkapan tambahan: `02-masuk-persetujuan-privasi-*`.
 
-### [ ] T4.34 Pilih peran dan desa (turunan) **[DEMO]**
+### [x] T4.34 Pilih peran dan desa (turunan) **[DEMO]**
 - **Tujuan:** Setelah OTP pertama: pilih peran (petani/pembeli/mentor), petani wajib mengisi desa lokasi lahan (dengan pencarian desa dan koordinat setingkat desa); pembeli lanjut ke T4.28.
 - **Berkas:** `src/halaman/pilih-peran.tsx`, hook dari `src/api/kueri` (sudah ada sejak T3.04) (data wilayah tiruan T3.06).
 - **PRD:** P0-01.
 - **Selesai bila:** petani tanpa desa tidak bisa lanjut ("Isi desa lahanmu dulu"); peran admin tidak bisa dipilih sendiri; desa tersimpan dan dipakai untuk radius pesanan.
 - **Tangkapan (D-07):** `docs/tangkapan/aplikasi/39-pilih-peran-dan-desa-mobile.png` (390px) dan `39-pilih-peran-dan-desa-desktop.png` (1440px), ditunjukkan ke pemilik produk; **berhenti menunggu tanggapan** sebelum tugas berikutnya.
 - **Prasyarat:** T4.33, T3.09.
+- **Catatan (5 Okt 2026):** Dikerjakan di gelombang 1 karena pengguna baru langsung diarahkan ke sini. Peran: Petani, Pembeli, Penyuluh atau mentor. Desa dicari dengan `GET /wilayah?cari=` dan pilihannya tetap tersimpan walau pencarian berubah. Pembeli diarahkan ke `/pembeli`; formulir daftar usaha di T4.28.
 
 ### [ ] T4.35 Profil petani
 - **Tujuan:** Profil dengan statistik (rating, siklus selesai, kg terjual), kartu Akun (nama, nomor HP), Kebun (desa, ringkasan dari tabel `lahan`, komoditas), Pengingat, Bantuan, tombol Keluar. **Tanpa kata sandi, nama pengguna, dan kartu kelompok tani (D-04, D-06).**
@@ -1058,7 +1085,8 @@ Aturan tahap:
 - **Selesai bila:**
   - `migrate:fresh --seed` jalan dari nol;
   - jumlah baris per tabel sama dengan isi JSON (tes);
-  - seeder produksi tanpa resep `contoh` (tes).
+  - seeder produksi tanpa resep `contoh` (tes);
+  - semua kode wilayah sudah dicocokkan dengan data resmi Kemendagri, bukan situs ensiklopedia (D-36).
 - **Prasyarat:** T5.07, T5.01.
 
 ### [ ] T5.09 Masuk dengan nomor HP dan OTP (Sanctum) **[DEMO]**

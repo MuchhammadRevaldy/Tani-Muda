@@ -4,7 +4,11 @@
       "id": "sawi",
       "nama": "Sawi hijau",
       "kategori": "sayuran_daun",
-      "jenis_lahan_cocok": ["kebun", "pekarangan", "hidroponik"],
+      "jenis_lahan_cocok": [
+        "kebun",
+        "pekarangan",
+        "hidroponik"
+      ],
       "satuan_panen": "kg",
       "umur_panen_hari": 28
     },
@@ -12,7 +16,11 @@
       "id": "bayam",
       "nama": "Bayam",
       "kategori": "sayuran_daun",
-      "jenis_lahan_cocok": ["kebun", "pekarangan", "hidroponik"],
+      "jenis_lahan_cocok": [
+        "kebun",
+        "pekarangan",
+        "hidroponik"
+      ],
       "satuan_panen": "kg",
       "umur_panen_hari": 25
     },
@@ -20,7 +28,11 @@
       "id": "kangkung",
       "nama": "Kangkung",
       "kategori": "sayuran_daun",
-      "jenis_lahan_cocok": ["kebun", "pekarangan", "hidroponik"],
+      "jenis_lahan_cocok": [
+        "kebun",
+        "pekarangan",
+        "hidroponik"
+      ],
       "satuan_panen": "kg",
       "umur_panen_hari": 21
     },
@@ -28,7 +40,11 @@
       "id": "pakcoy",
       "nama": "Pakcoy",
       "kategori": "sayuran_daun",
-      "jenis_lahan_cocok": ["kebun", "pekarangan", "hidroponik"],
+      "jenis_lahan_cocok": [
+        "kebun",
+        "pekarangan",
+        "hidroponik"
+      ],
       "satuan_panen": "kg",
       "umur_panen_hari": 40
     },
@@ -36,7 +52,10 @@
       "id": "cabai",
       "nama": "Cabai rawit",
       "kategori": "sayuran_buah",
-      "jenis_lahan_cocok": ["kebun", "pekarangan"],
+      "jenis_lahan_cocok": [
+        "kebun",
+        "pekarangan"
+      ],
       "satuan_panen": "kg",
       "umur_panen_hari": 90
     },
@@ -44,7 +63,10 @@
       "id": "tomat",
       "nama": "Tomat",
       "kategori": "sayuran_buah",
-      "jenis_lahan_cocok": ["kebun", "pekarangan"],
+      "jenis_lahan_cocok": [
+        "kebun",
+        "pekarangan"
+      ],
       "satuan_panen": "kg",
       "umur_panen_hari": 75
     },
@@ -52,7 +74,10 @@
       "id": "mentimun",
       "nama": "Mentimun",
       "kategori": "sayuran_buah",
-      "jenis_lahan_cocok": ["kebun", "pekarangan"],
+      "jenis_lahan_cocok": [
+        "kebun",
+        "pekarangan"
+      ],
       "satuan_panen": "kg",
       "umur_panen_hari": 40
     },
@@ -60,7 +85,10 @@
       "id": "terong",
       "nama": "Terong",
       "kategori": "sayuran_buah",
-      "jenis_lahan_cocok": ["kebun", "pekarangan"],
+      "jenis_lahan_cocok": [
+        "kebun",
+        "pekarangan"
+      ],
       "satuan_panen": "kg",
       "umur_panen_hari": 65
     },
@@ -68,7 +96,9 @@
       "id": "padi",
       "nama": "Padi sawah",
       "kategori": "tanaman_pangan",
-      "jenis_lahan_cocok": ["sawah"],
+      "jenis_lahan_cocok": [
+        "sawah"
+      ],
       "satuan_panen": "kg gabah",
       "umur_panen_hari": 110
     },
@@ -76,7 +106,10 @@
       "id": "jagung",
       "nama": "Jagung manis",
       "kategori": "tanaman_pangan",
-      "jenis_lahan_cocok": ["kebun", "sawah"],
+      "jenis_lahan_cocok": [
+        "kebun",
+        "sawah"
+      ],
       "satuan_panen": "kg",
       "umur_panen_hari": 75
     }

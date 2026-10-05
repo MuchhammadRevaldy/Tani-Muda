@@ -11,4 +11,6 @@ export const teksUmum = {
   segeraDibangun: 'Halaman ini sedang dibangun.',
   kembali: 'Kembali',
   tutup: 'Tutup',
+  /** Label wajib di setiap tempat angka resep contoh muncul (D-12, D-36). */
+  labelContoh: 'CONTOH, belum divalidasi penyuluh',
 } as const;

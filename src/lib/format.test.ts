@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import {
   MINUS,
   bulatkanRupiah,
+  formatBulan,
   formatDesimal,
   formatHitungMundur,
   formatJam,
@@ -203,6 +204,12 @@ describe('tanggal', () => {
     expect(formatTanggal('2026-11-02', { denganTahun: true })).toBe('Senin, 2 November 2026');
     expect(formatTanggal('2026-09-20', { tanpaHari: true })).toBe('20 September');
     expect(formatTanggalPendek('2026-10-05')).toBe('5 Okt');
+  });
+  it('nama bulan dari YYYY-MM', () => {
+    expect(formatBulan('2026-12')).toBe('Desember');
+    expect(formatBulan('2027-01', { denganTahun: true })).toBe('Januari 2027');
+    expect(() => formatBulan('2026-13')).toThrow();
+    expect(() => formatBulan('Desember')).toThrow();
   });
   it('semua nama hari', () => {
     const tanggal = [

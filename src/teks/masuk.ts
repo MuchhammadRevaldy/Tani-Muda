@@ -1,0 +1,30 @@
+/** Teks halaman Masuk (papan 02, T4.33). Petani dan pembeli masuk lewat halaman yang sama. */
+export const teksMasuk = {
+  judul: 'Masuk dengan nomor HP',
+  sub: 'Tidak perlu kata sandi. Nomor baru otomatis dibuatkan akun.',
+  labelNomor: 'Nomor HP',
+  contohNomor: 'Contoh: 0812 3456 7890',
+  bantuanTerkirim: 'Kode sudah dikirim lewat SMS ke nomor ini.',
+  kirimKode: 'Kirim kode',
+  mengirim: 'Mengirim kode…',
+  gantiNomor: 'Ganti nomor',
+  masuk: 'Masuk',
+  memeriksa: 'Memeriksa kode…',
+  isiNomorDulu: 'Isi nomor HP dulu',
+  isiKodeDulu: 'Isi 6 angka kode dari SMS dulu',
+  gagalUmum: 'Belum berhasil. Periksa sinyal, lalu coba lagi.',
+  kodeBaruTerkirim: 'Kode baru sudah dikirim.',
+  aturan: {
+    awal: 'Dengan masuk, kamu setuju dengan ',
+    tautan: 'aturan pakai',
+    akhir: ' Tani Muda.',
+  },
+  catatanPembeli: 'Pembeli dari katering atau restoran juga masuk lewat halaman ini.',
+  kembaliKeAwal: 'Kembali ke halaman awal',
+  privasi: {
+    judul: 'Nomor ini belum punya akun',
+    isi: 'Sebelum akun dibuat, baca dan setujui kebijakan privasi.',
+    centang: 'Saya setuju dengan kebijakan privasi Tani Muda',
+    baca: 'Baca kebijakan privasi (draf)',
+  },
+} as const;

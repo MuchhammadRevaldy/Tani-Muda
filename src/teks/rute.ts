@@ -2,6 +2,9 @@
 export const judulRute = {
   landing: 'Tani Muda',
   masuk: 'Masuk',
+  pilihPeran: 'Lengkapi akun',
+  akunDemo: 'Akun demo',
+  aturanPakai: 'Aturan pakai',
   komponen: 'Komponen',
   beranda: 'Beranda',
   pilihTanaman: 'Mau tanam apa?',

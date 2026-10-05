@@ -31,15 +31,15 @@ Kolom **Tangkapan aplikasi** adalah nama file tangkapan layar halaman aplikasi y
 | 00 | Sistem desain | semua (acuan) | desktop | `00-sistem-desain-desktop.html` | `00-sistem-desain-desktop.png` ✓ |
 | 01 | Halaman depan | publik | mobile | `01-halaman-depan-mobile.html` | `01-halaman-depan-mobile.png` |
 | 01 | Halaman depan | publik | desktop | `01-halaman-depan-desktop.html` | `01-halaman-depan-desktop.png` |
-| 02 | Masuk | publik | mobile | `02-masuk-mobile.html` | `02-masuk-mobile.png` |
-| 02 | Masuk | publik | desktop | `02-masuk-desktop.html` | `02-masuk-desktop.png` |
-| 03 | Beranda petani | petani | mobile | `03-beranda-petani-mobile.html` | `03-beranda-petani-mobile.png` |
-| 03 | Beranda petani | petani | desktop | `03-beranda-petani-desktop.html` | `03-beranda-petani-desktop.png` |
-| 04 | Beranda petani, hidroponik | petani | mobile | `04-beranda-petani-hidroponik-mobile.html` | `04-beranda-petani-hidroponik-mobile.png` |
-| 04 | Beranda petani, hidroponik | petani | desktop | `04-beranda-petani-hidroponik-desktop.html` | `04-beranda-petani-hidroponik-desktop.png` |
-| 05 | Beranda, belum ada siklus | petani | mobile | `05-beranda-petani-kosong-mobile.html` | `05-beranda-petani-kosong-mobile.png` |
-| 06 | Beranda, offline dan tugas terlambat | petani | mobile | `06-beranda-offline-tugas-terlambat-mobile.html` | `06-beranda-offline-tugas-terlambat-mobile.png` |
-| 07 | Beranda, pengingat diblokir | petani | mobile | `07-beranda-pengingat-diblokir-mobile.html` | `07-beranda-pengingat-diblokir-mobile.png` |
+| 02 | Masuk | publik | mobile | `02-masuk-mobile.html` | `02-masuk-mobile.png` ✓ |
+| 02 | Masuk | publik | desktop | `02-masuk-desktop.html` | `02-masuk-desktop.png` ✓ |
+| 03 | Beranda petani | petani | mobile | `03-beranda-petani-mobile.html` | `03-beranda-petani-mobile.png` ✓ |
+| 03 | Beranda petani | petani | desktop | `03-beranda-petani-desktop.html` | `03-beranda-petani-desktop.png` ✓ |
+| 04 | Beranda petani, hidroponik | petani | mobile | `04-beranda-petani-hidroponik-mobile.html` | `04-beranda-petani-hidroponik-mobile.png` ✓ |
+| 04 | Beranda petani, hidroponik | petani | desktop | `04-beranda-petani-hidroponik-desktop.html` | `04-beranda-petani-hidroponik-desktop.png` ✓ |
+| 05 | Beranda, belum ada siklus | petani | mobile | `05-beranda-petani-kosong-mobile.html` | `05-beranda-petani-kosong-mobile.png` ✓ |
+| 06 | Beranda, offline dan tugas terlambat | petani | mobile | `06-beranda-offline-tugas-terlambat-mobile.html` | `06-beranda-offline-tugas-terlambat-mobile.png` ✓ |
+| 07 | Beranda, pengingat diblokir | petani | mobile | `07-beranda-pengingat-diblokir-mobile.html` | `07-beranda-pengingat-diblokir-mobile.png` ✓ |
 | 08 | Belajar, hidroponik | petani | mobile | `08-belajar-hidroponik-mobile.html` | `08-belajar-hidroponik-mobile.png` |
 | 08 | Belajar, hidroponik | petani | desktop | `08-belajar-hidroponik-desktop.html` | `08-belajar-hidroponik-desktop.png` |
 | 09 | Belajar, bedengan | petani | mobile | `09-belajar-bedengan-mobile.html` | `09-belajar-bedengan-mobile.png` |
@@ -101,11 +101,11 @@ Halaman ini belum punya papan desain. Halaman dibuat dari pola desain yang ada (
 
 | Nomor | Halaman | Peran | Tugas | Tangkapan aplikasi |
 | --- | --- | --- | --- | --- |
-| 39 | Pilih peran dan desa | publik | T4.34 | `39-pilih-peran-dan-desa-mobile.png`, `…-desktop.png` |
+| 39 | Pilih peran dan desa | publik | T4.34 | `39-pilih-peran-dan-desa-mobile.png`, `…-desktop.png` ✓ |
 | 40 | Lahan saya | petani | T4.36a | `40-lahan-saya-mobile.png`, `…-desktop.png` |
 | 41 | Pilih tanggal tanam | petani | T4.08 | `41-pilih-tanggal-tanam-mobile.png`, `…-desktop.png` |
 | 42 | Pemutar modul belajar | petani | T4.31 | `42-pemutar-modul-mobile.png`, `…-desktop.png` |
-| 43 | Pilih akun demo (hanya mode pengembangan) | publik | T4.01 | `43-pilih-akun-demo-mobile.png`, `…-desktop.png` |
+| 43 | Pilih akun demo (hanya mode pengembangan) | publik | T4.01 | `43-pilih-akun-demo-mobile.png`, `…-desktop.png` ✓ |
 | 44 | Bayar uang muka (mode uji coba) | pembeli | T4.41 | `44-bayar-uang-muka-mobile.png`, `…-desktop.png` |
 
 Halaman turunan lain (panel mentor dan admin, halaman statis, rating, gagal panen) diberi nomor berikutnya saat tugasnya dikerjakan. Panel mentor dan admin hanya punya versi desktop.

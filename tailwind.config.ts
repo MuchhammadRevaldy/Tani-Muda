@@ -111,6 +111,8 @@ const config: Config = {
       'tampil-3': ['34px', '42px'],
       'tampil-4': ['36px', '44px'],
       'tampil-5': ['52px', '60px'],
+      // Judul halaman Masuk desktop (papan 02 desktop).
+      'judul-masuk': ['32px', '40px'],
       // Hanya untuk halaman /komponen (meniru papan dokumentasi 00).
       'dok-1': ['28px', '36px'],
       'dok-2': ['48px', '56px'],

@@ -293,6 +293,16 @@ Tafsiran teknis saat menulis `docs/kontrak-api.md`. Tidak mengubah perilaku prod
 - **`VITE_SUMBER_DATA=http`** sampai Tahap 6 menghasilkan galat `SUMBER_BELUM_TERSEDIA` di setiap pemanggilan, bukan layar kosong.
 - Berdampak ke: T3.01 sampai T3.12, T5.03, T5.04.
 
+## D-36. Tanggapan atas Tahap 3
+- **Wilayah pilot**: jawaban pemilik produk masih berupa templat; yang dipakai adalah pilihan bawaannya: **pakai Lembang dulu, diganti setelah lokasi pilot pasti**. Kode wilayah dari situs ensiklopedia hanya untuk demo. **Sebelum seeder Tahap 5, semua kode wilayah wajib dicocokkan dengan data resmi Kemendagri** (kriteria selesai T5.08).
+- **iPhone (P-12)**: pilihan bawaan D-32 disetujui.
+- **Lahan Arif 140 m²**: disetujui.
+- **Tanda contoh di data**: boleh di tingkat berkas dan resep. Di layar, label **"CONTOH, belum divalidasi penyuluh" wajib tampil di setiap tempat angka resep muncul**: kalkulator, perkiraan panen, jadwal (termasuk penggaris dan detail tugas), dan rentang pengukuran, sesuai D-12. Ini menjadi kriteria selesai di setiap tugas Tahap 4 yang menampilkan angka resep.
+- **Perubahan T4.33** (halaman Masuk hanya memakai klien API): disetujui.
+- **Pemilih akun demo (T4.01)**: hanya aktif di mode data tiruan dan **tidak pernah ada di build produksi**. Dicek otomatis setiap `npm run build`.
+- **Tahap 4 dikerjakan per gelombang** berisi paling banyak 8 tugas, mengikuti alur demo (tabel di `rencana-kerja.md`). Setiap gelombang ditutup dengan lint, typecheck, test, build, tangkapan layar setiap halaman, dan satu commit lokal.
+- Berdampak ke: T4.01–T4.41, T5.08.
+
 ---
 
 ## Riwayat
@@ -304,3 +314,4 @@ Tafsiran teknis saat menulis `docs/kontrak-api.md`. Tidak mengubah perilaku prod
 | 2026-10-05 | D-21 sampai D-25 ditetapkan: cookie Sanctum (token untuk React Native), 404 untuk data orang lain, konfirmasi otomatis setiap 15 menit, siap deploy VPS, PHP 8.3+ terpisah |
 | 2026-10-05 | D-26 sampai D-34 ditetapkan: menu Kebun, wilayah berkode Kemendagri, konfigurasi lewat git, video, persetujuan privasi draf, UTC + zona waktu per pengguna, iPhone, repositori, tanggapan tafsiran Tahap 2 (kapasitas dan nilai pengukuran diubah) |
 | 2026-10-05 | D-35 ditetapkan: tafsiran teknis kontrak API dan data tiruan (kolom tambahan, format waktu UTC, tanggal relatif, penyimpanan tiruan, OTP tiruan) |
+| 2026-10-05 | D-36 ditetapkan: tanggapan Tahap 3 (wilayah Lembang sementara dan wajib dicocokkan dengan data resmi, label contoh sebagai kriteria Tahap 4, pemilih akun demo hanya mode tiruan, gelombang Tahap 4) |

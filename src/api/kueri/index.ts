@@ -23,6 +23,8 @@ export const useSimpanProfilPembeli = () =>
 export const useKeluar = () => m((k, _x: void) => k.akun.keluar(), ['akun']);
 export const useWilayah = (p: T.ParamWilayah & T.ParamHalaman = {}) =>
   q(kk('wilayah', 'daftar', { ...p }), (k) => k.wilayah.daftar(p));
+export const useWilayahSatu = (id: string | null) =>
+  q(kk('wilayah', 'satu', id), (k) => k.wilayah.ambil(id as string), !!id);
 
 // ---------------------------------------------------------------- referensi dan resep
 export const useKonfigurasi = () =>

@@ -38,7 +38,7 @@ import { resepDariDomain, tugasDariDomain } from '../../peta';
 import type * as A from '../../tipe';
 import type { DataContoh, DataKebun, DataPesanan, WilayahContoh } from './jenis-data';
 
-export const VERSI_DATA_CONTOH = 1;
+export const VERSI_DATA_CONTOH = 2;
 /** Hari acuan saat menghitung; semua tanggal ditulis relatif terhadapnya. */
 const HARI_DASAR = '2026-10-05';
 
@@ -496,6 +496,7 @@ function buatPengguna(): DataContoh['pengguna'] {
       { pengguna_id: 'petani-arif', keterangan: 'Petani aktif dengan tiga siklus dan dua lahan' },
       { pengguna_id: 'petani-dewi', keterangan: 'Petani padi dengan pesanan sekali panen' },
       { pengguna_id: 'petani-budi', keterangan: 'Petani dinonaktifkan sementara' },
+      { pengguna_id: 'petani-sari', keterangan: 'Petani baru, belum punya siklus' },
       { pengguna_id: 'pembeli-ratna', keterangan: 'Pembeli terverifikasi, pesanan rutin' },
       { pengguna_id: 'pembeli-imas', keterangan: 'Pembeli dengan kiriman menunggu konfirmasi' },
       { pengguna_id: 'pembeli-baru', keterangan: 'Pembeli menunggu verifikasi' },

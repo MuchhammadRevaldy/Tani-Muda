@@ -256,6 +256,10 @@
       "keterangan": "Petani dinonaktifkan sementara"
     },
     {
+      "pengguna_id": "petani-sari",
+      "keterangan": "Petani baru, belum punya siklus"
+    },
+    {
       "pengguna_id": "pembeli-ratna",
       "keterangan": "Pembeli terverifikasi, pesanan rutin"
     },

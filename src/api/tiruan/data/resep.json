@@ -233,7 +233,10 @@
     "dasar_ukuran": "lubang",
     "umur_panen_hari": 35,
     "jumlah_pengisian_larutan": 2,
-    "standar_kualitas": ["Daun hijau segar, tidak layu", "Akar bersih, tidak membusuk"],
+    "standar_kualitas": [
+      "Daun hijau segar, tidak layu",
+      "Akar bersih, tidak membusuk"
+    ],
     "input": [
       {
         "id": "benih",
@@ -462,7 +465,10 @@
     "dasar_ukuran": "luas",
     "umur_panen_hari": 110,
     "jumlah_pengisian_larutan": null,
-    "standar_kualitas": ["Gabah kering panen, bersih dari jerami", "Kadar hampa rendah"],
+    "standar_kualitas": [
+      "Gabah kering panen, bersih dari jerami",
+      "Kadar hampa rendah"
+    ],
     "input": [
       {
         "id": "benih",
@@ -642,7 +648,10 @@
     "dasar_ukuran": "luas",
     "umur_panen_hari": 25,
     "jumlah_pengisian_larutan": null,
-    "standar_kualitas": ["Daun segar, tidak menguning", "Diikat per 250 g"],
+    "standar_kualitas": [
+      "Daun segar, tidak menguning",
+      "Diikat per 250 g"
+    ],
     "input": [
       {
         "id": "benih",
@@ -766,7 +775,10 @@
     "dasar_ukuran": "luas",
     "umur_panen_hari": 21,
     "jumlah_pengisian_larutan": null,
-    "standar_kualitas": ["Batang muda dan renyah", "Diikat per 250 g"],
+    "standar_kualitas": [
+      "Batang muda dan renyah",
+      "Diikat per 250 g"
+    ],
     "input": [
       {
         "id": "benih",

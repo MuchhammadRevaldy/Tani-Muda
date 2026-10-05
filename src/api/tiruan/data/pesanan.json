@@ -42,7 +42,10 @@
       "tanggal_selesai": "H+7",
       "perkiraan_bulan_panen": null,
       "harga_per_kg": 6000,
-      "standar_kualitas": ["Daun segar, tidak menguning", "Diikat per 250 g"],
+      "standar_kualitas": [
+        "Daun segar, tidak menguning",
+        "Diikat per 250 g"
+      ],
       "wilayah_id": "32.17.01.2005",
       "alamat_antar": "Alamat contoh, diberikan kepada petani setelah kesepakatan",
       "patokan": null,
@@ -67,7 +70,10 @@
       "tanggal_selesai": "H+70",
       "perkiraan_bulan_panen": null,
       "harga_per_kg": 7000,
-      "standar_kualitas": ["Daun segar, tidak menguning", "Diikat per 250 g"],
+      "standar_kualitas": [
+        "Daun segar, tidak menguning",
+        "Diikat per 250 g"
+      ],
       "wilayah_id": "32.73.03.1004",
       "alamat_antar": "Alamat contoh, diberikan kepada petani setelah kesepakatan",
       "patokan": null,
@@ -92,7 +98,10 @@
       "tanggal_selesai": null,
       "perkiraan_bulan_panen": "B+2",
       "harga_per_kg": 6500,
-      "standar_kualitas": ["Gabah kering panen, bersih dari jerami", "Kadar hampa rendah"],
+      "standar_kualitas": [
+        "Gabah kering panen, bersih dari jerami",
+        "Kadar hampa rendah"
+      ],
       "wilayah_id": "32.17.01.2013",
       "alamat_antar": "Alamat contoh, diberikan kepada petani setelah kesepakatan",
       "patokan": null,
@@ -117,7 +126,10 @@
       "tanggal_selesai": "H+91",
       "perkiraan_bulan_panen": null,
       "harga_per_kg": 5500,
-      "standar_kualitas": ["Batang muda dan renyah", "Diikat per 250 g"],
+      "standar_kualitas": [
+        "Batang muda dan renyah",
+        "Diikat per 250 g"
+      ],
       "wilayah_id": "32.73.10.1001",
       "alamat_antar": "Alamat contoh, diberikan kepada petani setelah kesepakatan",
       "patokan": null,

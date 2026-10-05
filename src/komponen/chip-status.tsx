@@ -12,7 +12,11 @@ export type StatusChip =
   | 'dana-cair';
 
 const STATUS: Record<StatusChip, { label: string; ikon: NamaIkon | null; kelas: string }> = {
-  selesai: { label: 'Selesai', ikon: 'centang', kelas: 'bg-daun-lembut text-daun-tua' },
+  selesai: {
+    label: 'Selesai',
+    ikon: 'centang',
+    kelas: 'border-transparent bg-daun-lembut text-daun-tua',
+  },
   'hari-ini': {
     label: 'Hari ini',
     ikon: null,
@@ -31,14 +35,18 @@ const STATUS: Record<StatusChip, { label: string; ikon: NamaIkon | null; kelas: 
   'uang-muka-ditahan': {
     label: 'Uang muka ditahan',
     ikon: 'kunci',
-    kelas: 'bg-tanah-lembut text-tanah',
+    kelas: 'border-transparent bg-tanah-lembut text-tanah',
   },
   'menunggu-konfirmasi': {
     label: 'Menunggu konfirmasi',
     ikon: 'jam-pasir',
     kelas: 'border-garis-kuat bg-putih text-teks-pendukung',
   },
-  'dana-cair': { label: 'Dana cair', ikon: 'uang', kelas: 'bg-daun-tua text-putih' },
+  'dana-cair': {
+    label: 'Dana cair',
+    ikon: 'uang',
+    kelas: 'border-transparent bg-daun-tua text-putih',
+  },
 };
 
 export const daftarStatusChip = Object.keys(STATUS) as StatusChip[];
@@ -58,7 +66,7 @@ export function ChipStatus({
   return (
     <span
       className={cx(
-        'inline-flex min-h-chip items-center gap-2 whitespace-nowrap rounded-full border-1.5 border-transparent px-3 align-middle text-keterangan font-medium',
+        'inline-flex min-h-chip items-center gap-2 whitespace-nowrap rounded-full border-1.5 px-3 align-middle text-keterangan font-medium',
         s.kelas,
         className,
       )}

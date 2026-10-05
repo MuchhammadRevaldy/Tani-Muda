@@ -9,11 +9,17 @@ import { Ikon } from './ikon';
 
 export function KotakOtp({
   onLengkap,
+  onUbah,
   sisaDetikAwal = 0,
   onKirimUlang,
   nilaiAwal,
+  galat,
 }: {
   onLengkap?: (kode: string) => void;
+  /** Setiap perubahan: kode 6 angka bila lengkap, null bila belum. */
+  onUbah?: (kode: string | null) => void;
+  /** Pesan galat di bawah kotak (mis. kode salah). */
+  galat?: ReactNode;
   /** Detik sebelum "Kirim ulang kode" bisa diketuk. */
   sisaDetikAwal?: number;
   onKirimUlang?: () => void;
@@ -37,6 +43,7 @@ export function KotakOtp({
     setDigit(h.digit);
     kotak.current[h.fokus]?.focus();
     const kode = kodeLengkap(h.digit);
+    onUbah?.(kode);
     if (kode) onLengkap?.(kode);
   }
 
@@ -68,11 +75,24 @@ export function KotakOtp({
                   terapkan(hapusMundurOtp(digit, i));
                 }
               }}
-              className="h-14 w-full rounded-md border-1.5 border-garis-kuat bg-putih p-0 text-center text-tampil-1 font-semibold text-teks outline-none focus:border-daun-tua focus:shadow-fokus"
+              aria-invalid={galat ? true : undefined}
+              className={cx(
+                'h-14 w-full rounded-md bg-putih p-0 text-center text-tampil-1 font-semibold text-teks outline-none focus:border-daun-tua focus:shadow-fokus',
+                galat ? 'border-2 border-tomat' : 'border-1.5 border-garis-kuat',
+              )}
             />
           ))}
         </div>
       </fieldset>
+      {galat ? (
+        <p
+          role="alert"
+          className="m-0 flex items-start gap-2 text-keterangan font-medium text-tomat"
+        >
+          <Ikon nama="peringatan" ukuran={20} className="mt-px" />
+          <span>{galat}</span>
+        </p>
+      ) : null}
       {sisa > 0 ? (
         <div className="flex items-center gap-2 text-teks-pendukung" aria-live="polite">
           <Ikon nama="jam" ukuran={20} />

@@ -66,6 +66,8 @@ npm run dev             # http://localhost:5173
 
 Sumber data dipilih dengan `VITE_SUMBER_DATA` di `.env`: `tiruan` (bawaan, data contoh di browser) atau `http` (backend Laravel, tersedia mulai Tahap 6). Data tiruan yang diubah selama demo tersimpan di `localStorage` browser.
 
+Untuk demo dengan data contoh, isi `.env` dengan `VITE_TAMPILKAN_RESEP_CONTOH=true`. Tanpa itu semua resep contoh disembunyikan (D-12), sehingga komoditas tampil "Segera hadir" dan tidak ada pesanan di sekitar. Di mode pengembangan (`npm run dev`), halaman `/akun-demo` memilih pengguna uji tanpa kode SMS, dan halaman Masuk menampilkan kode uji OTP. Keduanya tidak ikut `npm run build` (dicek otomatis).
+
 ## Struktur folder
 
 ```

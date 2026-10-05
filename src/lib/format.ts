@@ -165,6 +165,14 @@ export function formatTanggal(
   return opsi.tanpaHari ? inti : `${namaHari(tanggal)}, ${inti}`;
 }
 
+/** Bulan "YYYY-MM" → "Desember"; `denganTahun` → "Desember 2026". */
+export function formatBulan(bulan: string, opsi: { denganTahun?: boolean } = {}): string {
+  const m = /^(\d{4})-(\d{2})$/.exec(bulan);
+  const nama = m ? BULAN[Number(m[2]) - 1] : undefined;
+  if (!m || !nama) throw new Error('Bulan harus berformat YYYY-MM: ' + bulan);
+  return opsi.denganTahun ? `${nama} ${m[1]}` : nama;
+}
+
 /** "5 Okt". */
 export function formatTanggalPendek(tanggal: TanggalISO): string {
   const { bl, tg } = urai(tanggal);
