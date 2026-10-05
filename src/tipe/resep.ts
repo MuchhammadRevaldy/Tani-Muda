@@ -82,6 +82,9 @@ export interface BesaranUkur {
   satuan: string;
   batasBawah: number;
   batasAtas: number;
+  /** Skala sah nilai yang diisi (pH 0–14, PPM minimal 0); null = tanpa batas atas. */
+  skalaMin: number;
+  skalaMaks: number | null;
   saranTerlaluRendah: string;
   saranTerlaluTinggi: string;
 }
@@ -105,6 +108,9 @@ export interface ResepTugas {
 
 export type StatusResep = 'draf' | 'divalidasi';
 
+/** Asal angka resep contoh: diturunkan dari desain, atau dikarang untuk demo (D-34). */
+export type AsalAngkaContoh = 'desain' | 'dikarang';
+
 export interface ResepTanam {
   id: string;
   komoditasId: string;
@@ -113,6 +119,8 @@ export interface ResepTanam {
   status: StatusResep;
   /** Resep contoh untuk demo (D-11, D-12): selalu berlabel "CONTOH, belum divalidasi penyuluh". */
   contoh: boolean;
+  /** Untuk resep contoh: apakah dosis dan harga berasal dari desain atau dikarang (D-34). */
+  asalAngkaContoh: AsalAngkaContoh | null;
   validator: string | null;
   tanggalValidasi: string | null;
   /** Hasil panen per satuan ukuran (kg per m², per lubang, atau per polybag). */

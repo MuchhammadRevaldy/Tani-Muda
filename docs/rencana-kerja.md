@@ -11,7 +11,7 @@ Urutan tahap (D-20): **1** fondasi → **2** logika inti → **3** kontrak API d
 - Setiap tugas berisi: **Tujuan**, **Berkas** (dibuat atau diubah), **PRD**, **Selesai bila**, **Prasyarat**. Ukuran: beberapa jam. Tugas yang ternyata lebih besar dipecah (aturan proyek 11.4).
 - "Papan NN" = nomor halaman di [`design/README.md`](../design/README.md) (urutan alur aplikasi). "Papan 03" berarti versi mobile dan desktop; "papan 03 mobile" berarti satu versi.
 - Semua tugas tunduk pada daftar periksa di `aturan-proyek.md` bagian 12. Di bawah ini hanya ditulis syarat khusus tugas.
-- **`docs/keputusan.md` mengalahkan PRD, desain, dan dokumen ini.** Keputusan 4 dan 5 Oktober 2026 (D-01 sampai D-25) sudah diterapkan di bawah dan ditandai "(D-nn)".
+- **`docs/keputusan.md` mengalahkan PRD, desain, dan dokumen ini.** Keputusan 4 dan 5 Oktober 2026 (D-01 sampai D-34) sudah diterapkan di bawah dan ditandai "(D-nn)".
 - Tugas halaman **[DEMO]** di Tahap 4 punya satu syarat tambahan (D-07): **tangkapan layar mobile 390px dan desktop 1440px** di `docs/tangkapan/aplikasi/<nomor>-<nama>-mobile.png` dan `-desktop.png` (nama sama dengan papan desainnya; halaman turunan memakai nomor di tabel "Halaman turunan" `design/README.md`), ditunjukkan ke pemilik produk, lalu **berhenti menunggu tanggapan** sebelum tugas berikutnya.
 
 ## Jalur demo lomba (definisi [DEMO])
@@ -34,7 +34,7 @@ Di luar demo (tetap P0, dikerjakan setelahnya): rating, gagal panen/pembatalan, 
 | K1 | Routing memakai **React Router** | Stack belum menyebut router; ini yang paling lazim dengan Vite |
 | K2 | Pengembangan lokal **tanpa Docker**: Vite (`npm run dev`), Laravel (`php artisan serve`, `schedule:work`, `queue:work`), MariaDB dari XAMPP; data diulang dari nol dengan `php artisan migrate:fresh --seed` (D-19) | Keputusan pemilik produk |
 | K3 | Setiap versi resep adalah **baris baru** di `resep_tanam` (versi naik); `siklus_tanam.resep_id` menunjuk baris versi yang dipakai | Memenuhi P0-04 tanpa menyalin seluruh resep |
-| K4 | Hanya satu siklus aktif yang ditampilkan di v1 (menu **Kebun** langsung membuka siklus aktif). Data model tetap mengizinkan banyak siklus (P2-06) | Desain tidak punya daftar kebun |
+| K4 | Diganti D-26: menu **Kebun** membuka satu siklus aktif langsung, daftar siklus bila lebih dari satu, atau keadaan kosong "Mulai siklus tanam pertamamu" | Keputusan pemilik produk |
 | K5 | Zona waktu bawaan **Asia/Jakarta**; notifikasi pagi default 06.00 | Pilot di Jawa Barat |
 | K6 | Halaman tanpa desain dibuat sebagai **turunan** dari pola yang ada: mobile 390px dengan navigasi bawah, desktop 1440px dengan sidebar kiri dan dua kolom bila membantu; panel mentor/admin hanya desktop berbentuk tabel sederhana (D-07) | Keputusan pemilik produk |
 | K7 | Angka resep, harga, pH/PPM di seed = **contoh**, status `draf`, label "CONTOH, belum divalidasi penyuluh" (D-10, D-11). Rumus PRD berlaku, angka desain hanya ilustrasi (D-08) | Hambatan PRD tidak menghentikan pekerjaan |
@@ -266,7 +266,7 @@ Semua fungsi murni, tanpa React, klien API, atau `Date.now()`. Kasus tes rumus u
 - **PRD:** P0-37, US-28; rumus status pengukuran.
 - **Selesai bila:** tes: batas bawah dan atas dihitung **normal** (pH 5,5 dan 6,5), 6,6 terlalu tinggi, 5,4 terlalu rendah; nilai 0 dan kosong → `kosong`; koma desimal ("6,2") diterima lewat `parseAngka`; hasil di luar rentang menghasilkan tugas ukur ulang pada tanggal + 1; hasil normal tidak menambah tugas; grafik dengan < 7 data.
 - **Prasyarat:** T1.05, T2.01.
-- **Catatan (5 Okt 2026):** Nilai 0 dianggap kosong sesuai rencana. Grafik memakai pita normal ± setengah lebar rentang.
+- **Catatan (5 Okt 2026):** Grafik memakai pita normal ± setengah lebar rentang. Perbaikan D-34: "belum diisi" = null; nilai 0 sah (PPM 0 → terlalu rendah dengan saran); nilai divalidasi terhadap skala besaran (`skalaMin`/`skalaMaks`: pH 0–14, PPM ≥ 0) dengan galat `NILAI_DI_LUAR_SKALA`.
 
 ### [x] T2.11 Pengingat harian `pengingat.ts` **[DEMO]**
 - **Tujuan:** `tugasUntukNotifikasi(tugas[], pengaturan, hariIni)`: tugas hari ini (plus terlambat) menurut tipe yang diaktifkan, teks judul "n tugas hari ini" dan isi ("Siangi rumput (terlambat), Siram pagi dan sore"), jam pagi; kondisi pengingat sore (hanya bila ada tugas belum selesai); banner pengganti bila izin ditolak.
@@ -314,7 +314,7 @@ Semua fungsi murni, tanpa React, klien API, atau `Date.now()`. Kasus tes rumus u
 - **PRD:** P0-21, US-12; **D-06**, **D-15** (rumus kapasitas), **D-08**.
 - **Selesai bila:** tes: lahan 120 m² dengan siklus aktif 100 m² → 20 m²; tanpa siklus → seluruh luas; siklus selesai tidak dihitung; luas dipakai melebihi luas lahan → 0 (tidak negatif); hidroponik 200 lubang dengan dua siklus aktif 100 + 50 lubang → 50 lubang (luas lahan hidroponik diabaikan); tiga siklus aktif di satu lahan tanah dijumlahkan; `muatSiklusBaru` menolak siklus yang melebihi sisa; satuan asli tidak memengaruhi hitungan.
 - **Prasyarat:** T2.01.
-- **Catatan (5 Okt 2026):** Hanya siklus berstatus `aktif` yang dihitung (siklus `rencana` belum memakai lahan).
+- **Catatan (5 Okt 2026):** Perbaikan D-34: yang memakai lahan adalah siklus `aktif` dan siklus `rencana` yang terhubung ke alokasi pesanan (`alokasiPesananId`); rencana tanpa pesanan tidak dihitung. Diuji, termasuk kasus dua pesanan untuk lahan yang sama sebelum menanam.
 
 ### [x] T2.16 Progres belajar `belajar.ts` dan gerbang cakupan
 - **Tujuan:** `ringkasProgres(modul[], selesai[])` ("3 dari 6 modul selesai", persen, modul lanjutan); pemeriksaan cakupan seluruh `src/lib`.
@@ -1318,16 +1318,8 @@ Tujuan tahap: frontend memakai backend Laravel lewat klien API HTTP tanpa mengub
 
 Pertanyaan P-3 sampai P-11, P-14, dan P-27 versi pertama **sudah dijawab** di `docs/keputusan.md` (D-01 sampai D-10). Hambatan PRD P-1, P-2, P-3, P-4 tidak lagi menghentikan pekerjaan (D-10).
 
-Pertanyaan P-1 sampai P-5 versi kedua **sudah dijawab** pada 5 Oktober 2026: resep contoh (D-12), akun nonaktif sementara (D-13), alasan penolakan (D-14), lahan dan kapasitas (D-15), titik patah (D-16), serta keputusan teknis Tahap 1 (D-17). Arsitektur backend diputuskan di D-19 dan D-20. Pertanyaan backend P-15 sampai P-19 dijawab pada 5 Oktober 2026: tempat deploy (D-24), cara sesi Sanctum (D-21), 404 untuk data orang lain (D-22), konfirmasi otomatis setiap 15 menit (D-23), dan PHP 8.3+ terpisah (D-25). Yang tersisa:
+Pertanyaan P-1 sampai P-5 versi kedua **sudah dijawab** pada 5 Oktober 2026: resep contoh (D-12), akun nonaktif sementara (D-13), alasan penolakan (D-14), lahan dan kapasitas (D-15), titik patah (D-16), serta keputusan teknis Tahap 1 (D-17). Arsitektur backend diputuskan di D-19 dan D-20. Pertanyaan backend P-15 sampai P-19 dijawab pada 5 Oktober 2026: tempat deploy (D-24), cara sesi Sanctum (D-21), 404 untuk data orang lain (D-22), konfirmasi otomatis setiap 15 menit (D-23), dan PHP 8.3+ terpisah (D-25). 
 
 ## Keputusan teknis dan produk yang masih terbuka
 
-- **P-6. Profil di HP.** Nav bawah hanya 4 menu. Usul: Profil dan Pengaturan notifikasi dibuka dari avatar di kepala halaman HP. Menu "Kebun" membuka siklus aktif (K4).
-- **P-7. Data wilayah.** Sumber daftar desa beserta titik tengahnya untuk pilot (BPS/Kemendagri)? Untuk demo saya mengisi beberapa desa di Lembang secara manual.
-- **P-8. Siapa yang mengubah konfigurasi bisnis** (persen, batas jam, radius)? Usul: admin saja, lewat phpMyAdmin atau seeder di v1 (panel konfigurasi menyusul).
-- **P-9. Video modul.** Siapa pembuatnya, di mana disimpan, dan batas ukuran unduhan offline? Demo memakai video placeholder.
-- **P-10. Persetujuan data** (foto, lokasi lahan, transaksi) masih menunggu pembimbing/ahli hukum. Foto jurnal disimpan privat di backend (URL bertanda tangan), tampil ke pembeli hanya untuk pesanan terkait.
-- **P-11. Zona waktu.** WIB saja untuk pilot (K5)?
-- **P-12. iPhone.** Berapa peserta demo yang memakai iPhone (web push butuh tambah ke layar utama)?
-- **P-13. Remote git.** Repositori lokal sudah punya commit awal; ke mana di-push (GitHub)?
-- **P-14. Pengecekan visual.** Tangkapan layar diambil dengan browser tanpa tampilan (headless). Papan desain asli juga bisa ditangkap untuk perbandingan berdampingan; mohon dicek bila ada yang berbeda.
+Semua pertanyaan P-6 sampai P-14 dijawab pada 5 Oktober 2026 (D-26 sampai D-33). Belum ada pertanyaan terbuka baru; pertanyaan berikutnya ditambahkan di sini dengan nomor P-20 dan seterusnya.

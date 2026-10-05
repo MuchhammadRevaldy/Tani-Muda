@@ -34,6 +34,7 @@ export type KodeGalat =
   | 'TIDAK_BOLEH_DIGESER'
   | 'TUNDA_DI_LUAR_BATAS'
   | 'TIDAK_ADA_TIPE'
+  | 'NILAI_DI_LUAR_SKALA'
   // pesanan, kiriman, lahan
   | 'JUMLAH_KOSONG'
   | 'HARGA_KOSONG'

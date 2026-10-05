@@ -32,6 +32,8 @@ export interface SiklusTanam {
   dapatSubsidi: boolean;
   hargaJual: number;
   perkiraanPanenKg: number;
+  /** Alokasi pesanan yang dipenuhi siklus ini, bila ada. */
+  alokasiPesananId: string | null;
 }
 
 export type StatusTugas = 'belum' | 'selesai';

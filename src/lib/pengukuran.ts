@@ -5,27 +5,51 @@
  */
 import type { BesaranUkur, HasilPengukuran, StatusPengukuran } from '../tipe';
 import { parseAngka, type TanggalISO } from './format';
+import { berhasil, gagal, type Hasil, type KodeGalat } from './hasil';
 import { bandingTanggal, tambahHari } from './tanggal';
 
-/** Status pengukuran. Kosong atau 0 dianggap belum diisi. */
+/**
+ * Status pengukuran. "Belum diisi" ditandai null (D-34); nilai 0 sah dan dinilai seperti angka lain,
+ * mis. PPM 0 → terlalu rendah.
+ */
 export function nilaiPengukuran(
   nilai: number | null | undefined,
   batasBawah: number,
   batasAtas: number,
 ): StatusPengukuran {
-  if (nilai === null || nilai === undefined || Number.isNaN(nilai) || nilai === 0) return 'kosong';
+  if (nilai === null || nilai === undefined || Number.isNaN(nilai)) return 'kosong';
   if (nilai < batasBawah) return 'terlalu-rendah';
   if (nilai > batasAtas) return 'terlalu-tinggi';
   return 'normal';
 }
 
-/** Dari ketikan pengguna ("6,2") ke nilai dan status. */
+/** Validasi nilai terhadap skala sah besaran (pH 0–14, PPM minimal 0). */
+export function validasiNilaiUkur(
+  nilai: number,
+  besaran: Pick<BesaranUkur, 'skalaMin' | 'skalaMaks'>,
+): Hasil<number> {
+  if (Number.isNaN(nilai) || nilai < besaran.skalaMin) return gagal('NILAI_DI_LUAR_SKALA');
+  if (besaran.skalaMaks !== null && nilai > besaran.skalaMaks) return gagal('NILAI_DI_LUAR_SKALA');
+  return berhasil(nilai);
+}
+
+/**
+ * Dari ketikan pengguna ("6,2") ke nilai dan status. Kosong → null dan status "kosong". Angka di
+ * luar skala alat ukur → galat `NILAI_DI_LUAR_SKALA` dan status "kosong" (belum bisa dinilai).
+ */
 export function nilaiDariTeks(
   teks: string,
-  besaran: Pick<BesaranUkur, 'batasBawah' | 'batasAtas'>,
-): { nilai: number | null; status: StatusPengukuran } {
+  besaran: Pick<BesaranUkur, 'batasBawah' | 'batasAtas' | 'skalaMin' | 'skalaMaks'>,
+): { nilai: number | null; status: StatusPengukuran; galat: KodeGalat | null } {
   const nilai = parseAngka(teks);
-  return { nilai, status: nilaiPengukuran(nilai, besaran.batasBawah, besaran.batasAtas) };
+  if (nilai === null) return { nilai: null, status: 'kosong', galat: null };
+  const valid = validasiNilaiUkur(nilai, besaran);
+  if (!valid.ok) return { nilai, status: 'kosong', galat: valid.galat };
+  return {
+    nilai,
+    status: nilaiPengukuran(nilai, besaran.batasBawah, besaran.batasAtas),
+    galat: null,
+  };
 }
 
 /** Saran tindakan dari resep untuk status di luar rentang; null bila normal atau kosong. */

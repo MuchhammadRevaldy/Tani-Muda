@@ -8,6 +8,7 @@ import {
   posisiPadaSkala,
   saranPengukuran,
   titikGrafik,
+  validasiNilaiUkur,
 } from './pengukuran';
 
 const [PH, PPM] = CONTOH_RESEP_SAWI_HIDROPONIK.tugas.find((t) => t.tipe === 'ukur')!.ukur!;
@@ -19,7 +20,7 @@ describe('nilaiPengukuran (P0-37)', () => {
     [6.0, 'normal'],
     [6.6, 'terlalu-tinggi'],
     [5.4, 'terlalu-rendah'],
-    [0, 'kosong'],
+    [0, 'terlalu-rendah'],
     [null, 'kosong'],
     [undefined, 'kosong'],
     [Number.NaN, 'kosong'],
@@ -30,15 +31,46 @@ describe('nilaiPengukuran (P0-37)', () => {
     [1050, 'normal'],
     [1400, 'normal'],
     [900, 'terlalu-rendah'],
+    [0, 'terlalu-rendah'],
     [1500, 'terlalu-tinggi'],
   ])('PPM %s → %s', (nilai, status) => {
     expect(nilaiPengukuran(nilai, PPM!.batasBawah, PPM!.batasAtas)).toBe(status);
   });
   it('koma desimal diterima', () => {
-    expect(nilaiDariTeks('6,2', PH!)).toEqual({ nilai: 6.2, status: 'normal' });
-    expect(nilaiDariTeks('7,1', PH!)).toEqual({ nilai: 7.1, status: 'terlalu-tinggi' });
-    expect(nilaiDariTeks('', PH!)).toEqual({ nilai: null, status: 'kosong' });
-    expect(nilaiDariTeks('1.250', PPM!)).toEqual({ nilai: 1250, status: 'normal' });
+    expect(nilaiDariTeks('6,2', PH!)).toEqual({ nilai: 6.2, status: 'normal', galat: null });
+    expect(nilaiDariTeks('7,1', PH!)).toEqual({
+      nilai: 7.1,
+      status: 'terlalu-tinggi',
+      galat: null,
+    });
+    expect(nilaiDariTeks('1.250', PPM!)).toEqual({ nilai: 1250, status: 'normal', galat: null });
+  });
+  it('belum diisi = null; 0 sah dan dinilai (D-34)', () => {
+    expect(nilaiDariTeks('', PH!)).toEqual({ nilai: null, status: 'kosong', galat: null });
+    expect(nilaiDariTeks('0', PPM!)).toEqual({ nilai: 0, status: 'terlalu-rendah', galat: null });
+    expect(saranPengukuran(nilaiDariTeks('0', PPM!).status, PPM!)).toBe(PPM!.saranTerlaluRendah);
+    expect(nilaiDariTeks('0', PH!)).toEqual({ nilai: 0, status: 'terlalu-rendah', galat: null });
+  });
+  it.each([
+    ['15', 'pH'],
+    ['14,1', 'pH'],
+    ['-0,5', 'pH'],
+    ['-1', 'PPM'],
+  ])('%s di luar skala %s → NILAI_DI_LUAR_SKALA', (teks, besaran) => {
+    const b = besaran === 'pH' ? PH! : PPM!;
+    expect(nilaiDariTeks(teks, b)).toMatchObject({
+      status: 'kosong',
+      galat: 'NILAI_DI_LUAR_SKALA',
+    });
+  });
+  it('tepi skala sah; PPM tanpa batas atas', () => {
+    expect(validasiNilaiUkur(14, PH!)).toEqual({ ok: true, nilai: 14 });
+    expect(validasiNilaiUkur(0, PH!)).toEqual({ ok: true, nilai: 0 });
+    expect(validasiNilaiUkur(5000, PPM!)).toEqual({ ok: true, nilai: 5000 });
+    expect(validasiNilaiUkur(Number.NaN, PPM!)).toEqual({
+      ok: false,
+      galat: 'NILAI_DI_LUAR_SKALA',
+    });
   });
 });
 

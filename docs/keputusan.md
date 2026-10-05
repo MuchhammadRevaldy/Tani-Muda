@@ -137,7 +137,7 @@ Ditetapkan oleh pemilik produk, 5 Oktober 2026 (jawaban atas pertanyaan P-1 samp
 - **Satu lahan bisa punya beberapa siklus aktif** sekaligus (mis. dua petak sawi yang ditanam bertahap).
 - **Lahan tanah** (bedengan, polybag, sawah): kapasitas tersisa = `lahan.luas_m2` − jumlah luas siklus aktif di lahan itu (`siklus_tanam.luas_m2`).
 - **Lahan hidroponik**: kapasitas dihitung dari **jumlah lubang, bukan luas**. Kapasitas tersisa = `lahan.kapasitas_lubang` − jumlah lubang siklus aktif di lahan itu (`siklus_tanam.jumlah_lubang`).
-- Siklus baru ditolak bila melebihi kapasitas tersisa. Fungsi di `src/lib/kapasitas-lahan.ts` (T2.15a) menangani kedua jenis dan diuji.
+- Siklus baru ditolak bila melebihi kapasitas tersisa. Yang dihitung memakai lahan: siklus aktif dan siklus rencana yang terhubung ke alokasi pesanan (D-34). Fungsi di `src/lib/kapasitas-lahan.ts` (T2.15a) menangani kedua jenis dan diuji.
 - Berdampak ke: T2.15a, T3.06, T3.06a, T4.08, T4.19, T4.36a.
 
 ## D-16. Titik patah layar (jawaban P-5)
@@ -224,6 +224,65 @@ Ditetapkan oleh pemilik produk, 5 Oktober 2026 (jawaban atas pertanyaan backend 
 - Langkah pemasangan dan cara memeriksanya ada di `arsitektur-backend.md` bagian 2. Pemasangan yang lolos pemeriksaan itu menjadi **prasyarat Tahap 5** (tugas T5.00).
 - Berdampak ke: `rencana-kerja.md` Tahap 5.
 
+Ditetapkan oleh pemilik produk, 5 Oktober 2026 (jawaban P-6 sampai P-14 dan tanggapan atas tafsiran Tahap 2).
+
+## D-26. Menu Kebun (jawaban P-6)
+- Profil dan Pengaturan notifikasi dibuka dari avatar di kepala halaman HP (usul P-6 disetujui).
+- Menu **Kebun**:
+  - satu siklus aktif → langsung membuka siklus itu;
+  - **lebih dari satu siklus aktif → membuka daftar siklus**;
+  - **belum ada siklus → keadaan kosong "Mulai siklus tanam pertamamu"**.
+- Mengganti: K4 di `rencana-kerja.md` (hanya satu siklus aktif yang ditampilkan).
+- Berdampak ke: T3.02 (endpoint daftar siklus), T4.09, T4.10, navigasi.
+
+## D-27. Data wilayah (jawaban P-7)
+- Untuk demo, beberapa desa diisi manual. Kecamatan pilot di jawaban pemilik produk masih berupa templat, jadi data demo memakai **Kecamatan Lembang, Kabupaten Bandung Barat** (sesuai desain, mis. "Petani · Lembang"). Ganti bila kecamatan pilot berbeda.
+- **ID wilayah memakai format kode wilayah Kemendagri** `PP.KK.CC.DDDD` (provinsi, kabupaten/kota, kecamatan, desa/kelurahan), mis. `32.17.01.2003` untuk Desa Lembang. Dengan begitu data resmi bisa diimpor kelak.
+- Koordinat titik tengah desa diisi manual. Kode dan koordinat yang belum dicek ke sumber resmi ditandai di data contoh.
+- Berdampak ke: T3.01, T3.06, T5.04.
+
+## D-28. Konfigurasi bisnis (jawaban P-8)
+- Hanya admin yang mengubah konfigurasi bisnis, **lewat seeder atau file konfigurasi yang tercatat di git**, bukan dengan mengedit langsung di phpMyAdmin. Setiap perubahan dengan demikian punya riwayat.
+- Halaman admin untuk konfigurasi masuk **P1**.
+- Berdampak ke: T3.06 (`konfigurasi.json`), T5.08.
+
+## D-29. Video modul (jawaban P-9)
+- Video direkam tim, idealnya bersama penyuluh. Untuk demo cukup **2–3 video contoh**, sisanya placeholder.
+- Format **MP4 360p**, disimpan di storage backend.
+- Batas **15 MB per video** dan **200 MB total unduhan offline**. Keduanya nilai awal di konfigurasi dan bisa diubah.
+- Berdampak ke: T3.06, T3.07, T4.30, T4.31, T6.06.
+
+## D-30. Persetujuan kebijakan privasi (jawaban P-10)
+- Persetujuan data masih menunggu pembimbing dan ahli hukum.
+- Sementara itu, saat mendaftar (verifikasi OTP pertama) ada **centang persetujuan kebijakan privasi** dengan teks draf yang **ditandai jelas sebagai draf**.
+- Waktu setuju dan versi kebijakan disimpan per pengguna (`pengguna.setuju_privasi_pada`, `pengguna.versi_privasi`). Pendaftaran tanpa centang ditolak.
+- Berdampak ke: T3.01, T3.02, T4.33, T4.37, T5.09.
+
+## D-31. Zona waktu (jawaban P-11)
+- Pilot memakai **WIB**.
+- **Semua waktu disimpan dalam UTC** di basis data. Tanggal kalender tanpa jam (tanggal tanam, tanggal tugas) tetap `YYYY-MM-DD`.
+- Kolom **`pengguna.zona_waktu`** dengan nilai bawaan **`Asia/Jakarta`**. Pengingat dan "hari ini" dihitung menurut zona waktu pengguna.
+- Berdampak ke: T3.01, T3.09, T5.04, T5.17.
+
+## D-32. iPhone (jawaban P-12)
+- Jawaban pemilik produk masih berupa templat; yang dipakai adalah pilihan bawaannya: **anggap mayoritas peserta memakai Android**.
+- Banner **"Tambahkan ke layar utama"** tetap tampil di iPhone, karena web push di iPhone membutuhkannya.
+- Berdampak ke: T6.03, T6.07.
+
+## D-33. Repositori dan pemeriksaan visual (jawaban P-13, P-14)
+- Repositori akan menjadi **GitHub privat**. **Jangan push sampai pemilik produk memberi alamatnya.**
+- Pemilik produk memeriksa tangkapan layar dan memberi tahu bila ada yang berbeda.
+
+## D-34. Tanggapan atas tafsiran Tahap 2
+- **Uang muka per kiriman**: tafsiran disetujui. Bagian dari uang muka = persen uang muka × nilai yang diterima. Kiriman terakhir yang diterima penuh memakai seluruh sisa saldo. Pada penolakan, sisa bagian yang ditolak dibiarkan untuk sengketa atau pengembalian.
+- **Kapasitas lahan (mengubah D-15)**: yang dihitung memakai lahan adalah **siklus aktif dan siklus berstatus rencana yang sudah terhubung ke alokasi pesanan**, supaya petani tidak bisa mengambil dua pesanan untuk lahan yang sama sebelum mulai menanam. Rencana tanpa pesanan tidak dihitung.
+- **Resep bayam dan kangkung**: boleh, tetapi data contoh menandai bahwa **dosis dan harganya dikarang**, bukan dari desain (`asal_angka_contoh = 'dikarang'`).
+- **Nilai pengukuran**:
+  - "belum diisi" ditandai dengan `null`, bukan 0;
+  - nilai 0 sah dan divalidasi terhadap skala besaran (pH 0–14, PPM minimal 0);
+  - PPM 0 menghasilkan status **Terlalu rendah** beserta sarannya.
+- **Jarak Haversine**: sudah benar.
+
 ---
 
 ## Riwayat
@@ -233,3 +292,4 @@ Ditetapkan oleh pemilik produk, 5 Oktober 2026 (jawaban atas pertanyaan backend 
 | 2026-10-05 | D-12 sampai D-18 ditetapkan. Butir turunan di D-03, D-06, dan D-11 dikonfirmasi dan dirujuk ke keputusan baru. Jalur tangkapan layar di D-07 diganti mengikuti D-18 |
 | 2026-10-05 | D-19 dan D-20 ditetapkan: backend Laravel + MariaDB tanpa Docker, tampilan dikerjakan lebih dulu. Butir OTP di D-10 dan butir penegakan di D-13 dan D-14 disesuaikan |
 | 2026-10-05 | D-21 sampai D-25 ditetapkan: cookie Sanctum (token untuk React Native), 404 untuk data orang lain, konfirmasi otomatis setiap 15 menit, siap deploy VPS, PHP 8.3+ terpisah |
+| 2026-10-05 | D-26 sampai D-34 ditetapkan: menu Kebun, wilayah berkode Kemendagri, konfigurasi lewat git, video, persetujuan privasi draf, UTC + zona waktu per pengguna, iPhone, repositori, tanggapan tafsiran Tahap 2 (kapasitas dan nilai pengukuran diubah) |

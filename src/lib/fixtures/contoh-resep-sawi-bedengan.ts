@@ -12,6 +12,7 @@ export const CONTOH_RESEP_SAWI_BEDENGAN: ResepTanam = {
   versi: 1,
   status: 'draf',
   contoh: true,
+  asalAngkaContoh: 'desain',
   validator: null,
   tanggalValidasi: null,
   hasilPerSatuan: 1.5,

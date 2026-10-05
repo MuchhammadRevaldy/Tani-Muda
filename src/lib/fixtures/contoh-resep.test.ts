@@ -8,6 +8,7 @@ describe('fixture CONTOH resep konsisten', () => {
     expect(r.contoh).toBe(true);
     expect(r.status).toBe('draf');
     expect(r.validator).toBeNull();
+    expect(['desain', 'dikarang']).toContain(r.asalAngkaContoh);
     // rujukan valid
     expect(CONTOH_KOMODITAS.some((k) => k.id === r.komoditasId)).toBe(true);
     expect(CONTOH_METODE.some((m) => m.id === r.metodeId)).toBe(true);
@@ -22,6 +23,12 @@ describe('fixture CONTOH resep konsisten', () => {
     // ID unik
     expect(new Set(r.input.map((i) => i.id)).size).toBe(r.input.length);
     expect(new Set(r.tugas.map((t) => t.id)).size).toBe(r.tugas.length);
+  });
+  it('angka bayam dan kangkung ditandai dikarang (D-34)', () => {
+    const dikarang = SEMUA_CONTOH_RESEP.filter((r) => r.asalAngkaContoh === 'dikarang').map(
+      (r) => r.komoditasId,
+    );
+    expect(dikarang).toEqual(['bayam', 'kangkung']);
   });
   it('hidroponik hanya untuk sawi (D-05)', () => {
     const hidro = SEMUA_CONTOH_RESEP.filter((r) => r.metodeId === 'hidroponik');

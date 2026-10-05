@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import type { Lahan, SiklusTanam } from '../tipe';
 import { pastikan } from './hasil';
-import { dipakaiSiklusAktif, kapasitasLahan, muatSiklusBaru } from './kapasitas-lahan';
+import { dipakaiSiklus, kapasitasLahan, memakaiLahan, muatSiklusBaru } from './kapasitas-lahan';
 
 const lahan = (sebagian: Partial<Lahan> = {}): Lahan => ({
   id: 'lahan-1',
@@ -17,11 +17,12 @@ const lahan = (sebagian: Partial<Lahan> = {}): Lahan => ({
 });
 const siklus = (
   sebagian: Partial<SiklusTanam>,
-): Pick<SiklusTanam, 'lahanId' | 'status' | 'luasM2' | 'jumlahLubang'> => ({
+): Pick<SiklusTanam, 'lahanId' | 'status' | 'luasM2' | 'jumlahLubang' | 'alokasiPesananId'> => ({
   lahanId: 'lahan-1',
   status: 'aktif',
   luasM2: null,
   jumlahLubang: null,
+  alokasiPesananId: null,
   ...sebagian,
 });
 const HIDRO = lahan({ id: 'hidro', jenisLahan: 'hidroponik', luasM2: 12, kapasitasLubang: 200 });
@@ -46,7 +47,7 @@ describe('kapasitasLahan lahan tanah (D-06, D-15)', () => {
       sisa,
     });
   });
-  it('siklus selesai, rencana, dan milik lahan lain tidak dihitung', () => {
+  it('siklus selesai, rencana tanpa pesanan, dan milik lahan lain tidak dihitung', () => {
     const daftar = [
       siklus({ luasM2: 50 }),
       siklus({ luasM2: 30, status: 'selesai' }),
@@ -54,6 +55,42 @@ describe('kapasitasLahan lahan tanah (D-06, D-15)', () => {
       siklus({ luasM2: 70, lahanId: 'lahan-2' }),
     ];
     expect(kapasitasLahan(lahan(), daftar).sisa).toBe(70);
+  });
+  it('rencana yang terhubung alokasi pesanan ikut memakai lahan (D-34)', () => {
+    const daftar = [
+      siklus({ luasM2: 50 }),
+      siklus({ luasM2: 40, status: 'rencana', alokasiPesananId: 'alokasi-1' }),
+      siklus({ luasM2: 30, status: 'rencana' }),
+    ];
+    expect(kapasitasLahan(lahan(), daftar)).toEqual({
+      satuan: 'm2',
+      total: 120,
+      dipakai: 90,
+      sisa: 30,
+    });
+  });
+  it('lahan yang sama tidak bisa dipakai untuk dua pesanan sebelum menanam (D-34)', () => {
+    // pesanan pertama sudah diambil sebagai rencana 100 m²; pesanan kedua 30 m² tidak muat
+    const pesananPertama = siklus({
+      luasM2: 100,
+      status: 'rencana',
+      alokasiPesananId: 'alokasi-1',
+    });
+    expect(muatSiklusBaru(lahan(), [pesananPertama], 30)).toEqual({
+      ok: false,
+      galat: 'LAHAN_TIDAK_CUKUP',
+    });
+    expect(pastikan(muatSiklusBaru(lahan(), [pesananPertama], 20)).sisa).toBe(0);
+  });
+  it.each([
+    ['aktif', null, true],
+    ['aktif', 'a', true],
+    ['rencana', 'a', true],
+    ['rencana', null, false],
+    ['selesai', 'a', false],
+    ['selesai', null, false],
+  ] as const)('status %s dengan alokasi %s → memakai lahan %s', (status, alokasi, hasil) => {
+    expect(memakaiLahan({ status, alokasiPesananId: alokasi })).toBe(hasil);
   });
   it('satuan asli tidak memengaruhi hitungan', () => {
     expect(
@@ -79,7 +116,7 @@ describe('kapasitasLahan hidroponik dari jumlah lubang (D-15)', () => {
     expect(kapasitasLahan({ ...HIDRO, kapasitasLubang: null }, []).total).toBe(0);
   });
   it('nilai negatif di siklus diabaikan', () => {
-    expect(dipakaiSiklusAktif(HIDRO, [siklus({ lahanId: 'hidro', jumlahLubang: -10 })])).toBe(0);
+    expect(dipakaiSiklus(HIDRO, [siklus({ lahanId: 'hidro', jumlahLubang: -10 })])).toBe(0);
   });
 });
 

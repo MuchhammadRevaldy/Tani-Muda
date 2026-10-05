@@ -30,6 +30,7 @@ export const teksGalat: Record<KodeGalat, string> = {
   TIDAK_BOLEH_DIGESER: 'Tugas ini tidak bisa ditunda',
   TUNDA_DI_LUAR_BATAS: 'Tugas bisa ditunda 1 sampai 3 hari',
   TIDAK_ADA_TIPE: 'Tidak ada tugas jenis ini di siklus ini',
+  NILAI_DI_LUAR_SKALA: 'Angka ini di luar skala alat ukur. Periksa lagi',
   JUMLAH_KOSONG: 'Isi jumlahnya dulu',
   HARGA_KOSONG: 'Isi harga per kg dulu',
   MELEBIHI_PESANAN: 'Jumlah melebihi sisa pesanan',

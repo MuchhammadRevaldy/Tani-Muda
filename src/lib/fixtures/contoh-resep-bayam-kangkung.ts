@@ -1,6 +1,7 @@
 /**
  * CONTOH resep bayam dan kangkung bedengan (hasil per m² dari ringkasan-desain.md bagian 5).
  * Hidroponik hanya untuk sawi (D-05), jadi keduanya hanya punya resep bedengan. Belum divalidasi.
+ * DOSIS DAN HARGA DIKARANG untuk demo, bukan dari desain (D-34): `asalAngkaContoh: 'dikarang'`.
  */
 import type { ResepTanam } from '../../tipe';
 
@@ -11,6 +12,7 @@ export const CONTOH_RESEP_BAYAM_BEDENGAN: ResepTanam = {
   versi: 1,
   status: 'draf',
   contoh: true,
+  asalAngkaContoh: 'dikarang',
   validator: null,
   tanggalValidasi: null,
   hasilPerSatuan: 1.2,
@@ -93,6 +95,7 @@ export const CONTOH_RESEP_KANGKUNG_BEDENGAN: ResepTanam = {
   versi: 1,
   status: 'draf',
   contoh: true,
+  asalAngkaContoh: 'dikarang',
   validator: null,
   tanggalValidasi: null,
   hasilPerSatuan: 1.5,

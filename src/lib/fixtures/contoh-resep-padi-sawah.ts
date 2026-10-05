@@ -11,6 +11,7 @@ export const CONTOH_RESEP_PADI_SAWAH: ResepTanam = {
   versi: 1,
   status: 'draf',
   contoh: true,
+  asalAngkaContoh: 'desain',
   validator: null,
   tanggalValidasi: null,
   hasilPerSatuan: 0.55,
