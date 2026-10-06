@@ -169,3 +169,36 @@ describe('ringkasBerulang (satu baris per tugas berulang)', () => {
     expect(ringkasBerulang(j).find((b) => b.tugas.resepTugasId === 'cek-daun')?.tugas.hst).toBe(28);
   });
 });
+
+describe('tundaTugas dari hari ini untuk tugas terlambat (papan 22)', () => {
+  const jadwal = [
+    {
+      id: 'siangi@11',
+      resepTugasId: 'siangi',
+      tipe: 'sekali' as const,
+      judul: 'Siangi',
+      tanggal: '2026-10-01',
+      hst: 11,
+      status: 'belum' as const,
+      bolehDigeser: true,
+    },
+    {
+      id: 'siangi@20',
+      resepTugasId: 'siangi',
+      tipe: 'sekali' as const,
+      judul: 'Siangi',
+      tanggal: '2026-10-10',
+      hst: 20,
+      status: 'belum' as const,
+      bolehDigeser: true,
+    },
+  ];
+  it('terlambat 2 hari, tunda 1 hari → besok; tugas sejenis ikut bergeser 3 hari', () => {
+    const r = tundaTugas(jadwal, 'siangi@11', 1, '2026-10-18', '2026-10-03');
+    expect(r.ok && r.nilai.jadwal.map((t) => t.tanggal)).toEqual(['2026-10-04', '2026-10-13']);
+  });
+  it('tugas belum terlambat tetap dihitung dari tanggalnya sendiri', () => {
+    const r = tundaTugas(jadwal, 'siangi@20', 2, '2026-10-18', '2026-10-03');
+    expect(r.ok && r.nilai.jadwal.map((t) => t.tanggal)).toEqual(['2026-10-01', '2026-10-12']);
+  });
+});

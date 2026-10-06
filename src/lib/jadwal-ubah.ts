@@ -21,13 +21,16 @@ export interface HasilTunda {
 
 /**
  * Tunda tugas `hari` (1–3) hari. Tugas sejenis berikutnya (pola resep sama, belum selesai, tanggal
- * sama atau sesudahnya) ikut bergeser. Jadwal asal tidak diubah.
+ * sama atau sesudahnya) ikut bergeser. Jadwal asal tidak diubah. Bila `hariIni` diberikan dan tugas
+ * sudah terlambat, tanggal baru dihitung dari hari ini (papan 22: tunda 1 hari → besok), dan tugas
+ * sejenis bergeser sejauh yang sama.
  */
 export function tundaTugas(
   jadwal: Tugas[],
   tugasId: string,
   hari: number,
   perkiraanPanen: TanggalISO,
+  hariIni?: TanggalISO,
 ): Hasil<HasilTunda> {
   const target = jadwal.find((t) => t.id === tugasId);
   if (!target) return gagal('TUGAS_TIDAK_ADA');
@@ -36,6 +39,8 @@ export function tundaTugas(
   if (!Number.isInteger(hari) || hari < BATAS_TUNDA.min || hari > BATAS_TUNDA.maks)
     return gagal('TUNDA_DI_LUAR_BATAS');
 
+  const terlambat = hariIni ? Math.max(0, selisihHari(target.tanggal, hariIni)) : 0;
+  const geser = hari + terlambat;
   const digeser: string[] = [];
   let perluKonfirmasi = false;
   const baru = jadwal.map((t) => {
@@ -44,7 +49,7 @@ export function tundaTugas(
       t.status === 'belum' &&
       bandingTanggal(t.tanggal, target.tanggal) >= 0;
     if (!sejenis) return t;
-    const tanggal = tambahHari(t.tanggal, hari);
+    const tanggal = tambahHari(t.tanggal, geser);
     digeser.push(t.id);
     if (selisihHari(perkiraanPanen, tanggal) > 0) perluKonfirmasi = true;
     return { ...t, tanggal };

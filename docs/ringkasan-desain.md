@@ -137,6 +137,7 @@ Tema bawaan Tailwind **diganti**, bukan diperluas: warna bawaan, `text-sm`, dan 
 | Radius | `xs` 2, `sm` 8, `ikon` 10, `md` 12, `tab` 14, `lg` 16, `sheet` 20, `full` | |
 | Garis | `border` 1, `border-1.5`, `border-2`, `border-2.5`, `border-3` | |
 | Bayangan | `shadow-fokus`, `shadow-pilihan`, `shadow-garis` | Tidak ada bayangan jatuh |
+| Rasio | `aspect-foto` 4:3 | Foto bukti, jurnal, foto kiriman (papan 22, 28) |
 | Lebar maksimum | `hp` 390, `dialog` 480, `teks` 640, `dok` 900, `pembeli` 1152, `konten` 1200, `desktop` 1440 | |
 | Titik patah | `md` 768 (dua kolom, tetap navigasi bawah), `lg` 1024 (sidebar), `xl` 1280, `desktop` 1440 | D-16 |
 

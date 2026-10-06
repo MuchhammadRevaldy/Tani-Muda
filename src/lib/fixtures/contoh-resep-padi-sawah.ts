@@ -3,6 +3,7 @@
  * memenuhi syarat subsidi (lihat CONTOH_KELAYAKAN_SUBSIDI). Belum divalidasi penyuluh.
  */
 import type { KelayakanSubsidi, ResepTanam } from '../../tipe';
+import { CONTOH_CARA } from './contoh-cara-mengerjakan';
 
 export const CONTOH_RESEP_PADI_SAWAH: ResepTanam = {
   id: 'resep-padi-sawah',
@@ -14,6 +15,9 @@ export const CONTOH_RESEP_PADI_SAWAH: ResepTanam = {
   asalAngkaContoh: 'desain',
   validator: null,
   tanggalValidasi: null,
+  // CONTOH (D-38): persen dan alasan panen jelek belum dari penyuluh.
+  persenPanenJelek: 70,
+  alasanPanenJelek: 'serangan wereng atau kekurangan air',
   hasilPerSatuan: 0.55,
   umurPanenHari: 110,
   standarKualitas: ['Gabah kering panen, bersih dari jerami', 'Kadar hampa rendah'],
@@ -120,10 +124,38 @@ export const CONTOH_RESEP_PADI_SAWAH: ResepTanam = {
     },
   ],
   tugas: [
-    { id: 'pupuk-1', tipe: 'sekali', judul: 'Pupuk 1', hstMulai: 14, bolehDigeser: true },
-    { id: 'pupuk-2', tipe: 'sekali', judul: 'Pupuk 2', hstMulai: 35, bolehDigeser: true },
-    { id: 'cek-hama', tipe: 'sekali', judul: 'Cek hama', hstMulai: 55, bolehDigeser: true },
-    { id: 'panen', tipe: 'sekali', judul: 'Panen', hstMulai: 110, bolehDigeser: false },
+    {
+      id: 'pupuk-1',
+      tipe: 'sekali',
+      judul: 'Pupuk 1',
+      caraMengerjakan: CONTOH_CARA['Pupuk 1'],
+      hstMulai: 14,
+      bolehDigeser: true,
+    },
+    {
+      id: 'pupuk-2',
+      tipe: 'sekali',
+      judul: 'Pupuk 2',
+      caraMengerjakan: CONTOH_CARA['Pupuk 2'],
+      hstMulai: 35,
+      bolehDigeser: true,
+    },
+    {
+      id: 'cek-hama',
+      tipe: 'sekali',
+      judul: 'Cek hama',
+      caraMengerjakan: CONTOH_CARA['Cek hama'],
+      hstMulai: 55,
+      bolehDigeser: true,
+    },
+    {
+      id: 'panen',
+      tipe: 'sekali',
+      judul: 'Panen',
+      caraMengerjakan: CONTOH_CARA.Panen,
+      hstMulai: 110,
+      bolehDigeser: false,
+    },
   ],
 };
 

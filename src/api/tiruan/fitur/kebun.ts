@@ -447,7 +447,10 @@ export function buatKlienKebun(k: Konteks): KlienKebun {
         siklus.tanggal_tanam as string,
         resepSiklus(k, siklus).umur_panen_hari,
       );
-      const r = k.dariHasil(tundaDomain(milik.map(tugasKeDomain), id, m.hari, panen), 'hari');
+      const r = k.dariHasil(
+        tundaDomain(milik.map(tugasKeDomain), id, m.hari, panen, k.hariIni(p)),
+        'hari',
+      );
       if (r.perluKonfirmasi && !m.konfirmasi)
         return { diterapkan: false, perlu_konfirmasi: true, tugas: k.salin(milik.sort(urutTugas)) };
       const baru = new Map(r.jadwal.map((t) => [t.id, t.tanggal]));

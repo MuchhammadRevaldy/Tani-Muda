@@ -4,6 +4,7 @@
  * Alat sekali beli total Rp1.500.000.
  */
 import type { ResepTanam } from '../../tipe';
+import { CONTOH_CARA } from './contoh-cara-mengerjakan';
 
 export const CONTOH_RESEP_SAWI_HIDROPONIK: ResepTanam = {
   id: 'resep-sawi-hidroponik',
@@ -15,6 +16,9 @@ export const CONTOH_RESEP_SAWI_HIDROPONIK: ResepTanam = {
   asalAngkaContoh: 'desain',
   validator: null,
   tanggalValidasi: null,
+  // CONTOH (D-38): persen dan alasan panen jelek belum dari penyuluh.
+  persenPanenJelek: 70,
+  alasanPanenJelek: 'listrik padam dan akar membusuk',
   hasilPerSatuan: 0.15,
   umurPanenHari: 35,
   jumlahPengisianLarutan: 2,
@@ -152,6 +156,7 @@ export const CONTOH_RESEP_SAWI_HIDROPONIK: ResepTanam = {
       id: 'pindah-tanam',
       tipe: 'sekali',
       judul: 'Pindah tanam ke netpot',
+      caraMengerjakan: CONTOH_CARA['Pindah tanam ke netpot'],
       hstMulai: 10,
       bolehDigeser: true,
     },
@@ -159,6 +164,7 @@ export const CONTOH_RESEP_SAWI_HIDROPONIK: ResepTanam = {
       id: 'ukur-ph-ppm',
       tipe: 'ukur',
       judul: 'Cek pH dan PPM',
+      caraMengerjakan: CONTOH_CARA['Cek pH dan PPM'],
       hstMulai: 10,
       hstSelesai: 34,
       interval: 2,
@@ -190,9 +196,17 @@ export const CONTOH_RESEP_SAWI_HIDROPONIK: ResepTanam = {
       id: 'ganti-larutan',
       tipe: 'sekali',
       judul: 'Ganti larutan nutrisi',
+      caraMengerjakan: CONTOH_CARA['Ganti larutan nutrisi'],
       hstMulai: 21,
       bolehDigeser: true,
     },
-    { id: 'panen', tipe: 'sekali', judul: 'Panen', hstMulai: 35, bolehDigeser: false },
+    {
+      id: 'panen',
+      tipe: 'sekali',
+      judul: 'Panen',
+      caraMengerjakan: CONTOH_CARA.Panen,
+      hstMulai: 35,
+      bolehDigeser: false,
+    },
   ],
 };

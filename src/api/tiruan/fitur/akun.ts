@@ -53,6 +53,7 @@ export function buatKlienAkun(k: Konteks): KlienAkun {
           foto_profil: null,
           status_akun: 'aktif',
           zona_waktu: ZONA_BAWAAN,
+          terdaftar_kelompok_tani: false,
           setuju_privasi_pada: k.sekarangIso(),
           versi_privasi: k.db.konfigurasi.versi_privasi,
           dibuat_pada: k.sekarangIso(),
@@ -99,6 +100,8 @@ export function buatKlienAkun(k: Konteks): KlienAkun {
       if (m.nama !== undefined) p.nama = m.nama.trim();
       if (m.wilayah_id !== undefined) p.wilayah_id = m.wilayah_id;
       if (m.zona_waktu !== undefined) p.zona_waktu = m.zona_waktu;
+      if (m.terdaftar_kelompok_tani !== undefined)
+        p.terdaftar_kelompok_tani = m.terdaftar_kelompok_tani === true;
       if (m.foto_profil !== undefined) p.foto_profil = m.foto_profil;
       k.simpan();
       return akunDari(k, p);

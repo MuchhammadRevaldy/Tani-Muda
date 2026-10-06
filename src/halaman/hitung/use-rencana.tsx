@@ -20,6 +20,7 @@ import {
   useKonversiSatuan,
   useMetode,
   usePesananSekitar,
+  usePesananUntukPetani,
   useSistemHidroponik,
 } from '../../api/kueri';
 import { kelayakanKeDomain, resepKeDomain } from '../../api/peta';
@@ -34,9 +35,12 @@ import type { RingkasanModal } from '../../lib/modal';
 import {
   hargaItemRencana,
   itemDariKebutuhan,
+  panenJelekKg,
+  pilihHargaJual,
   ringkasRencana,
   type HargaItem,
   type ItemRencana,
+  type SumberHargaJual,
 } from '../../lib/rencana';
 import { hitungRingkasan, type Ringkasan } from '../../lib/ringkasan';
 import type { JadwalPin } from '../../lib/tata-letak-penggaris';
@@ -89,8 +93,14 @@ export interface Rencana {
   modal: Hasil<RingkasanModal> | null;
   bagiAlat: boolean;
   hargaJual: number | null;
-  /** Pembeli pesanan terdekat untuk komoditas ini bila harga jual diambil dari sana. */
+  /** Asal harga jual (D-38): isian, kesepakatan, pesanan terdekat, atau contoh. */
+  sumberHargaJual: SumberHargaJual;
+  /** Nama pembeli bila harga jual dari pesanan (kesepakatan atau terdekat). */
   hargaJualDari: string | null;
+  /** Jumlah laporan harga per input untuk keterangan "Rata-rata n laporan" (D-38). */
+  laporanSekitar: Map<string, number>;
+  /** Hasil saat panen jelek (persen dari resep, D-38). */
+  panenJelek: { kg: number; persen: number; alasan: string | null } | null;
   ringkasan: Hasil<Ringkasan> | null;
   jadwal: JadwalPin[];
   ubahItem: (id: string, ubah: Partial<ItemRencana>) => void;
@@ -111,6 +121,7 @@ export function useRencana(p: PilihanHitung): Rencana {
   const resepQ = useDaftarResep(p.komoditas ? { komoditas_id: p.komoditas } : {});
   const kelayakanQ = useKelayakanSubsidi(p.komoditas);
   const pesananQ = usePesananSekitar({});
+  const kesepakatanQ = usePesananUntukPetani(p.pesanan);
 
   const komoditas = komoditasQ.data?.find((k) => k.id === p.komoditas) ?? null;
   const metode = metodeQ.data?.find((m) => m.id === p.metode) ?? null;
@@ -153,12 +164,20 @@ export function useRencana(p: PilihanHitung): Rencana {
   const kebutuhan =
     resep && dasar && ukuranValid?.ok ? hitungKebutuhanResep(resep, dasar, ukuran) : null;
   const kunci = resep ? `${resep.id}@${resep.versi}|${luasM2}|${jumlahUnit}|${volumeTandon}` : null;
-  const itemsAwal = kebutuhan?.ok && resep ? itemDariKebutuhan(kebutuhan.nilai, resep) : [];
+  const itemsAwal =
+    kebutuhan?.ok && resep
+      ? itemDariKebutuhan(kebutuhan.nilai, resep, {
+          terdaftarKelompokTani: akun?.pengguna.terdaftar_kelompok_tani ?? false,
+        })
+      : [];
   const items = sunting.kunci === kunci && sunting.items ? sunting.items : itemsAwal;
 
   const inputIds = [...new Set(items.map((i) => i.inputId).filter((x): x is string => !!x))];
   const sekitarQ = useHargaSekitarBanyak(inputIds);
   const rata = new Map((sekitarQ.data ?? []).map((h) => [h.input_id, h.harga_per_satuan]));
+  const laporanSekitar = new Map(
+    (sekitarQ.data ?? []).map((h) => [h.input_id, h.jumlah_laporan] as const),
+  );
   const kelayakan = (kelayakanQ.data ?? []).map(kelayakanKeDomain);
   const harga = new Map<string, HargaItem>();
   for (const it of items) {
@@ -172,16 +191,29 @@ export function useRencana(p: PilihanHitung): Rencana {
   const modal = items.length ? ringkasRencana(items, harga, sunting.bagiAlat) : null;
 
   const pesananTerdekat = (pesananQ.data?.data ?? []).find((x) => x.komoditas_id === p.komoditas);
-  const hargaJual = sunting.hargaJual ?? pesananTerdekat?.harga_per_kg ?? null;
+  const kesepakatan =
+    kesepakatanQ.data && kesepakatanQ.data.komoditas_id === p.komoditas ? kesepakatanQ.data : null;
+  const jual = pilihHargaJual({
+    isian: sunting.hargaJual,
+    kesepakatan: kesepakatan?.harga_per_kg ?? null,
+    pesananTerdekat: pesananTerdekat?.harga_per_kg ?? null,
+    contoh: komoditas?.harga_jual_contoh ?? null,
+  });
   const hargaJualDari =
-    sunting.hargaJual === null && pesananTerdekat ? pesananTerdekat.nama_pembeli : null;
+    jual.sumber === 'kesepakatan'
+      ? (kesepakatan?.nama_pembeli ?? null)
+      : jual.sumber === 'pesanan_terdekat'
+        ? (pesananTerdekat?.nama_pembeli ?? null)
+        : null;
+  const kgJelek = perkiraan?.ok ? panenJelekKg(perkiraan.nilai, resep?.persenPanenJelek) : null;
   const ringkasan =
-    modal?.ok && perkiraan?.ok && hargaJual !== null
+    modal?.ok && perkiraan?.ok && jual.harga !== null
       ? hitungRingkasan({
           totalModal: modal.nilai.totalModal,
           perkiraanPanenKg: perkiraan.nilai,
-          hargaJual,
+          hargaJual: jual.harga,
           ukuranM2: luasM2,
+          panenJelekKg: kgJelek,
         })
       : null;
 
@@ -219,8 +251,14 @@ export function useRencana(p: PilihanHitung): Rencana {
     harga,
     modal,
     bagiAlat: sunting.bagiAlat,
-    hargaJual,
+    hargaJual: jual.harga,
+    sumberHargaJual: jual.sumber,
     hargaJualDari,
+    laporanSekitar,
+    panenJelek:
+      kgJelek !== null && resep?.persenPanenJelek
+        ? { kg: kgJelek, persen: resep.persenPanenJelek, alasan: resep.alasanPanenJelek ?? null }
+        : null,
     ringkasan,
     jadwal,
     ubahItem: (id, ubah) =>

@@ -11,6 +11,8 @@ export interface Komoditas {
   jenis_lahan_cocok: JenisLahan[];
   satuan_panen: string;
   umur_panen_hari: number;
+  /** Harga jual contoh per satuan panen untuk kalkulator (D-38); CONTOH, bukan harga pasar. */
+  harga_jual_contoh: Rupiah | null;
   /** Ada resep yang boleh dilihat pengguna ini (D-12) → "tersedia"; selain itu "segera_hadir". */
   status_resep: 'tersedia' | 'segera_hadir';
   /** Pesanan terbuka dalam radius pengguna (0 bila bukan petani). */

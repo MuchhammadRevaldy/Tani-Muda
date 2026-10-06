@@ -61,6 +61,9 @@ export interface ResepTanam {
   dasar_ukuran: DasarUkuran;
   umur_panen_hari: number;
   jumlah_pengisian_larutan: number | null;
+  /** Persen hasil saat panen jelek (0–100) dan alasan umumnya, diisi penyuluh (D-38). */
+  persen_panen_jelek: number | null;
+  alasan_panen_jelek: string | null;
   standar_kualitas: string[];
   input: ResepInput[];
   tugas: ResepTugas[];

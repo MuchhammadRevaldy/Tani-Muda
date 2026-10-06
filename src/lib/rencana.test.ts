@@ -12,6 +12,8 @@ import {
   itemDariKebutuhan,
   itemTambahan,
   keBarisRencana,
+  panenJelekKg,
+  pilihHargaJual,
   pakaiSubsidi,
   ringkasRencana,
   SIKLUS_PEMBAGIAN_ALAT,
@@ -128,5 +130,45 @@ describe('rencana kalkulator', () => {
       resep_input_id: items[0]!.id,
     });
     expect(baris[1]?.merek_id).toBeNull();
+  });
+});
+
+describe('subsidi bawaan, panen jelek, harga jual (D-38)', () => {
+  it('petani terdaftar kelompok tani: item layak subsidi langsung memakai HET', () => {
+    const k = pastikan(hitungKebutuhanResep(CONTOH_RESEP_PADI_SAWAH, 'luas', { luasM2: 1000 }));
+    const items = itemDariKebutuhan(k, CONTOH_RESEP_PADI_SAWAH, { terdaftarKelompokTani: true });
+    expect(items.every((i) => i.pilihSubsidi)).toBe(true);
+    const harga = semuaHarga(items, 'padi');
+    expect(harga.get((items.find((i) => i.inputId === 'urea') as ItemRencana).id)?.sumber).toBe(
+      'subsidi',
+    );
+    expect(pakaiSubsidi(harga)).toBe(true);
+  });
+
+  it('panen jelek 70% dari 150 kg = 105 kg; persen kosong atau nol → null; persen di atas 100 dibatasi', () => {
+    expect(panenJelekKg(150, 70)).toBe(105);
+    expect(panenJelekKg(22.5, 70)).toBe(15.75);
+    expect(panenJelekKg(150, null)).toBeNull();
+    expect(panenJelekKg(150, 0)).toBeNull();
+    expect(panenJelekKg(150, 120)).toBe(150);
+  });
+
+  it('urutan harga jual: isian, kesepakatan, pesanan terdekat, contoh', () => {
+    const dasar = { isian: null, kesepakatan: null, pesananTerdekat: null, contoh: null };
+    expect(pilihHargaJual(dasar)).toEqual({ harga: null, sumber: 'belum_ada' });
+    expect(pilihHargaJual({ ...dasar, contoh: 5000 })).toEqual({ harga: 5000, sumber: 'contoh' });
+    expect(pilihHargaJual({ ...dasar, contoh: 5000, pesananTerdekat: 5500 }).sumber).toBe(
+      'pesanan_terdekat',
+    );
+    expect(
+      pilihHargaJual({ ...dasar, contoh: 5000, pesananTerdekat: 5500, kesepakatan: 6000 }),
+    ).toEqual({
+      harga: 6000,
+      sumber: 'kesepakatan',
+    });
+    expect(
+      pilihHargaJual({ isian: 7000, contoh: 5000, pesananTerdekat: 5500, kesepakatan: 6000 })
+        .sumber,
+    ).toBe('isian');
   });
 });

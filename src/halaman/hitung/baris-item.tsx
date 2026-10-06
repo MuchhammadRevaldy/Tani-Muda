@@ -19,10 +19,12 @@ import { angkaIsian } from './pilihan';
 export const angkaJumlah = (n: number) =>
   Number.isInteger(n) ? titikRibuan(n) : formatDesimal(n, 2);
 
-function teksSumber(item: ItemRencana, h: HargaItem): string {
+function teksSumber(item: ItemRencana, h: HargaItem, jumlahLaporan: number): string {
   if (h.harga === null || h.sumber === 'belum_ada') return t.hargaBelum;
   const rp = formatRupiah(h.harga);
   if (h.sumber === 'merek') return t.sumberHarga.merek(rp, item.satuan, item.merek?.nama ?? '');
+  if (h.sumber === 'rata_sekitar')
+    return t.sumberHarga.rata_sekitar(rp, item.satuan, jumlahLaporan);
   return t.sumberHarga[h.sumber](rp, item.satuan);
 }
 
@@ -92,6 +94,7 @@ export function BarisItem({
   onHapus,
   onPilihMerek,
   terbukaAwal = false,
+  jumlahLaporan = 0,
 }: {
   item: ItemRencana;
   harga: HargaItem;
@@ -101,6 +104,8 @@ export function BarisItem({
   onHapus?: () => void;
   onPilihMerek?: () => void;
   terbukaAwal?: boolean;
+  /** Jumlah laporan harga di kecamatan untuk input ini (sumber "Rata-rata n laporan"). */
+  jumlahLaporan?: number;
 }) {
   const [terbuka, setTerbuka] = useState(terbukaAwal);
   const nama = item.nama || t.itemBaru;
@@ -154,7 +159,9 @@ export function BarisItem({
               {t.namaJumlah(item.nama, angkaJumlah(item.jumlah), item.satuan)}
             </span>
           )}
-          <span className="text-keterangan text-teks-pendukung">{teksSumber(item, harga)}</span>
+          <span className="text-keterangan text-teks-pendukung">
+            {teksSumber(item, harga, jumlahLaporan)}
+          </span>
           {harga.layakSubsidi ? <PilihanSubsidi item={item} onUbah={onUbah} /> : null}
           {tombolHapus}
         </div>
@@ -180,7 +187,9 @@ export function BarisItem({
         </span>
         <span className="flex-none">{subtotalTampil}</span>
       </div>
-      <span className="text-keterangan text-teks-pendukung">{teksSumber(item, harga)}</span>
+      <span className="text-keterangan text-teks-pendukung">
+        {teksSumber(item, harga, jumlahLaporan)}
+      </span>
       {harga.layakSubsidi ? (
         <LabelKecil nada="garis" className="self-start">
           {subsidiAktif ? t.subsidi : t.nonsubsidi}

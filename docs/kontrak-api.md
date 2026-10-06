@@ -127,6 +127,7 @@ Kolom bertanda † adalah tambahan di luar Model Data PRD; dasar keputusannya di
 | `foto_profil` | string \| null | URL berkas (D-06) |
 | `status_akun` | `aktif` \| `dinonaktifkan_sementara` | D-13 |
 | `zona_waktu`† | string | IANA, bawaan `Asia/Jakarta` (D-31) |
+| `terdaftar_kelompok_tani`† | boolean | petani menyatakan terdaftar di kelompok tani; bawaan pilihan subsidi di kalkulator (D-38) |
 | `setuju_privasi_pada`† | waktu \| null | D-30 |
 | `versi_privasi`† | string \| null | D-30 |
 | `dibuat_pada` | waktu | |
@@ -173,6 +174,7 @@ Tidak ada kolom kata sandi atau nama pengguna (D-04).
 | `jenis_lahan_cocok` | (`sawah` \| `kebun` \| `pekarangan` \| `hidroponik`)[] | |
 | `satuan_panen` | string | `kg` atau `kg gabah` |
 | `umur_panen_hari` | bilangan bulat | |
+| `harga_jual_contoh`† | rupiah \| null | harga jual contoh per satuan panen untuk kalkulator (D-38) |
 | `status_resep` | `tersedia` \| `segera_hadir` | dihitung per pengguna (D-12) |
 | `jumlah_pesanan_sekitar` | bilangan bulat | pesanan terbuka dalam radius petani; 0 untuk peran lain |
 
@@ -244,6 +246,8 @@ Tidak ada kolom kata sandi atau nama pengguna (D-04).
 | `dasar_ukuran`† | `luas` \| `polybag` \| `lubang` | dari metode |
 | `umur_panen_hari` | bilangan bulat | |
 | `jumlah_pengisian_larutan`† | bilangan \| null | hidroponik, untuk dosis per liter |
+| `persen_panen_jelek`† | bilangan 1–100 \| null | persen hasil saat panen jelek, diisi penyuluh (D-38) |
+| `alasan_panen_jelek`† | string \| null | alasan umum panen jelek (D-38) |
 | `standar_kualitas` | string[] | |
 | `input` | `ResepInput[]` | |
 | `tugas` | `ResepTugas[]` | |
@@ -483,7 +487,7 @@ Peran: P = petani, B = pembeli, M = mentor, A = admin, semua = semua pengguna ma
 | `POST /auth/keluar` | semua | → 204 | | `akun.keluar` |
 | `GET /akun` | semua | → `Akun` (401 bila belum masuk) | | `akun.ambil` |
 | `PUT /akun/peran` | semua, peran kosong | `{ peran, nama, wilayah_id? }` → `Akun` | `WILAYAH_WAJIB` (petani), `STATUS_TIDAK_SESUAI` (sudah berperan) | `akun.pilihPeran` |
-| `PATCH /akun` | semua | `{ nama?, wilayah_id?, zona_waktu?, foto_profil? }` → `Akun` | `VALIDASI` | `akun.ubahProfil` |
+| `PATCH /akun` | semua | `{ nama?, wilayah_id?, zona_waktu?, foto_profil?, terdaftar_kelompok_tani? }` → `Akun` | `VALIDASI` | `akun.ubahProfil` |
 | `GET /akun/catatan` | P | → `CatatanPetani[]` milik sendiri | | `akun.catatanSaya` |
 | `PUT /akun/profil-pembeli` | B | `ProfilPembeliMasukan` → `ProfilPembeli` (baru → `menunggu`) | `VALIDASI` | `akun.simpanProfilPembeli` |
 
@@ -499,7 +503,7 @@ Peran: P = petani, B = pembeli, M = mentor, A = admin, semua = semua pengguna ma
 | `GET /konversi-satuan?wilayah_id=` | semua | → `KonversiSatuan[]` | `referensi.konversiSatuan` |
 | `GET /konfigurasi` | publik | → `Konfigurasi` | `referensi.konfigurasi` |
 | `GET /input/{id}/merek` | semua | → `RingkasanMerek[]` di kecamatan pengguna | `referensi.merek` |
-| `GET /harga-sekitar?input_id=` | semua | → `{ input_id, harga_per_satuan \| null, jumlah_laporan }` (min. 3 laporan dalam 30 hari, dari konfigurasi) | `referensi.hargaSekitar` |
+| `GET /harga-sekitar?input_id=` | semua | → `{ input_id, harga_per_satuan \| null, jumlah_laporan }` (min. 3 laporan dalam 30 hari, dari konfigurasi); rata-rata dibulatkan ke ratusan rupiah terdekat, di bawah Rp100 ke puluhan (D-38) | `referensi.hargaSekitar` |
 | `POST /laporan-harga` | semua | `{ merek_id, harga_kemasan }` atau `{ merek_baru: {…}, harga_kemasan }` → `LaporanHarga` | `referensi.laporHarga` |
 | `GET /promo` | semua | → `Promo[]` berlaku di kecamatan pengguna | `referensi.promo` |
 | `GET /kelayakan-subsidi?komoditas_id=` | semua | → `KelayakanSubsidi[]` | `referensi.kelayakanSubsidi` |
@@ -660,3 +664,4 @@ Konfirmasi otomatis: kiriman `dikirim` yang lewat `batas_periksa_pada` dianggap 
 | Tanggal | Perubahan |
 | --- | --- |
 | 2026-10-05 | Versi pertama (T3.01, T3.02), bersama tipe `src/api/tipe/`, klien tiruan, dan tes kontrak |
+| 2026-10-07 | D-38: `pengguna.terdaftar_kelompok_tani`, `komoditas.harga_jual_contoh`, `resep_tanam.persen_panen_jelek` dan `alasan_panen_jelek`, pembulatan harga sekitar ke ratusan. Tunda tugas terlambat dihitung dari hari ini. |

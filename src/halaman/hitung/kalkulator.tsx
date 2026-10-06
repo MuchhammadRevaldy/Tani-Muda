@@ -77,6 +77,7 @@ function DaftarItem({
           onUbah={(u) => r.ubahItem(it.id, u)}
           onHapus={it.asal === 'tambahan' ? () => r.hapusItem(it.id) : undefined}
           onPilihMerek={it.inputId ? () => onPilihMerek(it) : undefined}
+          jumlahLaporan={it.inputId ? (r.laporanSekitar.get(it.inputId) ?? 0) : 0}
         />
       ))}
     </div>

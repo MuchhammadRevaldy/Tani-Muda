@@ -16,6 +16,8 @@ export const judulRute = {
   modal: 'Modal',
   jurnal: 'Jurnal',
   pengingat: 'Pengingat per siklus',
+  ubahTanggalTanam: 'Tanggal tanam',
+  akhirSiklus: 'Akhiri siklus',
   detailTugas: 'Detail tugas',
   ukur: 'Cek pH dan PPM',
   belajar: 'Belajar',

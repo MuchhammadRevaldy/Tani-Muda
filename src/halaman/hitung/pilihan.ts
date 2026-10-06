@@ -21,6 +21,8 @@ export interface PilihanHitung {
   vertikultur: boolean;
   /** Lahan dari halaman Lahan saya atau pesanan (gelombang 4). */
   lahan: string | null;
+  /** Pesanan yang diambil (gelombang 4): harga kesepakatan dipakai sebagai harga jual (D-38). */
+  pesanan: string | null;
 }
 
 const SATUAN: SatuanPilihan[] = ['m2', 'ru', 'hektare'];
@@ -36,6 +38,7 @@ export function bacaPilihan(p: URLSearchParams): PilihanHitung {
     tandon: p.get('tandon') ?? '',
     vertikultur: p.get('vertikultur') === '1',
     lahan: p.get('lahan'),
+    pesanan: p.get('pesanan'),
   };
 }
 
@@ -49,6 +52,7 @@ export function tulisPilihan(x: PilihanHitung): URLSearchParams {
   if (x.tandon) p.set('tandon', x.tandon);
   if (x.vertikultur) p.set('vertikultur', '1');
   if (x.lahan) p.set('lahan', x.lahan);
+  if (x.pesanan) p.set('pesanan', x.pesanan);
   return p;
 }
 

@@ -11,6 +11,7 @@ import {
   usePesananSekitar,
   useRiwayatPengukuran,
   useSiklus,
+  useResep,
   useTugas,
   useTugasBanyakSiklus,
   useTugasHariIni,
@@ -20,6 +21,7 @@ import { useSesi, useWaktuLokal } from '../api/sesi';
 import type { SiklusTanam, Tugas } from '../api/tipe';
 import { Avatar } from '../komponen/avatar';
 import { Banner } from '../komponen/banner';
+import { Ikon } from '../komponen/ikon';
 import { Dialog } from '../komponen/dialog';
 import { useDesaSaya } from '../komponen/kerangka-sesi';
 import { DaftarLangkah } from '../komponen/pelengkap';
@@ -35,6 +37,7 @@ import {
 } from '../lib/beranda';
 import { statusTugas } from '../lib/jadwal-ubah';
 import { teksBeranda as t } from '../teks/beranda';
+import { teksKebun } from '../teks/kebun';
 import { teksSesi } from '../teks/sesi';
 import { teksUmum } from '../teks/umum';
 import { hasilPengukuranKeDomain } from '../api/peta';
@@ -91,6 +94,7 @@ export function HalamanBeranda() {
   const [param, setParam] = useSearchParams();
 
   const siklusQ = useDaftarSiklus({ status: 'aktif' });
+  const rencanaQ = useDaftarSiklus({ status: 'rencana' });
   const komoditasQ = useKomoditas();
   const lahanQ = useLahan();
   const tugasQ = useTugasHariIni();
@@ -111,6 +115,7 @@ export function HalamanBeranda() {
     (semuaTugas.isPending ? null : (aktif[0] ?? null));
   const detailQ = useSiklus(dipilih?.id ?? null);
   const tugasSiklusQ = useTugas(dipilih?.id ?? null);
+  const resepQ = useResep(dipilih?.resep_id ?? null);
   const ukurQ = useRiwayatPengukuran(dipilih?.id ?? null);
 
   const nama = akun?.pengguna.nama ?? '';
@@ -120,6 +125,17 @@ export function HalamanBeranda() {
       lahanQ.data?.find((l) => l.id === s.lahan_id)?.nama ?? '',
     );
 
+  const jumlahRencana = rencanaQ.data?.length ?? 0;
+  const penandaRencana = jumlahRencana ? (
+    <Link
+      to="/kebun?daftar#rencana"
+      className="fokus-cincin inline-flex min-h-sentuh items-center gap-2 self-start rounded-full border-1.5 border-garis-kuat bg-putih px-4 font-medium text-teks no-underline hover:border-daun-tua hover:text-daun-tua"
+    >
+      <Ikon nama="kalender" ukuran={20} />
+      {teksKebun.rencanaBeranda(jumlahRencana)}
+      <Ikon nama="panah-kanan" ukuran={20} />
+    </Link>
+  ) : null;
   const kepala = <Kepala nama={nama} waktu={waktu} tanggal={hariIni} desa={desa} />;
   const bannerOffline = daring ? null : <Banner jenis="offline">{t.offlineIsi}</Banner>;
 
@@ -157,6 +173,7 @@ export function HalamanBeranda() {
       <>
         {bannerOffline}
         <Kepala nama={nama} waktu={waktu} tanggal={hariIni} desa={desa} tombolBaru={false} />
+        {penandaRencana}
         <BerandaKosong />
       </>
     );
@@ -239,13 +256,17 @@ export function HalamanBeranda() {
               {teksUmum.memuat}
             </p>
           )}
+          {penandaRencana}
           {besok && !pengingatMati ? (
             <Banner
               judul={t.besok(besok.judul)}
               aksi={t.lihatCaranya}
               onAksi={() => navigate(`/tugas/${encodeURIComponent(besok.id)}`)}
             >
-              {terlambatSiklus ? t.besokIsiTerlambat(terlambatSiklus.judul) : t.besokIsi}
+              {terlambatSiklus
+                ? t.besokIsiTerlambat(terlambatSiklus.judul)
+                : (resepQ.data?.tugas.find((rt) => rt.id === besok.resepTugasId)
+                    ?.cara_mengerjakan?.[0] ?? t.besokIsi)}
             </Banner>
           ) : null}
           <DaftarTugasHariIni

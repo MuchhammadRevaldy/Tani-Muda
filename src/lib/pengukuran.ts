@@ -70,6 +70,25 @@ export function perluUkurUlang(
 }
 
 /**
+ * Ujung kiri dan kanan batang rentang (label "4,0" dan "8,0" di papan 23): rentang normal ditambah
+ * `tepi` × lebarnya di kedua sisi, tidak melewati skala sah besaran.
+ */
+export function batasSkala(
+  batasBawah: number,
+  batasAtas: number,
+  tepi = 0.5,
+  skala: { min?: number; maks?: number | null } = {},
+): { min: number; maks: number } {
+  const lebar = batasAtas - batasBawah;
+  const min = batasBawah - lebar * tepi;
+  const maks = batasAtas + lebar * tepi;
+  return {
+    min: skala.min !== undefined ? Math.max(skala.min, min) : min,
+    maks: skala.maks !== undefined && skala.maks !== null ? Math.min(skala.maks, maks) : maks,
+  };
+}
+
+/**
  * Posisi nilai pada batang rentang (0 = kiri, 1 = kanan). Rentang normal menempati bagian tengah;
  * `tepi` = lebar tambahan di kiri dan kanan dalam kelipatan lebar rentang normal.
  */

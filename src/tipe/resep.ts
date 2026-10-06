@@ -14,6 +14,8 @@ export interface Komoditas {
   /** Satuan panen, mis. "kg" atau "kg gabah". */
   satuanPanen: string;
   umurPanenHari: number;
+  /** Harga jual contoh per satuan panen (D-38). */
+  hargaJualContoh?: number;
 }
 
 /** Dasar ukuran metode: luas (bedengan, sawah), jumlah polybag, atau lubang tanam (hidroponik). */
@@ -129,6 +131,9 @@ export interface ResepTanam {
   standarKualitas: string[];
   /** Jumlah pengisian ulang larutan dalam satu siklus (hidroponik), untuk dosis per liter. */
   jumlahPengisianLarutan?: number;
+  /** Persen hasil saat panen jelek (mis. 70) dan alasan umumnya, untuk skenario kalkulator (D-38). */
+  persenPanenJelek?: number;
+  alasanPanenJelek?: string;
   input: ResepInput[];
   tugas: ResepTugas[];
 }

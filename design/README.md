@@ -64,21 +64,21 @@ Kolom **Tangkapan aplikasi** adalah nama file tangkapan layar halaman aplikasi y
 | 18 | Hitung 3: modal sawi hidroponik | petani | desktop | `18-hitung-modal-sawi-hidroponik-desktop.html` | `18-hitung-modal-sawi-hidroponik-desktop.png` ✓ |
 | 19 | Hitung 3: modal padi sawah | petani | mobile | `19-hitung-modal-padi-sawah-mobile.html` | `19-hitung-modal-padi-sawah-mobile.png` ✓ |
 | 19 | Hitung 3: modal padi sawah | petani | desktop | `19-hitung-modal-padi-sawah-desktop.html` | `19-hitung-modal-padi-sawah-desktop.png` ✓ |
-| 20 | Jadwal sawi bedengan | petani | mobile | `20-jadwal-sawi-bedengan-mobile.html` | `20-jadwal-sawi-bedengan-mobile.png` |
-| 20 | Jadwal sawi bedengan | petani | desktop | `20-jadwal-sawi-bedengan-desktop.html` | `20-jadwal-sawi-bedengan-desktop.png` |
-| 21 | Jadwal sawi hidroponik | petani | mobile | `21-jadwal-sawi-hidroponik-mobile.html` | `21-jadwal-sawi-hidroponik-mobile.png` |
-| 21 | Jadwal sawi hidroponik | petani | desktop | `21-jadwal-sawi-hidroponik-desktop.html` | `21-jadwal-sawi-hidroponik-desktop.png` |
-| 22 | Detail tugas | petani | mobile | `22-detail-tugas-mobile.html` | `22-detail-tugas-mobile.png` |
-| 23 | Cek pH dan PPM, normal | petani | mobile | `23-cek-ph-ppm-normal-mobile.html` | `23-cek-ph-ppm-normal-mobile.png` |
-| 23 | Cek pH dan PPM, normal | petani | desktop | `23-cek-ph-ppm-normal-desktop.html` | `23-cek-ph-ppm-normal-desktop.png` |
-| 24 | Cek pH, terlalu tinggi | petani | mobile | `24-cek-ph-terlalu-tinggi-mobile.html` | `24-cek-ph-terlalu-tinggi-mobile.png` |
-| 24 | Cek pH, terlalu tinggi | petani | desktop | `24-cek-ph-terlalu-tinggi-desktop.html` | `24-cek-ph-terlalu-tinggi-desktop.png` |
-| 25 | Cek PPM, terlalu rendah | petani | mobile | `25-cek-ppm-terlalu-rendah-mobile.html` | `25-cek-ppm-terlalu-rendah-mobile.png` |
-| 25 | Cek PPM, terlalu rendah | petani | desktop | `25-cek-ppm-terlalu-rendah-desktop.html` | `25-cek-ppm-terlalu-rendah-desktop.png` |
-| 26 | Pengingat per siklus | petani | mobile | `26-pengingat-per-siklus-mobile.html` | `26-pengingat-per-siklus-mobile.png` |
-| 26 | Pengingat per siklus | petani | desktop | `26-pengingat-per-siklus-desktop.html` | `26-pengingat-per-siklus-desktop.png` |
-| 27 | Detail siklus: modal | petani | mobile | `27-detail-siklus-modal-mobile.html` | `27-detail-siklus-modal-mobile.png` |
-| 28 | Detail siklus: jurnal | petani | mobile | `28-detail-siklus-jurnal-mobile.html` | `28-detail-siklus-jurnal-mobile.png` |
+| 20 | Jadwal sawi bedengan | petani | mobile | `20-jadwal-sawi-bedengan-mobile.html` | `20-jadwal-sawi-bedengan-mobile.png` ✓ |
+| 20 | Jadwal sawi bedengan | petani | desktop | `20-jadwal-sawi-bedengan-desktop.html` | `20-jadwal-sawi-bedengan-desktop.png` ✓ |
+| 21 | Jadwal sawi hidroponik | petani | mobile | `21-jadwal-sawi-hidroponik-mobile.html` | `21-jadwal-sawi-hidroponik-mobile.png` ✓ |
+| 21 | Jadwal sawi hidroponik | petani | desktop | `21-jadwal-sawi-hidroponik-desktop.html` | `21-jadwal-sawi-hidroponik-desktop.png` ✓ |
+| 22 | Detail tugas | petani | mobile | `22-detail-tugas-mobile.html` | `22-detail-tugas-mobile.png` ✓ |
+| 23 | Cek pH dan PPM, normal | petani | mobile | `23-cek-ph-ppm-normal-mobile.html` | `23-cek-ph-ppm-normal-mobile.png` ✓ |
+| 23 | Cek pH dan PPM, normal | petani | desktop | `23-cek-ph-ppm-normal-desktop.html` | `23-cek-ph-ppm-normal-desktop.png` ✓ |
+| 24 | Cek pH, terlalu tinggi | petani | mobile | `24-cek-ph-terlalu-tinggi-mobile.html` | `24-cek-ph-terlalu-tinggi-mobile.png` ✓ |
+| 24 | Cek pH, terlalu tinggi | petani | desktop | `24-cek-ph-terlalu-tinggi-desktop.html` | `24-cek-ph-terlalu-tinggi-desktop.png` ✓ |
+| 25 | Cek PPM, terlalu rendah | petani | mobile | `25-cek-ppm-terlalu-rendah-mobile.html` | `25-cek-ppm-terlalu-rendah-mobile.png` ✓ |
+| 25 | Cek PPM, terlalu rendah | petani | desktop | `25-cek-ppm-terlalu-rendah-desktop.html` | `25-cek-ppm-terlalu-rendah-desktop.png` ✓ |
+| 26 | Pengingat per siklus | petani | mobile | `26-pengingat-per-siklus-mobile.html` | `26-pengingat-per-siklus-mobile.png` ✓ |
+| 26 | Pengingat per siklus | petani | desktop | `26-pengingat-per-siklus-desktop.html` | `26-pengingat-per-siklus-desktop.png` ✓ |
+| 27 | Detail siklus: modal | petani | mobile | `27-detail-siklus-modal-mobile.html` | `27-detail-siklus-modal-mobile.png` ✓ |
+| 28 | Detail siklus: jurnal | petani | mobile | `28-detail-siklus-jurnal-mobile.html` | `28-detail-siklus-jurnal-mobile.png` ✓ |
 | 29 | Pesanan di sekitar | petani | mobile | `29-pesanan-di-sekitar-mobile.html` | `29-pesanan-di-sekitar-mobile.png` |
 | 29 | Pesanan di sekitar | petani | desktop | `29-pesanan-di-sekitar-desktop.html` | `29-pesanan-di-sekitar-desktop.png` |
 | 30 | Pesanan, belum ada | petani | mobile | `30-pesanan-kosong-mobile.html` | `30-pesanan-kosong-mobile.png` |
@@ -107,6 +107,9 @@ Halaman ini belum punya papan desain. Halaman dibuat dari pola desain yang ada (
 | 42 | Pemutar modul belajar | petani | T4.31 | `42-pemutar-modul-mobile.png`, `…-desktop.png` |
 | 43 | Pilih akun demo (hanya mode pengembangan) | publik | T4.01 | `43-pilih-akun-demo-mobile.png`, `…-desktop.png` ✓ |
 | 44 | Bayar uang muka (mode uji coba) | pembeli | T4.41 | `44-bayar-uang-muka-mobile.png`, `…-desktop.png` |
+| 45 | Kebun: daftar siklus (D-26, D-38) | petani | T4.10 | `45-kebun-daftar-siklus-mobile.png`, `…-desktop.png` ✓ |
+| 46 | Ubah tanggal tanam | petani | T4.13 | `46-ubah-tanggal-tanam-mobile.png`, `…-desktop.png` ✓ |
+| 47 | Akhir siklus | petani | T4.17 | `47-akhir-siklus-mobile.png`, `…-desktop.png` ✓ |
 
 Halaman turunan lain (panel mentor dan admin, halaman statis, rating, gagal panen) diberi nomor berikutnya saat tugasnya dikerjakan. Panel mentor dan admin hanya punya versi desktop.
 

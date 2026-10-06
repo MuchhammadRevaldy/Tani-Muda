@@ -95,7 +95,7 @@ describe('Hitung langkah 3 (T4.05–T4.07)', () => {
     const baris = (await screen.findByText('Dolomit · 20 kg')).closest(
       'div.flex.flex-col',
     ) as HTMLElement;
-    await within(baris).findByText(/Rata-rata di sekitarmu/);
+    await within(baris).findByText(/laporan di kecamatanmu/);
     const subtotalAwal = within(baris).getByText(/^Rp/).textContent as string;
     const awal = Number(subtotalAwal.replace(/\D/g, ''));
     await userEvent.click(within(baris).getByRole('button', { name: 'Ubah jumlah' }));

@@ -22,6 +22,8 @@ export function resepKeDomain(r: A.ResepTanam): D.ResepTanam {
     ...(r.jumlah_pengisian_larutan !== null
       ? { jumlahPengisianLarutan: r.jumlah_pengisian_larutan }
       : {}),
+    ...(r.persen_panen_jelek !== null ? { persenPanenJelek: r.persen_panen_jelek } : {}),
+    ...(r.alasan_panen_jelek !== null ? { alasanPanenJelek: r.alasan_panen_jelek } : {}),
     standarKualitas: [...r.standar_kualitas],
     input: r.input.map((i) => ({
       id: i.id,
@@ -41,7 +43,7 @@ export function resepKeDomain(r: A.ResepTanam): D.ResepTanam {
   };
 }
 
-function besaranKeDomain(b: A.BesaranUkur): D.BesaranUkur {
+export function besaranKeDomain(b: A.BesaranUkur): D.BesaranUkur {
   return {
     nama: b.nama,
     satuan: b.satuan,
@@ -98,6 +100,8 @@ export function resepDariDomain(r: D.ResepTanam, dasarUkuran: A.DasarUkuran): A.
     dasar_ukuran: dasarUkuran,
     umur_panen_hari: r.umurPanenHari,
     jumlah_pengisian_larutan: r.jumlahPengisianLarutan ?? null,
+    persen_panen_jelek: r.persenPanenJelek ?? null,
+    alasan_panen_jelek: r.alasanPanenJelek ?? null,
     standar_kualitas: [...r.standarKualitas],
     input: r.input.map((i) => ({
       id: i.id,
@@ -283,4 +287,10 @@ export function hasilPengukuranKeDomain(h: A.HasilPengukuran): D.HasilPengukuran
     sumber: h.sumber,
     tanggal: h.tanggal,
   };
+}
+
+/** ID siklus dari ID tugas berformat kontrak `siklus:pola@hst` (kontrak bagian 2.7). */
+export function siklusDariIdTugas(idTugas: string): string {
+  const i = idTugas.indexOf(':');
+  return i > 0 ? idTugas.slice(0, i) : idTugas;
 }

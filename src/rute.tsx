@@ -17,6 +17,15 @@ import { HalamanPilihTanaman } from './halaman/hitung/pilih-tanaman';
 import { HalamanPilihTanggalTanam } from './halaman/hitung/pilih-tanggal-tanam';
 import { PenyediaRencana } from './halaman/hitung/use-rencana';
 import { HalamanLahanSaya } from './halaman/lahan-saya';
+import { HalamanAkhirSiklus } from './halaman/kebun/akhir-siklus';
+import { HalamanKebun } from './halaman/kebun/daftar-siklus';
+import { HalamanDetailTugas } from './halaman/kebun/detail-tugas';
+import { HalamanJadwal } from './halaman/kebun/jadwal';
+import { HalamanJurnal } from './halaman/kebun/jurnal';
+import { HalamanModalSiklus } from './halaman/kebun/modal';
+import { HalamanPengingat } from './halaman/kebun/pengingat';
+import { HalamanUbahTanggalTanam } from './halaman/kebun/ubah-tanggal-tanam';
+import { HalamanUkur } from './halaman/kebun/ukur-ph-ppm';
 import { Memuat } from './halaman/memuat';
 import { judulRute, type KunciRute } from './teks/rute';
 import { teksUmum } from './teks/umum';
@@ -152,13 +161,24 @@ export const daftarRute: RouteObject[] = [
           { path: 'simpan', element: hitung('simpanRencana', <HalamanPilihTanggalTanam />) },
         ],
       },
-      { path: '/kebun', element: petani('kebun') },
-      { path: '/kebun/:id/jadwal', element: petani('jadwal') },
-      { path: '/kebun/:id/modal', element: petani('modal') },
-      { path: '/kebun/:id/jurnal', element: petani('jurnal') },
-      { path: '/kebun/:id/pengingat', element: petani('pengingat') },
-      { path: '/tugas/:id', element: petani('detailTugas') },
-      { path: '/tugas/:id/ukur', element: petani('ukur') },
+      { path: '/kebun', element: halamanPetani('kebun', <HalamanKebun />) },
+      { path: '/kebun/:id/jadwal', element: halamanPetani('jadwal', <HalamanJadwal />) },
+      { path: '/kebun/:id/modal', element: halamanPetani('modal', <HalamanModalSiklus />) },
+      { path: '/kebun/:id/jurnal', element: halamanPetani('jurnal', <HalamanJurnal />) },
+      { path: '/kebun/:id/pengingat', element: halamanPetani('pengingat', <HalamanPengingat />) },
+      {
+        path: '/kebun/:id/tanggal-tanam',
+        element: halamanPetani('ubahTanggalTanam', <HalamanUbahTanggalTanam />),
+      },
+      { path: '/kebun/:id/akhir', element: halamanPetani('akhirSiklus', <HalamanAkhirSiklus />) },
+      {
+        path: '/tugas/:id',
+        element: halamanPetani('detailTugas', <HalamanDetailTugas />, { menuAktif: 'kebun' }),
+      },
+      {
+        path: '/tugas/:id/ukur',
+        element: halamanPetani('ukur', <HalamanUkur />, { menuAktif: 'kebun' }),
+      },
       { path: '/belajar', element: petani('belajar') },
       { path: '/belajar/:id', element: petani('modul') },
       { path: '/pesanan', element: petani('pesanan') },

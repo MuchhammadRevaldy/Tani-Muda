@@ -669,6 +669,7 @@ Catatan pembagian:
 - **Selesai bila:** papan 18 (hidroponik NFT 200 lubang) cocok: modal per siklus dan total alat tampil terpisah; angka sama dengan `ringkasan.ts`; untung negatif tampil merah dengan ikon dan kata; tombol utama tunggal "Simpan rencana". Label contoh (D-36): "CONTOH, belum divalidasi penyuluh" terlihat di setiap tempat angka resep muncul.
 - **Tangkapan (D-07):** `docs/tangkapan/aplikasi/18-hitung-modal-sawi-hidroponik-mobile.png` (390px) dan `18-hitung-modal-sawi-hidroponik-desktop.png` (1440px), ditunjukkan ke pemilik produk; **berhenti menunggu tanggapan** sebelum tugas berikutnya.
 - **Prasyarat:** T4.05, T2.06, T1.14.
+- **Catatan (7 Okt 2026, D-38):** Harga jual bawaan: kesepakatan pesanan (`?pesanan=`), lalu pesanan terdekat, lalu `komoditas.harga_jual_contoh`; sumbernya tampil di bawah isian (`pilihHargaJual`). Ringkasan menampilkan "Kalau panen jelek" dari `persen_panen_jelek` resep (contoh 70%) beserta alasannya (`panenJelekKg`). Rata-rata laporan dibulatkan ke ratusan rupiah (`bulatkanKeRatusan`) dan sumber harga tiap item tampil ("Rata-rata 9 laporan di kecamatanmu"). Subsidi bawaan mengikuti `terdaftar_kelompok_tani` di profil.
 - **Catatan (6 Okt 2026):** Harga jual per kg diisi petani; bawaannya harga pesanan terdekat untuk komoditas itu, dengan keterangan asalnya. Bagian "kalau panen jelek" belum ditampilkan karena resep contoh belum punya angka dan alasan panen jelek (P-20). Pembagian alat bawaan 10 siklus (`SIKLUS_PEMBAGIAN_ALAT`, sama dengan data contoh).
 
 ### [x] T4.08 Simpan rencana dan pilih tanggal tanam (turunan) **[DEMO]**
@@ -692,64 +693,72 @@ Catatan pembagian:
 - **Catatan (5 Okt 2026):** Fungsi murni baru `src/lib/beranda.ts` (tugas hari ini, tugas besok, pin penggaris, hasil ukur terakhir, persen modal) + 14 tes. Beda dari papan: salam selalu "Halo, …" (papan 05–07 memakai "Selamat pagi"); tombol kanan atas HP selalu avatar ke Profil; bila ada beberapa siklus aktif, pil memilih siklus untuk kartu (`?siklus=`), sedangkan "Tugas hari ini" memuat semua siklus dikelompokkan per siklus; kartu hasil ukur dan modal hanya tampil mulai 1024px seperti papan desktop. Isi banner besok umum ("Siapkan bahan dan alatnya…") karena resep contoh belum punya `cara_mengerjakan`; langkah cara mengerjakan ditambahkan di T4.11. Tautan belajar di keadaan kosong tanpa angka menit. Lencana Pesanan belum ditampilkan sampai gelombang 4 menetapkan arti "baru". Penanda "tersimpan di HP, belum terkirim" (papan 06) menunggu antrean offline T6.05. Galat Tahap 1 diperbaiki: garis tepi chip "Hari ini", "Besok", dan "Terlambat" tertimpa `border-transparent`.
 - **Catatan (6 Okt 2026, D-37):** Salam kini "Selamat pagi/siang/sore/malam" menurut jam setempat (`waktuSalam`), dan siklus yang terpilih saat Beranda dibuka adalah yang tugasnya paling mendesak (`siklusPalingMendesak`). Tangkapan 03–07 diperbarui.
 
-### [ ] T4.10 Jadwal siklus **[DEMO]**
+### [x] T4.10 Jadwal siklus **[DEMO]**
 - **Tujuan:** Halaman jadwal: header siklus + tab Jadwal/Modal/Jurnal, filter tipe (Semua/Sekali/Berulang/Pengukuran), daftar dikelompokkan per hari (Terlambat, Hari ini, Besok, tanggal, Sudah selesai), tugas berulang sebagai satu baris dengan frekuensi, keadaan kosong per filter; panel samping desktop ("Tiga jenis tugas", "Pengingat").
 - **Berkas:** `src/halaman/kebun/jadwal.tsx`, `src/halaman/kebun/kerangka-siklus.tsx`, hook dari `src/api/kueri` (sudah ada sejak T3.04).
 - **PRD:** P0-12, US-07.
 - **Selesai bila:** papan 20 dan 21 cocok; ikon tipe berbeda di semua daftar; filter "Pengukuran" di siklus bedengan menampilkan pesan papan 20 mobile; pengelompokan = `kelompokkanPerHari`; label "CONTOH, belum divalidasi penyuluh" terlihat di jadwal dan detail tugas bila resepnya contoh (D-12). Label contoh (D-36): "CONTOH, belum divalidasi penyuluh" terlihat di setiap tempat angka resep muncul.
 - **Tangkapan (D-07):** `docs/tangkapan/aplikasi/20-jadwal-sawi-bedengan-mobile.png` (390px) dan `20-jadwal-sawi-bedengan-desktop.png` (1440px) (juga nomor 21), ditunjukkan ke pemilik produk; **berhenti menunggu tanggapan** sebelum tugas berikutnya.
 - **Prasyarat:** T4.08, T2.09, T1.10.
+- **Catatan (7 Okt 2026):** Kerangka siklus (`kerangka-siklus.tsx`) dipakai Jadwal, Modal, Jurnal, Ubah tanggal tanam, dan Akhir siklus: kepala, kartu penggaris, tab sebagai tautan. Tugas berulang dan ukur tampil hari ini dan besok, satu yang terlambat, atau satu berikutnya (fungsi baru `src/lib/jadwal-tampil.ts` + tes); sudah selesai hanya tugas sekali. Menu Kebun (D-26, D-38) dikerjakan di sini: halaman daftar siklus `daftar-siklus.tsx` (sedang ditanam, rencana belum dijadwalkan, sudah selesai); satu siklus aktif tanpa rencana langsung membuka jadwalnya. Tombol "Ubah tanggal tanam" dan "Akhiri siklus" di bawah daftar tugas.
 
-### [ ] T4.11 Detail tugas, tandai selesai, foto, tunda **[DEMO]**
+### [x] T4.11 Detail tugas, tandai selesai, foto, tunda **[DEMO]**
 - **Tujuan:** Detail tugas (chip waktu, banner saran terlambat dari resep, cara mengerjakan, foto bukti, tunda 1–3 hari dengan tanggal baru), "Tandai selesai"; foto opsional diunggah lewat klien API dan masuk jurnal; konfirmasi bila tunda melewati panen (turunan); tugas berulang dan sekali (turunan tampilan non-terlambat).
 - **Berkas:** `src/halaman/kebun/detail-tugas.tsx`, `src/komponen/ambil-foto.tsx` (kamera/galeri, kecilkan sisi klien), `src/lib/kecilkan-foto.ts` + tes (hitung ukuran target), `src/api/kueri/tugas-mutasi.ts`.
 - **PRD:** P0-14, P0-15, P0-16, US-08.
 - **Selesai bila:** papan 22 cocok; tunda menggeser tugas sejenis lewat `tundaTugas`; foto masuk jurnal dengan tanggal dan nama tugas; tugas terlambat tetap bisa ditandai selesai. Label contoh (D-36): "CONTOH, belum divalidasi penyuluh" terlihat di setiap tempat angka resep muncul.
 - **Tangkapan (D-07):** `docs/tangkapan/aplikasi/22-detail-tugas-mobile.png` (390px) dan `22-detail-tugas-desktop.png` (1440px), ditunjukkan ke pemilik produk; **berhenti menunggu tanggapan** sebelum tugas berikutnya.
 - **Prasyarat:** T4.10, T3.09, T1.12.
+- **Catatan (7 Okt 2026):** ID tugas dibaca sebagai `siklus:pola@hst` (format kontrak) untuk menemukan siklusnya. Langkah "cara mengerjakan" contoh ditambahkan ke resep data contoh (`contoh-cara-mengerjakan.ts`), juga dipakai banner "Besok" di Beranda (D-37). Tunda dari tugas terlambat kini dihitung dari hari ini sesuai papan 22 (`tundaTugas` mendapat parameter `hariIni`, juga dipakai klien tiruan). `ambil-foto.tsx` mengecilkan foto ke sisi 1280px (`src/lib/kecilkan-foto.ts` + tes) sebelum diunggah; foto ikut saat tugas ditandai selesai dan masuk jurnal. Mutasi tetap di `src/api/kueri/index.ts`, bukan berkas `tugas-mutasi.ts`. Rasio baru `aspect-foto` 4:3.
 
-### [ ] T4.12 Tugas pengukuran pH dan PPM **[DEMO]**
+### [x] T4.12 Tugas pengukuran pH dan PPM **[DEMO]**
 - **Tujuan:** Isian angka, batang rentang normal dengan posisi, status dengan ikon dan kata, saran dari resep, grafik mini 7 pengukuran dengan pita normal, simpan ke `hasil_pengukuran`, tugas "Ukur ulang" hari berikutnya bila di luar rentang, keterangan "Rentang dari Resep Tanam yang dicek penyuluh."
 - **Berkas:** `src/halaman/kebun/ukur-ph-ppm.tsx`, `src/komponen/batang-rentang.tsx`, `src/komponen/grafik-mini.tsx`, tes kedua komponen.
 - **PRD:** P0-37, US-28.
 - **Selesai bila:** papan 23, 24 dan 25 (normal, pH terlalu tinggi, PPM terlalu rendah) cocok; keadaan dihitung `pengukuran.ts`; hasil di luar rentang membuat tugas `Ukur ulang` pada tanggal + 1; riwayat tujuh pengukuran terakhir; label "CONTOH, belum divalidasi penyuluh" terlihat di samping rentang pH/PPM (D-12). Label contoh (D-36): "CONTOH, belum divalidasi penyuluh" terlihat di setiap tempat angka resep muncul.
 - **Tangkapan (D-07):** `docs/tangkapan/aplikasi/23-cek-ph-ppm-normal-mobile.png` (390px) dan `23-cek-ph-ppm-normal-desktop.png` (1440px) (juga nomor 24 dan 25), ditunjukkan ke pemilik produk; **berhenti menunggu tanggapan** sebelum tugas berikutnya.
 - **Prasyarat:** T4.11, T2.10.
+- **Catatan (7 Okt 2026):** Ujung batang = rentang normal ± 1,5 × lebarnya (fungsi baru `batasSkala`), dibatasi skala sah. Grafik memuat angka yang sedang diisi sebagai titik terakhir sebelum disimpan. Resep contoh menampilkan label contoh, bukan "Rentang dari Resep Tanam yang dicek penyuluh"; kalimat itu hanya untuk resep tervalidasi. Setelah disimpan, halaman memberi tahu tugas "Ukur ulang" yang dibuat server.
 
-### [ ] T4.13 Ubah tanggal tanam (turunan)
+### [x] T4.13 Ubah tanggal tanam (turunan)
 - **Tujuan:** Dari jadwal/Detail siklus: ubah tanggal tanam dengan penjelasan "Tugas yang sudah selesai tidak berubah"; tampilan perubahan sebelum konfirmasi.
 - **Berkas:** `src/halaman/kebun/ubah-tanggal-tanam.tsx`.
 - **PRD:** P0-17.
 - **Selesai bila:** tugas belum selesai dihitung ulang, tugas selesai tidak berubah (cocok dengan `ubahTanggalTanam`); tampil di 390 dan 1440. Label contoh (D-36): "CONTOH, belum divalidasi penyuluh" terlihat di setiap tempat angka resep muncul.
 - **Prasyarat:** T4.10, T2.09.
+- **Catatan (7 Okt 2026):** Rute `/kebun/:id/tanggal-tanam`; juga dipakai untuk rencana yang belum dijadwalkan ("Mulai tanam dan buat jadwal"). Pratinjau: jumlah tugas yang digeser, tiga contoh tugas sekali, perkiraan panen baru.
 
-### [ ] T4.14 Pengingat per siklus
+### [x] T4.14 Pengingat per siklus
 - **Tujuan:** Pilih siklus, jam pengingat pagi (05.00–07.00), saklar pengingat sore, saklar per tipe tugas, contoh tampilan notifikasi, "Lewati siram saat hujan — Segera hadir", simpan ke `pengaturan_pengingat`.
 - **Berkas:** `src/halaman/kebun/pengingat.tsx`, hook dari `src/api/kueri` (sudah ada sejak T3.04).
 - **PRD:** P0-38, US-29, P1-05 (sore).
 - **Selesai bila:** papan 26 cocok; mematikan tipe tidak menghapus tugas dari jadwal dan beranda; contoh notifikasi sama dengan hasil `pengingat.ts`.
 - **Prasyarat:** T4.10, T2.11.
+- **Catatan (7 Okt 2026):** Contoh pengingat pagi dari `tugasUntukNotifikasi` + `teksNotifikasiPagi`; sore tampil bila saklar sore menyala. Tipe tanpa tugas di siklus itu tidak punya saklar ("Tidak ada tugas pengukuran di siklus ini").
 
-### [ ] T4.15 Detail siklus: Modal dan catat pengeluaran
+### [x] T4.15 Detail siklus: Modal dan catat pengeluaran
 - **Tujuan:** Rencana dan realisasi (sudah keluar % dari rencana, perkiraan modal akhir, perkiraan untung), per item (hemat/lebih/belum dibeli); form "Catat pengeluaran" (item rencana, nominal, tanggal, foto nota; turunan).
 - **Berkas:** `src/halaman/kebun/modal.tsx`, `src/halaman/kebun/catat-pengeluaran.tsx`, `src/lib/realisasi.ts` + `.test.ts` (selisih per item, persen, modal akhir).
 - **PRD:** P0-18, US-09.
 - **Selesai bila:** papan 27 cocok (desktop diturunkan); selisih dihitung `realisasi.ts` (teruji: sesuai rencana, hemat, lebih, belum dibeli, tanpa rencana); catat pengeluaran memperbarui angka tanpa muat ulang. Label contoh (D-36): "CONTOH, belum divalidasi penyuluh" terlihat di setiap tempat angka resep muncul.
 - **Prasyarat:** T4.10, T2.06.
+- **Catatan (7 Okt 2026):** `src/lib/realisasi.ts` + tes: rencana per item (alat sekali beli hanya bagian siklus ini), status sesuai/hemat/lebih/belum, pengeluaran di luar rencana, perkiraan modal akhir = sudah keluar + rencana item yang belum dibeli. Status "sebagian dibayar" (papan 27, tenaga) belum dibedakan dari hemat. Catat pengeluaran di dialog dengan pilihan item rencana atau "di luar rencana".
 
-### [ ] T4.16 Detail siklus: Jurnal
+### [x] T4.16 Detail siklus: Jurnal
 - **Tujuan:** Foto dan catatan dikelompokkan per minggu ("Minggu ke-2 · Hari ke-7 sampai 13"), foto otomatis dari tugas selesai, tambah foto bukti, catatan hari.
 - **Berkas:** `src/halaman/kebun/jurnal.tsx`, `src/lib/jurnal.ts` + `.test.ts` (pengelompokan minggu).
 - **PRD:** P0-14, P0-24, US-16.
 - **Selesai bila:** papan 28 cocok (desktop diturunkan); pengelompokan minggu teruji (hari ke-0 di minggu 1, hari ke-7 di minggu 2); foto ditampilkan dari URL yang diberikan klien API (di backend berupa URL bertanda tangan, T5.12).
 - **Prasyarat:** T4.11.
+- **Catatan (7 Okt 2026):** `src/lib/jurnal.ts` + tes. Foto contoh di data sekarang berupa gambar SVG di `public/contoh/foto/` (sebelumnya menunjuk berkas `.jpg` yang tidak ada). Tambah ke jurnal: foto dan/atau catatan.
 
-### [ ] T4.17 Akhir siklus: untung sebenarnya (turunan)
+### [x] T4.17 Akhir siklus: untung sebenarnya (turunan)
 - **Tujuan:** Setelah panen, input pendapatan nyata, ringkasan untung sebenarnya = pendapatan nyata − pengeluaran nyata, dibandingkan dengan rencana.
 - **Berkas:** `src/halaman/kebun/akhir-siklus.tsx`, tambahan `src/lib/realisasi.ts`.
 - **PRD:** P0-18, tujuan pengguna 3.
 - **Selesai bila:** untung sebenarnya dihitung dari data nyata dan selisih terhadap rencana ditampilkan (teruji); status siklus menjadi selesai. Label contoh (D-36): "CONTOH, belum divalidasi penyuluh" terlihat di setiap tempat angka resep muncul.
 - **Prasyarat:** T4.15.
+- **Catatan (7 Okt 2026):** Rute `/kebun/:id/akhir`. Untung sebenarnya dari `untungSebenarnya`; untung rencana dari `hitungRingkasan` dengan modal rencana siklus. Siklus selesai menampilkan ringkasan saja.
 
 ## 4D. Pilar Jual (petani)
 
@@ -904,7 +913,7 @@ Catatan pembagian:
 - **Tujuan:** Foto profil (dikecilkan otomatis), nama, desa, ganti nomor HP dengan OTP ke nomor baru. **Tanpa kata sandi dan nama pengguna (D-04).**
 - **Berkas:** `src/halaman/ubah-profil.tsx`.
 - **PRD:** P0-01; selebihnya turunan desain 49–50.
-- **Selesai bila:** papan 35 cocok tanpa kartu Kata sandi dan isian Nama pengguna; perubahan desa memperbarui jarak pesanan.
+- **Selesai bila:** papan 35 cocok tanpa kartu Kata sandi dan isian Nama pengguna; perubahan desa memperbarui jarak pesanan.; ada isian "Saya terdaftar di kelompok tani" (`terdaftar_kelompok_tani`, D-38) yang menjadi bawaan pilihan subsidi di kalkulator
 - **Prasyarat:** T4.35, T4.11 (AmbilFoto).
 
 ### [x] T4.36a Lahan saya (turunan) **[DEMO]**
@@ -998,7 +1007,7 @@ Aturan tahap:
   - aturan pembulatan rupiah ditulis eksplisit sebagai kasus, termasuk nilai negatif dan setengah.
 - **Berkas:** `shared/kasus-uji/*.json`, `shared/kasus-uji/README.md` (format), `frontend/src/lib/*.test.ts` (membaca JSON).
 - **PRD:** D-08.
-- **Selesai bila:**
+- **Selesai bila:** kasus uji memuat pembulatan rata-rata harga ke ratusan rupiah (`bulatkanKeRatusan`, D-38: Rp1.649 → Rp1.600, Rp1.650 → Rp1.700, di bawah Rp100 ke puluhan);
   - tes Vitest tetap hijau dengan cakupan `src/lib` ≥ 90%;
   - setiap fungsi uang dan kapasitas punya kasus di JSON;
   - satu berkas JSON yang sengaja diubah membuat tes gagal (dicek sekali).

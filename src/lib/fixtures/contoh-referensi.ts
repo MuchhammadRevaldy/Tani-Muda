@@ -12,6 +12,7 @@ export const CONTOH_KOMODITAS: Komoditas[] = [
     jenisLahanCocok: ['kebun', 'pekarangan', 'hidroponik'],
     satuanPanen: 'kg',
     umurPanenHari: 28,
+    hargaJualContoh: 5000,
   },
   {
     id: 'bayam',
@@ -20,6 +21,7 @@ export const CONTOH_KOMODITAS: Komoditas[] = [
     jenisLahanCocok: ['kebun', 'pekarangan', 'hidroponik'],
     satuanPanen: 'kg',
     umurPanenHari: 25,
+    hargaJualContoh: 6000,
   },
   {
     id: 'kangkung',
@@ -28,6 +30,7 @@ export const CONTOH_KOMODITAS: Komoditas[] = [
     jenisLahanCocok: ['kebun', 'pekarangan', 'hidroponik'],
     satuanPanen: 'kg',
     umurPanenHari: 21,
+    hargaJualContoh: 5000,
   },
   {
     id: 'pakcoy',
@@ -76,6 +79,7 @@ export const CONTOH_KOMODITAS: Komoditas[] = [
     jenisLahanCocok: ['sawah'],
     satuanPanen: 'kg gabah',
     umurPanenHari: 110,
+    hargaJualContoh: 6500,
   },
   {
     id: 'jagung',

@@ -5,7 +5,6 @@
  * Promo sengaja tidak menjadi masukan fungsi mana pun di sini, jadi tidak bisa mengubah urutan.
  */
 import type { TanggalISO } from './format';
-import { bulatkanRupiah } from './format';
 import { berhasil, gagal, type Hasil } from './hasil';
 import { selisihHari } from './tanggal';
 import type { KelayakanSubsidi, LaporanHarga, MerekInput } from '../tipe';
@@ -146,6 +145,17 @@ export function urutkanMerek(
 }
 
 /**
+ * Pembulatan harga rata-rata laporan sebelum dipakai menghitung (D-38): ke ratusan rupiah terdekat
+ * (Rp1.649 → Rp1.600, Rp1.650 → Rp1.700). Harga di bawah Rp100 per satuan (mis. per ml) dibulatkan
+ * ke puluhan terdekat, paling kecil Rp10, supaya tidak menjadi nol.
+ */
+export function bulatkanKeRatusan(n: number): number {
+  if (!(n > 0)) return 0;
+  if (n < 100) return Math.max(10, Math.round(n / 10) * 10);
+  return Math.round(n / 100) * 100;
+}
+
+/**
  * Rata-rata harga per satuan dari laporan di kecamatan yang sama dalam `rentangHari` terakhir.
  * Null bila laporan kurang dari `minimalLaporan` (P1-02: minimal tiga laporan dalam 30 hari).
  */
@@ -169,7 +179,7 @@ export function rataRataSekitar(
     })
     .map((l) => l.hargaKemasan / (isi.get(l.merekId) as number));
   if (harga.length === 0 || harga.length < opsi.minimalLaporan) return null;
-  return bulatkanRupiah(harga.reduce((a, b) => a + b, 0) / harga.length);
+  return bulatkanKeRatusan(harga.reduce((a, b) => a + b, 0) / harga.length);
 }
 
 /** Validasi "Merek lain, isi sendiri"; hasilnya menjadi laporan harga baru (P0-34). */

@@ -5,6 +5,7 @@ import {
   cariKelayakanSubsidi,
   hargaPerSatuan,
   hargaSatuanEfektif,
+  bulatkanKeRatusan,
   rataRataSekitar,
   urutkanMerek,
   validasiMerekLain,
@@ -215,13 +216,13 @@ describe('urutkanMerek (P0-34)', () => {
 
 describe('rataRataSekitar (P1-02)', () => {
   it('rata-rata harga per satuan dalam 30 hari di kecamatan yang sama', () => {
-    // a: 15.200, 15.000; b: 14.200; c: 16.000, 16.400, 15.800 → rata 15.433,33
+    // a: 15.200, 15.000; b: 14.200; c: 16.000, 16.400, 15.800 → rata 15.433,33 → Rp15.400
     expect(
       rataRataSekitar(LAPORAN, MEREK, 'Lembang', '2026-10-05', {
         rentangHari: 30,
         minimalLaporan: 3,
       }),
-    ).toBe(15433);
+    ).toBe(15400);
   });
   it('kurang dari minimal laporan → null', () => {
     expect(
@@ -236,6 +237,26 @@ describe('rataRataSekitar (P1-02)', () => {
         minimalLaporan: 1,
       }),
     ).toBeNull();
+  });
+});
+
+describe('bulatkanKeRatusan (D-38, kasus uji uang bersama T5.02)', () => {
+  it.each([
+    [1649, 1600],
+    [1650, 1700],
+    [15433.33, 15400],
+    [23875, 23900],
+    [100, 100],
+    [149.99, 100],
+    [227, 200],
+    [99, 100],
+    [94, 90],
+    [36.4, 40],
+    [3, 10],
+    [0, 0],
+    [-5, 0],
+  ])('%s → %s', (masuk, keluar) => {
+    expect(bulatkanKeRatusan(masuk)).toBe(keluar);
   });
 });
 

@@ -273,7 +273,7 @@ export function ujiKontrak(nama: string, siapkan: PenyiapLingkungan): void {
         });
         expect(await K.referensi.hargaSekitar('npk-16')).toEqual({
           input_id: 'npk-16',
-          harga_per_satuan: 15060,
+          harga_per_satuan: 15100,
           jumlah_laporan: 10,
         });
         await harapGalat(K.referensi.merek('tidak-ada'), 'TIDAK_DITEMUKAN', 404);

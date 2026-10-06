@@ -13,6 +13,8 @@
     "dasar_ukuran": "luas",
     "umur_panen_hari": 28,
     "jumlah_pengisian_larutan": null,
+    "persen_panen_jelek": 70,
+    "alasan_panen_jelek": "hujan terus atau serangan ulat",
     "standar_kualitas": [
       "Daun hijau segar, tidak layu",
       "Tidak berlubang lebih dari 3 lubang per daun",
@@ -143,7 +145,11 @@
         "ukur": null,
         "boleh_digeser": false,
         "saran_terlambat": null,
-        "cara_mengerjakan": null
+        "cara_mengerjakan": [
+          "Siram pelan di pangkal tanaman, jangan menyemprot daun dengan keras.",
+          "Pagi sebelum pukul 08.00 dan sore setelah pukul 16.00.",
+          "Kalau tanah masih basah karena hujan, cukup sekali."
+        ]
       },
       {
         "id": "cek-daun",
@@ -155,7 +161,11 @@
         "ukur": null,
         "boleh_digeser": true,
         "saran_terlambat": "Cek hari ini sebelum siram pagi.",
-        "cara_mengerjakan": null
+        "cara_mengerjakan": [
+          "Lihat bagian atas dan balik daun di beberapa tanaman.",
+          "Ambil ulat yang terlihat dengan tangan.",
+          "Bila lubangnya banyak, semprot pestisida nabati sore hari."
+        ]
       },
       {
         "id": "pupuk-1",
@@ -167,7 +177,11 @@
         "ukur": null,
         "boleh_digeser": true,
         "saran_terlambat": "Berikan hari ini; jangan menggandakan dosis.",
-        "cara_mengerjakan": null
+        "cara_mengerjakan": [
+          "Takar pupuk sesuai daftar bahan di rencana modal.",
+          "Taburkan di sela tanaman, jangan mengenai daun.",
+          "Siram tipis setelahnya supaya pupuk meresap."
+        ]
       },
       {
         "id": "siangi",
@@ -179,7 +193,11 @@
         "ukur": null,
         "boleh_digeser": true,
         "saran_terlambat": "Siangi sekarang supaya rumput tidak berebut pupuk.",
-        "cara_mengerjakan": null
+        "cara_mengerjakan": [
+          "Cabut rumput sampai ke akarnya, terutama yang tumbuh di sela tanaman.",
+          "Pakai tangan atau kored. Jangan terlalu dalam supaya akar tanaman tidak putus.",
+          "Kumpulkan rumput di luar petak. Bisa dijadikan kompos."
+        ]
       },
       {
         "id": "pupuk-2",
@@ -191,7 +209,11 @@
         "ukur": null,
         "boleh_digeser": true,
         "saran_terlambat": null,
-        "cara_mengerjakan": null
+        "cara_mengerjakan": [
+          "Takar pupuk sesuai daftar bahan di rencana modal.",
+          "Taburkan di sela tanaman pagi hari, jangan mengenai daun.",
+          "Siram tipis setelahnya supaya pupuk meresap."
+        ]
       },
       {
         "id": "cek-hama",
@@ -203,7 +225,11 @@
         "ukur": null,
         "boleh_digeser": true,
         "saran_terlambat": null,
-        "cara_mengerjakan": null
+        "cara_mengerjakan": [
+          "Periksa sepuluh tanaman acak di setiap petak.",
+          "Ambil foto hama atau daun yang rusak.",
+          "Bila lebih dari sepertiga tanaman terserang, tanyakan penyuluh sebelum menyemprot."
+        ]
       },
       {
         "id": "panen",
@@ -215,7 +241,11 @@
         "ukur": null,
         "boleh_digeser": false,
         "saran_terlambat": null,
-        "cara_mengerjakan": null
+        "cara_mengerjakan": [
+          "Panen pagi hari saat daun masih segar.",
+          "Potong di pangkal batang dengan pisau bersih.",
+          "Simpan di tempat teduh dan jangan ditumpuk terlalu tinggi."
+        ]
       }
     ]
   },
@@ -233,6 +263,8 @@
     "dasar_ukuran": "lubang",
     "umur_panen_hari": 35,
     "jumlah_pengisian_larutan": 2,
+    "persen_panen_jelek": 70,
+    "alasan_panen_jelek": "listrik padam dan akar membusuk",
     "standar_kualitas": [
       "Daun hijau segar, tidak layu",
       "Akar bersih, tidak membusuk"
@@ -390,7 +422,11 @@
         "ukur": null,
         "boleh_digeser": true,
         "saran_terlambat": null,
-        "cara_mengerjakan": null
+        "cara_mengerjakan": [
+          "Pilih bibit yang sudah berdaun tiga sampai empat.",
+          "Pindahkan bersama rockwool ke netpot.",
+          "Pastikan ujung akar menyentuh aliran larutan."
+        ]
       },
       {
         "id": "ukur-ph-ppm",
@@ -423,7 +459,11 @@
         ],
         "boleh_digeser": true,
         "saran_terlambat": null,
-        "cara_mengerjakan": null
+        "cara_mengerjakan": [
+          "Ambil sedikit larutan dari tandon ke gelas bersih.",
+          "Celupkan alat ukur pH dan PPM, tunggu sampai angkanya diam.",
+          "Isi angkanya di Tani Muda, lalu bilas alat ukur dengan air bersih."
+        ]
       },
       {
         "id": "ganti-larutan",
@@ -435,7 +475,11 @@
         "ukur": null,
         "boleh_digeser": true,
         "saran_terlambat": null,
-        "cara_mengerjakan": null
+        "cara_mengerjakan": [
+          "Buang larutan lama dari tandon.",
+          "Bilas tandon dan pipa dengan air bersih.",
+          "Buat larutan baru sesuai takaran AB mix di rencana modal."
+        ]
       },
       {
         "id": "panen",
@@ -447,7 +491,11 @@
         "ukur": null,
         "boleh_digeser": false,
         "saran_terlambat": null,
-        "cara_mengerjakan": null
+        "cara_mengerjakan": [
+          "Panen pagi hari saat daun masih segar.",
+          "Potong di pangkal batang dengan pisau bersih.",
+          "Simpan di tempat teduh dan jangan ditumpuk terlalu tinggi."
+        ]
       }
     ]
   },
@@ -465,6 +513,8 @@
     "dasar_ukuran": "luas",
     "umur_panen_hari": 110,
     "jumlah_pengisian_larutan": null,
+    "persen_panen_jelek": 70,
+    "alasan_panen_jelek": "serangan wereng atau kekurangan air",
     "standar_kualitas": [
       "Gabah kering panen, bersih dari jerami",
       "Kadar hampa rendah"
@@ -594,7 +644,11 @@
         "ukur": null,
         "boleh_digeser": true,
         "saran_terlambat": null,
-        "cara_mengerjakan": null
+        "cara_mengerjakan": [
+          "Takar pupuk sesuai daftar bahan di rencana modal.",
+          "Taburkan di sela tanaman, jangan mengenai daun.",
+          "Siram tipis setelahnya supaya pupuk meresap."
+        ]
       },
       {
         "id": "pupuk-2",
@@ -606,7 +660,11 @@
         "ukur": null,
         "boleh_digeser": true,
         "saran_terlambat": null,
-        "cara_mengerjakan": null
+        "cara_mengerjakan": [
+          "Takar pupuk sesuai daftar bahan di rencana modal.",
+          "Taburkan di sela tanaman pagi hari, jangan mengenai daun.",
+          "Siram tipis setelahnya supaya pupuk meresap."
+        ]
       },
       {
         "id": "cek-hama",
@@ -618,7 +676,11 @@
         "ukur": null,
         "boleh_digeser": true,
         "saran_terlambat": null,
-        "cara_mengerjakan": null
+        "cara_mengerjakan": [
+          "Periksa sepuluh tanaman acak di setiap petak.",
+          "Ambil foto hama atau daun yang rusak.",
+          "Bila lebih dari sepertiga tanaman terserang, tanyakan penyuluh sebelum menyemprot."
+        ]
       },
       {
         "id": "panen",
@@ -630,7 +692,11 @@
         "ukur": null,
         "boleh_digeser": false,
         "saran_terlambat": null,
-        "cara_mengerjakan": null
+        "cara_mengerjakan": [
+          "Panen pagi hari saat daun masih segar.",
+          "Potong di pangkal batang dengan pisau bersih.",
+          "Simpan di tempat teduh dan jangan ditumpuk terlalu tinggi."
+        ]
       }
     ]
   },
@@ -648,6 +714,8 @@
     "dasar_ukuran": "luas",
     "umur_panen_hari": 25,
     "jumlah_pengisian_larutan": null,
+    "persen_panen_jelek": 70,
+    "alasan_panen_jelek": "hujan terus atau serangan ulat",
     "standar_kualitas": [
       "Daun segar, tidak menguning",
       "Diikat per 250 g"
@@ -721,7 +789,11 @@
         "ukur": null,
         "boleh_digeser": false,
         "saran_terlambat": null,
-        "cara_mengerjakan": null
+        "cara_mengerjakan": [
+          "Siram pelan di pangkal tanaman, jangan menyemprot daun dengan keras.",
+          "Pagi sebelum pukul 08.00 dan sore setelah pukul 16.00.",
+          "Kalau tanah masih basah karena hujan, cukup sekali."
+        ]
       },
       {
         "id": "pupuk-1",
@@ -733,7 +805,11 @@
         "ukur": null,
         "boleh_digeser": true,
         "saran_terlambat": null,
-        "cara_mengerjakan": null
+        "cara_mengerjakan": [
+          "Takar pupuk sesuai daftar bahan di rencana modal.",
+          "Taburkan di sela tanaman, jangan mengenai daun.",
+          "Siram tipis setelahnya supaya pupuk meresap."
+        ]
       },
       {
         "id": "cek-hama",
@@ -745,7 +821,11 @@
         "ukur": null,
         "boleh_digeser": true,
         "saran_terlambat": null,
-        "cara_mengerjakan": null
+        "cara_mengerjakan": [
+          "Periksa sepuluh tanaman acak di setiap petak.",
+          "Ambil foto hama atau daun yang rusak.",
+          "Bila lebih dari sepertiga tanaman terserang, tanyakan penyuluh sebelum menyemprot."
+        ]
       },
       {
         "id": "panen",
@@ -757,7 +837,11 @@
         "ukur": null,
         "boleh_digeser": false,
         "saran_terlambat": null,
-        "cara_mengerjakan": null
+        "cara_mengerjakan": [
+          "Panen pagi hari saat daun masih segar.",
+          "Potong di pangkal batang dengan pisau bersih.",
+          "Simpan di tempat teduh dan jangan ditumpuk terlalu tinggi."
+        ]
       }
     ]
   },
@@ -775,6 +859,8 @@
     "dasar_ukuran": "luas",
     "umur_panen_hari": 21,
     "jumlah_pengisian_larutan": null,
+    "persen_panen_jelek": 70,
+    "alasan_panen_jelek": "hujan terus atau serangan ulat",
     "standar_kualitas": [
       "Batang muda dan renyah",
       "Diikat per 250 g"
@@ -848,7 +934,11 @@
         "ukur": null,
         "boleh_digeser": false,
         "saran_terlambat": null,
-        "cara_mengerjakan": null
+        "cara_mengerjakan": [
+          "Siram pelan di pangkal tanaman, jangan menyemprot daun dengan keras.",
+          "Pagi sebelum pukul 08.00 dan sore setelah pukul 16.00.",
+          "Kalau tanah masih basah karena hujan, cukup sekali."
+        ]
       },
       {
         "id": "pupuk-1",
@@ -860,7 +950,11 @@
         "ukur": null,
         "boleh_digeser": true,
         "saran_terlambat": null,
-        "cara_mengerjakan": null
+        "cara_mengerjakan": [
+          "Takar pupuk sesuai daftar bahan di rencana modal.",
+          "Taburkan di sela tanaman, jangan mengenai daun.",
+          "Siram tipis setelahnya supaya pupuk meresap."
+        ]
       },
       {
         "id": "panen",
@@ -872,7 +966,11 @@
         "ukur": null,
         "boleh_digeser": false,
         "saran_terlambat": null,
-        "cara_mengerjakan": null
+        "cara_mengerjakan": [
+          "Panen pagi hari saat daun masih segar.",
+          "Potong di pangkal batang dengan pisau bersih.",
+          "Simpan di tempat teduh dan jangan ditumpuk terlalu tinggi."
+        ]
       }
     ]
   }

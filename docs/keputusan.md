@@ -317,6 +317,18 @@ Tafsiran teknis saat menulis `docs/kontrak-api.md`. Tidak mengubah perilaku prod
   - Tugas opsional **T6.09 `build:demo`**: build khusus demo (data tiruan, pemilih akun demo, label "Mode demo" yang selalu terlihat) untuk hosting statis bila juri butuh tautan sebelum backend siap. Build produksi biasa tetap tanpa akun demo.
 - Berdampak ke: T4.09, T4.18, T6.05, T6.09.
 
+## D-38. Tanggapan atas gelombang 2 Tahap 4
+- Tangkapan layar gelombang 2 disetujui tanpa temuan.
+- **Harga rata-rata laporan** tetap didahulukan di atas harga contoh resep, tetapi **dibulatkan ke ratusan rupiah terdekat** sebelum dipakai menghitung (Rp1.649 → Rp1.600, Rp1.650 → Rp1.700). Harga di bawah Rp100 per satuan (mis. per ml) dibulatkan ke puluhan terdekat, paling kecil Rp10, supaya tidak menjadi nol. Aturan ini masuk kasus uji uang bersama (T5.02) supaya server memakai aturan yang sama. Setiap item menampilkan sumber harganya, misalnya "Rata-rata 5 laporan di kecamatanmu" atau "Harga contoh resep".
+- **Merek tidak terpilih otomatis** di lembar Pilih merek: disetujui.
+- **Subsidi**: bawaannya Nonsubsidi, **kecuali petani sudah menyatakan terdaftar di kelompok tani di profilnya**. Kolom baru `pengguna.terdaftar_kelompok_tani` (boolean, bawaan false), diisi lewat `PATCH /akun`; isiannya tampil di Ubah profil (T4.36). Di data contoh, Dewi (petani padi) terdaftar, Arif tidak.
+- **Padi dengan label contoh** (tanpa "Resepnya sudah dicek penyuluh"): disetujui.
+- **Rencana "Nanti saja"** tampil di menu Kebun (gelombang 3). Beranda memberi penanda kecil "n rencana belum dijadwalkan" yang membuka daftar rencana.
+- **Panen jelek (jawaban P-20)**: resep punya kolom `persen_panen_jelek` (persen hasil saat panen jelek) dan `alasan_panen_jelek` (alasan umum), diisi penyuluh. Data contoh memakai 70% berlabel contoh. Ringkasan kalkulator menampilkan perkiraan untung atau rugi bila hasil panen hanya sebesar persentase itu.
+- **Harga jual di kalkulator (jawaban P-21)**: urutannya harga kesepakatan (bila siklus terhubung ke pesanan), lalu harga pesanan terdekat, lalu **harga jual contoh per tanaman** (`komoditas.harga_jual_contoh`, ditambahkan ke data contoh). Sumbernya selalu tampil ("Dari pesanan Katering Bu Ratna", "Harga contoh"), dan petani tetap bisa mengubahnya.
+- **P-22** (memecah bundel per halaman): dikerjakan di Tahap 6.
+- Berdampak ke: T3.01, T4.05–T4.07, T4.09, T4.10, T4.36, T5.02, T5.05, T6.03.
+
 ---
 
 ## Riwayat
@@ -328,5 +340,6 @@ Tafsiran teknis saat menulis `docs/kontrak-api.md`. Tidak mengubah perilaku prod
 | 2026-10-05 | D-21 sampai D-25 ditetapkan: cookie Sanctum (token untuk React Native), 404 untuk data orang lain, konfirmasi otomatis setiap 15 menit, siap deploy VPS, PHP 8.3+ terpisah |
 | 2026-10-05 | D-26 sampai D-34 ditetapkan: menu Kebun, wilayah berkode Kemendagri, konfigurasi lewat git, video, persetujuan privasi draf, UTC + zona waktu per pengguna, iPhone, repositori, tanggapan tafsiran Tahap 2 (kapasitas dan nilai pengukuran diubah) |
 | 2026-10-05 | D-35 ditetapkan: tafsiran teknis kontrak API dan data tiruan (kolom tambahan, format waktu UTC, tanggal relatif, penyimpanan tiruan, OTP tiruan) |
+| 2026-10-06 | D-38 ditetapkan: tanggapan gelombang 2 (pembulatan rata-rata ke ratusan, sumber harga, subsidi dari profil, rencana di Kebun, panen jelek di resep, urutan harga jual, P-22 di Tahap 6) |
 | 2026-10-06 | D-37 ditetapkan: tanggapan gelombang 1 (pil siklus paling mendesak, salam menurut jam setempat, avatar ke profil, lencana pesanan di gelombang 4, `npm run demo`, tugas opsional `build:demo`) |
 | 2026-10-05 | D-36 ditetapkan: tanggapan Tahap 3 (wilayah Lembang sementara dan wajib dicocokkan dengan data resmi, label contoh sebagai kriteria Tahap 4, pemilih akun demo hanya mode tiruan, gelombang Tahap 4) |

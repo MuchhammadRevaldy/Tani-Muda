@@ -10,7 +10,8 @@
         "hidroponik"
       ],
       "satuan_panen": "kg",
-      "umur_panen_hari": 28
+      "umur_panen_hari": 28,
+      "harga_jual_contoh": 5000
     },
     {
       "id": "bayam",
@@ -22,7 +23,8 @@
         "hidroponik"
       ],
       "satuan_panen": "kg",
-      "umur_panen_hari": 25
+      "umur_panen_hari": 25,
+      "harga_jual_contoh": 6000
     },
     {
       "id": "kangkung",
@@ -34,7 +36,8 @@
         "hidroponik"
       ],
       "satuan_panen": "kg",
-      "umur_panen_hari": 21
+      "umur_panen_hari": 21,
+      "harga_jual_contoh": 5000
     },
     {
       "id": "pakcoy",
@@ -46,7 +49,8 @@
         "hidroponik"
       ],
       "satuan_panen": "kg",
-      "umur_panen_hari": 40
+      "umur_panen_hari": 40,
+      "harga_jual_contoh": null
     },
     {
       "id": "cabai",
@@ -57,7 +61,8 @@
         "pekarangan"
       ],
       "satuan_panen": "kg",
-      "umur_panen_hari": 90
+      "umur_panen_hari": 90,
+      "harga_jual_contoh": null
     },
     {
       "id": "tomat",
@@ -68,7 +73,8 @@
         "pekarangan"
       ],
       "satuan_panen": "kg",
-      "umur_panen_hari": 75
+      "umur_panen_hari": 75,
+      "harga_jual_contoh": null
     },
     {
       "id": "mentimun",
@@ -79,7 +85,8 @@
         "pekarangan"
       ],
       "satuan_panen": "kg",
-      "umur_panen_hari": 40
+      "umur_panen_hari": 40,
+      "harga_jual_contoh": null
     },
     {
       "id": "terong",
@@ -90,7 +97,8 @@
         "pekarangan"
       ],
       "satuan_panen": "kg",
-      "umur_panen_hari": 65
+      "umur_panen_hari": 65,
+      "harga_jual_contoh": null
     },
     {
       "id": "padi",
@@ -100,7 +108,8 @@
         "sawah"
       ],
       "satuan_panen": "kg gabah",
-      "umur_panen_hari": 110
+      "umur_panen_hari": 110,
+      "harga_jual_contoh": 6500
     },
     {
       "id": "jagung",
@@ -111,7 +120,8 @@
         "sawah"
       ],
       "satuan_panen": "kg",
-      "umur_panen_hari": 75
+      "umur_panen_hari": 75,
+      "harga_jual_contoh": null
     }
   ],
   "metode": [

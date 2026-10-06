@@ -45,8 +45,15 @@ export interface HargaItem {
   layakSubsidi: boolean;
 }
 
-/** Item rencana dari kebutuhan resep, urut sesuai resep. */
-export function itemDariKebutuhan(kebutuhan: KebutuhanItem[], resep: ResepTanam): ItemRencana[] {
+/**
+ * Item rencana dari kebutuhan resep, urut sesuai resep. `pilihSubsidi` bawaan = petani menyatakan
+ * terdaftar di kelompok tani di profilnya (D-38); selain itu Nonsubsidi.
+ */
+export function itemDariKebutuhan(
+  kebutuhan: KebutuhanItem[],
+  resep: ResepTanam,
+  opsi: { terdaftarKelompokTani?: boolean } = {},
+): ItemRencana[] {
   return kebutuhan.map((k) => {
     const input = resep.input.find((i) => i.id === k.inputId);
     return {
@@ -62,7 +69,7 @@ export function itemDariKebutuhan(kebutuhan: KebutuhanItem[], resep: ResepTanam)
       hargaContoh: k.hargaContoh,
       hargaIsiSendiri: null,
       merek: null,
-      pilihSubsidi: false,
+      pilihSubsidi: opsi.terdaftarKelompokTani ?? false,
     };
   });
 }
@@ -165,4 +172,32 @@ export function keBarisRencana(
       alat_sekali_beli: it.alatSekaliBeli,
     })),
   );
+}
+
+/** Panen saat panen jelek (D-38, P-20): perkiraan panen × persen dari resep, dua desimal. */
+export function panenJelekKg(
+  perkiraanKg: number,
+  persen: number | null | undefined,
+): number | null {
+  if (persen === null || persen === undefined || !(persen > 0) || !(perkiraanKg >= 0)) return null;
+  return Math.round(perkiraanKg * Math.min(persen, 100)) / 100;
+}
+
+export type SumberHargaJual = 'isian' | 'kesepakatan' | 'pesanan_terdekat' | 'contoh' | 'belum_ada';
+
+/**
+ * Harga jual di kalkulator (D-38, P-21): isian petani menang; lalu harga kesepakatan bila siklus
+ * terhubung pesanan; lalu harga pesanan terdekat untuk komoditas itu; lalu harga jual contoh.
+ */
+export function pilihHargaJual(m: {
+  isian: number | null;
+  kesepakatan: number | null;
+  pesananTerdekat: number | null;
+  contoh: number | null;
+}): { harga: number | null; sumber: SumberHargaJual } {
+  if (m.isian !== null) return { harga: m.isian, sumber: 'isian' };
+  if (m.kesepakatan !== null) return { harga: m.kesepakatan, sumber: 'kesepakatan' };
+  if (m.pesananTerdekat !== null) return { harga: m.pesananTerdekat, sumber: 'pesanan_terdekat' };
+  if (m.contoh !== null) return { harga: m.contoh, sumber: 'contoh' };
+  return { harga: null, sumber: 'belum_ada' };
 }

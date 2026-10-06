@@ -17,6 +17,8 @@ export interface Pengguna {
   status_akun: StatusAkun;
   /** Zona waktu IANA, bawaan "Asia/Jakarta" (D-31). */
   zona_waktu: string;
+  /** Petani menyatakan terdaftar di kelompok tani (dasar bawaan pilihan subsidi, D-38). */
+  terdaftar_kelompok_tani: boolean;
   /** Waktu menyetujui kebijakan privasi (D-30). */
   setuju_privasi_pada: WaktuISO | null;
   versi_privasi: string | null;
@@ -99,6 +101,7 @@ export interface UbahProfilMasukan {
   nama?: string;
   wilayah_id?: string;
   zona_waktu?: string;
+  terdaftar_kelompok_tani?: boolean;
   /** URL berkas hasil unggah. */
   foto_profil?: string | null;
 }

@@ -174,6 +174,11 @@ export function buatKlienMentor(k: Konteks): KlienMentor {
       if (!metode) salah.metode_id = 'TIDAK_DITEMUKAN';
       if (!(m.hasil_per_satuan > 0)) salah.hasil_per_satuan = 'HASIL_KOSONG';
       if (!(m.umur_panen_hari > 0)) salah.umur_panen_hari = 'VALIDASI';
+      if (
+        m.persen_panen_jelek !== null &&
+        !(m.persen_panen_jelek > 0 && m.persen_panen_jelek <= 100)
+      )
+        salah.persen_panen_jelek = 'VALIDASI';
       if (Object.keys(salah).length) k.validasi(salah);
       const sementara = {
         ...m,

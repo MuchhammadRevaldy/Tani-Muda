@@ -465,7 +465,7 @@
       "harga_per_kg": 6500
     },
     {
-      "foto_kualitas": "/contoh/foto/bayam-kiriman-1.jpg",
+      "foto_kualitas": "/contoh/foto/bayam-kiriman-1.svg",
       "status": "diterima",
       "dikirim_pada": "H-14T07:00",
       "batas_periksa_pada": "H-14T13:00",
@@ -485,7 +485,7 @@
       "harga_per_kg": 6000
     },
     {
-      "foto_kualitas": "/contoh/foto/bayam-kiriman-2.jpg",
+      "foto_kualitas": "/contoh/foto/bayam-kiriman-2.svg",
       "status": "ditolak_sebagian",
       "dikirim_pada": "H-7T07:00",
       "batas_periksa_pada": "H-7T13:00",
@@ -494,7 +494,7 @@
       "jumlah_ditolak_kg": 1,
       "alasan_penolakan": "layu_atau_busuk",
       "keterangan_penolakan": null,
-      "foto_penolakan": "/contoh/foto/bayam-ditolak.jpg",
+      "foto_penolakan": "/contoh/foto/bayam-ditolak.svg",
       "nilai_diterima": 24000,
       "id": "kiriman-imas-arif-2",
       "alokasi_id": "alokasi-imas-arif",
@@ -505,7 +505,7 @@
       "harga_per_kg": 6000
     },
     {
-      "foto_kualitas": "/contoh/foto/bayam-kiriman-3.jpg",
+      "foto_kualitas": "/contoh/foto/bayam-kiriman-3.svg",
       "status": "dikirim",
       "dikirim_pada": "H+0T07:00",
       "batas_periksa_pada": "H+0T13:00",

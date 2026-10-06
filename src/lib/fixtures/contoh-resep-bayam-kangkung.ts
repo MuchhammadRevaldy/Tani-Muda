@@ -4,6 +4,7 @@
  * DOSIS DAN HARGA DIKARANG untuk demo, bukan dari desain (D-34): `asalAngkaContoh: 'dikarang'`.
  */
 import type { ResepTanam } from '../../tipe';
+import { CONTOH_CARA } from './contoh-cara-mengerjakan';
 
 export const CONTOH_RESEP_BAYAM_BEDENGAN: ResepTanam = {
   id: 'resep-bayam-bedengan',
@@ -15,6 +16,9 @@ export const CONTOH_RESEP_BAYAM_BEDENGAN: ResepTanam = {
   asalAngkaContoh: 'dikarang',
   validator: null,
   tanggalValidasi: null,
+  // CONTOH (D-38): persen dan alasan panen jelek belum dari penyuluh.
+  persenPanenJelek: 70,
+  alasanPanenJelek: 'hujan terus atau serangan ulat',
   hasilPerSatuan: 1.2,
   umurPanenHari: 25,
   standarKualitas: ['Daun segar, tidak menguning', 'Diikat per 250 g'],
@@ -77,14 +81,36 @@ export const CONTOH_RESEP_BAYAM_BEDENGAN: ResepTanam = {
       id: 'siram',
       tipe: 'berulang',
       judul: 'Siram pagi dan sore',
+      caraMengerjakan: CONTOH_CARA['Siram pagi dan sore'],
       hstMulai: 1,
       hstSelesai: 24,
       interval: 1,
       bolehDigeser: false,
     },
-    { id: 'pupuk-1', tipe: 'sekali', judul: 'Pupuk 1', hstMulai: 7, bolehDigeser: true },
-    { id: 'cek-hama', tipe: 'sekali', judul: 'Cek hama', hstMulai: 14, bolehDigeser: true },
-    { id: 'panen', tipe: 'sekali', judul: 'Panen', hstMulai: 25, bolehDigeser: false },
+    {
+      id: 'pupuk-1',
+      tipe: 'sekali',
+      judul: 'Pupuk 1',
+      caraMengerjakan: CONTOH_CARA['Pupuk 1'],
+      hstMulai: 7,
+      bolehDigeser: true,
+    },
+    {
+      id: 'cek-hama',
+      tipe: 'sekali',
+      judul: 'Cek hama',
+      caraMengerjakan: CONTOH_CARA['Cek hama'],
+      hstMulai: 14,
+      bolehDigeser: true,
+    },
+    {
+      id: 'panen',
+      tipe: 'sekali',
+      judul: 'Panen',
+      caraMengerjakan: CONTOH_CARA.Panen,
+      hstMulai: 25,
+      bolehDigeser: false,
+    },
   ],
 };
 
@@ -98,6 +124,9 @@ export const CONTOH_RESEP_KANGKUNG_BEDENGAN: ResepTanam = {
   asalAngkaContoh: 'dikarang',
   validator: null,
   tanggalValidasi: null,
+  // CONTOH (D-38): persen dan alasan panen jelek belum dari penyuluh.
+  persenPanenJelek: 70,
+  alasanPanenJelek: 'hujan terus atau serangan ulat',
   hasilPerSatuan: 1.5,
   umurPanenHari: 21,
   standarKualitas: ['Batang muda dan renyah', 'Diikat per 250 g'],
@@ -159,12 +188,27 @@ export const CONTOH_RESEP_KANGKUNG_BEDENGAN: ResepTanam = {
       id: 'siram',
       tipe: 'berulang',
       judul: 'Siram pagi dan sore',
+      caraMengerjakan: CONTOH_CARA['Siram pagi dan sore'],
       hstMulai: 1,
       hstSelesai: 20,
       interval: 1,
       bolehDigeser: false,
     },
-    { id: 'pupuk-1', tipe: 'sekali', judul: 'Pupuk 1', hstMulai: 7, bolehDigeser: true },
-    { id: 'panen', tipe: 'sekali', judul: 'Panen', hstMulai: 21, bolehDigeser: false },
+    {
+      id: 'pupuk-1',
+      tipe: 'sekali',
+      judul: 'Pupuk 1',
+      caraMengerjakan: CONTOH_CARA['Pupuk 1'],
+      hstMulai: 7,
+      bolehDigeser: true,
+    },
+    {
+      id: 'panen',
+      tipe: 'sekali',
+      judul: 'Panen',
+      caraMengerjakan: CONTOH_CARA.Panen,
+      hstMulai: 21,
+      bolehDigeser: false,
+    },
   ],
 };

@@ -4,6 +4,7 @@
  * Rp430.000 dengan NPK nonsubsidi, panen 150 kg.
  */
 import type { ResepTanam } from '../../tipe';
+import { CONTOH_CARA } from './contoh-cara-mengerjakan';
 
 export const CONTOH_RESEP_SAWI_BEDENGAN: ResepTanam = {
   id: 'resep-sawi-bedengan',
@@ -15,6 +16,9 @@ export const CONTOH_RESEP_SAWI_BEDENGAN: ResepTanam = {
   asalAngkaContoh: 'desain',
   validator: null,
   tanggalValidasi: null,
+  // CONTOH (D-38): persen dan alasan panen jelek belum dari penyuluh.
+  persenPanenJelek: 70,
+  alasanPanenJelek: 'hujan terus atau serangan ulat',
   hasilPerSatuan: 1.5,
   umurPanenHari: 28,
   standarKualitas: [
@@ -133,6 +137,7 @@ export const CONTOH_RESEP_SAWI_BEDENGAN: ResepTanam = {
       id: 'siram',
       tipe: 'berulang',
       judul: 'Siram pagi dan sore',
+      caraMengerjakan: CONTOH_CARA['Siram pagi dan sore'],
       hstMulai: 1,
       hstSelesai: 27,
       interval: 1,
@@ -142,6 +147,7 @@ export const CONTOH_RESEP_SAWI_BEDENGAN: ResepTanam = {
       id: 'cek-daun',
       tipe: 'berulang',
       judul: 'Cek daun berlubang',
+      caraMengerjakan: CONTOH_CARA['Cek daun berlubang'],
       hstMulai: 1,
       hstSelesai: 28,
       interval: 3,
@@ -152,6 +158,7 @@ export const CONTOH_RESEP_SAWI_BEDENGAN: ResepTanam = {
       id: 'pupuk-1',
       tipe: 'sekali',
       judul: 'Pupuk 1',
+      caraMengerjakan: CONTOH_CARA['Pupuk 1'],
       hstMulai: 7,
       bolehDigeser: true,
       saranTerlambat: 'Berikan hari ini; jangan menggandakan dosis.',
@@ -160,12 +167,34 @@ export const CONTOH_RESEP_SAWI_BEDENGAN: ResepTanam = {
       id: 'siangi',
       tipe: 'sekali',
       judul: 'Siangi rumput',
+      caraMengerjakan: CONTOH_CARA['Siangi rumput'],
       hstMulai: 11,
       bolehDigeser: true,
       saranTerlambat: 'Siangi sekarang supaya rumput tidak berebut pupuk.',
     },
-    { id: 'pupuk-2', tipe: 'sekali', judul: 'Pupuk 2', hstMulai: 14, bolehDigeser: true },
-    { id: 'cek-hama', tipe: 'sekali', judul: 'Cek hama', hstMulai: 20, bolehDigeser: true },
-    { id: 'panen', tipe: 'sekali', judul: 'Panen', hstMulai: 28, bolehDigeser: false },
+    {
+      id: 'pupuk-2',
+      tipe: 'sekali',
+      judul: 'Pupuk 2',
+      caraMengerjakan: CONTOH_CARA['Pupuk 2'],
+      hstMulai: 14,
+      bolehDigeser: true,
+    },
+    {
+      id: 'cek-hama',
+      tipe: 'sekali',
+      judul: 'Cek hama',
+      caraMengerjakan: CONTOH_CARA['Cek hama'],
+      hstMulai: 20,
+      bolehDigeser: true,
+    },
+    {
+      id: 'panen',
+      tipe: 'sekali',
+      judul: 'Panen',
+      caraMengerjakan: CONTOH_CARA.Panen,
+      hstMulai: 28,
+      bolehDigeser: false,
+    },
   ],
 };

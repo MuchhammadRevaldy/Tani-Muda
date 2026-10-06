@@ -178,6 +178,8 @@ const config: Config = {
     },
     extend: {
       textUnderlineOffset: { 3: '3px' },
+      // Foto bukti, jurnal, dan foto kiriman (papan 22, 28).
+      aspectRatio: { foto: '4 / 3' },
       // Tata letak halaman /komponen (meniru papan 00).
       gridTemplateColumns: {
         'label-dok': '200px minmax(0, 1fr)',

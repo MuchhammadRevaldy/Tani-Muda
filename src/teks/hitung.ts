@@ -128,12 +128,14 @@ export const teksHitung = {
     subtotal: 'Subtotal',
   },
   namaJumlah: (nama: string, jumlah: string, satuan: string) => `${nama} · ${jumlah} ${satuan}`,
+  /** Sumber harga tiap item (D-38). */
   sumberHarga: {
-    subsidi: (rp: string, s: string) => `Harga subsidi (HET) ${rp}/${s}`,
-    isi_sendiri: (rp: string, s: string) => `Harga isian sendiri ${rp}/${s}`,
-    merek: (rp: string, s: string, nama: string) => `${nama} ${rp}/${s}`,
-    rata_sekitar: (rp: string, s: string) => `Rata-rata di sekitarmu ${rp}/${s}`,
-    contoh_resep: (rp: string, s: string) => `Harga contoh resep ${rp}/${s}`,
+    subsidi: (rp: string, s: string) => `Harga subsidi (HET) · ${rp}/${s}`,
+    isi_sendiri: (rp: string, s: string) => `Harga isianmu · ${rp}/${s}`,
+    merek: (rp: string, s: string, nama: string) => `Merek ${nama} · ${rp}/${s}`,
+    rata_sekitar: (rp: string, s: string, n: number) =>
+      `Rata-rata ${n} laporan di kecamatanmu · ${rp}/${s}`,
+    contoh_resep: (rp: string, s: string) => `Harga contoh resep · ${rp}/${s}`,
   },
   hargaBelum: 'Harga belum diisi',
   pilihMerek: 'Pilih merek',
@@ -172,9 +174,18 @@ export const teksHitung = {
   jadwalKet: (nama: string, hari: number) => `${nama} · panen sekitar hari ke-${hari}`,
   ringkasan: 'Ringkasan',
   hargaJual: (satuan: string) => `Harga jual per ${satuan}`,
-  hargaJualDariPesanan: (nama: string) =>
-    `Dari pesanan terdekat: ${nama}. Ubah bila harga di desamu beda.`,
+  /** Sumber harga jual (D-38). */
+  sumberHargaJual: {
+    isian: 'Harga isianmu.',
+    kesepakatan: (nama: string) => `Harga kesepakatan pesanan ${nama}.`,
+    pesanan_terdekat: (nama: string) => `Dari pesanan ${nama}. Ubah bila harga di desamu beda.`,
+    contoh: 'Harga contoh. Ubah sesuai harga di desamu.',
+  },
   hargaJualBantuan: 'Isi harga jual di desamu untuk melihat perkiraan untung.',
+  panenJelek: 'Kalau panen jelek',
+  panenJelekKet: (kg: string, satuan: string, persen: number, alasan: string | null) =>
+    `Hanya ${kg} ${satuan} (${persen}%)${alasan ? `, misalnya karena ${alasan}` : ''}`,
+  panenJelekPendek: (kg: string, satuan: string) => `kalau panen ${kg} ${satuan}`,
   ringkasanKet: (kg: string, satuan: string) => `Perkiraan panen ${kg} ${satuan}`,
   bahanPerSiklus: 'Bahan per siklus',
   bagianAlat: 'Bagian alat',

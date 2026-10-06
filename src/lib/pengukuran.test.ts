@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import type { HasilPengukuran } from '../tipe';
 import { CONTOH_RESEP_SAWI_HIDROPONIK } from './fixtures/contoh-resep';
 import {
+  batasSkala,
   nilaiDariTeks,
   nilaiPengukuran,
   perluUkurUlang,
@@ -135,5 +136,16 @@ describe('titikGrafik', () => {
     const g = titikGrafik([], PH!);
     expect(g.titik).toEqual([]);
     expect(g.pita).toEqual({ bawah: 0.25, atas: 0.75 });
+  });
+});
+
+describe('batasSkala', () => {
+  it('pH 5,5–6,5 dengan tepi 1,5 → 4,0–8,0 (papan 23)', () => {
+    expect(batasSkala(5.5, 6.5, 1.5)).toEqual({ min: 4, maks: 8 });
+  });
+  it('dibatasi skala sah: PPM tidak di bawah 0, pH tidak di atas 14', () => {
+    expect(batasSkala(100, 1400, 0.5, { min: 0 })).toEqual({ min: 0, maks: 2050 });
+    expect(batasSkala(12, 13.5, 1, { min: 0, maks: 14 })).toEqual({ min: 10.5, maks: 14 });
+    expect(batasSkala(5.5, 6.5)).toEqual({ min: 5, maks: 7 });
   });
 });

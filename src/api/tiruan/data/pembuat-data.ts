@@ -38,7 +38,7 @@ import { resepDariDomain, tugasDariDomain } from '../../peta';
 import type * as A from '../../tipe';
 import type { DataContoh, DataKebun, DataPesanan, WilayahContoh } from './jenis-data';
 
-export const VERSI_DATA_CONTOH = 2;
+export const VERSI_DATA_CONTOH = 4;
 /** Hari acuan saat menghitung; semua tanggal ditulis relatif terhadapnya. */
 const HARI_DASAR = '2026-10-05';
 
@@ -270,6 +270,7 @@ function buatReferensi(): DataContoh['referensi'] {
       jenis_lahan_cocok: [...k.jenisLahanCocok],
       satuan_panen: k.satuanPanen,
       umur_panen_hari: k.umurPanenHari,
+      harga_jual_contoh: k.hargaJualContoh ?? null,
     })),
     metode: CONTOH_METODE.map((m) => ({
       id: m.id,
@@ -415,6 +416,7 @@ function pengguna(
   peran: A.Peran,
   wilayah_id: string,
   status_akun: A.StatusAkun = 'aktif',
+  terdaftar_kelompok_tani = false,
 ): A.Pengguna {
   return {
     id,
@@ -425,6 +427,7 @@ function pengguna(
     foto_profil: null,
     status_akun,
     zona_waktu: 'Asia/Jakarta',
+    terdaftar_kelompok_tani,
     setuju_privasi_pada: hw(-60, '08:00'),
     versi_privasi: KONFIGURASI.versi_privasi,
     dibuat_pada: hw(-60, '08:00'),
@@ -454,7 +457,15 @@ function buatPengguna(): DataContoh['pengguna'] {
   return {
     pengguna: [
       pengguna('petani-arif', '+6281200000001', 'Arif Setiawan', 'petani', W.lembang),
-      pengguna('petani-dewi', '+6281200000002', 'Dewi Lestari', 'petani', W.sukajaya),
+      pengguna(
+        'petani-dewi',
+        '+6281200000002',
+        'Dewi Lestari',
+        'petani',
+        W.sukajaya,
+        'aktif',
+        true,
+      ),
       pengguna(
         'petani-budi',
         '+6281200000003',
@@ -541,8 +552,8 @@ const SIKLUS: SiklusRancangan[] = [
     selesaiSebelumHst: 13,
     kecuali: ['siangi@11'],
     foto: {
-      'pupuk-1@7': '/contoh/foto/sawi-pupuk-1.jpg',
-      'cek-daun@10': '/contoh/foto/sawi-daun-hari-10.jpg',
+      'pupuk-1@7': '/contoh/foto/sawi-pupuk-1.svg',
+      'cek-daun@10': '/contoh/foto/sawi-daun-hari-10.svg',
     },
   },
   {
@@ -557,7 +568,7 @@ const SIKLUS: SiklusRancangan[] = [
     dapatSubsidi: false,
     alokasi: null,
     selesaiSebelumHst: 20,
-    foto: { 'pindah-tanam@10': '/contoh/foto/hidro-pindah-tanam.jpg' },
+    foto: { 'pindah-tanam@10': '/contoh/foto/hidro-pindah-tanam.svg' },
     sistem: 'nft',
   },
   {
@@ -838,7 +849,7 @@ function buatKebun(): DataKebun {
       nama: 'Pupuk kandang',
       nominal: 120000,
       tanggal: h(-14),
-      foto_nota: '/contoh/foto/nota-kandang.jpg',
+      foto_nota: '/contoh/foto/nota-kandang.svg',
     },
     {
       id: 'pengeluaran-3',
@@ -1195,7 +1206,7 @@ function buatPesanan(): DataPesanan {
   );
   Object.assign(k1, {
     status: 'diterima',
-    foto_kualitas: '/contoh/foto/bayam-kiriman-1.jpg',
+    foto_kualitas: '/contoh/foto/bayam-kiriman-1.svg',
     dikirim_pada: hw(-14, '07:00'),
     batas_periksa_pada: hw(-14, '13:00'),
     dikonfirmasi_pada: hw(-14, '10:00'),
@@ -1263,13 +1274,13 @@ function buatPesanan(): DataPesanan {
   );
   Object.assign(k2, {
     status: 'ditolak_sebagian',
-    foto_kualitas: '/contoh/foto/bayam-kiriman-2.jpg',
+    foto_kualitas: '/contoh/foto/bayam-kiriman-2.svg',
     dikirim_pada: hw(-7, '07:00'),
     batas_periksa_pada: hw(-7, '13:00'),
     dikonfirmasi_pada: hw(-7, '11:00'),
     jumlah_ditolak_kg: 1,
     alasan_penolakan: 'layu_atau_busuk',
-    foto_penolakan: '/contoh/foto/bayam-ditolak.jpg',
+    foto_penolakan: '/contoh/foto/bayam-ditolak.svg',
     nilai_diterima: r2.danaCairPetani,
   });
   const ref2 = referensiBaru();
@@ -1331,7 +1342,7 @@ function buatPesanan(): DataPesanan {
   );
   Object.assign(k3, {
     status: 'dikirim',
-    foto_kualitas: '/contoh/foto/bayam-kiriman-3.jpg',
+    foto_kualitas: '/contoh/foto/bayam-kiriman-3.svg',
     dikirim_pada: hw(0, '07:00'),
     batas_periksa_pada: hw(0, '13:00'),
   });

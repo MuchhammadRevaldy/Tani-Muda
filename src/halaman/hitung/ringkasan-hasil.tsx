@@ -17,7 +17,26 @@ import type { Rencana } from './use-rencana';
 
 const satuanPanen = (r: Rencana) => r.komoditas?.satuan_panen ?? 'kg';
 
-/** Isian harga jual per satuan panen; bawaan dari pesanan terdekat untuk komoditas ini. */
+/** Keterangan asal harga jual (D-38). */
+function teksSumberJual(r: Rencana): string {
+  switch (r.sumberHargaJual) {
+    case 'isian':
+      return t.sumberHargaJual.isian;
+    case 'kesepakatan':
+      return t.sumberHargaJual.kesepakatan(r.hargaJualDari ?? '');
+    case 'pesanan_terdekat':
+      return t.sumberHargaJual.pesanan_terdekat(r.hargaJualDari ?? '');
+    case 'contoh':
+      return t.sumberHargaJual.contoh;
+    default:
+      return t.hargaJualBantuan;
+  }
+}
+
+/**
+ * Isian harga jual per satuan panen. Bawaan: harga kesepakatan, pesanan terdekat, lalu harga jual
+ * contoh (D-38); petani tetap bisa mengubahnya.
+ */
 export function IsianHargaJual({ r }: { r: Rencana }) {
   return (
     <InputRupiah
@@ -25,7 +44,7 @@ export function IsianHargaJual({ r }: { r: Rencana }) {
       nilai={r.hargaJual}
       onUbah={(v) => r.setHargaJual(v)}
       tanpaTerbilang
-      bantuan={r.hargaJualDari ? t.hargaJualDariPesanan(r.hargaJualDari) : t.hargaJualBantuan}
+      bantuan={teksSumberJual(r)}
     />
   );
 }
@@ -97,6 +116,24 @@ export function KartuRingkasan({ r }: { r: Rencana }) {
               </dt>
               <dd className="m-0 text-uang font-semibold tabular-nums">{`${angkaJumlah(ring.titikImpasKg)} ${s}`}</dd>
             </div>
+            {ring.skenarioJelek && r.panenJelek ? (
+              <div className="flex items-start justify-between gap-3">
+                <dt className="flex flex-col">
+                  <span>{t.panenJelek}</span>
+                  <span className="text-keterangan text-teks-pendukung">
+                    {t.panenJelekKet(
+                      angkaJumlah(r.panenJelek.kg),
+                      s,
+                      r.panenJelek.persen,
+                      r.panenJelek.alasan,
+                    )}
+                  </span>
+                </dt>
+                <dd className="m-0">
+                  <Uang nilai={ring.skenarioJelek.untung} besar />
+                </dd>
+              </div>
+            ) : null}
             {ring.modalPerM2 !== null ? (
               <div className="flex justify-between gap-3">
                 <dt>{t.modalPerM2}</dt>
@@ -139,6 +176,10 @@ export function RingkasBawah({ r }: { r: Rencana }) {
       {ring ? (
         <span className="text-keterangan text-teks-pendukung">
           {t.titikImpasPendek(angkaJumlah(ring.titikImpasKg), s)}
+          {ring.skenarioJelek
+            ? ` · ${t.panenJelekPendek(angkaJumlah(ring.skenarioJelek.panenKg), s)} `
+            : ''}
+          {ring.skenarioJelek ? <Uang nilai={ring.skenarioJelek.untung} /> : null}
           {ring.rugi ? ` · ${t.rugi}` : ''}
         </span>
       ) : (
