@@ -66,6 +66,7 @@ Endpoint berhalaman ditandai **(berhalaman)** di bagian 3.
 | 404 | `TIDAK_DITEMUKAN` | Tidak ada **atau milik pengguna lain** (D-22) |
 | 409 | `MELEBIHI_PESANAN` | Total alokasi akan melebihi pesanan |
 | 409 | `LAHAN_TIDAK_CUKUP` | Kapasitas lahan tidak cukup (D-15, D-34) |
+| 409 | `JADWAL_TERLALU_DEKAT` | Tidak ada kiriman pesanan yang terkejar umur panen bila tanam hari ini (D-39) |
 | 409 | `STATUS_TIDAK_SESUAI` | Langkah tidak berlaku pada status sekarang |
 | 409 | `SUDAH_DINILAI` | Rating untuk kiriman ini sudah diberikan |
 | 409 | `MELEBIHI_SALDO` | Pencairan melebihi dana yang ditahan |
@@ -399,7 +400,7 @@ Tidak ada kolom kata sandi atau nama pengguna (D-04).
 | `terambil_kg`† | desimal | |
 | `dibuat_pada` | waktu | |
 
-**`PesananUntukPetani`** (dilihat petani; tanpa alamat dan tanpa koordinat, D-06): `id`, `jenis`, `komoditas_id`, `nama_pembeli`, `jenis_usaha`, `desa_antar`, `kecamatan_antar`, `jarak_km`, `jumlah_per_kiriman_kg`, `frekuensi_hari`, `jumlah_kiriman`, `jumlah_total_kg`, `sisa_kg`, `tanggal_mulai`, `perkiraan_bulan_panen`, `harga_per_kg`, `standar_kualitas`, `boleh_ambil_sebagian`, `uang_muka_diterima`, `rating_pembeli: { rata_rata, jumlah }`.
+**`PesananUntukPetani`** (dilihat petani; tanpa titik lahan, D-06): `id`, `jenis`, `komoditas_id`, `nama_pembeli`, `jenis_usaha`, `desa_antar`, `kecamatan_antar`, `titik_desa_antar: { lintang, bujur } | null`† (titik tengah desa dari tabel wilayah, untuk peta pembeli), `alamat_antar`†, `patokan`† (null kecuali petani punya alokasi aktif di pesanan ini, D-39), `jarak_km`, `jumlah_per_kiriman_kg`, `frekuensi_hari`, `jumlah_kiriman`, `jumlah_total_kg`, `sisa_kg`, `tanggal_mulai`, `perkiraan_bulan_panen`, `harga_per_kg`, `standar_kualitas`, `boleh_ambil_sebagian`, `uang_muka_diterima`, `rating_pembeli: { rata_rata, jumlah }`, `alokasi_saya: AlokasiPesanan | null`† (alokasi aktif petani pembaca), `dibuat_pada`† (lencana menu Pesanan, D-37).
 
 | `alokasi_pesanan` (`AlokasiPesanan`) | Tipe |
 | --- | --- |
@@ -562,8 +563,8 @@ Peran: P = petani, B = pembeli, M = mentor, A = admin, semua = semua pengguna ma
 | --- | --- | --- | --- | --- |
 | `GET /pesanan/sekitar?jenis=&radius_km=` (berhalaman) | P (termasuk nonaktif, D-13) | → `Halaman<PesananUntukPetani>` terbuka, berresep, dalam radius (bawaan 10 km, maks 25 km), terdekat dulu | `VALIDASI` (`radius_km`) | `pesanan.sekitar` |
 | `GET /pesanan/{id}` | P | → `PesananUntukPetani` (yang belum dibayar uang mukanya → 404) | | `pesanan.ambil` |
-| `POST /pesanan/{id}/ambil` (idempoten) | P aktif | `{ jumlah_kg, lahan_id }` → `{ alokasi, siklus_id }`; membuat siklus rencana berharga kesepakatan dan rencana item dari resep. Server: transaksi + penguncian baris (T5.13) | `AKUN_NONAKTIF`, `MELEBIHI_PESANAN`, `LAHAN_TIDAK_CUKUP`, `VALIDASI` (`lahan_id` tanpa resep), `STATUS_TIDAK_SESUAI` | `pesanan.ambilPesanan` |
-| `POST /alokasi/{id}/setuju` | P (pemilik) | → `AlokasiPesanan`; jadwal kiriman dibuat (P0-22) | `STATUS_TIDAK_SESUAI` | `pesanan.setujuiKesepakatan` |
+| `POST /pesanan/{id}/ambil` (idempoten) | P aktif | `{ jumlah_kg, lahan_id }` → `{ alokasi, siklus_id }`; membuat siklus rencana berharga kesepakatan dan rencana item dari resep; satu alokasi aktif per petani per pesanan (D-39). Server: transaksi + penguncian baris (T5.13) | `AKUN_NONAKTIF`, `MELEBIHI_PESANAN`, `LAHAN_TIDAK_CUKUP`, `JADWAL_TERLALU_DEKAT`, `VALIDASI` (`lahan_id` tanpa resep), `STATUS_TIDAK_SESUAI` (sudah punya alokasi) | `pesanan.ambilPesanan` |
+| `POST /alokasi/{id}/setuju` | P (pemilik) | → `AlokasiPesanan`; jadwal kiriman dibuat hanya untuk kiriman yang terkejar umur panen; siklus rencana menjadi aktif dengan tanggal tanam = umur panen sebelum kiriman pertama, tugas dibuat (P0-22, D-39) | `STATUS_TIDAK_SESUAI`, `JADWAL_TERLALU_DEKAT` | `pesanan.setujuiKesepakatan` |
 | `GET /alokasi/saya` | P | → `AlokasiPesanan[]` | | `pesanan.alokasiSaya` |
 | `POST /alokasi/{id}/gagal-panen` | P (pemilik) | `{ pengiriman_id, alasan }` → `{ tepat_waktu, dikembalikan, catatan_profil, alokasi }`; tanpa denda (D-03) | `VALIDASI`, `STATUS_TIDAK_SESUAI` | `pesanan.laporGagalPanen` |
 
@@ -665,3 +666,4 @@ Konfirmasi otomatis: kiriman `dikirim` yang lewat `batas_periksa_pada` dianggap 
 | --- | --- |
 | 2026-10-05 | Versi pertama (T3.01, T3.02), bersama tipe `src/api/tipe/`, klien tiruan, dan tes kontrak |
 | 2026-10-07 | D-38: `pengguna.terdaftar_kelompok_tani`, `komoditas.harga_jual_contoh`, `resep_tanam.persen_panen_jelek` dan `alasan_panen_jelek`, pembulatan harga sekitar ke ratusan. Tunda tugas terlambat dihitung dari hari ini. |
+| 2026-10-07 | D-39: `PesananUntukPetani` ditambah `titik_desa_antar`, `alamat_antar`, `patokan`, `alokasi_saya`, `dibuat_pada`; galat `409 JADWAL_TERLALU_DEKAT`; satu alokasi per petani per pesanan; setuju kesepakatan hanya menjadwalkan kiriman yang terkejar dan mengaktifkan siklus. |

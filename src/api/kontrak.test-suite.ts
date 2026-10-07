@@ -802,7 +802,18 @@ export function ujiKontrak(nama: string, siapkan: PenyiapLingkungan): void {
           nama_pembeli: 'Katering Bu Ratna',
           uang_muka_diterima: true,
         });
-        expect(JSON.stringify(r)).not.toMatch(/alamat|lintang|bujur/);
+        // Alamat hanya untuk petani yang sudah mengambil pesanan; titik yang dikirim hanya titik
+        // tengah desa (D-06, D-39).
+        expect(r.data[0]?.alokasi_saya).toMatchObject({ id: 'alokasi-ratna-arif' });
+        expect(r.data[0]?.alamat_antar).toEqual(expect.any(String));
+        for (const p of r.data.slice(1)) {
+          expect(p).toMatchObject({ alokasi_saya: null, alamat_antar: null, patokan: null });
+          expect(p.titik_desa_antar).toEqual({
+            lintang: expect.any(Number),
+            bujur: expect.any(Number),
+          });
+          expect(p.dibuat_pada).toMatch(/Z$/);
+        }
         expect((await K.pesanan.sekitar({ radius_km: 25 })).data.map((p) => p.id)).toContain(
           'pesanan-lestari-kangkung',
         );
@@ -828,9 +839,9 @@ export function ujiKontrak(nama: string, siapkan: PenyiapLingkungan): void {
       });
       it('ambil melebihi sisa ditolak; lahan yang sama tidak bisa dipakai dua pesanan sebelum menanam (D-34)', async () => {
         await harapGalat(
-          K.pesanan.ambilPesanan('pesanan-ratna-sawi', {
+          K.pesanan.ambilPesanan('pesanan-kafe-bayam', {
             kunci_idempoten: kunci(),
-            jumlah_kg: 6,
+            jumlah_kg: 5,
             lahan_id: 'lahan-arif-kebun',
           }),
           'MELEBIHI_PESANAN',
@@ -854,20 +865,30 @@ export function ujiKontrak(nama: string, siapkan: PenyiapLingkungan): void {
         const s = await K.kebun.ambilSiklus(a.siklus_id);
         expect(s).toMatchObject({
           status: 'rencana',
-          luas_m2: 13.32,
+          luas_m2: 13.33,
           harga_jual: 7000,
           alokasi_pesanan_id: a.alokasi.id,
         });
         expect(
           (await K.lahan.daftar()).find((l) => l.id === 'lahan-arif-kebun')?.kapasitas.sisa,
-        ).toBe(6.68);
+        ).toBe(6.67);
         await harapGalat(
-          K.pesanan.ambilPesanan('pesanan-ratna-sawi', {
+          K.pesanan.ambilPesanan('pesanan-lestari-kangkung', {
             kunci_idempoten: kunci(),
             jumlah_kg: 5,
             lahan_id: 'lahan-arif-kebun',
           }),
           'LAHAN_TIDAK_CUKUP',
+          409,
+        );
+        // Satu petani satu alokasi per pesanan (D-39).
+        await harapGalat(
+          K.pesanan.ambilPesanan('pesanan-ratna-sawi', {
+            kunci_idempoten: kunci(),
+            jumlah_kg: 1,
+            lahan_id: 'lahan-arif-kebun',
+          }),
+          'STATUS_TIDAK_SESUAI',
           409,
         );
         await harapGalat(
@@ -890,13 +911,32 @@ export function ujiKontrak(nama: string, siapkan: PenyiapLingkungan): void {
           409,
         );
         await harapGalat(
-          K.pesanan.ambilPesanan('pesanan-ratna-sawi', {
+          K.pesanan.ambilPesanan('pesanan-lestari-kangkung', {
             kunci_idempoten: kunci(),
             jumlah_kg: 1,
             lahan_id: 'lahan-dewi-sawah',
           }),
           'TIDAK_DITEMUKAN',
           404,
+        );
+      });
+      it('pesanan yang jadwal kirimnya tidak terkejar umur panen ditolak (D-39)', async () => {
+        const sawah = await K.lahan.buat({
+          nama: 'Sawah baru',
+          jenis_lahan: 'sawah',
+          satuan_asli: 'm2',
+          nilai_asli: 5000,
+          wilayah_id: '32.17.01.2003',
+        });
+        // Gabah dikirim pertengahan Desember; padi 110 hari baru panen akhir Januari.
+        await harapGalat(
+          K.pesanan.ambilPesanan('pesanan-koperasi-gabah', {
+            kunci_idempoten: kunci(),
+            jumlah_kg: 100,
+            lahan_id: sawah.id,
+          }),
+          'JADWAL_TERLALU_DEKAT',
+          409,
         );
       });
       it('kesepakatan membuat jadwal kiriman; gagal panen mengembalikan uang muka bagian itu (D-03)', async () => {
@@ -909,12 +949,20 @@ export function ujiKontrak(nama: string, siapkan: PenyiapLingkungan): void {
         expect(setuju.status).toBe('disepakati');
         await harapGalat(K.pesanan.setujuiKesepakatan(a.alokasi.id), 'STATUS_TIDAK_SESUAI', 409);
         const kiriman = (await K.kiriman.saya()).filter((k) => k.alokasi_id === a.alokasi.id);
-        expect(kiriman).toHaveLength(8);
+        // Bayam 25 hari: kiriman 26 Oktober belum terkejar, bagian petani mulai kiriman ke-2 (D-39).
+        expect(kiriman).toHaveLength(7);
         expect(kiriman[0]).toMatchObject({
-          tanggal_jadwal: '2026-10-26',
+          ke: 2,
+          tanggal_jadwal: '2026-11-02',
           jumlah_kg: 4,
           status: 'terjadwal',
         });
+        // Jadwal tanam masuk ke kebun: siklus aktif, ditanam umur panen sebelum kiriman pertama.
+        expect(await K.kebun.ambilSiklus(a.siklus_id)).toMatchObject({
+          status: 'aktif',
+          tanggal_tanam: '2026-10-08',
+        });
+        expect((await K.kebun.daftarTugas(a.siklus_id)).length).toBeGreaterThan(0);
         expect((await K.pesanan.alokasiSaya()).some((x) => x.id === a.alokasi.id)).toBe(true);
         await harapGalat(
           K.pesanan.laporGagalPanen(a.alokasi.id, { pengiriman_id: kiriman[0]!.id, alasan: '' }),

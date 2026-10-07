@@ -1,6 +1,6 @@
 /** Pesanan, alokasi, kiriman, pembayaran, rating, sengketa (kontrak 2.9–2.11). */
 import type { JenisUsaha } from './akun';
-import type { DenganKunciIdempoten, Rupiah, TanggalISO, WaktuISO } from './umum';
+import type { DenganKunciIdempoten, Rupiah, TanggalISO, TitikPeta, WaktuISO } from './umum';
 
 export type JenisPesanan = 'rutin' | 'sekali_panen';
 export type StatusPesanan =
@@ -37,8 +37,8 @@ export interface Pesanan {
 }
 
 /**
- * Pesanan dilihat petani di sekitar. Hanya nama desa dan jarak dari titik tengah desa (D-06);
- * alamat lengkap tidak dikirim.
+ * Pesanan dilihat petani di sekitar. Hanya nama desa, titik tengah desa, dan jarak dari titik tengah
+ * desa (D-06); alamat lengkap hanya dikirim ke petani yang sudah mengambil pesanan ini (D-39).
  */
 export interface PesananUntukPetani {
   id: string;
@@ -48,6 +48,11 @@ export interface PesananUntukPetani {
   jenis_usaha: JenisUsaha;
   desa_antar: string;
   kecamatan_antar: string;
+  /** Titik tengah desa antar (data wilayah publik), untuk peta pembeli (papan 29). */
+  titik_desa_antar: TitikPeta | null;
+  /** Alamat dan patokan titik antar; null kecuali petani punya alokasi aktif di pesanan ini. */
+  alamat_antar: string | null;
+  patokan: string | null;
   jarak_km: number;
   jumlah_per_kiriman_kg: number | null;
   frekuensi_hari: number | null;
@@ -62,6 +67,9 @@ export interface PesananUntukPetani {
   boleh_ambil_sebagian: boolean;
   uang_muka_diterima: boolean;
   rating_pembeli: { rata_rata: number | null; jumlah: number };
+  /** Alokasi aktif petani yang membaca di pesanan ini (satu petani satu alokasi). */
+  alokasi_saya: AlokasiPesanan | null;
+  dibuat_pada: WaktuISO;
 }
 
 export type StatusAlokasi =

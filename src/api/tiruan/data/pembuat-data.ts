@@ -38,7 +38,7 @@ import { resepDariDomain, tugasDariDomain } from '../../peta';
 import type * as A from '../../tipe';
 import type { DataContoh, DataKebun, DataPesanan, WilayahContoh } from './jenis-data';
 
-export const VERSI_DATA_CONTOH = 4;
+export const VERSI_DATA_CONTOH = 5;
 /** Hari acuan saat menghitung; semua tanggal ditulis relatif terhadapnya. */
 const HARI_DASAR = '2026-10-05';
 
@@ -922,11 +922,16 @@ interface RancanganPesanan {
   status: A.StatusPesanan;
   standar: string[];
   dibayarHari: number | null;
+  /** Titik antar; dikirim ke petani setelah ia mengambil pesanan (D-39). */
+  alamat: string;
+  patokan?: string;
 }
 
 const PESANAN: RancanganPesanan[] = [
   {
     id: 'pesanan-ratna-sawi',
+    alamat: 'Dapur Katering Bu Ratna, Jl. Cikahuripan No. 12 (alamat contoh)',
+    patokan: 'Pagar hijau di samping masjid',
     pembeli: 'pembeli-ratna',
     komoditas: 'sawi',
     jenis: 'rutin',
@@ -942,6 +947,7 @@ const PESANAN: RancanganPesanan[] = [
   },
   {
     id: 'pesanan-imas-bayam',
+    alamat: 'Warung Nasi Bu Imas, Jl. Kayu Ambon (alamat contoh)',
     pembeli: 'pembeli-imas',
     komoditas: 'bayam',
     jenis: 'rutin',
@@ -957,6 +963,8 @@ const PESANAN: RancanganPesanan[] = [
   },
   {
     id: 'pesanan-kafe-bayam',
+    alamat: 'Kafe Daun Pagi, Jl. Ledeng (alamat contoh)',
+    patokan: 'Masuk lewat pintu dapur di belakang',
     pembeli: 'pembeli-kafe',
     komoditas: 'bayam',
     jenis: 'rutin',
@@ -972,6 +980,7 @@ const PESANAN: RancanganPesanan[] = [
   },
   {
     id: 'pesanan-koperasi-gabah',
+    alamat: 'Gudang Koperasi Sumber Rejeki, Sukajaya (alamat contoh)',
     pembeli: 'pembeli-koperasi',
     komoditas: 'padi',
     jenis: 'sekali_panen',
@@ -985,6 +994,7 @@ const PESANAN: RancanganPesanan[] = [
   },
   {
     id: 'pesanan-lestari-kangkung',
+    alamat: 'Dapur Katering Sehat Lestari, Batununggal (alamat contoh)',
     pembeli: 'pembeli-lestari',
     komoditas: 'kangkung',
     jenis: 'rutin',
@@ -1000,6 +1010,7 @@ const PESANAN: RancanganPesanan[] = [
   },
   {
     id: 'pesanan-imas-sawi',
+    alamat: 'Warung Nasi Bu Imas, Jl. Kayu Ambon (alamat contoh)',
     pembeli: 'pembeli-imas',
     komoditas: 'sawi',
     jenis: 'rutin',
@@ -1066,8 +1077,8 @@ function buatPesanan(): DataPesanan {
       harga_per_kg: p.harga,
       standar_kualitas: [...p.standar],
       wilayah_id: p.wilayah,
-      alamat_antar: 'Alamat contoh, diberikan kepada petani setelah kesepakatan',
-      patokan: null,
+      alamat_antar: p.alamat,
+      patokan: p.patokan ?? null,
       status: p.status,
       nilai_pesanan: nilai.nilaiPesanan,
       uang_muka: nilai.uangMuka,

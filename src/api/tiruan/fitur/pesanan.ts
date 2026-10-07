@@ -14,12 +14,18 @@ import {
   type KeputusanKiriman,
 } from '../../../lib/kiriman';
 import { bulatkanRupiah } from '../../../lib/format';
-import { batasAlokasi, kebutuhanLahanPesanan } from '../../../lib/pesanan-lahan';
+import {
+  batasAlokasi,
+  jadwalKirimPesanan,
+  kebutuhanLahanPesanan,
+  kirimanTerkejar,
+} from '../../../lib/pesanan-lahan';
 import {
   hitungNilaiPesanan,
   hitungPembayaranKiriman,
   jumlahKirimanRutin,
 } from '../../../lib/pesanan-nilai';
+import { metodeUntukLahan } from '../../../lib/pesanan-tampil';
 import { bandingTanggal, selisihHari, tambahHari } from '../../../lib/tanggal';
 import { perkiraanPanen, saranVolumeTandon } from '../../../lib/ukuran-metode';
 import type { KlienKiriman, KlienPembeli, KlienPesanan } from '../../klien';
@@ -38,7 +44,7 @@ import type {
 } from '../../tipe';
 import type { Konteks } from '../konteks';
 import { alokasiAktif, jarakPesananKm, namaPengguna, pesananTerbuka, sisaPesananKg } from './bantu';
-import { periksaKapasitas } from './kebun';
+import { buatTugas, periksaKapasitas, resepSiklus } from './kebun';
 import { resepTerbaru } from './referensi';
 
 // ---------------------------------------------------------------- bantu
@@ -239,6 +245,7 @@ export async function prosesOtomatis(k: Konteks): Promise<void> {
 }
 
 function untukPetani(k: Konteks, petani: Pengguna, p: Pesanan): PesananUntukPetani {
+  const saya = alokasiPetani(k, petani.id, p.id);
   const profil = k.db.pengguna.profil_pembeli.find((x) => x.pengguna_id === p.pembeli_id);
   const w = k.wilayah(p.wilayah_id);
   return k.salin({
@@ -249,6 +256,9 @@ function untukPetani(k: Konteks, petani: Pengguna, p: Pesanan): PesananUntukPeta
     jenis_usaha: profil?.jenis_usaha ?? 'lainnya',
     desa_antar: w?.desa ?? '',
     kecamatan_antar: w?.kecamatan ?? '',
+    titik_desa_antar: w ? { lintang: w.lintang, bujur: w.bujur } : null,
+    alamat_antar: saya ? p.alamat_antar : null,
+    patokan: saya ? p.patokan : null,
     jarak_km: jarakPesananKm(k, petani, p) ?? 0,
     jumlah_per_kiriman_kg: p.jumlah_per_kiriman_kg,
     frekuensi_hari: p.frekuensi_hari,
@@ -264,12 +274,32 @@ function untukPetani(k: Konteks, petani: Pengguna, p: Pesanan): PesananUntukPeta
     rating_pembeli: (({ rata_rata, jumlah }) => ({ rata_rata, jumlah }))(
       ringkasanRating(k, p.pembeli_id),
     ),
+    alokasi_saya: saya ?? null,
+    dibuat_pada: p.dibuat_pada,
   });
 }
 
-/** Metode resep yang cocok dengan jenis lahan. */
-const metodeUntukLahan = (jenis: string) =>
-  jenis === 'hidroponik' ? 'hidroponik' : jenis === 'sawah' ? 'sawah' : 'bedengan';
+/** Alokasi aktif seorang petani di satu pesanan (satu petani satu alokasi, D-39). */
+const alokasiPetani = (k: Konteks, petaniId: string, pesananId: string) =>
+  k.db.pesanan.alokasi.find(
+    (a) => a.pesanan_id === pesananId && a.petani_id === petaniId && alokasiAktif(a),
+  );
+
+/** Kiriman pesanan yang masih terkejar bila mulai tanam hari ini (D-39). */
+function jadwalTerkejar(k: Konteks, petani: Pengguna, p: Pesanan, umurPanenHari: number) {
+  return kirimanTerkejar(
+    jadwalKirimPesanan({
+      jenis: p.jenis,
+      tanggalMulai: p.tanggal_mulai,
+      frekuensiHari: p.frekuensi_hari,
+      jumlahKiriman: p.jumlah_kiriman,
+      perkiraanBulanPanen: p.perkiraan_bulan_panen,
+    }),
+    k.hariIni(petani),
+    umurPanenHari,
+  );
+}
+
 
 // ---------------------------------------------------------------- petani
 
@@ -319,7 +349,8 @@ export function buatKlienPesanan(k: Konteks): KlienPesanan {
           (x) => x.id === id,
           (x) => x.status !== 'menunggu_pembayaran',
         );
-        if (!pesananTerbuka(k, pesanan)) k.galat('STATUS_TIDAK_SESUAI');
+        if (!pesananTerbuka(k, pesanan) || alokasiPetani(k, petani.id, id))
+          k.galat('STATUS_TIDAK_SESUAI');
         const lahan = k.milik(
           k.db.kebun.lahan,
           (l) => l.id === m.lahan_id,
@@ -347,6 +378,8 @@ export function buatKlienPesanan(k: Konteks): KlienPesanan {
           ),
         )[0];
         if (!resep) k.validasi({ lahan_id: 'STATUS_TIDAK_SESUAI' });
+        if (!jadwalTerkejar(k, petani, pesanan, resep.umur_panen_hari).length)
+          k.galat('JADWAL_TERLALU_DEKAT');
         const butuh = k.dariHasil(
           kebutuhanLahanPesanan({
             jenis: pesanan.jenis,
@@ -453,20 +486,25 @@ export function buatKlienPesanan(k: Konteks): KlienPesanan {
       );
       if (a.status !== 'menunggu_kesepakatan') k.galat('STATUS_TIDAK_SESUAI');
       const p = pesananDari(k, a.pesanan_id);
+      const siklus = k.db.kebun.siklus.find((s) => s.id === a.siklus_id);
+      const umur = siklus ? resepSiklus(k, siklus).umur_panen_hari : 0;
+      const jadwal = jadwalTerkejar(k, petani, p, umur);
+      if (!jadwal.length) k.galat('JADWAL_TERLALU_DEKAT');
       a.status = 'disepakati';
       a.disetujui_pada = k.sekarangIso();
-      const jadwal =
-        p.jenis === 'rutin'
-          ? Array.from({ length: p.jumlah_kiriman }, (_, i) =>
-              tambahHari(p.tanggal_mulai as string, i * (p.frekuensi_hari as number)),
-            )
-          : [`${p.perkiraan_bulan_panen}-15`];
-      jadwal.forEach((tanggal, i) =>
+      // Jadwal tanam masuk ke kebun: petak pertama ditanam umur panen sebelum kiriman pertama.
+      if (siklus && siklus.status === 'rencana') {
+        const tanggalTanam = tambahHari((jadwal[0] as { tanggal: string }).tanggal, -umur);
+        siklus.status = 'aktif';
+        siklus.tanggal_tanam = tanggalTanam;
+        buatTugas(k, siklus, tanggalTanam);
+      }
+      jadwal.forEach(({ ke, tanggal }) =>
         k.db.pesanan.pengiriman.push({
           id: k.idBaru('kiriman'),
           alokasi_id: a.id,
           pesanan_id: p.id,
-          ke: i + 1,
+          ke,
           tanggal_jadwal: tanggal,
           jumlah_kg: a.jumlah_kg,
           harga_per_kg: p.harga_per_kg,

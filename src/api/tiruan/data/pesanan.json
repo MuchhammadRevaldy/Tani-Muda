@@ -19,8 +19,8 @@
         "Bersih dari tanah"
       ],
       "wilayah_id": "32.17.01.2002",
-      "alamat_antar": "Alamat contoh, diberikan kepada petani setelah kesepakatan",
-      "patokan": null,
+      "alamat_antar": "Dapur Katering Bu Ratna, Jl. Cikahuripan No. 12 (alamat contoh)",
+      "patokan": "Pagar hijau di samping masjid",
       "status": "berjalan",
       "nilai_pesanan": 900000,
       "uang_muka": 180000,
@@ -47,7 +47,7 @@
         "Diikat per 250 g"
       ],
       "wilayah_id": "32.17.01.2005",
-      "alamat_antar": "Alamat contoh, diberikan kepada petani setelah kesepakatan",
+      "alamat_antar": "Warung Nasi Bu Imas, Jl. Kayu Ambon (alamat contoh)",
       "patokan": null,
       "status": "berjalan",
       "nilai_pesanan": 120000,
@@ -75,8 +75,8 @@
         "Diikat per 250 g"
       ],
       "wilayah_id": "32.73.03.1004",
-      "alamat_antar": "Alamat contoh, diberikan kepada petani setelah kesepakatan",
-      "patokan": null,
+      "alamat_antar": "Kafe Daun Pagi, Jl. Ledeng (alamat contoh)",
+      "patokan": "Masuk lewat pintu dapur di belakang",
       "status": "mencari_petani",
       "nilai_pesanan": 224000,
       "uang_muka": 44800,
@@ -103,7 +103,7 @@
         "Kadar hampa rendah"
       ],
       "wilayah_id": "32.17.01.2013",
-      "alamat_antar": "Alamat contoh, diberikan kepada petani setelah kesepakatan",
+      "alamat_antar": "Gudang Koperasi Sumber Rejeki, Sukajaya (alamat contoh)",
       "patokan": null,
       "status": "berjalan",
       "nilai_pesanan": 13000000,
@@ -131,7 +131,7 @@
         "Diikat per 250 g"
       ],
       "wilayah_id": "32.73.10.1001",
-      "alamat_antar": "Alamat contoh, diberikan kepada petani setelah kesepakatan",
+      "alamat_antar": "Dapur Katering Sehat Lestari, Batununggal (alamat contoh)",
       "patokan": null,
       "status": "mencari_petani",
       "nilai_pesanan": 528000,
@@ -160,7 +160,7 @@
         "Bersih dari tanah"
       ],
       "wilayah_id": "32.17.01.2005",
-      "alamat_antar": "Alamat contoh, diberikan kepada petani setelah kesepakatan",
+      "alamat_antar": "Warung Nasi Bu Imas, Jl. Kayu Ambon (alamat contoh)",
       "patokan": null,
       "status": "menunggu_pembayaran",
       "nilai_pesanan": 240000,

@@ -167,13 +167,23 @@ export const usePesananSekitar = (p: T.ParamPesananSekitar = {}) =>
   q(kk('pesanan', 'sekitar', { ...p }), (k) => k.pesanan.sekitar(p));
 export const usePesananUntukPetani = (id: string | null) =>
   q(kk('pesanan', 'satu', id), (k) => k.pesanan.ambil(id as string), !!id);
+/** Beberapa pesanan sekaligus (Kiriman saya: nama pembeli dan komoditas tiap kiriman). */
+export const usePesananUntukPetaniBanyak = (ids: string[]) =>
+  qBanyak(
+    ids,
+    (id) => kk('pesanan', 'satu', id),
+    (k, id) => k.pesanan.ambil(id),
+  );
 export const useAmbilPesanan = () =>
   m(
     (k, x: { id: string } & T.AmbilPesananMasukan) => k.pesanan.ambilPesanan(x.id, x),
     ['pesanan', 'kebun', 'lahan'],
   );
 export const useSetujuiKesepakatan = () =>
-  m((k, alokasiId: string) => k.pesanan.setujuiKesepakatan(alokasiId), ['pesanan', 'kiriman']);
+  m(
+    (k, alokasiId: string) => k.pesanan.setujuiKesepakatan(alokasiId),
+    ['pesanan', 'kiriman', 'kebun', 'lahan'],
+  );
 export const useAlokasiSaya = () =>
   q(kk('pesanan', 'alokasi-saya'), (k) => k.pesanan.alokasiSaya());
 export const useLaporGagalPanen = () =>

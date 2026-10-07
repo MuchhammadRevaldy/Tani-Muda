@@ -762,7 +762,7 @@ Catatan pembagian:
 
 ## 4D. Pilar Jual (petani)
 
-### [ ] T4.18 Pesanan di sekitar **[DEMO]**
+### [x] T4.18 Pesanan di sekitar **[DEMO]**
 - **Tujuan:** Daftar pesanan dalam radius (konfigurasi, default 10 km) terurut terdekat, filter Semua/Rutin/Sekali panen dengan penanda jenis, keterangan jumlah, "Boleh ambil sebagian", hanya pesanan berresep, keadaan kosong + "Cari sampai 25 km"; tab Di sekitar / Kiriman saya.
 - **Berkas:** `src/halaman/pesanan/sekitar.tsx`, hook dari `src/api/kueri` (sudah ada sejak T3.04).
 - **PRD:** P0-19 (penanda dan filter), P0-20, US-11.
@@ -770,30 +770,34 @@ Catatan pembagian:
 - **Selesai bila:** papan 29 dan 30 cocok; daftar dari endpoint pesanan di sekitar (jarak dari titik tengah desa); urutan sama dengan `jarak.ts`; radius dan batas bukan angka tetap; petani `dinonaktifkan_sementara` tetap melihat daftar (D-13).
 - **Tangkapan (D-07):** `docs/tangkapan/aplikasi/29-pesanan-di-sekitar-mobile.png` (390px) dan `29-pesanan-di-sekitar-desktop.png` (1440px) (juga nomor 30), ditunjukkan ke pemilik produk; **berhenti menunggu tanggapan** sebelum tugas berikutnya.
 - **Prasyarat:** T3.10, T2.15, T1.15.
+- **Catatan (7 Okt 2026):** Rute `/pesanan`; filter dan radius di alamat (`?jenis=`, `?radius=`). Desktop: daftar bernomor, peta pembeli dari titik tengah desa (`posisiPeta`), dan rincian pesanan terpilih. Kosong: ajakan "Cari sampai 25 km" (radius maksimal dari konfigurasi). Lencana menu Pesanan (D-37, D-39) dari `jumlahPesananBaru`; galat Tahap 1 diperbaiki: lencana sidebar tidak terbaca pembaca layar. Tangkapan tambahan: `29-pesanan-di-sekitar-filter-sekali-panen-*`, `30-pesanan-kosong-desktop`.
 
-### [ ] T4.19 Detail pesanan dan ambil sebagian **[DEMO]**
+### [x] T4.19 Detail pesanan dan ambil sebagian **[DEMO]**
 - **Tujuan:** Rincian pesanan, "Mau ambil berapa?" (pilihan jumlah), cek lahan (cukup/tidak, jumlah maksimal disarankan), saran tanam bertahap, "Uang yang kamu terima"; tombol "Ambil" nonaktif bila lahan tidak cukup; status uang muka "Uang muka diterima" sebelum diminta menanam. **Kapasitas lahan dari tabel `lahan` lewat `kapasitas-lahan.ts` (D-06, D-08).** Petani memilih lahan; bila belum punya lahan diarahkan ke "Lahan saya" (T4.36a).
 - **Berkas:** `src/halaman/pesanan/detail-pesanan.tsx`, hook dari `src/api/kueri` (sudah ada sejak T3.04).
 - **PRD:** P0-21, P0-23 (status uang muka), US-12, US-13.
 - **Selesai bila:** papan 31 cocok (desktop diturunkan); semua angka dari `pesanan-lahan.ts` dan `pesanan-nilai.ts`; total alokasi tidak melebihi pesanan (galat `409 MELEBIHI_PESANAN` diterjemahkan ke pesan yang jelas); mengambil memanggil endpoint ambil pesanan dan membuat siklus dengan harga kesepakatan; untuk petani `dinonaktifkan_sementara` tombol "Ambil pesanan" diganti penjelasan singkat dan cara menghubungi admin dari konfigurasi (D-13). Label contoh (D-36): "CONTOH, belum divalidasi penyuluh" terlihat di setiap tempat angka resep muncul.
 - **Tangkapan (D-07):** `docs/tangkapan/aplikasi/31-detail-pesanan-mobile.png` (390px) dan `31-detail-pesanan-desktop.png` (1440px), ditunjukkan ke pemilik produk; **berhenti menunggu tanggapan** sebelum tugas berikutnya.
 - **Prasyarat:** T4.18, T2.12, T2.13, T2.15a, T3.10, T4.36a.
+- **Catatan (7 Okt 2026):** Lahan yang punya resep untuk komoditas pesanan bisa dipilih; lahan terbaik terpilih lebih dulu. Pilihan jumlah dari `pilihanJumlah`; tombol − dan + per 1, 10, atau 50 kg menurut sisa. Jadwal kirim yang terkejar umur panen (D-39) menentukan jumlah kiriman dan uang yang diterima. Galat `MELEBIHI_PESANAN` ditulis ulang menjadi "Petani lain baru saja mengambil sebagian…". Pesanan yang sudah diambil menampilkan status dan tautan ke kesepakatan atau Kiriman saya. Tangkapan tambahan: `31-detail-pesanan-lahan-tidak-cukup-*`, `31-detail-pesanan-akun-nonaktif-*`.
 
-### [ ] T4.20 Kesepakatan digital **[DEMO]**
+### [x] T4.20 Kesepakatan digital **[DEMO]**
 - **Tujuan:** Ringkasan (pembeli, jumlah, jadwal, titik antar, harga), standar kualitas, aturan gagal panen, uang dan pembayaran, pernyataan, tombol "Setuju" / "Tanya pembeli dulu"; menyimpan waktu setuju di `alokasi_pesanan`.
 - **Berkas:** `src/halaman/pesanan/kesepakatan.tsx`.
 - **PRD:** P0-22.
 - **Selesai bila:** papan 32 cocok (desktop diturunkan); aturan gagal panen memakai D-03: "Kabari paling lambat 3 hari sebelum jadwal kirim. Bagian yang tidak terpenuhi ditawarkan ke petani lain; kalau tidak ada pengganti, sisa uang muka bagian itu dikembalikan ke pembeli."; **tanpa denda**; angka hari dari konfigurasi; setelah setuju jadwal masuk ke kebun.
 - **Tangkapan (D-07):** `docs/tangkapan/aplikasi/32-kesepakatan-mobile.png` (390px) dan `32-kesepakatan-desktop.png` (1440px), ditunjukkan ke pemilik produk; **berhenti menunggu tanggapan** sebelum tugas berikutnya.
 - **Prasyarat:** T4.19.
+- **Catatan (7 Okt 2026):** Aturan gagal panen tiga butir dari D-03 (tanpa denda, tanpa aturan tiga kali berturut-turut); papan 32 masih memuat denda Rp25.000 dan tidak diikuti. Setuju wajib mencentang pernyataan. Setelah setuju, halaman menampilkan tanggal tanam dan tautan ke jadwal. "Tanya pembeli dulu" lewat admin (D-39). Tangkapan tambahan: `32-kesepakatan-disetujui-*`.
 
-### [ ] T4.21 Kiriman saya dan foto kualitas **[DEMO]**
+### [x] T4.21 Kiriman saya dan foto kualitas **[DEMO]**
 - **Tujuan:** Kiriman hari ini dengan tahap uang (Uang muka ditahan → Menunggu konfirmasi → Dana cair), unggah foto kualitas sebelum kirim, daftar berikutnya dan sebelumnya (termasuk sebagian ditolak).
 - **Berkas:** `src/halaman/pesanan/kiriman-saya.tsx`, hook dari `src/api/kueri` (sudah ada sejak T3.04).
 - **PRD:** P0-25, US-14.
 - **Selesai bila:** papan 33 cocok (desktop diturunkan); tidak bisa menandai "dikirim" tanpa foto kualitas; chip uang memakai `ChipStatus`.
 - **Tangkapan (D-07):** `docs/tangkapan/aplikasi/33-kiriman-saya-mobile.png` (390px) dan `33-kiriman-saya-desktop.png` (1440px), ditunjukkan ke pemilik produk; **berhenti menunggu tanggapan** sebelum tugas berikutnya.
 - **Prasyarat:** T4.19, T4.11 (komponen foto).
+- **Catatan (7 Okt 2026):** Kiriman yang jadwalnya terlewat ikut di "Hari ini" dengan chip Terlambat. Berikutnya dan Sebelumnya menampilkan 3 butir lebih dulu. Satu foto kualitas per kiriman (D-39). Tangkapan diambil dengan jam peramban dipatok: `33-kiriman-saya-*` pukul 08.30 (kiriman menunggu konfirmasi), `33-kiriman-saya-unggah-foto-*` dan `33-kiriman-saya-foto-terunggah-*` tujuh hari kemudian.
 
 ## 4E. Pilar Jual (pembeli)
 

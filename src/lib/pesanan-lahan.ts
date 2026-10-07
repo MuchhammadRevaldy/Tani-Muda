@@ -51,10 +51,12 @@ export function kebutuhanLahanPesanan(m: {
     return berhasil({ luasPerPanen: luas.nilai, jumlahPetak: 1, luasTotal: luas.nilai });
   const petak = jumlahPetakBersamaan(m.frekuensiHari ?? 0, m.umurPanenHari ?? 0);
   if (!petak.ok) return petak;
+  // Luas total dari luas per panen sebelum dibulatkan, supaya jumlah maksimal yang disarankan
+  // cekAmbilSebagian selalu dinyatakan cukup (4 kg ÷ 1,5 × 3 petak = 8 m², bukan 2,67 × 3 = 8,01).
   return berhasil({
     luasPerPanen: luas.nilai,
     jumlahPetak: petak.nilai,
-    luasTotal: bulat2(luas.nilai * petak.nilai),
+    luasTotal: bulat2((m.jumlahKg / m.hasilPerSatuan) * petak.nilai),
   });
 }
 
@@ -126,4 +128,44 @@ export function batasAlokasi(
   const sisaSebelum = bulat2(jumlahPesananKg - terpakai);
   if (jumlahBaruKg > sisaSebelum + EPS) return gagal('MELEBIHI_PESANAN');
   return berhasil({ sisaSebelum, sisaSesudah: bulat2(sisaSebelum - jumlahBaruKg) });
+}
+
+export interface JadwalKirim {
+  ke: number;
+  tanggal: TanggalISO;
+}
+
+/**
+ * Jadwal kiriman pesanan. Rutin: tiap `frekuensiHari` sejak tanggal mulai sebanyak jumlah kiriman.
+ * Sekali panen: satu kiriman pada tanggal 15 bulan perkiraan panen.
+ */
+export function jadwalKirimPesanan(m: {
+  jenis: JenisPesanan;
+  tanggalMulai: TanggalISO | null;
+  frekuensiHari: number | null;
+  jumlahKiriman: number;
+  perkiraanBulanPanen: string | null;
+}): JadwalKirim[] {
+  if (m.jenis === 'sekali_panen')
+    return m.perkiraanBulanPanen ? [{ ke: 1, tanggal: `${m.perkiraanBulanPanen}-15` }] : [];
+  if (!m.tanggalMulai || !m.frekuensiHari || m.frekuensiHari < 1) return [];
+  const mulai = m.tanggalMulai;
+  const frek = m.frekuensiHari;
+  return Array.from({ length: Math.max(0, m.jumlahKiriman) }, (_, i) => ({
+    ke: i + 1,
+    tanggal: tambahHari(mulai, i * frek),
+  }));
+}
+
+/**
+ * Kiriman yang masih terkejar bila petani mulai menanam hari ini: tanggal kirim paling cepat
+ * hari ini + umur panen (D-39). Kiriman sebelum itu tetap menjadi bagian petani lain.
+ */
+export function kirimanTerkejar(
+  jadwal: JadwalKirim[],
+  hariIni: TanggalISO,
+  umurPanenHari: number,
+): JadwalKirim[] {
+  const paling = tambahHari(hariIni, Math.max(0, Math.ceil(umurPanenHari)));
+  return jadwal.filter((j) => j.tanggal >= paling);
 }

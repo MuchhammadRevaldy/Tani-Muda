@@ -79,12 +79,12 @@ Kolom **Tangkapan aplikasi** adalah nama file tangkapan layar halaman aplikasi y
 | 26 | Pengingat per siklus | petani | desktop | `26-pengingat-per-siklus-desktop.html` | `26-pengingat-per-siklus-desktop.png` ✓ |
 | 27 | Detail siklus: modal | petani | mobile | `27-detail-siklus-modal-mobile.html` | `27-detail-siklus-modal-mobile.png` ✓ |
 | 28 | Detail siklus: jurnal | petani | mobile | `28-detail-siklus-jurnal-mobile.html` | `28-detail-siklus-jurnal-mobile.png` ✓ |
-| 29 | Pesanan di sekitar | petani | mobile | `29-pesanan-di-sekitar-mobile.html` | `29-pesanan-di-sekitar-mobile.png` |
-| 29 | Pesanan di sekitar | petani | desktop | `29-pesanan-di-sekitar-desktop.html` | `29-pesanan-di-sekitar-desktop.png` |
-| 30 | Pesanan, belum ada | petani | mobile | `30-pesanan-kosong-mobile.html` | `30-pesanan-kosong-mobile.png` |
-| 31 | Detail pesanan | petani | mobile | `31-detail-pesanan-mobile.html` | `31-detail-pesanan-mobile.png` |
-| 32 | Kesepakatan | petani | mobile | `32-kesepakatan-mobile.html` | `32-kesepakatan-mobile.png` |
-| 33 | Kiriman saya | petani | mobile | `33-kiriman-saya-mobile.html` | `33-kiriman-saya-mobile.png` |
+| 29 | Pesanan di sekitar | petani | mobile | `29-pesanan-di-sekitar-mobile.html` | `29-pesanan-di-sekitar-mobile.png` ✓ |
+| 29 | Pesanan di sekitar | petani | desktop | `29-pesanan-di-sekitar-desktop.html` | `29-pesanan-di-sekitar-desktop.png` ✓ |
+| 30 | Pesanan, belum ada | petani | mobile | `30-pesanan-kosong-mobile.html` | `30-pesanan-kosong-mobile.png` ✓ |
+| 31 | Detail pesanan | petani | mobile | `31-detail-pesanan-mobile.html` | `31-detail-pesanan-mobile.png` ✓ |
+| 32 | Kesepakatan | petani | mobile | `32-kesepakatan-mobile.html` | `32-kesepakatan-mobile.png` ✓ |
+| 33 | Kiriman saya | petani | mobile | `33-kiriman-saya-mobile.html` | `33-kiriman-saya-mobile.png` ✓ |
 | 34 | Profil petani | petani | mobile | `34-profil-petani-mobile.html` | `34-profil-petani-mobile.png` |
 | 34 | Profil petani | petani | desktop | `34-profil-petani-desktop.html` | `34-profil-petani-desktop.png` |
 | 35 | Ubah profil | petani | mobile | `35-ubah-profil-mobile.html` | `35-ubah-profil-mobile.png` |

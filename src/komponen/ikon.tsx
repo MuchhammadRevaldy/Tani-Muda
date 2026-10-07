@@ -51,6 +51,7 @@ const IKON = {
   pensil:
     '<path d="M4.5 19.5l1-4.2L15.8 5c.8-.8 2-.8 2.8 0l.4.4c.8.8.8 2 0 2.8L8.7 18.5Z"/><path d="M13.8 7l3.2 3.2"/>',
   tambah: '<path d="M12 5v14"/><path d="M5 12h14"/>',
+  kurang: '<path d="M5 12h14"/>',
   info: '<circle cx="12" cy="12" r="8.2"/><path d="M12 11v5"/><path d="M12 8h.01"/>',
   hapus:
     '<path d="M4.5 7h15"/><path d="M9.5 7V4.8h5V7"/><path d="M6.5 7l.9 12.2c.1.7.6 1.3 1.3 1.3h6.6c.7 0 1.2-.6 1.3-1.3L17.5 7"/>',

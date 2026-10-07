@@ -182,6 +182,8 @@ const config: Config = {
       aspectRatio: { foto: '4 / 3' },
       // Tata letak halaman /komponen (meniru papan 00).
       gridTemplateColumns: {
+        // Baris saran tanam bertahap: label petak lalu garis waktu (papan 31).
+        'baris-petak': '128px minmax(0, 1fr)',
         'label-dok': '200px minmax(0, 1fr)',
         'penggaris-dok': '392px minmax(0, 1fr)',
       },

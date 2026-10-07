@@ -195,3 +195,43 @@ export function IlustrasiKebunKosong({ className }: { className?: string }) {
     </svg>
   );
 }
+
+/** Pin lokasi di atas pot dan busur radius putus-putus (papan 30, 220×140). */
+export function IlustrasiPesananKosong({ className }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 220 140"
+      fill="none"
+      aria-hidden="true"
+      focusable="false"
+      className={['block h-auto w-full', className].filter(Boolean).join(' ')}
+    >
+      <path
+        d="M110 14c-13 0-22 10-22 22 0 16 22 36 22 36s22-20 22-36c0-12-9-22-22-22Z"
+        strokeWidth="2"
+        strokeLinejoin="round"
+        className="fill-putih stroke-daun-tua"
+      />
+      <circle cx="110" cy="36" r="7" strokeWidth="2" className="fill-daun-lembut stroke-daun-tua" />
+      <path
+        d="M60 84h100l-8 40H68Z"
+        strokeWidth="2"
+        strokeLinejoin="round"
+        className="fill-tanah-lembut stroke-tanah"
+      />
+      <path
+        d="M66 98h88M70 112h80M20 124h180"
+        strokeWidth="2"
+        strokeLinecap="round"
+        className="stroke-tanah"
+      />
+      <path
+        d="M36 70a74 74 0 0 1 148 0"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeDasharray="2 8"
+        className="stroke-garis-kuat"
+      />
+    </svg>
+  );
+}

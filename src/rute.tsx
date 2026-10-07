@@ -27,6 +27,10 @@ import { HalamanPengingat } from './halaman/kebun/pengingat';
 import { HalamanUbahTanggalTanam } from './halaman/kebun/ubah-tanggal-tanam';
 import { HalamanUkur } from './halaman/kebun/ukur-ph-ppm';
 import { Memuat } from './halaman/memuat';
+import { HalamanDetailPesanan } from './halaman/pesanan/detail-pesanan';
+import { HalamanKesepakatan } from './halaman/pesanan/kesepakatan';
+import { HalamanKirimanSaya } from './halaman/pesanan/kiriman-saya';
+import { HalamanPesananSekitar } from './halaman/pesanan/sekitar';
 import { judulRute, type KunciRute } from './teks/rute';
 import { teksUmum } from './teks/umum';
 
@@ -181,10 +185,19 @@ export const daftarRute: RouteObject[] = [
       },
       { path: '/belajar', element: petani('belajar') },
       { path: '/belajar/:id', element: petani('modul') },
-      { path: '/pesanan', element: petani('pesanan') },
-      { path: '/pesanan/kiriman', element: petani('kirimanSaya') },
-      { path: '/pesanan/:id', element: petani('detailPesanan') },
-      { path: '/pesanan/:id/kesepakatan', element: petani('kesepakatan') },
+      { path: '/pesanan', element: halamanPetani('pesanan', <HalamanPesananSekitar />) },
+      {
+        path: '/pesanan/kiriman',
+        element: halamanPetani('kirimanSaya', <HalamanKirimanSaya />),
+      },
+      {
+        path: '/pesanan/:id',
+        element: halamanPetani('detailPesanan', <HalamanDetailPesanan />, { menuAktif: 'pesanan' }),
+      },
+      {
+        path: '/pesanan/:id/kesepakatan',
+        element: halamanPetani('kesepakatan', <HalamanKesepakatan />, { menuAktif: 'pesanan' }),
+      },
       { path: '/profil', element: petani('profil') },
       { path: '/profil/ubah', element: petani('ubahProfil') },
       { path: '/profil/notifikasi', element: petani('pengingat') },

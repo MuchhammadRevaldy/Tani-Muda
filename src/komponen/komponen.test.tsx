@@ -271,6 +271,14 @@ describe('Navigasi', () => {
     expect(screen.getByText('99+')).toBeInTheDocument();
     expect(screen.getByRole('link', { name: 'Beranda' })).not.toHaveAttribute('aria-current');
   });
+  it('lencana sidebar ikut dibacakan pada nama tautan', () => {
+    render(
+      denganRouter(
+        <Sidebar akun={{ nama: 'Arif', keterangan: 'Petani' }} lencana={{ pesanan: 3 }} />,
+      ),
+    );
+    expect(screen.getByRole('link', { name: 'Pesanan, 3 baru' })).toBeInTheDocument();
+  });
   it('menu akun sidebar', async () => {
     render(
       denganRouter(<Sidebar akun={{ nama: 'Arif Setiawan', keterangan: 'Petani · Lembang' }} />),

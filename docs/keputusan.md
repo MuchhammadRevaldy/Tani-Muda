@@ -329,6 +329,18 @@ Tafsiran teknis saat menulis `docs/kontrak-api.md`. Tidak mengubah perilaku prod
 - **P-22** (memecah bundel per halaman): dikerjakan di Tahap 6.
 - Berdampak ke: T3.01, T4.05–T4.07, T4.09, T4.10, T4.36, T5.02, T5.05, T6.03.
 
+## D-39. Tafsiran gelombang 4 Tahap 4 (Jual sisi petani), menunggu konfirmasi
+- Gelombang 3 dilanjutkan atas pesan "lanjutkan" tanpa temuan baru.
+- **Lencana menu Pesanan (D-37):** jumlah pesanan di sekitar yang dibuat setelah petani terakhir membuka menu Pesanan (tab Di sekitar atau Kiriman saya); pesanan yang sudah ia ambil tidak dihitung; belum pernah membuka = semua dihitung. Waktu terakhir dibuka disimpan **di perangkat** per pengguna (bukan di server); bila nanti perlu sama di semua perangkat, dipindah ke kolom pengguna di Tahap 5. `PesananUntukPetani` ditambah `dibuat_pada`.
+- **Jadwal kirim yang masih terkejar:** petani yang mengambil pesanan hanya menanggung kiriman yang tanggalnya paling cepat hari ini + umur panen resep (`kirimanTerkejar`). Kiriman sebelumnya tetap terbuka untuk petani lain. Bila tidak ada satu pun yang terkejar, server menolak dengan galat baru `409 JADWAL_TERLALU_DEKAT`. Detail pesanan menulis "Kiriman ke-1 belum terkejar… Bagianmu mulai kiriman ke-2".
+- **Setelah setuju kesepakatan**, siklus rencana dari pesanan menjadi aktif dengan tanggal tanam = umur panen sebelum kiriman pertama yang terkejar, dan tugasnya dibuat (jadwal tanam masuk ke kebun). Tugas dibuat untuk satu kali tanam; jadwal tiap bedengan pada tanam bertahap baru ditampilkan sebagai saran di detail pesanan.
+- **Satu petani satu alokasi per pesanan.** Pesanan yang sudah diambil tetap tampil di daftar dengan tanda "Kamu sudah mengambil …"; mengambil lagi ditolak `STATUS_TIDAK_SESUAI`.
+- **Alamat titik antar** (`alamat_antar`, `patokan`) dikirim ke petani setelah ia mengambil pesanan (sebelum setuju), karena kesepakatan menampilkan titik antar. Sebelum itu hanya nama desa. Peta pembeli di desktop memakai **titik tengah desa** antar (`titik_desa_antar`, data wilayah publik), bukan alamat (D-06 tetap).
+- **"Tanya pembeli dulu"**: v1 belum punya pesan langsung; tombol membuka penjelasan bahwa pertanyaan disampaikan lewat admin, dengan tautan WhatsApp admin dari konfigurasi. Kesepakatan tetap menunggu.
+- **Foto kualitas**: satu foto per kiriman (kolom `foto_kualitas`); papan 33 menggambar dua kotak foto. Jam antar ("sebelum pukul 07.00") belum ada di model data, jadi tidak ditampilkan.
+- **Perbaikan logika Tahap 2:** luas total pesanan dihitung dari luas per panen sebelum dibulatkan. Sebelumnya 4 kg kangkung di lahan kosong 8 m² dinyatakan "hanya cukup untuk 4 kg" (2,67 × 3 = 8,01 m²).
+- Berdampak ke: T3.02, T4.18–T4.21, T5.10, T5.13.
+
 ---
 
 ## Riwayat
@@ -338,6 +350,7 @@ Tafsiran teknis saat menulis `docs/kontrak-api.md`. Tidak mengubah perilaku prod
 | 2026-10-05 | D-12 sampai D-18 ditetapkan. Butir turunan di D-03, D-06, dan D-11 dikonfirmasi dan dirujuk ke keputusan baru. Jalur tangkapan layar di D-07 diganti mengikuti D-18 |
 | 2026-10-05 | D-19 dan D-20 ditetapkan: backend Laravel + MariaDB tanpa Docker, tampilan dikerjakan lebih dulu. Butir OTP di D-10 dan butir penegakan di D-13 dan D-14 disesuaikan |
 | 2026-10-05 | D-21 sampai D-25 ditetapkan: cookie Sanctum (token untuk React Native), 404 untuk data orang lain, konfirmasi otomatis setiap 15 menit, siap deploy VPS, PHP 8.3+ terpisah |
+| 2026-10-07 | D-39 ditulis: tafsiran gelombang 4 (lencana pesanan di perangkat, jadwal kirim yang terkejar umur panen, siklus aktif setelah setuju, satu alokasi per petani, alamat setelah ambil, Tanya pembeli lewat admin, perbaikan luas total pesanan) |
 | 2026-10-05 | D-26 sampai D-34 ditetapkan: menu Kebun, wilayah berkode Kemendagri, konfigurasi lewat git, video, persetujuan privasi draf, UTC + zona waktu per pengguna, iPhone, repositori, tanggapan tafsiran Tahap 2 (kapasitas dan nilai pengukuran diubah) |
 | 2026-10-05 | D-35 ditetapkan: tafsiran teknis kontrak API dan data tiruan (kolom tambahan, format waktu UTC, tanggal relatif, penyimpanan tiruan, OTP tiruan) |
 | 2026-10-06 | D-38 ditetapkan: tanggapan gelombang 2 (pembulatan rata-rata ke ratusan, sumber harga, subsidi dari profil, rencana di Kebun, panen jelek di resep, urutan harga jual, P-22 di Tahap 6) |

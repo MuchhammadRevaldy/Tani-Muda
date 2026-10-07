@@ -7,6 +7,8 @@ import {
   jumlahPetakBersamaan,
   kebutuhanLahanPesanan,
   luasPerPanen,
+  jadwalKirimPesanan,
+  kirimanTerkejar,
   saranTanamBertahap,
 } from './pesanan-lahan';
 
@@ -53,7 +55,7 @@ describe('kebutuhanLahanPesanan', () => {
     ).toEqual({
       luasPerPanen: 6.67,
       jumlahPetak: 4,
-      luasTotal: 26.68,
+      luasTotal: 26.67,
     });
   });
   it('sekali panen tidak memakai petak bertahap', () => {
@@ -101,13 +103,27 @@ describe('saranTanamBertahap', () => {
 });
 
 describe('cekAmbilSebagian (P0-21, D-08)', () => {
+  it('jumlah maksimal yang disarankan selalu dinyatakan cukup (luas total tanpa pembulatan ganda)', () => {
+    // Kangkung 1,5 kg/m², umur 21 hari, kirim mingguan → 3 petak; lahan kosong 8 m² → maks 4 kg.
+    const r = pastikan(
+      cekAmbilSebagian({
+        jenis: 'rutin',
+        jumlahKg: 4,
+        hasilPerSatuan: 1.5,
+        kapasitas: 8,
+        frekuensiHari: 7,
+        umurPanenHari: 21,
+      }),
+    );
+    expect(r).toEqual({ cukup: true, dibutuhkan: 8, kapasitas: 8, jumlahMaksimalKg: 4 });
+  });
   it.each([
     // [jumlahKg, kapasitas m², cukup, dibutuhkan, maksimal]
-    [5, 20, true, 13.32, 7.5],
+    [5, 20, true, 13.33, 7.5],
     [7.5, 20, true, 20, 7.5],
-    [8, 20, false, 21.32, 7.5],
-    [10, 120, true, 26.68, 45],
-    [10, 0, false, 26.68, 0],
+    [8, 20, false, 21.33, 7.5],
+    [10, 120, true, 26.67, 45],
+    [10, 0, false, 26.67, 0],
   ])(
     'rutin mingguan sawi %s kg di lahan kosong %s m²',
     (kg, kapasitas, cukup, dibutuhkan, maks) => {
@@ -135,7 +151,7 @@ describe('cekAmbilSebagian (P0-21, D-08)', () => {
         umurPanenHari: 35,
       }),
     );
-    expect(r).toEqual({ cukup: false, dibutuhkan: 166.65, kapasitas: 50, jumlahMaksimalKg: 1.5 });
+    expect(r).toEqual({ cukup: false, dibutuhkan: 166.67, kapasitas: 50, jumlahMaksimalKg: 1.5 });
   });
   it('sekali panen dibandingkan langsung dengan kapasitas', () => {
     expect(
@@ -186,5 +202,37 @@ describe('batasAlokasi', () => {
   });
   it('jumlah kosong ditolak', () => {
     expect(batasAlokasi(10, [], 0)).toEqual({ ok: false, galat: 'JUMLAH_KOSONG' });
+  });
+});
+
+describe('jadwal kiriman dan kiriman terkejar (D-39)', () => {
+  const rutin = {
+    jenis: 'rutin' as const,
+    tanggalMulai: '2026-10-19',
+    frekuensiHari: 7,
+    jumlahKiriman: 4,
+    perkiraanBulanPanen: null,
+  };
+  it('rutin: tiap frekuensi sejak tanggal mulai', () => {
+    expect(jadwalKirimPesanan(rutin)).toEqual([
+      { ke: 1, tanggal: '2026-10-19' },
+      { ke: 2, tanggal: '2026-10-26' },
+      { ke: 3, tanggal: '2026-11-02' },
+      { ke: 4, tanggal: '2026-11-09' },
+    ]);
+  });
+  it('sekali panen: tanggal 15 bulan panen; tanpa bulan atau tanggal mulai → kosong', () => {
+    expect(
+      jadwalKirimPesanan({ ...rutin, jenis: 'sekali_panen', perkiraanBulanPanen: '2026-12' }),
+    ).toEqual([{ ke: 1, tanggal: '2026-12-15' }]);
+    expect(jadwalKirimPesanan({ ...rutin, jenis: 'sekali_panen' })).toEqual([]);
+    expect(jadwalKirimPesanan({ ...rutin, tanggalMulai: null })).toEqual([]);
+    expect(jadwalKirimPesanan({ ...rutin, frekuensiHari: 0 })).toEqual([]);
+  });
+  it('hanya kiriman pada atau setelah hari ini + umur panen', () => {
+    const j = jadwalKirimPesanan(rutin);
+    expect(kirimanTerkejar(j, '2026-10-05', UMUR_SAWI).map((x) => x.ke)).toEqual([3, 4]);
+    expect(kirimanTerkejar(j, '2026-09-21', UMUR_SAWI).map((x) => x.ke)).toEqual([1, 2, 3, 4]);
+    expect(kirimanTerkejar(j, '2026-11-01', UMUR_SAWI)).toEqual([]);
   });
 });

@@ -2,6 +2,7 @@
 import type { ReactNode } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useWilayahSatu } from '../api/kueri';
+import { useLencanaPesanan } from '../api/pesanan-dilihat';
 import { useKeluarSesi, useSesi } from '../api/sesi';
 import { keteranganAkun } from '../teks/sesi';
 import { KerangkaPembeli, KerangkaPetani } from './kerangka';
@@ -28,9 +29,11 @@ export function KerangkaPetaniSesi({
   const { keluar } = useKeluarSesi();
   const navigate = useNavigate();
   const p = akun?.pengguna;
+  const baru = useLencanaPesanan(p?.peran === 'petani');
   return (
     <KerangkaPetani
       akun={{ nama: p?.nama ?? '', keterangan: keteranganAkun(p?.peran ?? null, desa) }}
+      lencana={baru > 0 ? { pesanan: baru } : undefined}
       tanpaNav={tanpaNav}
       menuAktif={menuAktif}
       onKeluar={() => void keluar().then(() => navigate('/masuk', { replace: true }))}

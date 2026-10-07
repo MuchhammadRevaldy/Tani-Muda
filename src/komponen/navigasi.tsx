@@ -237,10 +237,13 @@ export function Sidebar({
               }
             >
               <Ikon nama={m.ikon} />
-              <span className="flex-1">{m.label}</span>
+              <span className="flex-1">
+                {m.label}
+                {n ? <span className="sr-saja">{teksKomponen.nav.baru(n)}</span> : null}
+              </span>
               {n ? (
                 <span
-                  aria-label={teksKomponen.nav.baru(n).replace(', ', '')}
+                  aria-hidden="true"
                   className="h-6 min-w-6 rounded-full bg-teks px-1.5 text-center text-isi font-semibold text-putih"
                 >
                   {teksLencana(n)}

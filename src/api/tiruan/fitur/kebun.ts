@@ -108,7 +108,7 @@ export function periksaKapasitas(
   k.dariHasil(muatSiklusBaru(lahanKeDomain(lahan), lain, ukuran));
 }
 
-function buatTugas(k: Konteks, s: SiklusMentah, tanggalTanam: string): void {
+export function buatTugas(k: Konteks, s: SiklusMentah, tanggalTanam: string): void {
   const resep = resepKeDomain(resepSiklus(k, s));
   for (const t of k.dariHasil(buatJadwal(resep.tugas, tanggalTanam)))
     k.db.kebun.tugas.push(tugasDariDomain(t, s.id));

@@ -46,3 +46,9 @@ export interface ResponsGalat {
 export interface DenganKunciIdempoten {
   kunci_idempoten: string;
 }
+
+/** Titik lintang dan bujur (derajat desimal). */
+export interface TitikPeta {
+  lintang: number;
+  bujur: number;
+}
