@@ -31,20 +31,31 @@ import { perkiraanPanen, saranVolumeTandon } from '../../../lib/ukuran-metode';
 import type { KlienKiriman, KlienPembeli, KlienPesanan } from '../../klien';
 import { konfigurasiKeDomain, resepKeDomain } from '../../peta';
 import type {
-  AlokasiPesanan,
+  AlokasiTersimpan,
   KonfirmasiKirimanHasil,
+  Lahan,
   Pembayaran,
   Pengguna,
   Pengiriman,
   Pesanan,
   PesananDenganKebun,
   PesananUntukPetani,
+  ResepTanam,
   RingkasanRating,
   Sengketa,
+  SiklusTersimpan,
 } from '../../tipe';
 import type { Konteks } from '../konteks';
-import { alokasiAktif, jarakPesananKm, namaPengguna, pesananTerbuka, sisaPesananKg } from './bantu';
-import { buatTugas, periksaKapasitas, resepSiklus } from './kebun';
+import {
+  alokasiAktif,
+  alokasiKeluar,
+  jarakPesananKm,
+  namaPengguna,
+  pesananTerbuka,
+  siklusAlokasi,
+  sisaPesananKg,
+} from './bantu';
+import { buatTugas, periksaKapasitas, periksaKapasitasPetak, resepSiklus } from './kebun';
 import { resepTerbaru } from './referensi';
 
 // ---------------------------------------------------------------- bantu
@@ -92,7 +103,7 @@ async function dariGerbang<T>(
 const pesananDari = (k: Konteks, id: string) =>
   k.db.pesanan.pesanan.find((p) => p.id === id) as Pesanan;
 const alokasiDari = (k: Konteks, id: string) =>
-  k.db.pesanan.alokasi.find((a) => a.id === id) as AlokasiPesanan;
+  k.db.pesanan.alokasi.find((a) => a.id === id) as AlokasiTersimpan;
 
 function ringkasanRating(k: Konteks, penggunaId: string): RingkasanRating {
   const nilai = k.db.pesanan.rating.filter((r) => r.penerima_id === penggunaId).map((r) => r.nilai);
@@ -267,6 +278,7 @@ function untukPetani(k: Konteks, petani: Pengguna, p: Pesanan): PesananUntukPeta
     sisa_kg: sisaPesananKg(k, p),
     tanggal_mulai: p.tanggal_mulai,
     perkiraan_bulan_panen: p.perkiraan_bulan_panen,
+    batas_jam_antar: p.batas_jam_antar,
     harga_per_kg: p.harga_per_kg,
     standar_kualitas: p.standar_kualitas,
     boleh_ambil_sebagian: true,
@@ -274,7 +286,7 @@ function untukPetani(k: Konteks, petani: Pengguna, p: Pesanan): PesananUntukPeta
     rating_pembeli: (({ rata_rata, jumlah }) => ({ rata_rata, jumlah }))(
       ringkasanRating(k, p.pembeli_id),
     ),
-    alokasi_saya: saya ?? null,
+    alokasi_saya: saya ? alokasiKeluar(k, saya) : null,
     dibuat_pada: p.dibuat_pada,
   });
 }
@@ -300,6 +312,129 @@ function jadwalTerkejar(k: Konteks, petani: Pengguna, p: Pesanan, umurPanenHari:
   );
 }
 
+/** Rencana siklus (D-40): rutin satu petak per kiriman yang terkejar, sekali panen satu siklus. */
+function buatSiklusPesanan(
+  k: Konteks,
+  m: {
+    petani: Pengguna;
+    pesanan: Pesanan;
+    lahan: Omit<Lahan, 'kapasitas'>;
+    resep: ResepTanam;
+    jumlahKg: number;
+    alokasiId: string;
+  },
+): SiklusTersimpan[] {
+  const { pesanan, resep, lahan } = m;
+  const jadwal = jadwalTerkejar(k, m.petani, pesanan, resep.umur_panen_hari);
+  if (!jadwal.length) k.galat('JADWAL_TERLALU_DEKAT');
+  const rutin = pesanan.jenis === 'rutin';
+  const butuh = k.dariHasil(
+    kebutuhanLahanPesanan({
+      jenis: pesanan.jenis,
+      jumlahKg: m.jumlahKg,
+      hasilPerSatuan: resep.hasil_per_satuan,
+      ...(pesanan.frekuensi_hari ? { frekuensiHari: pesanan.frekuensi_hari } : {}),
+      umurPanenHari: resep.umur_panen_hari,
+    }),
+    'jumlah_kg',
+  );
+  // Satu petak rutin cukup untuk satu kiriman; sekali panen seluas kebutuhan totalnya.
+  const hidro = lahan.jenis_lahan === 'hidroponik';
+  const mentah = rutin ? m.jumlahKg / resep.hasil_per_satuan : butuh.luasTotal;
+  const ukuran = hidro ? Math.ceil(mentah - 1e-9) : Math.ceil(mentah * 100 - 1e-9) / 100;
+  const nft = k.db.referensi.sistem_hidroponik.find((x) => x.id === 'nft');
+  const volume = hidro && nft ? saranVolumeTandon(ukuran, nft.liter_tandon_per_lubang) : null;
+  const petak = rutin
+    ? jadwal.map((j) => ({ ke: j.ke, tanam: tambahHari(j.tanggal, -resep.umur_panen_hari) }))
+    : [{ ke: null, tanam: null }];
+  const siklus: SiklusTersimpan[] = petak.map((x) => ({
+    id: k.idBaru('siklus'),
+    petani_id: m.petani.id,
+    lahan_id: lahan.id,
+    resep_id: resep.id,
+    resep_versi: resep.versi,
+    komoditas_id: resep.komoditas_id,
+    metode_id: resep.metode_id,
+    status: 'rencana',
+    luas_m2: hidro ? null : ukuran,
+    jumlah_lubang: hidro ? ukuran : null,
+    jumlah_polybag: null,
+    volume_tandon_liter: volume,
+    sistem_hidroponik: hidro ? 'nft' : null,
+    vertikultur: false,
+    satuan_asli: hidro ? 'lubang' : 'm2',
+    nilai_asli: ukuran,
+    // Petak rutin menyimpan tanggal tanam rencananya; menjadi aktif setelah kesepakatan disetujui.
+    tanggal_tanam: x.tanam,
+    dapat_subsidi: false,
+    // P0-21: siklus dari pesanan memakai harga kesepakatan.
+    harga_jual: pesanan.harga_per_kg,
+    perkiraan_panen_kg: pastikan(
+      perkiraanPanen(resep.dasar_ukuran, ukuran, resep.hasil_per_satuan),
+    ),
+    alokasi_pesanan_id: m.alokasiId,
+    petak_ke: x.ke,
+    pendapatan_nyata: null,
+    dibuat_pada: k.sekarangIso(),
+  }));
+  if (rutin) periksaKapasitasPetak(k, siklus);
+  else periksaKapasitas(k, siklus[0] as SiklusTersimpan);
+  const kebutuhan = k.dariHasil(
+    hitungKebutuhanResep(resepKeDomain(resep), resep.dasar_ukuran, {
+      luasM2: hidro ? null : ukuran,
+      jumlahTanaman: hidro ? ukuran : null,
+      volumeLarutanLiter: volume,
+    }),
+  );
+  for (const s of siklus) {
+    k.db.kebun.siklus.push(s);
+    for (const kb of kebutuhan) {
+      const input = resep.input.find((i) => i.id === kb.inputId);
+      k.db.kebun.rencana_item.push({
+        id: `${s.id}:${kb.inputId}`,
+        siklus_id: s.id,
+        resep_input_id: kb.inputId,
+        input_id: input?.input_id ?? null,
+        merek_id: null,
+        nama: kb.nama,
+        grup: kb.grup,
+        jumlah: kb.jumlahBeli,
+        satuan: kb.satuanBeli,
+        harga_satuan: kb.hargaContoh,
+        asal: 'resep',
+        alat_sekali_beli: kb.alatSekaliBeli,
+        jumlah_siklus_pembagian: kb.alatSekaliBeli ? 10 : 1,
+      });
+    }
+    k.db.kebun.pengaturan_pengingat.push({
+      siklus_id: s.id,
+      jam_pagi: '06:00',
+      pengingat_sore: true,
+      tipe_aktif: { sekali: true, berulang: true, ukur: true },
+    });
+  }
+  return siklus;
+}
+
+/** Hapus siklus beserta rencana, tugas, dan pengaturan pengingatnya. */
+function hapusSiklus(k: Konteks, id: string): void {
+  const kb = k.db.kebun;
+  kb.siklus = kb.siklus.filter((s) => s.id !== id);
+  kb.rencana_item = kb.rencana_item.filter((r) => r.siklus_id !== id);
+  kb.tugas = kb.tugas.filter((t) => t.siklus_id !== id);
+  kb.pengaturan_pengingat = kb.pengaturan_pengingat.filter((x) => x.siklus_id !== id);
+}
+
+const salinKebun = (k: Konteks) => ({
+  siklus: [...k.db.kebun.siklus],
+  rencana_item: [...k.db.kebun.rencana_item],
+  tugas: [...k.db.kebun.tugas],
+  pengaturan_pengingat: [...k.db.kebun.pengaturan_pengingat],
+});
+
+function pulihkanKebun(k: Konteks, c: ReturnType<typeof salinKebun>): void {
+  Object.assign(k.db.kebun, c);
+}
 
 // ---------------------------------------------------------------- petani
 
@@ -378,103 +513,74 @@ export function buatKlienPesanan(k: Konteks): KlienPesanan {
           ),
         )[0];
         if (!resep) k.validasi({ lahan_id: 'STATUS_TIDAK_SESUAI' });
-        if (!jadwalTerkejar(k, petani, pesanan, resep.umur_panen_hari).length)
-          k.galat('JADWAL_TERLALU_DEKAT');
-        const butuh = k.dariHasil(
-          kebutuhanLahanPesanan({
-            jenis: pesanan.jenis,
-            jumlahKg: m.jumlah_kg,
-            hasilPerSatuan: resep.hasil_per_satuan,
-            ...(pesanan.frekuensi_hari ? { frekuensiHari: pesanan.frekuensi_hari } : {}),
-            umurPanenHari: resep.umur_panen_hari,
-          }),
-          'jumlah_kg',
-        );
-        const hidro = lahan.jenis_lahan === 'hidroponik';
-        const ukuran = hidro ? Math.ceil(butuh.luasTotal) : Math.ceil(butuh.luasTotal * 100) / 100;
-        const siklusId = k.idBaru('siklus');
-        periksaKapasitas(k, {
-          id: siklusId,
-          lahan_id: lahan.id,
-          luas_m2: hidro ? null : ukuran,
-          jumlah_lubang: hidro ? ukuran : null,
-        });
-        const nft = k.db.referensi.sistem_hidroponik.find((s) => s.id === 'nft');
-        const volume = hidro && nft ? saranVolumeTandon(ukuran, nft.liter_tandon_per_lubang) : null;
-        const alokasi: AlokasiPesanan = {
+        const alokasi: AlokasiTersimpan = {
           id: k.idBaru('alokasi'),
           pesanan_id: id,
           petani_id: petani.id,
-          siklus_id: siklusId,
           jumlah_kg: m.jumlah_kg,
           status: 'menunggu_kesepakatan',
           disetujui_pada: null,
           dibuat_pada: k.sekarangIso(),
         };
-        k.db.kebun.siklus.push({
-          id: siklusId,
-          petani_id: petani.id,
-          lahan_id: lahan.id,
-          resep_id: resep.id,
-          resep_versi: resep.versi,
-          komoditas_id: resep.komoditas_id,
-          metode_id: resep.metode_id,
-          status: 'rencana',
-          luas_m2: hidro ? null : ukuran,
-          jumlah_lubang: hidro ? ukuran : null,
-          jumlah_polybag: null,
-          volume_tandon_liter: volume,
-          sistem_hidroponik: hidro ? 'nft' : null,
-          vertikultur: false,
-          satuan_asli: hidro ? 'lubang' : 'm2',
-          nilai_asli: ukuran,
-          tanggal_tanam: null,
-          dapat_subsidi: false,
-          // P0-21: siklus dari pesanan memakai harga kesepakatan.
-          harga_jual: pesanan.harga_per_kg,
-          perkiraan_panen_kg: pastikan(
-            perkiraanPanen(resep.dasar_ukuran, ukuran, resep.hasil_per_satuan),
-          ),
-          alokasi_pesanan_id: alokasi.id,
-          pendapatan_nyata: null,
-          dibuat_pada: k.sekarangIso(),
-        });
-        const kebutuhan = k.dariHasil(
-          hitungKebutuhanResep(resepKeDomain(resep), resep.dasar_ukuran, {
-            luasM2: hidro ? null : ukuran,
-            jumlahTanaman: hidro ? ukuran : null,
-            volumeLarutanLiter: volume,
-          }),
-        );
-        for (const kb of kebutuhan) {
-          const input = resep.input.find((i) => i.id === kb.inputId);
-          k.db.kebun.rencana_item.push({
-            id: `${siklusId}:${kb.inputId}`,
-            siklus_id: siklusId,
-            resep_input_id: kb.inputId,
-            input_id: input?.input_id ?? null,
-            merek_id: null,
-            nama: kb.nama,
-            grup: kb.grup,
-            jumlah: kb.jumlahBeli,
-            satuan: kb.satuanBeli,
-            harga_satuan: kb.hargaContoh,
-            asal: 'resep',
-            alat_sekali_beli: kb.alatSekaliBeli,
-            jumlah_siklus_pembagian: kb.alatSekaliBeli ? 10 : 1,
-          });
-        }
-        k.db.kebun.pengaturan_pengingat.push({
-          siklus_id: siklusId,
-          jam_pagi: '06:00',
-          pengingat_sore: true,
-          tipe_aktif: { sekali: true, berulang: true, ukur: true },
+        const siklus = buatSiklusPesanan(k, {
+          petani,
+          pesanan,
+          lahan,
+          resep,
+          jumlahKg: m.jumlah_kg,
+          alokasiId: alokasi.id,
         });
         k.db.pesanan.alokasi.push(alokasi);
         pesanan.terambil_kg = Math.round((pesanan.terambil_kg + m.jumlah_kg) * 100) / 100;
         k.simpan();
-        return { alokasi: k.salin(alokasi), siklus_id: siklusId };
+        return { alokasi: alokasiKeluar(k, alokasi), siklus_ids: siklus.map((s) => s.id) };
       });
+    },
+
+    async ubahAlokasi(alokasiId, m) {
+      const petani = k.wajibPeran('petani');
+      const a = k.milik(
+        k.db.pesanan.alokasi,
+        (x) => x.id === alokasiId,
+        (x) => x.petani_id === petani.id,
+      );
+      if (a.status !== 'menunggu_kesepakatan') k.galat('STATUS_TIDAK_SESUAI');
+      if (!(m.jumlah_kg > 0)) k.validasi({ jumlah_kg: 'JUMLAH_KOSONG' });
+      const pesanan = pesananDari(k, a.pesanan_id);
+      const lain = k.db.pesanan.alokasi
+        .filter((x) => x.pesanan_id === pesanan.id && x.id !== a.id && alokasiAktif(x))
+        .map((x) => x.jumlah_kg);
+      k.dariHasil(
+        batasAlokasi(pesanan.jumlah_per_kiriman_kg ?? pesanan.jumlah_total_kg, lain, m.jumlah_kg),
+        'jumlah_kg',
+      );
+      const lama = siklusAlokasi(k, a.id);
+      const pertama = lama[0];
+      if (!pertama) return k.galat('STATUS_TIDAK_SESUAI');
+      const lahan = k.db.kebun.lahan.find((l) => l.id === pertama.lahan_id)!;
+      const resep = resepSiklus(k, pertama);
+      // Petak lama dilepas dulu supaya kapasitas dihitung tanpa dirinya; dipulihkan bila gagal.
+      const cadangan = salinKebun(k);
+      lama.forEach((s) => hapusSiklus(k, s.id));
+      let siklus: SiklusTersimpan[];
+      try {
+        siklus = buatSiklusPesanan(k, {
+          petani,
+          pesanan,
+          lahan,
+          resep,
+          jumlahKg: m.jumlah_kg,
+          alokasiId: a.id,
+        });
+      } catch (e) {
+        pulihkanKebun(k, cadangan);
+        throw e;
+      }
+      pesanan.terambil_kg =
+        Math.round((pesanan.terambil_kg - a.jumlah_kg + m.jumlah_kg) * 100) / 100;
+      a.jumlah_kg = m.jumlah_kg;
+      k.simpan();
+      return { alokasi: alokasiKeluar(k, a), siklus_ids: siklus.map((s) => s.id) };
     },
 
     async setujuiKesepakatan(alokasiId) {
@@ -486,50 +592,67 @@ export function buatKlienPesanan(k: Konteks): KlienPesanan {
       );
       if (a.status !== 'menunggu_kesepakatan') k.galat('STATUS_TIDAK_SESUAI');
       const p = pesananDari(k, a.pesanan_id);
-      const siklus = k.db.kebun.siklus.find((s) => s.id === a.siklus_id);
-      const umur = siklus ? resepSiklus(k, siklus).umur_panen_hari : 0;
+      const siklus = siklusAlokasi(k, a.id);
+      const umur = siklus[0] ? resepSiklus(k, siklus[0]).umur_panen_hari : 0;
       const jadwal = jadwalTerkejar(k, petani, p, umur);
       if (!jadwal.length) k.galat('JADWAL_TERLALU_DEKAT');
       a.status = 'disepakati';
       a.disetujui_pada = k.sekarangIso();
-      // Jadwal tanam masuk ke kebun: petak pertama ditanam umur panen sebelum kiriman pertama.
-      if (siklus && siklus.status === 'rencana') {
-        const tanggalTanam = tambahHari((jadwal[0] as { tanggal: string }).tanggal, -umur);
-        siklus.status = 'aktif';
-        siklus.tanggal_tanam = tanggalTanam;
-        buatTugas(k, siklus, tanggalTanam);
+      // Jadwal tanam masuk ke kebun (D-40). Rutin: tiap petak ditanam umur panen sebelum kirimannya;
+      // petak yang tanggal tanamnya sudah lewat saat disetujui dilepas. Sekali panen: satu siklus.
+      if (p.jenis === 'rutin') {
+        const terkejar = new Set(jadwal.map((j) => j.ke));
+        for (const s of siklus) {
+          if (s.petak_ke === null || !terkejar.has(s.petak_ke)) {
+            hapusSiklus(k, s.id);
+            continue;
+          }
+          s.status = 'aktif';
+          buatTugas(k, s, s.tanggal_tanam as string);
+        }
+      } else if (siklus[0] && siklus[0].status === 'rencana') {
+        const s = siklus[0];
+        s.status = 'aktif';
+        s.tanggal_tanam = tambahHari((jadwal[0] as { tanggal: string }).tanggal, -umur);
+        buatTugas(k, s, s.tanggal_tanam);
       }
-      jadwal.forEach(({ ke, tanggal }) =>
-        k.db.pesanan.pengiriman.push({
-          id: k.idBaru('kiriman'),
-          alokasi_id: a.id,
-          pesanan_id: p.id,
-          ke,
-          tanggal_jadwal: tanggal,
-          jumlah_kg: a.jumlah_kg,
-          harga_per_kg: p.harga_per_kg,
-          foto_kualitas: null,
-          status: 'terjadwal',
-          dikirim_pada: null,
-          batas_periksa_pada: null,
-          dikonfirmasi_pada: null,
-          dianggap_diterima: false,
-          jumlah_ditolak_kg: 0,
-          alasan_penolakan: null,
-          keterangan_penolakan: null,
-          foto_penolakan: null,
-          nilai_diterima: null,
-        }),
-      );
+      const dipenuhi = new Set(siklusAlokasi(k, a.id).map((s) => s.petak_ke));
+      jadwal
+        .filter((j) => p.jenis !== 'rutin' || dipenuhi.has(j.ke))
+        .forEach(({ ke, tanggal }) =>
+          k.db.pesanan.pengiriman.push({
+            id: k.idBaru('kiriman'),
+            alokasi_id: a.id,
+            pesanan_id: p.id,
+            ke,
+            tanggal_jadwal: tanggal,
+            jumlah_kg: a.jumlah_kg,
+            harga_per_kg: p.harga_per_kg,
+            foto_kualitas: null,
+            foto_timbangan: null,
+            status: 'terjadwal',
+            dikirim_pada: null,
+            batas_periksa_pada: null,
+            dikonfirmasi_pada: null,
+            dianggap_diterima: false,
+            jumlah_ditolak_kg: 0,
+            alasan_penolakan: null,
+            keterangan_penolakan: null,
+            foto_penolakan: null,
+            nilai_diterima: null,
+          }),
+        );
       if (p.status === 'mencari_petani') p.status = 'berjalan';
       k.simpan();
-      return k.salin(a);
+      return alokasiKeluar(k, a);
     },
 
     async alokasiSaya() {
       const petani = k.wajibPeran('petani');
       await prosesOtomatis(k);
-      return k.salin(k.db.pesanan.alokasi.filter((a) => a.petani_id === petani.id));
+      return k.db.pesanan.alokasi
+        .filter((a) => a.petani_id === petani.id)
+        .map((a) => alokasiKeluar(k, a));
     },
 
     async laporGagalPanen(alokasiId, m) {
@@ -589,7 +712,7 @@ export function buatKlienPesanan(k: Konteks): KlienPesanan {
         tepat_waktu: r.tepatWaktu,
         dikembalikan: r.dikembalikan,
         catatan_profil: r.catatanProfil,
-        alokasi: k.salin(a),
+        alokasi: alokasiKeluar(k, a),
       };
     },
   };
@@ -641,6 +764,15 @@ export function buatKlienKiriman(k: Konteks): KlienKiriman {
       if (x.status !== 'terjadwal') k.galat('STATUS_TIDAK_SESUAI');
       if (!foto) k.validasi({ foto: 'FOTO_WAJIB' });
       x.foto_kualitas = foto;
+      k.simpan();
+      return k.salin(x);
+    },
+
+    async unggahFotoTimbangan(id, foto) {
+      const p = k.wajibPeran('petani');
+      const x = milikPetani(p, id);
+      if (x.status !== 'terjadwal') k.galat('STATUS_TIDAK_SESUAI');
+      x.foto_timbangan = foto || null;
       k.simpan();
       return k.salin(x);
     },
@@ -784,10 +916,17 @@ export function buatKlienPembeli(k: Konteks): KlienPembeli {
       .filter((a) => a.pesanan_id === x.id && alokasiAktif(a))
       .map((a) => {
         const petani = k.db.pengguna.pengguna.find((u) => u.id === a.petani_id) as Pengguna;
-        const siklus = k.db.kebun.siklus.find((s) => s.id === a.siklus_id);
+        // Petak yang paling dulu dipanen di antara yang sudah ditanam; foto dari semua petaknya.
+        const semua = siklusAlokasi(k, a.id);
+        const hariIni = k.hariIni(p);
+        const siklus =
+          semua.find(
+            (s) => s.status === 'aktif' && s.tanggal_tanam && s.tanggal_tanam <= hariIni,
+          ) ?? semua[0];
         const resep = siklus ? k.db.resep.find((r) => r.id === siklus.resep_id) : undefined;
+        const id = new Set(semua.map((s) => s.id));
         const foto = k.db.kebun.jurnal
-          .filter((j) => j.siklus_id === a.siklus_id && j.foto)
+          .filter((j) => id.has(j.siklus_id) && j.foto)
           .sort((m, n) => bandingTanggal(n.tanggal, m.tanggal))[0];
         // D-06: hanya nama desa dan jarak dari titik tengah desa, tanpa titik lahan.
         return {
@@ -834,6 +973,8 @@ export function buatKlienPembeli(k: Konteks): KlienPembeli {
         salah.komoditas_id = 'VALIDASI';
       if (!k.wilayah(m.wilayah_id)) salah.wilayah_id = 'TIDAK_DITEMUKAN';
       if (!m.alamat_antar?.trim()) salah.alamat_antar = 'VALIDASI';
+      if (m.batas_jam_antar && !/^([01]\d|2[0-3]):[0-5]\d$/.test(m.batas_jam_antar))
+        salah.batas_jam_antar = 'VALIDASI';
       if (!(m.harga_per_kg > 0)) salah.harga_per_kg = 'HARGA_KOSONG';
       if (m.jenis === 'rutin' && !(m.jumlah_per_kiriman_kg > 0))
         salah.jumlah_per_kiriman_kg = 'JUMLAH_KOSONG';
@@ -893,6 +1034,7 @@ export function buatKlienPembeli(k: Konteks): KlienPembeli {
         wilayah_id: m.wilayah_id,
         alamat_antar: m.alamat_antar.trim(),
         patokan: m.patokan ?? null,
+        batas_jam_antar: m.batas_jam_antar ?? null,
         status: 'menunggu_pembayaran',
         nilai_pesanan: nilai.nilaiPesanan,
         uang_muka: nilai.uangMuka,
@@ -958,8 +1100,12 @@ export function buatKlienPembeli(k: Konteks): KlienPembeli {
       const x = milikPembeli(p, id);
       if (x.status === 'selesai' || x.status === 'dibatalkan') k.galat('STATUS_TIDAK_SESUAI');
       const aktif = k.db.pesanan.alokasi.filter((a) => a.pesanan_id === id && alokasiAktif(a));
-      const menanam = aktif.some(
-        (a) => k.db.kebun.siklus.find((s) => s.id === a.siklus_id)?.status === 'aktif',
+      // Sudah mulai menanam: ada petak aktif yang tanggal tanamnya sudah tiba (P0-27).
+      const hariIni = k.hariIni(p);
+      const menanam = aktif.some((a) =>
+        siklusAlokasi(k, a.id).some(
+          (s) => s.status === 'aktif' && !!s.tanggal_tanam && s.tanggal_tanam <= hariIni,
+        ),
       );
       const r = pembatalanPembeli({
         petaniSudahMenanam: menanam,

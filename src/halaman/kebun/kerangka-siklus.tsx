@@ -5,7 +5,7 @@
  */
 import type { ReactNode } from 'react';
 import { Link, NavLink, Navigate, useParams } from 'react-router-dom';
-import { useKomoditas, useLahan, useMetode, useResep, useSiklus, useTugas } from '../../api/kueri';
+import { useKomoditas, useMetode, useResep, useSiklus, useTugas } from '../../api/kueri';
 import { tugasKeDomain } from '../../api/peta';
 import { useHariIni } from '../../api/sesi';
 import type { Komoditas, MetodeTanam, ResepTanam, SiklusDetail, Tugas } from '../../api/tipe';
@@ -17,10 +17,10 @@ import { PenggarisUmurTanam } from '../../komponen/penggaris-umur-tanam';
 import { useLayarLebar } from '../../komponen/use-layar-lebar';
 import { pinPenggaris } from '../../lib/beranda';
 import { selisihHari } from '../../lib/tanggal';
-import { teksBeranda } from '../../teks/beranda';
 import { teksKebun as t } from '../../teks/kebun';
 import { teksUmum } from '../../teks/umum';
 import { ukuranSiklus } from '../beranda/kartu-siklus';
+import { useNamaSiklus } from './nama-siklus';
 
 export interface DataSiklus {
   siklus: SiklusDetail;
@@ -42,13 +42,12 @@ export function useDataSiklus(id: string | null): {
   const tugasQ = useTugas(id);
   const komoditasQ = useKomoditas();
   const metodeQ = useMetode();
-  const lahanQ = useLahan();
   const resepQ = useResep(siklusQ.data?.resep_id ?? null);
+  const namaSiklus = useNamaSiklus();
   const s = siklusQ.data;
   if (siklusQ.isError) return { data: null, memuat: false, galat: siklusQ.error.message };
   if (!s || tugasQ.isPending) return { data: null, memuat: true, galat: null };
   const komoditas = komoditasQ.data?.find((k) => k.id === s.komoditas_id) ?? null;
-  const lahan = lahanQ.data?.find((l) => l.id === s.lahan_id);
   const hariPanen =
     s.tanggal_tanam && s.perkiraan_tanggal_panen
       ? selisihHari(s.tanggal_tanam, s.perkiraan_tanggal_panen)
@@ -56,7 +55,7 @@ export function useDataSiklus(id: string | null): {
   return {
     data: {
       siklus: s,
-      nama: teksBeranda.namaSiklus(komoditas?.nama ?? s.komoditas_id, lahan?.nama ?? ''),
+      nama: namaSiklus.siklus(s),
       komoditas,
       metode: metodeQ.data?.find((m) => m.id === s.metode_id) ?? null,
       resep: resepQ.data ?? null,

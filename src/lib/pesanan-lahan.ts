@@ -169,3 +169,47 @@ export function kirimanTerkejar(
   const paling = tambahHari(hariIni, Math.max(0, Math.ceil(umurPanenHari)));
   return jadwal.filter((j) => j.tanggal >= paling);
 }
+
+export interface PetakKiriman {
+  /** Kiriman ke-n yang dipenuhi petak ini. */
+  ke: number;
+  tanggalTanam: TanggalISO;
+  tanggalPanen: TanggalISO;
+  /** Bedengan yang dipakai bergilir: tanam lagi di bedengan yang sama setelah dipanen. */
+  bedengan: number;
+}
+
+/**
+ * Tanam bertahap untuk kiriman yang ditanggung petani (D-40): satu petak per kiriman, ditanam umur
+ * panen sebelum kirimannya. Petak yang tumbuh bersamaan paling banyak `jumlahPetakBersamaan`, jadi
+ * lahan yang dibutuhkan = luas per panen × petak bersamaan (rumus PRD), bukan × jumlah kiriman.
+ */
+export function rencanaPetak(m: {
+  kiriman: JadwalKirim[];
+  frekuensiHari: number;
+  umurPanenHari: number;
+  jumlahKg: number;
+  hasilPerSatuan: number;
+}): Hasil<{
+  petak: PetakKiriman[];
+  luasPerPetak: number;
+  bersamaan: number;
+  luasDibutuhkan: number;
+}> {
+  const luas = luasPerPanen(m.jumlahKg, m.hasilPerSatuan);
+  if (!luas.ok) return luas;
+  const petakMaks = jumlahPetakBersamaan(m.frekuensiHari, m.umurPanenHari);
+  if (!petakMaks.ok) return petakMaks;
+  const bersamaan = Math.max(1, Math.min(m.kiriman.length, petakMaks.nilai));
+  return berhasil({
+    petak: m.kiriman.map((k, i) => ({
+      ke: k.ke,
+      tanggalTanam: tambahHari(k.tanggal, -m.umurPanenHari),
+      tanggalPanen: k.tanggal,
+      bedengan: (i % bersamaan) + 1,
+    })),
+    luasPerPetak: luas.nilai,
+    bersamaan,
+    luasDibutuhkan: bulat2((m.jumlahKg / m.hasilPerSatuan) * bersamaan),
+  });
+}

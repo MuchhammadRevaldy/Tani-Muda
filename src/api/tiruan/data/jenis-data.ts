@@ -6,7 +6,7 @@
  * - "B+3"        → bulan ketiga dari bulan ini ("YYYY-MM").
  */
 import type {
-  AlokasiPesanan,
+  AlokasiTersimpan,
   CatatanPetani,
   EntriJurnal,
   HasilPengukuran,
@@ -33,7 +33,7 @@ import type {
   RencanaItem,
   ResepTanam,
   Sengketa,
-  SiklusTanam,
+  SiklusTersimpan,
   SistemHidroponik,
   Tugas,
   Wilayah,
@@ -77,7 +77,7 @@ export interface DataPengguna {
 
 export interface DataKebun {
   lahan: Omit<Lahan, 'kapasitas'>[];
-  siklus: Omit<SiklusTanam, 'resep_contoh'>[];
+  siklus: SiklusTersimpan[];
   rencana_item: RencanaItem[];
   tugas: Tugas[];
   hasil_pengukuran: HasilPengukuran[];
@@ -89,7 +89,7 @@ export interface DataKebun {
 
 export interface DataPesanan {
   pesanan: Pesanan[];
-  alokasi: AlokasiPesanan[];
+  alokasi: AlokasiTersimpan[];
   pengiriman: Pengiriman[];
   pembayaran: Pembayaran[];
   rating: Rating[];

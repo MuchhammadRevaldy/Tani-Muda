@@ -1,6 +1,7 @@
 /**
  * Kiriman saya (papan 33; T4.21, PRD P0-25, US-14): kiriman hari ini dengan tahap uang (Uang muka
- * ditahan → Menunggu konfirmasi → Dana cair), foto kualitas wajib sebelum ditandai dikirim, lalu
+ * ditahan → Menunggu konfirmasi → Dana cair), foto hasil panen wajib dan foto di timbangan opsional
+ * (D-40) sebelum ditandai dikirim, lalu
  * daftar berikutnya dan sebelumnya (termasuk sebagian ditolak). Kelompok dari `kelompokKiriman`.
  * Desktop: kiriman hari ini di kiri, berikutnya dan sebelumnya di kanan.
  */
@@ -14,6 +15,7 @@ import {
   useTandaiDikirim,
   useUnggahBerkas,
   useUnggahFotoKualitas,
+  useUnggahFotoTimbangan,
 } from '../../api/kueri';
 import { useHariIni, useSesi } from '../../api/sesi';
 import type { Konfigurasi, Pengiriman, PesananUntukPetani } from '../../api/tipe';
@@ -131,6 +133,7 @@ function KartuHariIni({
   const { x, p } = d;
   const unggah = useUnggahBerkas();
   const simpanFoto = useUnggahFotoKualitas();
+  const simpanTimbangan = useUnggahFotoTimbangan();
   const tandai = useTandaiDikirim();
   const [galat, setGalat] = useState<string | null>(null);
   const jam = (iso: string | null) => {
@@ -142,13 +145,14 @@ function KartuHariIni({
     p.jenis === 'rutin' ? konfigurasi.jam_periksa_rutin : konfigurasi.jam_periksa_sekali_panen;
   const terlambat = x.status === 'terjadwal' && x.tanggal_jadwal < hariIni;
 
-  async function kirimFoto(dataUrl: string, namaBerkas: string) {
+  async function kirimFoto(jenis: 'hasil' | 'timbangan', dataUrl: string, namaBerkas: string) {
     setGalat(null);
     try {
       const url = (
         await unggah.mutateAsync({ nama: namaBerkas, jenis: 'image/jpeg', isi: dataUrl })
       ).url;
-      await simpanFoto.mutateAsync({ id: x.id, foto: url });
+      if (jenis === 'hasil') await simpanFoto.mutateAsync({ id: x.id, foto: url });
+      else await simpanTimbangan.mutateAsync({ id: x.id, foto: url });
     } catch (e) {
       setGalat(adalahGalatApi(e) ? e.message : teksUmum.galatIsi);
     }
@@ -164,11 +168,59 @@ function KartuHariIni({
     }
   }
 
-  const sibuk = unggah.isPending || simpanFoto.isPending;
+  const sibuk = unggah.isPending || simpanFoto.isPending || simpanTimbangan.isPending;
+  const terjadwal = x.status === 'terjadwal';
+  const slot = (
+    jenis: 'hasil' | 'timbangan',
+    foto: string | null,
+    judul: string,
+    ket: string,
+    alt: string,
+    labelAmbil: string,
+  ) =>
+    foto || terjadwal ? (
+      <div className="flex flex-col gap-2">
+        <p className="m-0 flex flex-wrap items-baseline gap-x-2">
+          <span className="font-semibold">{judul}</span>
+          <span className="text-keterangan text-teks-pendukung">{ket}</span>
+        </p>
+        {foto ? (
+          <img
+            src={foto}
+            alt={alt}
+            className="aspect-foto w-full rounded-md border border-garis bg-daun-lembut object-cover"
+          />
+        ) : null}
+        {terjadwal ? (
+          <AmbilFoto
+            label={foto ? t.gantiFoto : labelAmbil}
+            labelMemuat={t.memprosesFoto}
+            onFoto={(f) => void kirimFoto(jenis, f.dataUrl, f.nama)}
+            onGagal={() => setGalat(t.fotoGagal)}
+            className={foto ? '' : 'aspect-foto'}
+          />
+        ) : null}
+        {terjadwal && jenis === 'timbangan' && foto ? (
+          <button
+            type="button"
+            onClick={() => void simpanTimbangan.mutateAsync({ id: x.id, foto: null })}
+            className="fokus-cincin inline-flex min-h-sentuh cursor-pointer items-center self-start rounded-sm border-0 bg-transparent px-1 font-semibold text-tomat-teks underline underline-offset-3"
+          >
+            {t.hapusFotoTimbangan}
+          </button>
+        ) : null}
+      </div>
+    ) : null;
   return (
     <Kartu
       judul={t.judulKiriman(nama, x.jumlah_kg)}
-      keterangan={t.subKiriman(p.nama_pembeli, p.desa_antar, p.alamat_antar, p.jarak_km)}
+      keterangan={t.subKiriman(
+        p.nama_pembeli,
+        p.desa_antar,
+        p.alamat_antar,
+        p.jarak_km,
+        p.batas_jam_antar,
+      )}
       kanan={
         terlambat ? (
           <ChipStatus status="terlambat">
@@ -187,22 +239,22 @@ function KartuHariIni({
             </div>
           ) : null}
           <div className="grid grid-cols-2 gap-3">
-            {x.foto_kualitas ? (
-              <img
-                src={x.foto_kualitas}
-                alt={t.fotoKualitasAlt(nama.toLowerCase())}
-                className="aspect-foto w-full rounded-md border border-garis bg-daun-lembut object-cover"
-              />
-            ) : null}
-            {x.status === 'terjadwal' ? (
-              <AmbilFoto
-                label={x.foto_kualitas ? t.gantiFoto : t.ambilFoto}
-                labelMemuat={t.memprosesFoto}
-                onFoto={(f) => void kirimFoto(f.dataUrl, f.nama)}
-                onGagal={() => setGalat(t.fotoGagal)}
-                className={cx('aspect-foto', !x.foto_kualitas && 'col-span-2')}
-              />
-            ) : null}
+            {slot(
+              'hasil',
+              x.foto_kualitas,
+              t.fotoHasil,
+              t.fotoHasilKet,
+              t.fotoKualitasAlt(nama.toLowerCase()),
+              t.ambilFoto,
+            )}
+            {slot(
+              'timbangan',
+              x.foto_timbangan,
+              t.fotoTimbangan,
+              t.fotoTimbanganKet,
+              t.fotoTimbanganAlt(nama.toLowerCase()),
+              t.ambilFotoTimbangan,
+            )}
           </div>
           <DaftarSyarat butir={p.standar_kualitas} />
           {x.status === 'dikirim' ? (

@@ -1,4 +1,5 @@
 /** Lahan, siklus tanam, tugas, pengukuran, pengeluaran, jurnal, pengingat (kontrak 2.6–2.7). */
+import type { StatusAlokasi } from './pesanan';
 import type { JenisLahan } from './referensi';
 import type { BesaranUkur, TipeTugas } from './resep';
 import type { DenganKunciIdempoten, Rupiah, TanggalISO, WaktuISO } from './umum';
@@ -51,11 +52,30 @@ export interface SiklusTanam {
   harga_jual: Rupiah;
   perkiraan_panen_kg: number;
   alokasi_pesanan_id: string | null;
+  /** Petak pesanan rutin: kiriman ke-n yang dipenuhi petak ini (D-40); null untuk siklus lain. */
+  petak_ke: number | null;
   /** Untuk resep contoh, label "CONTOH" wajib terlihat di setiap angka resep (D-12). */
   resep_contoh: boolean;
+  /** Dihitung server: pesanan yang dipenuhi siklus ini, untuk mengelompokkan petak (D-40). */
+  kelompok_pesanan: KelompokPesananSiklus | null;
   pendapatan_nyata: Rupiah | null;
   dibuat_pada: WaktuISO;
 }
+
+/** Pesanan yang dipenuhi sebuah siklus; petak-petak satu alokasi tampil berkelompok (D-40). */
+export interface KelompokPesananSiklus {
+  alokasi_id: string;
+  pesanan_id: string;
+  nama_pembeli: string;
+  /** Jumlah petak (siklus) di alokasi ini; 1 untuk pesanan sekali panen. */
+  jumlah_petak: number;
+  status_alokasi: StatusAlokasi;
+  /** Tanggal kiriman yang dipenuhi petak ini (pesanan rutin); null untuk sekali panen. */
+  tanggal_kirim: TanggalISO | null;
+}
+
+/** Baris siklus seperti tersimpan di basis data (tanpa kolom yang dihitung server). */
+export type SiklusTersimpan = Omit<SiklusTanam, 'resep_contoh' | 'kelompok_pesanan'>;
 
 export interface RencanaItem {
   id: string;

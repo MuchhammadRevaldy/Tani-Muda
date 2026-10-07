@@ -23,6 +23,8 @@ export interface KelompokTugas {
   /** Nama siklus; ditampilkan bila ada lebih dari satu kelompok. */
   nama: string;
   tugas: Tugas[];
+  /** Kelompok petak pesanan (D-40): nama petak per id siklus, ditulis di setiap tugas. */
+  labelPetak?: Record<string, string>;
 }
 
 const hrefTugas = (id: string) => `/tugas/${encodeURIComponent(id)}`;
@@ -67,15 +69,19 @@ export function DaftarTugasHariIni({
     }
   }
 
-  function baris(tugas: Tugas) {
+  function baris(tugas: Tugas, labelPetak?: Record<string, string>) {
     const s = statusTugas(tugas, hariIni);
     const selesai = tugas.status === 'selesai' || sedangSelesai.has(tugas.id);
-    const keterangan =
+    const keterangan = [
+      labelPetak?.[tugas.siklus_id] || null,
       tugas.tipe === 'sekali'
         ? [t.hariKe(tugas.hst), s.jenis === 'terlambat' ? t.seharusnya(tugas.tanggal) : null]
             .filter(Boolean)
             .join(' · ')
-        : teksFrekuensi(tugas.interval ?? 1);
+        : teksFrekuensi(tugas.interval ?? 1),
+    ]
+      .filter(Boolean)
+      .join(' · ');
     const ukur = tugas.tipe === 'ukur';
     const utama = ukur && !utamaTerpakai;
     if (utama) utamaTerpakai = true;
@@ -137,7 +143,7 @@ export function DaftarTugasHariIni({
                 <h3 className="m-0 text-isi font-medium text-teks-pendukung">{k.nama}</h3>
               ) : null}
               <div className="overflow-hidden rounded-lg border border-garis bg-putih">
-                {k.tugas.map(baris)}
+                {k.tugas.map((x) => baris(x, k.labelPetak))}
               </div>
             </div>
           ))

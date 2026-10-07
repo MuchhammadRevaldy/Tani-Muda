@@ -10,6 +10,7 @@ import type {
   AlokasiPesanan,
   AmbilPesananHasil,
   AmbilPesananMasukan,
+  UbahAlokasiMasukan,
   BatalkanPesananHasil,
   BayarUangMukaMasukan,
   Berkas,
@@ -216,6 +217,8 @@ export interface KlienPesanan {
   ambil(id: string): Promise<PesananUntukPetani>;
   /** POST /pesanan/{id}/ambil */
   ambilPesanan(id: string, m: AmbilPesananMasukan): Promise<AmbilPesananHasil>;
+  /** PATCH /alokasi/{id} — ubah jumlah sebelum setuju (D-40) */
+  ubahAlokasi(alokasiId: string, m: UbahAlokasiMasukan): Promise<AmbilPesananHasil>;
   /** POST /alokasi/{id}/setuju */
   setujuiKesepakatan(alokasiId: string): Promise<AlokasiPesanan>;
   /** GET /alokasi/saya */
@@ -231,6 +234,8 @@ export interface KlienKiriman {
   ambil(id: string): Promise<Pengiriman>;
   /** POST /kiriman/{id}/foto-kualitas */
   unggahFotoKualitas(id: string, foto: string): Promise<Pengiriman>;
+  /** POST /kiriman/{id}/foto-timbangan — opsional; null menghapus (D-40) */
+  unggahFotoTimbangan(id: string, foto: string | null): Promise<Pengiriman>;
   /** POST /kiriman/{id}/dikirim */
   tandaiDikirim(id: string): Promise<Pengiriman>;
   /** POST /kiriman/{id}/konfirmasi (pembeli) */

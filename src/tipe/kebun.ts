@@ -34,6 +34,8 @@ export interface SiklusTanam {
   perkiraanPanenKg: number;
   /** Alokasi pesanan yang dipenuhi siklus ini, bila ada. */
   alokasiPesananId: string | null;
+  /** Petak pesanan rutin: kiriman ke-n yang dipenuhi petak ini (D-40); null untuk siklus lain. */
+  petakKe: number | null;
 }
 
 export type StatusTugas = 'belum' | 'selesai';

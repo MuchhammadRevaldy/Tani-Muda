@@ -179,6 +179,13 @@ export const useAmbilPesanan = () =>
     (k, x: { id: string } & T.AmbilPesananMasukan) => k.pesanan.ambilPesanan(x.id, x),
     ['pesanan', 'kebun', 'lahan'],
   );
+/** Ubah jumlah sebelum menyetujui kesepakatan; petak dibuat ulang (D-40). */
+export const useUbahAlokasi = () =>
+  m(
+    (k, x: { alokasiId: string } & T.UbahAlokasiMasukan) =>
+      k.pesanan.ubahAlokasi(x.alokasiId, { jumlah_kg: x.jumlah_kg }),
+    ['pesanan', 'kebun', 'lahan'],
+  );
 export const useSetujuiKesepakatan = () =>
   m(
     (k, alokasiId: string) => k.pesanan.setujuiKesepakatan(alokasiId),
@@ -198,6 +205,11 @@ export const useKiriman = (id: string | null) =>
 export const useUnggahFotoKualitas = () =>
   m(
     (k, x: { id: string; foto: string }) => k.kiriman.unggahFotoKualitas(x.id, x.foto),
+    ['kiriman'],
+  );
+export const useUnggahFotoTimbangan = () =>
+  m(
+    (k, x: { id: string; foto: string | null }) => k.kiriman.unggahFotoTimbangan(x.id, x.foto),
     ['kiriman'],
   );
 export const useTandaiDikirim = () =>

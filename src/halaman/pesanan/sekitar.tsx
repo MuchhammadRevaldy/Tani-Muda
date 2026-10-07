@@ -194,6 +194,7 @@ function PanelPilihan({
           namaHari(p.tanggal_mulai),
           p.frekuensi_hari,
           formatTanggal(p.tanggal_mulai, { tanpaHari: true }),
+          p.batas_jam_antar,
         )
       : t.jadwalRingkasSekali(p.perkiraan_bulan_panen);
   return (

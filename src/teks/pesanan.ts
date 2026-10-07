@@ -81,6 +81,9 @@ const ALASAN_TOLAK: Record<Exclude<AlasanPenolakan, 'lainnya'>, string> = {
 
 const kapital = (s: string) => `${s.charAt(0).toUpperCase()}${s.slice(1)}`;
 
+/** Jam antar "07:00" → "07.00" (D-40). */
+export const jamAntar = (hhmm: string) => hhmm.replace(':', '.');
+
 export const teksPesanan = {
   pesanSebelumTanam: 'Pesan sebelum tanam',
   jarakDariKebun: (km: number) => `${angkaJarak(km)} km dari kebunmu`,
@@ -130,8 +133,9 @@ export const teksPesanan = {
   kebunmu: 'Kebunmu',
   dpDitahan: (rp: number, hasil: string) =>
     `Pembeli sudah membayar uang muka ${formatRupiah(rp)}. Uang ditahan sampai ${hasil} diterima.`,
-  jadwalRingkasRutin: (n: number, hari: string, frek: number, mulai: string) =>
-    `${n} kiriman, ${frek === 7 ? `tiap ${hari}` : `tiap ${frek} hari`}, mulai ${mulai}`,
+  jadwalRingkasRutin: (n: number, hari: string, frek: number, mulai: string, jam: string | null) =>
+    `${n} kiriman, ${frek === 7 ? `tiap ${hari}` : `tiap ${frek} hari`}` +
+    `${jam ? ` sebelum ${jamAntar(jam)}` : ''}, mulai ${mulai}`,
   jadwalRingkasSekali: (bulan: string | null) =>
     bulan
       ? `Sekali kirim saat panen, ${formatBulan(bulan, { denganTahun: true })}.`
@@ -164,7 +168,9 @@ export const teksPesanan = {
   lamaRutin: (lamaHari: number, kiriman: number) =>
     `${teksLamaSingkat(lamaHari)}, ${kiriman} kiriman`,
   lamaSekali: 'Sekali kirim',
-  tiapHari: (hari: string, frek: number) => (frek === 7 ? `Tiap ${hari}` : `Tiap ${frek} hari`),
+  tiapHari: (hari: string, frek: number, jam: string | null) =>
+    (frek === 7 ? `Tiap ${hari}` : `Tiap ${frek} hari`) + (jam ? `, sebelum ${jamAntar(jam)}` : ''),
+  sebelumJam: (jam: string) => `Antar sebelum ${jamAntar(jam)}`,
   saatPanen: (bulan: string | null) =>
     bulan ? `Saat panen, sekitar ${formatBulan(bulan, { denganTahun: true })}` : 'Saat panen',
   mauAmbil: 'Mau ambil berapa?',
@@ -191,16 +197,19 @@ export const teksPesanan = {
   lahanTidakCocokIsi: 'Panduan tanam yang ada belum cocok dengan jenis lahanmu.',
   keLahanSaya: 'Buka Lahan saya',
   tidakTerkejarSemua:
-    'Kalau mulai tanam sekarang, panen pertamamu belum terkejar untuk jadwal kirim pesanan ini.',
-  sebagianTerkejar: (dari: number, tanggal: string, n: number) =>
-    `${dari === 2 ? 'Kiriman ke-1' : `Kiriman ke-1 sampai ke-${dari - 1}`} belum terkejar kalau tanam sekarang. Bagianmu mulai kiriman ke-${dari}, ${tanggal}: ${n} kiriman.`,
+    'Panenmu belum sempat untuk jadwal kirim pesanan ini. Cari pesanan lain yang mulai kirimnya lebih lama.',
+  ikutMulai: (tanggal: string, n: number) =>
+    `Kamu bisa ikut mulai kiriman tanggal ${tanggal}, jadi ${n} kiriman. Kiriman sebelum itu tetap terbuka untuk petani lain, karena panenmu belum sempat.`,
   saranJudul: 'Saran tanam bertahap',
-  saranKet: (luas: string, n: number, satuan: string, per: string, hari: string) =>
-    `Bagi lahan ${luas} jadi ${n} ${satuan}, masing-masing ${per}. Tanam satu ${satuan} tiap ${hari} supaya ada panen di setiap kiriman.`,
+  saranKet: (n: number, per: string, bersamaan: number, luas: string, satuan: string) =>
+    `Satu petak untuk setiap kiriman, jadi ${n} petak masing-masing ${per}. Paling banyak ${bersamaan} petak tumbuh bersamaan, jadi lahan yang dipakai ${luas}: bagi jadi ${bersamaan} ${satuan} lalu tanam bergilir.`,
   bedengan: 'bedengan',
   petak: 'petak',
-  petakKe: (satuan: string, n: number) => `${kapital(satuan)} ${n}`,
-  tanamTanggal: (t: string) => `Tanam ${t}`,
+  /** Petak pesanan rutin dinamai menurut tanggal panen (kirimannya). */
+  petakPanen: (tanggal: string) => `Petak panen ${tanggal}`,
+  tanamDiBedengan: (tanggal: string, satuan: string, n: number) =>
+    `Tanam ${tanggal} · ${satuan} ${n}`,
+  tampilkanSemuaPetak: (n: number) => `Tampilkan semua (${n} petak)`,
   barisPetak: (petak: string, tanam: string, panen: string) =>
     `${petak}: tanam ${tanam}, panen ${panen}`,
   saranKaki: (tanggal: string, satuan: string) =>
@@ -240,10 +249,15 @@ export const teksPesanan = {
   jadwalKirim: 'Jadwal kirim',
   titikAntar: 'Titik antar',
   pembeliIsi: (nama: string, desa: string) => `${nama}, ${desa}`,
-  jadwalRutin: (hari: string, n: number, dari: string, sampai: string) =>
-    `Setiap ${hari}, ${n} kali. ${dari} sampai ${sampai}.`,
-  jadwalTiap: (frek: number, n: number, dari: string, sampai: string) =>
-    `Tiap ${frek} hari, ${n} kali. ${dari} sampai ${sampai}.`,
+  jadwalRutin: (hari: string, n: number, dari: string, sampai: string, jam: string | null) =>
+    `Setiap ${hari}${jam ? ` sebelum pukul ${jamAntar(jam)}` : ''}, ${n} kali. ${dari} sampai ${sampai}.`,
+  jadwalTiap: (frek: number, n: number, dari: string, sampai: string, jam: string | null) =>
+    `Tiap ${frek} hari${jam ? ` sebelum pukul ${jamAntar(jam)}` : ''}, ${n} kali. ${dari} sampai ${sampai}.`,
+  ubahJumlah: 'Ubah jumlah',
+  ubahJumlahJudul: 'Ubah jumlah sebelum setuju',
+  ubahJumlahKet: 'Petak dan jadwal tanam dihitung ulang dari jumlah baru.',
+  simpanJumlah: (jumlah: string) => `Simpan ${jumlah}`,
+  batal: 'Batal',
   jadwalSekali: (tanggal: string) => `Sekali kirim saat panen, sekitar ${tanggal}.`,
   titikAntarIsi: (alamat: string, km: number) => `${alamat}, ${angkaJarak(km)} km dari kebunmu`,
   patokan: (p: string) => `Patokan: ${p}`,
@@ -291,8 +305,20 @@ export const teksPesanan = {
   lihatDiSekitar: 'Lihat pesanan di sekitar',
   judulKiriman: (komoditas: string, jumlahKg: number) => `${komoditas} ${kg(jumlahKg)} kg`,
   /** Alamat antar bila sudah diketahui (sudah memuat nama tempat), selain itu pembeli dan desa. */
-  subKiriman: (pembeli: string, desa: string, alamat: string | null, km: number) =>
-    `${alamat ?? `${pembeli} · ${desa}`} · ${angkaJarak(km)} km`,
+  subKiriman: (
+    pembeli: string,
+    desa: string,
+    alamat: string | null,
+    km: number,
+    jam: string | null,
+  ) =>
+    [
+      alamat ?? `${pembeli} · ${desa}`,
+      jam ? `antar sebelum pukul ${jamAntar(jam)}` : null,
+      `${angkaJarak(km)} km`,
+    ]
+      .filter(Boolean)
+      .join(' · '),
   jadwalTerlewat: (tanggal: string) => `Jadwal ${tanggal}`,
   tahapLabel: 'Tahap uang kiriman ini',
   tahap1: 'Uang muka ditahan',
@@ -305,8 +331,15 @@ export const teksPesanan = {
   tahapSekarang: 'tahap sekarang',
   fotoJudul: 'Sebelum kirim, unggah foto kualitas',
   fotoKet: 'Pembeli melihat foto ini. Foto melindungimu kalau ada yang ditolak.',
+  fotoHasil: 'Foto hasil panen',
+  fotoHasilKet: 'Wajib',
+  fotoTimbangan: 'Foto di timbangan',
+  fotoTimbanganKet: 'Boleh dilewati',
   ambilFoto: 'Ambil foto hasil panen',
+  ambilFotoTimbangan: 'Ambil foto di timbangan',
   gantiFoto: 'Ganti foto',
+  hapusFotoTimbangan: 'Hapus foto timbangan',
+  fotoTimbanganAlt: (komoditas: string) => `Foto ${komoditas} di timbangan`,
   memprosesFoto: 'Menyiapkan foto…',
   fotoGagal: 'Foto belum bisa dibaca. Coba ambil lagi.',
   fotoKualitasAlt: (komoditas: string) => `Foto kualitas ${komoditas} sebelum dikirim`,

@@ -38,7 +38,7 @@ import { resepDariDomain, tugasDariDomain } from '../../peta';
 import type * as A from '../../tipe';
 import type { DataContoh, DataKebun, DataPesanan, WilayahContoh } from './jenis-data';
 
-export const VERSI_DATA_CONTOH = 5;
+export const VERSI_DATA_CONTOH = 6;
 /** Hari acuan saat menghitung; semua tanggal ditulis relatif terhadapnya. */
 const HARI_DASAR = '2026-10-05';
 
@@ -529,12 +529,51 @@ interface SiklusRancangan {
   hargaJual: number;
   dapatSubsidi: boolean;
   alokasi: string | null;
+  /** Petak pesanan rutin: kiriman ke-n yang dipenuhi (D-40). */
+  petakKe?: number;
   pendapatanNyata?: number;
   /** Tugas dengan HST kurang dari ini sudah selesai, kecuali yang dikecualikan. */
   selesaiSebelumHst: number;
   kecuali?: string[];
   foto?: Record<string, string>;
   sistem?: string;
+}
+
+/**
+ * Petak pesanan rutin (D-40): satu siklus per kiriman, ditanam umur panen sebelum kirimannya.
+ * Tugas sebelum hari ini dianggap sudah dikerjakan.
+ */
+function petakPesanan(m: {
+  awalan: string;
+  resep: D.ResepTanam;
+  luasM2: number;
+  kirimanPertamaHari: number;
+  jumlah: number;
+  hargaJual: number;
+  alokasi: string;
+  /** Petak yang sudah dipanen dan diterima: petak ke → pendapatan nyata. */
+  selesai: Record<number, number>;
+}): SiklusRancangan[] {
+  return Array.from({ length: m.jumlah }, (_, i) => {
+    const ke = i + 1;
+    const tanamHari = m.kirimanPertamaHari + i * 7 - m.resep.umurPanenHari;
+    const pendapatan = m.selesai[ke];
+    return {
+      id: `${m.awalan}-${ke}`,
+      petani: 'petani-arif',
+      lahan: 'lahan-arif-kebun',
+      resep: m.resep,
+      ukuran: { luas_m2: m.luasM2 },
+      status: pendapatan !== undefined ? 'selesai' : 'aktif',
+      tanamHari,
+      hargaJual: m.hargaJual,
+      dapatSubsidi: false,
+      alokasi: m.alokasi,
+      petakKe: ke,
+      ...(pendapatan !== undefined ? { pendapatanNyata: pendapatan } : {}),
+      selesaiSebelumHst: pendapatan !== undefined ? 999 : Math.max(0, -tanamHari),
+    };
+  });
 }
 
 const SIKLUS: SiklusRancangan[] = [
@@ -548,7 +587,7 @@ const SIKLUS: SiklusRancangan[] = [
     tanamHari: -13,
     hargaJual: 5000,
     dapatSubsidi: false,
-    alokasi: 'alokasi-ratna-arif',
+    alokasi: null,
     selesaiSebelumHst: 13,
     kecuali: ['siangi@11'],
     foto: {
@@ -571,19 +610,27 @@ const SIKLUS: SiklusRancangan[] = [
     foto: { 'pindah-tanam@10': '/contoh/foto/hidro-pindah-tanam.svg' },
     sistem: 'nft',
   },
-  {
-    id: 'siklus-arif-bayam',
-    petani: 'petani-arif',
-    lahan: 'lahan-arif-kebun',
+  ...petakPesanan({
+    awalan: 'siklus-arif-bayam',
     resep: CONTOH_RESEP_BAYAM_BEDENGAN,
-    ukuran: { luas_m2: 20 },
-    status: 'aktif',
-    tanamHari: -30,
+    luasM2: 4.17,
+    kirimanPertamaHari: -14,
+    jumlah: 4,
     hargaJual: 6000,
-    dapatSubsidi: false,
     alokasi: 'alokasi-imas-arif',
-    selesaiSebelumHst: 30,
-  },
+    // Kiriman 1 dan 2 sudah diterima; petak 3 dipanen hari ini.
+    selesai: { 1: 30000, 2: 24000 },
+  }),
+  ...petakPesanan({
+    awalan: 'siklus-arif-ratna',
+    resep: CONTOH_RESEP_SAWI_BEDENGAN,
+    luasM2: 6.67,
+    kirimanPertamaHari: 15,
+    jumlah: 12,
+    hargaJual: 5000,
+    alokasi: 'alokasi-ratna-arif',
+    selesai: {},
+  }),
   {
     id: 'siklus-arif-kangkung',
     petani: 'petani-arif',
@@ -631,9 +678,9 @@ function buatKebun(): DataKebun {
         petani_id: 'petani-arif',
         nama: 'Kebun belakang rumah',
         jenis_lahan: 'kebun',
-        luas_m2: 140,
+        luas_m2: 180,
         satuan_asli: 'm2',
-        nilai_asli: 140,
+        nilai_asli: 180,
         wilayah_id: W.lembang,
         lintang: -6.8121,
         bujur: 107.618,
@@ -752,6 +799,7 @@ function buatKebun(): DataKebun {
       harga_jual: s.hargaJual,
       perkiraan_panen_kg: pastikan(perkiraanPanen(dasar, ukuranUtama, s.resep.hasilPerSatuan)),
       alokasi_pesanan_id: s.alokasi,
+      petak_ke: s.petakKe ?? null,
       pendapatan_nyata: s.pendapatanNyata ?? null,
       dibuat_pada: hw(s.tanamHari - 2, '19:00'),
     });
@@ -925,11 +973,14 @@ interface RancanganPesanan {
   /** Titik antar; dikirim ke petani setelah ia mengambil pesanan (D-39). */
   alamat: string;
   patokan?: string;
+  /** "HH:MM" batas jam antar (D-40). */
+  batasJam?: string;
 }
 
 const PESANAN: RancanganPesanan[] = [
   {
     id: 'pesanan-ratna-sawi',
+    batasJam: '07:00',
     alamat: 'Dapur Katering Bu Ratna, Jl. Cikahuripan No. 12 (alamat contoh)',
     patokan: 'Pagar hijau di samping masjid',
     pembeli: 'pembeli-ratna',
@@ -947,6 +998,7 @@ const PESANAN: RancanganPesanan[] = [
   },
   {
     id: 'pesanan-imas-bayam',
+    batasJam: '09:00',
     alamat: 'Warung Nasi Bu Imas, Jl. Kayu Ambon (alamat contoh)',
     pembeli: 'pembeli-imas',
     komoditas: 'bayam',
@@ -963,6 +1015,7 @@ const PESANAN: RancanganPesanan[] = [
   },
   {
     id: 'pesanan-kafe-bayam',
+    batasJam: '08:00',
     alamat: 'Kafe Daun Pagi, Jl. Ledeng (alamat contoh)',
     patokan: 'Masuk lewat pintu dapur di belakang',
     pembeli: 'pembeli-kafe',
@@ -994,6 +1047,7 @@ const PESANAN: RancanganPesanan[] = [
   },
   {
     id: 'pesanan-lestari-kangkung',
+    batasJam: '06:30',
     alamat: 'Dapur Katering Sehat Lestari, Batununggal (alamat contoh)',
     pembeli: 'pembeli-lestari',
     komoditas: 'kangkung',
@@ -1010,6 +1064,7 @@ const PESANAN: RancanganPesanan[] = [
   },
   {
     id: 'pesanan-imas-sawi',
+    batasJam: '09:00',
     alamat: 'Warung Nasi Bu Imas, Jl. Kayu Ambon (alamat contoh)',
     pembeli: 'pembeli-imas',
     komoditas: 'sawi',
@@ -1079,6 +1134,7 @@ function buatPesanan(): DataPesanan {
       wilayah_id: p.wilayah,
       alamat_antar: p.alamat,
       patokan: p.patokan ?? null,
+      batas_jam_antar: p.batasJam ?? null,
       status: p.status,
       nilai_pesanan: nilai.nilaiPesanan,
       uang_muka: nilai.uangMuka,
@@ -1115,7 +1171,6 @@ function buatPesanan(): DataPesanan {
     id: string,
     pesananId: string,
     petani: string,
-    siklus: string,
     kg: number,
     setujuHari: number,
   ) => {
@@ -1123,7 +1178,6 @@ function buatPesanan(): DataPesanan {
       id,
       pesanan_id: pesananId,
       petani_id: petani,
-      siklus_id: siklus,
       jumlah_kg: kg,
       status: 'berjalan',
       disetujui_pada: hw(setujuHari, '16:00'),
@@ -1131,16 +1185,9 @@ function buatPesanan(): DataPesanan {
     });
     pesanan(pesananId).terambil_kg += kg;
   };
-  alokasi('alokasi-ratna-arif', 'pesanan-ratna-sawi', 'petani-arif', 'siklus-arif-sawi', 10, -2);
-  alokasi('alokasi-imas-arif', 'pesanan-imas-bayam', 'petani-arif', 'siklus-arif-bayam', 5, -20);
-  alokasi(
-    'alokasi-koperasi-dewi',
-    'pesanan-koperasi-gabah',
-    'petani-dewi',
-    'siklus-dewi-padi',
-    550,
-    -28,
-  );
+  alokasi('alokasi-ratna-arif', 'pesanan-ratna-sawi', 'petani-arif', 10, -2);
+  alokasi('alokasi-imas-arif', 'pesanan-imas-bayam', 'petani-arif', 5, -40);
+  alokasi('alokasi-koperasi-dewi', 'pesanan-koperasi-gabah', 'petani-dewi', 550, -28);
 
   const kiriman = (
     k: Partial<A.Pengiriman> &
@@ -1151,6 +1198,7 @@ function buatPesanan(): DataPesanan {
   ): A.Pengiriman => {
     const lengkap: A.Pengiriman = {
       foto_kualitas: null,
+      foto_timbangan: null,
       status: 'terjadwal',
       dikirim_pada: null,
       batas_periksa_pada: null,

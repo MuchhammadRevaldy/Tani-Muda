@@ -4,7 +4,7 @@ import {
   tundaTugas as tundaDomain,
   ubahTanggalTanam as ubahTanggalDomain,
 } from '../../../lib/jadwal-ubah';
-import { muatSiklusBaru } from '../../../lib/kapasitas-lahan';
+import { muatSiklusBaru, muatSiklusBanyak } from '../../../lib/kapasitas-lahan';
 import { validasiUkuran } from '../../../lib/kebutuhan';
 import { keM2, type KonversiLuas } from '../../../lib/konversi-satuan';
 import { hitungModal } from '../../../lib/modal';
@@ -14,18 +14,12 @@ import { bandingTanggal, selisihHari, tambahHari } from '../../../lib/tanggal';
 import { perkiraanPanen } from '../../../lib/ukuran-metode';
 import { judulUkurUlang } from '../../../teks/jadwal';
 import type { KlienBelajar, KlienKebun, KlienLahan } from '../../klien';
-import {
-  lahanKeDomain,
-  resepKeDomain,
-  siklusKeDomain,
-  tugasDariDomain,
-  tugasKeDomain,
-} from '../../peta';
-import type { Pengguna, ResepTanam, SiklusDetail, SiklusTanam, Tugas } from '../../tipe';
+import { lahanKeDomain, resepKeDomain, tugasDariDomain, tugasKeDomain } from '../../peta';
+import type { Pengguna, ResepTanam, SiklusDetail, SiklusTersimpan, Tugas } from '../../tipe';
 import type { Konteks } from '../konteks';
-import { denganKapasitas } from './bantu';
+import { denganKapasitas, siklusKapasitas, siklusKeluar } from './bantu';
 
-type SiklusMentah = Omit<SiklusTanam, 'resep_contoh'>;
+type SiklusMentah = SiklusTersimpan;
 
 const tanggalSah = (t: unknown): t is string => {
   if (typeof t !== 'string') return false;
@@ -67,8 +61,7 @@ export function detailSiklus(k: Konteks, s: SiklusMentah, p: Pengguna): SiklusDe
   );
   const hariIni = k.hariIni(p);
   return k.salin({
-    ...s,
-    resep_contoh: resep.contoh,
+    ...siklusKeluar(k, s),
     rencana_item: rencana,
     modal: {
       total_bahan: modal.totalBahan,
@@ -104,8 +97,27 @@ export function periksaKapasitas(
   const ukuran = ukuranKapasitas(k, s);
   if (ukuran <= 0) return;
   const lahan = k.db.kebun.lahan.find((l) => l.id === s.lahan_id)!;
-  const lain = k.db.kebun.siklus.filter((x) => x.id !== s.id).map(siklusKeDomain);
+  const lain = k.db.kebun.siklus.filter((x) => x.id !== s.id).map((x) => siklusKapasitas(k, x));
   k.dariHasil(muatSiklusBaru(lahanKeDomain(lahan), lain, ukuran));
+}
+
+/**
+ * Petak pesanan rutin mulai memakai lahan: periksa kapasitas dengan semua petak baru sekaligus,
+ * dihitung dari puncak petak yang tumbuh bersamaan (D-40). Siklus dengan id yang sama diabaikan.
+ */
+export function periksaKapasitasPetak(k: Konteks, baru: SiklusMentah[]): void {
+  const pertama = baru[0];
+  if (!pertama) return;
+  const lahan = k.db.kebun.lahan.find((l) => l.id === pertama.lahan_id)!;
+  const id = new Set(baru.map((x) => x.id));
+  const lain = k.db.kebun.siklus.filter((x) => !id.has(x.id)).map((x) => siklusKapasitas(k, x));
+  k.dariHasil(
+    muatSiklusBanyak(
+      lahanKeDomain(lahan),
+      lain,
+      baru.map((x) => siklusKapasitas(k, x)),
+    ),
+  );
 }
 
 export function buatTugas(k: Konteks, s: SiklusMentah, tanggalTanam: string): void {
@@ -220,7 +232,7 @@ export function buatKlienKebun(k: Konteks): KlienKebun {
       const u = k.wajibPeran('petani');
       return k.db.kebun.siklus
         .filter((s) => s.petani_id === u.id && (!p.status || s.status === p.status))
-        .map((s) => ({ ...k.salin(s), resep_contoh: resepSiklus(k, s).contoh }));
+        .map((s) => siklusKeluar(k, s));
     },
 
     async buatSiklus(m) {
@@ -297,6 +309,7 @@ export function buatKlienKebun(k: Konteks): KlienKebun {
           perkiraanPanen(resep.dasar_ukuran, ukuranUtama ?? null, resep.hasil_per_satuan),
         ),
         alokasi_pesanan_id: null,
+        petak_ke: null,
         pendapatan_nyata: null,
         dibuat_pada: k.sekarangIso(),
       };

@@ -21,6 +21,7 @@
       "wilayah_id": "32.17.01.2002",
       "alamat_antar": "Dapur Katering Bu Ratna, Jl. Cikahuripan No. 12 (alamat contoh)",
       "patokan": "Pagar hijau di samping masjid",
+      "batas_jam_antar": "07:00",
       "status": "berjalan",
       "nilai_pesanan": 900000,
       "uang_muka": 180000,
@@ -49,6 +50,7 @@
       "wilayah_id": "32.17.01.2005",
       "alamat_antar": "Warung Nasi Bu Imas, Jl. Kayu Ambon (alamat contoh)",
       "patokan": null,
+      "batas_jam_antar": "09:00",
       "status": "berjalan",
       "nilai_pesanan": 120000,
       "uang_muka": 24000,
@@ -77,6 +79,7 @@
       "wilayah_id": "32.73.03.1004",
       "alamat_antar": "Kafe Daun Pagi, Jl. Ledeng (alamat contoh)",
       "patokan": "Masuk lewat pintu dapur di belakang",
+      "batas_jam_antar": "08:00",
       "status": "mencari_petani",
       "nilai_pesanan": 224000,
       "uang_muka": 44800,
@@ -105,6 +108,7 @@
       "wilayah_id": "32.17.01.2013",
       "alamat_antar": "Gudang Koperasi Sumber Rejeki, Sukajaya (alamat contoh)",
       "patokan": null,
+      "batas_jam_antar": null,
       "status": "berjalan",
       "nilai_pesanan": 13000000,
       "uang_muka": 2600000,
@@ -133,6 +137,7 @@
       "wilayah_id": "32.73.10.1001",
       "alamat_antar": "Dapur Katering Sehat Lestari, Batununggal (alamat contoh)",
       "patokan": null,
+      "batas_jam_antar": "06:30",
       "status": "mencari_petani",
       "nilai_pesanan": 528000,
       "uang_muka": 105600,
@@ -162,6 +167,7 @@
       "wilayah_id": "32.17.01.2005",
       "alamat_antar": "Warung Nasi Bu Imas, Jl. Kayu Ambon (alamat contoh)",
       "patokan": null,
+      "batas_jam_antar": "09:00",
       "status": "menunggu_pembayaran",
       "nilai_pesanan": 240000,
       "uang_muka": 48000,
@@ -176,7 +182,6 @@
       "id": "alokasi-ratna-arif",
       "pesanan_id": "pesanan-ratna-sawi",
       "petani_id": "petani-arif",
-      "siklus_id": "siklus-arif-sawi",
       "jumlah_kg": 10,
       "status": "berjalan",
       "disetujui_pada": "H-2T16:00",
@@ -186,17 +191,15 @@
       "id": "alokasi-imas-arif",
       "pesanan_id": "pesanan-imas-bayam",
       "petani_id": "petani-arif",
-      "siklus_id": "siklus-arif-bayam",
       "jumlah_kg": 5,
       "status": "berjalan",
-      "disetujui_pada": "H-20T16:00",
-      "dibuat_pada": "H-21T19:00"
+      "disetujui_pada": "H-40T16:00",
+      "dibuat_pada": "H-41T19:00"
     },
     {
       "id": "alokasi-koperasi-dewi",
       "pesanan_id": "pesanan-koperasi-gabah",
       "petani_id": "petani-dewi",
-      "siklus_id": "siklus-dewi-padi",
       "jumlah_kg": 550,
       "status": "berjalan",
       "disetujui_pada": "H-28T16:00",
@@ -206,6 +209,7 @@
   "pengiriman": [
     {
       "foto_kualitas": null,
+      "foto_timbangan": null,
       "status": "terjadwal",
       "dikirim_pada": null,
       "batas_periksa_pada": null,
@@ -226,6 +230,7 @@
     },
     {
       "foto_kualitas": null,
+      "foto_timbangan": null,
       "status": "terjadwal",
       "dikirim_pada": null,
       "batas_periksa_pada": null,
@@ -246,6 +251,7 @@
     },
     {
       "foto_kualitas": null,
+      "foto_timbangan": null,
       "status": "terjadwal",
       "dikirim_pada": null,
       "batas_periksa_pada": null,
@@ -266,6 +272,7 @@
     },
     {
       "foto_kualitas": null,
+      "foto_timbangan": null,
       "status": "terjadwal",
       "dikirim_pada": null,
       "batas_periksa_pada": null,
@@ -286,6 +293,7 @@
     },
     {
       "foto_kualitas": null,
+      "foto_timbangan": null,
       "status": "terjadwal",
       "dikirim_pada": null,
       "batas_periksa_pada": null,
@@ -306,6 +314,7 @@
     },
     {
       "foto_kualitas": null,
+      "foto_timbangan": null,
       "status": "terjadwal",
       "dikirim_pada": null,
       "batas_periksa_pada": null,
@@ -326,6 +335,7 @@
     },
     {
       "foto_kualitas": null,
+      "foto_timbangan": null,
       "status": "terjadwal",
       "dikirim_pada": null,
       "batas_periksa_pada": null,
@@ -346,6 +356,7 @@
     },
     {
       "foto_kualitas": null,
+      "foto_timbangan": null,
       "status": "terjadwal",
       "dikirim_pada": null,
       "batas_periksa_pada": null,
@@ -366,6 +377,7 @@
     },
     {
       "foto_kualitas": null,
+      "foto_timbangan": null,
       "status": "terjadwal",
       "dikirim_pada": null,
       "batas_periksa_pada": null,
@@ -386,6 +398,7 @@
     },
     {
       "foto_kualitas": null,
+      "foto_timbangan": null,
       "status": "terjadwal",
       "dikirim_pada": null,
       "batas_periksa_pada": null,
@@ -406,6 +419,7 @@
     },
     {
       "foto_kualitas": null,
+      "foto_timbangan": null,
       "status": "terjadwal",
       "dikirim_pada": null,
       "batas_periksa_pada": null,
@@ -426,6 +440,7 @@
     },
     {
       "foto_kualitas": null,
+      "foto_timbangan": null,
       "status": "terjadwal",
       "dikirim_pada": null,
       "batas_periksa_pada": null,
@@ -446,6 +461,7 @@
     },
     {
       "foto_kualitas": null,
+      "foto_timbangan": null,
       "status": "terjadwal",
       "dikirim_pada": null,
       "batas_periksa_pada": null,
@@ -466,6 +482,7 @@
     },
     {
       "foto_kualitas": "/contoh/foto/bayam-kiriman-1.svg",
+      "foto_timbangan": null,
       "status": "diterima",
       "dikirim_pada": "H-14T07:00",
       "batas_periksa_pada": "H-14T13:00",
@@ -486,6 +503,7 @@
     },
     {
       "foto_kualitas": "/contoh/foto/bayam-kiriman-2.svg",
+      "foto_timbangan": null,
       "status": "ditolak_sebagian",
       "dikirim_pada": "H-7T07:00",
       "batas_periksa_pada": "H-7T13:00",
@@ -506,6 +524,7 @@
     },
     {
       "foto_kualitas": "/contoh/foto/bayam-kiriman-3.svg",
+      "foto_timbangan": null,
       "status": "dikirim",
       "dikirim_pada": "H+0T07:00",
       "batas_periksa_pada": "H+0T13:00",
@@ -526,6 +545,7 @@
     },
     {
       "foto_kualitas": null,
+      "foto_timbangan": null,
       "status": "terjadwal",
       "dikirim_pada": null,
       "batas_periksa_pada": null,

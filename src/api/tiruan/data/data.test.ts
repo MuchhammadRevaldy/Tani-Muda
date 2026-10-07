@@ -7,6 +7,9 @@ import { hitungModal } from '../../../lib/modal';
 import { hitungNilaiPesanan } from '../../../lib/pesanan-nilai';
 import { SEMUA_CONTOH_RESEP } from '../../../lib/fixtures/contoh-resep';
 import { lahanKeDomain, resepKeDomain, siklusKeDomain } from '../../peta';
+import { tambahHari } from '../../../lib/tanggal';
+import { ZONA_BAWAAN } from '../../../lib/zona-waktu';
+import { selesaikanTanggalRelatif } from '../tanggal-relatif';
 import { pecahDataContoh } from './berkas-data';
 import { muatDataContoh } from './muat-data';
 import { buatDataContoh } from './pembuat-data';
@@ -111,15 +114,22 @@ describe('T3.08 pengguna uji, lahan, siklus, pesanan', () => {
     expect(status).toContain('menunggu');
     expect(data.pengguna.catatan_petani.some((c) => c.petani_id === 'petani-budi')).toBe(true);
   });
-  it('kapasitas lahan cukup untuk siklus yang memakai lahan; Arif sisa 20 m² dan 50 lubang', () => {
-    const siklus = data.kebun.siklus.map(siklusKeDomain);
+  it('kapasitas lahan cukup untuk siklus yang memakai lahan; petak pesanan rutin dihitung dari puncaknya (D-40)', () => {
+    // Tanggal relatif diselesaikan supaya rentang tanam sampai panen setiap petak bisa dibandingkan.
+    const nyata = selesaikanTanggalRelatif(data, '2026-10-05', ZONA_BAWAAN);
+    const umur = new Map(nyata.resep.map((r) => [r.id, r.umur_panen_hari]));
+    const siklus = nyata.kebun.siklus.map((s) => ({
+      ...siklusKeDomain(s),
+      tanggalPanen: s.tanggal_tanam ? tambahHari(s.tanggal_tanam, umur.get(s.resep_id) ?? 0) : null,
+    }));
     for (const l of data.kebun.lahan) {
       const k = kapasitasLahan(lahanKeDomain(l), siklus);
       expect(k.dipakai).toBeLessThanOrEqual(k.total);
     }
     const sisa = (id: string) =>
       kapasitasLahan(lahanKeDomain(data.kebun.lahan.find((l) => l.id === id)!), siklus).sisa;
-    expect(sisa('lahan-arif-kebun')).toBe(20);
+    // 180 m² − sawi 100 − petak Ratna 4 × 6,67 (4 tumbuh bersamaan) − petak Imas 2 × 4,17 = 44,98.
+    expect(sisa('lahan-arif-kebun')).toBe(44.98);
     expect(sisa('lahan-arif-hidro')).toBe(50);
   });
   it('total alokasi tidak melebihi pesanan', () => {

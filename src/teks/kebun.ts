@@ -18,6 +18,22 @@ export const teksKebun = {
   untungNyata: 'Untung sebenarnya',
   lihatRingkasan: 'Lihat ringkasan',
   rencanaBeranda: (n: number) => `${n} rencana belum dijadwalkan`,
+  // ---------------------------------------------------------------- kelompok petak pesanan (D-40)
+  namaKelompok: (komoditas: string, pembeli: string) => `${komoditas} untuk ${pembeli}`,
+  ringkasKelompok: (total: number, tumbuh: number, selesai: number, tanam: string | null) =>
+    [
+      `${total} petak`,
+      tumbuh ? `${tumbuh} sedang tumbuh` : null,
+      selesai ? `${selesai} sudah dipanen` : null,
+      tanam ? `tanam berikutnya ${formatTanggal(tanam)}` : null,
+    ]
+      .filter(Boolean)
+      .join(' · '),
+  menungguKesepakatan: 'Menunggu kesepakatan',
+  periksaKesepakatan: 'Periksa kesepakatan',
+  lihatPetak: (n: number) => `Lihat ${n} petak`,
+  petakBelumTanam: (tanggal: string) => `Tanam ${formatTanggal(tanggal)}`,
+  petakSelesai: 'Sudah dipanen',
   // ---------------------------------------------------------------- kerangka siklus
   kembaliBeranda: 'Beranda',
   kembaliKebun: 'Kebun',

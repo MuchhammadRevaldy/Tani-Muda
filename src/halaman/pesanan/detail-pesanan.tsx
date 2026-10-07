@@ -29,43 +29,36 @@ import { PilPilihan } from '../../komponen/pilihan';
 import { kelasTombol, Tombol } from '../../komponen/tombol';
 import { Uang } from '../../komponen/uang';
 import { useLayarLebar } from '../../komponen/use-layar-lebar';
-import { bulatkanRupiah, formatTanggal, formatTanggalPendek, namaHari } from '../../lib/format';
-import {
-  cekAmbilSebagian,
-  jadwalKirimPesanan,
-  kebutuhanLahanPesanan,
-  kirimanTerkejar,
-  saranTanamBertahap,
-  type JadwalKirim,
-} from '../../lib/pesanan-lahan';
+import { bulatkanRupiah, formatTanggal, namaHari } from '../../lib/format';
+import { cekAmbilSebagian, jadwalKirimPesanan, kirimanTerkejar } from '../../lib/pesanan-lahan';
 import {
   jumlahAwal,
   langkahJumlah,
   metodeUntukLahan,
   pilihanJumlah,
 } from '../../lib/pesanan-tampil';
-import { selisihHari } from '../../lib/tanggal';
 import { teksPesanan as t, teksJumlahPesanan, teksLamaSingkat } from '../../teks/pesanan';
 import { teksUmum } from '../../teks/umum';
 import { Memuat } from '../memuat';
 import { tautanWhatsApp, useKomoditasPeta } from './kerangka-pesanan';
+import { KartuSaranPetak } from './saran-petak';
 import { nilaiPesananPetani } from './sekitar';
 
 /** Lahan yang punya resep untuk komoditas pesanan, dengan resep yang dipakai. */
-interface LahanCocok {
+export interface LahanCocok {
   lahan: Lahan;
   resep: ResepTanam;
   lubang: boolean;
 }
 
-function lahanCocok(lahan: Lahan[], resep: ResepTanam[]): LahanCocok[] {
+export function lahanCocok(lahan: Lahan[], resep: ResepTanam[]): LahanCocok[] {
   return lahan.flatMap((l) => {
     const r = resep.find((x) => x.metode_id === metodeUntukLahan(l.jenis_lahan));
     return r ? [{ lahan: l, resep: r, lubang: l.kapasitas.satuan === 'lubang' }] : [];
   });
 }
 
-const cek = (p: PesananUntukPetani, c: LahanCocok, jumlahKg: number) =>
+export const cek = (p: PesananUntukPetani, c: LahanCocok, jumlahKg: number) =>
   cekAmbilSebagian({
     jenis: p.jenis,
     jumlahKg,
@@ -76,7 +69,7 @@ const cek = (p: PesananUntukPetani, c: LahanCocok, jumlahKg: number) =>
   });
 
 /** Jumlah terbesar yang muat di lahan, tidak lebih dari sisa pesanan. */
-function maksLahan(p: PesananUntukPetani, c: LahanCocok): number {
+export function maksLahan(p: PesananUntukPetani, c: LahanCocok): number {
   const r = cek(p, c, p.sisa_kg);
   return r.ok ? Math.min(r.nilai.jumlahMaksimalKg, p.sisa_kg) : 0;
 }
@@ -104,7 +97,11 @@ function KartuRincian({ p }: { p: PesananUntukPetani }) {
               {t.lamaRutin(p.jumlah_kiriman * (p.frekuensi_hari ?? 0), p.jumlah_kiriman)}
             </Baris>
             <Baris label={t.kirim}>
-              {t.tiapHari(namaHari(p.tanggal_mulai as string), p.frekuensi_hari as number)}
+              {t.tiapHari(
+                namaHari(p.tanggal_mulai as string),
+                p.frekuensi_hari as number,
+                p.batas_jam_antar,
+              )}
             </Baris>
             <Baris label={t.mulai}>{formatTanggal(p.tanggal_mulai as string)}</Baris>
           </>
@@ -120,7 +117,7 @@ function KartuRincian({ p }: { p: PesananUntukPetani }) {
   );
 }
 
-function KotakLahan({
+export function KotakLahan({
   p,
   c,
   jumlahKg,
@@ -161,7 +158,7 @@ function KotakLahan({
   );
 }
 
-function PemilihJumlah({
+export function PemilihJumlah({
   p,
   jumlahKg,
   maks,
@@ -214,96 +211,6 @@ function PemilihJumlah({
         }))}
       />
     </div>
-  );
-}
-
-function KartuSaran({
-  p,
-  c,
-  jumlahKg,
-  terkejar,
-}: {
-  p: PesananUntukPetani;
-  c: LahanCocok;
-  jumlahKg: number;
-  terkejar: JadwalKirim[];
-}) {
-  const pertama = terkejar[0];
-  if (p.jenis !== 'rutin' || !p.frekuensi_hari || !pertama) return null;
-  const butuh = kebutuhanLahanPesanan({
-    jenis: 'rutin',
-    jumlahKg,
-    hasilPerSatuan: c.resep.hasil_per_satuan,
-    frekuensiHari: p.frekuensi_hari,
-    umurPanenHari: c.resep.umur_panen_hari,
-  });
-  const saran = saranTanamBertahap({
-    tanggalKirimPertama: pertama.tanggal,
-    frekuensiHari: p.frekuensi_hari,
-    umurPanenHari: c.resep.umur_panen_hari,
-  });
-  if (!butuh.ok || !saran.ok || !saran.nilai.length) return null;
-  const petak = saran.nilai;
-  const satuan = c.lubang ? t.petak : t.bedengan;
-  const awal = petak[0]?.tanggalTanam as string;
-  const akhir = petak[petak.length - 1]?.tanggalPanen as string;
-  const rentang = Math.max(1, selisihHari(awal, akhir));
-  const persen = (tanggal: string) => (selisihHari(awal, tanggal) / rentang) * 100;
-  const hari = namaHari(pertama.tanggal);
-  return (
-    <Kartu
-      judul={t.saranJudul}
-      tingkatJudul={2}
-      keterangan={t.saranKet(
-        t.satuanLahan(butuh.nilai.luasTotal, c.lubang),
-        butuh.nilai.jumlahPetak,
-        satuan,
-        t.satuanLahan(butuh.nilai.luasPerPanen, c.lubang),
-        p.frekuensi_hari === 7 ? hari : `${p.frekuensi_hari} hari`,
-      )}
-    >
-      <div className="flex flex-col gap-3">
-        <ol className="m-0 flex list-none flex-col gap-3 p-0">
-          {petak.map((x) => (
-            <li key={x.ke} className="grid grid-cols-baris-petak items-center gap-3">
-              <span className="flex flex-col">
-                <span className="font-semibold">{t.petakKe(satuan, x.ke)}</span>
-                <span className="text-keterangan text-teks-pendukung">
-                  {t.tanamTanggal(formatTanggalPendek(x.tanggalTanam))}
-                </span>
-              </span>
-              <span
-                className="relative mr-3.5 block h-7"
-                role="img"
-                aria-label={t.barisPetak(
-                  t.petakKe(satuan, x.ke),
-                  formatTanggalPendek(x.tanggalTanam),
-                  formatTanggalPendek(x.tanggalPanen),
-                )}
-              >
-                <span className="absolute inset-x-0 top-3 h-1 rounded-full bg-garis" />
-                <span
-                  className="absolute top-2.5 h-2 rounded-full bg-daun-tua"
-                  style={{
-                    left: `${persen(x.tanggalTanam)}%`,
-                    width: `${persen(x.tanggalPanen) - persen(x.tanggalTanam)}%`,
-                  }}
-                />
-                <span
-                  className="absolute top-0 grid h-7 w-7 -translate-x-1/2 place-items-center rounded-full border-2 border-tanah bg-putih text-tanah"
-                  style={{ left: `${persen(x.tanggalPanen)}%` }}
-                >
-                  <Ikon nama="panen" ukuran={16} />
-                </span>
-              </span>
-            </li>
-          ))}
-        </ol>
-        <p className="m-0 text-keterangan text-teks-pendukung">
-          {t.saranKaki(formatTanggal(pertama.tanggal), satuan)}
-        </p>
-      </div>
-    </Kartu>
   );
 }
 
@@ -487,11 +394,7 @@ function Isi({ p, konfigurasi }: { p: PesananUntukPetani; konfigurasi: Konfigura
           <Banner jenis="bahaya">{t.tidakTerkejarSemua}</Banner>
         ) : terkejar[0] && terkejar[0].ke > 1 ? (
           <Banner>
-            {t.sebagianTerkejar(
-              terkejar[0].ke,
-              formatTanggal(terkejar[0].tanggal),
-              terkejar.length,
-            )}
+            {t.ikutMulai(formatTanggal(terkejar[0].tanggal, { tanpaHari: true }), terkejar.length)}
           </Banner>
         ) : null}
       </>
@@ -548,7 +451,17 @@ function Isi({ p, konfigurasi }: { p: PesananUntukPetani; konfigurasi: Konfigura
       konfigurasi={konfigurasi}
     />
   );
-  const saran = c && !a ? <KartuSaran p={p} c={c} jumlahKg={jumlahKg} terkejar={terkejar} /> : null;
+  const saran =
+    c && !a && p.jenis === 'rutin' && p.frekuensi_hari ? (
+      <KartuSaranPetak
+        kiriman={terkejar}
+        frekuensiHari={p.frekuensi_hari}
+        umurPanenHari={c.resep.umur_panen_hari}
+        hasilPerSatuan={c.resep.hasil_per_satuan}
+        jumlahKg={jumlahKg}
+        lubang={c.lubang}
+      />
+    ) : null;
 
   if (lebar)
     return (

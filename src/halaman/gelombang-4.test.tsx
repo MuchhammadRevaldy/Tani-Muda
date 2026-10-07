@@ -102,10 +102,19 @@ describe('detail pesanan dan kesepakatan (T4.19, T4.20)', () => {
     ).toBeInTheDocument();
     expect(screen.getByText('Uang muka ditahan')).toBeInTheDocument();
     expect(await screen.findByText('Lahanmu cukup untuk 4 kg per minggu')).toBeInTheDocument();
-    expect(screen.getByText(/Bagianmu mulai kiriman ke-2/)).toBeInTheDocument();
+    // Kiriman 26 Oktober belum terkejar bayam 25 hari; bahasa petani (D-40).
+    expect(
+      screen.getByText(/^Kamu bisa ikut mulai kiriman tanggal 2 November, jadi 7 kiriman\./),
+    ).toBeInTheDocument();
     expect(screen.getAllByText('CONTOH, belum divalidasi penyuluh').length).toBeGreaterThan(0);
     expect(screen.getByRole('heading', { name: 'Saran tanam bertahap' })).toBeInTheDocument();
-    expect(screen.getByText('Bedengan 4')).toBeInTheDocument();
+    // Satu petak per kiriman, bedengan dipakai bergilir; 5 petak pertama tampil dulu.
+    expect(screen.getByText(/^Satu petak untuk setiap kiriman, jadi 7 petak/)).toBeInTheDocument();
+    expect(screen.getByText('Petak panen 2 Nov')).toBeInTheDocument();
+    expect(screen.getByText('Tanam 8 Okt · bedengan 1')).toBeInTheDocument();
+    expect(screen.getByText('Tanam 5 Nov · bedengan 1')).toBeInTheDocument();
+    await userEvent.click(screen.getByRole('button', { name: 'Tampilkan semua (7 petak)' }));
+    expect(screen.getByText('Petak panen 14 Des')).toBeInTheDocument();
 
     await userEvent.click(screen.getByRole('button', { name: 'Ambil 4 kg per minggu' }));
     await waitFor(() =>
@@ -140,9 +149,10 @@ describe('detail pesanan dan kesepakatan (T4.19, T4.20)', () => {
         await t.klien.kebun.buatSiklus({
           resep_id: resep.id,
           lahan_id: 'lahan-arif-kebun',
-          luas_m2: 15,
+          // Kebun 180 m² sisa 44,98 → tinggal 5 m², cukup untuk 1,5 kg bayam per minggu.
+          luas_m2: 39.98,
           satuan_asli: 'm2',
-          nilai_asli: 15,
+          nilai_asli: 39.98,
           tanggal_tanam: hariIni(),
           dapat_subsidi: false,
           harga_jual: 5000,
@@ -219,5 +229,89 @@ describe('Kiriman saya (T4.21)', () => {
   it('kosong untuk petani tanpa kiriman', async () => {
     await buka('/pesanan/kiriman', 'petani-budi');
     expect(await screen.findByRole('heading', { name: 'Belum ada kiriman' })).toBeInTheDocument();
+  });
+});
+
+describe('tanggapan D-39 (D-40)', () => {
+  it('Beranda: petak satu pesanan menjadi satu pil dan satu kelompok tugas berlabel petak', async () => {
+    await buka('/beranda');
+    const pil = await screen.findByRole('group', { name: 'Pilih siklus' });
+    const label = within(pil)
+      .getAllByRole('button')
+      .map((b) => b.textContent);
+    expect(label.filter((x) => x?.includes('untuk Katering Bu Ratna'))).toEqual([
+      'Sawi hijau untuk Katering Bu Ratna',
+    ]);
+    expect(label.filter((x) => x?.includes('untuk Warung Nasi Bu Imas'))).toHaveLength(1);
+    expect(
+      screen.getByRole('heading', { level: 3, name: 'Sawi hijau untuk Katering Bu Ratna' }),
+    ).toBeInTheDocument();
+    expect(screen.getAllByText(/^Petak panen 20 Okt · /).length).toBeGreaterThan(0);
+    await userEvent.click(within(pil).getByRole('button', { name: /Katering Bu Ratna/ }));
+    expect(
+      await screen.findByText('Sawi hijau untuk Katering Bu Ratna · Petak panen 20 Okt'),
+    ).toBeInTheDocument();
+  });
+
+  it('Kebun: kelompok petak bisa dibuka; tautan #kelompok membukanya', async () => {
+    await buka('/kebun?daftar#kelompok-alokasi-ratna-arif');
+    const kelompok = await screen.findByText('Sawi hijau untuk Katering Bu Ratna');
+    const details = kelompok.closest('details') as HTMLDetailsElement;
+    expect(details.open).toBe(true);
+    expect(
+      within(details).getByText(/^12 petak · 2 sedang tumbuh · tanam berikutnya/),
+    ).toBeInTheDocument();
+    expect(within(details).getAllByRole('link', { name: /^Petak panen/ })).toHaveLength(12);
+    const imas = screen.getByText('Bayam untuk Warung Nasi Bu Imas').closest('details');
+    expect(imas?.open).toBe(false);
+    expect(within(imas as HTMLElement).getByText(/2 sudah dipanen/)).toBeInTheDocument();
+  });
+
+  it('kesepakatan: jumlah bisa diubah sebelum setuju', async () => {
+    await buka('/pesanan/pesanan-kafe-bayam/kesepakatan', 'petani-arif', {
+      siapkan: async (t) => {
+        await t.klien.pesanan.ambilPesanan('pesanan-kafe-bayam', {
+          kunci_idempoten: 'uji-ambil',
+          jumlah_kg: 4,
+          lahan_id: 'lahan-arif-kebun',
+        });
+      },
+    });
+    expect(await screen.findByText('Bayam 4 kg per minggu')).toBeInTheDocument();
+    expect(screen.getByText(/^Setiap Senin sebelum pukul 08\.00, 7 kali\./)).toBeInTheDocument();
+    await userEvent.click(screen.getByRole('button', { name: 'Ubah jumlah' }));
+    const dialog = await screen.findByRole('dialog', { name: 'Ubah jumlah sebelum setuju' });
+    await userEvent.click(within(dialog).getByRole('button', { name: 'Kurangi jumlah' }));
+    await userEvent.click(within(dialog).getByRole('button', { name: 'Kurangi jumlah' }));
+    await userEvent.click(within(dialog).getByRole('button', { name: 'Simpan 2 kg per minggu' }));
+    expect(await screen.findByText('Bayam 2 kg per minggu')).toBeInTheDocument();
+    expect(
+      screen.getByRole('checkbox', { name: /Saya sanggup mengirim 2 kg bayam/ }),
+    ).toBeInTheDocument();
+  });
+
+  it('detail: jam antar dari pesanan', async () => {
+    await buka('/pesanan/pesanan-kafe-bayam');
+    expect(await screen.findByText('Tiap Senin, sebelum 08.00')).toBeInTheDocument();
+  });
+
+  it('kiriman: foto hasil panen wajib, foto timbangan opsional, jam antar tampil', async () => {
+    // Jam pagi: kiriman ke-3 (batas periksa 13.00) masih menunggu konfirmasi di hari ini.
+    await buka('/pesanan/kiriman', 'petani-arif', {
+      jam: pagi(),
+      siapkan: async (t) => {
+        const k4 = t.konteks.db.pesanan.pengiriman.find((x) => x.id === 'kiriman-imas-arif-4')!;
+        k4.tanggal_jadwal = hariIni();
+        k4.foto_kualitas = '/contoh/foto/bayam-kiriman-3.svg';
+        t.konteks.simpan();
+      },
+    });
+    expect(await screen.findAllByText(/antar sebelum pukul 09\.00/)).not.toHaveLength(0);
+    // Kiriman ke-3 (sudah dikirim) dan ke-4 (hari ini) sama-sama menampilkan foto hasil panen.
+    expect(screen.getAllByText('Foto hasil panen')).toHaveLength(2);
+    expect(screen.getByText('Foto di timbangan')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /Ambil foto di timbangan/ })).toBeInTheDocument();
+    // Foto timbangan boleh dilewati: tombol kirim aktif hanya dengan foto hasil panen.
+    expect(screen.getByRole('button', { name: 'Tandai sudah dikirim' })).toBeEnabled();
   });
 });

@@ -26,6 +26,8 @@ export interface Pesanan {
   wilayah_id: string;
   alamat_antar: string;
   patokan: string | null;
+  /** Batas jam antar setempat "HH:MM", mis. "07:00" → "Antar sebelum 07.00"; null = bebas (D-40). */
+  batas_jam_antar: string | null;
   status: StatusPesanan;
   nilai_pesanan: Rupiah;
   uang_muka: Rupiah;
@@ -62,6 +64,7 @@ export interface PesananUntukPetani {
   sisa_kg: number;
   tanggal_mulai: TanggalISO | null;
   perkiraan_bulan_panen: string | null;
+  batas_jam_antar: string | null;
   harga_per_kg: Rupiah;
   standar_kualitas: string[];
   boleh_ambil_sebagian: boolean;
@@ -79,7 +82,11 @@ export interface AlokasiPesanan {
   id: string;
   pesanan_id: string;
   petani_id: string;
-  siklus_id: string | null;
+  /**
+   * Dihitung server dari siklus yang terhubung: pesanan rutin satu siklus (petak) per kiriman yang
+   * ditanggung, urut petak; sekali panen satu siklus (D-40).
+   */
+  siklus_ids: string[];
   jumlah_kg: number;
   status: StatusAlokasi;
   disetujui_pada: WaktuISO | null;
@@ -87,6 +94,9 @@ export interface AlokasiPesanan {
 }
 
 /** `gagal`: bagian ini dilaporkan gagal panen dan ditawarkan ulang (D-03). */
+/** Baris alokasi tersimpan; `siklus_ids` dihitung saat dikirim. */
+export type AlokasiTersimpan = Omit<AlokasiPesanan, 'siklus_ids'>;
+
 export type StatusPengiriman = 'terjadwal' | 'dikirim' | 'diterima' | 'ditolak_sebagian' | 'gagal';
 export type AlasanPenolakan =
   'layu_atau_busuk' | 'jumlah_kurang' | 'tidak_sesuai_standar' | 'lainnya';
@@ -99,7 +109,10 @@ export interface Pengiriman {
   tanggal_jadwal: TanggalISO;
   jumlah_kg: number;
   harga_per_kg: Rupiah;
+  /** Foto hasil panen, wajib sebelum ditandai dikirim. */
   foto_kualitas: string | null;
+  /** Foto di timbangan, opsional (D-40). */
+  foto_timbangan: string | null;
   status: StatusPengiriman;
   dikirim_pada: WaktuISO | null;
   /** Batas periksa pembeli (D-01: 6 jam rutin, 24 jam sekali panen). */
@@ -195,7 +208,11 @@ export interface AmbilPesananMasukan extends DenganKunciIdempoten {
 }
 export interface AmbilPesananHasil {
   alokasi: AlokasiPesanan;
-  siklus_id: string;
+  siklus_ids: string[];
+}
+/** Ubah jumlah sebelum menyetujui kesepakatan (D-40). */
+export interface UbahAlokasiMasukan {
+  jumlah_kg: number;
 }
 export interface LaporGagalPanenMasukan {
   pengiriman_id: string;
@@ -240,6 +257,7 @@ export type BuatPesananMasukan =
       wilayah_id: string;
       alamat_antar: string;
       patokan?: string | null;
+      batas_jam_antar?: string | null;
     }
   | {
       jenis: 'sekali_panen';
@@ -251,6 +269,7 @@ export type BuatPesananMasukan =
       wilayah_id: string;
       alamat_antar: string;
       patokan?: string | null;
+      batas_jam_antar?: string | null;
     };
 export type BayarUangMukaMasukan = DenganKunciIdempoten;
 export interface BatalkanPesananHasil {

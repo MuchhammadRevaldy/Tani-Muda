@@ -1,8 +1,9 @@
 /**
  * Kesepakatan digital (papan 32; T4.20, PRD P0-22): ringkasan, standar kualitas, aturan gagal panen
  * D-03 (tanpa denda, batas hari dari konfigurasi), uang dan pembayaran, pernyataan, tombol Setuju /
- * Tanya pembeli dulu. Setuju menyimpan waktu setuju di alokasi; server membuat jadwal kiriman yang
- * masih terkejar dan memasukkan jadwal tanam ke kebun (D-39).
+ * Tanya pembeli dulu. Sebelum setuju jumlah masih bisa diubah (D-40). Setuju menyimpan waktu setuju
+ * di alokasi; server membuat jadwal kiriman yang masih terkejar dan mengaktifkan setiap petak dengan
+ * jadwal perawatannya sendiri (D-39, D-40).
  * Desktop: ringkasan dan aturan di kiri, uang, pernyataan, dan tombol di panel kanan.
  */
 import { useState, type ReactNode } from 'react';
@@ -34,6 +35,8 @@ import { teksPesanan as t, teksJumlahPesanan, teksLamaSingkat } from '../../teks
 import { teksUmum } from '../../teks/umum';
 import { Memuat } from '../memuat';
 import { tautanWhatsApp, useKomoditasPeta } from './kerangka-pesanan';
+import { KartuSaranPetak } from './saran-petak';
+import { DialogUbahJumlah } from './ubah-jumlah';
 
 function Baris({ label, children }: { label: string; children: ReactNode }) {
   return (
@@ -53,8 +56,8 @@ function teksJadwal(p: PesananUntukPetani, jadwal: JadwalKirim[]): string {
   const dari = formatTanggal(awal.tanggal, { denganTahun: true });
   const sampai = formatTanggal(akhir.tanggal, { denganTahun: true });
   return p.frekuensi_hari === 7
-    ? t.jadwalRutin(namaHari(awal.tanggal), jadwal.length, dari, sampai)
-    : t.jadwalTiap(p.frekuensi_hari, jadwal.length, dari, sampai);
+    ? t.jadwalRutin(namaHari(awal.tanggal), jadwal.length, dari, sampai, p.batas_jam_antar)
+    : t.jadwalTiap(p.frekuensi_hari, jadwal.length, dari, sampai, p.batas_jam_antar);
 }
 
 function Isi({
@@ -69,13 +72,14 @@ function Isi({
   const lebar = useLayarLebar();
   const hariIni = useHariIni();
   const k = useKomoditasPeta();
-  const siklusQ = useSiklus(a.siklus_id);
+  const siklusQ = useSiklus(a.siklus_ids[0] ?? null);
   const resepQ = useResep(siklusQ.data?.resep_id ?? null);
   const kirimanQ = useKirimanSaya();
   const setujui = useSetujuiKesepakatan();
   const [centang, setCentang] = useState(false);
   const [galat, setGalat] = useState<string | null>(null);
   const [tanya, setTanya] = useState(false);
+  const [ubahJumlah, setUbahJumlah] = useState(false);
 
   const menunggu = a.status === 'menunggu_kesepakatan';
   const nama = k.nama(p.komoditas_id);
@@ -147,9 +151,9 @@ function Isi({
             <p className="m-0">{t.sudahSetujuIsi(formatTanggal(siklusQ.data.tanggal_tanam))}</p>
           ) : null}
           <div className="flex flex-wrap gap-2">
-            {a.siklus_id ? (
+            {a.siklus_ids.length ? (
               <Link
-                to={`/kebun/${encodeURIComponent(a.siklus_id)}/jadwal`}
+                to={`/kebun?daftar#kelompok-${encodeURIComponent(a.id)}`}
                 className={kelasTombol('utama')}
               >
                 {t.lihatJadwalTanam}
@@ -168,7 +172,21 @@ function Isi({
     <Kartu judul={t.ringkasan} tingkatJudul={2}>
       <dl className="m-0 flex flex-col">
         <Baris label={t.pembeli}>{t.pembeliIsi(p.nama_pembeli, p.desa_antar)}</Baris>
-        <Baris label={t.total}>{teksJumlahPesanan(p, nama, a.jumlah_kg)}</Baris>
+        <Baris label={t.total}>
+          <span className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1">
+            <span>{teksJumlahPesanan(p, nama, a.jumlah_kg)}</span>
+            {menunggu ? (
+              <button
+                type="button"
+                onClick={() => setUbahJumlah(true)}
+                className="fokus-cincin -my-2 inline-flex min-h-sentuh cursor-pointer items-center gap-1 rounded-sm border-0 bg-transparent px-1 font-semibold text-daun-tua underline underline-offset-3"
+              >
+                <Ikon nama="pensil" ukuran={18} />
+                {t.ubahJumlah}
+              </button>
+            ) : null}
+          </span>
+        </Baris>
         <Baris label={t.jadwalKirim}>{teksJadwal(p, jadwal)}</Baris>
         <Baris label={t.titikAntar}>
           {t.titikAntarIsi(p.alamat_antar ?? p.desa_antar, p.jarak_km)}
@@ -182,6 +200,29 @@ function Isi({
       </dl>
     </Kartu>
   );
+
+  const saran =
+    menunggu && p.jenis === 'rutin' && p.frekuensi_hari && resepQ.data ? (
+      <KartuSaranPetak
+        kiriman={jadwal}
+        frekuensiHari={p.frekuensi_hari}
+        umurPanenHari={resepQ.data.umur_panen_hari}
+        hasilPerSatuan={resepQ.data.hasil_per_satuan}
+        jumlahKg={a.jumlah_kg}
+        lubang={siklusQ.data?.jumlah_lubang != null}
+      />
+    ) : null;
+  const dialogUbah = menunggu ? (
+    <DialogUbahJumlah
+      key={a.jumlah_kg}
+      p={p}
+      a={a}
+      lahanId={siklusQ.data?.lahan_id ?? null}
+      jadwal={jadwal}
+      terbuka={ubahJumlah}
+      onTutup={() => setUbahJumlah(false)}
+    />
+  ) : null;
 
   const standar = (
     <Kartu judul={t.standarJudul} tingkatJudul={2}>
@@ -282,8 +323,10 @@ function Isi({
         <div className="flex min-w-0 flex-1 flex-col gap-4">
           {kepala}
           {ringkasan}
+          {saran}
           {standar}
           {gagal}
+          {dialogUbah}
         </div>
         <aside className="sticky top-6 flex w-panel flex-none flex-col gap-4 pt-14">
           {bayar}
@@ -295,10 +338,12 @@ function Isi({
     <div className="flex flex-col gap-4">
       {kepala}
       {ringkasan}
+      {saran}
       {standar}
       {gagal}
       {bayar}
       {tindakan}
+      {dialogUbah}
     </div>
   );
 }

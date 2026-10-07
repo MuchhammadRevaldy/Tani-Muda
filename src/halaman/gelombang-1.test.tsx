@@ -146,16 +146,21 @@ describe('Beranda petani (T4.09)', () => {
 
   it('centang tugas menandai selesai lewat klien API', async () => {
     const { t } = await buka('/beranda', (x) => x.kontrol.masukSebagai('petani-arif'));
-    const centang = await screen.findByRole('checkbox', {
+    // Siram ada di beberapa siklus (sawi dan petak-petak pesanan); centang yang pertama saja.
+    const centang = await screen.findAllByRole('checkbox', {
       name: 'Tandai selesai: Siram pagi dan sore',
     });
-    await userEvent.click(centang);
+    await userEvent.click(centang[0]!);
     // Tugas hari ini tetap tampil tercentang sampai besok.
-    expect(
-      await screen.findByRole('checkbox', { name: 'Batalkan selesai: Siram pagi dan sore' }),
-    ).toHaveAttribute('aria-checked', 'true');
+    const sudah = await screen.findAllByRole('checkbox', {
+      name: 'Batalkan selesai: Siram pagi dan sore',
+    });
+    expect(sudah).toHaveLength(1);
+    expect(sudah[0]).toHaveAttribute('aria-checked', 'true');
     const tugas = await t.klien.kebun.tugasHariIni();
-    expect(tugas.find((x) => x.judul === 'Siram pagi dan sore')?.status).toBe('selesai');
+    expect(
+      tugas.filter((x) => x.judul === 'Siram pagi dan sore' && x.status === 'selesai'),
+    ).toHaveLength(1);
   });
 
   it('memilih siklus hidroponik menampilkan pil hasil ukur dan tombol Isi angka', async () => {

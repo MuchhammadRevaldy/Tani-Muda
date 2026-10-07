@@ -194,7 +194,7 @@ export function lahanKeDomain(
   };
 }
 
-export function siklusKeDomain(s: Omit<A.SiklusTanam, 'resep_contoh'>): D.SiklusTanam {
+export function siklusKeDomain(s: A.SiklusTersimpan): D.SiklusTanam {
   return {
     id: s.id,
     petaniId: s.petani_id,
@@ -209,6 +209,7 @@ export function siklusKeDomain(s: Omit<A.SiklusTanam, 'resep_contoh'>): D.Siklus
     hargaJual: s.harga_jual,
     perkiraanPanenKg: s.perkiraan_panen_kg,
     alokasiPesananId: s.alokasi_pesanan_id,
+    petakKe: s.petak_ke,
   };
 }
 

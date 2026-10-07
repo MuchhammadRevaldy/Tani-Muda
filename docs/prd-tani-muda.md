@@ -308,6 +308,7 @@ P1 dikerjakan segera setelah P0 stabil. P2 belum dibangun, tapi struktur datanya
 | P1-09 | Semua | Dashboard penyuluh berisi petani binaan dengan tugas terlambat | Menjawab US-20 |
 | P1-10 | Hitung | Resep polybag dan komoditas tambahan, diprioritaskan dari permintaan resep terbanyak | Menjawab US-23 dan US-31 |
 | P1-11 | Hitung | Perbandingan metode: modal dan perkiraan untung bedengan dan hidroponik untuk komoditas yang sama, berdampingan | Membantu memilih metode |
+| P1-12 | Jual | Pesan langsung antara petani dan pembeli dari kesepakatan dan kiriman | Ditambahkan D-40; v1 memakai "Tanya pembeli dulu" lewat WhatsApp admin |
 
 **Masa depan (P2)**
 

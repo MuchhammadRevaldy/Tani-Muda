@@ -292,7 +292,7 @@ Tidak ada kolom kata sandi atau nama pengguna (D-04).
 | `luas_m2`, `nilai_asli` | desimal | nilai asli = angka yang diketik petani (D-06) |
 | `lintang`, `bujur` | desimal \| null | **hanya untuk pemilik dan admin** (D-06) |
 | `kapasitas_lubang` | bilangan \| null | wajib untuk hidroponik |
-| `kapasitas` | `{ satuan: 'm2' \| 'lubang', total, dipakai, sisa }` | dihitung server (D-15, D-34) |
+| `kapasitas` | `{ satuan: 'm2' \| 'lubang', total, dipakai, sisa }` | dihitung server (D-15, D-34); petak satu pesanan rutin dihitung dari puncak petak yang tumbuh bersamaan, bukan dijumlah semua (D-40) |
 
 | `siklus_tanam` (`SiklusTanam`) | Tipe | Keterangan |
 | --- | --- | --- |
@@ -303,11 +303,13 @@ Tidak ada kolom kata sandi atau nama pengguna (D-04).
 | `sistem_hidroponik` | string \| null | |
 | `vertikultur` | boolean | |
 | `nilai_asli` | desimal | |
-| `tanggal_tanam` | tanggal \| null | null = rencana belum ditanam |
+| `tanggal_tanam` | tanggal \| null | null = rencana belum ditanam; petak pesanan rutin yang belum disetujui menyimpan tanggal tanam rencananya (D-40) |
 | `dapat_subsidi` | boolean | |
 | `harga_jual` | rupiah | harga kesepakatan bila dari pesanan |
 | `perkiraan_panen_kg` | desimal | |
 | `alokasi_pesanan_id` | string \| null | rencana dengan alokasi ikut memakai lahan (D-34) |
+| `petak_ke`† | bilangan bulat \| null | petak pesanan rutin: kiriman ke-n yang dipenuhi (D-40); null untuk siklus lain |
+| `kelompok_pesanan`† | `{ alokasi_id, pesanan_id, nama_pembeli, jumlah_petak, status_alokasi, tanggal_kirim }` \| null | dihitung server, untuk tampilan berkelompok (D-40) |
 | `resep_contoh`† | boolean | label "CONTOH, belum divalidasi penyuluh" wajib tampil (D-12) |
 | `pendapatan_nyata`† | rupiah \| null | akhir siklus |
 | `dibuat_pada` | waktu | |
@@ -395,17 +397,18 @@ Tidak ada kolom kata sandi atau nama pengguna (D-04).
 | `harga_per_kg` | rupiah | |
 | `standar_kualitas` | string[] | |
 | `patokan` | string \| null | |
+| `batas_jam_antar`† | `"HH:MM"` \| null | "Antar sebelum 07.00"; opsional (D-40) |
 | `status` | `menunggu_pembayaran` \| `mencari_petani` \| `berjalan` \| `selesai` \| `dibatalkan` | |
 | `nilai_pesanan`, `uang_muka`, `biaya_layanan`, `saldo_uang_muka`† | rupiah | dihitung server |
 | `terambil_kg`† | desimal | |
 | `dibuat_pada` | waktu | |
 
-**`PesananUntukPetani`** (dilihat petani; tanpa titik lahan, D-06): `id`, `jenis`, `komoditas_id`, `nama_pembeli`, `jenis_usaha`, `desa_antar`, `kecamatan_antar`, `titik_desa_antar: { lintang, bujur } | null`† (titik tengah desa dari tabel wilayah, untuk peta pembeli), `alamat_antar`†, `patokan`† (null kecuali petani punya alokasi aktif di pesanan ini, D-39), `jarak_km`, `jumlah_per_kiriman_kg`, `frekuensi_hari`, `jumlah_kiriman`, `jumlah_total_kg`, `sisa_kg`, `tanggal_mulai`, `perkiraan_bulan_panen`, `harga_per_kg`, `standar_kualitas`, `boleh_ambil_sebagian`, `uang_muka_diterima`, `rating_pembeli: { rata_rata, jumlah }`, `alokasi_saya: AlokasiPesanan | null`† (alokasi aktif petani pembaca), `dibuat_pada`† (lencana menu Pesanan, D-37).
+**`PesananUntukPetani`** (dilihat petani; tanpa titik lahan, D-06): `id`, `jenis`, `komoditas_id`, `nama_pembeli`, `jenis_usaha`, `desa_antar`, `kecamatan_antar`, `titik_desa_antar: { lintang, bujur } | null`† (titik tengah desa dari tabel wilayah, untuk peta pembeli), `alamat_antar`†, `patokan`† (null kecuali petani punya alokasi aktif di pesanan ini, D-39), `jarak_km`, `jumlah_per_kiriman_kg`, `frekuensi_hari`, `jumlah_kiriman`, `jumlah_total_kg`, `sisa_kg`, `tanggal_mulai`, `perkiraan_bulan_panen`, `batas_jam_antar`† (D-40), `harga_per_kg`, `standar_kualitas`, `boleh_ambil_sebagian`, `uang_muka_diterima`, `rating_pembeli: { rata_rata, jumlah }`, `alokasi_saya: AlokasiPesanan | null`† (alokasi aktif petani pembaca), `dibuat_pada`† (lencana menu Pesanan, D-37).
 
 | `alokasi_pesanan` (`AlokasiPesanan`) | Tipe |
 | --- | --- |
 | `id`, `pesanan_id`, `petani_id` | string |
-| `siklus_id` | string \| null |
+| `siklus_ids`† | string[] (dihitung server: rutin satu petak per kiriman yang ditanggung, urut petak; sekali panen satu siklus, D-40) |
 | `jumlah_kg` | desimal (per kiriman untuk rutin) |
 | `status` | `menunggu_kesepakatan` \| `disepakati` \| `berjalan` \| `selesai` \| `gagal` \| `dibatalkan` |
 | `disetujui_pada` | waktu \| null |
@@ -422,7 +425,8 @@ Tidak ada kolom kata sandi atau nama pengguna (D-04).
 | `tanggal_jadwal` | tanggal | |
 | `jumlah_kg` | desimal | |
 | `harga_per_kg`† | rupiah | harga kesepakatan |
-| `foto_kualitas` | string \| null | wajib sebelum dikirim |
+| `foto_kualitas` | string \| null | foto hasil panen, wajib sebelum dikirim |
+| `foto_timbangan`† | string \| null | foto di timbangan, opsional (D-40) |
 | `status` | `terjadwal` \| `dikirim` \| `diterima` \| `ditolak_sebagian` \| `gagal`† | gagal = dilaporkan gagal panen (D-03) |
 | `dikirim_pada`†, `batas_periksa_pada`†, `dikonfirmasi_pada`† | waktu \| null | batas: 6 jam rutin, 24 jam sekali panen (D-01) |
 | `dianggap_diterima`† | boolean | konfirmasi otomatis |
@@ -563,8 +567,9 @@ Peran: P = petani, B = pembeli, M = mentor, A = admin, semua = semua pengguna ma
 | --- | --- | --- | --- | --- |
 | `GET /pesanan/sekitar?jenis=&radius_km=` (berhalaman) | P (termasuk nonaktif, D-13) | → `Halaman<PesananUntukPetani>` terbuka, berresep, dalam radius (bawaan 10 km, maks 25 km), terdekat dulu | `VALIDASI` (`radius_km`) | `pesanan.sekitar` |
 | `GET /pesanan/{id}` | P | → `PesananUntukPetani` (yang belum dibayar uang mukanya → 404) | | `pesanan.ambil` |
-| `POST /pesanan/{id}/ambil` (idempoten) | P aktif | `{ jumlah_kg, lahan_id }` → `{ alokasi, siklus_id }`; membuat siklus rencana berharga kesepakatan dan rencana item dari resep; satu alokasi aktif per petani per pesanan (D-39). Server: transaksi + penguncian baris (T5.13) | `AKUN_NONAKTIF`, `MELEBIHI_PESANAN`, `LAHAN_TIDAK_CUKUP`, `JADWAL_TERLALU_DEKAT`, `VALIDASI` (`lahan_id` tanpa resep), `STATUS_TIDAK_SESUAI` (sudah punya alokasi) | `pesanan.ambilPesanan` |
-| `POST /alokasi/{id}/setuju` | P (pemilik) | → `AlokasiPesanan`; jadwal kiriman dibuat hanya untuk kiriman yang terkejar umur panen; siklus rencana menjadi aktif dengan tanggal tanam = umur panen sebelum kiriman pertama, tugas dibuat (P0-22, D-39) | `STATUS_TIDAK_SESUAI`, `JADWAL_TERLALU_DEKAT` | `pesanan.setujuiKesepakatan` |
+| `POST /pesanan/{id}/ambil` (idempoten) | P aktif | `{ jumlah_kg, lahan_id }` → `{ alokasi, siklus_ids }`; membuat siklus rencana berharga kesepakatan dan rencana item dari resep: rutin satu petak per kiriman yang terkejar umur panen, masing-masing seluas satu panen dengan tanggal tanam rencananya; sekali panen satu siklus (D-40). Satu alokasi aktif per petani per pesanan (D-39). Server: transaksi + penguncian baris (T5.13) | `AKUN_NONAKTIF`, `MELEBIHI_PESANAN`, `LAHAN_TIDAK_CUKUP`, `JADWAL_TERLALU_DEKAT`, `VALIDASI` (`lahan_id` tanpa resep), `STATUS_TIDAK_SESUAI` (sudah punya alokasi) | `pesanan.ambilPesanan` |
+| `PATCH /alokasi/{id}` | P (pemilik) | `{ jumlah_kg }` → `{ alokasi, siklus_ids }`; hanya sebelum setuju; petak dibuat ulang (D-40) | `MELEBIHI_PESANAN`, `LAHAN_TIDAK_CUKUP`, `JADWAL_TERLALU_DEKAT`, `STATUS_TIDAK_SESUAI` | `pesanan.ubahAlokasi` |
+| `POST /alokasi/{id}/setuju` | P (pemilik) | → `AlokasiPesanan`; jadwal kiriman dibuat hanya untuk kiriman yang terkejar umur panen; setiap petak menjadi aktif dan tugasnya dibuat dari tanggal tanamnya sendiri; petak yang tanggal tanamnya sudah lewat dilepas; sekali panen: tanggal tanam = umur panen sebelum kiriman (P0-22, D-39, D-40) | `STATUS_TIDAK_SESUAI`, `JADWAL_TERLALU_DEKAT` | `pesanan.setujuiKesepakatan` |
 | `GET /alokasi/saya` | P | → `AlokasiPesanan[]` | | `pesanan.alokasiSaya` |
 | `POST /alokasi/{id}/gagal-panen` | P (pemilik) | `{ pengiriman_id, alasan }` → `{ tepat_waktu, dikembalikan, catatan_profil, alokasi }`; tanpa denda (D-03) | `VALIDASI`, `STATUS_TIDAK_SESUAI` | `pesanan.laporGagalPanen` |
 
@@ -575,6 +580,7 @@ Peran: P = petani, B = pembeli, M = mentor, A = admin, semua = semua pengguna ma
 | `GET /kiriman/saya` | P | → `Pengiriman[]` milik alokasinya | | `kiriman.saya` |
 | `GET /kiriman/{id}` | P atau B terkait | → `Pengiriman` | 404 bukan pihak terkait | `kiriman.ambil` |
 | `POST /kiriman/{id}/foto-kualitas` | P (pemilik) | `{ foto }` → `Pengiriman` | `FOTO_WAJIB`, `STATUS_TIDAK_SESUAI` | `kiriman.unggahFotoKualitas` |
+| `POST /kiriman/{id}/foto-timbangan` | P (pemilik) | `{ foto: string \| null }` → `Pengiriman`; opsional, null menghapus (D-40) | `STATUS_TIDAK_SESUAI` | `kiriman.unggahFotoTimbangan` |
 | `POST /kiriman/{id}/dikirim` | P (pemilik) | → `Pengiriman`; bagian pembeli (80%) ditahan; batas periksa diset (D-01) | `FOTO_WAJIB`, `STATUS_TIDAK_SESUAI` | `kiriman.tandaiDikirim` |
 | `POST /kiriman/{id}/konfirmasi` (idempoten) | B (pemilik pesanan) | `{ keputusan: 'terima_semua' }` atau `{ keputusan: 'tolak_sebagian', jumlah_ditolak_kg, alasan_penolakan, keterangan_penolakan?, foto_penolakan? }` → `{ pengiriman, pembayaran, sengketa }` | `KETERANGAN_WAJIB` (D-14), `MELEBIHI_KIRIMAN`, `TOLAK_KOSONG`, `STATUS_TIDAK_SESUAI` | `kiriman.konfirmasi` |
 | `POST /kiriman/{id}/rating` | P atau B terkait | `{ nilai, komentar? }` → `Rating` | `SUDAH_DINILAI`, `VALIDASI`, `STATUS_TIDAK_SESUAI` | `kiriman.beriRating` |
@@ -639,8 +645,8 @@ Konfirmasi otomatis: kiriman `dikirim` yang lewat `batas_periksa_pada` dianggap 
 | T4.17 Akhir siklus | `POST /siklus/{id}/akhiri` |
 | T4.18 Pesanan di sekitar | `GET /pesanan/sekitar` |
 | T4.19 Detail pesanan, ambil sebagian | `GET /pesanan/{id}`, `GET /lahan`, `GET /resep`, `POST /pesanan/{id}/ambil`, `GET /akun`, `GET /konfigurasi` |
-| T4.20 Kesepakatan | `POST /alokasi/{id}/setuju`, `GET /alokasi/saya` |
-| T4.21 Kiriman saya | `GET /kiriman/saya`, `POST /kiriman/{id}/foto-kualitas`, `POST /kiriman/{id}/dikirim` |
+| T4.20 Kesepakatan | `PATCH /alokasi/{id}`, `POST /alokasi/{id}/setuju`, `GET /alokasi/saya` |
+| T4.21 Kiriman saya | `GET /kiriman/saya`, `POST /kiriman/{id}/foto-kualitas`, `POST /kiriman/{id}/foto-timbangan`, `POST /kiriman/{id}/dikirim` |
 | T4.22 Dasbor pembeli | `GET /pembeli/pesanan` |
 | T4.23–T4.24 Buat pesanan | `GET /komoditas`, `GET /harga-sekitar`, `GET /wilayah`, `POST /pembeli/pesanan` |
 | T4.25 Konfirmasi kiriman | `GET /kiriman/{id}`, `POST /kiriman/{id}/konfirmasi`, `POST /berkas` |
@@ -666,4 +672,5 @@ Konfirmasi otomatis: kiriman `dikirim` yang lewat `batas_periksa_pada` dianggap 
 | --- | --- |
 | 2026-10-05 | Versi pertama (T3.01, T3.02), bersama tipe `src/api/tipe/`, klien tiruan, dan tes kontrak |
 | 2026-10-07 | D-38: `pengguna.terdaftar_kelompok_tani`, `komoditas.harga_jual_contoh`, `resep_tanam.persen_panen_jelek` dan `alasan_panen_jelek`, pembulatan harga sekitar ke ratusan. Tunda tugas terlambat dihitung dari hari ini. |
+| 2026-10-08 | D-40: tanam bertahap (`siklus.petak_ke`, `kelompok_pesanan`, `alokasi.siklus_ids` menggantikan `siklus_id`, kapasitas dari puncak petak bersamaan), `PATCH /alokasi/{id}`, `pengiriman.foto_timbangan` dan `POST /kiriman/{id}/foto-timbangan`, `pesanan.batas_jam_antar`. |
 | 2026-10-07 | D-39: `PesananUntukPetani` ditambah `titik_desa_antar`, `alamat_antar`, `patokan`, `alokasi_saya`, `dibuat_pada`; galat `409 JADWAL_TERLALU_DEKAT`; satu alokasi per petani per pesanan; setuju kesepakatan hanya menjadwalkan kiriman yang terkejar dan mengaktifkan siklus. |

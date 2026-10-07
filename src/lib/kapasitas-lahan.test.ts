@@ -1,7 +1,15 @@
 import { describe, expect, it } from 'vitest';
 import type { Lahan, SiklusTanam } from '../tipe';
 import { pastikan } from './hasil';
-import { dipakaiSiklus, kapasitasLahan, memakaiLahan, muatSiklusBaru } from './kapasitas-lahan';
+import {
+  dipakaiSiklus,
+  kapasitasLahan,
+  memakaiLahan,
+  muatSiklusBanyak,
+  muatSiklusBaru,
+  puncakBersamaan,
+} from './kapasitas-lahan';
+import { tambahHari } from './tanggal';
 
 const lahan = (sebagian: Partial<Lahan> = {}): Lahan => ({
   id: 'lahan-1',
@@ -144,5 +152,72 @@ describe('muatSiklusBaru', () => {
   });
   it('ukuran kosong ditolak', () => {
     expect(muatSiklusBaru(lahan(), [], 0)).toEqual({ ok: false, galat: 'UKURAN_KOSONG' });
+  });
+});
+
+describe('petak pesanan rutin: puncak yang tumbuh bersamaan (D-40)', () => {
+  /** Petak kirim mingguan mulai 2 Nov, umur panen `umur` hari, `n` petak, masing-masing `luas` m². */
+  const petak = (
+    alokasi: string,
+    n: number,
+    umur: number,
+    luas: number,
+    status: 'aktif' | 'rencana' = 'aktif',
+  ) =>
+    Array.from({ length: n }, (_, i) => {
+      const panen = tambahHari('2026-11-02', i * 7);
+      return {
+        ...siklus({ luasM2: luas, status, alokasiPesananId: alokasi }),
+        petakKe: i + 1,
+        tanggalTanam: tambahHari(panen, -umur),
+        tanggalPanen: panen,
+      };
+    });
+  it('puncakBersamaan: rentang tanam sampai panen, panen tidak termasuk', () => {
+    expect(
+      puncakBersamaan([
+        { mulai: '2026-10-01', akhir: '2026-10-29', ukuran: 5 },
+        { mulai: '2026-10-08', akhir: '2026-11-05', ukuran: 5 },
+        { mulai: '2026-10-29', akhir: '2026-11-26', ukuran: 5 },
+      ]),
+    ).toBe(10);
+    expect(puncakBersamaan([])).toBe(0);
+  });
+  it.each([
+    // [umur panen, jumlah petak, petak bersamaan] sama dengan jumlahPetakBersamaan (PRD)
+    [28, 12, 4],
+    [25, 8, 4],
+    [21, 12, 3],
+    [35, 3, 3],
+  ])('umur %s hari, %s petak mingguan → %s petak bersamaan', (umur, n, bersamaan) => {
+    expect(dipakaiSiklus(lahan(), petak('a', n, umur, 6.67))).toBe(
+      Math.round(bersamaan * 667) / 100,
+    );
+  });
+  it('kelompok berbeda dijumlah; siklus biasa tetap dijumlah utuh; petak rencana ikut dihitung', () => {
+    const daftar = [
+      ...petak('a', 12, 28, 6.67),
+      ...petak('b', 4, 25, 4.17, 'rencana'),
+      siklus({ luasM2: 100 }),
+    ];
+    expect(dipakaiSiklus(lahan({ luasM2: 180 }), daftar)).toBe(26.68 + 16.68 + 100);
+  });
+  it('petak tanpa tanggal panen dihitung seperti siklus biasa', () => {
+    const p = petak('a', 3, 28, 5).map((x) => ({ ...x, tanggalPanen: null }));
+    expect(dipakaiSiklus(lahan(), p)).toBe(15);
+  });
+  it('muatSiklusBanyak: cukup bila puncaknya muat; ditolak bila tidak; daftar kosong ditolak', () => {
+    const baru = petak('baru', 7, 25, 3.34);
+    expect(pastikan(muatSiklusBanyak(lahan({ luasM2: 20 }), [], baru))).toEqual({
+      satuan: 'm2',
+      total: 20,
+      dipakai: 13.36,
+      sisa: 6.64,
+    });
+    expect(muatSiklusBanyak(lahan({ luasM2: 13 }), [], baru)).toEqual({
+      ok: false,
+      galat: 'LAHAN_TIDAK_CUKUP',
+    });
+    expect(muatSiklusBanyak(lahan(), [], [])).toEqual({ ok: false, galat: 'UKURAN_KOSONG' });
   });
 });

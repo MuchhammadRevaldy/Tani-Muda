@@ -361,14 +361,15 @@ export function ujiKontrak(nama: string, siapkan: PenyiapLingkungan): void {
     // ------------------------------------------------------------ lahan
     describe('lahan (D-06, D-15)', () => {
       beforeEach(() => masuk('petani-arif'));
-      it('daftar dengan kapasitas: kebun sisa 20 m², hidroponik sisa 50 lubang', async () => {
+      it('daftar dengan kapasitas: kebun sisa 44,98 m², hidroponik sisa 50 lubang', async () => {
         const l = await K.lahan.daftar();
         expect(l.map((x) => x.id).sort()).toEqual(['lahan-arif-hidro', 'lahan-arif-kebun']);
         expect(l.find((x) => x.id === 'lahan-arif-kebun')?.kapasitas).toEqual({
           satuan: 'm2',
-          total: 140,
-          dipakai: 120,
-          sisa: 20,
+          // Sawi 100 + petak Ratna 4 × 6,67 yang tumbuh bersamaan + petak Imas 2 × 4,17 (D-40).
+          total: 180,
+          dipakai: 135.02,
+          sisa: 44.98,
         });
         expect(l.find((x) => x.id === 'lahan-arif-hidro')?.kapasitas).toEqual({
           satuan: 'lubang',
@@ -466,13 +467,32 @@ export function ujiKontrak(nama: string, siapkan: PenyiapLingkungan): void {
         });
 
       it('daftar dan detail siklus dengan modal dari modal.ts', async () => {
-        expect((await K.kebun.daftarSiklus()).map((s) => s.id).sort()).toEqual([
-          'siklus-arif-bayam',
-          'siklus-arif-hidro',
-          'siklus-arif-kangkung',
-          'siklus-arif-sawi',
-        ]);
-        expect(await K.kebun.daftarSiklus({ status: 'selesai' })).toHaveLength(1);
+        const petak = (awalan: string, n: number) =>
+          Array.from({ length: n }, (_, i) => `${awalan}-${i + 1}`);
+        expect((await K.kebun.daftarSiklus()).map((s) => s.id).sort()).toEqual(
+          [
+            ...petak('siklus-arif-bayam', 4),
+            'siklus-arif-hidro',
+            'siklus-arif-kangkung',
+            ...petak('siklus-arif-ratna', 12),
+            'siklus-arif-sawi',
+          ].sort(),
+        );
+        expect(await K.kebun.daftarSiklus({ status: 'selesai' })).toHaveLength(3);
+        // Petak pesanan rutin membawa kelompok pesanannya (D-40); siklus biasa tidak.
+        const semua = await K.kebun.daftarSiklus();
+        expect(semua.find((s) => s.id === 'siklus-arif-ratna-3')).toMatchObject({
+          petak_ke: 3,
+          tanggal_tanam: '2026-10-06',
+          kelompok_pesanan: {
+            alokasi_id: 'alokasi-ratna-arif',
+            nama_pembeli: 'Katering Bu Ratna',
+            jumlah_petak: 12,
+            status_alokasi: 'berjalan',
+            tanggal_kirim: '2026-11-03',
+          },
+        });
+        expect(semua.find((s) => s.id === 'siklus-arif-sawi')?.kelompok_pesanan).toBeNull();
         const d = await K.kebun.ambilSiklus('siklus-arif-sawi');
         expect(d).toMatchObject({
           hari_ke: 13,
@@ -493,7 +513,7 @@ export function ujiKontrak(nama: string, siapkan: PenyiapLingkungan): void {
         await harapGalat(K.kebun.ambilSiklus('siklus-dewi-padi'), 'TIDAK_DITEMUKAN', 404);
       });
       it('buat siklus: kapasitas dicek untuk siklus aktif (D-15), rencana tanpa pesanan tidak dihitung (D-34)', async () => {
-        await harapGalat(siklusBaru(30, '2026-10-05'), 'LAHAN_TIDAK_CUKUP', 409);
+        await harapGalat(siklusBaru(50, '2026-10-05'), 'LAHAN_TIDAK_CUKUP', 409);
         const rencana = await siklusBaru(50, null);
         expect(rencana.status).toBe('rencana');
         const aktif = await siklusBaru(20, '2026-10-05');
@@ -576,8 +596,14 @@ export function ujiKontrak(nama: string, siapkan: PenyiapLingkungan): void {
       });
       it('tugas hari ini: terlambat dan hari ini dari siklus aktif', async () => {
         const t = await K.kebun.tugasHariIni();
+        // Petak Ratna yang belum ditanam (3 sampai 12) belum punya tugas hari ini.
         expect(t.map((x) => x.id).sort()).toEqual([
+          'siklus-arif-bayam-3:panen@25',
+          'siklus-arif-bayam-4:siram@18',
           'siklus-arif-hidro:ukur-ph-ppm@20',
+          'siklus-arif-ratna-1:cek-daun@13',
+          'siklus-arif-ratna-1:siram@13',
+          'siklus-arif-ratna-2:siram@6',
           'siklus-arif-sawi:cek-daun@13',
           'siklus-arif-sawi:siangi@11',
           'siklus-arif-sawi:siram@13',
@@ -862,21 +888,36 @@ export function ujiKontrak(nama: string, siapkan: PenyiapLingkungan): void {
             lahan_id: 'lahan-arif-kebun',
           }),
         ).toEqual(a);
-        const s = await K.kebun.ambilSiklus(a.siklus_id);
+        // Tanam bertahap (D-40): satu petak per kiriman yang terkejar (kiriman 2 sampai 8), masing-masing
+        // seluas satu panen (4 kg ÷ 1,2 = 3,34 m²) dengan tanggal tanamnya sendiri.
+        expect(a.siklus_ids).toHaveLength(7);
+        expect(a.alokasi.siklus_ids).toEqual(a.siklus_ids);
+        const s = await K.kebun.ambilSiklus(a.siklus_ids[0]!);
         expect(s).toMatchObject({
           status: 'rencana',
-          luas_m2: 13.33,
+          luas_m2: 3.34,
+          petak_ke: 2,
+          tanggal_tanam: '2026-10-08',
           harga_jual: 7000,
           alokasi_pesanan_id: a.alokasi.id,
         });
+        expect((await K.kebun.ambilSiklus(a.siklus_ids[6]!)).tanggal_tanam).toBe('2026-11-19');
+        // Kapasitas dari 4 petak yang tumbuh bersamaan (bayam 25 hari, kirim mingguan), bukan 7.
         expect(
           (await K.lahan.daftar()).find((l) => l.id === 'lahan-arif-kebun')?.kapasitas.sisa,
-        ).toBe(6.67);
+        ).toBe(31.62);
+        const kecil = await K.lahan.buat({
+          nama: 'Petak kecil',
+          jenis_lahan: 'kebun',
+          satuan_asli: 'm2',
+          nilai_asli: 5,
+          wilayah_id: '32.17.01.2003',
+        });
         await harapGalat(
           K.pesanan.ambilPesanan('pesanan-lestari-kangkung', {
             kunci_idempoten: kunci(),
             jumlah_kg: 5,
-            lahan_id: 'lahan-arif-kebun',
+            lahan_id: kecil.id,
           }),
           'LAHAN_TIDAK_CUKUP',
           409,
@@ -920,6 +961,31 @@ export function ujiKontrak(nama: string, siapkan: PenyiapLingkungan): void {
           404,
         );
       });
+      it('jumlah bisa diubah sebelum setuju; petak dibuat ulang (D-40)', async () => {
+        const a = await K.pesanan.ambilPesanan('pesanan-kafe-bayam', {
+          kunci_idempoten: kunci(),
+          jumlah_kg: 4,
+          lahan_id: 'lahan-arif-kebun',
+        });
+        await harapGalat(
+          K.pesanan.ubahAlokasi(a.alokasi.id, { jumlah_kg: 5 }),
+          'MELEBIHI_PESANAN',
+          409,
+          'jumlah_kg',
+        );
+        const u = await K.pesanan.ubahAlokasi(a.alokasi.id, { jumlah_kg: 2 });
+        expect(u.alokasi.jumlah_kg).toBe(2);
+        expect(u.siklus_ids).toHaveLength(7);
+        expect((await K.kebun.ambilSiklus(u.siklus_ids[0]!)).luas_m2).toBe(1.67);
+        await harapGalat(K.kebun.ambilSiklus(a.siklus_ids[0]!), 'TIDAK_DITEMUKAN', 404);
+        expect((await K.pesanan.ambil('pesanan-kafe-bayam')).sisa_kg).toBe(2);
+        await K.pesanan.setujuiKesepakatan(a.alokasi.id);
+        await harapGalat(
+          K.pesanan.ubahAlokasi(a.alokasi.id, { jumlah_kg: 3 }),
+          'STATUS_TIDAK_SESUAI',
+          409,
+        );
+      });
       it('pesanan yang jadwal kirimnya tidak terkejar umur panen ditolak (D-39)', async () => {
         const sawah = await K.lahan.buat({
           nama: 'Sawah baru',
@@ -958,11 +1024,17 @@ export function ujiKontrak(nama: string, siapkan: PenyiapLingkungan): void {
           status: 'terjadwal',
         });
         // Jadwal tanam masuk ke kebun: siklus aktif, ditanam umur panen sebelum kiriman pertama.
-        expect(await K.kebun.ambilSiklus(a.siklus_id)).toMatchObject({
+        expect(await K.kebun.ambilSiklus(a.siklus_ids[0]!)).toMatchObject({
           status: 'aktif',
           tanggal_tanam: '2026-10-08',
         });
-        expect((await K.kebun.daftarTugas(a.siklus_id)).length).toBeGreaterThan(0);
+        // Tiap petak punya jadwal perawatannya sendiri, mulai dari tanggal tanamnya.
+        const tugas2 = await K.kebun.daftarTugas(a.siklus_ids[1]!);
+        expect(tugas2.length).toBeGreaterThan(0);
+        expect((await K.kebun.ambilSiklus(a.siklus_ids[1]!)).tanggal_tanam).toBe('2026-10-15');
+        expect(tugas2.every((x) => x.tanggal >= '2026-10-15')).toBe(true);
+        expect(tugas2.map((x) => x.tanggal).sort()[0]).toBe('2026-10-16');
+        expect(setuju.siklus_ids).toHaveLength(7);
         expect((await K.pesanan.alokasiSaya()).some((x) => x.id === a.alokasi.id)).toBe(true);
         await harapGalat(
           K.pesanan.laporGagalPanen(a.alokasi.id, { pengiriman_id: kiriman[0]!.id, alasan: '' }),
@@ -985,6 +1057,14 @@ export function ujiKontrak(nama: string, siapkan: PenyiapLingkungan): void {
         await masuk('petani-arif');
         await harapGalat(K.kiriman.tandaiDikirim('kiriman-ratna-arif-1'), 'FOTO_WAJIB', 422);
         await K.kiriman.unggahFotoKualitas('kiriman-ratna-arif-1', 'data:image/jpeg;base64,AAAA');
+        // Foto timbangan opsional (D-40): bisa diisi dan dihapus.
+        expect(
+          (await K.kiriman.unggahFotoTimbangan('kiriman-ratna-arif-1', 'data:image/jpeg;base64,BB'))
+            .foto_timbangan,
+        ).toBe('data:image/jpeg;base64,BB');
+        expect(
+          (await K.kiriman.unggahFotoTimbangan('kiriman-ratna-arif-1', null)).foto_timbangan,
+        ).toBeNull();
         const x = await K.kiriman.tandaiDikirim('kiriman-ratna-arif-1');
         expect(x).toMatchObject({
           status: 'dikirim',
@@ -1196,13 +1276,30 @@ export function ujiKontrak(nama: string, siapkan: PenyiapLingkungan): void {
           'komoditas_id',
         );
         await harapGalat(
+          K.pembeli.buatPesanan({
+            jenis: 'rutin',
+            ...dasar,
+            durasi_hari: 28,
+            batas_jam_antar: '7',
+          }),
+          'VALIDASI',
+          422,
+          'batas_jam_antar',
+        );
+        await harapGalat(
           K.pembeli.buatPesanan({ jenis: 'rutin', ...dasar, durasi_hari: 120 }),
           'FREKUENSI_TIDAK_VALID',
           422,
           'durasi_hari',
         );
-        const p = await K.pembeli.buatPesanan({ jenis: 'rutin', ...dasar, durasi_hari: 28 });
+        const p = await K.pembeli.buatPesanan({
+          jenis: 'rutin',
+          ...dasar,
+          durasi_hari: 28,
+          batas_jam_antar: '07:00',
+        });
         expect(p).toMatchObject({
+          batas_jam_antar: '07:00',
           jumlah_kiriman: 4,
           nilai_pesanan: 100000,
           uang_muka: 20000,

@@ -701,6 +701,7 @@ Catatan pembagian:
 - **Tangkapan (D-07):** `docs/tangkapan/aplikasi/20-jadwal-sawi-bedengan-mobile.png` (390px) dan `20-jadwal-sawi-bedengan-desktop.png` (1440px) (juga nomor 21), ditunjukkan ke pemilik produk; **berhenti menunggu tanggapan** sebelum tugas berikutnya.
 - **Prasyarat:** T4.08, T2.09, T1.10.
 - **Catatan (7 Okt 2026):** Kerangka siklus (`kerangka-siklus.tsx`) dipakai Jadwal, Modal, Jurnal, Ubah tanggal tanam, dan Akhir siklus: kepala, kartu penggaris, tab sebagai tautan. Tugas berulang dan ukur tampil hari ini dan besok, satu yang terlambat, atau satu berikutnya (fungsi baru `src/lib/jadwal-tampil.ts` + tes); sudah selesai hanya tugas sekali. Menu Kebun (D-26, D-38) dikerjakan di sini: halaman daftar siklus `daftar-siklus.tsx` (sedang ditanam, rencana belum dijadwalkan, sudah selesai); satu siklus aktif tanpa rencana langsung membuka jadwalnya. Tombol "Ubah tanggal tanam" dan "Akhiri siklus" di bawah daftar tugas.
+- **Perubahan D-40 (8 Okt 2026):** Menu Kebun dan Beranda mengelompokkan petak satu pesanan rutin: satu pil dan satu kelompok tugas di Beranda (nama petak di setiap tugas), satu kartu kelompok yang bisa dibuka di Kebun (`kelompokkanSiklus`, `petakTerkini`, `ringkasKelompok`).
 
 ### [x] T4.11 Detail tugas, tandai selesai, foto, tunda **[DEMO]**
 - **Tujuan:** Detail tugas (chip waktu, banner saran terlambat dari resep, cara mengerjakan, foto bukti, tunda 1–3 hari dengan tanggal baru), "Tandai selesai"; foto opsional diunggah lewat klien API dan masuk jurnal; konfirmasi bila tunda melewati panen (turunan); tugas berulang dan sekali (turunan tampilan non-terlambat).
@@ -780,6 +781,7 @@ Catatan pembagian:
 - **Tangkapan (D-07):** `docs/tangkapan/aplikasi/31-detail-pesanan-mobile.png` (390px) dan `31-detail-pesanan-desktop.png` (1440px), ditunjukkan ke pemilik produk; **berhenti menunggu tanggapan** sebelum tugas berikutnya.
 - **Prasyarat:** T4.18, T2.12, T2.13, T2.15a, T3.10, T4.36a.
 - **Catatan (7 Okt 2026):** Lahan yang punya resep untuk komoditas pesanan bisa dipilih; lahan terbaik terpilih lebih dulu. Pilihan jumlah dari `pilihanJumlah`; tombol − dan + per 1, 10, atau 50 kg menurut sisa. Jadwal kirim yang terkejar umur panen (D-39) menentukan jumlah kiriman dan uang yang diterima. Galat `MELEBIHI_PESANAN` ditulis ulang menjadi "Petani lain baru saja mengambil sebagian…". Pesanan yang sudah diambil menampilkan status dan tautan ke kesepakatan atau Kiriman saya. Tangkapan tambahan: `31-detail-pesanan-lahan-tidak-cukup-*`, `31-detail-pesanan-akun-nonaktif-*`.
+- **Perubahan D-40 (8 Okt 2026):** Jadwal yang terkejar ditulis "Kamu bisa ikut mulai kiriman tanggal …". Saran tanam bertahap: satu petak per kiriman di bedengan bergilir, lahan dari petak yang tumbuh bersamaan (`rencanaPetak`). Rincian menampilkan batas jam antar.
 
 ### [x] T4.20 Kesepakatan digital **[DEMO]**
 - **Tujuan:** Ringkasan (pembeli, jumlah, jadwal, titik antar, harga), standar kualitas, aturan gagal panen, uang dan pembayaran, pernyataan, tombol "Setuju" / "Tanya pembeli dulu"; menyimpan waktu setuju di `alokasi_pesanan`.
@@ -789,6 +791,7 @@ Catatan pembagian:
 - **Tangkapan (D-07):** `docs/tangkapan/aplikasi/32-kesepakatan-mobile.png` (390px) dan `32-kesepakatan-desktop.png` (1440px), ditunjukkan ke pemilik produk; **berhenti menunggu tanggapan** sebelum tugas berikutnya.
 - **Prasyarat:** T4.19.
 - **Catatan (7 Okt 2026):** Aturan gagal panen tiga butir dari D-03 (tanpa denda, tanpa aturan tiga kali berturut-turut); papan 32 masih memuat denda Rp25.000 dan tidak diikuti. Setuju wajib mencentang pernyataan. Setelah setuju, halaman menampilkan tanggal tanam dan tautan ke jadwal. "Tanya pembeli dulu" lewat admin (D-39). Tangkapan tambahan: `32-kesepakatan-disetujui-*`.
+- **Perubahan D-40 (8 Okt 2026):** "Ubah jumlah" sebelum Setuju (`PATCH /alokasi/{id}`); setelah setuju setiap petak aktif dengan jadwal perawatannya sendiri dan tautan membuka kelompoknya di Kebun.
 
 ### [x] T4.21 Kiriman saya dan foto kualitas **[DEMO]**
 - **Tujuan:** Kiriman hari ini dengan tahap uang (Uang muka ditahan → Menunggu konfirmasi → Dana cair), unggah foto kualitas sebelum kirim, daftar berikutnya dan sebelumnya (termasuk sebagian ditolak).
@@ -798,6 +801,7 @@ Catatan pembagian:
 - **Tangkapan (D-07):** `docs/tangkapan/aplikasi/33-kiriman-saya-mobile.png` (390px) dan `33-kiriman-saya-desktop.png` (1440px), ditunjukkan ke pemilik produk; **berhenti menunggu tanggapan** sebelum tugas berikutnya.
 - **Prasyarat:** T4.19, T4.11 (komponen foto).
 - **Catatan (7 Okt 2026):** Kiriman yang jadwalnya terlewat ikut di "Hari ini" dengan chip Terlambat. Berikutnya dan Sebelumnya menampilkan 3 butir lebih dulu. Satu foto kualitas per kiriman (D-39). Tangkapan diambil dengan jam peramban dipatok: `33-kiriman-saya-*` pukul 08.30 (kiriman menunggu konfirmasi), `33-kiriman-saya-unggah-foto-*` dan `33-kiriman-saya-foto-terunggah-*` tujuh hari kemudian.
+- **Perubahan D-40 (8 Okt 2026):** Dua foto: hasil panen (wajib) dan di timbangan (opsional, bisa dihapus). "Antar sebelum pukul …" dari `pesanan.batas_jam_antar`.
 
 ## 4E. Pilar Jual (pembeli)
 
