@@ -57,8 +57,9 @@ describe('rute', () => {
   });
   it('halaman komponen terbuka', async () => {
     await buka('/komponen');
+    // Halaman dimuat per rute (D-48), jadi ditunggu.
     expect(
-      screen.getByRole('heading', { level: 1, name: 'Sistem desain: kebun di pagi hari' }),
+      await screen.findByRole('heading', { level: 1, name: 'Sistem desain: kebun di pagi hari' }),
     ).toBeInTheDocument();
   });
 });

@@ -448,6 +448,20 @@ Tafsiran teknis saat menulis `docs/kontrak-api.md`. Tidak mengubah perilaku prod
 - **"HST" hanya di panel mentor:** setuju.
 - Berdampak ke: T4.29, T4.40, T5.08 (seeder membaca notasi `J±n`), T6.08.
 
+## D-48. Perbaikan tampilan dan cadangan demo lokal sebelum Tahap 5
+- **Jam yang melewati tengah malam:** satu pemformat untuk semua batas periksa dan jam kiriman: `waktuRelatif` (`src/lib/waktu-relatif.ts`, menentukan kemarin, hari ini, besok, atau tanggal lain di zona pengguna), `teksPukul` (`src/teks/waktu.ts`), dan hook `usePukul` (`src/api/use-pukul.ts`). Hasilnya "pukul 13.00", "besok pukul 04.00", "kemarin pukul 22.00", atau "Kamis, 8 Oktober pukul 04.00". Dipakai banner kiriman tiba di dasbor pembeli, "Periksa sebelum …" di Periksa kiriman, dan tahap uang serta "Dikirim … sampai …" di Kiriman saya. Diuji termasuk tengah malam tepat dan zona WITA/WIT.
+- **Cadangan demo lokal (T6.09), tanpa deploy:** `npm run build:demo` membangun `dist-demo/` dengan MODE "demo": data tiruan, resep contoh tampil, pemilih akun demo dengan **Atur ulang data demo**, panel kode uji di Masuk, dan label **"Mode demo"** yang selalu terlihat (pojok kanan bawah; di HP di atas navigasi bawah) sekaligus tautan ke pemilih akun. `npm run preview:demo` menjalankannya di `http://localhost:4173`, termasuk membuka langsung atau memuat ulang rute dalam. Peramban yang belum punya data langsung disiapkan data demo dengan waktu relatif terhadap saat pertama dibuka (D-47). Fitur demo aktif bila `DEV || MODE === "demo"`, ditulis di setiap titik supaya dibuang dari build produksi; `cek-build.mjs` kini juga menolak teks "Mode demo" di `dist/`, dan `build-demo.mjs` memastikan semua bagian demo ada di `dist-demo/`. Pengaturan demo dipakai bersama `npm run demo` (`scripts/pengaturan-demo.mjs`).
+- **Pemecahan bundel (P-22):** 43 halaman dimuat per rute (`React.lazy`); kerangka petani, pembeli, dan panel tetap tampil selama halaman dimuat. Penyedia rencana Hitung dipisah ke `konteks-rencana.tsx` supaya logika kalkulator tidak ikut entry. Ukuran diukur `scripts/ukur-bundel.mjs` dari manifest Vite (gzip level 9):
+
+  | Rute | Sebelum | Sesudah (produksi, tanpa klien tiruan) | Sesudah, dengan klien tiruan (build sekarang dan build demo) |
+  | --- | --- | --- | --- |
+  | `/` | 236,7 kB (837,6 kB mentah, 1 berkas) | **151,3 kB** (459,3 kB mentah) | 196,4 kB |
+  | `/beranda` | 236,7 kB | **163,4 kB** (487,4 kB mentah) | 212,2 kB |
+
+  Target 200 kB (D-45) terpenuhi untuk build produksi yang memakai backend, dan diperiksa otomatis di `npm run build` (`ukur-bundel.mjs --batas 200`). Dengan klien tiruan, `/beranda` masih 12 kB di atas target karena klien tiruan dan data contoh (±45 kB gzip; `kebun.json` saja 370 kB mentah berisi 697 tugas yang dibuat lebih dulu). Bagian itu hilang saat klien HTTP tersambung di Tahap 6. Bila build demo juga harus di bawah 200 kB, usulannya: tugas data contoh dibuat dari resep saat data disiapkan, bukan disimpan di JSON.
+- **Uji:** naskah demo dijalankan terhadap `preview:demo` di peramban kosong (tanpa menekan Atur ulang) pada pukul 10.00 dan 21.00, dengan langkah tambahan membuka `/kebun` sebelum masuk (diarahkan ke Masuk), lalu membuka dan memuat ulang `/kebun` dan `/kebun/siklus-arif-sawi/jadwal` setelah masuk: 15 langkah berhasil di kedua jam.
+- Berdampak ke: T4.21, T4.22, T4.25, T6.03, T6.08, T6.09.
+
 ---
 
 ## Riwayat
@@ -457,6 +471,7 @@ Tafsiran teknis saat menulis `docs/kontrak-api.md`. Tidak mengubah perilaku prod
 | 2026-10-05 | D-12 sampai D-18 ditetapkan. Butir turunan di D-03, D-06, dan D-11 dikonfirmasi dan dirujuk ke keputusan baru. Jalur tangkapan layar di D-07 diganti mengikuti D-18 |
 | 2026-10-05 | D-19 dan D-20 ditetapkan: backend Laravel + MariaDB tanpa Docker, tampilan dikerjakan lebih dulu. Butir OTP di D-10 dan butir penegakan di D-13 dan D-14 disesuaikan |
 | 2026-10-05 | D-21 sampai D-25 ditetapkan: cookie Sanctum (token untuk React Native), 404 untuk data orang lain, konfirmasi otomatis setiap 15 menit, siap deploy VPS, PHP 8.3+ terpisah |
+| 2026-10-09 | D-48 ditulis: jam sadar hari (besok/tanggal), build:demo dan preview:demo untuk cadangan demo lokal, pemecahan bundel per halaman (236,7 → 151,3/163,4 kB gzip) |
 | 2026-10-09 | D-47 ditetapkan: Tahap 4 disetujui; GET /admin/petani dengan cari dan paginasi; adegan demo bergantung jam memakai notasi J±n relatif terhadap atur ulang; naskah diuji pada 09.00, 14.00, 19.00, 23.00 |
 | 2026-10-09 | D-46 ditulis: tafsiran gelombang 8 (GET /admin/petani, panel admin dan mentor, validasi resep satu sumber, POST /mentor/resep menjawab VALIDASI, pemeriksaan responsif, jam demo konfirmasi kiriman) |
 | 2026-10-09 | D-45 ditetapkan: tanggapan D-44 (contoh publik dibatasi, label contoh perhitungan dan tanpa subsidi, sesi lain berakhir setelah ganti nomor, target bundel 200 kB gzip) |

@@ -4,6 +4,8 @@ import react from '@vitejs/plugin-react';
 
 export default defineConfig({
   plugins: [react()],
+  // Manifest dipakai scripts/ukur-bundel.mjs untuk mengukur JavaScript halaman pertama (D-48).
+  build: { manifest: true },
   test: {
     css: false,
     // Dua pekerja: tes halaman (jsdom) berat di memori. Dengan RAM bebas sekitar 2 GB, empat pekerja

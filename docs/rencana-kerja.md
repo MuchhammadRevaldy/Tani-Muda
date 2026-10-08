@@ -1335,7 +1335,7 @@ Tujuan tahap: frontend memakai backend Laravel lewat klien API HTTP tanpa mengub
   - Lighthouse PWA terpasang;
   - aplikasi terbuka saat offline setelah kunjungan pertama;
   - ikon dan `theme_color` memakai nilai token;
-  - **bundel dipecah per halaman (P-22, D-45): JavaScript yang dimuat di halaman pertama paling besar 200 kB setelah gzip**, diukur dari `dist/` untuk rute `/` dan `/beranda` dan diperiksa otomatis di `scripts/cek-build.mjs`.
+  - **bundel dipecah per halaman (P-22, D-45): JavaScript yang dimuat di halaman pertama paling besar 200 kB setelah gzip**, diukur dari `dist/` untuk rute `/` dan `/beranda`. Sudah dikerjakan di D-48: 151,3 dan 163,4 kB tanpa klien tiruan, diperiksa otomatis `scripts/ukur-bundel.mjs --batas 200` di `npm run build`.
 - **Prasyarat:** T6.02.
 
 ### [ ] T6.04 Skema Dexie dan cache data offline **[DEMO]**
@@ -1401,12 +1401,13 @@ Tujuan tahap: frontend memakai backend Laravel lewat klien API HTTP tanpa mengub
   - catatan hasil ada di dokumen.
 - **Prasyarat:** semua tugas [DEMO].
 
-### [ ] T6.09 Build khusus demo `build:demo` (opsional)
+### [x] T6.09 Build khusus demo `build:demo` (opsional)
 - **Tujuan:** Bila juri membutuhkan tautan sebelum backend siap, `npm run build:demo` menghasilkan build statis dengan data tiruan, pemilih akun demo, kode uji OTP, dan label **"Mode demo"** yang selalu terlihat di setiap halaman, untuk di-deploy ke hosting statis (D-37). Build produksi biasa (`npm run build`) tetap tanpa akun demo dan tetap dicek `scripts/cek-build.mjs`.
 - **Berkas:** `package.json` (`build:demo`, `vite build --mode demo` dengan keluaran `dist-demo/`), `src/api/sumber.ts` (kontrol pengembangan aktif bila mode demo), komponen label "Mode demo", `scripts/cek-build.mjs` (memastikan build biasa tetap bersih dan build demo selalu berlabel), README (cara deploy statis dan fallback rute SPA).
 - **PRD:** –; D-20, D-36, D-37.
 - **Selesai bila:** build demo bisa dibuka dari hosting statis tanpa backend; label "Mode demo" terlihat di semua halaman 390px dan 1440px; data demo bisa diatur ulang; build biasa lolos `cek-build.mjs`.
 - **Prasyarat:** T4.40.
+- **Catatan (9 Okt 2026, D-48):** Dikerjakan lebih awal sebagai cadangan demo **lokal** (tanpa deploy Vercel/Netlify): `npm run build:demo` → `dist-demo/`, `npm run preview:demo` → `http://localhost:4173`. Fallback rute SPA dari `vite preview`. Diuji dengan naskah demo di peramban kosong pada dua jam berbeda.
 
 ---
 

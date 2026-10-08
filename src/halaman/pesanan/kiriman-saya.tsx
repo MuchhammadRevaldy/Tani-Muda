@@ -8,6 +8,7 @@
 import { useState, type ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 import { adalahGalatApi } from '../../api/galat';
+import { usePukul } from '../../api/use-pukul';
 import {
   useKirimanSaya,
   useKonfigurasi,
@@ -17,7 +18,7 @@ import {
   useUnggahFotoKualitas,
   useUnggahFotoTimbangan,
 } from '../../api/kueri';
-import { useHariIni, useSesi } from '../../api/sesi';
+import { useHariIni } from '../../api/sesi';
 import type { Konfigurasi, Pengiriman, PesananUntukPetani } from '../../api/tipe';
 import { AmbilFoto } from '../../komponen/ambil-foto';
 import { ChipStatus } from '../../komponen/chip-status';
@@ -29,9 +30,8 @@ import { PesanKolom } from '../../komponen/kolom-isian';
 import { DaftarSyarat } from '../../komponen/pelengkap';
 import { kelasTombol, Tombol } from '../../komponen/tombol';
 import { useLayarLebar } from '../../komponen/use-layar-lebar';
-import { bulatkanRupiah, formatJam, formatRupiah, formatTanggal } from '../../lib/format';
+import { bulatkanRupiah, formatRupiah, formatTanggal } from '../../lib/format';
 import { kelompokKiriman, tahapUang } from '../../lib/pesanan-tampil';
-import { jamLokal, ZONA_BAWAAN } from '../../lib/zona-waktu';
 import { teksPembeli } from '../../teks/pembeli';
 import { teksPesanan as t } from '../../teks/pesanan';
 import { teksUmum } from '../../teks/umum';
@@ -124,13 +124,11 @@ function KartuHariIni({
   d,
   nama,
   hariIni,
-  zona,
   konfigurasi,
 }: {
   d: KirimanLengkap;
   nama: string;
   hariIni: string;
-  zona: string;
   konfigurasi: Konfigurasi;
 }) {
   const { x, p } = d;
@@ -139,11 +137,7 @@ function KartuHariIni({
   const simpanTimbangan = useUnggahFotoTimbangan();
   const tandai = useTandaiDikirim();
   const [galat, setGalat] = useState<string | null>(null);
-  const jam = (iso: string | null) => {
-    if (!iso) return null;
-    const j = jamLokal(Date.parse(iso), zona);
-    return formatJam(j.jam, j.menit);
-  };
+  const jam = usePukul();
   const jamPeriksa =
     p.jenis === 'rutin' ? konfigurasi.jam_periksa_rutin : konfigurasi.jam_periksa_sekali_panen;
   const terlambat = x.status === 'terjadwal' && x.tanggal_jadwal < hariIni;
@@ -233,7 +227,7 @@ function KartuHariIni({
       }
     >
       <div className="flex flex-col gap-4">
-        <TahapUang x={x} jamPeriksa={jamPeriksa} jamBatas={jam(x.batas_periksa_pada)} />
+        <TahapUang x={x} jamPeriksa={jamPeriksa} jamBatas={jam(x.batas_periksa_pada) || null} />
         <div className="flex flex-col gap-3 border-t border-garis pt-4">
           {x.status === 'terjadwal' ? (
             <div className="flex flex-col gap-0.5">
@@ -262,7 +256,7 @@ function KartuHariIni({
           <DaftarSyarat butir={p.standar_kualitas} />
           {x.status === 'dikirim' ? (
             <p className="m-0 text-keterangan text-teks-pendukung">
-              {t.sudahDikirim(jam(x.dikirim_pada) ?? '', jam(x.batas_periksa_pada) ?? '')}
+              {t.sudahDikirim(jam(x.dikirim_pada), jam(x.batas_periksa_pada))}
             </p>
           ) : null}
           {galat ? <PesanKolom id={`galat-${x.id}`} galat={galat} /> : null}
@@ -411,8 +405,6 @@ function Bagian({ judul, children }: { judul: string; children: ReactNode }) {
 export function HalamanKirimanSaya() {
   const lebar = useLayarLebar();
   const hariIni = useHariIni();
-  const { akun } = useSesi();
-  const zona = akun?.pengguna.zona_waktu ?? ZONA_BAWAAN;
   const k = useKomoditasPeta();
   const kirimanQ = useKirimanSaya();
   const konfigurasiQ = useKonfigurasi();
@@ -464,7 +456,6 @@ export function HalamanKirimanSaya() {
               d={d}
               nama={nama(d)}
               hariIni={hariIni}
-              zona={zona}
               konfigurasi={konfigurasi}
             />
           ))

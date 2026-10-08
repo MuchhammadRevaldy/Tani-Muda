@@ -1,10 +1,14 @@
-import { StrictMode } from 'react';
+import { lazy, StrictMode, Suspense } from 'react';
 import { createRoot } from 'react-dom/client';
 import { RouterProvider } from 'react-router-dom';
 import { PenyediaKlienApi } from './api/penyedia-klien';
 import { siapkanKlien } from './api/sumber';
 import { router } from './rute';
 import './index.css';
+
+// Label "Mode demo" hanya di build demo (D-48); dibuang dari build produksi.
+const LabelModeDemo =
+  import.meta.env.MODE === 'demo' ? lazy(() => import('./komponen/label-mode-demo')) : null;
 
 const akar = document.getElementById('root');
 if (!akar) throw new Error('Elemen #root tidak ditemukan');
@@ -15,6 +19,11 @@ void siapkanKlien(import.meta.env).then(({ klien, sumber, kontrol }) => {
     <StrictMode>
       <PenyediaKlienApi klien={klien} sumber={sumber} kontrol={kontrol}>
         <RouterProvider router={router} />
+        {LabelModeDemo ? (
+          <Suspense fallback={null}>
+            <LabelModeDemo />
+          </Suspense>
+        ) : null}
       </PenyediaKlienApi>
     </StrictMode>,
   );

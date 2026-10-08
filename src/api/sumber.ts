@@ -13,6 +13,8 @@ export interface LingkunganPublik {
   VITE_SUMBER_DATA?: string;
   VITE_TAMPILKAN_RESEP_CONTOH?: string;
   DEV?: boolean;
+  /** "demo" untuk `npm run build:demo` (D-48). */
+  MODE?: string;
 }
 
 export interface KlienSiap {
@@ -46,5 +48,7 @@ export async function siapkanKlien(env: LingkunganPublik): Promise<KlienSiap> {
     kv: localStorageAman(),
     latensiMs: env.DEV ? [200, 400] : [0, 0],
   });
-  return { klien: t.klien, sumber, kontrol: env.DEV ? t.kontrol : null };
+  // Kontrol demo (pemilih akun, kode uji, atur ulang) di pengembangan dan build demo (D-48).
+  const demo = env.DEV === true || env.MODE === 'demo';
+  return { klien: t.klien, sumber, kontrol: demo ? t.kontrol : null };
 }

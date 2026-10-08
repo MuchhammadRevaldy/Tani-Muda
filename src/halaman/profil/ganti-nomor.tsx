@@ -14,9 +14,10 @@ import { teksGalat } from '../../teks/galat';
 import { teksUbahProfil as t } from '../../teks/profil';
 
 // Kode uji OTP tiruan hanya di mode pengembangan (D-36); tidak ikut build produksi.
-const PanelPengembangan = import.meta.env.DEV
-  ? lazy(() => import('../masuk/panel-pengembangan'))
-  : null;
+const PanelPengembangan =
+  import.meta.env.DEV || import.meta.env.MODE === 'demo'
+    ? lazy(() => import('../masuk/panel-pengembangan'))
+    : null;
 
 interface Terkirim {
   nomor: string;

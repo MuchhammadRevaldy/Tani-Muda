@@ -4,10 +4,7 @@
  * pada isi `.env`. Variabel yang sudah ada di process.env didahulukan Vite di atas file `.env`.
  * Port bisa diganti: `npm run demo -- --port 5174`.
  */
-export const PENGATURAN_DEMO = {
-  VITE_SUMBER_DATA: 'tiruan',
-  VITE_TAMPILKAN_RESEP_CONTOH: 'true',
-};
+import { PENGATURAN_DEMO } from './pengaturan-demo.mjs';
 
 Object.assign(process.env, PENGATURAN_DEMO);
 const argumen = process.argv.slice(2);

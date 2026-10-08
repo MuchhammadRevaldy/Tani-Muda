@@ -6,8 +6,10 @@
   "scripts": {
     "dev": "vite",
     "demo": "node scripts/demo.mjs",
-    "build": "tsc -p tsconfig.json --noEmit && vite build && node scripts/cek-build.mjs",
+    "build": "tsc -p tsconfig.json --noEmit && vite build && node scripts/cek-build.mjs && node scripts/ukur-bundel.mjs dist --batas 200",
     "preview": "vite preview",
+    "build:demo": "tsc -p tsconfig.json --noEmit && node scripts/build-demo.mjs",
+    "preview:demo": "vite preview --outDir dist-demo --port 4173 --strictPort",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "test": "vitest run",
     "test:cakupan": "vitest run --coverage",

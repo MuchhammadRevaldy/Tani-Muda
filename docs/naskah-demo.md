@@ -30,6 +30,7 @@ Bila waktu tersisa (cadangan, bukan bagian 7 menit): masuk sebagai **Rahmat** (p
 - [ ] `git pull` tidak perlu (demo dari laptop); pastikan cabang yang didemokan sudah di-commit.
 - [ ] `npm install` sekali bila ada perubahan paket.
 - [ ] Jalankan naskah ini sekali dari awal sampai akhir, diawali **Atur ulang data demo**.
+- [ ] Siapkan cadangan: `npm run build:demo`, lalu coba `npm run preview:demo` dan buka `http://localhost:4173` sekali.
 
 **30 menit sebelum demo**
 
@@ -56,5 +57,6 @@ Bila waktu tersisa (cadangan, bukan bagian 7 menit): masuk sebagai **Rahmat** (p
 | Langkah 6: "Lahan tidak cukup" | Lahan terpakai rencana di langkah 4. Kurangi jumlah dengan tombol − sampai cukup, atau lewati langkah 4 saat demo ulang. |
 | Langkah 9: banner kiriman tiba tidak ada | Data demo diatur ulang lebih dari 5 jam yang lalu (batas periksa sudah lewat). Buka `/akun-demo` → **Atur ulang data demo**, masuk sebagai Imas, lalu ulangi langkah 9. |
 | Server mati atau port bentrok | Di terminal tekan Ctrl+C, jalankan lagi `npm run demo`; bila port 5173 dipakai, `npm run demo -- --port 5174`. |
+| Server pengembangan bermasalah atau laptop terlalu lambat | Pakai cadangan build demo: `npm run preview:demo` (sudah dibangun dengan `npm run build:demo` sehari sebelumnya), buka `http://localhost:4173`. Isinya sama, lebih ringan, dan berlabel "Mode demo". |
 | Laptop melambat | Tutup tab dan aplikasi lain; jangan menjalankan tes atau tangkapan layar selama demo. |
 | Ingin mulai dari awal | `/akun-demo` → **Atur ulang data demo**. Semua perubahan demo hilang dan data contoh kembali. |

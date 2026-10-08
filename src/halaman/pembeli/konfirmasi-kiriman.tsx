@@ -9,6 +9,7 @@
 import { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { adalahGalatApi } from '../../api/galat';
+import { usePukul } from '../../api/use-pukul';
 import {
   kunciIdempotenBaru,
   useKiriman,
@@ -395,6 +396,7 @@ export function HalamanKonfirmasiKiriman() {
   const konfigurasiQ = useKonfigurasi();
   const k = useKomoditasPeta();
   const w = useWaktu();
+  const pukul = usePukul();
   if (kirimanQ.isError) return <p className="m-0 text-teks-pendukung">{teksUmum.galatIsi}</p>;
   if (!kirimanQ.data || !pesananQ.data || !konfigurasiQ.data) return <Memuat />;
   const x = kirimanQ.data;
@@ -434,7 +436,7 @@ export function HalamanKonfirmasiKiriman() {
         </div>
       </div>
       {x.status === 'dikirim' ? (
-        <Banner judul={t.periksaSebelum(w.jam(x.batas_periksa_pada))}>{t.periksaSebelumKet}</Banner>
+        <Banner judul={t.periksaSebelum(pukul(x.batas_periksa_pada))}>{t.periksaSebelumKet}</Banner>
       ) : null}
       {selesai ? (
         <Selesai x={x} p={p} petani={petani} />

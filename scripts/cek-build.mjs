@@ -11,7 +11,13 @@ const akar = fileURLToPath(new URL('..', import.meta.url));
 const dist = join(akar, 'dist');
 
 /** Teks yang hanya ada di src/teks/pengembangan.ts dan modul khusus pengembangan. */
-const PENANDA = ['Pilih akun demo', 'Atur ulang data demo', 'Buka pemilih akun demo', 'Kode uji:'];
+const PENANDA = [
+  'Pilih akun demo',
+  'Atur ulang data demo',
+  'Buka pemilih akun demo',
+  'Kode uji:',
+  'Mode demo',
+];
 
 function telusuri(dir) {
   return readdirSync(dir).flatMap((nama) => {

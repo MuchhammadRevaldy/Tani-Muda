@@ -5,14 +5,6 @@
  * semua langkah Hitung, sehingga tetap ada saat pindah dari kalkulator ke langkah simpan.
  */
 import {
-  createContext,
-  useContext,
-  useState,
-  type Dispatch,
-  type ReactNode,
-  type SetStateAction,
-} from 'react';
-import {
   useDaftarResep,
   useHargaSekitarBanyak,
   useKelayakanSubsidi,
@@ -45,28 +37,8 @@ import {
 import { hitungRingkasan, type Ringkasan } from '../../lib/ringkasan';
 import type { JadwalPin } from '../../lib/tata-letak-penggaris';
 import { kebutuhanTempatM2, perkiraanPanen, saranVolumeTandon } from '../../lib/ukuran-metode';
+import { useSuntingan } from './konteks-rencana';
 import { angkaIsian, type PilihanHitung } from './pilihan';
-
-interface Suntingan {
-  /** Rencana yang disunting; suntingan diabaikan bila resep atau ukuran berubah. */
-  kunci: string | null;
-  items: ItemRencana[] | null;
-  bagiAlat: boolean;
-  hargaJual: number | null;
-}
-
-const KonteksRencana = createContext<[Suntingan, Dispatch<SetStateAction<Suntingan>>] | null>(null);
-
-export function PenyediaRencana({ children }: { children: ReactNode }) {
-  const nilai = useState<Suntingan>({ kunci: null, items: null, bagiAlat: true, hargaJual: null });
-  return <KonteksRencana.Provider value={nilai}>{children}</KonteksRencana.Provider>;
-}
-
-function useSuntingan() {
-  const k = useContext(KonteksRencana);
-  if (!k) throw new Error('useRencana harus dipakai di dalam <PenyediaRencana>');
-  return k;
-}
 
 export interface Rencana {
   memuat: boolean;

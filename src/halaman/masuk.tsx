@@ -23,9 +23,10 @@ import { teksMasuk as t } from '../teks/masuk';
 import { teksPrivasi } from '../teks/privasi';
 import { bacaPeranDariAlamat, simpanPeranAwal } from './peran-awal';
 
-const PanelPengembangan = import.meta.env.DEV
-  ? lazy(() => import('./masuk/panel-pengembangan'))
-  : null;
+const PanelPengembangan =
+  import.meta.env.DEV || import.meta.env.MODE === 'demo'
+    ? lazy(() => import('./masuk/panel-pengembangan'))
+    : null;
 
 interface Terkirim {
   nomor: string;

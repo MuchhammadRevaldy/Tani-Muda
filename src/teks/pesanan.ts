@@ -347,7 +347,7 @@ export const teksPesanan = {
   mengirim: 'Menyimpan…',
   fotoDulu: 'Unggah foto kualitas dulu sebelum menandai dikirim.',
   sudahDikirim: (jam: string, sampai: string) =>
-    `Dikirim pukul ${jam}. Pembeli memeriksa sampai pukul ${sampai}; lewat dari itu dana cair sendiri.`,
+    `Dikirim ${jam}. Pembeli memeriksa sampai ${sampai}; lewat dari itu dana cair sendiri.`,
   kirimanPertama: 'kiriman pertama',
   diterimaSemua: 'diterima semua',
   diterimaSebagian: (komoditas: string, jumlahKg: number) =>

@@ -80,7 +80,7 @@ export const teksPembeli = {
   kirimanTiba: (komoditas: string, petani: string) =>
     `Kiriman ${komoditas} dari ${petani} sudah tiba`,
   kirimanTibaKet: (jam: string, jumlah: number, batas: string) =>
-    `Tiba pukul ${jam}, ${kg(jumlah)} kg. Periksa sebelum pukul ${batas}. Lewat dari itu, kiriman dianggap diterima semua.`,
+    `Tiba ${jam}, ${kg(jumlah)} kg. Periksa sebelum ${batas}. Lewat dari itu, kiriman dianggap diterima semua.`,
   periksaKiriman: 'Periksa kiriman',
   judulRutin: (komoditas: string, jumlah: number, frek: number) =>
     `${komoditas} · ${kg(jumlah)} kg ${teksFrekuensiKirim(frek)}`,
@@ -280,7 +280,8 @@ export const teksPembeli = {
   judulPeriksa: (komoditas: string) => `Periksa kiriman ${komoditas}`,
   subPeriksa: (petani: string, desa: string, ke: number, n: number, tiba: string) =>
     `Kebun ${petani}, ${desa} · kiriman ke-${ke} dari ${n} · tiba ${tiba}`,
-  periksaSebelum: (jam: string) => `Periksa sebelum pukul ${jam}`,
+  /** `jam` dari usePukul: "pukul 13.00", "besok pukul 04.00", … (D-48). */
+  periksaSebelum: (jam: string) => `Periksa sebelum ${jam}`,
   periksaSebelumKet: 'Lewat dari itu, kiriman dianggap diterima semua dan dana cair ke petani.',
   fotoPetani: 'Foto dari petani',
   fotoPetaniKet: 'Diambil petani sebelum berangkat',

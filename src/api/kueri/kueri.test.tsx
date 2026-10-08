@@ -111,8 +111,11 @@ describe('aturan ulang dan pemilihan sumber data', () => {
       const dev = await siapkanKlien({ DEV: true, VITE_TAMPILKAN_RESEP_CONTOH: 'true' });
       expect(dev.sumber).toBe('tiruan');
       expect(dev.kontrol).not.toBeNull();
-      const prod = await siapkanKlien({ DEV: false });
+      const prod = await siapkanKlien({ DEV: false, MODE: 'production' });
       expect(prod.kontrol).toBeNull();
+      // Build demo (D-48): kontrol demo ikut walau bukan mode pengembangan.
+      const demo = await siapkanKlien({ DEV: false, MODE: 'demo' });
+      expect(demo.kontrol).not.toBeNull();
       await dev.kontrol!.masukSebagai('petani-budi');
       await waitFor(async () => expect((await dev.klien.resep.daftar()).length).toBeGreaterThan(0));
       await dev.kontrol!.aturUlang();

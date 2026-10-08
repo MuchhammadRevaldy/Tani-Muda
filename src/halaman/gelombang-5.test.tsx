@@ -143,6 +143,18 @@ describe('bayar uang muka mode uji coba (T4.41, D-41)', () => {
   });
 });
 
+describe('jam yang melewati tengah malam (D-48)', () => {
+  it('data demo diatur pukul 23.00: batas periksa disebut "besok"', async () => {
+    const malam = Date.parse(utcDariLokal(tanggalLokal(Date.now()), 23, 0, ZONA_BAWAAN));
+    await buka('/pembeli', 'pembeli-imas', { jam: malam });
+    expect(
+      await screen.findByText(
+        'Tiba pukul 22.00, 5 kg. Periksa sebelum besok pukul 04.00. Lewat dari itu, kiriman dianggap diterima semua.',
+      ),
+    ).toBeInTheDocument();
+  });
+});
+
 describe('konfirmasi kiriman dan rating (T4.25, T4.26)', () => {
   it('tolak sebagian: Lainnya wajib keterangan, sengketa tercatat, lalu beri nilai', async () => {
     const { t } = await buka('/pembeli/kiriman/kiriman-imas-arif-3', 'pembeli-imas', {

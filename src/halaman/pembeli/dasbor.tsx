@@ -8,6 +8,7 @@
 import { useState } from 'react';
 import { Link, Navigate } from 'react-router-dom';
 import { adalahGalatApi } from '../../api/galat';
+import { usePukul } from '../../api/use-pukul';
 import {
   useBatalkanPesanan,
   useKonfigurasi,
@@ -25,9 +26,8 @@ import { PenggarisUmurTanam } from '../../komponen/penggaris-umur-tanam';
 import { kelasTombol, Tombol } from '../../komponen/tombol';
 import { Uang } from '../../komponen/uang';
 import { useLayarLebar } from '../../komponen/use-layar-lebar';
-import { formatJam, formatTanggal, namaHari } from '../../lib/format';
+import { formatTanggal, namaHari } from '../../lib/format';
 import { tambahHari } from '../../lib/tanggal';
-import { jamLokal, ZONA_BAWAAN } from '../../lib/zona-waktu';
 import { teksPembeli as t } from '../../teks/pembeli';
 import { kg, teksFrekuensiKirim } from '../../teks/pesanan';
 import { teksUmum } from '../../teks/umum';
@@ -38,16 +38,6 @@ import { StatusVerifikasi } from './status-verifikasi';
 /** Pesanan yang tampil di Pesanan aktif: belum selesai dan belum dibatalkan. */
 const aktif = (p: PesananDenganKebun) => p.status !== 'selesai' && p.status !== 'dibatalkan';
 
-function useJam() {
-  const { akun } = useSesi();
-  const zona = akun?.pengguna.zona_waktu ?? ZONA_BAWAAN;
-  return (iso: string | null) => {
-    if (!iso) return '';
-    const j = jamLokal(Date.parse(iso), zona);
-    return formatJam(j.jam, j.menit);
-  };
-}
-
 function BannerTiba({
   x,
   p,
@@ -57,7 +47,7 @@ function BannerTiba({
   p: PesananDenganKebun;
   komoditas: string;
 }) {
-  const jam = useJam();
+  const jam = usePukul();
   const petani = p.kebun.find((k) => k.alokasi_id === x.alokasi_id)?.nama_petani ?? '';
   return (
     <section className="flex flex-col gap-3 rounded-lg border-1.5 border-garis-kuat bg-putih p-4 md:flex-row md:items-center md:justify-between md:px-6">

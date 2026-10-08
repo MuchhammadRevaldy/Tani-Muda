@@ -81,7 +81,14 @@ npm run demo            # http://localhost:5173, semua pengaturan demo menyala
 2. Atau buka `/masuk`: kode OTP uji tampil di kotak "Mode pengembangan".
 3. Tombol **Atur ulang data demo** di `/akun-demo` mengembalikan semua data ke data contoh awal.
 
-Dengan `npm run dev`, resep contoh hanya tampil bila `.env` berisi `VITE_TAMPILKAN_RESEP_CONTOH=true` (D-12). Pemilih akun demo dan kode uji tidak pernah ikut `npm run build` (dicek otomatis). Build statis khusus demo untuk juri direncanakan sebagai tugas opsional T6.09 (`build:demo`).
+Dengan `npm run dev`, resep contoh hanya tampil bila `.env` berisi `VITE_TAMPILKAN_RESEP_CONTOH=true` (D-12). Pemilih akun demo dan kode uji tidak pernah ikut `npm run build` (dicek otomatis). Cadangan demo lokal (T6.09, D-48), tanpa server pengembangan:
+
+```bash
+npm run build:demo      # build dengan data tiruan, pemilih akun demo, dan label "Mode demo" ke dist-demo/
+npm run preview:demo    # http://localhost:4173
+```
+
+Peramban yang belum punya data langsung disiapkan data demo; **Atur ulang data demo** ada di `/akun-demo` (juga lewat label "Mode demo"). Build produksi biasa (`npm run build`) tetap tanpa akun demo dan label demo.
 
 ### Memasang video modul
 

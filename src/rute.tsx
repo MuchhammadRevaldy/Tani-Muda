@@ -6,60 +6,161 @@ import { KerangkaPembeliSesi, KerangkaPetaniSesi } from './komponen/kerangka-ses
 import { PenjagaRute, PenjagaTamu, PenjagaTanpaPeran } from './komponen/penjaga-rute';
 import { Galat } from './halaman/galat';
 import { TidakDitemukan } from './halaman/tidak-ditemukan';
-import { HalamanKomponen } from './halaman/komponen';
-import { HalamanDaftarPetaniAdmin, HalamanPetaniAdmin } from './halaman/admin/petani';
-import { HalamanSengketa } from './halaman/admin/sengketa';
-import { HalamanVerifikasiPembeli } from './halaman/admin/verifikasi-pembeli';
-import { HalamanLanding } from './halaman/landing';
-import { HalamanDaftarResep } from './halaman/mentor/daftar-resep';
-import { HalamanEditorResep } from './halaman/mentor/editor-resep';
-import { HalamanPermintaanResep } from './halaman/mentor/permintaan-resep';
-import { HalamanMasuk } from './halaman/masuk';
-import { HalamanProfil } from './halaman/profil';
-import { HalamanStatis } from './halaman/statis/halaman-statis';
-import { HalamanUbahProfil } from './halaman/ubah-profil';
-import { HalamanPilihPeran } from './halaman/pilih-peran';
-import { HalamanBeranda } from './halaman/beranda';
-import { HalamanBelajar } from './halaman/belajar';
-import { HalamanModul } from './halaman/belajar/modul';
-import { HalamanKalkulator } from './halaman/hitung/kalkulator';
-import { HalamanPilihMetode } from './halaman/hitung/pilih-metode';
-import { HalamanPilihTanaman } from './halaman/hitung/pilih-tanaman';
-import { HalamanPilihTanggalTanam } from './halaman/hitung/pilih-tanggal-tanam';
-import { PenyediaRencana } from './halaman/hitung/use-rencana';
-import { HalamanLahanSaya } from './halaman/lahan-saya';
-import { HalamanAkhirSiklus } from './halaman/kebun/akhir-siklus';
-import { HalamanKebun } from './halaman/kebun/daftar-siklus';
-import { HalamanDetailTugas } from './halaman/kebun/detail-tugas';
-import { HalamanJadwal } from './halaman/kebun/jadwal';
-import { HalamanJurnal } from './halaman/kebun/jurnal';
-import { HalamanModalSiklus } from './halaman/kebun/modal';
-import { HalamanPengingat } from './halaman/kebun/pengingat';
-import { HalamanUbahTanggalTanam } from './halaman/kebun/ubah-tanggal-tanam';
-import { HalamanUkur } from './halaman/kebun/ukur-ph-ppm';
+import { PenyediaRencana } from './halaman/hitung/konteks-rencana';
 import { Memuat } from './halaman/memuat';
-import { HalamanDetailPesanan } from './halaman/pesanan/detail-pesanan';
-import { HalamanKesepakatan } from './halaman/pesanan/kesepakatan';
-import { HalamanLaporGagal } from './halaman/pesanan/lapor-gagal';
-import { HalamanBayar } from './halaman/pembeli/bayar';
-import { HalamanBuatPesanan } from './halaman/pembeli/buat-pesanan';
-import { HalamanDaftarPembeli } from './halaman/pembeli/daftar-pembeli';
-import { HalamanDasborPembeli } from './halaman/pembeli/dasbor';
-import { HalamanKonfirmasiKiriman } from './halaman/pembeli/konfirmasi-kiriman';
-import { HalamanPembayaran } from './halaman/pembeli/pembayaran';
-import { HalamanRiwayat } from './halaman/pembeli/riwayat';
-import { HalamanKirimanSaya } from './halaman/pesanan/kiriman-saya';
-import { HalamanPesananSekitar } from './halaman/pesanan/sekitar';
 import { judulRute, type KunciRute } from './teks/rute';
 import { teksUmum } from './teks/umum';
 
 /**
- * Pemilih akun demo hanya ada di mode pengembangan (D-36). Di build produksi cabang ini dibuang
- * Vite, sehingga modulnya tidak ikut dibundel (dicek scripts/cek-build.mjs).
+ * Halaman dimuat per rute (P-22, D-48): JavaScript halaman pertama tetap kecil, halaman lain
+ * diunduh saat dibuka. Kerangka petani, pembeli, dan panel tetap tampil selama halaman dimuat.
  */
-const HalamanPilihAkunDemo = import.meta.env.DEV
-  ? lazy(() => import('./halaman/pilih-akun-demo'))
-  : null;
+const HalamanKomponen = lazy(() =>
+  import('./halaman/komponen').then((m) => ({ default: m.HalamanKomponen })),
+);
+const HalamanDaftarPetaniAdmin = lazy(() =>
+  import('./halaman/admin/petani').then((m) => ({ default: m.HalamanDaftarPetaniAdmin })),
+);
+const HalamanPetaniAdmin = lazy(() =>
+  import('./halaman/admin/petani').then((m) => ({ default: m.HalamanPetaniAdmin })),
+);
+const HalamanSengketa = lazy(() =>
+  import('./halaman/admin/sengketa').then((m) => ({ default: m.HalamanSengketa })),
+);
+const HalamanVerifikasiPembeli = lazy(() =>
+  import('./halaman/admin/verifikasi-pembeli').then((m) => ({
+    default: m.HalamanVerifikasiPembeli,
+  })),
+);
+const HalamanLanding = lazy(() =>
+  import('./halaman/landing').then((m) => ({ default: m.HalamanLanding })),
+);
+const HalamanDaftarResep = lazy(() =>
+  import('./halaman/mentor/daftar-resep').then((m) => ({ default: m.HalamanDaftarResep })),
+);
+const HalamanEditorResep = lazy(() =>
+  import('./halaman/mentor/editor-resep').then((m) => ({ default: m.HalamanEditorResep })),
+);
+const HalamanPermintaanResep = lazy(() =>
+  import('./halaman/mentor/permintaan-resep').then((m) => ({ default: m.HalamanPermintaanResep })),
+);
+const HalamanMasuk = lazy(() =>
+  import('./halaman/masuk').then((m) => ({ default: m.HalamanMasuk })),
+);
+const HalamanProfil = lazy(() =>
+  import('./halaman/profil').then((m) => ({ default: m.HalamanProfil })),
+);
+const HalamanStatis = lazy(() =>
+  import('./halaman/statis/halaman-statis').then((m) => ({ default: m.HalamanStatis })),
+);
+const HalamanUbahProfil = lazy(() =>
+  import('./halaman/ubah-profil').then((m) => ({ default: m.HalamanUbahProfil })),
+);
+const HalamanPilihPeran = lazy(() =>
+  import('./halaman/pilih-peran').then((m) => ({ default: m.HalamanPilihPeran })),
+);
+const HalamanBeranda = lazy(() =>
+  import('./halaman/beranda').then((m) => ({ default: m.HalamanBeranda })),
+);
+const HalamanBelajar = lazy(() =>
+  import('./halaman/belajar').then((m) => ({ default: m.HalamanBelajar })),
+);
+const HalamanModul = lazy(() =>
+  import('./halaman/belajar/modul').then((m) => ({ default: m.HalamanModul })),
+);
+const HalamanKalkulator = lazy(() =>
+  import('./halaman/hitung/kalkulator').then((m) => ({ default: m.HalamanKalkulator })),
+);
+const HalamanPilihMetode = lazy(() =>
+  import('./halaman/hitung/pilih-metode').then((m) => ({ default: m.HalamanPilihMetode })),
+);
+const HalamanPilihTanaman = lazy(() =>
+  import('./halaman/hitung/pilih-tanaman').then((m) => ({ default: m.HalamanPilihTanaman })),
+);
+const HalamanPilihTanggalTanam = lazy(() =>
+  import('./halaman/hitung/pilih-tanggal-tanam').then((m) => ({
+    default: m.HalamanPilihTanggalTanam,
+  })),
+);
+const HalamanLahanSaya = lazy(() =>
+  import('./halaman/lahan-saya').then((m) => ({ default: m.HalamanLahanSaya })),
+);
+const HalamanAkhirSiklus = lazy(() =>
+  import('./halaman/kebun/akhir-siklus').then((m) => ({ default: m.HalamanAkhirSiklus })),
+);
+const HalamanKebun = lazy(() =>
+  import('./halaman/kebun/daftar-siklus').then((m) => ({ default: m.HalamanKebun })),
+);
+const HalamanDetailTugas = lazy(() =>
+  import('./halaman/kebun/detail-tugas').then((m) => ({ default: m.HalamanDetailTugas })),
+);
+const HalamanJadwal = lazy(() =>
+  import('./halaman/kebun/jadwal').then((m) => ({ default: m.HalamanJadwal })),
+);
+const HalamanJurnal = lazy(() =>
+  import('./halaman/kebun/jurnal').then((m) => ({ default: m.HalamanJurnal })),
+);
+const HalamanModalSiklus = lazy(() =>
+  import('./halaman/kebun/modal').then((m) => ({ default: m.HalamanModalSiklus })),
+);
+const HalamanPengingat = lazy(() =>
+  import('./halaman/kebun/pengingat').then((m) => ({ default: m.HalamanPengingat })),
+);
+const HalamanUbahTanggalTanam = lazy(() =>
+  import('./halaman/kebun/ubah-tanggal-tanam').then((m) => ({
+    default: m.HalamanUbahTanggalTanam,
+  })),
+);
+const HalamanUkur = lazy(() =>
+  import('./halaman/kebun/ukur-ph-ppm').then((m) => ({ default: m.HalamanUkur })),
+);
+const HalamanDetailPesanan = lazy(() =>
+  import('./halaman/pesanan/detail-pesanan').then((m) => ({ default: m.HalamanDetailPesanan })),
+);
+const HalamanKesepakatan = lazy(() =>
+  import('./halaman/pesanan/kesepakatan').then((m) => ({ default: m.HalamanKesepakatan })),
+);
+const HalamanLaporGagal = lazy(() =>
+  import('./halaman/pesanan/lapor-gagal').then((m) => ({ default: m.HalamanLaporGagal })),
+);
+const HalamanBayar = lazy(() =>
+  import('./halaman/pembeli/bayar').then((m) => ({ default: m.HalamanBayar })),
+);
+const HalamanBuatPesanan = lazy(() =>
+  import('./halaman/pembeli/buat-pesanan').then((m) => ({ default: m.HalamanBuatPesanan })),
+);
+const HalamanDaftarPembeli = lazy(() =>
+  import('./halaman/pembeli/daftar-pembeli').then((m) => ({ default: m.HalamanDaftarPembeli })),
+);
+const HalamanDasborPembeli = lazy(() =>
+  import('./halaman/pembeli/dasbor').then((m) => ({ default: m.HalamanDasborPembeli })),
+);
+const HalamanKonfirmasiKiriman = lazy(() =>
+  import('./halaman/pembeli/konfirmasi-kiriman').then((m) => ({
+    default: m.HalamanKonfirmasiKiriman,
+  })),
+);
+const HalamanPembayaran = lazy(() =>
+  import('./halaman/pembeli/pembayaran').then((m) => ({ default: m.HalamanPembayaran })),
+);
+const HalamanRiwayat = lazy(() =>
+  import('./halaman/pembeli/riwayat').then((m) => ({ default: m.HalamanRiwayat })),
+);
+const HalamanKirimanSaya = lazy(() =>
+  import('./halaman/pesanan/kiriman-saya').then((m) => ({ default: m.HalamanKirimanSaya })),
+);
+const HalamanPesananSekitar = lazy(() =>
+  import('./halaman/pesanan/sekitar').then((m) => ({ default: m.HalamanPesananSekitar })),
+);
+
+/**
+ * Pemilih akun demo hanya ada di mode pengembangan dan build demo (D-36, D-48). Di build produksi
+ * cabang ini dibuang Vite, sehingga modulnya tidak ikut dibundel (dicek scripts/cek-build.mjs).
+ */
+const HalamanPilihAkunDemo =
+  import.meta.env.DEV || import.meta.env.MODE === 'demo'
+    ? lazy(() => import('./halaman/pilih-akun-demo'))
+    : null;
 
 function JudulDokumen({ kunci }: { kunci: KunciRute }) {
   useEffect(() => {
@@ -87,7 +188,7 @@ const halamanPetani = (
   <PenjagaRute peran={['petani']}>
     <KerangkaPetaniSesi tanpaNav={opsi.tanpaNav} menuAktif={opsi.menuAktif}>
       <JudulDokumen kunci={kunci} />
-      {isi}
+      <Suspense fallback={<Memuat />}>{isi}</Suspense>
     </KerangkaPetaniSesi>
   </PenjagaRute>
 );
@@ -101,7 +202,7 @@ const pembeli = (kunci: KunciRute, isi: ReactNode = <Sementara kunci={kunci} />)
   <PenjagaRute peran={['pembeli']}>
     <KerangkaPembeliSesi>
       <JudulDokumen kunci={kunci} />
-      {isi}
+      <Suspense fallback={<Memuat />}>{isi}</Suspense>
     </KerangkaPembeliSesi>
   </PenjagaRute>
 );
@@ -125,7 +226,11 @@ const panel = (kunci: KunciRute, peran: 'admin' | 'mentor', isi: ReactNode): Rea
 /** Daftar rute. Rute sama dengan tabel di docs/ringkasan-desain.md bagian 3. */
 export const daftarRute: RouteObject[] = [
   {
-    element: <Outlet />,
+    element: (
+      <Suspense fallback={<Memuat />}>
+        <Outlet />
+      </Suspense>
+    ),
     errorElement: <Galat />,
     children: [
       {

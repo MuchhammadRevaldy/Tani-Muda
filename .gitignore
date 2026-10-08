@@ -1,6 +1,7 @@
 # Dependensi dan hasil build
 node_modules/
 dist/
+dist-demo/
 coverage/
 
 # Rahasia: hanya .env.example yang masuk repo
