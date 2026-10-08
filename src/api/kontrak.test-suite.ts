@@ -375,18 +375,48 @@ export function ujiKontrak(nama: string, siapkan: PenyiapLingkungan): void {
         await L2.masukSebagai('petani-arif');
         expect((await L2.klien.resep.ambil('resep-sawi-bedengan')).id).toBe('resep-sawi-bedengan');
       });
-      it('contoh publik tanpa masuk untuk halaman depan (D-44)', async () => {
+      it('contoh publik tanpa masuk: hanya data contoh perhitungan, tanpa data pengguna (D-45)', async () => {
         await K.akun.keluar();
         const c = await K.resep.contohPublik();
-        expect(c.resep.map((r) => r.id).sort()).toContain('resep-padi-sawah');
-        expect(c.komoditas.find((x) => x.id === 'sawi')).toMatchObject({
+        expect(Object.keys(c).sort()).toEqual(['contoh', 'komoditas']);
+        expect(c.komoditas.find((x) => x.id === 'sawi')).toEqual({
+          id: 'sawi',
+          nama: 'Sawi hijau',
+          satuan_panen: 'kg',
           status_resep: 'tersedia',
-          jumlah_pesanan_sekitar: 0,
         });
         expect(c.komoditas.find((x) => x.id === 'cabai')?.status_resep).toBe('segera_hadir');
-        expect(c.metode.map((m) => m.id)).toContain('sawah');
+        // Hanya pasangan contoh halaman depan, bukan seluruh resep.
+        expect(c.contoh.map((x) => `${x.komoditas_id}/${x.metode_id}`).sort()).toEqual([
+          'bayam/bedengan',
+          'padi/sawah',
+          'sawi/bedengan',
+        ]);
+        const sawi = c.contoh.find((x) => x.komoditas_id === 'sawi')!;
+        expect(sawi).toMatchObject({ harga_jual_contoh: 5000, contoh: true, umur_panen_hari: 28 });
+        // Tidak ada kolom resep lengkap atau data pengguna.
+        const teks = JSON.stringify(c);
+        for (const kolom of [
+          'validator',
+          'standar_kualitas',
+          'ukur',
+          'saran_terlambat',
+          'nomor_hp',
+          'petani_id',
+          'pengguna_id',
+        ])
+          expect(teks).not.toContain(`"${kolom}"`);
+        expect(Object.keys(sawi.tugas[0]!).sort()).toEqual([
+          'hst_mulai',
+          'hst_selesai',
+          'id',
+          'interval',
+          'judul',
+          'langkah_pertama',
+          'tipe',
+        ]);
         const L2 = await siapkan({ tampilkanResepContoh: false });
-        expect((await L2.klien.resep.contohPublik()).resep).toEqual([]);
+        expect((await L2.klien.resep.contohPublik()).contoh).toEqual([]);
       });
       it('minta resep tidak ganda', async () => {
         const a = await K.resep.minta({ komoditas_id: 'tomat', metode_id: 'bedengan' });
@@ -1448,6 +1478,21 @@ export function ujiKontrak(nama: string, siapkan: PenyiapLingkungan): void {
           409,
         );
       });
+      it('daftar petani untuk admin: status dan jumlah catatan, tanpa nomor HP (D-46)', async () => {
+        const d = await K.admin.daftarPetani();
+        expect(d[0]).toEqual({
+          id: 'petani-budi',
+          nama: 'Budi Santoso',
+          desa: expect.any(String),
+          status_akun: 'dinonaktifkan_sementara',
+          jumlah_catatan: 1,
+          siklus_aktif: expect.any(Number),
+        });
+        expect(d.map((x) => x.id)).toContain('petani-arif');
+        expect(JSON.stringify(d)).not.toContain('nomor_hp');
+        await masuk('petani-arif');
+        await harapGalat(K.admin.daftarPetani(), 'TIDAK_DIIZINKAN', 403);
+      });
       it('catatan dan status petani (D-03, D-13)', async () => {
         expect((await K.admin.petani('petani-budi')).catatan).toHaveLength(1);
         await harapGalat(
@@ -1504,7 +1549,7 @@ export function ujiKontrak(nama: string, siapkan: PenyiapLingkungan): void {
         });
         await harapGalat(
           K.mentor.simpanResep({ ...isi, tugas: [{ ...isi.tugas[0]!, hst_mulai: 40 }] }),
-          'HST_TIDAK_VALID',
+          'VALIDASI',
           422,
           'tugas',
         );
@@ -1513,6 +1558,41 @@ export function ujiKontrak(nama: string, siapkan: PenyiapLingkungan): void {
           baru.id,
         );
         expect((await K.kebun.ambilSiklus('siklus-arif-sawi')).resep_versi).toBe(1);
+      });
+      it('simpan resep ditolak bila angka tidak masuk akal (validasi-resep.ts)', async () => {
+        const lama = (await K.mentor.daftarResep()).find((r) => r.id === 'resep-sawi-hidroponik')!;
+        const {
+          id: _i,
+          versi: _v,
+          status: _s,
+          validator: _va,
+          tanggal_validasi: _t,
+          contoh: _c,
+          asal_angka_contoh: _a,
+          ...isi
+        } = lama;
+        const iUkur = isi.tugas.findIndex((t) => t.tipe === 'ukur');
+        const tugas = isi.tugas.map((t, i) =>
+          i === iUkur
+            ? {
+                ...t,
+                ukur: t.ukur!.map((b, k) =>
+                  k === 0 ? { ...b, batas_bawah: 9, batas_atas: 6 } : b,
+                ),
+              }
+            : t,
+        );
+        const g = await harapGalat(
+          K.mentor.simpanResep({ ...isi, tugas, umur_panen_hari: 0, persen_panen_jelek: 150 }),
+          'VALIDASI',
+          422,
+        );
+        expect(Object.keys(g.rincian).sort()).toEqual([
+          'persen_panen_jelek',
+          'tugas',
+          'umur_panen_hari',
+        ]);
+        expect((await K.mentor.daftarResep()).length).toBe(5);
       });
       it('ringkasan permintaan resep terbanyak', async () => {
         expect((await K.mentor.ringkasanPermintaan())[0]).toEqual({

@@ -1,6 +1,7 @@
 /** Klien tiruan: panel admin (verifikasi, sengketa, catatan dan status petani) dan mentor (resep). */
 import { bulatkanRupiah } from '../../../lib/format';
-import { validasiResepTugas } from '../../../lib/jadwal-buat';
+import { validasiResep, type KolomResep } from '../../../lib/validasi-resep';
+import type { KodeGalatApi } from '../../galat';
 import type { KlienAdmin, KlienMentor } from '../../klien';
 import { resepKeDomain } from '../../peta';
 import type { PembeliUntukAdmin, PetaniUntukAdmin, SengketaUntukAdmin } from '../../tipe';
@@ -123,6 +124,25 @@ export function buatKlienAdmin(k: Konteks): KlienAdmin {
       k.simpan();
       return sengketa(id);
     },
+    async daftarPetani() {
+      k.wajibPeran('admin');
+      return k.db.pengguna.pengguna
+        .filter((u) => u.peran === 'petani')
+        .map((u) => ({
+          id: u.id,
+          nama: u.nama,
+          desa: k.wilayah(u.wilayah_id)?.desa ?? null,
+          status_akun: u.status_akun,
+          jumlah_catatan: k.db.pengguna.catatan_petani.filter((c) => c.petani_id === u.id).length,
+          siklus_aktif: k.db.kebun.siklus.filter(
+            (s) => s.petani_id === u.id && s.status === 'aktif',
+          ).length,
+        }))
+        .sort(
+          (a, b) =>
+            b.jumlah_catatan - a.jumlah_catatan || (a.nama ?? '').localeCompare(b.nama ?? ''),
+        );
+    },
     async petani(petaniId) {
       k.wajibPeran('admin');
       return petani(petaniId);
@@ -159,6 +179,14 @@ export function buatKlienAdmin(k: Konteks): KlienAdmin {
   };
 }
 
+const KOLOM_API: Record<KolomResep, string> = {
+  hasilPerSatuan: 'hasil_per_satuan',
+  umurPanenHari: 'umur_panen_hari',
+  persenPanenJelek: 'persen_panen_jelek',
+  input: 'input',
+  tugas: 'tugas',
+};
+
 export function buatKlienMentor(k: Konteks): KlienMentor {
   return {
     async daftarResep() {
@@ -167,18 +195,11 @@ export function buatKlienMentor(k: Konteks): KlienMentor {
     },
     async simpanResep(m) {
       k.wajibPeran('mentor', 'admin');
-      const salah: Record<string, 'VALIDASI' | 'TIDAK_DITEMUKAN' | 'HASIL_KOSONG'> = {};
+      const salah: Record<string, KodeGalatApi> = {};
       if (!k.db.referensi.komoditas.some((x) => x.id === m.komoditas_id))
         salah.komoditas_id = 'TIDAK_DITEMUKAN';
       const metode = k.db.referensi.metode.find((x) => x.id === m.metode_id);
       if (!metode) salah.metode_id = 'TIDAK_DITEMUKAN';
-      if (!(m.hasil_per_satuan > 0)) salah.hasil_per_satuan = 'HASIL_KOSONG';
-      if (!(m.umur_panen_hari > 0)) salah.umur_panen_hari = 'VALIDASI';
-      if (
-        m.persen_panen_jelek !== null &&
-        !(m.persen_panen_jelek > 0 && m.persen_panen_jelek <= 100)
-      )
-        salah.persen_panen_jelek = 'VALIDASI';
       if (Object.keys(salah).length) k.validasi(salah);
       const sementara = {
         ...m,
@@ -190,13 +211,12 @@ export function buatKlienMentor(k: Konteks): KlienMentor {
         validator: null,
         tanggal_validasi: null,
       };
-      for (const t of resepKeDomain({ ...sementara, dasar_ukuran: metode!.dasar_ukuran }).tugas) {
-        k.dariHasil(validasiResepTugas(t), 'tugas');
-        if ((t.hstSelesai ?? t.hstMulai) > m.umur_panen_hari)
-          k.validasi({ tugas: 'HST_TIDAK_VALID' });
-        for (const b of t.ukur ?? [])
-          if (b.batasBawah > b.batasAtas) k.validasi({ tugas: 'VALIDASI' });
-      }
+      // Aturan yang sama dengan editor mentor (src/lib/validasi-resep.ts); masalah pertama per kolom.
+      const masalah = validasiResep(
+        resepKeDomain({ ...sementara, dasar_ukuran: metode!.dasar_ukuran }),
+      );
+      for (const x of masalah) salah[KOLOM_API[x.kolom]] ??= x.kode;
+      if (Object.keys(salah).length) k.validasi(salah);
       // K3: setiap simpan adalah versi baru; siklus berjalan tetap menunjuk versi lamanya.
       const versi =
         1 +

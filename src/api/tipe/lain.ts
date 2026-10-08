@@ -19,6 +19,16 @@ export interface SengketaUntukAdmin extends Sengketa {
   nama_pembeli: string;
 }
 
+/** Baris daftar petani di panel admin (T4.29, D-46): tanpa nomor HP dan titik lahan. */
+export interface PetaniRingkasAdmin {
+  id: string;
+  nama: string | null;
+  desa: string | null;
+  status_akun: StatusAkun;
+  jumlah_catatan: number;
+  siklus_aktif: number;
+}
+
 export interface PetaniUntukAdmin {
   pengguna: Pengguna;
   catatan: CatatanPetani[];

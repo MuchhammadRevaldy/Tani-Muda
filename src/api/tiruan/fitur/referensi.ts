@@ -1,4 +1,5 @@
 /** Klien tiruan: referensi (komoditas, metode, merek, harga, subsidi, promo, konfigurasi) dan resep. */
+import { CONTOH_LANDING } from '../../../lib/contoh-landing';
 import { rataRataSekitar, urutkanMerek, validasiMerekLain } from '../../../lib/harga-item';
 import { selisihHari } from '../../../lib/tanggal';
 import type { KlienReferensi, KlienResep } from '../../klien';
@@ -166,6 +167,13 @@ export function buatKlienReferensi(k: Konteks): KlienReferensi {
   };
 }
 
+/** Pasangan komoditas dan cara tanam yang dihitung di halaman depan (sama dengan CONTOH_LANDING). */
+const PASANGAN_CONTOH_PUBLIK = [
+  [CONTOH_LANDING.petani.komoditas, CONTOH_LANDING.petani.metode],
+  [CONTOH_LANDING.sawah.komoditas, CONTOH_LANDING.sawah.metode],
+  [CONTOH_LANDING.pembeli.komoditas, CONTOH_LANDING.pembeli.metode],
+] as const;
+
 export function buatKlienResep(k: Konteks): KlienResep {
   return {
     async daftar(p = {}) {
@@ -191,18 +199,57 @@ export function buatKlienResep(k: Konteks): KlienResep {
       return k.salin(r);
     },
     async contohPublik() {
-      // Tanpa masuk: hanya resep yang terlihat publik (divalidasi, atau contoh bila diizinkan, D-12).
+      // Tanpa masuk: hanya resep yang terlihat publik (divalidasi, atau contoh bila diizinkan, D-12),
+      // dan hanya potongan yang dipakai contoh perhitungan halaman depan (D-45).
       const resep = resepTerbaru(k.db.resep.filter((r) => k.resepTerlihat(r)));
+      const contoh = PASANGAN_CONTOH_PUBLIK.flatMap(([komoditasId, metodeId]) => {
+        const r = resep.find((x) => x.komoditas_id === komoditasId && x.metode_id === metodeId);
+        const kom = k.db.referensi.komoditas.find((x) => x.id === komoditasId);
+        if (!r || !kom?.harga_jual_contoh) return [];
+        return [
+          {
+            komoditas_id: r.komoditas_id,
+            metode_id: r.metode_id,
+            contoh: r.contoh,
+            harga_jual_contoh: kom.harga_jual_contoh,
+            hasil_per_satuan: r.hasil_per_satuan,
+            dasar_ukuran: r.dasar_ukuran,
+            umur_panen_hari: r.umur_panen_hari,
+            input: r.input.map((i) => ({
+              id: i.id,
+              nama: i.nama,
+              grup: i.grup,
+              dosis: i.dosis,
+              satuan_dosis: i.satuan_dosis,
+              dasar_dosis: i.dasar_dosis,
+              satuan_beli: i.satuan_beli,
+              isi_satuan_beli: i.isi_satuan_beli,
+              ukuran_kemasan: i.ukuran_kemasan,
+              alat_sekali_beli: i.alat_sekali_beli,
+              harga_contoh: i.harga_contoh,
+            })),
+            tugas: r.tugas.map((t) => ({
+              id: t.id,
+              tipe: t.tipe,
+              judul: t.judul,
+              hst_mulai: t.hst_mulai,
+              hst_selesai: t.hst_selesai,
+              interval: t.interval,
+              langkah_pertama: t.cara_mengerjakan?.[0] ?? null,
+            })),
+          },
+        ];
+      });
       return k.salin({
         komoditas: k.db.referensi.komoditas.map((x) => ({
-          ...x,
+          id: x.id,
+          nama: x.nama,
+          satuan_panen: x.satuan_panen,
           status_resep: resep.some((r) => r.komoditas_id === x.id)
             ? ('tersedia' as const)
             : ('segera_hadir' as const),
-          jumlah_pesanan_sekitar: 0,
         })),
-        metode: k.db.referensi.metode,
-        resep,
+        contoh,
       });
     },
     async minta(m) {

@@ -84,6 +84,47 @@ function resepTugasKeDomain(t: A.ResepTugas): D.ResepTugas {
   };
 }
 
+/** Potongan resep contoh halaman depan (D-45) → domain, dengan kolom yang tidak dikirim dikosongkan. */
+export function contohKeDomain(c: A.ContohHitungPublik): D.ResepTanam {
+  return {
+    id: `contoh-${c.komoditas_id}-${c.metode_id}`,
+    komoditasId: c.komoditas_id,
+    metodeId: c.metode_id,
+    versi: 1,
+    status: c.contoh ? 'draf' : 'divalidasi',
+    contoh: c.contoh,
+    asalAngkaContoh: null,
+    validator: null,
+    tanggalValidasi: null,
+    hasilPerSatuan: c.hasil_per_satuan,
+    umurPanenHari: c.umur_panen_hari,
+    standarKualitas: [],
+    input: c.input.map((i) => ({
+      id: i.id,
+      nama: i.nama,
+      grup: i.grup,
+      dosis: i.dosis,
+      satuanDosis: i.satuan_dosis,
+      dasarDosis: i.dasar_dosis,
+      satuanBeli: i.satuan_beli,
+      ...(i.isi_satuan_beli !== null ? { isiSatuanBeli: i.isi_satuan_beli } : {}),
+      ukuranKemasan: i.ukuran_kemasan,
+      alatSekaliBeli: i.alat_sekali_beli,
+      hargaContoh: i.harga_contoh,
+    })),
+    tugas: c.tugas.map((t) => ({
+      id: t.id,
+      tipe: t.tipe,
+      judul: t.judul,
+      hstMulai: t.hst_mulai,
+      ...(t.hst_selesai !== null ? { hstSelesai: t.hst_selesai } : {}),
+      ...(t.interval !== null ? { interval: t.interval } : {}),
+      bolehDigeser: true,
+      ...(t.langkah_pertama ? { caraMengerjakan: [t.langkah_pertama] } : {}),
+    })),
+  };
+}
+
 /** Domain → API, dipakai pembuat data contoh dari fixture T2.01. */
 export function resepDariDomain(r: D.ResepTanam, dasarUkuran: A.DasarUkuran): A.ResepTanam {
   return {

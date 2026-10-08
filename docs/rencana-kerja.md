@@ -164,7 +164,7 @@ Tujuan tahap: proyek jalan, token dan komponen dasar sama dengan desain, halaman
 - **PRD:** US-10, US-11 (lencana pesanan).
 - **Selesai bila:** pada 390px muncul nav bawah dan tidak ada sidebar; pada 1440px sebaliknya; sama dengan papan 03 desktop (sidebar) dan 36 (header pembeli). Titik beralih sesuai D-16 (sidebar mulai 1024px).
 - **Prasyarat:** T1.04, T1.06, T1.07, T1.09.
-- **Catatan (5 Okt 2026):** Nama berkas `navigasi.tsx` dan `kerangka.tsx`; ditambah `KerangkaPanel` (mentor/admin, desktop saja). Tangkapan: `docs/tangkapan/aplikasi/00-kerangka-petani-{mobile,desktop}.png` dan `00-kerangka-pembeli-{mobile,desktop}.png`.
+- **Catatan (5 Okt 2026):** Nama berkas `navigasi.tsx` dan `kerangka.tsx`; ditambah `KerangkaPanel` (mentor/admin, desktop saja). Tangkapan: `docs/tangkapan/aplikasi/00-kerangka-petani-{mobile,desktop}.png` dan `00-kerangka-pembeli-{mobile,desktop}.png` (dipindah ke `docs/tangkapan/arsip/tahap-1/` pada 9 Okt 2026).
 
 ### [x] T1.16 Komponen pelengkap
 - **Tujuan:** `KotakOtp` (6 digit, tempel, hitung mundur), `Stepper` ("Langkah n dari 3"), `Avatar`, `DaftarLangkah` (bernomor), `DaftarSyarat` (centang), `FaqLipat`.
@@ -864,12 +864,13 @@ Catatan pembagian:
 - **Prasyarat:** T4.22, T3.09.
 - **Catatan (8 Okt 2026):** Rute `/pembeli/daftar` (halaman turunan 48) dengan pencarian desa usaha; kartu status verifikasi di dasbor, formulir pesanan, dan data usaha. Tangkapan: `48-data-usaha-pembeli-*`.
 
-### [ ] T4.29 Panel admin minimal: verifikasi dan sengketa (turunan)
+### [x] T4.29 Panel admin minimal: verifikasi dan sengketa (turunan)
 - **Tujuan:** Admin menyetujui/menolak pembeli, melihat antrean sengketa (foto, alasan, keputusan), melihat **catatan petani**, dan **menonaktifkan sementara / mengaktifkan kembali** petani (D-03). **Desktop saja, tabel sederhana (D-07).**
 - **Berkas:** `src/halaman/admin/verifikasi-pembeli.tsx`, `src/halaman/admin/sengketa.tsx`.
 - **PRD:** P0-02, P0-25, US-21.
 - **Selesai bila:** hanya peran admin yang bisa membuka (penjaga rute dan klien API); keputusan sengketa menentukan pencairan sisa bagian.
 - **Prasyarat:** T4.25, T4.28.
+- **Catatan (9 Okt 2026):** Rute `/admin` (verifikasi pembeli), `/admin/sengketa`, `/admin/petani`, `/admin/petani/:id`; berkas `src/halaman/admin/{verifikasi-pembeli,sengketa,petani}.tsx`, kepala panel di `src/halaman/panel/kerangka-panel-sesi.tsx`, tabel di `src/komponen/tabel.tsx`. Endpoint baru `GET /admin/petani` (D-46). Tangkapan turunan `57-admin-verifikasi-pembeli`, `58-admin-sengketa` (+ `-putuskan`), `59-admin-petani`, `60-admin-petani-detail`.
 
 ## 4F. Pilar Belajar
 
@@ -955,19 +956,21 @@ Catatan pembagian:
 
 ## 4H. Peran mentor (di luar demo)
 
-### [ ] T4.38 Mentor: daftar resep dan permintaan resep
+### [x] T4.38 Mentor: daftar resep dan permintaan resep
 - **Tujuan:** Daftar resep per komoditas dan metode dengan status validasi, daftar permintaan resep terbanyak per komoditas dan wilayah.
 - **Berkas:** `src/halaman/mentor/daftar-resep.tsx`, `src/halaman/mentor/permintaan-resep.tsx`.
 - **PRD:** P0-04, US-19, US-31.
 - **Selesai bila:** hanya peran mentor/admin; permintaan diurutkan menurut jumlah. **Desktop saja, tabel sederhana (D-07).**
 - **Prasyarat:** T4.34, T3.10.
+- **Catatan (9 Okt 2026):** Rute `/mentor` (satu baris per tanaman dan cara tanam, versi sebelumnya bisa dibuka) dan `/mentor/permintaan`. Tangkapan turunan `61-mentor-daftar-resep`, `62-mentor-permintaan-resep`.
 
-### [ ] T4.39 Mentor: editor resep dan versi
+### [x] T4.39 Mentor: editor resep dan versi
 - **Tujuan:** Membuat/mengubah resep (input, dosis, dasar dosis, kemasan, tugas, rentang ukur, saran), versi baru saat ubah, tandai divalidasi (validator + tanggal).
 - **Berkas:** `src/halaman/mentor/editor-resep.tsx`, `src/lib/validasi-resep.ts` + `.test.ts` (HST valid, interval > 0, batas bawah ≤ batas atas).
 - **PRD:** P0-03, P0-04, US-19.
 - **Selesai bila:** siklus berjalan tetap memakai versi lama (diuji); resep belum divalidasi tidak terlihat petani; validasi menolak data tidak masuk akal. **Desktop saja, tabel sederhana (D-07).**
 - **Prasyarat:** T4.38, T3.10.
+- **Catatan (9 Okt 2026):** Rute `/mentor/resep/baru` dan `/mentor/resep/:id`; isian di `src/halaman/mentor/form-resep.ts`, aturan di `src/lib/validasi-resep.ts` + 6 tes, juga dipakai klien tiruan (D-46). Tangkapan turunan `63-mentor-editor-resep` (+ `-galat`).
 
 ### [x] T4.41 Bayar uang muka, pembayaran, dan riwayat pembeli (turunan) **[DEMO]**
 - **Tujuan:** Dari "Lanjut bayar Rp…" ke lembar bayar mode uji coba, halaman hasil (berhasil/gagal/menunggu), status "Uang muka sudah masuk" di sisi petani sebelum mulai menanam, konfirmasi kiriman memicu pencairan; halaman Pembayaran dan Riwayat pembeli. Semua lewat klien API dan `PenyediaPembayaran` tiruan (T3.11) dengan label "Mode uji coba"; teks memakai bahasa petani (D-09).
@@ -980,13 +983,14 @@ Catatan pembagian:
 
 ## 4I. Pemeriksaan akhir tahap
 
-### [ ] T4.40 Uji responsif dan perbandingan desain menyeluruh **[DEMO]**
+### [x] T4.40 Uji responsif dan perbandingan desain menyeluruh **[DEMO]**
 - **Tujuan:** Satu putaran memeriksa semua halaman di 390, 768, 1280, 1440 terhadap papan; perbaiki selisih.
 - **Berkas:** `docs/cek-halaman.md` (tabel: papan NN, status, catatan), perbaikan di berkas terkait.
 - **PRD:** –
 - **Selesai bila:** setiap file papan di `design/README.md` (64 file, 39 halaman) punya baris dengan status "sama" atau alasan perbedaan; tidak ada gulir horizontal; tidak ada teks di bawah 16px; lint aturan hijau.
 - **Tangkapan (D-07):** semua file di `docs/tangkapan/aplikasi/` diambil ulang (390px dan 1440px), ditunjukkan ke pemilik produk; **berhenti menunggu tanggapan** sebelum tugas berikutnya.
 - **Prasyarat:** T4.02–T4.37 dan T4.41 (yang bertanda DEMO minimal).
+- **Catatan (9 Okt 2026):** Pemeriksaan otomatis 53 alamat × 4 lebar (390, 768, 1280, 1440): satu gulir mendatar ditemukan dan diperbaiki di editor resep; tidak ada teks di bawah 16px. Hasil per papan (64 berkas) di `docs/cek-halaman.md`. Semua tangkapan diambil ulang. Naskah demo di `docs/naskah-demo.md` diuji jalan dengan skrip peramban (D-46).
 
 ---
 
@@ -1148,6 +1152,7 @@ Aturan tahap:
   - kode ditolak tepat setelah 5 menit (waktu dibekukan);
   - percobaan ke-6 ditolak dengan `OTP_TERKUNCI`;
   - kirim ulang terlalu cepat mendapat 429;
+  - ganti nomor HP mengakhiri semua sesi lain pengguna itu, sesi yang dipakai tetap (D-45);
   - driver log menolak menyala di luar `local`;
   - nomor dinormalisasi sama dengan `src/lib/nomor-hp.ts` (kasus uji bersama).
 - **Prasyarat:** T5.04.
@@ -1323,12 +1328,13 @@ Tujuan tahap: frontend memakai backend Laravel lewat klien API HTTP tanpa mengub
 
 ### [ ] T6.03 PWA: manifest, service worker, instal **[DEMO]**
 - **Tujuan:** `vite-plugin-pwa` dengan manifest (nama, ikon, warna dari token), precache cangkang aplikasi, halaman offline cadangan, dan petunjuk tambah ke layar utama (untuk iPhone).
-- **Berkas:** `frontend/vite.config.ts`, `frontend/public/ikon/*`, `frontend/src/pwa/daftar-sw.ts`, `frontend/src/komponen/petunjuk-instal.tsx`.
+- **Berkas:** `frontend/vite.config.ts`, `frontend/public/ikon/*` (sudah dibuat di gelombang 8 dengan `scripts/buat-ikon.mjs`: 192, 512, maskable 512; D-46), `frontend/src/pwa/daftar-sw.ts`, `frontend/src/komponen/petunjuk-instal.tsx`.
 - **PRD:** P0-29, P0-13 (syarat), Dependensi PWA.
 - **Selesai bila:**
   - Lighthouse PWA terpasang;
   - aplikasi terbuka saat offline setelah kunjungan pertama;
-  - ikon dan `theme_color` memakai nilai token.
+  - ikon dan `theme_color` memakai nilai token;
+  - **bundel dipecah per halaman (P-22, D-45): JavaScript yang dimuat di halaman pertama paling besar 200 kB setelah gzip**, diukur dari `dist/` untuk rute `/` dan `/beranda` dan diperiksa otomatis di `scripts/cek-build.mjs`.
 - **Prasyarat:** T6.02.
 
 ### [ ] T6.04 Skema Dexie dan cache data offline **[DEMO]**

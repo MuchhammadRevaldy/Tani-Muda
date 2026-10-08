@@ -497,7 +497,7 @@ Peran: P = petani, B = pembeli, M = mentor, A = admin, semua = semua pengguna ma
 | `PUT /akun/peran` | semua, peran kosong | `{ peran, nama, wilayah_id? }` → `Akun` | `WILAYAH_WAJIB` (petani), `STATUS_TIDAK_SESUAI` (sudah berperan) | `akun.pilihPeran` |
 | `PATCH /akun` | semua | `{ nama?, wilayah_id?, zona_waktu?, foto_profil?, terdaftar_kelompok_tani? }` → `Akun` | `VALIDASI` | `akun.ubahProfil` |
 | `POST /akun/nomor-hp/otp` | semua | `{ nomor_hp }` → `{ nomor_hp, kirim_ulang_dalam_detik, kedaluwarsa_dalam_detik }`; kode dikirim ke **nomor baru**, tidak pernah ada di respons | `VALIDASI` (`nomor_hp`: `NOMOR_HP_TIDAK_VALID`, `NOMOR_SAMA`), `NOMOR_SUDAH_DIPAKAI`, `TERLALU_SERING` | `akun.kirimOtpNomorBaru` |
-| `PUT /akun/nomor-hp` | semua | `{ nomor_hp, kode }` → `Akun` dengan nomor baru; sesi tetap | `VALIDASI` (`NOMOR_SAMA`), `NOMOR_SUDAH_DIPAKAI` (dicek ulang), `OTP_SALAH`, `OTP_KEDALUWARSA`, `OTP_TERKUNCI` | `akun.gantiNomorHp` |
+| `PUT /akun/nomor-hp` | semua | `{ nomor_hp, kode }` → `Akun` dengan nomor baru; sesi ini tetap (ID sesi diperbarui), **semua sesi lain pengguna itu diakhiri** (D-45) | `VALIDASI` (`NOMOR_SAMA`), `NOMOR_SUDAH_DIPAKAI` (dicek ulang), `OTP_SALAH`, `OTP_KEDALUWARSA`, `OTP_TERKUNCI` | `akun.gantiNomorHp` |
 | `GET /akun/catatan` | P | → `CatatanPetani[]` milik sendiri | | `akun.catatanSaya` |
 | `PUT /akun/profil-pembeli` | B | `ProfilPembeliMasukan` → `ProfilPembeli` (baru → `menunggu`) | `VALIDASI` | `akun.simpanProfilPembeli` |
 
@@ -524,7 +524,7 @@ Peran: P = petani, B = pembeli, M = mentor, A = admin, semua = semua pengguna ma
 | --- | --- | --- | --- |
 | `GET /resep?komoditas_id=&metode_id=` | semua | → `ResepTanam[]` versi terbaru yang terlihat (bagian 1.9) | `resep.daftar` |
 | `GET /resep/{id}` | semua | → `ResepTanam`; versi lama tetap bisa dibuka pemilik siklusnya | `resep.ambil` |
-| `GET /publik/contoh` | publik | → `{ komoditas: Komoditas[], metode: MetodeTanam[], resep: ResepTanam[] }`: resep terbaru yang terlihat publik (bagian 1.9), `jumlah_pesanan_sekitar` selalu 0; untuk angka contoh halaman depan (D-08, D-44). Dibatasi laju seperti endpoint publik lain | `resep.contohPublik` |
+| `GET /publik/contoh` | publik | → `ContohPublik` `{ komoditas, contoh }`: komoditas hanya `id`, `nama`, `satuan_panen`, `status_resep`; `contoh` hanya pasangan yang dihitung halaman depan (sawi bedengan, padi sawah, bayam bedengan) dari resep terbaru yang terlihat publik (bagian 1.9), berisi `harga_jual_contoh`, `hasil_per_satuan`, `dasar_ukuran`, `umur_panen_hari`, `input` (kolom hitung modal) dan `tugas` (`id`, `tipe`, `judul`, `hst_mulai`, `hst_selesai`, `interval`, `langkah_pertama`). Tanpa data pengguna. Batas laju 60/menit per IP (D-44, D-45) | `resep.contohPublik` |
 | `POST /permintaan-resep` | P | `{ komoditas_id, metode_id? }` → `{ permintaan, sudah_diminta }` (tidak ganda) | `resep.minta` |
 | `GET /permintaan-resep/saya` | P | → `PermintaanResep[]` | `resep.permintaanSaya` |
 
@@ -612,11 +612,12 @@ Konfirmasi otomatis: kiriman `dikirim` yang lewat `batas_periksa_pada` dianggap 
 | `POST /admin/pembeli/{id}/verifikasi` | A | `{ keputusan, alasan? }` (alasan wajib bila ditolak) → `PembeliUntukAdmin` | `admin.verifikasiPembeli` |
 | `GET /admin/sengketa?status=` | A | → `SengketaUntukAdmin[]` | `admin.sengketa` |
 | `POST /admin/sengketa/{id}/putuskan` | A | `{ keputusan, catatan? }` → `SengketaUntukAdmin`; menentukan pencairan sisa bagian | `admin.putuskanSengketa` |
+| `GET /admin/petani` | A | → `PetaniRingkasAdmin[]` `{ id, nama, desa, status_akun, jumlah_catatan, siklus_aktif }`, tanpa nomor HP dan titik lahan, terurut jumlah catatan (D-46) | `admin.daftarPetani` |
 | `GET /admin/petani/{id}` | A | → `PetaniUntukAdmin` | `admin.petani` |
 | `POST /admin/petani/{id}/catatan` | A | `{ jenis, isi, pengiriman_id? }` → `CatatanPetani` | `admin.tulisCatatan` |
 | `POST /admin/petani/{id}/status` | A | `{ status_akun }` → `PetaniUntukAdmin` (D-13) | `admin.ubahStatusPetani` |
 | `GET /mentor/resep` | M, A | → `ResepTanam[]` semua versi | `mentor.daftarResep` |
-| `POST /mentor/resep` | M, A | `SimpanResepMasukan` → `ResepTanam` versi baru, `draf` (K3) | `mentor.simpanResep` |
+| `POST /mentor/resep` | M, A | `SimpanResepMasukan` → `ResepTanam` versi baru, `draf` (K3). Angka tidak masuk akal → `422 VALIDASI` dengan rincian per kolom (`hasil_per_satuan`, `umur_panen_hari`, `persen_panen_jelek`, `input`, `tugas`), aturan `src/lib/validasi-resep.ts` (D-46) | `mentor.simpanResep` |
 | `POST /mentor/resep/{id}/validasi` | M, A | → `ResepTanam` `divalidasi` (resep contoh → `STATUS_TIDAK_SESUAI`) | `mentor.validasiResep` |
 | `GET /mentor/permintaan-resep` | M, A | → `RingkasanPermintaanResep[]` terbanyak dulu | `mentor.ringkasanPermintaan` |
 
@@ -667,7 +668,7 @@ Konfirmasi otomatis: kiriman `dikirim` yang lewat `batas_periksa_pada` dianggap 
 | T4.35–T4.36 Profil | `GET /akun`, `PATCH /akun`, `GET /akun/catatan`, `GET /pengguna/{id}/rating`, `GET /lahan`, `GET /siklus`, `GET /kiriman/saya`, `GET /siklus/{id}/pengingat`, `GET /wilayah`, `POST /berkas`, `POST /akun/nomor-hp/otp`, `PUT /akun/nomor-hp`, `POST /auth/keluar` |
 | T4.37 Halaman statis | `GET /konfigurasi` |
 | T4.36a Lahan saya | `GET`/`POST /lahan`, `PATCH`/`DELETE /lahan/{id}`, `GET /konversi-satuan`, `GET /wilayah` |
-| T4.38–T4.39 Mentor | `GET`/`POST /mentor/resep`, `POST /mentor/resep/{id}/validasi`, `GET /mentor/permintaan-resep` |
+| T4.38–T4.39 Mentor | `GET`/`POST /mentor/resep`, `POST /mentor/resep/{id}/validasi`, `GET /mentor/permintaan-resep`, `GET /komoditas`, `GET /metode` |
 | T4.41 Bayar uang muka, pembayaran | `POST /pembeli/pesanan/{id}/bayar-uang-muka`, `GET /pembeli/pembayaran` |
 | T6.07 Notifikasi | `POST`/`DELETE /notifikasi/langganan` |
 
@@ -679,6 +680,8 @@ Konfirmasi otomatis: kiriman `dikirim` yang lewat `batas_periksa_pada` dianggap 
 | --- | --- |
 | 2026-10-05 | Versi pertama (T3.01, T3.02), bersama tipe `src/api/tipe/`, klien tiruan, dan tes kontrak |
 | 2026-10-07 | D-38: `pengguna.terdaftar_kelompok_tani`, `komoditas.harga_jual_contoh`, `resep_tanam.persen_panen_jelek` dan `alasan_panen_jelek`, pembulatan harga sekitar ke ratusan. Tunda tugas terlambat dihitung dari hari ini. |
+| 2026-10-09 | D-46: `GET /admin/petani` (daftar petani ringkas); `POST /mentor/resep` menjawab `VALIDASI` dengan rincian; kode galat `UMUR_PANEN_TIDAK_VALID`, `PERSEN_PANEN_JELEK_TIDAK_VALID`, `BATAS_UKUR_TIDAK_VALID`. |
+| 2026-10-09 | D-45: `GET /publik/contoh` menjadi `{ komoditas, contoh }` yang ramping; `PUT /akun/nomor-hp` mengakhiri semua sesi lain. |
 | 2026-10-08 | D-44: `POST /akun/nomor-hp/otp`, `PUT /akun/nomor-hp`, galat `409 NOMOR_SUDAH_DIPAKAI` dan validasi `NOMOR_SAMA`; endpoint publik `GET /publik/contoh`. |
 | 2026-10-08 | D-43: `modul.hst_mulai` (hari mulai tahap, untuk modul tahap berjalan). |
 | 2026-10-08 | D-41: `simulasi` pada bayar uang muka (mode uji coba), galat `402 PEMBAYARAN_GAGAL`, status pembayaran `menunggu` dan `gagal` dipakai, `pengiriman.rating_saya`, `konfigurasi.pembayaran_uji_coba`. |

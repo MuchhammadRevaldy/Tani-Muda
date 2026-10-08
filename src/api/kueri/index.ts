@@ -267,6 +267,8 @@ export const usePutuskanSengketa = () =>
     (k, x: { id: string } & T.PutuskanSengketaMasukan) => k.admin.putuskanSengketa(x.id, x),
     ['admin', 'kiriman'],
   );
+export const useDaftarPetaniAdmin = () =>
+  q(kk('admin', 'petani-daftar'), (k) => k.admin.daftarPetani());
 export const usePetaniAdmin = (id: string | null) =>
   q(kk('admin', 'petani', id), (k) => k.admin.petani(id as string), !!id);
 export const useTulisCatatan = () =>

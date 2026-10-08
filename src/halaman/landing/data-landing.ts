@@ -1,15 +1,17 @@
 /**
- * Data halaman depan (T4.32, D-44): contoh publik (komoditas, cara tanam, resep) dan konfigurasi,
+ * Data halaman depan (T4.32, D-44, D-45): contoh publik (komoditas dan potongan resep contoh) dan konfigurasi,
  * diolah fungsi src/lib menjadi angka contoh dan pin penggaris (D-08). Bila resep contoh tidak
  * terlihat publik (pengaturan resep contoh mati), bagian berangka disembunyikan, teks tetap tampil.
  */
 import { useContohPublik, useKonfigurasi } from '../../api/kueri';
-import { resepKeDomain } from '../../api/peta';
+import { contohKeDomain } from '../../api/peta';
 import { useHariIni } from '../../api/sesi';
-import type { Komoditas, Konfigurasi, ResepTanam as ResepApi } from '../../api/tipe';
+import type { ContohHitungPublik, ContohPublik, Konfigurasi } from '../../api/tipe';
 import { angkaContoh, CONTOH_LANDING, pinContoh, type AngkaContoh } from '../../lib/contoh-landing';
 import type { JadwalPin } from '../../lib/tata-letak-penggaris';
 import type { ResepTanam } from '../../tipe';
+
+type Komoditas = ContohPublik['komoditas'][number];
 
 export interface ContohSiklus {
   komoditas: Komoditas;
@@ -44,33 +46,32 @@ export function useDataLanding(): DataLanding {
   const c = contohQ.data;
   const komoditas = c?.komoditas ?? [];
   const cariKomoditas = (id: string) => komoditas.find((k) => k.id === id) ?? null;
-  const cariResep = (komoditasId: string, metodeId: string): ResepApi | null =>
-    c?.resep.find((r) => r.komoditas_id === komoditasId && r.metode_id === metodeId) ?? null;
+  const cariResep = (komoditasId: string, metodeId: string): ContohHitungPublik | null =>
+    c?.contoh.find((r) => r.komoditas_id === komoditasId && r.metode_id === metodeId) ?? null;
 
   function siklus(komoditasId: string, metodeId: string, hariKe: number): ContohSiklus | null {
     const k = cariKomoditas(komoditasId);
     const api = cariResep(komoditasId, metodeId);
     if (!k || !api) return null;
-    const resep = resepKeDomain(api);
+    const resep = contohKeDomain(api);
     const pin = pinContoh(resep, hariKe, hariIni);
     const pinBesok = pin.find((p) => p.status === 'besok');
     const tugasBesok = pinBesok ? api.tugas.find((t) => t.judul === pinBesok.label) : undefined;
+    const isiBesok = tugasBesok?.langkah_pertama ?? null;
     return {
       komoditas: k,
       resep,
       hariKe,
       pin,
-      besok: pinBesok
-        ? { judul: pinBesok.label, isi: tugasBesok?.cara_mengerjakan?.[0] ?? null }
-        : null,
+      besok: pinBesok ? { judul: pinBesok.label, isi: isiBesok } : null,
     };
   }
 
   function angka(komoditasId: string, metodeId: string, luasM2: number): AngkaContoh | null {
     const k = cariKomoditas(komoditasId);
     const api = cariResep(komoditasId, metodeId);
-    if (!k?.harga_jual_contoh || !api) return null;
-    const h = angkaContoh(resepKeDomain(api), luasM2, k.harga_jual_contoh, hariIni);
+    if (!k || !api) return null;
+    const h = angkaContoh(contohKeDomain(api), luasM2, api.harga_jual_contoh, hariIni);
     return h.ok ? h.nilai : null;
   }
 

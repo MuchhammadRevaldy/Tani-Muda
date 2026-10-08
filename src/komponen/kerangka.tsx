@@ -73,12 +73,29 @@ export function KerangkaPembeli({
   );
 }
 
-/** Kerangka panel mentor/admin: desktop saja, tabel sederhana (D-07). */
-export function KerangkaPanel({ judul, children }: { judul: string; children: ReactNode }) {
+/**
+ * Kerangka panel mentor/admin: desktop saja, tabel sederhana (D-07). `kepala` berisi logo, menu
+ * panel, dan tombol Keluar; di HP kepala dan tabel boleh digeser di dalam wadahnya sendiri.
+ */
+export function KerangkaPanel({
+  judul,
+  keterangan,
+  kepala,
+  children,
+}: {
+  judul: string;
+  keterangan?: ReactNode;
+  kepala?: ReactNode;
+  children: ReactNode;
+}) {
   return (
     <div className="min-h-layar bg-embun-pagi text-teks">
-      <main className="mx-auto flex max-w-konten flex-col gap-6 px-10 pb-12 pt-6">
-        <h1 className="m-0 text-judul-halaman font-semibold">{judul}</h1>
+      {kepala}
+      <main className="mx-auto flex max-w-konten flex-col gap-6 px-4 pb-12 pt-6 lg:px-10">
+        <div className="flex flex-col gap-1">
+          <h1 className="m-0 text-judul-halaman font-semibold">{judul}</h1>
+          {keterangan ? <p className="m-0 text-teks-pendukung">{keterangan}</p> : null}
+        </div>
         {children}
       </main>
     </div>

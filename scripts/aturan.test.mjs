@@ -89,6 +89,12 @@ describe('aturan bahasa', () => {
     );
     expect(kode('src/teks/a.ts', "export const t = { a: 'HST 13' };")).toContain('BAHASA');
   });
+  it('"HST" boleh di panel mentor saja; "DP" tetap ditolak di sana', () => {
+    expect(kode('src/teks/panel.ts', "export const t = { a: 'HST mulai' };")).toEqual([]);
+    expect(kode('src/halaman/mentor/A.tsx', '<th>HST selesai</th>')).toEqual([]);
+    expect(kode('src/teks/panel.ts', "export const t = { a: 'Bayar DP' };")).toContain('BAHASA');
+    expect(kode('src/halaman/beranda.tsx', '<p>HST 13</p>')).toContain('BAHASA');
+  });
   it('menolak kata Inggris di teks JSX', () => {
     expect(kode('src/halaman/A.tsx', '<button>Submit</button>')).toContain('BAHASA');
     expect(kode('src/halaman/A.tsx', '<a aria-label="Dashboard pembeli" />')).toContain('BAHASA');

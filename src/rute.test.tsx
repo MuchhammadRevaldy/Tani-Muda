@@ -24,7 +24,8 @@ const jalur = [
   ['/profil/ubah', 'Ubah profil', 'petani-arif'],
   ['/pembeli', 'Pesanan aktif', 'pembeli-ratna'],
   ['/pembeli/riwayat', 'Riwayat', 'pembeli-ratna'],
-  ['/admin', 'Admin', 'admin-tani'],
+  ['/admin', 'Verifikasi pembeli', 'admin-tani'],
+  ['/mentor', 'Resep tanam', 'mentor-rahmat'],
 ] as const;
 
 async function buka(url: string, pengguna: string | null = null) {

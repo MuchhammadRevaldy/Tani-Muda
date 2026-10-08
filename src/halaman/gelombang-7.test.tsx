@@ -42,6 +42,9 @@ describe('halaman depan (T4.32)', () => {
     expect(screen.getByText('Rp320.000')).toBeInTheDocument();
     expect(screen.getByText(/impas di 86 kg/)).toBeInTheDocument();
     expect(screen.getByText(/impas di 264 kg gabah/)).toBeInTheDocument();
+    // D-45: kartu contoh berlabel dan angka berketerangan tanpa subsidi.
+    expect(screen.getByText('Contoh perhitungan')).toBeInTheDocument();
+    expect(screen.getByText('Dihitung dengan harga tanpa subsidi')).toBeInTheDocument();
     // Persen uang muka dan jam periksa dari konfigurasi.
     expect(screen.getByText(/membayar uang muka 20%/)).toBeInTheDocument();
     expect(screen.getByText(/Paling lama 6 jam setelah sayur tiba/)).toBeInTheDocument();

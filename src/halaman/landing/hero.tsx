@@ -40,6 +40,9 @@ function KartuContoh({ d }: { d: NonNullable<DataLanding['petani']> }) {
       <div className="relative flex flex-col gap-4 rounded-sheet bg-daun-lembut p-3 lg:p-5">
         <div className="overflow-hidden rounded-lg border border-garis bg-putih">
           <div className="flex flex-col gap-1 px-4 pt-4">
+            <LabelKecil nada="garis" className="mb-2 self-start">
+              {t.contohPerhitungan}
+            </LabelKecil>
             <h2 className="m-0 text-judul-bagian font-semibold">
               {t.judulContoh(d.komoditas.nama)}
             </h2>

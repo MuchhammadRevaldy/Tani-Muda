@@ -97,27 +97,34 @@ export function Pilar({ d }: { d: DataLanding }) {
         </KartuPilar>
         <KartuPilar ikon="uang" nadaIkon="tanah" judul={t.hitung} isi={t.isiHitung}>
           {d.hitung.length ? (
-            <ul className="m-0 list-none rounded-md bg-tanah-lembut p-0">
-              {d.hitung.map((b, i) => {
-                const a = t.modalImpas(
-                  b.angka.modal,
-                  b.angka.titikImpasKg,
-                  b.komoditas.satuan_panen,
-                );
-                return (
-                  <li
-                    key={b.komoditas.id}
-                    className={cx('px-3 py-3', i > 0 && 'border-t border-garis')}
-                  >
-                    <p className="m-0 font-semibold">{t.barisHitung(b.komoditas.nama, b.luasM2)}</p>
-                    <p className="m-0 text-teks-pendukung">
-                      {t.modal} <span className="font-semibold text-tanah">{a.modal}</span> ·{' '}
-                      {a.impas}
-                    </p>
-                  </li>
-                );
-              })}
-            </ul>
+            <div className="rounded-md bg-tanah-lembut">
+              <ul className="m-0 list-none p-0">
+                {d.hitung.map((b, i) => {
+                  const a = t.modalImpas(
+                    b.angka.modal,
+                    b.angka.titikImpasKg,
+                    b.komoditas.satuan_panen,
+                  );
+                  return (
+                    <li
+                      key={b.komoditas.id}
+                      className={cx('px-3 py-3', i > 0 && 'border-t border-garis')}
+                    >
+                      <p className="m-0 font-semibold">
+                        {t.barisHitung(b.komoditas.nama, b.luasM2)}
+                      </p>
+                      <p className="m-0 text-teks-pendukung">
+                        {t.modal} <span className="font-semibold text-tanah">{a.modal}</span> ·{' '}
+                        {a.impas}
+                      </p>
+                    </li>
+                  );
+                })}
+              </ul>
+              <p className="m-0 border-t border-garis px-3 py-2 text-keterangan text-teks-pendukung">
+                {t.tanpaSubsidi}
+              </p>
+            </div>
           ) : null}
         </KartuPilar>
         <KartuPilar ikon="pesanan" nadaIkon="daun" judul={t.jual} isi={t.isiJual}>

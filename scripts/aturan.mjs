@@ -149,11 +149,19 @@ export function periksaBerkas(jalur, isi, daftar) {
         pelanggaran.push({ jalur, baris: i + 1, kode: a.kode, pesan: a.pesan });
     }
   });
+  // Panel mentor boleh memakai istilah penyuluh (mis. "HST", aturan-proyek.md 1.3).
+  const panelMentor = jalur === 'src/teks/panel.ts' || jalur.startsWith('src/halaman/mentor/');
+  const boleh = new Set(panelMentor ? (daftar.bolehPanelMentor ?? []) : []);
+  const daftarBerkas = {
+    ...daftar,
+    kata: daftar.kata.filter((k) => !boleh.has(k)),
+    kataPersis: daftar.kataPersis.filter((k) => !boleh.has(k)),
+  };
   const potong = [];
   if (jalur.startsWith('src/teks/')) potong.push(...stringLiteral(kode));
   if (jalur.endsWith('.tsx')) potong.push(...teksJsx(kode));
   for (const p of potong) {
-    for (const s of cekTeksTampil(p.isi, daftar)) {
+    for (const s of cekTeksTampil(p.isi, daftarBerkas)) {
       pelanggaran.push({
         jalur,
         baris: nomorBaris(kode, p.indeks),

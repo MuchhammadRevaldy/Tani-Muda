@@ -2,13 +2,18 @@ import { lazy, Suspense, useEffect, type ReactNode } from 'react';
 import { createBrowserRouter, Outlet, type RouteObject } from 'react-router-dom';
 import type { MenuPetani } from './komponen/navigasi';
 import { HeaderHalaman } from './komponen/navigasi';
-import { KerangkaPanel } from './komponen/kerangka';
 import { KerangkaPembeliSesi, KerangkaPetaniSesi } from './komponen/kerangka-sesi';
 import { PenjagaRute, PenjagaTamu, PenjagaTanpaPeran } from './komponen/penjaga-rute';
 import { Galat } from './halaman/galat';
 import { TidakDitemukan } from './halaman/tidak-ditemukan';
 import { HalamanKomponen } from './halaman/komponen';
+import { HalamanDaftarPetaniAdmin, HalamanPetaniAdmin } from './halaman/admin/petani';
+import { HalamanSengketa } from './halaman/admin/sengketa';
+import { HalamanVerifikasiPembeli } from './halaman/admin/verifikasi-pembeli';
 import { HalamanLanding } from './halaman/landing';
+import { HalamanDaftarResep } from './halaman/mentor/daftar-resep';
+import { HalamanEditorResep } from './halaman/mentor/editor-resep';
+import { HalamanPermintaanResep } from './halaman/mentor/permintaan-resep';
 import { HalamanMasuk } from './halaman/masuk';
 import { HalamanProfil } from './halaman/profil';
 import { HalamanStatis } from './halaman/statis/halaman-statis';
@@ -109,12 +114,11 @@ const statis = (kunci: 'aturanPakai' | 'privasi' | 'tentang' | 'kontak' | 'bantu
   </>
 );
 
-const panel = (kunci: KunciRute, peran: 'admin' | 'mentor'): ReactNode => (
+/** Panel admin dan mentor (T4.29, T4.38, T4.39): desktop saja, admin juga boleh membuka panel mentor. */
+const panel = (kunci: KunciRute, peran: 'admin' | 'mentor', isi: ReactNode): ReactNode => (
   <PenjagaRute peran={peran === 'mentor' ? ['mentor', 'admin'] : ['admin']}>
-    <KerangkaPanel judul={judulRute[kunci]}>
-      <JudulDokumen kunci={kunci} />
-      <p className="m-0 text-teks-pendukung">{teksUmum.segeraDibangun}</p>
-    </KerangkaPanel>
+    <JudulDokumen kunci={kunci} />
+    {isi}
   </PenjagaRute>
 );
 
@@ -248,8 +252,22 @@ export const daftarRute: RouteObject[] = [
         path: '/pembeli/kiriman/:id',
         element: pembeli('konfirmasiKiriman', <HalamanKonfirmasiKiriman />),
       },
-      { path: '/admin', element: panel('admin', 'admin') },
-      { path: '/mentor', element: panel('mentor', 'mentor') },
+      { path: '/admin', element: panel('admin', 'admin', <HalamanVerifikasiPembeli />) },
+      { path: '/admin/sengketa', element: panel('sengketa', 'admin', <HalamanSengketa />) },
+      {
+        path: '/admin/petani',
+        element: panel('petaniAdmin', 'admin', <HalamanDaftarPetaniAdmin />),
+      },
+      { path: '/admin/petani/:id', element: panel('petaniAdmin', 'admin', <HalamanPetaniAdmin />) },
+      { path: '/mentor', element: panel('mentor', 'mentor', <HalamanDaftarResep />) },
+      {
+        path: '/mentor/permintaan',
+        element: panel('permintaanResep', 'mentor', <HalamanPermintaanResep />),
+      },
+      {
+        path: '/mentor/resep/:id',
+        element: panel('editorResep', 'mentor', <HalamanEditorResep />),
+      },
       { path: '*', element: <TidakDitemukan /> },
     ],
   },

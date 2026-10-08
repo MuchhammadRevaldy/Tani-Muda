@@ -41,8 +41,12 @@ export const judulRute = {
   bayarUangMuka: 'Bayar uang muka',
   daftarPembeli: 'Data usaha',
   laporGagal: 'Kabari tidak sanggup kirim',
-  admin: 'Admin',
-  mentor: 'Mentor',
+  admin: 'Verifikasi pembeli',
+  sengketa: 'Sengketa kiriman',
+  petaniAdmin: 'Petani',
+  mentor: 'Resep tanam',
+  permintaanResep: 'Permintaan resep',
+  editorResep: 'Editor resep',
 } as const;
 
 export type KunciRute = keyof typeof judulRute;

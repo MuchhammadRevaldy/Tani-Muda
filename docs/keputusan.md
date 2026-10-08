@@ -392,7 +392,7 @@ Tafsiran teknis saat menulis `docs/kontrak-api.md`. Tidak mengubah perilaku prod
 - **Ketahanan tes:** saat gelombang ini dikerjakan, RAM bebas mesin sekitar 2 GB (memori sudah dimampatkan Windows). Dengan banyak pekerja paralel, tes halaman yang biasanya 0,2–2 detik menjadi 5–16 detik. Perbaikan: Vitest memakai 2 pekerja, batas waktu tes halaman 15 detik, tes pendaftaran yang panjang dipecah dua, dan tes `siapkanKlien` (memuat modul tiruan dan latensi buatan) diberi batas sendiri 20 detik. Tes terakhir ini memakan ±2 detik saat mesin sepi dan bisa melewati 5 detik saat mesin sibuk, jadi kandidat kuat untuk kegagalan sekali-sekali 7 Oktober yang namanya tidak tercatat. Putaran acak juga menemukan satu cacat nyata di kode gelombang ini: tautan modul tahap di Beranda sempat menunjuk modul pertama sebelum detail siklus termuat; diperbaiki.
 - Berdampak ke: T3.06, T4.09, T4.30, T4.31, T6.05, T6.06.
 
-## D-44. Tanggapan D-43; tafsiran gelombang 7 Tahap 4 (halaman depan, profil, halaman statis)
+## D-44. Tanggapan D-43; tafsiran gelombang 7 Tahap 4 (halaman depan, profil, halaman statis); ditanggapi di D-45
 
 **Tanggapan pemilik produk atas D-43 (8 Okt 2026):**
 - **Modul per tahap dan tautan di Beranda:** setuju.
@@ -414,6 +414,31 @@ Tafsiran teknis saat menulis `docs/kontrak-api.md`. Tidak mengubah perilaku prod
 - **Penggaris umur tanam:** di halaman depan ditemukan tangkai pin tingkat atas menembus label pin tingkat bawah (Pupuk 2 hari ke-14 di atas Siangi rumput hari ke-11); cacat yang sama ada di Beranda desktop. Tata letak kini menggeser label yang tertembus ke posisi lain yang muat, atau menaikkan pinnya ke tingkat di atas, sehingga penggaris sawi hari ke-13 menjadi tiga tingkat. Tes paritas dengan algoritma desain tetap lulus; aturan tambahan ini di luar algoritma desain.
 - Berdampak ke: T4.09, T4.31, T4.32, T4.34, T4.35, T4.36, T4.37, T5.03, T6.06.
 
+## D-45. Tanggapan D-44 (halaman depan, ganti nomor, penggaris, ukuran bundel)
+- **`GET /publik/contoh`:** setuju dengan batasan: hanya data untuk contoh perhitungan halaman depan, bukan seluruh isi resep; tanpa data pengguna; diberi batas jumlah permintaan di backend. Respons kini `{ komoditas, contoh }`: komoditas hanya `id`, `nama`, `satuan_panen`, `status_resep`; `contoh` hanya untuk tiga pasangan yang dihitung halaman depan (sawi bedengan, padi sawah, bayam bedengan), berisi harga jual contoh, hasil per satuan, umur panen, input untuk modal, dan tugas tanpa rentang ukur atau saran (cara mengerjakan hanya langkah pertama). Batas laju backend: 60 permintaan per menit per alamat IP (`arsitektur-backend.md` bagian 14).
+- **Angka padi tanpa subsidi:** setuju. Keterangan "Dihitung dengan harga tanpa subsidi" ditambahkan di bawah angka di pilar Hitung, dan kartu contoh di hero berlabel "Contoh perhitungan" supaya tidak terbaca sebagai janji untung.
+- **Pengingat per siklus di Profil:** setuju.
+- **Ganti nomor HP:** setuju. **Setelah nomor berhasil diganti, semua sesi lain pengguna itu berakhir**; sesi yang sedang dipakai tetap, dengan ID sesi diperbarui. Ditulis di kontrak (`PUT /akun/nomor-hp`), `arsitektur-backend.md` bagian 5, dan syarat tes T5.09. Klien tiruan hanya punya satu sesi per peramban, jadi aturan ini diuji di backend.
+- **Perbaikan penggaris:** setuju, tanpa perubahan label pin di HP.
+- **Selisih kg terjual:** wajar, tidak diubah.
+- **Ukuran bundel (P-22):** tetap dikerjakan di Tahap 6, dengan target terukur: **JavaScript yang dimuat di halaman pertama paling besar 200 kB setelah gzip**, dengan pemecahan per halaman (lazy route). Ditambahkan di T6.03 dan diperiksa otomatis di `scripts/cek-build.mjs`.
+- Berdampak ke: T4.32, T4.36, T5.09, T5.13, T6.03.
+
+## D-46. Tafsiran gelombang 8 Tahap 4 (panel admin, panel mentor, pemeriksaan menyeluruh), menunggu konfirmasi
+- **Daftar petani untuk admin:** endpoint baru `GET /admin/petani` → `PetaniRingkasAdmin[]` (`id`, `nama`, `desa`, `status_akun`, `jumlah_catatan`, `siklus_aktif`), tanpa nomor HP dan titik lahan (D-06), terurut menurut jumlah catatan. Tanpa daftar ini admin tidak bisa menemukan petani untuk menulis catatan atau menonaktifkan (kontrak sebelumnya hanya `GET /admin/petani/{id}`).
+- **Panel:** satu kepala dengan menu sesuai peran. Admin: Verifikasi pembeli (`/admin`), Sengketa (`/admin/sengketa`), Petani (`/admin/petani`, `/admin/petani/:id`), dan juga menu mentor. Mentor: Resep (`/mentor`), Permintaan resep (`/mentor/permintaan`), editor (`/mentor/resep/baru`, `/mentor/resep/:id`). Desktop saja dengan tabel sederhana (D-07); di HP tabel digeser di dalam wadahnya dengan catatan "Panel ini dirancang untuk layar komputer".
+- **Verifikasi pembeli:** Setujui langsung; Tolak lewat dialog dengan alasan wajib yang dikirim ke pembeli. Foto tempat usaha tampil kecil di tabel.
+- **Sengketa:** penyaring Terbuka/Diputuskan; tiap baris memuat petani → pembeli, kiriman ke-n, alasan dan keterangan, foto kualitas dari petani dan foto penolakan, jumlah dan nilai bagian yang ditolak. Keputusan lewat dialog dengan catatan tidak wajib.
+- **Catatan dan status petani:** jenis "Tidak memberi kabar" atau "Lainnya"; catatan terlihat petani di profilnya (D-03). Nonaktifkan sementara / Aktifkan kembali satu tombol.
+- **Editor resep:** semua kolom resep bisa diubah: tanaman dan hasil, standar kualitas, bahan dan alat (dosis, dasar dosis, satuan, isi per satuan beli, kemasan, harga contoh, alat sekali beli), tugas (sekali, berulang, ukur dengan rentang, skala, dan saran), cara mengerjakan, saran bila terlambat. Saat mengubah, tanaman dan cara tanam dikunci; simpan selalu versi baru berstatus draf (K3). Resep contoh tidak bisa divalidasi langsung; versi barunya yang divalidasi.
+- **Aturan validasi resep** di `src/lib/validasi-resep.ts`, dipakai editor dan klien API (acuan backend): hasil > 0; umur panen bilangan bulat ≥ 1; panen jelek 0–100%; bahan bernama, dosis ≥ 0, kemasan > 0, harga ≥ 0; minimal satu tugas; HST tidak negatif dan tidak melewati umur panen; interval ≥ 1; skala min ≤ batas bawah ≤ batas atas ≤ skala maks. Kode galat baru `UMUR_PANEN_TIDAK_VALID`, `PERSEN_PANEN_JELEK_TIDAK_VALID`, `BATAS_UKUR_TIDAK_VALID`. **`POST /mentor/resep` kini selalu menjawab `422 VALIDASI` dengan rincian per kolom** (sebelumnya sebagian kode tingkat atas seperti `HST_TIDAK_VALID`), sama dengan endpoint lain.
+- **Pemeriksaan menyeluruh (T4.40):** 53 alamat di 390, 768, 1280, dan 1440 px diperiksa otomatis (gulir mendatar, teks di bawah 16px, elemen keluar layar); satu masalah ditemukan dan diperbaiki (label pembaca layar di tabel editor melebarkan halaman). Hasil per papan di `docs/cek-halaman.md`. Semua tangkapan diambil ulang.
+- **Naskah demo:** `docs/naskah-demo.md`. Adegan konfirmasi kiriman hanya bisa diperagakan **pukul 07.00–13.00 WIB**, karena data demo menjadwalkan kiriman ke Bu Imas dikirim pukul 07.00 dengan batas periksa 6 jam (D-01); di luar jam itu kiriman sudah dianggap diterima. Usulan: tombol "Jam demo" di pemilih akun demo (mode pengembangan saja) di T6.08.
+- **Favicon dan ikon layar utama:** dari ikon "kebun" design system (logo), garis putih di atas kotak `daun-tua`, dibuat ulang dengan `node scripts/buat-ikon.mjs` (warna dibaca dari token): `favicon.svg`, `favicon.ico` (16/32/48), `apple-touch-icon.png` (180), dan `ikon/ikon-192.png`, `ikon-512.png`, `ikon-maskable-512.png` untuk manifest PWA T6.03. Galat 404 favicon hilang.
+- **Arsip Tahap 1:** enam tangkapan kerangka Tahap 1 dipindah ke `docs/tangkapan/arsip/tahap-1/`; README kini menampilkan Beranda petani dan dasbor pembeli.
+- **"HST" di panel mentor:** pemeriksa bahasa kini mengizinkan "HST" hanya di `src/teks/panel.ts` dan `src/halaman/mentor/`, sesuai aturan-proyek.md 1.3; di halaman lain tetap ditolak.
+- Berdampak ke: T4.29, T4.38, T4.39, T4.40, T5 (admin, mentor), T6.03, T6.08.
+
 ---
 
 ## Riwayat
@@ -423,6 +448,8 @@ Tafsiran teknis saat menulis `docs/kontrak-api.md`. Tidak mengubah perilaku prod
 | 2026-10-05 | D-12 sampai D-18 ditetapkan. Butir turunan di D-03, D-06, dan D-11 dikonfirmasi dan dirujuk ke keputusan baru. Jalur tangkapan layar di D-07 diganti mengikuti D-18 |
 | 2026-10-05 | D-19 dan D-20 ditetapkan: backend Laravel + MariaDB tanpa Docker, tampilan dikerjakan lebih dulu. Butir OTP di D-10 dan butir penegakan di D-13 dan D-14 disesuaikan |
 | 2026-10-05 | D-21 sampai D-25 ditetapkan: cookie Sanctum (token untuk React Native), 404 untuk data orang lain, konfirmasi otomatis setiap 15 menit, siap deploy VPS, PHP 8.3+ terpisah |
+| 2026-10-09 | D-46 ditulis: tafsiran gelombang 8 (GET /admin/petani, panel admin dan mentor, validasi resep satu sumber, POST /mentor/resep menjawab VALIDASI, pemeriksaan responsif, jam demo konfirmasi kiriman) |
+| 2026-10-09 | D-45 ditetapkan: tanggapan D-44 (contoh publik dibatasi, label contoh perhitungan dan tanpa subsidi, sesi lain berakhir setelah ganti nomor, target bundel 200 kB gzip) |
 | 2026-10-08 | D-44 ditulis: tanggapan D-43 (selesai ditonton lewat API, Kelola unduhan di T6.06, cara pasang video asli, aksesibilitas pemutar, catatan memori) dan tafsiran gelombang 7 (angka halaman depan dari GET /publik/contoh, ganti nomor HP, profil, halaman statis, perbaikan penggaris) |
 | 2026-10-08 | D-43 ditulis: tafsiran gelombang 6 (hst_mulai modul, posisi tonton di perangkat, unduhan lewat Cache Storage, video pengganti WebM, kontrol pemutar, ketahanan tes di mesin sibuk) |
 | 2026-10-08 | D-42 ditetapkan: tanggapan gelombang 5 (simulasi bayar hanya mode uji coba, penggaris pembeli hanya pin Panen, Ubah tawaran dan Dua kali seminggu menjadi P1, durasi maks 3 bulan, tanpa titik peta, empat alasan D-14) |

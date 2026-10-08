@@ -1,5 +1,5 @@
 /** Resep tanam dan permintaan resep (kontrak 2.5). */
-import type { DasarUkuran, Komoditas, MetodeTanam } from './referensi';
+import type { DasarUkuran, Komoditas } from './referensi';
 import type { Rupiah, TanggalISO, WaktuISO } from './umum';
 
 export type DasarDosis = 'per_m2' | 'per_tanaman' | 'per_liter' | 'per_siklus';
@@ -79,13 +79,43 @@ export interface PermintaanResep {
 }
 
 /**
- * Contoh untuk halaman depan tanpa masuk (T4.32, D-44): komoditas, cara tanam, dan resep terbaru yang
- * terlihat publik. Angka modal dan titik impas dihitung frontend dari resep ini (D-08).
+ * Contoh untuk halaman depan tanpa masuk (T4.32, D-44, D-45). Hanya data yang dibutuhkan contoh
+ * perhitungan: nama dan status panduan komoditas, serta potongan resep untuk pasangan contoh yang
+ * dipilih server (input untuk modal, tugas untuk penggaris). Tanpa data pengguna, tanpa validator,
+ * standar kualitas, rentang ukur, atau saran. Angka dihitung frontend dengan src/lib (D-08).
  */
 export interface ContohPublik {
-  komoditas: Komoditas[];
-  metode: MetodeTanam[];
-  resep: ResepTanam[];
+  komoditas: Pick<Komoditas, 'id' | 'nama' | 'satuan_panen' | 'status_resep'>[];
+  contoh: ContohHitungPublik[];
+}
+
+export interface ContohHitungPublik {
+  komoditas_id: string;
+  metode_id: string;
+  /** Resep contoh (belum divalidasi): halaman depan memberi label CONTOH. */
+  contoh: boolean;
+  harga_jual_contoh: Rupiah;
+  hasil_per_satuan: number;
+  dasar_ukuran: DasarUkuran;
+  umur_panen_hari: number;
+  input: Pick<
+    ResepInput,
+    | 'id'
+    | 'nama'
+    | 'grup'
+    | 'dosis'
+    | 'satuan_dosis'
+    | 'dasar_dosis'
+    | 'satuan_beli'
+    | 'isi_satuan_beli'
+    | 'ukuran_kemasan'
+    | 'alat_sekali_beli'
+    | 'harga_contoh'
+  >[];
+  tugas: (Pick<ResepTugas, 'id' | 'tipe' | 'judul' | 'hst_mulai' | 'hst_selesai' | 'interval'> & {
+    /** Langkah pertama cara mengerjakan, untuk kartu "Besok: …". */
+    langkah_pertama: string | null;
+  })[];
 }
 
 // ---- masukan

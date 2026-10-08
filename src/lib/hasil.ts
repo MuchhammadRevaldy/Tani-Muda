@@ -36,6 +36,10 @@ export type KodeGalat =
   | 'TUNDA_DI_LUAR_BATAS'
   | 'TIDAK_ADA_TIPE'
   | 'NILAI_DI_LUAR_SKALA'
+  // resep (editor mentor, T4.39)
+  | 'UMUR_PANEN_TIDAK_VALID'
+  | 'PERSEN_PANEN_JELEK_TIDAK_VALID'
+  | 'BATAS_UKUR_TIDAK_VALID'
   // pesanan, kiriman, lahan
   | 'JUMLAH_KOSONG'
   | 'HARGA_KOSONG'

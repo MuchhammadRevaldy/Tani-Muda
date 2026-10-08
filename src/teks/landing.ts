@@ -31,6 +31,7 @@ export const teksLanding = {
       .join(' '),
 
   // ---- kartu contoh siklus
+  contohPerhitungan: 'Contoh perhitungan',
   judulContoh: (komoditas: string) => `${komoditas} · Petak 1`,
   ketContoh: (umur: number, luas: number) =>
     `Contoh siklus ${umur} hari di lahan ${formatAngka(luas)} m², dari tanam sampai panen`,
@@ -54,6 +55,7 @@ export const teksLanding = {
   isiHitung:
     'Kalkulator modal menunjukkan titik impas sebelum menanam, dalam kg sayur atau kg gabah. Pengingat pupuk, siram, dan cek hama datang tepat pada harinya.',
   barisHitung: (komoditas: string, luas: number) => `${komoditas} · ${formatAngka(luas)} m²`,
+  tanpaSubsidi: 'Dihitung dengan harga tanpa subsidi',
   modalImpas: (modal: number, impas: number, satuan: string) =>
     ({ modal: formatRupiah(modal), impas: `impas di ${formatAngka(impas)} ${satuan}` }) as const,
   jual: 'Jual',

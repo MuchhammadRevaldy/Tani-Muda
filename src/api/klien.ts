@@ -63,6 +63,7 @@ import type {
   PesananDenganKebun,
   PesananUntukPetani,
   PetaniUntukAdmin,
+  PetaniRingkasAdmin,
   PilihPeranMasukan,
   ProfilPembeli,
   ProfilPembeliMasukan,
@@ -276,6 +277,8 @@ export interface KlienAdmin {
   sengketa(p?: ParamSengketa): Promise<SengketaUntukAdmin[]>;
   /** POST /admin/sengketa/{id}/putuskan */
   putuskanSengketa(id: string, m: PutuskanSengketaMasukan): Promise<SengketaUntukAdmin>;
+  /** GET /admin/petani — daftar petani dengan status akun dan jumlah catatan (D-46). */
+  daftarPetani(): Promise<PetaniRingkasAdmin[]>;
   /** GET /admin/petani/{id} */
   petani(petaniId: string): Promise<PetaniUntukAdmin>;
   /** POST /admin/petani/{id}/catatan */

@@ -119,7 +119,14 @@ Halaman ini belum punya papan desain. Halaman dibuat dari pola desain yang ada (
 | 54 | Tentang Tani Muda | publik | T4.37 | `54-tentang-mobile.png`, `…-desktop.png` ✓ |
 | 55 | Kontak | publik | T4.37 | `55-kontak-mobile.png`, `…-desktop.png` ✓ |
 | 56 | Pusat bantuan | publik | T4.37 | `56-bantuan-mobile.png`, `…-desktop.png` ✓ |
+| 57 | Admin: verifikasi pembeli | admin | T4.29 | `57-admin-verifikasi-pembeli-mobile.png`, `…-desktop.png` ✓ |
+| 58 | Admin: sengketa | admin | T4.29 | `58-admin-sengketa-mobile.png`, `…-desktop.png` ✓ |
+| 59 | Admin: daftar petani | admin | T4.29 | `59-admin-petani-mobile.png`, `…-desktop.png` ✓ |
+| 60 | Admin: catatan dan status petani | admin | T4.29 | `60-admin-petani-detail-mobile.png`, `…-desktop.png` ✓ |
+| 61 | Mentor: daftar resep | mentor | T4.38 | `61-mentor-daftar-resep-mobile.png`, `…-desktop.png` ✓ |
+| 62 | Mentor: permintaan resep | mentor | T4.38 | `62-mentor-permintaan-resep-mobile.png`, `…-desktop.png` ✓ |
+| 63 | Mentor: editor resep | mentor | T4.39 | `63-mentor-editor-resep-mobile.png`, `…-desktop.png` ✓ |
 
 Halaman turunan lain (panel mentor dan admin, halaman statis, rating, gagal panen) diberi nomor berikutnya saat tugasnya dikerjakan. Panel mentor dan admin hanya punya versi desktop.
 
-Tangkapan komponen dan kerangka halaman memakai nomor 00: `00-sistem-desain-*.png` untuk halaman `/komponen`, `00-kerangka-petani-*.png` dan `00-kerangka-pembeli-*.png`, serta `00-sidebar-teks-lengkap-*.png` (teks akun yang terpotong ditampilkan lengkap, D-17). Tangkapan papan desain asli untuk perbandingan disimpan di [`docs/tangkapan/desain/`](../docs/tangkapan/desain/) dengan nama file papan yang sama.
+Tangkapan komponen memakai nomor 00: `00-sistem-desain-*.png` untuk halaman `/komponen`. Tangkapan kerangka Tahap 1 (`00-kerangka-petani-*.png`, `00-kerangka-pembeli-*.png`, `00-sidebar-teks-lengkap-*.png`, D-17) dipindah ke [`docs/tangkapan/arsip/tahap-1/`](../docs/tangkapan/arsip/tahap-1/) karena halamannya kini sudah jadi. Tangkapan papan desain asli untuk perbandingan disimpan di [`docs/tangkapan/desain/`](../docs/tangkapan/desain/) dengan nama file papan yang sama.

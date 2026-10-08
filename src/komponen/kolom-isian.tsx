@@ -1,4 +1,9 @@
-import { useId, type InputHTMLAttributes, type ReactNode } from 'react';
+import {
+  useId,
+  type InputHTMLAttributes,
+  type ReactNode,
+  type TextareaHTMLAttributes,
+} from 'react';
 import { cx } from './gabung-kelas';
 import { Ikon } from './ikon';
 
@@ -91,6 +96,44 @@ export function KolomIsian({
           </span>
         ) : null}
       </div>
+      <PesanKolom id={idKolom} galat={galat} bantuan={bantuan} />
+    </div>
+  );
+}
+
+/** Isian teks panjang berlabel dengan pesan galat atau bantuan. */
+export function KolomTeks({
+  label,
+  galat,
+  bantuan,
+  className,
+  id,
+  rows = 3,
+  ...lain
+}: Omit<TextareaHTMLAttributes<HTMLTextAreaElement>, 'rows'> & {
+  label: ReactNode;
+  galat?: ReactNode;
+  bantuan?: ReactNode;
+  rows?: number;
+}) {
+  const autoId = useId();
+  const idKolom = id ?? autoId;
+  return (
+    <div className={cx('flex flex-col gap-2', className)}>
+      <label htmlFor={idKolom} className="font-medium">
+        {label}
+      </label>
+      <textarea
+        id={idKolom}
+        rows={rows}
+        aria-invalid={galat ? true : undefined}
+        aria-describedby={galat || bantuan ? `${idKolom}-pesan` : undefined}
+        className={cx(
+          'fokus-cincin w-full rounded-md bg-putih px-4 py-3 text-isi text-teks outline-none placeholder:text-teks-pendukung',
+          galat ? 'border-2 border-tomat' : 'border-1.5 border-garis-kuat',
+        )}
+        {...lain}
+      />
       <PesanKolom id={idKolom} galat={galat} bantuan={bantuan} />
     </div>
   );

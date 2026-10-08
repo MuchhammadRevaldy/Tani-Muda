@@ -22,13 +22,13 @@ Halaman komponen `/komponen` dibandingkan berdampingan dengan papan sistem desai
 | -------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
 | <img src="docs/tangkapan/aplikasi/00-sistem-desain-desktop.png" alt="Halaman komponen di desktop" width="560"> | <img src="docs/tangkapan/aplikasi/00-sistem-desain-mobile.png" alt="Halaman komponen di HP" width="220"> |
 
-Kerangka halaman: sidebar untuk petani di desktop dan navigasi bawah di HP.
+Halaman yang sudah jadi: Beranda petani dan dasbor pembeli.
 
-| Petani, desktop                                                                                                         | Petani, mobile                                                                                                    | Pembeli, desktop                                                                                                          |
-| ----------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
-| <img src="docs/tangkapan/aplikasi/00-kerangka-petani-desktop.png" alt="Kerangka halaman petani di desktop" width="360"> | <img src="docs/tangkapan/aplikasi/00-kerangka-petani-mobile.png" alt="Kerangka halaman petani di HP" width="160"> | <img src="docs/tangkapan/aplikasi/00-kerangka-pembeli-desktop.png" alt="Kerangka halaman pembeli di desktop" width="360"> |
+| Petani, desktop                                                                                               | Petani, mobile                                                                                          | Pembeli, desktop                                                                                                              |
+| ------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| <img src="docs/tangkapan/aplikasi/03-beranda-petani-desktop.png" alt="Beranda petani di desktop" width="360"> | <img src="docs/tangkapan/aplikasi/03-beranda-petani-mobile.png" alt="Beranda petani di HP" width="160"> | <img src="docs/tangkapan/aplikasi/36-dasbor-pesanan-pembeli-desktop.png" alt="Dasbor pesanan pembeli di desktop" width="360"> |
 
-Semua tangkapan ada di [`docs/tangkapan/`](docs/tangkapan/). Penamaannya mengikuti indeks papan di [`design/README.md`](design/README.md).
+Semua tangkapan ada di [`docs/tangkapan/`](docs/tangkapan/); tangkapan kerangka Tahap 1 disimpan di [`docs/tangkapan/arsip/tahap-1/`](docs/tangkapan/arsip/tahap-1/). Penamaannya mengikuti indeks papan di [`design/README.md`](design/README.md).
 
 ## Stack
 
@@ -65,6 +65,7 @@ npm run dev             # http://localhost:5173
 | `npm run tangkap -- <url> <jalur-dasar>` | Tangkapan layar 390px dan 1440px dengan Chrome atau Edge yang terpasang                                                 |
 | `npm run data-contoh`                    | Tulis ulang `src/api/tiruan/data/*.json` dari `pembuat-data.ts`                                                         |
 | `npm run pasang-video`                   | Pasang video modul asli dari `public/video/modul/` (lihat "Memasang video modul")                                       |
+| `node scripts/buat-ikon.mjs`             | Buat ulang favicon dan ikon layar utama di `public/` dari ikon kebun dan token warna                                    |
 
 Sumber data dipilih dengan `VITE_SUMBER_DATA` di `.env`: `tiruan` (bawaan, data contoh di browser) atau `http` (backend Laravel, tersedia mulai Tahap 6). Data tiruan yang diubah selama demo tersimpan di `localStorage` browser.
 

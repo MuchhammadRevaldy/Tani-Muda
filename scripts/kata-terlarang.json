@@ -13,5 +13,7 @@
     "checkout",
     "invoice"
   ],
-  "kataPersis": ["DP", "HST"]
+  "kataPersis": ["DP", "HST"],
+  "_bolehPanelMentor": "HST boleh di panel mentor (aturan-proyek.md 1.3): penyuluh memakai istilah itu sehari-hari.",
+  "bolehPanelMentor": ["HST"]
 }

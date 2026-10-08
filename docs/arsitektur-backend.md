@@ -173,6 +173,7 @@ Alur:
    - Kode dicocokkan dengan `hash_equals`.
    - Bila berhasil: kode ditandai dipakai, `pengguna` dibuat bila belum ada (peran kosong, lalu memilih peran di T4.34), sesi diperbarui (`session()->regenerate()`).
 3. `POST /api/v1/auth/keluar`, `GET /api/v1/akun` (pengguna yang sedang masuk).
+4. Ganti nomor HP (T4.36, D-45): `POST /api/v1/akun/nomor-hp/otp` mengirim kode ke **nomor baru** dengan aturan OTP yang sama; `PUT /api/v1/akun/nomor-hp` mencocokkan kode, mengecek ulang nomor belum dipakai, lalu mengganti nomor dalam satu transaksi. Setelah itu **semua sesi lain pengguna itu diakhiri**: baris tabel `sessions` milik pengguna selain sesi ini dihapus (`Auth::logoutOtherDevices` tidak dipakai karena tanpa kata sandi), token `personal_access_tokens` miliknya dicabut, dan sesi ini diperbarui dengan `session()->regenerate()`.
 
 **Pengirim OTP** di balik antarmuka `PengirimOtp::kirim(string $nomorHp, string $kode)`:
 
@@ -330,6 +331,8 @@ Antrean memakai driver `database` dengan `php artisan queue:work`. Pengiriman pu
 - Respons API tidak pernah memuat jalur disk, hanya URL bertanda tangan.
 
 ## 14. Keamanan dan konfigurasi
+
+- **Endpoint publik** (`/auth/otp/*`, `GET /konfigurasi`, `GET /publik/contoh`) memakai `RateLimiter` per alamat IP; `GET /publik/contoh` paling banyak 60 permintaan per menit dan responsnya di-cache sampai resep atau konfigurasi berubah (D-45).
 
 - `backend/.env` berisi semua rahasia: `APP_KEY`, `DB_PASSWORD`, `VAPID_PRIVATE_KEY`, kunci penyedia SMS dan pembayaran. File ini masuk `.gitignore`; yang di-commit hanya `backend/.env.example` dengan nilai kosong.
 - `frontend/.env` hanya berisi variabel `VITE_` yang publik: alamat API, kunci publik VAPID, `VITE_TAMPILKAN_RESEP_CONTOH`, dan sumber data (`tiruan` / `http`). `npm run lint` menolak nama variabel rahasia di kode frontend dan di `frontend/.env.example`.
