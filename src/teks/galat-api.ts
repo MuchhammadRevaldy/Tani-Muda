@@ -24,6 +24,7 @@ export const teksGalatKhususApi: Record<KodeGalatKhususApi, string> = {
   STATUS_TIDAK_SESUAI: 'Langkah ini tidak bisa dilakukan sekarang',
   SUDAH_DINILAI: 'Kamu sudah memberi nilai untuk kiriman ini',
   MELEBIHI_SALDO: 'Nominal melebihi dana yang ditahan',
+  PEMBAYARAN_GAGAL: 'Pembayaran belum berhasil. Uang Anda tidak terpotong; coba bayar lagi',
   SUMBER_BELUM_TERSEDIA: 'Sambungan ke server belum tersedia',
   GALAT_SERVER: 'Ada yang tidak beres di server. Coba lagi sebentar lagi',
 };

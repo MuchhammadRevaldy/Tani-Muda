@@ -125,7 +125,12 @@ export interface Pengiriman {
   foto_penolakan: string | null;
   /** Dana cair untuk petani = nilai bagian diterima (P0-26). */
   nilai_diterima: Rupiah | null;
+  /** Dihitung server: nilai yang sudah diberikan pengguna yang membaca untuk kiriman ini (P0-28). */
+  rating_saya: number | null;
 }
+
+/** Baris kiriman tersimpan; `rating_saya` dihitung saat dikirim. */
+export type PengirimanTersimpan = Omit<Pengiriman, 'rating_saya'>;
 
 export type JenisPembayaran =
   'uang_muka' | 'biaya_layanan' | 'kiriman' | 'pencairan' | 'pengembalian' | 'kompensasi';
@@ -271,7 +276,13 @@ export type BuatPesananMasukan =
       patokan?: string | null;
       batas_jam_antar?: string | null;
     };
-export type BayarUangMukaMasukan = DenganKunciIdempoten;
+/**
+ * Bayar uang muka. `simulasi` hanya berlaku di mode uji coba (D-10, D-41): memperagakan pembayaran
+ * yang gagal atau masih menunggu tanpa penyedia pembayaran sungguhan; di mode nyata diabaikan.
+ */
+export type BayarUangMukaMasukan = DenganKunciIdempoten & {
+  simulasi?: 'berhasil' | 'gagal' | 'menunggu';
+};
 export interface BatalkanPesananHasil {
   pesanan: Pesanan;
   kompensasi_petani: Rupiah;

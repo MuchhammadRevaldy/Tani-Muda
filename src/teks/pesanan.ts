@@ -358,4 +358,29 @@ export const teksPesanan = {
   gagalPanen: 'Dilaporkan gagal panen',
   tampilkanSemua: (n: number) => `Tampilkan semua (${n} kiriman)`,
   tampilkanSedikit: 'Tampilkan lebih sedikit',
+
+  // ---- gagal panen (T4.27, halaman turunan 51) dan rating (T4.26)
+  tidakSanggup: 'Tidak sanggup kirim?',
+  gagalJudulHalaman: 'Kabari tidak sanggup kirim',
+  gagalKetHalaman: (komoditas: string, jumlahKg: number, tanggal: string, pembeli: string) =>
+    `${komoditas} ${kg(jumlahKg)} kg untuk ${pembeli}, jadwal ${tanggal}.`,
+  aturanKabar: (hari: number, batas: string) =>
+    `Kabari paling lambat ${hari} hari sebelum jadwal kirim, yaitu ${batas}. Tidak ada denda.`,
+  aturanPengganti:
+    'Bagian kiriman ini ditawarkan ke petani lain. Kalau tidak ada pengganti, sisa uang muka bagian itu dikembalikan ke pembeli.',
+  lewatBatas:
+    'Batas kabar sudah lewat. Kabar tetap dikirim ke pembeli, tetapi tercatat di profilmu.',
+  alasanGagal: 'Apa yang terjadi?',
+  alasanGagalContoh: 'Contoh: tanaman diserang ulat, banyak yang rusak',
+  isiAlasanGagal: 'Tulis apa yang terjadi dulu',
+  kirimKabar: 'Kirim kabar',
+  mengirimKabar: 'Mengirim…',
+  kabarTerkirim: 'Kabar terkirim',
+  kabarTepat: 'Terima kasih sudah mengabari tepat waktu. Tidak ada catatan di profilmu.',
+  kabarTerlambat: 'Kabar diterima, tetapi lewat batas waktu, jadi tercatat di profilmu.',
+  uangDikembalikan: (rp: number) =>
+    `Uang muka bagian kiriman ini, ${formatRupiah(rp)}, dikembalikan ke pembeli.`,
+  kembaliKiriman: 'Kiriman saya',
+  beriNilai: 'Beri nilai pembeli',
+  nilaiDiberikan: (n: number) => `Kamu memberi ${n} bintang`,
 } as const;

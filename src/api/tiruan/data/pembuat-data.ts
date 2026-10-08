@@ -38,7 +38,7 @@ import { resepDariDomain, tugasDariDomain } from '../../peta';
 import type * as A from '../../tipe';
 import type { DataContoh, DataKebun, DataPesanan, WilayahContoh } from './jenis-data';
 
-export const VERSI_DATA_CONTOH = 6;
+export const VERSI_DATA_CONTOH = 7;
 /** Hari acuan saat menghitung; semua tanggal ditulis relatif terhadapnya. */
 const HARI_DASAR = '2026-10-05';
 
@@ -119,6 +119,7 @@ const KONFIGURASI: A.Konfigurasi = {
   laporan_harga_minimal: 3,
   laporan_harga_rentang_hari: 30,
   kontak_admin: { whatsapp: '+62 812-0000-0099', jam_layanan: 'Senin–Jumat, 08.00–16.00 WIB' },
+  pembayaran_uji_coba: true,
   batas_video_mb: 15,
   batas_unduhan_offline_mb: 200,
   versi_privasi: 'draf-2026-10',
@@ -1190,13 +1191,13 @@ function buatPesanan(): DataPesanan {
   alokasi('alokasi-koperasi-dewi', 'pesanan-koperasi-gabah', 'petani-dewi', 550, -28);
 
   const kiriman = (
-    k: Partial<A.Pengiriman> &
+    k: Partial<A.PengirimanTersimpan> &
       Pick<
-        A.Pengiriman,
+        A.PengirimanTersimpan,
         'id' | 'alokasi_id' | 'pesanan_id' | 'ke' | 'tanggal_jadwal' | 'jumlah_kg' | 'harga_per_kg'
       >,
-  ): A.Pengiriman => {
-    const lengkap: A.Pengiriman = {
+  ): A.PengirimanTersimpan => {
+    const lengkap: A.PengirimanTersimpan = {
       foto_kualitas: null,
       foto_timbangan: null,
       status: 'terjadwal',

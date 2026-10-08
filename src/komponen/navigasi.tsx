@@ -7,7 +7,7 @@ import {
   type ReactNode,
   type RefObject,
 } from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useLocation } from 'react-router-dom';
 import { teksKomponen } from '../teks/komponen';
 import { teksNavigasi } from '../teks/navigasi';
 import { Avatar } from './avatar';
@@ -343,8 +343,11 @@ export type MenuPembeli = 'aktif' | 'riwayat' | 'pembayaran';
 
 /** Header pembeli (desktop): logo "untuk pembeli", 3 menu, nama usaha. Di HP menu digulir. */
 export function HeaderPembeli({ namaUsaha }: { namaUsaha: string }) {
-  const menu: { label: string; ke: string; akhir?: boolean }[] = [
-    { label: teksNavigasi.pesananAktif, ke: '/pembeli', akhir: true },
+  const { pathname } = useLocation();
+  // Buat pesanan, bayar, dan periksa kiriman adalah bagian dari "Pesanan aktif" (papan 37, 38).
+  const bagianAktif = /^\/pembeli(\/(pesanan|kiriman)(\/|$)|\/?$)/.test(pathname);
+  const menu: { label: string; ke: string; akhir?: boolean; aktif?: boolean }[] = [
+    { label: teksNavigasi.pesananAktif, ke: '/pembeli', akhir: true, aktif: bagianAktif },
     { label: teksNavigasi.riwayat, ke: '/pembeli/riwayat' },
     { label: teksNavigasi.pembayaran, ke: '/pembeli/pembayaran' },
   ];
@@ -363,23 +366,25 @@ export function HeaderPembeli({ namaUsaha }: { namaUsaha: string }) {
           aria-label={teksNavigasi.menuPembeli}
           className="flex w-full gap-1 overflow-x-auto lg:w-auto lg:flex-1"
         >
-          {menu.map((m) => (
-            <NavLink
-              key={m.ke}
-              to={m.ke}
-              end={m.akhir}
-              className={({ isActive }) =>
-                cx(
+          {menu.map((m) => {
+            // Menu aktif dihitung sendiri (termasuk halaman di bawahnya), lalu ditandai aria-current.
+            const aktif = m.aktif ?? (m.akhir ? pathname === m.ke : pathname.startsWith(m.ke));
+            return (
+              <Link
+                key={m.ke}
+                to={m.ke}
+                aria-current={aktif ? 'page' : undefined}
+                className={cx(
                   'fokus-cincin inline-flex min-h-sentuh flex-none items-center rounded-md px-3.5 no-underline',
-                  isActive
+                  aktif
                     ? 'bg-daun-lembut font-semibold text-daun-tua hover:text-daun-tua'
                     : 'font-medium text-teks hover:bg-embun-pagi hover:text-teks',
-                )
-              }
-            >
-              {m.label}
-            </NavLink>
-          ))}
+                )}
+              >
+                {m.label}
+              </Link>
+            );
+          })}
         </nav>
       </div>
     </header>

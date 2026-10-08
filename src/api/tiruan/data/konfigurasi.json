@@ -14,6 +14,7 @@
     "whatsapp": "+62 812-0000-0099",
     "jam_layanan": "Senin–Jumat, 08.00–16.00 WIB"
   },
+  "pembayaran_uji_coba": true,
   "batas_video_mb": 15,
   "batas_unduhan_offline_mb": 200,
   "versi_privasi": "draf-2026-10",

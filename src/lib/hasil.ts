@@ -47,6 +47,7 @@ export type KodeGalat =
   | 'FREKUENSI_TIDAK_VALID'
   | 'LAHAN_TIDAK_CUKUP'
   | 'JADWAL_TERLALU_DEKAT'
+  | 'RATING_TIDAK_VALID'
   // akun
   | 'NOMOR_HP_TIDAK_VALID';
 

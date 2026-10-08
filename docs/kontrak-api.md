@@ -70,6 +70,7 @@ Endpoint berhalaman ditandai **(berhalaman)** di bagian 3.
 | 409 | `STATUS_TIDAK_SESUAI` | Langkah tidak berlaku pada status sekarang |
 | 409 | `SUDAH_DINILAI` | Rating untuk kiriman ini sudah diberikan |
 | 409 | `MELEBIHI_SALDO` | Pencairan melebihi dana yang ditahan |
+| 402 | `PEMBAYARAN_GAGAL` | Pembayaran uang muka gagal (di mode uji coba lewat `simulasi`, D-41) |
 | 409 | `BENTROK` | Data berubah di tempat lain |
 | 422 | `VALIDASI` | Isian salah; lihat `rincian` |
 | 422 | kode logika inti | mis. `LUAS_KOSONG`, `HARGA_NEGATIF`, `TUNDA_DI_LUAR_BATAS`, `KETERANGAN_WAJIB`, `NILAI_DI_LUAR_SKALA`, `NOMOR_HP_TIDAK_VALID`, `OTP_SALAH`, `OTP_KEDALUWARSA`, `FOTO_WAJIB` |
@@ -427,6 +428,7 @@ Tidak ada kolom kata sandi atau nama pengguna (D-04).
 | `harga_per_kg`† | rupiah | harga kesepakatan |
 | `foto_kualitas` | string \| null | foto hasil panen, wajib sebelum dikirim |
 | `foto_timbangan`† | string \| null | foto di timbangan, opsional (D-40) |
+| `rating_saya`† | 1–5 \| null | dihitung server: nilai yang sudah diberikan pengguna pembaca (D-41) |
 | `status` | `terjadwal` \| `dikirim` \| `diterima` \| `ditolak_sebagian` \| `gagal`† | gagal = dilaporkan gagal panen (D-03) |
 | `dikirim_pada`†, `batas_periksa_pada`†, `dikonfirmasi_pada`† | waktu \| null | batas: 6 jam rutin, 24 jam sekali panen (D-01) |
 | `dianggap_diterima`† | boolean | konfirmasi otomatis |
@@ -594,7 +596,7 @@ Konfirmasi otomatis: kiriman `dikirim` yang lewat `batas_periksa_pada` dianggap 
 | --- | --- | --- | --- | --- |
 | `GET /pembeli/pesanan` | B | → `PesananDenganKebun[]` (dasbor) | | `pembeli.pesananSaya` |
 | `POST /pembeli/pesanan` | B terverifikasi | `BuatPesananMasukan` (rutin atau sekali panen) → `Pesanan` berstatus `menunggu_pembayaran`; komoditas wajib berresep (P0-19) | `BELUM_TERVERIFIKASI`, `VALIDASI`, `FREKUENSI_TIDAK_VALID` (durasi maks 3 bulan) | `pembeli.buatPesanan` |
-| `POST /pembeli/pesanan/{id}/bayar-uang-muka` (idempoten) | B (pemilik) | → `Pembayaran[]` (uang muka ditahan, biaya layanan) | `STATUS_TIDAK_SESUAI` | `pembeli.bayarUangMuka` |
+| `POST /pembeli/pesanan/{id}/bayar-uang-muka` (idempoten) | B (pemilik) | `{ kunci_idempoten, simulasi? }` → `Pembayaran[]` (uang muka ditahan, biaya layanan); `simulasi` `berhasil` \| `gagal` \| `menunggu` hanya di mode uji coba (D-41) | `STATUS_TIDAK_SESUAI`, `PEMBAYARAN_GAGAL` | `pembeli.bayarUangMuka` |
 | `POST /pembeli/pesanan/{id}/batalkan` | B (pemilik) | → `{ pesanan, kompensasi_petani, dikembalikan_ke_pembeli }` (P0-27) | `STATUS_TIDAK_SESUAI` | `pembeli.batalkan` |
 | `GET /pembeli/pembayaran` (berhalaman) | B | → `Halaman<Pembayaran>` terbaru dulu | | `pembeli.pembayaran` |
 
@@ -672,5 +674,6 @@ Konfirmasi otomatis: kiriman `dikirim` yang lewat `batas_periksa_pada` dianggap 
 | --- | --- |
 | 2026-10-05 | Versi pertama (T3.01, T3.02), bersama tipe `src/api/tipe/`, klien tiruan, dan tes kontrak |
 | 2026-10-07 | D-38: `pengguna.terdaftar_kelompok_tani`, `komoditas.harga_jual_contoh`, `resep_tanam.persen_panen_jelek` dan `alasan_panen_jelek`, pembulatan harga sekitar ke ratusan. Tunda tugas terlambat dihitung dari hari ini. |
+| 2026-10-08 | D-41: `simulasi` pada bayar uang muka (mode uji coba), galat `402 PEMBAYARAN_GAGAL`, status pembayaran `menunggu` dan `gagal` dipakai, `pengiriman.rating_saya`, `konfigurasi.pembayaran_uji_coba`. |
 | 2026-10-08 | D-40: tanam bertahap (`siklus.petak_ke`, `kelompok_pesanan`, `alokasi.siklus_ids` menggantikan `siklus_id`, kapasitas dari puncak petak bersamaan), `PATCH /alokasi/{id}`, `pengiriman.foto_timbangan` dan `POST /kiriman/{id}/foto-timbangan`, `pesanan.batas_jam_antar`. |
 | 2026-10-07 | D-39: `PesananUntukPetani` ditambah `titik_desa_antar`, `alamat_antar`, `patokan`, `alokasi_saya`, `dibuat_pada`; galat `409 JADWAL_TERLALU_DEKAT`; satu alokasi per petani per pesanan; setuju kesepakatan hanya menjadwalkan kiriman yang terkejar dan mengaktifkan siklus. |

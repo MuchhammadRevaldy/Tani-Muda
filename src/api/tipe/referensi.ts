@@ -124,6 +124,8 @@ export interface Konfigurasi {
   laporan_harga_minimal: number;
   laporan_harga_rentang_hari: number;
   kontak_admin: { whatsapp: string; jam_layanan: string };
+  /** Pembayaran masih mode uji coba (D-10): label "Mode uji coba" dan simulasi hasil bayar (D-41). */
+  pembayaran_uji_coba: boolean;
   batas_video_mb: number;
   batas_unduhan_offline_mb: number;
   versi_privasi: string;

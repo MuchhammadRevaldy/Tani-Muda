@@ -24,7 +24,7 @@ import type {
   Pengeluaran,
   PengaturanPengingat,
   Pengguna,
-  Pengiriman,
+  PengirimanTersimpan,
   PermintaanResep,
   Pesanan,
   ProfilPembeli,
@@ -90,7 +90,7 @@ export interface DataKebun {
 export interface DataPesanan {
   pesanan: Pesanan[];
   alokasi: AlokasiTersimpan[];
-  pengiriman: Pengiriman[];
+  pengiriman: PengirimanTersimpan[];
   pembayaran: Pembayaran[];
   rating: Rating[];
   sengketa: Sengketa[];

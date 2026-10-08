@@ -36,7 +36,7 @@ import type {
   Lahan,
   Pembayaran,
   Pengguna,
-  Pengiriman,
+  PengirimanTersimpan,
   Pesanan,
   PesananDenganKebun,
   PesananUntukPetani,
@@ -49,6 +49,7 @@ import type { Konteks } from '../konteks';
 import {
   alokasiAktif,
   alokasiKeluar,
+  kirimanKeluar,
   jarakPesananKm,
   namaPengguna,
   pesananTerbuka,
@@ -76,8 +77,14 @@ function catatBayar(
 
 function refUangMuka(k: Konteks, pesananId: string): string | null {
   return (
-    k.db.pesanan.pembayaran.find((b) => b.pesanan_id === pesananId && b.jenis === 'uang_muka')
-      ?.referensi ?? null
+    // Hanya uang muka yang benar-benar masuk; percobaan gagal atau menunggu tidak punya dana.
+    k.db.pesanan.pembayaran.find(
+      (b) =>
+        b.pesanan_id === pesananId &&
+        b.jenis === 'uang_muka' &&
+        b.status !== 'gagal' &&
+        b.status !== 'menunggu',
+    )?.referensi ?? null
   );
 }
 
@@ -117,7 +124,7 @@ function ringkasanRating(k: Konteks, penggunaId: string): RingkasanRating {
 }
 
 /** Kiriman yang masih terbuka di pesanan ini (belum diterima, belum gagal). */
-function kirimanTerbuka(k: Konteks, pesananId: string, kecuali?: string): Pengiriman[] {
+function kirimanTerbuka(k: Konteks, pesananId: string, kecuali?: string): PengirimanTersimpan[] {
   return k.db.pesanan.pengiriman.filter(
     (x) =>
       x.pesanan_id === pesananId &&
@@ -129,7 +136,7 @@ function kirimanTerbuka(k: Konteks, pesananId: string, kecuali?: string): Pengir
 /** Terapkan konfirmasi pembeli atau konfirmasi otomatis (D-01, D-02, P0-25, P0-26). */
 async function terapkanKonfirmasi(
   k: Konteks,
-  kiriman: Pengiriman,
+  kiriman: PengirimanTersimpan,
   keputusan: KeputusanKiriman,
   foto: string | null,
   otomatis: boolean,
@@ -229,7 +236,7 @@ async function terapkanKonfirmasi(
       if (a.pesanan_id === pesanan.id && alokasiAktif(a)) a.status = 'selesai';
   }
   return {
-    pengiriman: k.salin(kiriman),
+    pengiriman: kirimanKeluar(k, kiriman, null),
     pembayaran: k.salin(baru),
     sengketa: sengketa ? k.salin(sengketa) : null,
   };
@@ -720,7 +727,7 @@ export function buatKlienPesanan(k: Konteks): KlienPesanan {
 
 // ---------------------------------------------------------------- kiriman
 
-function aksesKiriman(k: Konteks, p: Pengguna, x: Pengiriman): boolean {
+function aksesKiriman(k: Konteks, p: Pengguna, x: PengirimanTersimpan): boolean {
   const a = alokasiDari(k, x.alokasi_id);
   return a?.petani_id === p.id || pesananDari(k, x.pesanan_id)?.pembeli_id === p.id;
 }
@@ -739,22 +746,23 @@ export function buatKlienKiriman(k: Konteks): KlienKiriman {
       const milik = new Set(
         k.db.pesanan.alokasi.filter((a) => a.petani_id === p.id).map((a) => a.id),
       );
-      return k.salin(
-        k.db.pesanan.pengiriman
-          .filter((x) => milik.has(x.alokasi_id))
-          .sort((a, b) => bandingTanggal(a.tanggal_jadwal, b.tanggal_jadwal)),
-      );
+      return k.db.pesanan.pengiriman
+        .filter((x) => milik.has(x.alokasi_id))
+        .sort((a, b) => bandingTanggal(a.tanggal_jadwal, b.tanggal_jadwal))
+        .map((x) => kirimanKeluar(k, x, p.id));
     },
 
     async ambil(id) {
       const p = k.wajibPeran('petani', 'pembeli');
       await prosesOtomatis(k);
-      return k.salin(
+      return kirimanKeluar(
+        k,
         k.milik(
           k.db.pesanan.pengiriman,
           (x) => x.id === id,
           (x) => aksesKiriman(k, p, x),
         ),
+        p.id,
       );
     },
 
@@ -765,7 +773,7 @@ export function buatKlienKiriman(k: Konteks): KlienKiriman {
       if (!foto) k.validasi({ foto: 'FOTO_WAJIB' });
       x.foto_kualitas = foto;
       k.simpan();
-      return k.salin(x);
+      return kirimanKeluar(k, x, p.id);
     },
 
     async unggahFotoTimbangan(id, foto) {
@@ -774,7 +782,7 @@ export function buatKlienKiriman(k: Konteks): KlienKiriman {
       if (x.status !== 'terjadwal') k.galat('STATUS_TIDAK_SESUAI');
       x.foto_timbangan = foto || null;
       k.simpan();
-      return k.salin(x);
+      return kirimanKeluar(k, x, p.id);
     },
 
     async tandaiDikirim(id) {
@@ -824,7 +832,7 @@ export function buatKlienKiriman(k: Konteks): KlienKiriman {
       const a = alokasiDari(k, x.alokasi_id);
       if (a.status === 'disepakati') a.status = 'berjalan';
       k.simpan();
-      return k.salin(x);
+      return kirimanKeluar(k, x, p.id);
     },
 
     konfirmasi(id, m) {
@@ -947,8 +955,13 @@ export function buatKlienPembeli(k: Konteks): KlienPembeli {
     return k.salin({
       ...x,
       kebun,
-      kiriman_berikutnya: kiriman.find((y) => y.status === 'terjadwal') ?? null,
-      kiriman_menunggu: kiriman.filter((y) => y.status === 'dikirim'),
+      kiriman_berikutnya: (() => {
+        const y = kiriman.find((z) => z.status === 'terjadwal');
+        return y ? kirimanKeluar(k, y, p.id) : null;
+      })(),
+      kiriman_menunggu: kiriman
+        .filter((y) => y.status === 'dikirim')
+        .map((y) => kirimanKeluar(k, y, p.id)),
     });
   };
   return {
@@ -1053,6 +1066,37 @@ export function buatKlienPembeli(k: Konteks): KlienPembeli {
         const p = k.wajibPeran('pembeli');
         const x = milikPembeli(p, id);
         if (x.status !== 'menunggu_pembayaran') k.galat('STATUS_TIDAK_SESUAI');
+        // Mode uji coba (D-10, D-41): pembayaran gagal atau masih menunggu bisa diperagakan.
+        const simulasi = k.bayar.modeUjiCoba ? (m.simulasi ?? 'berhasil') : 'berhasil';
+        const menunggu = k.db.pesanan.pembayaran.find(
+          (b) => b.pesanan_id === id && b.jenis === 'uang_muka' && b.status === 'menunggu',
+        );
+        if (simulasi === 'gagal') {
+          catatBayar(k, {
+            pesanan_id: id,
+            pengiriman_id: null,
+            jenis: 'uang_muka',
+            nominal: x.uang_muka,
+            status: 'gagal',
+            referensi: `TIRUAN-GAGAL-${k.db.pesanan.pembayaran.length + 1}`,
+          });
+          k.simpan();
+          k.galat('PEMBAYARAN_GAGAL');
+        }
+        if (simulasi === 'menunggu') {
+          const baris =
+            menunggu ??
+            catatBayar(k, {
+              pesanan_id: id,
+              pengiriman_id: null,
+              jenis: 'uang_muka',
+              nominal: x.uang_muka,
+              status: 'menunggu',
+              referensi: `TIRUAN-MENUNGGU-${k.db.pesanan.pembayaran.length + 1}`,
+            });
+          k.simpan();
+          return k.salin([baris]);
+        }
         const um = await dariGerbang(
           k,
           k.bayar.tahan({
@@ -1070,15 +1114,18 @@ export function buatKlienPembeli(k: Konteks): KlienPembeli {
           }),
         );
         await dariGerbang(k, k.bayar.cairkan(layanan.referensi, x.biaya_layanan));
+        // Pembayaran yang tadinya menunggu menjadi berhasil: barisnya diperbarui, bukan ditambah.
+        if (menunggu) Object.assign(menunggu, { status: 'ditahan', referensi: um.referensi });
         const baris = [
-          catatBayar(k, {
-            pesanan_id: id,
-            pengiriman_id: null,
-            jenis: 'uang_muka',
-            nominal: x.uang_muka,
-            status: 'ditahan',
-            referensi: um.referensi,
-          }),
+          menunggu ??
+            catatBayar(k, {
+              pesanan_id: id,
+              pengiriman_id: null,
+              jenis: 'uang_muka',
+              nominal: x.uang_muka,
+              status: 'ditahan',
+              referensi: um.referensi,
+            }),
           catatBayar(k, {
             pesanan_id: id,
             pengiriman_id: null,

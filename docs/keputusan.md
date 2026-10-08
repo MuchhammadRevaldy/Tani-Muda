@@ -362,6 +362,16 @@ Tafsiran teknis saat menulis `docs/kontrak-api.md`. Tidak mengubah perilaku prod
   - **Bukti:** seluruh tes (813) dijalankan 21 kali berturut-turut pada kode akhir: 7 kali urutan acak, 7 kali coverage dengan urutan acak, 7 kali coverage; tidak ada yang gagal.
 - Berdampak ke: T3.01, T3.02, T4.09, T4.10, T4.18–T4.21, T4.24–T4.27 (pembeli melihat petak terkini dan dua foto), T5.05, T5.10, T5.13.
 
+## D-41. Tafsiran gelombang 5 Tahap 4 (sisi pembeli), menunggu konfirmasi
+- **Simulasi hasil bayar di mode uji coba.** Penyedia pembayaran tiruan selalu berhasil, padahal T4.41 meminta hasil gagal dan menunggu juga bisa diperagakan. `POST /pembeli/pesanan/{id}/bayar-uang-muka` menerima `simulasi: 'berhasil' | 'gagal' | 'menunggu'` yang **hanya berlaku di mode uji coba** (diabaikan di mode nyata). Gagal mencatat baris pembayaran `gagal` dan menjawab galat baru `402 PEMBAYARAN_GAGAL`; pesanan tetap belum dibayar. Menunggu mencatat baris `menunggu`; bila kemudian berhasil, baris itu diperbarui menjadi `ditahan`. Konfigurasi punya kolom baru `pembayaran_uji_coba` (true selama D-10 berlaku) supaya halaman tahu kapan menampilkan label "Mode uji coba" dan pilihan simulasi.
+- **`rating_saya` pada kiriman** (dihitung server): nilai yang sudah diberikan pengguna pembaca, supaya halaman tidak menawarkan rating dua kali.
+- **Dasbor pembeli:** penggaris tiap kebun hanya menampilkan pin Panen, karena pembeli tidak menerima jadwal tugas petani (papan 36 menggambar pin Pupuk dan Cek hama). "Ubah tawaran" pada bagian yang belum ada petaninya tidak dibuat (belum ada endpoint ubah pesanan); yang tersedia "Batalkan pesanan" dengan aturan P0-27.
+- **Formulir pesanan:** pilihan frekuensi "Seminggu sekali" dan "Dua minggu sekali" (papan juga menggambar "Dua kali seminggu", yang tidak bisa dinyatakan dengan `frekuensi_hari` bilangan bulat); lama 1–3 bulan (papan menggambar 6 bulan, PRD membatasi 3 bulan). Kiriman pertama paling cepat = hari kirim pilihan setelah hari ini + umur panen, supaya petani yang menanam hari ini terkejar. Batas jam antar memakai `batas_jam_antar` (D-40); titik peta tidak dibuat, desa titik antar = desa usaha pembeli.
+- **Konfirmasi kiriman:** alasan penolakan memakai empat pilihan D-14 (papan menggambar lima kotak centang). Pratinjau pembayaran dihitung di halaman dengan `konfirmasiKiriman`; angka final dari server.
+- **Data usaha pembeli:** pembeli yang belum punya data usaha diarahkan ke `/pembeli/daftar`; desa usaha dipilih di formulir ini karena pilih peran pembeli tidak menanyakan desa.
+- **Tes yang sempat gagal di gelombang ini** (1 dari 3 putaran acak): tes data usaha pembeli mencari teks "Menunggu verifikasi" tepat setelah pindah ke dasbor, padahal formulir sebelumnya memuat teks yang sama; kadang yang ditemukan adalah elemen formulir yang sedang dilepas. Tes sekarang menunggu judul dasbor dulu. Pola ini (mencari teks yang juga ada di halaman sebelumnya tepat setelah navigasi) dihindari di tes berikutnya.
+- Berdampak ke: T3.02, T4.22–T4.28, T4.41, T5.07, T5.11.
+
 ---
 
 ## Riwayat
@@ -371,6 +381,7 @@ Tafsiran teknis saat menulis `docs/kontrak-api.md`. Tidak mengubah perilaku prod
 | 2026-10-05 | D-12 sampai D-18 ditetapkan. Butir turunan di D-03, D-06, dan D-11 dikonfirmasi dan dirujuk ke keputusan baru. Jalur tangkapan layar di D-07 diganti mengikuti D-18 |
 | 2026-10-05 | D-19 dan D-20 ditetapkan: backend Laravel + MariaDB tanpa Docker, tampilan dikerjakan lebih dulu. Butir OTP di D-10 dan butir penegakan di D-13 dan D-14 disesuaikan |
 | 2026-10-05 | D-21 sampai D-25 ditetapkan: cookie Sanctum (token untuk React Native), 404 untuk data orang lain, konfirmasi otomatis setiap 15 menit, siap deploy VPS, PHP 8.3+ terpisah |
+| 2026-10-08 | D-41 ditulis: tafsiran gelombang 5 (simulasi hasil bayar di mode uji coba, `rating_saya`, batasan papan pembeli) |
 | 2026-10-08 | D-40 ditetapkan: tanggapan D-39 (tanam bertahap per kiriman, ubah jumlah sebelum setuju, dua foto kiriman, batas jam antar, pesan sebagai P1-12) dan perbaikan akar tes yang sempat gagal (jam dikunci, penyimpanan dibersihkan, batas tunggu) |
 | 2026-10-07 | D-39 ditulis: tafsiran gelombang 4 (lencana pesanan di perangkat, jadwal kirim yang terkejar umur panen, siklus aktif setelah setuju, satu alokasi per petani, alamat setelah ambil, Tanya pembeli lewat admin, perbaikan luas total pesanan) |
 | 2026-10-05 | D-26 sampai D-34 ditetapkan: menu Kebun, wilayah berkode Kemendagri, konfigurasi lewat git, video, persetujuan privasi draf, UTC + zona waktu per pengguna, iPhone, repositori, tanggapan tafsiran Tahap 2 (kapasitas dan nilai pengukuran diubah) |

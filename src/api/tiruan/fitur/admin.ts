@@ -20,7 +20,7 @@ export function buatKlienAdmin(k: Konteks): KlienAdmin {
     const pesanan = k.db.pesanan.pesanan.find((p) => p.id === kiriman.pesanan_id)!;
     return k.salin({
       ...s,
-      pengiriman: kiriman,
+      pengiriman: { ...kiriman, rating_saya: null },
       nama_petani: namaPengguna(k, alokasi.petani_id),
       nama_pembeli: namaPengguna(k, pesanan.pembeli_id),
     });

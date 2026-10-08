@@ -1206,9 +1206,12 @@ export function ujiKontrak(nama: string, siapkan: PenyiapLingkungan): void {
           422,
           'nilai',
         );
+        expect((await K.kiriman.ambil('kiriman-imas-arif-3')).rating_saya).toBeNull();
         expect(
           await K.kiriman.beriRating('kiriman-imas-arif-3', { nilai: 4, komentar: 'Baik' }),
         ).toMatchObject({ penerima_id: 'petani-arif', nilai: 4 });
+        // Nilai yang sudah diberikan ikut terbaca, supaya halaman tidak menawarkan rating lagi.
+        expect((await K.kiriman.ambil('kiriman-imas-arif-3')).rating_saya).toBe(4);
         expect(await K.kiriman.ringkasanRating('petani-arif')).toEqual({
           pengguna_id: 'petani-arif',
           rata_rata: 4.5,
@@ -1306,6 +1309,20 @@ export function ujiKontrak(nama: string, siapkan: PenyiapLingkungan): void {
           biaya_layanan: 5000,
           status: 'menunggu_pembayaran',
         });
+        // Mode uji coba (D-41): gagal tidak membuat pesanan aktif; menunggu lalu berhasil.
+        await harapGalat(
+          K.pembeli.bayarUangMuka(p.id, { kunci_idempoten: kunci(), simulasi: 'gagal' }),
+          'PEMBAYARAN_GAGAL',
+          402,
+        );
+        const tunggu = await K.pembeli.bayarUangMuka(p.id, {
+          kunci_idempoten: kunci(),
+          simulasi: 'menunggu',
+        });
+        expect(tunggu.map((x) => [x.jenis, x.status])).toEqual([['uang_muka', 'menunggu']]);
+        expect((await K.pembeli.pesananSaya()).find((x) => x.id === p.id)?.status).toBe(
+          'menunggu_pembayaran',
+        );
         const k1 = kunci();
         const b = await K.pembeli.bayarUangMuka(p.id, { kunci_idempoten: k1 });
         expect(b.map((x) => [x.jenis, x.nominal, x.status])).toEqual([
@@ -1313,6 +1330,15 @@ export function ujiKontrak(nama: string, siapkan: PenyiapLingkungan): void {
           ['biaya_layanan', 5000, 'cair'],
         ]);
         expect(await K.pembeli.bayarUangMuka(p.id, { kunci_idempoten: k1 })).toEqual(b);
+        // Baris "menunggu" diperbarui menjadi ditahan; baris gagal tetap tercatat.
+        const semuaBayar = (await K.pembeli.pembayaran()).data.filter((x) => x.pesanan_id === p.id);
+        expect(semuaBayar.map((x) => [x.jenis, x.status]).sort()).toEqual(
+          [
+            ['biaya_layanan', 'cair'],
+            ['uang_muka', 'ditahan'],
+            ['uang_muka', 'gagal'],
+          ].sort(),
+        );
         await harapGalat(
           K.pembeli.bayarUangMuka(p.id, { kunci_idempoten: kunci() }),
           'STATUS_TIDAK_SESUAI',

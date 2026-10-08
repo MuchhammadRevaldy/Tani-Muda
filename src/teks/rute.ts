@@ -34,6 +34,9 @@ export const judulRute = {
   pembayaran: 'Pembayaran',
   buatPesanan: 'Buat pesanan',
   konfirmasiKiriman: 'Periksa kiriman',
+  bayarUangMuka: 'Bayar uang muka',
+  daftarPembeli: 'Data usaha',
+  laporGagal: 'Kabari tidak sanggup kirim',
   admin: 'Admin',
   mentor: 'Mentor',
 } as const;

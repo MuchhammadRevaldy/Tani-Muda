@@ -805,57 +805,64 @@ Catatan pembagian:
 
 ## 4E. Pilar Jual (pembeli)
 
-### [ ] T4.22 Dasbor pesanan aktif pembeli **[DEMO]**
+### [x] T4.22 Dasbor pesanan aktif pembeli **[DEMO]**
 - **Tujuan:** Header pembeli, banner kiriman tiba, daftar pesanan dengan kebun pemenuh (penggaris `lebar`), kiriman berikutnya, ringkasan uang (ditahan, sudah cair), "5 kg … belum ada petani" dengan "Ubah tawaran".
 - **Berkas:** `src/halaman/pembeli/dasbor.tsx`, `src/api/kueri/pesanan-pembeli.ts`.
 - **PRD:** P0-24, US-16, US-18 (tombol pesan lagi tersedia setelah kiriman, ditambahkan di T4.26).
 - **Selesai bila:** papan 36 cocok; pembeli hanya melihat **nama desa dan jarak** kebun, tidak pernah titik lahan (D-06); HP 390px diturunkan (D-07); pembeli tidak bisa melihat pesanan pembeli lain (ditolak klien API); penggaris menampilkan progres tiap kebun.
 - **Tangkapan (D-07):** `docs/tangkapan/aplikasi/36-dasbor-pesanan-pembeli-mobile.png` (390px) dan `36-dasbor-pesanan-pembeli-desktop.png` (1440px), ditunjukkan ke pemilik produk; **berhenti menunggu tanggapan** sebelum tugas berikutnya.
 - **Prasyarat:** T4.01, T1.14, T1.15, T3.10.
+- **Catatan (8 Okt 2026):** Rute `/pembeli`. Kebun hanya nama desa dan jarak (D-06); penggaris tiap kebun memakai petak terkini (D-40) dengan pin Panen saja karena pembeli tidak menerima jadwal tugas petani (D-41). Banner kiriman tiba per kiriman yang menunggu konfirmasi. "Ubah tawaran" belum dibuat (D-41); tersedia "Batalkan pesanan". Pembeli tanpa data usaha diarahkan ke `/pembeli/daftar`. Tangkapan tambahan: `36-dasbor-pesanan-pembeli-kiriman-tiba-*`.
 
-### [ ] T4.23 Buat pesanan rutin **[DEMO]**
+### [x] T4.23 Buat pesanan rutin **[DEMO]**
 - **Tujuan:** Form komoditas (hanya yang punya resep), jumlah, hari kirim, frekuensi, durasi (maks 3 bulan), harga per kg dengan petunjuk harga sekitar, standar kualitas + tambah syarat, titik antar (alamat + patokan + titik peta), ringkasan biaya (nilai pesanan, uang muka, biaya layanan, dibayar sekarang, per kiriman).
 - **Berkas:** `src/halaman/pembeli/buat-pesanan.tsx`, `src/api/kueri/pesanan-mutasi.ts`.
 - **PRD:** P0-19, P0-02 (hanya pembeli terverifikasi), US-15.
 - **Selesai bila:** papan 37 cocok; komoditas tanpa resep tidak bisa dipilih (beda dengan papan yang menampilkan Selada/Pakcoy; PRD berlaku, lihat `ringkasan-desain.md` 3.3 #6); biaya dari `pesanan-nilai.ts`; pembeli belum terverifikasi: tombol nonaktif + penjelasan (T4.28).
 - **Tangkapan (D-07):** `docs/tangkapan/aplikasi/37-buat-pesanan-pembeli-mobile.png` (390px) dan `37-buat-pesanan-pembeli-desktop.png` (1440px), ditunjukkan ke pemilik produk; **berhenti menunggu tanggapan** sebelum tugas berikutnya.
 - **Prasyarat:** T4.22, T2.12.
+- **Catatan (8 Okt 2026):** Rute `/pembeli/pesanan/baru` dengan pilihan jenis Rutin/Sekali panen; `?ulang=<id>` untuk "Pesan lagi". Kiriman pertama paling cepat dari `kirimanPertamaPalingCepat`; batas jam antar (D-40); frekuensi seminggu/dua minggu sekali, lama 1–3 bulan (D-41). Tangkapan tambahan: `37-buat-pesanan-belum-terverifikasi-*`.
 
-### [ ] T4.24 Pesanan sekali panen (turunan)
+### [x] T4.24 Pesanan sekali panen (turunan)
 - **Tujuan:** Variasi form untuk jenis sekali panen: komoditas, jumlah total, perkiraan bulan panen, harga per kg, standar kualitas, titik ambil; satu kiriman.
 - **Berkas:** `src/halaman/pembeli/buat-pesanan-sekali.tsx` (atau mode di T4.23).
 - **PRD:** P0-19, US-30.
 - **Selesai bila:** nilai pesanan dan uang muka sama dengan `pesanan-nilai.ts` untuk satu kiriman; muncul di Pesanan di sekitar dengan penanda "sekali panen".
 - **Prasyarat:** T4.23.
+- **Catatan (8 Okt 2026):** Mode `?jenis=sekali_panen` di formulir T4.23; bulan panen dari `pilihanBulanPanen` (tanggal 15 yang terkejar umur panen). Tangkapan: `37-buat-pesanan-sekali-panen-*`.
 
-### [ ] T4.25 Konfirmasi kiriman pembeli **[DEMO]**
+### [x] T4.25 Konfirmasi kiriman pembeli **[DEMO]**
 - **Tujuan:** Foto dari petani, hasil pemeriksaan (terima semua / tolak sebagian dengan berat, alasan, catatan, foto bukti), rincian pembayaran kiriman, batas waktu periksa, tombol "Konfirmasi terima n kg".
 - **Berkas:** `src/halaman/pembeli/konfirmasi-kiriman.tsx`.
 - **PRD:** P0-25, P0-26, US-17.
 - **Selesai bila:** papan 38 cocok; HP diturunkan; angka dari `kiriman.ts`; alasan penolakan memakai empat pilihan D-06 + foto penolakan; "Lainnya" wajib diisi keterangan, tanpa keterangan muncul galat "Tulis alasannya dulu" (D-14); batas periksa sesuai jenis pesanan (D-01); penolakan sebagian membuat baris `sengketa`; setelah konfirmasi status berubah dan pembayaran tercatat (T4.41).
 - **Tangkapan (D-07):** `docs/tangkapan/aplikasi/38-konfirmasi-kiriman-pembeli-mobile.png` (390px) dan `38-konfirmasi-kiriman-pembeli-desktop.png` (1440px), ditunjukkan ke pemilik produk; **berhenti menunggu tanggapan** sebelum tugas berikutnya.
 - **Prasyarat:** T4.22, T2.14.
+- **Catatan (8 Okt 2026):** Rute `/pembeli/kiriman/:id`. Dua foto dari petani (D-40); empat alasan D-14; pratinjau pembayaran dari `konfirmasiKiriman`. Sesudah dikonfirmasi: ringkasan, rating, "Pesan lagi". Tangkapan tambahan: `38-konfirmasi-kiriman-selesai-rating-*`.
 
-### [ ] T4.26 Rating dua arah (turunan)
+### [x] T4.26 Rating dua arah (turunan)
 - **Tujuan:** Setelah kiriman, petani dan pembeli saling memberi nilai 1–5 dan komentar; rata-rata tampil di profil.
 - **Berkas:** `src/halaman/pesanan/beri-rating.tsx`, `src/lib/rating.ts` + `.test.ts` (rata-rata, jumlah ulasan).
 - **PRD:** P0-28, US-18.
 - **Selesai bila:** hanya pihak terkait kiriman yang bisa menilai, sekali per kiriman; rata-rata dan jumlah ulasan ("4,8 dari 9 ulasan pembeli") benar; pembeli bisa "Pesan lagi".
 - **Prasyarat:** T4.25 (rata-rata tampil di profil lewat T4.35).
+- **Catatan (8 Okt 2026):** `src/lib/rating.ts` (validasi, rata-rata, angka). Komponen `beri-rating.tsx` dipakai pembeli (setelah konfirmasi) dan petani ("Beri nilai pembeli" di Kiriman saya). `rating_saya` pada kiriman mencegah tawaran rating ganda (D-41). Rata-rata di profil menunggu T4.35. Tangkapan: `33-kiriman-saya-beri-nilai-*`.
 
-### [ ] T4.27 Gagal panen dan pembatalan (turunan)
+### [x] T4.27 Gagal panen dan pembatalan (turunan)
 - **Tujuan:** Petani menyatakan tidak sanggup **paling lambat 3 hari sebelum jadwal kirim** (D-03); bagian itu ditawarkan ke petani lain; tanpa pengganti, sisa uang muka bagian itu dikembalikan ke pembeli (lewat `PenyediaPembayaran`); petani yang tidak memberi kabar mendapat catatan di profil. Pembatalan pembeli setelah petani menanam: uang muka menjadi kompensasi.
 - **Berkas:** `src/halaman/pesanan/lapor-gagal.tsx`, tambahan `src/lib/kiriman.ts`; aturan server di T3.10 (tiruan) dan T5.16/T5.17 (backend).
 - **PRD:** P0-27.
 - **Selesai bila:** aturan dari `kiriman.ts` (T2.14), **tanpa denda**; lewat batas 3 hari, kabar tetap bisa dikirim tetapi menghasilkan catatan profil; status pembayaran `dikembalikan` pada kasus tanpa pengganti.
 - **Prasyarat:** T4.21, T2.14.
+- **Catatan (8 Okt 2026):** Rute petani `/pesanan/kiriman/:id/gagal` (halaman turunan 51) dari "Tidak sanggup kirim?" di Kiriman saya; pembatalan pembeli dari dasbor. Tangkapan: `51-kabari-gagal-panen-*`.
 
-### [ ] T4.28 Daftar pembeli dan verifikasi (turunan)
+### [x] T4.28 Daftar pembeli dan verifikasi (turunan)
 - **Tujuan:** Setelah memilih peran pembeli: nama usaha, jenis usaha, alamat, foto tempat usaha, status verifikasi tampil jelas; pembeli belum terverifikasi bisa melihat aplikasi tetapi tidak bisa memasang pesanan.
 - **Berkas:** `src/halaman/pembeli/daftar-pembeli.tsx`, `src/halaman/pembeli/status-verifikasi.tsx`.
 - **PRD:** P0-02, US-21.
 - **Selesai bila:** status "Menunggu verifikasi / Terverifikasi / Ditolak" dengan ikon dan kata; klien API menolak pesanan dari yang belum terverifikasi (`403 BELUM_TERVERIFIKASI`).
 - **Prasyarat:** T4.22, T3.09.
+- **Catatan (8 Okt 2026):** Rute `/pembeli/daftar` (halaman turunan 48) dengan pencarian desa usaha; kartu status verifikasi di dasbor, formulir pesanan, dan data usaha. Tangkapan: `48-data-usaha-pembeli-*`.
 
 ### [ ] T4.29 Panel admin minimal: verifikasi dan sengketa (turunan)
 - **Tujuan:** Admin menyetujui/menolak pembeli, melihat antrean sengketa (foto, alasan, keputusan), melihat **catatan petani**, dan **menonaktifkan sementara / mengaktifkan kembali** petani (D-03). **Desktop saja, tabel sederhana (D-07).**
@@ -956,13 +963,14 @@ Catatan pembagian:
 - **Selesai bila:** siklus berjalan tetap memakai versi lama (diuji); resep belum divalidasi tidak terlihat petani; validasi menolak data tidak masuk akal. **Desktop saja, tabel sederhana (D-07).**
 - **Prasyarat:** T4.38, T3.10.
 
-### [ ] T4.41 Bayar uang muka, pembayaran, dan riwayat pembeli (turunan) **[DEMO]**
+### [x] T4.41 Bayar uang muka, pembayaran, dan riwayat pembeli (turunan) **[DEMO]**
 - **Tujuan:** Dari "Lanjut bayar Rp…" ke lembar bayar mode uji coba, halaman hasil (berhasil/gagal/menunggu), status "Uang muka sudah masuk" di sisi petani sebelum mulai menanam, konfirmasi kiriman memicu pencairan; halaman Pembayaran dan Riwayat pembeli. Semua lewat klien API dan `PenyediaPembayaran` tiruan (T3.11) dengan label "Mode uji coba"; teks memakai bahasa petani (D-09).
 - **Berkas:** `src/halaman/pembeli/bayar.tsx`, `src/halaman/pembeli/pembayaran.tsx`, `src/halaman/pembeli/riwayat.tsx`, hook dari `src/api/kueri` (sudah ada sejak T3.04).
 - **PRD:** P0-23, P0-26, US-13, US-14; D-02, D-10.
 - **Selesai bila:** alur penuh dengan data tiruan: pesan → bayar → petani melihat "Uang muka sudah masuk" → kirim → konfirmasi → status "Dana cair"; gagal bayar tidak membuat pesanan aktif; nominal dari klien API (dihitung `pesanan-nilai.ts`), bukan dari halaman; klik ganda tidak membayar dua kali.
 - **Tangkapan (D-07):** `docs/tangkapan/aplikasi/44-bayar-uang-muka-mobile.png` (390px) dan `44-bayar-uang-muka-desktop.png` (1440px), ditunjukkan ke pemilik produk; **berhenti menunggu tanggapan** sebelum tugas berikutnya.
 - **Prasyarat:** T4.23, T4.25, T3.11.
+- **Catatan (8 Okt 2026):** Rute `/pembeli/pesanan/:id/bayar`; simulasi berhasil/gagal/menunggu di mode uji coba (D-41); kunci idempoten tetap per percobaan sehingga klik ganda hanya membayar sekali. Halaman Pembayaran (49) dan Riwayat (50). Tangkapan tambahan: `44-bayar-uang-muka-gagal-*`, `44-bayar-uang-muka-berhasil-*`, `49-pembayaran-pembeli-*`, `50-riwayat-pembeli-*`.
 
 ## 4I. Pemeriksaan akhir tahap
 

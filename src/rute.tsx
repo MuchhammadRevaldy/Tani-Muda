@@ -29,6 +29,14 @@ import { HalamanUkur } from './halaman/kebun/ukur-ph-ppm';
 import { Memuat } from './halaman/memuat';
 import { HalamanDetailPesanan } from './halaman/pesanan/detail-pesanan';
 import { HalamanKesepakatan } from './halaman/pesanan/kesepakatan';
+import { HalamanLaporGagal } from './halaman/pesanan/lapor-gagal';
+import { HalamanBayar } from './halaman/pembeli/bayar';
+import { HalamanBuatPesanan } from './halaman/pembeli/buat-pesanan';
+import { HalamanDaftarPembeli } from './halaman/pembeli/daftar-pembeli';
+import { HalamanDasborPembeli } from './halaman/pembeli/dasbor';
+import { HalamanKonfirmasiKiriman } from './halaman/pembeli/konfirmasi-kiriman';
+import { HalamanPembayaran } from './halaman/pembeli/pembayaran';
+import { HalamanRiwayat } from './halaman/pembeli/riwayat';
 import { HalamanKirimanSaya } from './halaman/pesanan/kiriman-saya';
 import { HalamanPesananSekitar } from './halaman/pesanan/sekitar';
 import { judulRute, type KunciRute } from './teks/rute';
@@ -78,10 +86,11 @@ const petani = (kunci: KunciRute, opsi: { tanpaNav?: boolean } = {}): ReactNode 
 const hitung = (kunci: KunciRute, isi: ReactNode): ReactNode =>
   halamanPetani(kunci, isi, { tanpaNav: true, menuAktif: 'kebun' });
 
-const pembeli = (kunci: KunciRute): ReactNode => (
+const pembeli = (kunci: KunciRute, isi: ReactNode = <Sementara kunci={kunci} />): ReactNode => (
   <PenjagaRute peran={['pembeli']}>
     <KerangkaPembeliSesi>
-      <Sementara kunci={kunci} />
+      <JudulDokumen kunci={kunci} />
+      {isi}
     </KerangkaPembeliSesi>
   </PenjagaRute>
 );
@@ -191,6 +200,10 @@ export const daftarRute: RouteObject[] = [
         element: halamanPetani('kirimanSaya', <HalamanKirimanSaya />),
       },
       {
+        path: '/pesanan/kiriman/:id/gagal',
+        element: halamanPetani('laporGagal', <HalamanLaporGagal />, { menuAktif: 'pesanan' }),
+      },
+      {
         path: '/pesanan/:id',
         element: halamanPetani('detailPesanan', <HalamanDetailPesanan />, { menuAktif: 'pesanan' }),
       },
@@ -202,11 +215,16 @@ export const daftarRute: RouteObject[] = [
       { path: '/profil/ubah', element: petani('ubahProfil') },
       { path: '/profil/notifikasi', element: petani('pengingat') },
       { path: '/lahan', element: halamanPetani('lahan', <HalamanLahanSaya />) },
-      { path: '/pembeli', element: pembeli('dasborPembeli') },
-      { path: '/pembeli/riwayat', element: pembeli('riwayat') },
-      { path: '/pembeli/pembayaran', element: pembeli('pembayaran') },
-      { path: '/pembeli/pesanan/baru', element: pembeli('buatPesanan') },
-      { path: '/pembeli/kiriman/:id', element: pembeli('konfirmasiKiriman') },
+      { path: '/pembeli', element: pembeli('dasborPembeli', <HalamanDasborPembeli />) },
+      { path: '/pembeli/daftar', element: pembeli('daftarPembeli', <HalamanDaftarPembeli />) },
+      { path: '/pembeli/riwayat', element: pembeli('riwayat', <HalamanRiwayat />) },
+      { path: '/pembeli/pembayaran', element: pembeli('pembayaran', <HalamanPembayaran />) },
+      { path: '/pembeli/pesanan/baru', element: pembeli('buatPesanan', <HalamanBuatPesanan />) },
+      { path: '/pembeli/pesanan/:id/bayar', element: pembeli('bayarUangMuka', <HalamanBayar />) },
+      {
+        path: '/pembeli/kiriman/:id',
+        element: pembeli('konfirmasiKiriman', <HalamanKonfirmasiKiriman />),
+      },
       { path: '/admin', element: panel('admin', 'admin') },
       { path: '/mentor', element: panel('mentor', 'mentor') },
       { path: '*', element: <TidakDitemukan /> },

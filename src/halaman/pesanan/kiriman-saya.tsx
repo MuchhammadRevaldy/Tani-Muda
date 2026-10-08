@@ -21,6 +21,7 @@ import { useHariIni, useSesi } from '../../api/sesi';
 import type { Konfigurasi, Pengiriman, PesananUntukPetani } from '../../api/tipe';
 import { AmbilFoto } from '../../komponen/ambil-foto';
 import { ChipStatus } from '../../komponen/chip-status';
+import { Dialog } from '../../komponen/dialog';
 import { cx } from '../../komponen/gabung-kelas';
 import { Ikon, type NamaIkon } from '../../komponen/ikon';
 import { Kartu } from '../../komponen/kartu';
@@ -31,9 +32,11 @@ import { useLayarLebar } from '../../komponen/use-layar-lebar';
 import { bulatkanRupiah, formatJam, formatRupiah, formatTanggal } from '../../lib/format';
 import { kelompokKiriman, tahapUang } from '../../lib/pesanan-tampil';
 import { jamLokal, ZONA_BAWAAN } from '../../lib/zona-waktu';
+import { teksPembeli } from '../../teks/pembeli';
 import { teksPesanan as t } from '../../teks/pesanan';
 import { teksUmum } from '../../teks/umum';
 import { Memuat } from '../memuat';
+import { BeriRating } from './beri-rating';
 import { KerangkaPesanan, useKomoditasPeta } from './kerangka-pesanan';
 
 interface KirimanLengkap {
@@ -276,6 +279,12 @@ function KartuHariIni({
               >
                 {tandai.isPending ? t.mengirim : t.tandaiDikirim}
               </Tombol>
+              <Link
+                to={`/pesanan/kiriman/${encodeURIComponent(x.id)}/gagal`}
+                className="fokus-cincin inline-flex min-h-sentuh items-center self-center rounded-sm px-1 font-semibold text-tomat-teks underline underline-offset-3"
+              >
+                {t.tidakSanggup}
+              </Link>
             </>
           ) : null}
         </div>
@@ -284,8 +293,12 @@ function KartuHariIni({
   );
 }
 
+const kelasTautanKecil =
+  'fokus-cincin inline-flex min-h-sentuh cursor-pointer items-center self-start rounded-sm border-0 bg-transparent px-1 font-semibold underline underline-offset-3';
+
 function BarisKiriman({ d, nama }: { d: KirimanLengkap; nama: string }) {
   const { x, p } = d;
+  const [nilai, setNilai] = useState(false);
   const selesai = x.status === 'diterima' || x.status === 'ditolak_sebagian';
   const ditolak = x.jumlah_ditolak_kg > 0;
   let ket: string;
@@ -322,6 +335,39 @@ function BarisKiriman({ d, nama }: { d: KirimanLengkap; nama: string }) {
         <span>
           <ChipStatus status={selesai ? 'dana-cair' : 'uang-muka-ditahan'} />
         </span>
+      ) : null}
+      {x.status === 'terjadwal' ? (
+        <Link
+          to={`/pesanan/kiriman/${encodeURIComponent(x.id)}/gagal`}
+          className={kelasTautanKecil + ' text-tomat-teks'}
+        >
+          {t.tidakSanggup}
+        </Link>
+      ) : null}
+      {selesai ? (
+        x.rating_saya ? (
+          <span className="flex items-center gap-1.5 text-teks-pendukung">
+            <Ikon nama="bintang" ukuran={18} className="fill-matahari text-matahari" />
+            {t.nilaiDiberikan(x.rating_saya)}
+          </span>
+        ) : (
+          <>
+            <button
+              type="button"
+              onClick={() => setNilai(true)}
+              className={kelasTautanKecil + ' text-daun-tua'}
+            >
+              {t.beriNilai}
+            </button>
+            <Dialog terbuka={nilai} onTutup={() => setNilai(false)} judul={t.beriNilai}>
+              <BeriRating
+                kirimanId={x.id}
+                ratingSaya={x.rating_saya}
+                keterangan={teksPembeli.ratingKetPetani(p.nama_pembeli)}
+              />
+            </Dialog>
+          </>
+        )
       ) : null}
     </li>
   );

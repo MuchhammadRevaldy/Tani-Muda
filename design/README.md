@@ -89,9 +89,9 @@ Kolom **Tangkapan aplikasi** adalah nama file tangkapan layar halaman aplikasi y
 | 34 | Profil petani | petani | desktop | `34-profil-petani-desktop.html` | `34-profil-petani-desktop.png` |
 | 35 | Ubah profil | petani | mobile | `35-ubah-profil-mobile.html` | `35-ubah-profil-mobile.png` |
 | 35 | Ubah profil | petani | desktop | `35-ubah-profil-desktop.html` | `35-ubah-profil-desktop.png` |
-| 36 | Dasbor pesanan aktif | pembeli | desktop | `36-dasbor-pesanan-pembeli-desktop.html` | `36-dasbor-pesanan-pembeli-desktop.png` |
-| 37 | Buat pesanan | pembeli | desktop | `37-buat-pesanan-pembeli-desktop.html` | `37-buat-pesanan-pembeli-desktop.png` |
-| 38 | Konfirmasi kiriman | pembeli | desktop | `38-konfirmasi-kiriman-pembeli-desktop.html` | `38-konfirmasi-kiriman-pembeli-desktop.png` |
+| 36 | Dasbor pesanan aktif | pembeli | desktop | `36-dasbor-pesanan-pembeli-desktop.html` | `36-dasbor-pesanan-pembeli-desktop.png` ✓ |
+| 37 | Buat pesanan | pembeli | desktop | `37-buat-pesanan-pembeli-desktop.html` | `37-buat-pesanan-pembeli-desktop.png` ✓ |
+| 38 | Konfirmasi kiriman | pembeli | desktop | `38-konfirmasi-kiriman-pembeli-desktop.html` | `38-konfirmasi-kiriman-pembeli-desktop.png` ✓ |
 
 Ringkasan: 39 halaman dalam 64 file papan. Sebanyak 25 halaman punya versi mobile dan desktop, 10 halaman hanya mobile (termasuk keadaan kosong, offline, dan pengingat diblokir), dan 4 hanya desktop (papan 00 dan 3 halaman pembeli).
 
@@ -106,10 +106,14 @@ Halaman ini belum punya papan desain. Halaman dibuat dari pola desain yang ada (
 | 41 | Pilih tanggal tanam | petani | T4.08 | `41-pilih-tanggal-tanam-mobile.png`, `…-desktop.png` ✓ |
 | 42 | Pemutar modul belajar | petani | T4.31 | `42-pemutar-modul-mobile.png`, `…-desktop.png` |
 | 43 | Pilih akun demo (hanya mode pengembangan) | publik | T4.01 | `43-pilih-akun-demo-mobile.png`, `…-desktop.png` ✓ |
-| 44 | Bayar uang muka (mode uji coba) | pembeli | T4.41 | `44-bayar-uang-muka-mobile.png`, `…-desktop.png` |
+| 44 | Bayar uang muka (mode uji coba) | pembeli | T4.41 | `44-bayar-uang-muka-mobile.png`, `…-desktop.png` ✓ |
 | 45 | Kebun: daftar siklus (D-26, D-38) | petani | T4.10 | `45-kebun-daftar-siklus-mobile.png`, `…-desktop.png` ✓ |
 | 46 | Ubah tanggal tanam | petani | T4.13 | `46-ubah-tanggal-tanam-mobile.png`, `…-desktop.png` ✓ |
 | 47 | Akhir siklus | petani | T4.17 | `47-akhir-siklus-mobile.png`, `…-desktop.png` ✓ |
+| 48 | Data usaha pembeli | pembeli | T4.28 | `48-data-usaha-pembeli-mobile.png`, `…-desktop.png` ✓ |
+| 49 | Pembayaran pembeli | pembeli | T4.41 | `49-pembayaran-pembeli-mobile.png`, `…-desktop.png` ✓ |
+| 50 | Riwayat pembeli | pembeli | T4.41 | `50-riwayat-pembeli-mobile.png`, `…-desktop.png` ✓ |
+| 51 | Kabari tidak sanggup kirim (gagal panen) | petani | T4.27 | `51-kabari-gagal-panen-mobile.png`, `…-desktop.png` ✓ |
 
 Halaman turunan lain (panel mentor dan admin, halaman statis, rating, gagal panen) diberi nomor berikutnya saat tugasnya dikerjakan. Panel mentor dan admin hanya punya versi desktop.
 

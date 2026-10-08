@@ -9,6 +9,8 @@ import type {
   KelompokPesananSiklus,
   Lahan,
   Pengguna,
+  Pengiriman,
+  PengirimanTersimpan,
   Pesanan,
   SiklusTanam,
   SiklusTersimpan,
@@ -100,4 +102,16 @@ export function namaPengguna(k: Konteks, id: string): string {
   const p = k.db.pengguna.pengguna.find((x) => x.id === id);
   const usaha = k.db.pengguna.profil_pembeli.find((x) => x.pengguna_id === id)?.nama_usaha;
   return usaha ?? p?.nama ?? '';
+}
+
+/** Kiriman seperti dikirim API: dengan nilai yang sudah diberikan pengguna pembaca (P0-28). */
+export function kirimanKeluar(
+  k: Konteks,
+  x: PengirimanTersimpan,
+  penggunaId: string | null,
+): Pengiriman {
+  const r = k.db.pesanan.rating.find(
+    (y) => y.pengiriman_id === x.id && y.pemberi_id === penggunaId,
+  );
+  return k.salin({ ...x, rating_saya: r?.nilai ?? null });
 }
