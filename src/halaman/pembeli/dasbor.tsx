@@ -387,7 +387,10 @@ export function HalamanDasborPembeli() {
       {kepala}
       {profil ? <StatusVerifikasi profil={profil} /> : null}
       {dibatalkan ? (
-        <p role="status" className="m-0 rounded-md bg-daun-lembut px-4 py-3 font-medium text-daun-tua">
+        <p
+          role="status"
+          className="m-0 rounded-md bg-daun-lembut px-4 py-3 font-medium text-daun-tua"
+        >
           {dibatalkan}
         </p>
       ) : null}

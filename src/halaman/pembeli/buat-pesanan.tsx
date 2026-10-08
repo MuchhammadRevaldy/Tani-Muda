@@ -53,7 +53,11 @@ function OpsiKartu({
   ket?: string;
 }) {
   return (
-    <KartuPilihan dipilih={dipilih} onPilih={onPilih} labelAksesibel={ket ? `${judul}, ${ket}` : judul}>
+    <KartuPilihan
+      dipilih={dipilih}
+      onPilih={onPilih}
+      labelAksesibel={ket ? `${judul}, ${ket}` : judul}
+    >
       <span className="flex min-h-kontrol items-center gap-3 px-4 py-2">
         <span
           aria-hidden="true"
@@ -422,9 +426,7 @@ function Formulir({
     <div className="flex flex-col gap-4">
       <Kartu
         judul={t.ringkasanBiaya}
-        keterangan={
-          k && jumlah && n.ok ? t.ringkasanIsi(k.nama, jumlah, n.nilai) : undefined
-        }
+        keterangan={k && jumlah && n.ok ? t.ringkasanIsi(k.nama, jumlah, n.nilai) : undefined}
         tingkatJudul={2}
         nadaKaki="uang"
         kaki={
@@ -483,14 +485,8 @@ function Formulir({
       </p>
       {!terverifikasi ? <StatusVerifikasi profil={profil} /> : null}
       {galat.kirim ? <PesanKolom id="galat-buat" galat={galat.kirim} /> : null}
-      <Tombol
-        penuh
-        disabled={!terverifikasi || buat.isPending}
-        onClick={() => void kirim()}
-      >
-        {buat.isPending
-          ? t.menyimpan
-          : t.lanjutBayar(nilai?.ok ? nilai.nilai.dibayarSekarang : 0)}
+      <Tombol penuh disabled={!terverifikasi || buat.isPending} onClick={() => void kirim()}>
+        {buat.isPending ? t.menyimpan : t.lanjutBayar(nilai?.ok ? nilai.nilai.dibayarSekarang : 0)}
       </Tombol>
     </div>
   );

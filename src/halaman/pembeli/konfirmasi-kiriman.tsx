@@ -18,12 +18,7 @@ import {
   useUnggahBerkas,
 } from '../../api/kueri';
 import { useSesi } from '../../api/sesi';
-import type {
-  AlasanPenolakan,
-  Konfigurasi,
-  Pengiriman,
-  PesananDenganKebun,
-} from '../../api/tipe';
+import type { AlasanPenolakan, Konfigurasi, Pengiriman, PesananDenganKebun } from '../../api/tipe';
 import { AmbilFoto, type FotoKecil } from '../../komponen/ambil-foto';
 import { Banner } from '../../komponen/banner';
 import { ChipStatus } from '../../komponen/chip-status';
@@ -60,7 +55,8 @@ function useWaktu() {
       const j = jamLokal(Date.parse(iso), zona);
       return formatJam(j.jam, j.menit);
     },
-    tanggal: (iso: string | null) => (iso ? formatTanggal(tanggalLokal(Date.parse(iso), zona)) : ''),
+    tanggal: (iso: string | null) =>
+      iso ? formatTanggal(tanggalLokal(Date.parse(iso), zona)) : '',
   };
 }
 
@@ -77,23 +73,13 @@ function Foto({ src, alt, judul }: { src: string; alt: string; judul: string }) 
   );
 }
 
-function Selesai({
-  x,
-  p,
-  petani,
-}: {
-  x: Pengiriman;
-  p: PesananDenganKebun;
-  petani: string;
-}) {
+function Selesai({ x, p, petani }: { x: Pengiriman; p: PesananDenganKebun; petani: string }) {
   const diterima = Math.round((x.jumlah_kg - x.jumlah_ditolak_kg) * 100) / 100;
   return (
     <div className="flex flex-col gap-4 lg:max-w-dialog">
       <section className="flex flex-col items-start gap-3 rounded-lg border-1.5 border-daun-tua bg-daun-lembut p-6">
         <ChipStatus status="dana-cair" />
-        <p className="m-0 font-semibold">
-          {t.sudahDikonfirmasi(diterima, x.nilai_diterima ?? 0)}
-        </p>
+        <p className="m-0 font-semibold">{t.sudahDikonfirmasi(diterima, x.nilai_diterima ?? 0)}</p>
         {x.dianggap_diterima ? <p className="m-0">{t.dianggapDiterima}</p> : null}
       </section>
       <Kartu>
@@ -231,7 +217,9 @@ function Periksa({
               [
                 'terima',
                 t.terimaSemua,
-                terimaSemua.ok ? t.terimaSemuaKet(x.jumlah_kg, terimaSemua.nilai.danaCairPetani) : '',
+                terimaSemua.ok
+                  ? t.terimaSemuaKet(x.jumlah_kg, terimaSemua.nilai.danaCairPetani)
+                  : '',
               ],
               ['tolak', t.tolakSebagian, t.tolakSebagianKet],
             ] as const
@@ -246,7 +234,9 @@ function Periksa({
               labelAksesibel={judul}
             >
               <span className="flex min-h-kontrol flex-col justify-center px-4 py-2">
-                <span className={keputusan === nilai ? 'font-semibold text-daun-tua' : 'font-medium'}>
+                <span
+                  className={keputusan === nilai ? 'font-semibold text-daun-tua' : 'font-medium'}
+                >
                   {judul}
                 </span>
                 <span className="text-keterangan text-teks-pendukung">{ket}</span>
@@ -444,9 +434,7 @@ export function HalamanKonfirmasiKiriman() {
         </div>
       </div>
       {x.status === 'dikirim' ? (
-        <Banner judul={t.periksaSebelum(w.jam(x.batas_periksa_pada))}>
-          {t.periksaSebelumKet}
-        </Banner>
+        <Banner judul={t.periksaSebelum(w.jam(x.batas_periksa_pada))}>{t.periksaSebelumKet}</Banner>
       ) : null}
       {selesai ? (
         <Selesai x={x} p={p} petani={petani} />

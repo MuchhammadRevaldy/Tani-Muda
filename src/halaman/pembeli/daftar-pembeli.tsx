@@ -25,7 +25,14 @@ import { teksPembeli as t } from '../../teks/pembeli';
 import { teksUmum } from '../../teks/umum';
 import { StatusVerifikasi } from './status-verifikasi';
 
-const JENIS: JenisUsaha[] = ['katering', 'restoran', 'warung', 'koperasi', 'penggilingan', 'lainnya'];
+const JENIS: JenisUsaha[] = [
+  'katering',
+  'restoran',
+  'warung',
+  'koperasi',
+  'penggilingan',
+  'lainnya',
+];
 
 type Galat = Partial<Record<'nama' | 'alamat' | 'desa' | 'umum', string>>;
 
@@ -76,7 +83,11 @@ export function HalamanDaftarPembeli() {
     <>
       <HeaderHalaman judul={t.daftarJudul} keterangan={t.daftarKet} />
       {profil ? <StatusVerifikasi profil={profil} selalu /> : null}
-      <form onSubmit={(e) => void kirim(e)} noValidate className="flex flex-col gap-6 lg:max-w-teks">
+      <form
+        onSubmit={(e) => void kirim(e)}
+        noValidate
+        className="flex flex-col gap-6 lg:max-w-teks"
+      >
         <Kartu>
           <div className="flex flex-col gap-4">
             <KolomIsian

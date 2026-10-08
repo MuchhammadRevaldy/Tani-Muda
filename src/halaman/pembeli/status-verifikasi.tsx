@@ -17,13 +17,7 @@ const GAYA: Record<ProfilPembeli['status_verifikasi'], { ikon: NamaIkon; kelas: 
 };
 
 /** Kartu status; disembunyikan untuk pembeli terverifikasi kecuali `selalu`. */
-export function StatusVerifikasi({
-  profil,
-  selalu,
-}: {
-  profil: ProfilPembeli;
-  selalu?: boolean;
-}) {
+export function StatusVerifikasi({ profil, selalu }: { profil: ProfilPembeli; selalu?: boolean }) {
   const s = profil.status_verifikasi;
   if (s === 'terverifikasi' && !selalu) return null;
   const g = GAYA[s];

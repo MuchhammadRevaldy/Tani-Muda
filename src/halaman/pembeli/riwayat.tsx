@@ -32,7 +32,11 @@ export function HalamanRiwayat() {
               key={p.id}
               judul={
                 p.jenis === 'rutin' && p.frekuensi_hari
-                  ? t.judulRutin(k.nama(p.komoditas_id), p.jumlah_per_kiriman_kg ?? 0, p.frekuensi_hari)
+                  ? t.judulRutin(
+                      k.nama(p.komoditas_id),
+                      p.jumlah_per_kiriman_kg ?? 0,
+                      p.frekuensi_hari,
+                    )
                   : t.judulSekali(k.nama(p.komoditas_id), p.jumlah_total_kg)
               }
               keterangan={`${t.statusPesanan(p.status)} · ${t.dibuatTanggal(formatTanggal(tanggalLokal(Date.parse(p.dibuat_pada)), { tanpaHari: true }))}`}
