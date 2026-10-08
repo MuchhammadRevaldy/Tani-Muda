@@ -7,7 +7,8 @@ import { daftarRute } from './rute';
 
 /** [alamat, judul h1, pengguna uji yang masuk (null = belum masuk)] */
 const jalur = [
-  ['/', 'Tani Muda', null],
+  ['/', 'Bertani itu bisa untung, asal direncanakan.', null],
+  ['/aturan-pakai', 'Aturan pakai', null],
   ['/masuk', 'Masuk dengan nomor HP', null],
   ['/beranda', /^Selamat (pagi|siang|sore|malam), Arif$/, 'petani-arif'],
   ['/hitung/tanaman', 'Mau tanam apa?', 'petani-arif'],
@@ -19,6 +20,8 @@ const jalur = [
   ],
   ['/pesanan/1/kesepakatan', 'Periksa kesepakatan', 'petani-arif'],
   ['/lahan', 'Lahan saya', 'petani-arif'],
+  ['/profil', 'Profil', 'petani-arif'],
+  ['/profil/ubah', 'Ubah profil', 'petani-arif'],
   ['/pembeli', 'Pesanan aktif', 'pembeli-ratna'],
   ['/pembeli/riwayat', 'Riwayat', 'pembeli-ratna'],
   ['/admin', 'Admin', 'admin-tani'],

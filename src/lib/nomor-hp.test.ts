@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { normalisasiNomorHp, samarkanNomorHp } from './nomor-hp';
+import { normalisasiNomorHp, samarkanNomorHp, tampilNomorHp } from './nomor-hp';
 
 describe('normalisasiNomorHp', () => {
   it.each([
@@ -26,5 +26,13 @@ describe('samarkanNomorHp', () => {
     expect(samarkanNomorHp('+6281234567890')).toBe('+62812****7890');
     expect(samarkanNomorHp('+62812345678')).toBe('+62812**5678');
     expect(samarkanNomorHp('+628')).toBe('+628');
+  });
+});
+
+describe('tampilNomorHp', () => {
+  it('format lokal dengan bagian tengah disamarkan', () => {
+    expect(tampilNomorHp('+6281234564521')).toBe('0812••••4521');
+    expect(tampilNomorHp('+6285711112222')).toBe('0857••••2222');
+    expect(tampilNomorHp('+62812')).toBe('0812');
   });
 });

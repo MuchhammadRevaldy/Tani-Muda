@@ -3,8 +3,8 @@
  * lewat klien API; di mode tiruan kode dibuat `PenyediaOtp` tiruan (D-10). Pengguna baru wajib
  * mencentang persetujuan kebijakan privasi berteks draf (D-30).
  */
-import { lazy, Suspense, useState, type FormEvent } from 'react';
-import { Link } from 'react-router-dom';
+import { lazy, Suspense, useEffect, useState, type FormEvent } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { adalahGalatApi } from '../api/galat';
 import { useKirimOtp, useVerifikasiOtp } from '../api/kueri';
 import { useGantiPengguna } from '../api/sesi';
@@ -21,6 +21,7 @@ import { normalisasiNomorHp } from '../lib/nomor-hp';
 import { teksGalat } from '../teks/galat';
 import { teksMasuk as t } from '../teks/masuk';
 import { teksPrivasi } from '../teks/privasi';
+import { bacaPeranDariAlamat, simpanPeranAwal } from './peran-awal';
 
 const PanelPengembangan = import.meta.env.DEV
   ? lazy(() => import('./masuk/panel-pengembangan'))
@@ -37,6 +38,13 @@ export function HalamanMasuk() {
   const kirim = useKirimOtp();
   const verifikasi = useVerifikasiOtp();
   const gantiPengguna = useGantiPengguna();
+  const { search } = useLocation();
+
+  // Peran dari tombol halaman depan dibawa sampai pilih peran (T4.32).
+  useEffect(() => {
+    const peran = bacaPeranDariAlamat(search);
+    if (peran) simpanPeranAwal(peran);
+  }, [search]);
 
   const [nomor, setNomor] = useState('');
   const [galatNomor, setGalatNomor] = useState<string | null>(null);

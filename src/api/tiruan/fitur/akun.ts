@@ -107,6 +107,40 @@ export function buatKlienAkun(k: Konteks): KlienAkun {
       return akunDari(k, p);
     },
 
+    async kirimOtpNomorBaru(m) {
+      const p = k.penggunaMasuk();
+      const nomorHp = nomor(m.nomor_hp);
+      if (nomorHp === p.nomor_hp) k.validasi({ nomor_hp: 'NOMOR_SAMA' });
+      if (k.db.pengguna.pengguna.some((x) => x.nomor_hp === nomorHp))
+        k.galat('NOMOR_SUDAH_DIPAKAI');
+      const r = await k.otp.kirimKode(nomorHp);
+      if (!r.ok)
+        k.galat(
+          r.galat,
+          r.cobaLagiDalamDetik !== undefined ? { cobaLagiDalam: r.cobaLagiDalamDetik } : {},
+        );
+      return {
+        nomor_hp: nomorHp,
+        kirim_ulang_dalam_detik: r.nilai.kirimUlangDalamDetik,
+        kedaluwarsa_dalam_detik: r.nilai.kedaluwarsaDalamDetik,
+      };
+    },
+
+    async gantiNomorHp(m) {
+      const p = k.penggunaMasuk();
+      const nomorHp = nomor(m.nomor_hp);
+      if (nomorHp === p.nomor_hp) k.validasi({ nomor_hp: 'NOMOR_SAMA' });
+      if (!/^\d{6}$/.test(m.kode)) k.validasi({ kode: 'OTP_SALAH' });
+      // Dicek lagi saat verifikasi: nomor bisa saja dipakai orang lain setelah kode dikirim.
+      if (k.db.pengguna.pengguna.some((x) => x.nomor_hp === nomorHp))
+        k.galat('NOMOR_SUDAH_DIPAKAI');
+      const r = await k.otp.verifikasi(nomorHp, m.kode);
+      if (!r.ok) k.galat(r.galat);
+      p.nomor_hp = nomorHp;
+      k.simpan();
+      return akunDari(k, p);
+    },
+
     async catatanSaya() {
       const p = k.wajibPeran('petani');
       return k.salin(k.db.pengguna.catatan_petani.filter((c) => c.petani_id === p.id));

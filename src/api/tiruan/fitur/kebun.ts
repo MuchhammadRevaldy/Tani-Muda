@@ -14,6 +14,7 @@ import { bandingTanggal, selisihHari, tambahHari } from '../../../lib/tanggal';
 import { perkiraanPanen } from '../../../lib/ukuran-metode';
 import { judulUkurUlang } from '../../../teks/jadwal';
 import type { KlienBelajar, KlienKebun, KlienLahan } from '../../klien';
+import videoModul from '../data/video-modul.json';
 import { lahanKeDomain, resepKeDomain, tugasDariDomain, tugasKeDomain } from '../../peta';
 import type { Pengguna, ResepTanam, SiklusDetail, SiklusTersimpan, Tugas } from '../../tipe';
 import type { Konteks } from '../konteks';
@@ -647,12 +648,23 @@ export function buatKlienKebun(k: Konteks): KlienKebun {
   };
 }
 
+/** Video asli yang dipasang tim lewat `npm run pasang-video` menggantikan video contoh (D-44). */
+const VIDEO_ASLI: Record<string, { berkas: string; ukuran_mb: number }> = videoModul;
+
 export function buatKlienBelajar(k: Konteks): KlienBelajar {
   const lengkap = (p: Pengguna, m: (typeof k.db.modul)[number]) => {
     const progres = k.db.kebun.progres_modul.find(
       (x) => x.pengguna_id === p.id && x.modul_id === m.id,
     );
-    return { ...k.salin(m), selesai: !!progres, selesai_pada: progres?.selesai_pada ?? null };
+    const asli = VIDEO_ASLI[m.id];
+    return {
+      ...k.salin(m),
+      ...(asli
+        ? { video_url: `/video/modul/${asli.berkas}`, ukuran_video_mb: asli.ukuran_mb }
+        : {}),
+      selesai: !!progres,
+      selesai_pada: progres?.selesai_pada ?? null,
+    };
   };
   return {
     async daftarModul(p) {

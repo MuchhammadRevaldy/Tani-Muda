@@ -105,6 +105,11 @@ export interface UbahProfilMasukan {
   /** URL berkas hasil unggah. */
   foto_profil?: string | null;
 }
+/** Ganti nomor HP: kode dikirim ke nomor baru dan wajib dicocokkan (T4.36). */
+export interface GantiNomorHpMasukan {
+  nomor_hp: string;
+  kode: string;
+}
 export interface ProfilPembeliMasukan {
   nama_usaha: string;
   jenis_usaha: JenisUsaha;

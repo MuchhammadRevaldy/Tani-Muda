@@ -17,9 +17,13 @@ export const useVerifikasiOtp = () =>
   m((k, x: T.VerifikasiOtpMasukan) => k.akun.verifikasiOtp(x), ['akun']);
 export const usePilihPeran = () => m((k, x: T.PilihPeranMasukan) => k.akun.pilihPeran(x), ['akun']);
 export const useUbahProfil = () =>
-  m((k, x: T.UbahProfilMasukan) => k.akun.ubahProfil(x), ['akun', 'pesanan']);
+  m((k, x: T.UbahProfilMasukan) => k.akun.ubahProfil(x), ['akun', 'pesanan', 'referensi']);
 export const useSimpanProfilPembeli = () =>
   m((k, x: T.ProfilPembeliMasukan) => k.akun.simpanProfilPembeli(x), ['akun']);
+export const useKirimOtpNomorBaru = () =>
+  m((k, x: T.KirimOtpMasukan) => k.akun.kirimOtpNomorBaru(x), []);
+export const useGantiNomorHp = () =>
+  m((k, x: T.GantiNomorHpMasukan) => k.akun.gantiNomorHp(x), ['akun']);
 export const useKeluar = () => m((k, _x: void) => k.akun.keluar(), ['akun']);
 export const useWilayah = (p: T.ParamWilayah & T.ParamHalaman = {}) =>
   q(kk('wilayah', 'daftar', { ...p }), (k) => k.wilayah.daftar(p));
@@ -68,6 +72,7 @@ export const useDaftarResep = (p: T.ParamResep = {}) =>
   q(kk('resep', 'daftar', { ...p }), (k) => k.resep.daftar(p));
 export const useResep = (id: string | null) =>
   q(kk('resep', 'satu', id), (k) => k.resep.ambil(id as string), !!id);
+export const useContohPublik = () => q(kk('resep', 'publik'), (k) => k.resep.contohPublik());
 export const useMintaResep = () => m((k, x: T.MintaResepMasukan) => k.resep.minta(x), ['resep']);
 export const usePermintaanSaya = () =>
   q(kk('resep', 'permintaan-saya'), (k) => k.resep.permintaanSaya());

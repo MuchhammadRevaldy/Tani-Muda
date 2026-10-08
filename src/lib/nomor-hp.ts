@@ -23,3 +23,10 @@ export function samarkanNomorHp(nomor: string): string {
   if (nomor.length < 9) return nomor;
   return nomor.slice(0, 6) + '*'.repeat(Math.max(0, nomor.length - 10)) + nomor.slice(-4);
 }
+
+/** Nomor untuk dilihat pemiliknya (papan 34–35): "+6281234564521" → "0812••••4521". */
+export function tampilNomorHp(nomor: string): string {
+  const lokal = nomor.startsWith('+62') ? '0' + nomor.slice(3) : nomor;
+  if (lokal.length < 9) return lokal;
+  return `${lokal.slice(0, 4)}••••${lokal.slice(-4)}`;
+}

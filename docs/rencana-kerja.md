@@ -893,13 +893,14 @@ Catatan pembagian:
 
 ## 4G. Landing, Masuk, Profil
 
-### [ ] T4.32 Landing page **[DEMO]**
+### [x] T4.32 Landing page **[DEMO]**
 - **Tujuan:** Hero + contoh siklus (penggaris), tiga pilar, "Cara kerja Pesan Sebelum Tanam" lima langkah, bagian pembeli, FAQ, penutup.
 - **Berkas:** `src/halaman/landing.tsx`, `src/halaman/landing/*.tsx`, `src/teks/landing.ts`.
 - **PRD:** –(desain 01–02); mengacu P0-22–P0-26.
 - **Selesai bila:** papan 01 (mobile setinggi 5.240px dan desktop) cocok; tombol "Mulai sebagai petani" dan "Saya pembeli" menuju `/masuk` dengan peran terisi; tidak ada klaim yang tidak didukung (mis. "Dana cair paling lama 6 jam" dibuat dari konfigurasi: 6 jam rutin, 24 jam sekali panen, D-01; angka modal dan titik impas di landing dihitung dari fungsi `src/lib` dengan resep contoh, D-08).
 - **Tangkapan (D-07):** `docs/tangkapan/aplikasi/01-halaman-depan-mobile.png` (390px) dan `01-halaman-depan-desktop.png` (1440px), ditunjukkan ke pemilik produk; **berhenti menunggu tanggapan** sebelum tugas berikutnya.
 - **Prasyarat:** T1.14, T1.16.
+- **Catatan (8 Okt 2026):** Rute `/` dengan `src/halaman/landing.tsx`, `landing/hero.tsx`, `landing/bagian.tsx`, `landing/data-landing.ts`; kepala dan kaki bersama di `statis/kerangka-publik.tsx`. Angka dari `GET /publik/contoh` dan `GET /konfigurasi`, dihitung `src/lib/contoh-landing.ts` (sawi 100 m² = Rp430.000, impas 86 kg, untung Rp320.000; padi tanpa subsidi Rp1.715.000, impas 264 kg gabah). Tombol ke `/masuk?peran=…`, peran terisi di Lengkapi akun. Perbaikan penggaris: tangkai pin tidak lagi menembus label (D-44).
 
 ### [x] T4.33 Masuk dengan nomor HP dan OTP **[DEMO]**
 - **Tujuan:** Nomor HP → kirim OTP → 6 digit → sesi; hitung mundur kirim ulang; galat jelas untuk kode salah, kedaluwarsa (5 menit), dan terkunci (5 percobaan); **tanpa kata sandi (D-04)**; centang persetujuan kebijakan privasi berteks draf untuk pengguna baru (D-30); semua lewat klien API (`useKirimOtp`, `useVerifikasiOtp`), yang di mode tiruan memakai `PenyediaOtp` tiruan T3.11 (D-10); menggantikan pemilih akun demo (T4.01) di luar mode pengembangan.
@@ -919,19 +920,21 @@ Catatan pembagian:
 - **Prasyarat:** T4.33, T3.09.
 - **Catatan (5 Okt 2026):** Dikerjakan di gelombang 1 karena pengguna baru langsung diarahkan ke sini. Peran: Petani, Pembeli, Penyuluh atau mentor. Desa dicari dengan `GET /wilayah?cari=` dan pilihannya tetap tersimpan walau pencarian berubah. Pembeli diarahkan ke `/pembeli`; formulir daftar usaha di T4.28.
 
-### [ ] T4.35 Profil petani
+### [x] T4.35 Profil petani
 - **Tujuan:** Profil dengan statistik (rating, siklus selesai, kg terjual), kartu Akun (nama, nomor HP), Kebun (desa, ringkasan dari tabel `lahan`, komoditas), Pengingat, Bantuan, tombol Keluar. **Tanpa kata sandi, nama pengguna, dan kartu kelompok tani (D-04, D-06).**
 - **Berkas:** `src/halaman/profil.tsx`, hook dari `src/api/kueri` (sudah ada sejak T3.04).
 - **PRD:** P0-01, P0-09, P0-28 (rating di profil).
 - **Selesai bila:** papan 34 cocok tanpa bagian yang dihapus; statistik dari data nyata; catatan petani (D-03) tampil ke petani sendiri.
 - **Prasyarat:** T4.34, T4.26.
+- **Catatan (8 Okt 2026):** Statistik dari `statistikPetani` dan `ringkasLahan` (`src/lib/profil.ts`); nomor tampil lewat `tampilNomorHp`. Kartu Pengingat berisi baris per siklus atau kelompok petak aktif menuju pengaturan siklus (pengingat per siklus, P0-38). Catatan admin tampil bila ada. Keluar ke `/masuk` (D-44).
 
-### [ ] T4.36 Ubah profil
+### [x] T4.36 Ubah profil
 - **Tujuan:** Foto profil (dikecilkan otomatis), nama, desa, ganti nomor HP dengan OTP ke nomor baru. **Tanpa kata sandi dan nama pengguna (D-04).**
 - **Berkas:** `src/halaman/ubah-profil.tsx`.
 - **PRD:** P0-01; selebihnya turunan desain 49–50.
 - **Selesai bila:** papan 35 cocok tanpa kartu Kata sandi dan isian Nama pengguna; perubahan desa memperbarui jarak pesanan.; ada isian "Saya terdaftar di kelompok tani" (`terdaftar_kelompok_tani`, D-38) yang menjadi bawaan pilihan subsidi di kalkulator
 - **Prasyarat:** T4.35, T4.11 (AmbilFoto).
+- **Catatan (8 Okt 2026):** Dialog ganti nomor `src/halaman/profil/ganti-nomor.tsx` dengan endpoint baru `POST /akun/nomor-hp/otp` dan `PUT /akun/nomor-hp`. Foto lewat `AmbilFoto` dan `POST /berkas`; simpan hanya mengirim yang berubah. Ganti desa membatalkan cache pesanan dan referensi. Tangkapan tambahan: `35-ubah-profil-ganti-nomor-*` (D-44).
 
 ### [x] T4.36a Lahan saya (turunan) **[DEMO]**
 - **Tujuan:** Petani mengelola lahan: nama, jenis lahan, luas dengan satuan lokal (nilai asli disimpan), desa, titik koordinat, kapasitas lubang hidroponik; tampil luas yang sedang dipakai dan kapasitas tersisa.
@@ -942,12 +945,13 @@ Catatan pembagian:
 - **Prasyarat:** T4.34, T3.09, T2.15a, T2.02.
 - **Catatan (6 Okt 2026):** Dikerjakan di gelombang 2 karena simpan rencana memilih lahan. Desa lahan mengikuti desa profil. Titik lahan opsional, bisa diisi dari lokasi HP. Tombol "Tambah lahan" di langkah simpan membuka halaman ini dan kembali lagi setelah lahan tersimpan.
 
-### [ ] T4.37 Halaman statis: aturan pakai, privasi, tentang, kontak, bantuan (turunan)
+### [x] T4.37 Halaman statis: aturan pakai, privasi, tentang, kontak, bantuan (turunan)
 - **Tujuan:** Halaman teks yang ditautkan dari desain; isi singkat sebagai draf yang menunggu peninjauan hukum.
 - **Berkas:** `src/halaman/statis/*.tsx`, `src/teks/statis.ts`.
 - **PRD:** Pertanyaan Terbuka 13 (persetujuan data).
 - **Selesai bila:** semua tautan dari landing, Masuk, Profil, dan footer terbuka; diberi catatan "Draf, belum ditinjau ahli hukum".
 - **Prasyarat:** T4.32.
+- **Catatan (8 Okt 2026):** Satu komponen `src/halaman/statis/halaman-statis.tsx` untuk `/aturan-pakai`, `/privasi`, `/tentang`, `/kontak`, `/bantuan`; teks di `src/teks/statis.ts` dengan angka dari konfigurasi. Tangkapan turunan `52-aturan-pakai`, `53-kebijakan-privasi`, `54-tentang`, `55-kontak`, `56-bantuan` (D-44).
 
 ## 4H. Peran mentor (di luar demo)
 
@@ -1356,7 +1360,8 @@ Tujuan tahap: frontend memakai backend Laravel lewat klien API HTTP tanpa mengub
 - **Selesai bila:**
   - video yang diunduh terputar dengan jaringan mati;
   - status unduh tampil di daftar modul (papan 08 mobile);
-  - penggunaan ruang ditampilkan.
+  - penggunaan ruang ditampilkan;
+  - **"Kelola unduhan" (wajib sebelum fitur offline didemokan, D-44):** daftar unduhan dengan ukuran setiap modul, hapus per modul, dan hapus semua sekaligus.
 - **Prasyarat:** T6.04.
 
 ### [ ] T6.07 Notifikasi: izin, langganan, pengingat **[DEMO]**

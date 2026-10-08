@@ -47,6 +47,31 @@ Proses yang dijalankan saat pengembangan, masing-masing di terminal sendiri:
 
 Reset data: `php artisan migrate:fresh --seed`. Langkah lengkap ditulis di `docs/menjalankan-lokal.md` (T5.03).
 
+## 2b. Hemat memori: laptop dengan sekitar 2 GB RAM bebas (D-44)
+
+Laptop pengembangan hanya punya sekitar 2 GB RAM bebas saat IDE dan peramban terbuka. Di gelombang 6 Tahap 4, tes halaman yang biasanya selesai dalam 0,2–2 detik menjadi 5–16 detik karena kekurangan memori (D-43). Tahap 5 menambah MariaDB, PHP, scheduler, dan antrean di samping Vite, jadi batas ini ikut menentukan cara kerja dan cara demo.
+
+Perkiraan pemakaian memori tiap proses (angka kasar, perlu diukur ulang di T5.03 dengan Task Manager):
+
+| Proses | Perkiraan | Catatan |
+| --- | --- | --- |
+| MariaDB XAMPP | 100–200 MB | Bawaan XAMPP sudah hemat (`innodb_buffer_pool_size` kecil). Jangan dinaikkan. |
+| `php artisan serve` | 50–100 MB | Satu proses PHP. |
+| `queue:work` dan `schedule:work` | 50–80 MB per proses | Bisa diganti mode hemat di bawah. |
+| Vite (`npm run dev` / `npm run demo`) | 200–400 MB | |
+| Vitest (2 pekerja) | 600 MB–1 GB | Hanya saat tes berjalan. |
+| Chrome untuk tangkapan layar | 300–600 MB | Hanya saat skrip tangkap berjalan. |
+
+Saran pengaturan:
+
+1. **Jangan jalankan semua sekaligus.** Tes, tangkapan layar, dan server pengembangan dijalankan bergantian. Tutup IDE kedua dan tab peramban yang tidak dipakai. Hentikan layanan basis data lain yang tidak dipakai proyek ini (mis. layanan Oracle) selama pengembangan.
+2. **MariaDB.** Pakai pengaturan bawaan XAMPP. Bila perlu, tambahkan di `my.ini` bagian `[mysqld]`: `performance_schema = OFF` dan `max_connections = 20`. Apache XAMPP tidak dinyalakan.
+3. **Antrean dan scheduler di lokal.** Untuk pengembangan sehari-hari, pakai `QUEUE_CONNECTION=sync` di `.env` lokal, sehingga `queue:work` tidak perlu dijalankan. `schedule:work` hanya dinyalakan saat menguji batas 6 atau 24 jam dan pengingat. Bila antrean dijalankan, pakai `php artisan queue:work --memory=128 --sleep=3`.
+4. **Tes backend.** Pest dijalankan tanpa `--parallel` (atau paling banyak `--processes=2`), seperti Vitest yang dibatasi 2 pekerja (D-43). Saat tes backend berjalan, Vite tidak perlu menyala.
+5. **Composer.** `composer install` dan `composer update` bisa butuh lebih dari 1 GB. Jalankan saat Vite, tes, dan Chrome ditutup.
+6. **Demo.** Sebelum demo, mulai ulang laptop. Buka hanya peramban demo, server Vite (`npm run demo`), dan di Tahap 6 `php artisan serve` dengan MariaDB. IDE ditutup. Antrean memakai `sync` dan scheduler hanya dinyalakan bila adegan demo membutuhkannya (mis. kiriman dianggap diterima setelah 6 jam).
+7. **Ukur, jangan menebak.** Di T5.03, catat pemakaian memori nyata tiap proses di `docs/menjalankan-lokal.md`, lalu sesuaikan tabel di atas.
+
 ## 2a. Memasang PHP 8.3+ terpisah (prasyarat Tahap 5, T5.00)
 
 PHP baru dipasang di folder sendiri. XAMPP tetap dipakai hanya untuk MariaDB (D-25). Contoh di bawah memakai folder `C:\php\8.3`; lokasinya bebas, asal PATH menunjuk ke sana.

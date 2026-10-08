@@ -1,5 +1,5 @@
 /** Resep tanam dan permintaan resep (kontrak 2.5). */
-import type { DasarUkuran } from './referensi';
+import type { DasarUkuran, Komoditas, MetodeTanam } from './referensi';
 import type { Rupiah, TanggalISO, WaktuISO } from './umum';
 
 export type DasarDosis = 'per_m2' | 'per_tanaman' | 'per_liter' | 'per_siklus';
@@ -76,6 +76,16 @@ export interface PermintaanResep {
   metode_id: string | null;
   wilayah_id: string | null;
   dibuat_pada: WaktuISO;
+}
+
+/**
+ * Contoh untuk halaman depan tanpa masuk (T4.32, D-44): komoditas, cara tanam, dan resep terbaru yang
+ * terlihat publik. Angka modal dan titik impas dihitung frontend dari resep ini (D-08).
+ */
+export interface ContohPublik {
+  komoditas: Komoditas[];
+  metode: MetodeTanam[];
+  resep: ResepTanam[];
 }
 
 // ---- masukan

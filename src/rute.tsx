@@ -8,7 +8,11 @@ import { PenjagaRute, PenjagaTamu, PenjagaTanpaPeran } from './komponen/penjaga-
 import { Galat } from './halaman/galat';
 import { TidakDitemukan } from './halaman/tidak-ditemukan';
 import { HalamanKomponen } from './halaman/komponen';
+import { HalamanLanding } from './halaman/landing';
 import { HalamanMasuk } from './halaman/masuk';
+import { HalamanProfil } from './halaman/profil';
+import { HalamanStatis } from './halaman/statis/halaman-statis';
+import { HalamanUbahProfil } from './halaman/ubah-profil';
 import { HalamanPilihPeran } from './halaman/pilih-peran';
 import { HalamanBeranda } from './halaman/beranda';
 import { HalamanBelajar } from './halaman/belajar';
@@ -97,10 +101,12 @@ const pembeli = (kunci: KunciRute, isi: ReactNode = <Sementara kunci={kunci} />)
   </PenjagaRute>
 );
 
-const polos = (kunci: KunciRute): ReactNode => (
-  <main className="mx-auto flex max-w-dialog flex-col gap-4 p-4">
-    <Sementara kunci={kunci} />
-  </main>
+/** Halaman statis terbuka tanpa masuk (T4.37). */
+const statis = (kunci: 'aturanPakai' | 'privasi' | 'tentang' | 'kontak' | 'bantuan'): ReactNode => (
+  <>
+    <JudulDokumen kunci={kunci} />
+    <HalamanStatis jenis={kunci} />
+  </>
 );
 
 const panel = (kunci: KunciRute, peran: 'admin' | 'mentor'): ReactNode => (
@@ -118,7 +124,15 @@ export const daftarRute: RouteObject[] = [
     element: <Outlet />,
     errorElement: <Galat />,
     children: [
-      { path: '/', element: polos('landing') },
+      {
+        path: '/',
+        element: (
+          <>
+            <JudulDokumen kunci="landing" />
+            <HalamanLanding />
+          </>
+        ),
+      },
       {
         path: '/masuk',
         element: (
@@ -150,7 +164,11 @@ export const daftarRute: RouteObject[] = [
             },
           ]
         : []),
-      { path: '/aturan-pakai', element: polos('aturanPakai') },
+      { path: '/aturan-pakai', element: statis('aturanPakai') },
+      { path: '/privasi', element: statis('privasi') },
+      { path: '/tentang', element: statis('tentang') },
+      { path: '/kontak', element: statis('kontak') },
+      { path: '/bantuan', element: statis('bantuan') },
       {
         path: '/komponen',
         element: (
@@ -216,8 +234,8 @@ export const daftarRute: RouteObject[] = [
         path: '/pesanan/:id/kesepakatan',
         element: halamanPetani('kesepakatan', <HalamanKesepakatan />, { menuAktif: 'pesanan' }),
       },
-      { path: '/profil', element: petani('profil') },
-      { path: '/profil/ubah', element: petani('ubahProfil') },
+      { path: '/profil', element: halamanPetani('profil', <HalamanProfil />) },
+      { path: '/profil/ubah', element: halamanPetani('ubahProfil', <HalamanUbahProfil />) },
       { path: '/profil/notifikasi', element: petani('pengingat') },
       { path: '/lahan', element: halamanPetani('lahan', <HalamanLahanSaya />) },
       { path: '/pembeli', element: pembeli('dasborPembeli', <HalamanDasborPembeli />) },

@@ -68,6 +68,7 @@ Endpoint berhalaman ditandai **(berhalaman)** di bagian 3.
 | 409 | `LAHAN_TIDAK_CUKUP` | Kapasitas lahan tidak cukup (D-15, D-34) |
 | 409 | `JADWAL_TERLALU_DEKAT` | Tidak ada kiriman pesanan yang terkejar umur panen bila tanam hari ini (D-39) |
 | 409 | `STATUS_TIDAK_SESUAI` | Langkah tidak berlaku pada status sekarang |
+| 409 | `NOMOR_SUDAH_DIPAKAI` | Nomor HP baru sudah dipakai akun lain (ganti nomor, D-44) |
 | 409 | `SUDAH_DINILAI` | Rating untuk kiriman ini sudah diberikan |
 | 409 | `MELEBIHI_SALDO` | Pencairan melebihi dana yang ditahan |
 | 402 | `PEMBAYARAN_GAGAL` | Pembayaran uang muka gagal (di mode uji coba lewat `simulasi`, D-41) |
@@ -97,7 +98,7 @@ Endpoint berhalaman ditandai **(berhalaman)** di bagian 3.
 
 - Aplikasi web memakai **cookie sesi Sanctum** (D-21). Klien memanggil `GET /sanctum/csrf-cookie` sebelum permintaan yang mengubah data, lalu mengirim cookie `XSRF-TOKEN` sebagai header `X-XSRF-TOKEN`.
 - Aplikasi React Native kelak memakai token Sanctum (`Authorization: Bearer`). Endpoint dan bentuk datanya sama.
-- Semua endpoint wajib masuk, kecuali: `POST /auth/otp/kirim`, `POST /auth/otp/verifikasi`, `GET /akun` (mengembalikan 401 bila belum masuk; klien menerjemahkannya menjadi `null`), dan `GET /konfigurasi`.
+- Semua endpoint wajib masuk, kecuali: `POST /auth/otp/kirim`, `POST /auth/otp/verifikasi`, `GET /akun` (mengembalikan 401 bila belum masuk; klien menerjemahkannya menjadi `null`), `GET /konfigurasi`, dan `GET /publik/contoh` (D-44).
 
 ### 1.7 Kunci idempoten
 
@@ -495,6 +496,8 @@ Peran: P = petani, B = pembeli, M = mentor, A = admin, semua = semua pengguna ma
 | `GET /akun` | semua | → `Akun` (401 bila belum masuk) | | `akun.ambil` |
 | `PUT /akun/peran` | semua, peran kosong | `{ peran, nama, wilayah_id? }` → `Akun` | `WILAYAH_WAJIB` (petani), `STATUS_TIDAK_SESUAI` (sudah berperan) | `akun.pilihPeran` |
 | `PATCH /akun` | semua | `{ nama?, wilayah_id?, zona_waktu?, foto_profil?, terdaftar_kelompok_tani? }` → `Akun` | `VALIDASI` | `akun.ubahProfil` |
+| `POST /akun/nomor-hp/otp` | semua | `{ nomor_hp }` → `{ nomor_hp, kirim_ulang_dalam_detik, kedaluwarsa_dalam_detik }`; kode dikirim ke **nomor baru**, tidak pernah ada di respons | `VALIDASI` (`nomor_hp`: `NOMOR_HP_TIDAK_VALID`, `NOMOR_SAMA`), `NOMOR_SUDAH_DIPAKAI`, `TERLALU_SERING` | `akun.kirimOtpNomorBaru` |
+| `PUT /akun/nomor-hp` | semua | `{ nomor_hp, kode }` → `Akun` dengan nomor baru; sesi tetap | `VALIDASI` (`NOMOR_SAMA`), `NOMOR_SUDAH_DIPAKAI` (dicek ulang), `OTP_SALAH`, `OTP_KEDALUWARSA`, `OTP_TERKUNCI` | `akun.gantiNomorHp` |
 | `GET /akun/catatan` | P | → `CatatanPetani[]` milik sendiri | | `akun.catatanSaya` |
 | `PUT /akun/profil-pembeli` | B | `ProfilPembeliMasukan` → `ProfilPembeli` (baru → `menunggu`) | `VALIDASI` | `akun.simpanProfilPembeli` |
 
@@ -521,6 +524,7 @@ Peran: P = petani, B = pembeli, M = mentor, A = admin, semua = semua pengguna ma
 | --- | --- | --- | --- |
 | `GET /resep?komoditas_id=&metode_id=` | semua | → `ResepTanam[]` versi terbaru yang terlihat (bagian 1.9) | `resep.daftar` |
 | `GET /resep/{id}` | semua | → `ResepTanam`; versi lama tetap bisa dibuka pemilik siklusnya | `resep.ambil` |
+| `GET /publik/contoh` | publik | → `{ komoditas: Komoditas[], metode: MetodeTanam[], resep: ResepTanam[] }`: resep terbaru yang terlihat publik (bagian 1.9), `jumlah_pesanan_sekitar` selalu 0; untuk angka contoh halaman depan (D-08, D-44). Dibatasi laju seperti endpoint publik lain | `resep.contohPublik` |
 | `POST /permintaan-resep` | P | `{ komoditas_id, metode_id? }` → `{ permintaan, sudah_diminta }` (tidak ganda) | `resep.minta` |
 | `GET /permintaan-resep/saya` | P | → `PermintaanResep[]` | `resep.permintaanSaya` |
 
@@ -657,10 +661,11 @@ Konfirmasi otomatis: kiriman `dikirim` yang lewat `batas_periksa_pada` dianggap 
 | T4.28 Daftar pembeli | `PUT /akun/profil-pembeli`, `GET /akun` |
 | T4.29 Panel admin | `GET /admin/pembeli`, `POST /admin/pembeli/{id}/verifikasi`, `GET /admin/sengketa`, `POST /admin/sengketa/{id}/putuskan`, `GET /admin/petani/{id}`, `POST /admin/petani/{id}/catatan`, `POST /admin/petani/{id}/status` |
 | T4.30–T4.31 Belajar, pemutar modul | `GET /modul`, `GET /modul/{id}`, `POST /modul/{id}/selesai` |
-| T4.32 Halaman depan | `GET /konfigurasi` |
+| T4.32 Halaman depan | `GET /konfigurasi`, `GET /publik/contoh` |
 | T4.33 Masuk | `POST /auth/otp/kirim`, `POST /auth/otp/verifikasi` |
 | T4.34 Pilih peran dan desa | `GET /wilayah`, `PUT /akun/peran` |
-| T4.35–T4.36 Profil | `GET /akun`, `PATCH /akun`, `GET /akun/catatan`, `GET /pengguna/{id}/rating`, `GET /lahan`, `POST /berkas`, `POST /auth/keluar` |
+| T4.35–T4.36 Profil | `GET /akun`, `PATCH /akun`, `GET /akun/catatan`, `GET /pengguna/{id}/rating`, `GET /lahan`, `GET /siklus`, `GET /kiriman/saya`, `GET /siklus/{id}/pengingat`, `GET /wilayah`, `POST /berkas`, `POST /akun/nomor-hp/otp`, `PUT /akun/nomor-hp`, `POST /auth/keluar` |
+| T4.37 Halaman statis | `GET /konfigurasi` |
 | T4.36a Lahan saya | `GET`/`POST /lahan`, `PATCH`/`DELETE /lahan/{id}`, `GET /konversi-satuan`, `GET /wilayah` |
 | T4.38–T4.39 Mentor | `GET`/`POST /mentor/resep`, `POST /mentor/resep/{id}/validasi`, `GET /mentor/permintaan-resep` |
 | T4.41 Bayar uang muka, pembayaran | `POST /pembeli/pesanan/{id}/bayar-uang-muka`, `GET /pembeli/pembayaran` |
@@ -674,6 +679,7 @@ Konfirmasi otomatis: kiriman `dikirim` yang lewat `batas_periksa_pada` dianggap 
 | --- | --- |
 | 2026-10-05 | Versi pertama (T3.01, T3.02), bersama tipe `src/api/tipe/`, klien tiruan, dan tes kontrak |
 | 2026-10-07 | D-38: `pengguna.terdaftar_kelompok_tani`, `komoditas.harga_jual_contoh`, `resep_tanam.persen_panen_jelek` dan `alasan_panen_jelek`, pembulatan harga sekitar ke ratusan. Tunda tugas terlambat dihitung dari hari ini. |
+| 2026-10-08 | D-44: `POST /akun/nomor-hp/otp`, `PUT /akun/nomor-hp`, galat `409 NOMOR_SUDAH_DIPAKAI` dan validasi `NOMOR_SAMA`; endpoint publik `GET /publik/contoh`. |
 | 2026-10-08 | D-43: `modul.hst_mulai` (hari mulai tahap, untuk modul tahap berjalan). |
 | 2026-10-08 | D-41: `simulasi` pada bayar uang muka (mode uji coba), galat `402 PEMBAYARAN_GAGAL`, status pembayaran `menunggu` dan `gagal` dipakai, `pengiriman.rating_saya`, `konfigurasi.pembayaran_uji_coba`. |
 | 2026-10-08 | D-40: tanam bertahap (`siklus.petak_ke`, `kelompok_pesanan`, `alokasi.siklus_ids` menggantikan `siklus_id`, kapasitas dari puncak petak bersamaan), `PATCH /alokasi/{id}`, `pengiriman.foto_timbangan` dan `POST /kiriman/{id}/foto-timbangan`, `pesanan.batas_jam_antar`. |

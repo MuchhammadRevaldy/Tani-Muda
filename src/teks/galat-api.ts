@@ -20,6 +20,8 @@ export const teksGalatKhususApi: Record<KodeGalatKhususApi, string> = {
   OTP_SALAH: 'Kode salah. Periksa SMS lalu coba lagi',
   OTP_KEDALUWARSA: 'Kode sudah kedaluwarsa. Minta kode baru',
   OTP_TERKUNCI: 'Terlalu banyak percobaan. Minta kode baru',
+  NOMOR_SUDAH_DIPAKAI: 'Nomor ini sudah dipakai akun lain',
+  NOMOR_SAMA: 'Ini nomormu sekarang. Isi nomor yang baru',
   FOTO_WAJIB: 'Ambil foto hasil panen dulu',
   STATUS_TIDAK_SESUAI: 'Langkah ini tidak bisa dilakukan sekarang',
   SUDAH_DINILAI: 'Kamu sudah memberi nilai untuk kiriman ini',

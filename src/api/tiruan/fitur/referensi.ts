@@ -190,6 +190,21 @@ export function buatKlienResep(k: Konteks): KlienResep {
       );
       return k.salin(r);
     },
+    async contohPublik() {
+      // Tanpa masuk: hanya resep yang terlihat publik (divalidasi, atau contoh bila diizinkan, D-12).
+      const resep = resepTerbaru(k.db.resep.filter((r) => k.resepTerlihat(r)));
+      return k.salin({
+        komoditas: k.db.referensi.komoditas.map((x) => ({
+          ...x,
+          status_resep: resep.some((r) => r.komoditas_id === x.id)
+            ? ('tersedia' as const)
+            : ('segera_hadir' as const),
+          jumlah_pesanan_sekitar: 0,
+        })),
+        metode: k.db.referensi.metode,
+        resep,
+      });
+    },
     async minta(m) {
       const p = k.wajibPeran('petani');
       if (!k.db.referensi.komoditas.some((x) => x.id === m.komoditas_id))

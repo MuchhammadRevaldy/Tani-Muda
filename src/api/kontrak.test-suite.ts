@@ -182,6 +182,41 @@ export function ujiKontrak(nama: string, siapkan: PenyiapLingkungan): void {
           (await K.akun.ubahProfil({ nama: 'Arif S.', zona_waktu: 'Asia/Makassar' })).pengguna,
         ).toMatchObject({ nama: 'Arif S.', zona_waktu: 'Asia/Makassar' });
       });
+      it('ganti nomor HP: kode dari nomor baru, nomor terpakai dan nomor sama ditolak (T4.36)', async () => {
+        await masuk('petani-arif');
+        const sama = await harapGalat(
+          K.akun.kirimOtpNomorBaru({ nomor_hp: '081200000001' }),
+          'VALIDASI',
+          422,
+          'nomor_hp',
+        );
+        expect(sama.rincian.nomor_hp?.[0]).toMatch(/nomormu sekarang/);
+        await harapGalat(
+          K.akun.kirimOtpNomorBaru({ nomor_hp: '081200000002' }),
+          'NOMOR_SUDAH_DIPAKAI',
+          409,
+        );
+        const r = await K.akun.kirimOtpNomorBaru({ nomor_hp: '0857 1111 2222' });
+        expect(r.nomor_hp).toBe('+6285711112222');
+        const kode = (await L.kodeOtp('+6285711112222')) as string;
+        expect(JSON.stringify(r)).not.toContain(kode);
+        const salah = kode === '000000' ? '111111' : '000000';
+        await harapGalat(
+          K.akun.gantiNomorHp({ nomor_hp: '085711112222', kode: salah }),
+          'OTP_SALAH',
+          422,
+        );
+        const akun = await K.akun.gantiNomorHp({ nomor_hp: '085711112222', kode });
+        expect(akun.pengguna).toMatchObject({ id: 'petani-arif', nomor_hp: '+6285711112222' });
+        // Masuk berikutnya memakai nomor baru (kirim ulang ke nomor yang sama perlu jeda 60 detik).
+        if (!L.majukanJam) return;
+        L.majukanJam(61_000);
+        await K.akun.keluar();
+        await K.akun.kirimOtp({ nomor_hp: '085711112222' });
+        const kodeMasuk = (await L.kodeOtp('+6285711112222')) as string;
+        const masukLagi = await K.akun.verifikasiOtp({ nomor_hp: '085711112222', kode: kodeMasuk });
+        expect(masukLagi.akun.pengguna.id).toBe('petani-arif');
+      });
       it('catatan petani hanya untuk dirinya (D-03)', async () => {
         await masuk('petani-budi');
         expect(await K.akun.catatanSaya()).toHaveLength(1);
@@ -339,6 +374,19 @@ export function ujiKontrak(nama: string, siapkan: PenyiapLingkungan): void {
         // Petani yang siklusnya memakai resep itu tetap bisa membukanya.
         await L2.masukSebagai('petani-arif');
         expect((await L2.klien.resep.ambil('resep-sawi-bedengan')).id).toBe('resep-sawi-bedengan');
+      });
+      it('contoh publik tanpa masuk untuk halaman depan (D-44)', async () => {
+        await K.akun.keluar();
+        const c = await K.resep.contohPublik();
+        expect(c.resep.map((r) => r.id).sort()).toContain('resep-padi-sawah');
+        expect(c.komoditas.find((x) => x.id === 'sawi')).toMatchObject({
+          status_resep: 'tersedia',
+          jumlah_pesanan_sekitar: 0,
+        });
+        expect(c.komoditas.find((x) => x.id === 'cabai')?.status_resep).toBe('segera_hadir');
+        expect(c.metode.map((m) => m.id)).toContain('sawah');
+        const L2 = await siapkan({ tampilkanResepContoh: false });
+        expect((await L2.klien.resep.contohPublik()).resep).toEqual([]);
       });
       it('minta resep tidak ganda', async () => {
         const a = await K.resep.minta({ komoditas_id: 'tomat', metode_id: 'bedengan' });

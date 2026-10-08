@@ -13,6 +13,7 @@ import { GrupRadio, KartuPilihan } from '../komponen/pilihan';
 import { Tombol } from '../komponen/tombol';
 import { teksMasuk } from '../teks/masuk';
 import { teksPilihPeran as t } from '../teks/sesi';
+import { bacaPeranAwal } from './peran-awal';
 
 type PeranPilihan = PilihPeranMasukan['peran'];
 const PERAN: { nilai: PeranPilihan; ikon: 'kebun' | 'pesanan' | 'belajar' }[] = [
@@ -30,7 +31,7 @@ interface Galat {
 
 export function HalamanPilihPeran() {
   const simpan = usePilihPeran();
-  const [peran, setPeran] = useState<PeranPilihan | null>(null);
+  const [peran, setPeran] = useState<PeranPilihan | null>(() => bacaPeranAwal());
   const [nama, setNama] = useState('');
   const [cari, setCari] = useState('');
   const [desa, setDesa] = useState<Wilayah | null>(null);

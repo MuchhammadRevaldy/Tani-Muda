@@ -135,21 +135,82 @@ export function hitungTataLetakPenggaris(masukan: {
     L ? Math.min(Math.max(kiri, 0), Math.max(0, W - w)) : kiri;
   const kandidat = (p: PinTerletak) =>
     [p.x - p.lebar / 2, p.x + pinU / 2 - p.lebar, p.x - pinU / 2].map((k) => jepit(k, p.lebar));
-  const muat = (lv: number, kiri: number, w: number) =>
+  const muat = (lv: number, kiri: number, w: number, kecuali?: PinTerletak) =>
     (tingkat[lv] ?? []).every(
-      (a) => kiri + w + celah <= a.kiri || kiri >= a.kiri + a.pin.lebar + celah,
+      (a) =>
+        a.pin === kecuali || kiri + w + celah <= a.kiri || kiri >= a.kiri + a.pin.lebar + celah,
     );
   const taruh = (lv: number, p: PinTerletak, kiri: number) => {
     (tingkat[lv] ??= []).push({ kiri, pin: p });
     p.kiri = kiri;
     p.tingkat = lv;
   };
+  // Varian lebar: tangkai pin tingkat atas turun sampai jalur dan tidak boleh menembus label pin
+  // tingkat bawah (mis. Pupuk 2 hari ke-14 di atas Siangi rumput hari ke-11).
+  const tembus = (x: number, kiri: number, w: number) => L && x > kiri - 6 && x < kiri + w + 6;
+  const tangkaiAtas = (lv: number) =>
+    pins.filter((q) => q.tingkat > lv && tingkat[q.tingkat]?.some((a) => a.pin === q));
+  const bebasTangkai = (lv: number, kiri: number, w: number) =>
+    tangkaiAtas(lv).every((q) => !tembus(q.x, kiri, w));
+  /** Geser label pin di bawah tangkai `p` ke posisi lain yang masih muat, bila ada. */
+  const hindariTangkai = (p: PinTerletak) => {
+    for (let lv = 0; lv < p.tingkat; lv++) {
+      for (const a of [...(tingkat[lv] ?? [])]) {
+        if (!tembus(p.x, a.kiri, a.pin.lebar)) continue;
+        const k = kandidat(a.pin).find(
+          (v) =>
+            !tembus(p.x, v, a.pin.lebar) &&
+            muat(lv, v, a.pin.lebar, a.pin) &&
+            bebasTangkai(lv, v, a.pin.lebar),
+        );
+        if (k !== undefined) {
+          a.kiri = k;
+          a.pin.kiri = k;
+          continue;
+        }
+        // Tidak bisa digeser ke samping: naikkan pin itu ke atas `p`, asal tangkainya sendiri tidak
+        // menembus label lain di bawahnya.
+        for (let naik = p.tingkat + 1; naik < 12; naik++) {
+          const v = kandidat(a.pin).find(
+            (x) => muat(naik, x, a.pin.lebar) && bebasTangkai(naik, x, a.pin.lebar),
+          );
+          if (v === undefined) continue;
+          // Label di bawah yang tertembus tangkai pin yang dinaikkan ikut digeser bila bisa.
+          const geseran: { e: { kiri: number; pin: PinTerletak }; ke: number }[] = [];
+          const bersih = tingkat.slice(0, naik).every((arr, lvB) =>
+            (arr ?? []).every((e) => {
+              if (e === a || !tembus(a.pin.x, e.kiri, e.pin.lebar)) return true;
+              const ke = kandidat(e.pin).find(
+                (x) =>
+                  !tembus(a.pin.x, x, e.pin.lebar) &&
+                  muat(lvB, x, e.pin.lebar, e.pin) &&
+                  bebasTangkai(lvB, x, e.pin.lebar),
+              );
+              if (ke === undefined) return false;
+              geseran.push({ e, ke });
+              return true;
+            }),
+          );
+          if (!bersih) continue;
+          for (const g of geseran) {
+            g.e.kiri = g.ke;
+            g.e.pin.kiri = g.ke;
+          }
+          tingkat[lv] = (tingkat[lv] ?? []).filter((x) => x !== a);
+          taruh(naik, a.pin, v);
+          break;
+        }
+      }
+    }
+  };
 
   for (const p of pins) {
     let ditaruh = false;
     for (let lv = 0; lv < 12 && !ditaruh; lv++) {
       const kd = kandidat(p);
-      const cocok = kd.find((k) => muat(lv, k, p.lebar));
+      const cocok =
+        kd.find((k) => muat(lv, k, p.lebar) && bebasTangkai(lv, k, p.lebar)) ??
+        kd.find((k) => muat(lv, k, p.lebar));
       if (cocok !== undefined) {
         taruh(lv, p, cocok);
         ditaruh = true;
@@ -173,6 +234,7 @@ export function hitungTataLetakPenggaris(masukan: {
       }
     }
     if (!ditaruh) taruh(12, p, kandidat(p)[0] ?? 0);
+    if (p.tingkat > 0) hindariTangkai(p);
   }
 
   const maxLv = pins.reduce((m, p) => Math.max(m, p.tingkat), 0);

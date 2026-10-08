@@ -16,7 +16,8 @@
     "format": "prettier --write .",
     "tangkap": "node scripts/tangkap-layar.mjs",
     "ekstrak-desain": "node scripts/ekstrak-desain.mjs",
-    "data-contoh": "node scripts/tulis-data-contoh.mjs"
+    "data-contoh": "node scripts/tulis-data-contoh.mjs",
+    "pasang-video": "node scripts/pasang-video.mjs"
   },
   "dependencies": {
     "@tanstack/react-query": "5.104.1",

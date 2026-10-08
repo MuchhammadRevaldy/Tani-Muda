@@ -284,3 +284,35 @@ describe('status dan frasa', () => {
     expect(ukurTeksPerkiraan('abcd', 400)).toBe(38);
   });
 });
+
+describe('tangkai pin tingkat atas tidak menembus label tingkat bawah (D-44)', () => {
+  it('sawi hari ke-13: Pupuk 2 (hari ke-14) di atas Siangi rumput (hari ke-11)', () => {
+    const jadwal: JadwalPin[] = [
+      { hari: 7, label: 'Pupuk 1', status: 'selesai' },
+      { hari: 11, label: 'Siangi rumput', status: 'selesai' },
+      { hari: 14, label: 'Pupuk 2', status: 'besok' },
+      { hari: 20, label: 'Cek hama', status: 'belum' },
+      { hari: 28, label: 'Panen', status: 'panen' },
+    ];
+    for (const lebar of [520, 560, 640]) {
+      const t = hitungTataLetakPenggaris({
+        lebar,
+        hariIni: 13,
+        hariPanen: 28,
+        jadwal,
+        varian: 'lebar',
+        ukurTeks: ukur,
+        teks,
+      });
+      for (const atas of t.pin) {
+        for (const bawah of t.pin) {
+          if (bawah.tingkat >= atas.tingkat) continue;
+          const tembus = atas.x > bawah.kiri - 6 && atas.x < bawah.kiri + bawah.lebar + 6;
+          expect(tembus, `${atas.jadwal.label} menembus ${bawah.jadwal.label} (${lebar}px)`).toBe(
+            false,
+          );
+        }
+      }
+    }
+  });
+});

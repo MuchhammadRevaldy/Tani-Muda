@@ -29,8 +29,8 @@ Kolom **Tangkapan aplikasi** adalah nama file tangkapan layar halaman aplikasi y
 | Nomor | Halaman | Peran | Versi | File papan | Tangkapan aplikasi |
 | --- | --- | --- | --- | --- | --- |
 | 00 | Sistem desain | semua (acuan) | desktop | `00-sistem-desain-desktop.html` | `00-sistem-desain-desktop.png` ✓ |
-| 01 | Halaman depan | publik | mobile | `01-halaman-depan-mobile.html` | `01-halaman-depan-mobile.png` |
-| 01 | Halaman depan | publik | desktop | `01-halaman-depan-desktop.html` | `01-halaman-depan-desktop.png` |
+| 01 | Halaman depan | publik | mobile | `01-halaman-depan-mobile.html` | `01-halaman-depan-mobile.png` ✓ |
+| 01 | Halaman depan | publik | desktop | `01-halaman-depan-desktop.html` | `01-halaman-depan-desktop.png` ✓ |
 | 02 | Masuk | publik | mobile | `02-masuk-mobile.html` | `02-masuk-mobile.png` ✓ |
 | 02 | Masuk | publik | desktop | `02-masuk-desktop.html` | `02-masuk-desktop.png` ✓ |
 | 03 | Beranda petani | petani | mobile | `03-beranda-petani-mobile.html` | `03-beranda-petani-mobile.png` ✓ |
@@ -85,10 +85,10 @@ Kolom **Tangkapan aplikasi** adalah nama file tangkapan layar halaman aplikasi y
 | 31 | Detail pesanan | petani | mobile | `31-detail-pesanan-mobile.html` | `31-detail-pesanan-mobile.png` ✓ |
 | 32 | Kesepakatan | petani | mobile | `32-kesepakatan-mobile.html` | `32-kesepakatan-mobile.png` ✓ |
 | 33 | Kiriman saya | petani | mobile | `33-kiriman-saya-mobile.html` | `33-kiriman-saya-mobile.png` ✓ |
-| 34 | Profil petani | petani | mobile | `34-profil-petani-mobile.html` | `34-profil-petani-mobile.png` |
-| 34 | Profil petani | petani | desktop | `34-profil-petani-desktop.html` | `34-profil-petani-desktop.png` |
-| 35 | Ubah profil | petani | mobile | `35-ubah-profil-mobile.html` | `35-ubah-profil-mobile.png` |
-| 35 | Ubah profil | petani | desktop | `35-ubah-profil-desktop.html` | `35-ubah-profil-desktop.png` |
+| 34 | Profil petani | petani | mobile | `34-profil-petani-mobile.html` | `34-profil-petani-mobile.png` ✓ |
+| 34 | Profil petani | petani | desktop | `34-profil-petani-desktop.html` | `34-profil-petani-desktop.png` ✓ |
+| 35 | Ubah profil | petani | mobile | `35-ubah-profil-mobile.html` | `35-ubah-profil-mobile.png` ✓ |
+| 35 | Ubah profil | petani | desktop | `35-ubah-profil-desktop.html` | `35-ubah-profil-desktop.png` ✓ |
 | 36 | Dasbor pesanan aktif | pembeli | desktop | `36-dasbor-pesanan-pembeli-desktop.html` | `36-dasbor-pesanan-pembeli-desktop.png` ✓ |
 | 37 | Buat pesanan | pembeli | desktop | `37-buat-pesanan-pembeli-desktop.html` | `37-buat-pesanan-pembeli-desktop.png` ✓ |
 | 38 | Konfirmasi kiriman | pembeli | desktop | `38-konfirmasi-kiriman-pembeli-desktop.html` | `38-konfirmasi-kiriman-pembeli-desktop.png` ✓ |
@@ -114,6 +114,11 @@ Halaman ini belum punya papan desain. Halaman dibuat dari pola desain yang ada (
 | 49 | Pembayaran pembeli | pembeli | T4.41 | `49-pembayaran-pembeli-mobile.png`, `…-desktop.png` ✓ |
 | 50 | Riwayat pembeli | pembeli | T4.41 | `50-riwayat-pembeli-mobile.png`, `…-desktop.png` ✓ |
 | 51 | Kabari tidak sanggup kirim (gagal panen) | petani | T4.27 | `51-kabari-gagal-panen-mobile.png`, `…-desktop.png` ✓ |
+| 52 | Aturan pakai | publik | T4.37 | `52-aturan-pakai-mobile.png`, `…-desktop.png` ✓ |
+| 53 | Kebijakan privasi | publik | T4.37 | `53-kebijakan-privasi-mobile.png`, `…-desktop.png` ✓ |
+| 54 | Tentang Tani Muda | publik | T4.37 | `54-tentang-mobile.png`, `…-desktop.png` ✓ |
+| 55 | Kontak | publik | T4.37 | `55-kontak-mobile.png`, `…-desktop.png` ✓ |
+| 56 | Pusat bantuan | publik | T4.37 | `56-bantuan-mobile.png`, `…-desktop.png` ✓ |
 
 Halaman turunan lain (panel mentor dan admin, halaman statis, rating, gagal panen) diberi nomor berikutnya saat tugasnya dikerjakan. Panel mentor dan admin hanya punya versi desktop.
 

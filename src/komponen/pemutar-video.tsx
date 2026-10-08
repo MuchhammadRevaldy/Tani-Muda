@@ -25,7 +25,13 @@ function TombolKontrol({
   onClick: () => void;
 }) {
   return (
-    <button type="button" aria-label={label} onClick={onClick} className={kelasKontrol}>
+    <button
+      type="button"
+      aria-label={tampilLabel === label ? undefined : label}
+      title={tampilLabel === label ? undefined : label}
+      onClick={onClick}
+      className={kelasKontrol}
+    >
       {ikon ? <Ikon nama={ikon} className={ikon === 'putar' ? 'fill-current' : undefined} /> : null}
       {tampilLabel ? <span>{tampilLabel}</span> : null}
     </button>
@@ -55,6 +61,7 @@ export function PemutarVideo({
   const [durasi, setDurasi] = useState(0);
   const [gagal, setGagal] = useState(false);
   const terakhirLapor = useRef(0);
+  const layarPenuhDidukung = typeof document !== 'undefined' && !!document.fullscreenEnabled;
   const sudahMulai = useRef(false);
 
   // Callback terbaru tanpa memasang ulang pendengar video.
@@ -134,7 +141,9 @@ export function PemutarVideo({
           className,
         )}
       >
-        <p className="m-0">{t.videoGagal}</p>
+        <p role="status" className="m-0">
+          {t.videoGagal}
+        </p>
       </div>
     );
 
@@ -170,14 +179,17 @@ export function PemutarVideo({
           />
           <TombolKontrol label={t.mundur} tampilLabel="−10" onClick={() => geser(posisi - 10)} />
           <TombolKontrol label={t.maju} tampilLabel="+10" onClick={() => geser(posisi + 10)} />
-          <span className="flex-1 px-2 text-putih tabular-nums">
+          {/* Waktu sudah dibacakan penggeser (aria-valuetext); disembunyikan supaya tidak ganda. */}
+          <span aria-hidden="true" className="flex-1 px-2 text-putih tabular-nums">
             {waktuVideo(posisi)} / {waktuVideo(durasi)}
           </span>
-          <TombolKontrol
-            ikon="layar-penuh"
-            label={t.layarPenuh}
-            onClick={() => void wadah.current?.requestFullscreen?.()}
-          />
+          {layarPenuhDidukung ? (
+            <TombolKontrol
+              ikon="layar-penuh"
+              label={t.layarPenuh}
+              onClick={() => void wadah.current?.requestFullscreen?.()}
+            />
+          ) : null}
         </div>
       </div>
     </div>

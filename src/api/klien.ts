@@ -52,6 +52,8 @@ import type {
   Pengeluaran,
   PengeluaranMasukan,
   PengaturanPengingat,
+  GantiNomorHpMasukan,
+  ContohPublik,
   PengaturanPengingatMasukan,
   Pengiriman,
   PengukuranHasil,
@@ -104,6 +106,10 @@ export interface KlienAkun {
   pilihPeran(m: PilihPeranMasukan): Promise<Akun>;
   /** PATCH /akun */
   ubahProfil(m: UbahProfilMasukan): Promise<Akun>;
+  /** POST /akun/nomor-hp/otp — kirim kode ke nomor baru sebelum ganti nomor (T4.36). */
+  kirimOtpNomorBaru(m: KirimOtpMasukan): Promise<KirimOtpHasil>;
+  /** PUT /akun/nomor-hp — ganti nomor setelah kode dari nomor baru cocok. */
+  gantiNomorHp(m: GantiNomorHpMasukan): Promise<Akun>;
   /** GET /akun/catatan — catatan petani untuk dirinya (D-03). */
   catatanSaya(): Promise<CatatanPetani[]>;
   /** PUT /akun/profil-pembeli */
@@ -151,6 +157,8 @@ export interface KlienResep {
   minta(m: MintaResepMasukan): Promise<MintaResepHasil>;
   /** GET /permintaan-resep/saya */
   permintaanSaya(): Promise<PermintaanResep[]>;
+  /** GET /publik/contoh — tanpa masuk, untuk angka contoh di halaman depan (D-44). */
+  contohPublik(): Promise<ContohPublik>;
 }
 
 export interface KlienLahan {

@@ -64,6 +64,7 @@ npm run dev             # http://localhost:5173
 | `npm run ekstrak-desain`                 | Bongkar file desain ke `design/extracted/` (bahan kerja, tidak masuk git)                                               |
 | `npm run tangkap -- <url> <jalur-dasar>` | Tangkapan layar 390px dan 1440px dengan Chrome atau Edge yang terpasang                                                 |
 | `npm run data-contoh`                    | Tulis ulang `src/api/tiruan/data/*.json` dari `pembuat-data.ts`                                                         |
+| `npm run pasang-video`                   | Pasang video modul asli dari `public/video/modul/` (lihat "Memasang video modul")                                       |
 
 Sumber data dipilih dengan `VITE_SUMBER_DATA` di `.env`: `tiruan` (bawaan, data contoh di browser) atau `http` (backend Laravel, tersedia mulai Tahap 6). Data tiruan yang diubah selama demo tersimpan di `localStorage` browser.
 
@@ -80,6 +81,25 @@ npm run demo            # http://localhost:5173, semua pengaturan demo menyala
 3. Tombol **Atur ulang data demo** di `/akun-demo` mengembalikan semua data ke data contoh awal.
 
 Dengan `npm run dev`, resep contoh hanya tampil bila `.env` berisi `VITE_TAMPILKAN_RESEP_CONTOH=true` (D-12). Pemilih akun demo dan kode uji tidak pernah ikut `npm run build` (dicek otomatis). Build statis khusus demo untuk juri direncanakan sebagai tugas opsional T6.09 (`build:demo`).
+
+### Memasang video modul
+
+Video asli modul belajar (MP4 360p, D-29) dipasang tanpa mengubah kode:
+
+1. Ekspor video sebagai **MP4 (H.264) 360p**, paling besar **15 MB** (`batas_video_mb` di konfigurasi). Durasi sekitar 3 menit.
+2. Beri nama berkas **sama dengan id modulnya**, lalu taruh di `public/video/modul/`. Contoh: `modul-sawi-bedengan-4.mp4` untuk modul Perawatan sawi bedengan. Id setiap modul ada di `src/api/tiruan/data/modul.json` (kolom `id`) dan tampil di alamat halaman pemutar (`/belajar/<id>`).
+3. Jalankan:
+
+   ```bash
+   npm run pasang-video
+   ```
+
+   Skrip memeriksa nama, format, dan ukuran, lalu menulis `src/api/tiruan/data/video-modul.json` (nama berkas dan ukurannya). Berkas yang salah nama, bukan MP4, atau terlalu besar disebutkan satu per satu dan tidak dipasang.
+
+4. Muat ulang aplikasi. Modul itu langsung memakai video asli menggantikan video contoh atau keterangan "video sedang disiapkan"; data demo tidak perlu diatur ulang.
+5. Commit berkas video dan `video-modul.json` bersama-sama. `npm test` gagal bila daftar menunjuk berkas yang tidak ada.
+
+Untuk mencopot video, hapus berkasnya lalu jalankan `npm run pasang-video` lagi. Di Tahap 5, seeder backend membaca `video-modul.json` yang sama.
 
 ## Struktur folder
 
