@@ -10,6 +10,8 @@ export interface Modul {
   ringkasan: string;
   menit: number;
   urutan: number;
+  /** Hari mulai tahap ini dihitung dari tanggal tanam (negatif = sebelum tanam), P0-06, D-43. */
+  hst_mulai: number;
   /** MP4 360p; null = video belum ada (placeholder). */
   video_url: string | null;
   ukuran_video_mb: number | null;

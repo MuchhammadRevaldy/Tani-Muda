@@ -101,14 +101,21 @@ describe('aturan ulang dan pemilihan sumber data', () => {
     });
     await expect(klienBelumTersedia().lahan.daftar()).rejects.toBeInstanceOf(GalatApi);
   });
-  it('sumber tiruan bawaan; kontrol hanya di mode pengembangan; resep contoh mengikuti env', async () => {
-    const dev = await siapkanKlien({ DEV: true, VITE_TAMPILKAN_RESEP_CONTOH: 'true' });
-    expect(dev.sumber).toBe('tiruan');
-    expect(dev.kontrol).not.toBeNull();
-    const prod = await siapkanKlien({ DEV: false });
-    expect(prod.kontrol).toBeNull();
-    await dev.kontrol!.masukSebagai('petani-budi');
-    await waitFor(async () => expect((await dev.klien.resep.daftar()).length).toBeGreaterThan(0));
-    await dev.kontrol!.aturUlang();
-  });
+  // Tes ini sengaja memuat modul klien tiruan secara dinamis dan memakai latensi buatan mode
+  // pengembangan (200–400 ms per panggilan), sekitar 2 detik saat mesin sepi. Batas 5 detik bawaan
+  // bisa terlewati saat coverage atau proses lain berjalan, jadi batasnya dinaikkan khusus di sini.
+  it(
+    'sumber tiruan bawaan; kontrol hanya di mode pengembangan; resep contoh mengikuti env',
+    { timeout: 20_000 },
+    async () => {
+      const dev = await siapkanKlien({ DEV: true, VITE_TAMPILKAN_RESEP_CONTOH: 'true' });
+      expect(dev.sumber).toBe('tiruan');
+      expect(dev.kontrol).not.toBeNull();
+      const prod = await siapkanKlien({ DEV: false });
+      expect(prod.kontrol).toBeNull();
+      await dev.kontrol!.masukSebagai('petani-budi');
+      await waitFor(async () => expect((await dev.klien.resep.daftar()).length).toBeGreaterThan(0));
+      await dev.kontrol!.aturUlang();
+    },
+  );
 });

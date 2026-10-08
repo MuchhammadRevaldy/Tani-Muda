@@ -674,6 +674,7 @@ Konfirmasi otomatis: kiriman `dikirim` yang lewat `batas_periksa_pada` dianggap 
 | --- | --- |
 | 2026-10-05 | Versi pertama (T3.01, T3.02), bersama tipe `src/api/tipe/`, klien tiruan, dan tes kontrak |
 | 2026-10-07 | D-38: `pengguna.terdaftar_kelompok_tani`, `komoditas.harga_jual_contoh`, `resep_tanam.persen_panen_jelek` dan `alasan_panen_jelek`, pembulatan harga sekitar ke ratusan. Tunda tugas terlambat dihitung dari hari ini. |
+| 2026-10-08 | D-43: `modul.hst_mulai` (hari mulai tahap, untuk modul tahap berjalan). |
 | 2026-10-08 | D-41: `simulasi` pada bayar uang muka (mode uji coba), galat `402 PEMBAYARAN_GAGAL`, status pembayaran `menunggu` dan `gagal` dipakai, `pengiriman.rating_saya`, `konfigurasi.pembayaran_uji_coba`. |
 | 2026-10-08 | D-40: tanam bertahap (`siklus.petak_ke`, `kelompok_pesanan`, `alokasi.siklus_ids` menggantikan `siklus_id`, kapasitas dari puncak petak bersamaan), `PATCH /alokasi/{id}`, `pengiriman.foto_timbangan` dan `POST /kiriman/{id}/foto-timbangan`, `pesanan.batas_jam_antar`. |
 | 2026-10-07 | D-39: `PesananUntukPetani` ditambah `titik_desa_antar`, `alamat_antar`, `patokan`, `alokasi_saya`, `dibuat_pada`; galat `409 JADWAL_TERLALU_DEKAT`; satu alokasi per petani per pesanan; setuju kesepakatan hanya menjadwalkan kiriman yang terkejar dan mengaktifkan siklus. |

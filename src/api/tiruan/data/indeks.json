@@ -1,4 +1,4 @@
 {
-  "versi": 7,
+  "versi": 8,
   "catatan": "DATA CONTOH dan fiktif, bukan rekomendasi. Resep berstatus draf dan berlabel \"CONTOH, belum divalidasi penyuluh\". Tanggal relatif: \"H-13\" = 13 hari sebelum hari ini; \"H+0T07:00\" = hari ini pukul 07.00 waktu pengguna; \"B+2\" = dua bulan dari bulan ini. Dibuat dari src/api/tiruan/data/pembuat-data.ts dengan \"npm run data-contoh\"; jangan diubah manual."
 }

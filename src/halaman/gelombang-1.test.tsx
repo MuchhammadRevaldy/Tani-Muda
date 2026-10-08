@@ -62,7 +62,9 @@ describe('Masuk (T4.33)', () => {
     expect(router.state.location.pathname).toBe('/beranda');
   });
 
-  it('pengguna baru wajib setuju privasi, lalu pilih peran petani dengan desa (T4.34)', async () => {
+  // Alur pendaftaran dipecah dua tes supaya tiap tes pendek (D-43): masuk dan persetujuan privasi,
+  // lalu pilih peran dan desa mulai dari pengguna baru yang sudah terverifikasi.
+  it('pengguna baru wajib setuju privasi sebelum masuk ke Lengkapi akun', async () => {
     const { t, router } = await buka('/masuk');
     await userEvent.type(await screen.findByLabelText('Nomor HP'), '0857 1234 5678');
     await userEvent.click(screen.getByRole('button', { name: 'Kirim kode' }));
@@ -87,7 +89,19 @@ describe('Masuk (T4.33)', () => {
     await userEvent.click(screen.getByRole('button', { name: 'Masuk' }));
     expect(await screen.findByRole('heading', { name: 'Lengkapi akun' })).toBeInTheDocument();
     expect(router.state.location.pathname).toBe('/pilih-peran');
+    expect((await t.klien.akun.ambil())?.pengguna.setuju_privasi_pada).not.toBeNull();
+  });
 
+  it('pengguna baru memilih peran petani dengan desa (T4.34)', async () => {
+    const { t, router } = await buka('/pilih-peran', async (x) => {
+      await x.klien.akun.kirimOtp({ nomor_hp: '0857 1234 5678' });
+      await x.klien.akun.verifikasiOtp({
+        nomor_hp: '+6285712345678',
+        kode: x.kontrol.kodeUji('+6285712345678') as string,
+        setuju_privasi: true,
+      });
+    });
+    expect(await screen.findByRole('heading', { name: 'Lengkapi akun' })).toBeInTheDocument();
     // Admin tidak bisa dipilih sendiri.
     expect(screen.queryByRole('radio', { name: /^Admin/ })).not.toBeInTheDocument();
     await userEvent.click(screen.getByRole('radio', { name: /^Petani/ }));
@@ -102,7 +116,6 @@ describe('Masuk (T4.33)', () => {
     expect(router.state.location.pathname).toBe('/beranda');
     const akun = await t.klien.akun.ambil();
     expect(akun?.pengguna).toMatchObject({ peran: 'petani', nama: 'Rina Agustina' });
-    expect(akun?.pengguna.setuju_privasi_pada).not.toBeNull();
   });
 });
 

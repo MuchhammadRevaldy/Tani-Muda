@@ -40,10 +40,10 @@ Kolom **Tangkapan aplikasi** adalah nama file tangkapan layar halaman aplikasi y
 | 05 | Beranda, belum ada siklus | petani | mobile | `05-beranda-petani-kosong-mobile.html` | `05-beranda-petani-kosong-mobile.png` ✓ |
 | 06 | Beranda, offline dan tugas terlambat | petani | mobile | `06-beranda-offline-tugas-terlambat-mobile.html` | `06-beranda-offline-tugas-terlambat-mobile.png` ✓ |
 | 07 | Beranda, pengingat diblokir | petani | mobile | `07-beranda-pengingat-diblokir-mobile.html` | `07-beranda-pengingat-diblokir-mobile.png` ✓ |
-| 08 | Belajar, hidroponik | petani | mobile | `08-belajar-hidroponik-mobile.html` | `08-belajar-hidroponik-mobile.png` |
-| 08 | Belajar, hidroponik | petani | desktop | `08-belajar-hidroponik-desktop.html` | `08-belajar-hidroponik-desktop.png` |
-| 09 | Belajar, bedengan | petani | mobile | `09-belajar-bedengan-mobile.html` | `09-belajar-bedengan-mobile.png` |
-| 09 | Belajar, bedengan | petani | desktop | `09-belajar-bedengan-desktop.html` | `09-belajar-bedengan-desktop.png` |
+| 08 | Belajar, hidroponik | petani | mobile | `08-belajar-hidroponik-mobile.html` | `08-belajar-hidroponik-mobile.png` ✓ |
+| 08 | Belajar, hidroponik | petani | desktop | `08-belajar-hidroponik-desktop.html` | `08-belajar-hidroponik-desktop.png` ✓ |
+| 09 | Belajar, bedengan | petani | mobile | `09-belajar-bedengan-mobile.html` | `09-belajar-bedengan-mobile.png` ✓ |
+| 09 | Belajar, bedengan | petani | desktop | `09-belajar-bedengan-desktop.html` | `09-belajar-bedengan-desktop.png` ✓ |
 | 10 | Hitung 1: Mau tanam apa? | petani | mobile | `10-hitung-pilih-tanaman-mobile.html` | `10-hitung-pilih-tanaman-mobile.png` ✓ |
 | 10 | Hitung 1: Mau tanam apa? | petani | desktop | `10-hitung-pilih-tanaman-desktop.html` | `10-hitung-pilih-tanaman-desktop.png` ✓ |
 | 11 | Hitung: segera hadir | petani | mobile | `11-hitung-segera-hadir-mobile.html` | `11-hitung-segera-hadir-mobile.png` ✓ |
@@ -104,7 +104,7 @@ Halaman ini belum punya papan desain. Halaman dibuat dari pola desain yang ada (
 | 39 | Pilih peran dan desa | publik | T4.34 | `39-pilih-peran-dan-desa-mobile.png`, `…-desktop.png` ✓ |
 | 40 | Lahan saya | petani | T4.36a | `40-lahan-saya-mobile.png`, `…-desktop.png` ✓ |
 | 41 | Pilih tanggal tanam | petani | T4.08 | `41-pilih-tanggal-tanam-mobile.png`, `…-desktop.png` ✓ |
-| 42 | Pemutar modul belajar | petani | T4.31 | `42-pemutar-modul-mobile.png`, `…-desktop.png` |
+| 42 | Pemutar modul belajar | petani | T4.31 | `42-pemutar-modul-mobile.png`, `…-desktop.png` ✓ |
 | 43 | Pilih akun demo (hanya mode pengembangan) | publik | T4.01 | `43-pilih-akun-demo-mobile.png`, `…-desktop.png` ✓ |
 | 44 | Bayar uang muka (mode uji coba) | pembeli | T4.41 | `44-bayar-uang-muka-mobile.png`, `…-desktop.png` ✓ |
 | 45 | Kebun: daftar siklus (D-26, D-38) | petani | T4.10 | `45-kebun-daftar-siklus-mobile.png`, `…-desktop.png` ✓ |

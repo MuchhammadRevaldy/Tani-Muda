@@ -38,7 +38,7 @@ import { resepDariDomain, tugasDariDomain } from '../../peta';
 import type * as A from '../../tipe';
 import type { DataContoh, DataKebun, DataPesanan, WilayahContoh } from './jenis-data';
 
-export const VERSI_DATA_CONTOH = 7;
+export const VERSI_DATA_CONTOH = 8;
 /** Hari acuan saat menghitung; semua tanggal ditulis relatif terhadapnya. */
 const HARI_DASAR = '2026-10-05';
 
@@ -355,57 +355,68 @@ const RESEP_DOMAIN = [
 const dasarUkuran = (metodeId: string) =>
   (CONTOH_METODE.find((m) => m.id === metodeId) as D.MetodeTanam).dasarUkuran;
 
-const TAHAP_MODUL: Record<string, [string, string, number][]> = {
+/**
+ * Tahap modul per cara tanam: [tahap, judul, menit, hari mulai tahap]. Hari mulai dihitung dari
+ * tanggal tanam (negatif = sebelum tanam) dan dipakai untuk modul tahap berjalan (P0-06, D-43);
+ * fungsi menerima umur panen resep.
+ */
+const TAHAP_MODUL: Record<string, [string, string, number, (umur: number) => number][]> = {
   bedengan: [
-    ['persiapan-lahan', 'Persiapan lahan', 3],
-    ['semai', 'Semai', 4],
-    ['tanam', 'Tanam', 3],
-    ['perawatan', 'Perawatan', 4],
-    ['panen', 'Panen', 3],
-    ['pascapanen', 'Pascapanen', 3],
+    ['persiapan-lahan', 'Persiapan lahan', 3, () => -14],
+    ['semai', 'Semai', 4, () => -7],
+    ['tanam', 'Tanam', 3, () => 0],
+    ['perawatan', 'Perawatan', 4, () => 7],
+    ['panen', 'Panen', 3, (u) => u - 3],
+    ['pascapanen', 'Pascapanen', 3, (u) => u],
   ],
   hidroponik: [
-    ['instalasi', 'Merakit instalasi sederhana', 4],
-    ['semai', 'Semai di rockwool', 3],
-    ['pindah-tanam', 'Pindah tanam ke netpot', 3],
-    ['larutan', 'Membuat larutan AB mix', 4],
-    ['ukur', 'Mengukur pH dan PPM', 3],
-    ['panen', 'Panen dan membersihkan instalasi', 3],
+    ['instalasi', 'Merakit instalasi sederhana', 4, () => -7],
+    ['semai', 'Semai di rockwool', 3, () => 0],
+    ['pindah-tanam', 'Pindah tanam ke netpot', 3, () => 9],
+    ['larutan', 'Membuat larutan AB mix', 4, () => 11],
+    ['ukur', 'Mengukur pH dan PPM', 3, () => 14],
+    ['panen', 'Panen dan membersihkan instalasi', 3, (u) => u - 3],
   ],
   sawah: [
-    ['persiapan-lahan', 'Persiapan lahan sawah', 4],
-    ['semai', 'Semai benih', 3],
-    ['tanam', 'Tanam pindah', 4],
-    ['perawatan', 'Pemupukan dan pengairan', 4],
-    ['hama', 'Pengendalian hama', 3],
-    ['panen', 'Panen dan pengeringan gabah', 4],
+    ['persiapan-lahan', 'Persiapan lahan sawah', 4, () => -21],
+    ['semai', 'Semai benih', 3, () => -14],
+    ['tanam', 'Tanam pindah', 4, () => 0],
+    ['perawatan', 'Pemupukan dan pengairan', 4, () => 7],
+    ['hama', 'Pengendalian hama', 3, () => 45],
+    ['panen', 'Panen dan pengeringan gabah', 4, (u) => u - 7],
   ],
 };
-/** D-29: 2–3 video contoh MP4 360p, sisanya placeholder (video_url null). */
+/**
+ * D-29: 2–3 video contoh, sisanya placeholder (video_url null). Sampai tim merekam video MP4 360p,
+ * berkasnya klip pengganti pendek berformat WebM (D-43, dibuat `scripts/buat-video-contoh.mjs`).
+ */
 const VIDEO_CONTOH: Record<string, [string, number]> = {
-  'modul-sawi-bedengan-2': ['/video/contoh/semai-sawi.mp4', 9.6],
-  'modul-sawi-hidroponik-5': ['/video/contoh/ukur-ph-ppm.mp4', 11.2],
-  'modul-padi-sawah-3': ['/video/contoh/tanam-pindah-padi.mp4', 13.8],
+  'modul-sawi-bedengan-2': ['/video/contoh/semai-sawi.webm', 0.3],
+  'modul-sawi-hidroponik-5': ['/video/contoh/ukur-ph-ppm.webm', 0.3],
+  'modul-padi-sawah-3': ['/video/contoh/tanam-pindah-padi.webm', 0.3],
 };
 
 function buatModul(): DataContoh['modul'] {
   return RESEP_DOMAIN.flatMap((r) =>
-    (TAHAP_MODUL[r.metodeId] as [string, string, number][]).map(([tahap, judul, menit], i) => {
-      const id = `modul-${r.komoditasId}-${r.metodeId}-${i + 1}`;
-      const video = VIDEO_CONTOH[id];
-      return {
-        id,
-        komoditas_id: r.komoditasId,
-        metode_id: r.metodeId,
-        tahap,
-        judul,
-        ringkasan: `Ringkasan contoh: langkah ${judul.toLowerCase()} untuk pemula. Teks lengkap disusun bersama penyuluh.`,
-        menit,
-        urutan: i + 1,
-        video_url: video ? video[0] : null,
-        ukuran_video_mb: video ? video[1] : null,
-      };
-    }),
+    (TAHAP_MODUL[r.metodeId] as [string, string, number, (u: number) => number][]).map(
+      ([tahap, judul, menit, mulai], i) => {
+        const id = `modul-${r.komoditasId}-${r.metodeId}-${i + 1}`;
+        const video = VIDEO_CONTOH[id];
+        return {
+          id,
+          komoditas_id: r.komoditasId,
+          metode_id: r.metodeId,
+          tahap,
+          judul,
+          ringkasan: `Ringkasan contoh: langkah ${judul.toLowerCase()} untuk pemula. Teks lengkap disusun bersama penyuluh.`,
+          menit,
+          urutan: i + 1,
+          hst_mulai: mulai(r.umurPanenHari),
+          video_url: video ? video[0] : null,
+          ukuran_video_mb: video ? video[1] : null,
+        };
+      },
+    ),
   );
 }
 

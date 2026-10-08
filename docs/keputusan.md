@@ -362,7 +362,7 @@ Tafsiran teknis saat menulis `docs/kontrak-api.md`. Tidak mengubah perilaku prod
   - **Bukti:** seluruh tes (813) dijalankan 21 kali berturut-turut pada kode akhir: 7 kali urutan acak, 7 kali coverage dengan urutan acak, 7 kali coverage; tidak ada yang gagal.
 - Berdampak ke: T3.01, T3.02, T4.09, T4.10, T4.18–T4.21, T4.24–T4.27 (pembeli melihat petak terkini dan dua foto), T5.05, T5.10, T5.13.
 
-## D-41. Tafsiran gelombang 5 Tahap 4 (sisi pembeli), menunggu konfirmasi
+## D-41. Tafsiran gelombang 5 Tahap 4 (sisi pembeli); ditanggapi di D-42
 - **Simulasi hasil bayar di mode uji coba.** Penyedia pembayaran tiruan selalu berhasil, padahal T4.41 meminta hasil gagal dan menunggu juga bisa diperagakan. `POST /pembeli/pesanan/{id}/bayar-uang-muka` menerima `simulasi: 'berhasil' | 'gagal' | 'menunggu'` yang **hanya berlaku di mode uji coba** (diabaikan di mode nyata). Gagal mencatat baris pembayaran `gagal` dan menjawab galat baru `402 PEMBAYARAN_GAGAL`; pesanan tetap belum dibayar. Menunggu mencatat baris `menunggu`; bila kemudian berhasil, baris itu diperbarui menjadi `ditahan`. Konfigurasi punya kolom baru `pembayaran_uji_coba` (true selama D-10 berlaku) supaya halaman tahu kapan menampilkan label "Mode uji coba" dan pilihan simulasi.
 - **`rating_saya` pada kiriman** (dihitung server): nilai yang sudah diberikan pengguna pembaca, supaya halaman tidak menawarkan rating dua kali.
 - **Dasbor pembeli:** penggaris tiap kebun hanya menampilkan pin Panen, karena pembeli tidak menerima jadwal tugas petani (papan 36 menggambar pin Pupuk dan Cek hama). "Ubah tawaran" pada bagian yang belum ada petaninya tidak dibuat (belum ada endpoint ubah pesanan); yang tersedia "Batalkan pesanan" dengan aturan P0-27.
@@ -371,6 +371,26 @@ Tafsiran teknis saat menulis `docs/kontrak-api.md`. Tidak mengubah perilaku prod
 - **Data usaha pembeli:** pembeli yang belum punya data usaha diarahkan ke `/pembeli/daftar`; desa usaha dipilih di formulir ini karena pilih peran pembeli tidak menanyakan desa.
 - **Tes yang sempat gagal di gelombang ini** (1 dari 3 putaran acak): tes data usaha pembeli mencari teks "Menunggu verifikasi" tepat setelah pindah ke dasbor, padahal formulir sebelumnya memuat teks yang sama; kadang yang ditemukan adalah elemen formulir yang sedang dilepas. Tes sekarang menunggu judul dasbor dulu. Pola ini (mencari teks yang juga ada di halaman sebelumnya tepat setelah navigasi) dihindari di tes berikutnya.
 - Berdampak ke: T3.02, T4.22–T4.28, T4.41, T5.07, T5.11.
+
+## D-42. Tanggapan atas gelombang 5 Tahap 4
+- Tangkapan layar gelombang 5 dan perbaikan D-40 diperiksa; penanganan tes yang kadang gagal disetujui.
+- **Simulasi hasil bayar** hanya di mode uji coba: disetujui.
+- **Penggaris di sisi pembeli** hanya menampilkan umur tanaman dan pin Panen; pin Pupuk dan Cek hama tidak tampil: disetujui.
+- **"Ubah tawaran" tidak dibuat di v1.** Dicatat sebagai **P1-13**: pesanan hanya bisa diubah selama belum ada alokasi; setelah ada alokasi, hanya bisa dibatalkan sesuai aturan pembatalan PRD (P0-27).
+- **Frekuensi "Dua kali seminggu"**: dicatat sebagai **P1-14**.
+- **Durasi maksimal tetap 3 bulan** sesuai PRD (P0-19).
+- **Titik peta pada titik antar**: tidak dibuat.
+- **Alasan penolakan**: tetap empat pilihan D-14, satu alasan utama ditambah keterangan.
+- Berdampak ke: T4.22, T4.23, T4.25.
+
+## D-43. Tafsiran gelombang 6 Tahap 4 (Belajar), menunggu konfirmasi
+- **Modul tahap berjalan (P0-06):** modul punya kolom baru `hst_mulai` (hari mulai tahap dihitung dari tanggal tanam, negatif = sebelum tanam). Modul tahap berjalan = modul terakhir yang hari mulainya sudah tiba menurut hari ke-n siklus (`modulTahapBerjalan`); belum tanam = modul pertama. Beranda menampilkan tautan "Tahap sekarang" di bawah kartu siklus.
+- **"Sisa 1 menit" (sedang ditonton):** posisi tonton disimpan **di perangkat** per pengguna, bukan di server; modul selesai tetap dicatat lewat `progres_modul` saat video habis ditonton atau "Tandai selesai".
+- **"Tersimpan offline":** tombol unduh menyimpan video di Cache Storage peramban; batas total dari konfigurasi (`batas_unduhan_offline_mb`, 200 MB). Pemutaran dari simpanan saat tanpa sinyal dilayani service worker di Tahap 6 (T6.05, T6.06). Bila Cache Storage tidak tersedia, tombol unduh disembunyikan. "Kelola unduhan" belum dibuat; panel Unduhan menampilkan pemakaian.
+- **Video contoh:** tiga klip pengganti WebM ±20 detik dibuat dengan `scripts/buat-video-contoh.mjs` (canvas + MediaRecorder di Chrome), bertuliskan "Video contoh · rekaman asli menyusul", sampai tim merekam MP4 360p (D-29). Modul lain menampilkan "Video modul ini sedang disiapkan bersama penyuluh".
+- **Pemutar:** kontrol sendiri berteks Indonesia ≥ 48px (Putar/Jeda, −10/+10 detik, penggeser posisi, Layar penuh), bukan kontrol bawaan peramban. "Pilih kualitas rendah": hanya 360p yang tersedia (D-29), jadi ditampilkan sebagai keterangan, bukan pilihan.
+- **Ketahanan tes:** saat gelombang ini dikerjakan, RAM bebas mesin sekitar 2 GB (memori sudah dimampatkan Windows). Dengan banyak pekerja paralel, tes halaman yang biasanya 0,2–2 detik menjadi 5–16 detik. Perbaikan: Vitest memakai 2 pekerja, batas waktu tes halaman 15 detik, tes pendaftaran yang panjang dipecah dua, dan tes `siapkanKlien` (memuat modul tiruan dan latensi buatan) diberi batas sendiri 20 detik. Tes terakhir ini memakan ±2 detik saat mesin sepi dan bisa melewati 5 detik saat mesin sibuk, jadi kandidat kuat untuk kegagalan sekali-sekali 7 Oktober yang namanya tidak tercatat. Putaran acak juga menemukan satu cacat nyata di kode gelombang ini: tautan modul tahap di Beranda sempat menunjuk modul pertama sebelum detail siklus termuat; diperbaiki.
+- Berdampak ke: T3.06, T4.09, T4.30, T4.31, T6.05, T6.06.
 
 ---
 
@@ -381,6 +401,8 @@ Tafsiran teknis saat menulis `docs/kontrak-api.md`. Tidak mengubah perilaku prod
 | 2026-10-05 | D-12 sampai D-18 ditetapkan. Butir turunan di D-03, D-06, dan D-11 dikonfirmasi dan dirujuk ke keputusan baru. Jalur tangkapan layar di D-07 diganti mengikuti D-18 |
 | 2026-10-05 | D-19 dan D-20 ditetapkan: backend Laravel + MariaDB tanpa Docker, tampilan dikerjakan lebih dulu. Butir OTP di D-10 dan butir penegakan di D-13 dan D-14 disesuaikan |
 | 2026-10-05 | D-21 sampai D-25 ditetapkan: cookie Sanctum (token untuk React Native), 404 untuk data orang lain, konfirmasi otomatis setiap 15 menit, siap deploy VPS, PHP 8.3+ terpisah |
+| 2026-10-08 | D-43 ditulis: tafsiran gelombang 6 (hst_mulai modul, posisi tonton di perangkat, unduhan lewat Cache Storage, video pengganti WebM, kontrol pemutar, ketahanan tes di mesin sibuk) |
+| 2026-10-08 | D-42 ditetapkan: tanggapan gelombang 5 (simulasi bayar hanya mode uji coba, penggaris pembeli hanya pin Panen, Ubah tawaran dan Dua kali seminggu menjadi P1, durasi maks 3 bulan, tanpa titik peta, empat alasan D-14) |
 | 2026-10-08 | D-41 ditulis: tafsiran gelombang 5 (simulasi hasil bayar di mode uji coba, `rating_saya`, batasan papan pembeli) |
 | 2026-10-08 | D-40 ditetapkan: tanggapan D-39 (tanam bertahap per kiriman, ubah jumlah sebelum setuju, dua foto kiriman, batas jam antar, pesan sebagai P1-12) dan perbaikan akar tes yang sempat gagal (jam dikunci, penyimpanan dibersihkan, batas tunggu) |
 | 2026-10-07 | D-39 ditulis: tafsiran gelombang 4 (lencana pesanan di perangkat, jadwal kirim yang terkejar umur panen, siklus aktif setelah setuju, satu alokasi per petani, alamat setelah ambil, Tanya pembeli lewat admin, perbaikan luas total pesanan) |

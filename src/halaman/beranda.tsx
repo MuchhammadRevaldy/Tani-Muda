@@ -9,6 +9,7 @@ import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import {
   useDaftarSiklus,
   useKomoditas,
+  useModul,
   usePesananSekitar,
   useRiwayatPengukuran,
   useSiklus,
@@ -36,8 +37,10 @@ import {
   waktuSalam,
   type WaktuSalam,
 } from '../lib/beranda';
+import { modulTahapBerjalan } from '../lib/belajar';
 import { statusTugas } from '../lib/jadwal-ubah';
 import { teksBeranda as t } from '../teks/beranda';
+import { teksBelajar } from '../teks/belajar';
 import { teksKebun } from '../teks/kebun';
 import { teksSesi } from '../teks/sesi';
 import { teksUmum } from '../teks/umum';
@@ -134,6 +137,17 @@ export function HalamanBeranda() {
   const tugasSiklusQ = useTugas(dipilih?.id ?? null);
   const resepQ = useResep(dipilih?.resep_id ?? null);
   const ukurQ = useRiwayatPengukuran(dipilih?.id ?? null);
+  // P0-06: modul tahap yang sedang berjalan untuk siklus terpilih (D-43).
+  const modulQ = useModul(
+    dipilih ? { komoditas_id: dipilih.komoditas_id, metode_id: dipilih.metode_id } : null,
+  );
+  // Ditunggu sampai hari ke-n siklus diketahui, supaya tautan tidak sempat menunjuk modul pertama.
+  const modulTahap = detailQ.data
+    ? modulTahapBerjalan(
+        (modulQ.data ?? []).map((m) => ({ ...m, hstMulai: m.hst_mulai })),
+        detailQ.data.hari_ke,
+      )
+    : null;
 
   const nama = akun?.pengguna.nama ?? '';
 
@@ -276,6 +290,25 @@ export function HalamanBeranda() {
               {teksUmum.memuat}
             </p>
           )}
+          {modulTahap ? (
+            <Link
+              to={`/belajar/${encodeURIComponent(modulTahap.id)}`}
+              className="fokus-cincin flex items-center gap-3 rounded-lg border border-garis bg-putih p-4 text-teks no-underline hover:border-daun-tua hover:text-teks"
+            >
+              <span className="grid h-12 w-12 flex-none place-items-center rounded-md bg-daun-lembut text-daun-tua">
+                <Ikon nama="belajar" />
+              </span>
+              <span className="flex min-w-0 flex-1 flex-col">
+                <span className="text-keterangan text-teks-pendukung">
+                  {teksBelajar.tahapSekarang}
+                </span>
+                <span className="font-semibold">
+                  {teksBelajar.tontonModul(modulTahap.judul, modulTahap.menit)}
+                </span>
+              </span>
+              <Ikon nama="panah-kanan" className="text-teks-pendukung" />
+            </Link>
+          ) : null}
           {penandaRencana}
           {besok && !pengingatMati ? (
             <Banner

@@ -873,21 +873,23 @@ Catatan pembagian:
 
 ## 4F. Pilar Belajar
 
-### [ ] T4.30 Daftar modul belajar **[DEMO]**
+### [x] T4.30 Daftar modul belajar **[DEMO]**
 - **Tujuan:** Pilih tanaman dan cara tanam, kemajuan "n dari 6 modul selesai", "Lanjutkan: …", baris modul (selesai, sedang, tersimpan offline, belum), tombol unduh.
 - **Berkas:** `src/halaman/belajar.tsx`, hook dari `src/api/kueri` (sudah ada sejak T3.04).
 - **PRD:** P0-05, US-01, US-02.
 - **Selesai bila:** papan 08 dan 09 cocok; progres dari `belajar.ts`; modul yang sudah ditonton diberi tanda; tautan dari tugas hari ini membuka modul tahap berjalan (P0-06). Hidroponik hanya muncul untuk sawi (D-05).
 - **Tangkapan (D-07):** `docs/tangkapan/aplikasi/08-belajar-hidroponik-mobile.png` (390px) dan `08-belajar-hidroponik-desktop.png` (1440px) (juga nomor 09), ditunjukkan ke pemilik produk; **berhenti menunggu tanggapan** sebelum tugas berikutnya.
 - **Prasyarat:** T3.09, T2.16, T1.15.
+- **Catatan (8 Okt 2026):** Rute `/belajar?komoditas=&metode=`, bawaan dari siklus aktif pertama. Cara tanam diambil dari resep yang ada (hidroponik hanya sawi). Keadaan baris dari `keadaanModul` (selesai, sedang ditonton dari posisi di perangkat, tersimpan offline, belum); modul tanpa video bertanda "video menyusul". Tautan "Tahap sekarang" di Beranda dari `modulTahapBerjalan` (P0-06, D-43).
 
-### [ ] T4.31 Pemutar modul (turunan) **[DEMO]**
+### [x] T4.31 Pemutar modul (turunan) **[DEMO]**
 - **Tujuan:** Halaman modul: video (≤ 3 menit), ringkasan teks, tandai selesai, "Modul berikutnya", pilih kualitas rendah.
 - **Berkas:** `src/halaman/belajar/modul.tsx`, `src/komponen/pemutar-video.tsx`.
 - **PRD:** P0-05.
 - **Selesai bila:** video bisa diputar di 390 dan 1440, kontrol ≥ 48px, tombol teks Indonesia; menonton sampai selesai menandai `progres_modul`.
 - **Tangkapan (D-07):** `docs/tangkapan/aplikasi/42-pemutar-modul-mobile.png` (390px) dan `42-pemutar-modul-desktop.png` (1440px), ditunjukkan ke pemilik produk; **berhenti menunggu tanggapan** sebelum tugas berikutnya.
 - **Prasyarat:** T4.30.
+- **Catatan (8 Okt 2026):** Rute `/belajar/:id` (halaman turunan 42). Komponen `pemutar-video.tsx` dengan kontrol berteks Indonesia ≥ 48px; video habis → `progres_modul`; posisi disimpan di perangkat. Video pengganti WebM (D-43). Tangkapan tambahan: `42-pemutar-modul-tanpa-video-*`.
 
 ## 4G. Landing, Masuk, Profil
 

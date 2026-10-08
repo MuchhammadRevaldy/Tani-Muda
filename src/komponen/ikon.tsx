@@ -52,6 +52,12 @@ const IKON = {
     '<path d="M4.5 19.5l1-4.2L15.8 5c.8-.8 2-.8 2.8 0l.4.4c.8.8.8 2 0 2.8L8.7 18.5Z"/><path d="M13.8 7l3.2 3.2"/>',
   tambah: '<path d="M12 5v14"/><path d="M5 12h14"/>',
   kurang: '<path d="M5 12h14"/>',
+  // Pemutar dan unduhan modul belajar (papan 08, 09, halaman turunan 42).
+  putar: '<path d="M8.5 5.5v13l10-6.5Z"/>',
+  jeda: '<path d="M8.5 5.5v13"/><path d="M15.5 5.5v13"/>',
+  unduh: '<path d="M12 4v11"/><path d="M7.5 10.5 12 15l4.5-4.5"/><path d="M5 19.5h14"/>',
+  'layar-penuh':
+    '<path d="M4.5 9V4.5H9"/><path d="M15 4.5h4.5V9"/><path d="M19.5 15v4.5H15"/><path d="M9 19.5H4.5V15"/>',
   bintang: '<path d="M12 3.8l2.5 5.1 5.6.8-4 3.9.9 5.6L12 16.6l-5 2.6.9-5.6-4-3.9 5.6-.8Z"/>',
   info: '<circle cx="12" cy="12" r="8.2"/><path d="M12 11v5"/><path d="M12 8h.01"/>',
   hapus:

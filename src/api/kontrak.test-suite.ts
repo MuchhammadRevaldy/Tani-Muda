@@ -806,7 +806,7 @@ export function ujiKontrak(nama: string, siapkan: PenyiapLingkungan): void {
         expect(m.filter((x) => x.selesai)).toHaveLength(3);
         expect((await K.belajar.tandaiSelesai('modul-sawi-bedengan-4')).selesai).toBe(true);
         expect((await K.belajar.ambilModul('modul-sawi-bedengan-2')).video_url).toBe(
-          '/video/contoh/semai-sawi.mp4',
+          '/video/contoh/semai-sawi.webm',
         );
         await harapGalat(K.belajar.ambilModul('modul-x'), 'TIDAK_DITEMUKAN', 404);
       });

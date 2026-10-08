@@ -11,6 +11,8 @@ import { HalamanKomponen } from './halaman/komponen';
 import { HalamanMasuk } from './halaman/masuk';
 import { HalamanPilihPeran } from './halaman/pilih-peran';
 import { HalamanBeranda } from './halaman/beranda';
+import { HalamanBelajar } from './halaman/belajar';
+import { HalamanModul } from './halaman/belajar/modul';
 import { HalamanKalkulator } from './halaman/hitung/kalkulator';
 import { HalamanPilihMetode } from './halaman/hitung/pilih-metode';
 import { HalamanPilihTanaman } from './halaman/hitung/pilih-tanaman';
@@ -192,8 +194,11 @@ export const daftarRute: RouteObject[] = [
         path: '/tugas/:id/ukur',
         element: halamanPetani('ukur', <HalamanUkur />, { menuAktif: 'kebun' }),
       },
-      { path: '/belajar', element: petani('belajar') },
-      { path: '/belajar/:id', element: petani('modul') },
+      { path: '/belajar', element: halamanPetani('belajar', <HalamanBelajar />) },
+      {
+        path: '/belajar/:id',
+        element: halamanPetani('modul', <HalamanModul />, { menuAktif: 'belajar' }),
+      },
       { path: '/pesanan', element: halamanPetani('pesanan', <HalamanPesananSekitar />) },
       {
         path: '/pesanan/kiriman',

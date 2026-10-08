@@ -24,3 +24,36 @@ export function ringkasProgres(modul: Modul[], selesaiIds: Iterable<string>): Pr
     semuaSelesai: jumlahTotal > 0 && jumlahSelesai === jumlahTotal,
   };
 }
+
+/**
+ * Modul tahap yang sedang berjalan (P0-06, D-43): modul terakhir yang hari mulainya sudah tiba,
+ * dihitung dari hari ke-n siklus. Belum tanam (null) atau sebelum tahap pertama → modul pertama.
+ */
+export function modulTahapBerjalan<T extends { urutan: number; hstMulai: number }>(
+  modul: T[],
+  hariKe: number | null,
+): T | null {
+  const urut = [...modul].sort((a, b) => a.urutan - b.urutan);
+  if (hariKe === null) return urut[0] ?? null;
+  return urut.filter((m) => m.hstMulai <= hariKe).pop() ?? urut[0] ?? null;
+}
+
+/** Sisa menit tonton, dibulatkan ke atas; null bila belum mulai atau durasi tidak diketahui. */
+export function sisaMenit(posisiDetik: number, durasiDetik: number): number | null {
+  if (!(durasiDetik > 0) || !Number.isFinite(durasiDetik) || !(posisiDetik > 0)) return null;
+  return Math.max(1, Math.ceil(Math.max(0, durasiDetik - posisiDetik) / 60));
+}
+
+export type KeadaanModul = 'selesai' | 'sedang' | 'offline' | 'belum';
+
+/** Keadaan baris modul di daftar (papan 08, 09): selesai > sedang ditonton > tersimpan > belum. */
+export function keadaanModul(m: {
+  selesai: boolean;
+  posisiDetik: number;
+  tersimpan: boolean;
+}): KeadaanModul {
+  if (m.selesai) return 'selesai';
+  if (m.posisiDetik > 0) return 'sedang';
+  if (m.tersimpan) return 'offline';
+  return 'belum';
+}
