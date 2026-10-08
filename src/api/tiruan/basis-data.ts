@@ -48,9 +48,18 @@ export function turunkanKeadaanPembayaran(pembayaran: Pembayaran[]): KeadaanPemb
   return keadaan;
 }
 
-/** Basis data baru dari data contoh, dengan tanggal relatif terhadap "hari ini" zona bawaan. */
+/**
+ * Basis data baru dari data contoh, dengan tanggal relatif terhadap "hari ini" zona bawaan dan
+ * waktu "J±n" relatif terhadap saat ini (dibuat atau "Atur ulang data demo"), sehingga adegan yang
+ * bergantung jam selalu bisa diperagakan (D-47).
+ */
 export function buatBasisData(sekarangMs: number, data: DataContoh = muatDataContoh()): BasisData {
-  const nyata = selesaikanTanggalRelatif(data, tanggalLokal(sekarangMs, ZONA_BAWAAN), ZONA_BAWAAN);
+  const nyata = selesaikanTanggalRelatif(
+    data,
+    tanggalLokal(sekarangMs, ZONA_BAWAAN),
+    ZONA_BAWAAN,
+    sekarangMs,
+  );
   return {
     ...nyata,
     sesi: { pengguna_id: null },

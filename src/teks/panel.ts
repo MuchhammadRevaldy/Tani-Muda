@@ -77,6 +77,12 @@ export const teksPanel = {
 
     petaniJudul: 'Petani',
     petaniKet: 'Catatan petani yang tidak memberi kabar dan status akun (D-03, D-13).',
+    cariPetani: 'Cari nama petani atau desa',
+    petaniKosong: 'Tidak ada petani yang cocok.',
+    halamanDaftar: 'Halaman daftar petani',
+    sebelumnya: 'Sebelumnya',
+    berikutnya: 'Berikutnya',
+    halamanKe: (n: number, dari: number) => `Halaman ${n} dari ${dari}`,
     kolomNama: 'Nama',
     kolomDesa: 'Desa',
     kolomStatus: 'Status akun',

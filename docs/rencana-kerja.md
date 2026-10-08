@@ -1127,6 +1127,7 @@ Aturan tahap:
   - Seeder **produksi** terpisah dan tidak memuat resep contoh maupun pengguna uji (D-12).
 - **Berkas:** `backend/database/seeders/*`.
 - **PRD:** P0-03, P0-19, P0-20; D-10–D-12.
+- **Catatan (9 Okt 2026, D-47):** Data contoh memakai notasi `J±n` (jam relatif terhadap saat data dibuat atau diatur ulang) untuk adegan demo yang bergantung jam; seeder dan perintah atur ulang demo di backend harus menyelesaikannya relatif terhadap waktu perintah dijalankan.
 - **Selesai bila:**
   - `migrate:fresh --seed` jalan dari nol;
   - jumlah baris per tabel sama dengan isi JSON (tes);

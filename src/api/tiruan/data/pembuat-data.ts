@@ -38,12 +38,14 @@ import { resepDariDomain, tugasDariDomain } from '../../peta';
 import type * as A from '../../tipe';
 import type { DataContoh, DataKebun, DataPesanan, WilayahContoh } from './jenis-data';
 
-export const VERSI_DATA_CONTOH = 8;
+export const VERSI_DATA_CONTOH = 9;
 /** Hari acuan saat menghitung; semua tanggal ditulis relatif terhadapnya. */
 const HARI_DASAR = '2026-10-05';
 
 const h = (n: number) => `H${n >= 0 ? '+' : ''}${n}`;
 const hw = (n: number, jam: string) => `${h(n)}T${jam}`;
+/** Jam relatif terhadap saat atur ulang (D-47): "J-1" = satu jam sebelumnya. */
+const jRel = (n: number) => `J${n >= 0 ? '+' : ''}${n}`;
 const rel = (tanggal: string) => h(selisihHari(HARI_DASAR, tanggal));
 const tgl = (n: number) => tambahHari(HARI_DASAR, n);
 
@@ -1414,8 +1416,10 @@ function buatPesanan(): DataPesanan {
   Object.assign(k3, {
     status: 'dikirim',
     foto_kualitas: '/contoh/foto/bayam-kiriman-3.svg',
-    dikirim_pada: hw(0, '07:00'),
-    batas_periksa_pada: hw(0, '13:00'),
+    // Selalu satu jam sebelum "Atur ulang data demo", batas periksa 6 jam (D-01, D-47), sehingga
+    // konfirmasi kiriman bisa diperagakan kapan pun.
+    dikirim_pada: jRel(-1),
+    batas_periksa_pada: jRel(-1 + KONF.jamPeriksa.rutin),
   });
   bayar({
     pesanan_id: imas.id,

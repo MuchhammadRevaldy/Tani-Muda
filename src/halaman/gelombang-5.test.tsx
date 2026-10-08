@@ -151,7 +151,8 @@ describe('konfirmasi kiriman dan rating (T4.25, T4.26)', () => {
     expect(
       await screen.findByRole('heading', { level: 1, name: 'Periksa kiriman bayam' }),
     ).toBeInTheDocument();
-    expect(screen.getByText('Periksa sebelum pukul 13.00')).toBeInTheDocument();
+    // Data demo diatur pukul 08.30: dikirim 1 jam sebelumnya, batas periksa 6 jam (D-01, D-47).
+    expect(screen.getByText('Periksa sebelum pukul 13.30')).toBeInTheDocument();
     await userEvent.click(screen.getByRole('radio', { name: 'Tolak sebagian' }));
     await userEvent.type(screen.getByLabelText('Berat yang ditolak'), '1');
     await userEvent.click(screen.getByRole('button', { name: 'Lainnya' }));

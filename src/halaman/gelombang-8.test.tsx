@@ -90,6 +90,23 @@ describe('panel admin (T4.29)', () => {
   });
 });
 
+describe('panel admin: cari petani (D-47)', () => {
+  it('cari nama menyaring daftar; tanpa hasil memberi keterangan', async () => {
+    await buka('/admin/petani', 'admin-tani');
+    const tabel = await screen.findByRole('region', { name: 'Petani' });
+    await waitFor(() => expect(within(tabel).getAllByRole('row')).toHaveLength(6));
+    await userEvent.type(screen.getByLabelText('Cari nama petani atau desa'), 'budi');
+    await waitFor(() =>
+      expect(
+        within(screen.getByRole('region', { name: 'Petani' })).getAllByRole('row'),
+      ).toHaveLength(2),
+    );
+    expect(screen.getByRole('link', { name: 'Lihat Budi Santoso' })).toBeInTheDocument();
+    await userEvent.type(screen.getByLabelText('Cari nama petani atau desa'), 'xyz');
+    expect(await screen.findByText('Tidak ada petani yang cocok.')).toBeInTheDocument();
+  });
+});
+
 describe('panel mentor (T4.38, T4.39)', () => {
   it('daftar resep per tanaman dan cara tanam; permintaan terbanyak di atas', async () => {
     await buka('/mentor', 'mentor-rahmat');

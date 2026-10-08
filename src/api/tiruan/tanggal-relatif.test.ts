@@ -11,10 +11,21 @@ describe('tanggal relatif data contoh', () => {
     ['B+2', '2026-12'],
     ['B+3', '2027-01'],
     ['B-10', '2025-12'],
+    ['J-1', '2026-10-05T00:00:00.000Z'],
+    ['J+5', '2026-10-05T06:00:00.000Z'],
     ['Halo', 'Halo'],
     ['H-x', 'H-x'],
   ])('%s → %s', (nilai, hasil) => {
     expect(selesaikanNilai(nilai, '2026-10-05', 'Asia/Jakarta')).toBe(hasil);
+  });
+  it('"J±n" relatif terhadap saat atur ulang (D-47)', () => {
+    const pukul23 = Date.parse('2026-10-05T16:00:00.000Z'); // 23.00 WIB
+    expect(selesaikanNilai('J-1', '2026-10-05', 'Asia/Jakarta', pukul23)).toBe(
+      '2026-10-05T15:00:00.000Z',
+    );
+    expect(selesaikanNilai('J+5', '2026-10-05', 'Asia/Jakarta', pukul23)).toBe(
+      '2026-10-05T21:00:00.000Z',
+    );
   });
   it('objek bersarang diselesaikan, angka dan null tetap', () => {
     expect(

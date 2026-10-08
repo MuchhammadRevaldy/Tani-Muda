@@ -424,7 +424,7 @@ Tafsiran teknis saat menulis `docs/kontrak-api.md`. Tidak mengubah perilaku prod
 - **Ukuran bundel (P-22):** tetap dikerjakan di Tahap 6, dengan target terukur: **JavaScript yang dimuat di halaman pertama paling besar 200 kB setelah gzip**, dengan pemecahan per halaman (lazy route). Ditambahkan di T6.03 dan diperiksa otomatis di `scripts/cek-build.mjs`.
 - Berdampak ke: T4.32, T4.36, T5.09, T5.13, T6.03.
 
-## D-46. Tafsiran gelombang 8 Tahap 4 (panel admin, panel mentor, pemeriksaan menyeluruh), menunggu konfirmasi
+## D-46. Tafsiran gelombang 8 Tahap 4 (panel admin, panel mentor, pemeriksaan menyeluruh); ditanggapi di D-47
 - **Daftar petani untuk admin:** endpoint baru `GET /admin/petani` → `PetaniRingkasAdmin[]` (`id`, `nama`, `desa`, `status_akun`, `jumlah_catatan`, `siklus_aktif`), tanpa nomor HP dan titik lahan (D-06), terurut menurut jumlah catatan. Tanpa daftar ini admin tidak bisa menemukan petani untuk menulis catatan atau menonaktifkan (kontrak sebelumnya hanya `GET /admin/petani/{id}`).
 - **Panel:** satu kepala dengan menu sesuai peran. Admin: Verifikasi pembeli (`/admin`), Sengketa (`/admin/sengketa`), Petani (`/admin/petani`, `/admin/petani/:id`), dan juga menu mentor. Mentor: Resep (`/mentor`), Permintaan resep (`/mentor/permintaan`), editor (`/mentor/resep/baru`, `/mentor/resep/:id`). Desktop saja dengan tabel sederhana (D-07); di HP tabel digeser di dalam wadahnya dengan catatan "Panel ini dirancang untuk layar komputer".
 - **Verifikasi pembeli:** Setujui langsung; Tolak lewat dialog dengan alasan wajib yang dikirim ke pembeli. Foto tempat usaha tampil kecil di tabel.
@@ -439,6 +439,15 @@ Tafsiran teknis saat menulis `docs/kontrak-api.md`. Tidak mengubah perilaku prod
 - **"HST" di panel mentor:** pemeriksa bahasa kini mengizinkan "HST" hanya di `src/teks/panel.ts` dan `src/halaman/mentor/`, sesuai aturan-proyek.md 1.3; di halaman lain tetap ditolak.
 - Berdampak ke: T4.29, T4.38, T4.39, T4.40, T5 (admin, mentor), T6.03, T6.08.
 
+## D-47. Tanggapan D-46; Tahap 4 disetujui
+- **Tahap 4 disetujui** pemilik produk setelah memeriksa tangkapan gelombang 8.
+- **`GET /admin/petani`:** setuju, dengan pencarian nama atau desa (`?cari=`, tidak peka huruf besar), paginasi (`?halaman=&per_halaman=`, bentuk `Halaman<T>` seperti endpoint lain), khusus peran admin, dan hanya kolom yang dibutuhkan panel (`id`, `nama`, `desa`, `status_akun`, `jumlah_catatan`, `siklus_aktif`; tanpa nomor HP dan titik lahan). Panel admin mendapat kolom cari dan tombol Sebelumnya/Berikutnya (20 per halaman).
+- **Galat simpan resep sebagai `VALIDASI` dengan rincian per kolom:** setuju.
+- **Adegan demo yang bergantung jam:** diperbaiki sekarang, tanpa tombol "Jam demo". Data demo mengenal notasi baru **`J±n`** = n jam relatif terhadap saat data dibuat atau **Atur ulang data demo** ditekan (`tanggal-relatif.ts`, `jenis-data.ts`). Kiriman ke Bu Imas yang menunggu konfirmasi kini `dikirim_pada: J-1` dan `batas_periksa_pada: J+5` (6 jam, D-01), jadi selalu masih dalam batas periksa hingga 5 jam setelah atur ulang. Pada jam tes (08.00) hasilnya tetap 07.00 dan 13.00, sehingga tes lama tidak berubah. Versi data contoh naik ke 9 supaya peramban memakai data baru.
+- **Pemeriksaan adegan naskah:** satu-satunya adegan yang bergantung jam adalah konfirmasi kiriman (langkah 9); langkah lain berbasis tanggal. Batasan jam dihapus dari `naskah-demo.md`. Naskah dijalankan dari awal sampai akhir setelah atur ulang pada pukul **09.00, 14.00, 19.00, dan 23.00 WIB**: ke-14 langkah berhasil di keempat jam. Pada pukul 23.00 banner menulis "Tiba pukul 22.00 … Periksa sebelum pukul 04.00" (batas di hari berikutnya).
+- **"HST" hanya di panel mentor:** setuju.
+- Berdampak ke: T4.29, T4.40, T5.08 (seeder membaca notasi `J±n`), T6.08.
+
 ---
 
 ## Riwayat
@@ -448,6 +457,7 @@ Tafsiran teknis saat menulis `docs/kontrak-api.md`. Tidak mengubah perilaku prod
 | 2026-10-05 | D-12 sampai D-18 ditetapkan. Butir turunan di D-03, D-06, dan D-11 dikonfirmasi dan dirujuk ke keputusan baru. Jalur tangkapan layar di D-07 diganti mengikuti D-18 |
 | 2026-10-05 | D-19 dan D-20 ditetapkan: backend Laravel + MariaDB tanpa Docker, tampilan dikerjakan lebih dulu. Butir OTP di D-10 dan butir penegakan di D-13 dan D-14 disesuaikan |
 | 2026-10-05 | D-21 sampai D-25 ditetapkan: cookie Sanctum (token untuk React Native), 404 untuk data orang lain, konfirmasi otomatis setiap 15 menit, siap deploy VPS, PHP 8.3+ terpisah |
+| 2026-10-09 | D-47 ditetapkan: Tahap 4 disetujui; GET /admin/petani dengan cari dan paginasi; adegan demo bergantung jam memakai notasi J±n relatif terhadap atur ulang; naskah diuji pada 09.00, 14.00, 19.00, 23.00 |
 | 2026-10-09 | D-46 ditulis: tafsiran gelombang 8 (GET /admin/petani, panel admin dan mentor, validasi resep satu sumber, POST /mentor/resep menjawab VALIDASI, pemeriksaan responsif, jam demo konfirmasi kiriman) |
 | 2026-10-09 | D-45 ditetapkan: tanggapan D-44 (contoh publik dibatasi, label contoh perhitungan dan tanpa subsidi, sesi lain berakhir setelah ganti nomor, target bundel 200 kB gzip) |
 | 2026-10-08 | D-44 ditulis: tanggapan D-43 (selesai ditonton lewat API, Kelola unduhan di T6.06, cara pasang video asli, aksesibilitas pemutar, catatan memori) dan tafsiran gelombang 7 (angka halaman depan dari GET /publik/contoh, ganti nomor HP, profil, halaman statis, perbaikan penggaris) |

@@ -124,9 +124,10 @@ export function buatKlienAdmin(k: Konteks): KlienAdmin {
       k.simpan();
       return sengketa(id);
     },
-    async daftarPetani() {
+    async daftarPetani(p = {}) {
       k.wajibPeran('admin');
-      return k.db.pengguna.pengguna
+      const cari = p.cari?.trim().toLowerCase();
+      const daftar = k.db.pengguna.pengguna
         .filter((u) => u.peran === 'petani')
         .map((u) => ({
           id: u.id,
@@ -141,7 +142,14 @@ export function buatKlienAdmin(k: Konteks): KlienAdmin {
         .sort(
           (a, b) =>
             b.jumlah_catatan - a.jumlah_catatan || (a.nama ?? '').localeCompare(b.nama ?? ''),
+        )
+        .filter(
+          (x) =>
+            !cari ||
+            (x.nama ?? '').toLowerCase().includes(cari) ||
+            (x.desa ?? '').toLowerCase().includes(cari),
         );
+      return k.halaman(daftar, p);
     },
     async petani(petaniId) {
       k.wajibPeran('admin');

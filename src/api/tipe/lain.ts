@@ -64,6 +64,10 @@ export interface PutuskanSengketaMasukan {
   keputusan: KeputusanSengketa;
   catatan?: string | null;
 }
+export interface ParamPetaniAdmin {
+  /** Cari pada nama petani atau nama desa. */
+  cari?: string;
+}
 export interface ParamSengketa {
   status?: StatusSengketa;
 }

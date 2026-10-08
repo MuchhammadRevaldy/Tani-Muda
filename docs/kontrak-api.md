@@ -612,7 +612,7 @@ Konfirmasi otomatis: kiriman `dikirim` yang lewat `batas_periksa_pada` dianggap 
 | `POST /admin/pembeli/{id}/verifikasi` | A | `{ keputusan, alasan? }` (alasan wajib bila ditolak) → `PembeliUntukAdmin` | `admin.verifikasiPembeli` |
 | `GET /admin/sengketa?status=` | A | → `SengketaUntukAdmin[]` | `admin.sengketa` |
 | `POST /admin/sengketa/{id}/putuskan` | A | `{ keputusan, catatan? }` → `SengketaUntukAdmin`; menentukan pencairan sisa bagian | `admin.putuskanSengketa` |
-| `GET /admin/petani` | A | → `PetaniRingkasAdmin[]` `{ id, nama, desa, status_akun, jumlah_catatan, siklus_aktif }`, tanpa nomor HP dan titik lahan, terurut jumlah catatan (D-46) | `admin.daftarPetani` |
+| `GET /admin/petani?cari=&halaman=&per_halaman=` | A | → `Halaman<PetaniRingkasAdmin>`; `PetaniRingkasAdmin` = `{ id, nama, desa, status_akun, jumlah_catatan, siklus_aktif }`, tanpa nomor HP dan titik lahan; `cari` pada nama atau desa (tidak peka huruf besar); terurut jumlah catatan lalu nama (D-46, D-47) | `admin.daftarPetani` |
 | `GET /admin/petani/{id}` | A | → `PetaniUntukAdmin` | `admin.petani` |
 | `POST /admin/petani/{id}/catatan` | A | `{ jenis, isi, pengiriman_id? }` → `CatatanPetani` | `admin.tulisCatatan` |
 | `POST /admin/petani/{id}/status` | A | `{ status_akun }` → `PetaniUntukAdmin` (D-13) | `admin.ubahStatusPetani` |
@@ -680,6 +680,7 @@ Konfirmasi otomatis: kiriman `dikirim` yang lewat `batas_periksa_pada` dianggap 
 | --- | --- |
 | 2026-10-05 | Versi pertama (T3.01, T3.02), bersama tipe `src/api/tipe/`, klien tiruan, dan tes kontrak |
 | 2026-10-07 | D-38: `pengguna.terdaftar_kelompok_tani`, `komoditas.harga_jual_contoh`, `resep_tanam.persen_panen_jelek` dan `alasan_panen_jelek`, pembulatan harga sekitar ke ratusan. Tunda tugas terlambat dihitung dari hari ini. |
+| 2026-10-09 | D-47: `GET /admin/petani` mendapat `cari` dan paginasi (`Halaman<T>`). |
 | 2026-10-09 | D-46: `GET /admin/petani` (daftar petani ringkas); `POST /mentor/resep` menjawab `VALIDASI` dengan rincian; kode galat `UMUR_PANEN_TIDAK_VALID`, `PERSEN_PANEN_JELEK_TIDAK_VALID`, `BATAS_UKUR_TIDAK_VALID`. |
 | 2026-10-09 | D-45: `GET /publik/contoh` menjadi `{ komoditas, contoh }` yang ramping; `PUT /akun/nomor-hp` mengakhiri semua sesi lain. |
 | 2026-10-08 | D-44: `POST /akun/nomor-hp/otp`, `PUT /akun/nomor-hp`, galat `409 NOMOR_SUDAH_DIPAKAI` dan validasi `NOMOR_SAMA`; endpoint publik `GET /publik/contoh`. |

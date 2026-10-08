@@ -3,7 +3,9 @@
  * seeder Laravel (T5.08). Tanggal ditulis relatif terhadap hari ini supaya demo selalu segar:
  * - "H-13"       → tanggal 13 hari sebelum hari ini;
  * - "H+0T07:00"  → hari ini pukul 07.00 waktu pengguna (disimpan UTC setelah diselesaikan);
- * - "B+3"        → bulan ketiga dari bulan ini ("YYYY-MM").
+ * - "B+3"        → bulan ketiga dari bulan ini ("YYYY-MM");
+ * - "J-1"        → satu jam sebelum data dibuat atau diatur ulang (adegan demo yang bergantung jam,
+ *                  mis. kiriman yang sedang menunggu konfirmasi pembeli; D-47).
  */
 import type {
   AlokasiTersimpan,

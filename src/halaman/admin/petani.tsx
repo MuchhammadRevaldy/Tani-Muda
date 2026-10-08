@@ -15,7 +15,7 @@ import {
 import type { JenisCatatanPetani, StatusAkun } from '../../api/tipe';
 import { Ikon } from '../../komponen/ikon';
 import { Kartu } from '../../komponen/kartu';
-import { KolomTeks } from '../../komponen/kolom-isian';
+import { KolomIsian, KolomTeks } from '../../komponen/kolom-isian';
 import { LabelKecil } from '../../komponen/label-kecil';
 import { PilPilihan } from '../../komponen/pilihan';
 import { Kepala, Sel, Tabel } from '../../komponen/tabel';
@@ -41,15 +41,38 @@ function ChipStatusAkun({ status }: { status: StatusAkun }) {
   );
 }
 
+const PER_HALAMAN = 20;
+
 export function HalamanDaftarPetaniAdmin() {
-  const daftarQ = useDaftarPetaniAdmin();
-  const daftar = daftarQ.data ?? [];
+  const [cari, setCari] = useState('');
+  const [halaman, setHalaman] = useState(1);
+  const daftarQ = useDaftarPetaniAdmin({
+    cari: cari.trim() || undefined,
+    halaman,
+    per_halaman: PER_HALAMAN,
+  });
+  const daftar = daftarQ.data?.data ?? [];
+  const meta = daftarQ.data?.meta;
   return (
     <KerangkaPanelSesi judul={t.petaniJudul} keterangan={t.petaniKet}>
+      <KolomIsian
+        label={t.cariPetani}
+        type="search"
+        value={cari}
+        onChange={(e) => {
+          setCari(e.target.value);
+          setHalaman(1);
+        }}
+        className="max-w-dialog"
+      />
       {daftarQ.isPending ? (
         <Memuat />
       ) : daftarQ.isError ? (
         <p className="m-0 text-teks-pendukung">{teksUmum.galatIsi}</p>
+      ) : !daftar.length ? (
+        <p className="m-0 rounded-lg border border-garis bg-putih p-6 text-teks-pendukung">
+          {t.petaniKosong}
+        </p>
       ) : (
         <Tabel
           label={t.petaniJudul}
@@ -84,6 +107,27 @@ export function HalamanDaftarPetaniAdmin() {
           ))}
         </Tabel>
       )}
+      {meta && meta.halaman_terakhir > 1 ? (
+        <nav aria-label={t.halamanDaftar} className="flex items-center gap-3">
+          <Tombol
+            varian="sekunder"
+            disabled={meta.halaman <= 1}
+            onClick={() => setHalaman(meta.halaman - 1)}
+          >
+            {t.sebelumnya}
+          </Tombol>
+          <span className="text-teks-pendukung">
+            {t.halamanKe(meta.halaman, meta.halaman_terakhir)}
+          </span>
+          <Tombol
+            varian="sekunder"
+            disabled={meta.halaman >= meta.halaman_terakhir}
+            onClick={() => setHalaman(meta.halaman + 1)}
+          >
+            {t.berikutnya}
+          </Tombol>
+        </nav>
+      ) : null}
     </KerangkaPanelSesi>
   );
 }

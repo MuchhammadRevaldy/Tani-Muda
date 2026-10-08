@@ -1478,8 +1478,10 @@ export function ujiKontrak(nama: string, siapkan: PenyiapLingkungan): void {
           409,
         );
       });
-      it('daftar petani untuk admin: status dan jumlah catatan, tanpa nomor HP (D-46)', async () => {
-        const d = await K.admin.daftarPetani();
+      it('daftar petani untuk admin: cari, paginasi, tanpa nomor HP (D-46, D-47)', async () => {
+        const h = await K.admin.daftarPetani();
+        const d = h.data;
+        expect(h.meta).toMatchObject({ halaman: 1, total: 5 });
         expect(d[0]).toEqual({
           id: 'petani-budi',
           nama: 'Budi Santoso',
@@ -1490,6 +1492,25 @@ export function ujiKontrak(nama: string, siapkan: PenyiapLingkungan): void {
         });
         expect(d.map((x) => x.id)).toContain('petani-arif');
         expect(JSON.stringify(d)).not.toContain('nomor_hp');
+        // Cari nama atau desa, tidak peka huruf besar.
+        expect((await K.admin.daftarPetani({ cari: 'budi' })).data.map((x) => x.id)).toEqual([
+          'petani-budi',
+        ]);
+        const desa = d.find((x) => x.id === 'petani-arif')!.desa!;
+        expect(
+          (await K.admin.daftarPetani({ cari: desa.toUpperCase() })).data.map((x) => x.id),
+        ).toContain('petani-arif');
+        expect((await K.admin.daftarPetani({ cari: 'tidak-ada' })).data).toEqual([]);
+        // Paginasi.
+        const h2 = await K.admin.daftarPetani({ per_halaman: 2, halaman: 2 });
+        expect(h2.data).toHaveLength(2);
+        expect(h2.meta).toMatchObject({
+          halaman: 2,
+          per_halaman: 2,
+          total: 5,
+          halaman_terakhir: 3,
+        });
+        expect(h2.data[0]!.id).toBe(d[2]!.id);
         await masuk('petani-arif');
         await harapGalat(K.admin.daftarPetani(), 'TIDAK_DIIZINKAN', 403);
       });
