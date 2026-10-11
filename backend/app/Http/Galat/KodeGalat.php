@@ -46,6 +46,7 @@ final class KodeGalat
         'BELUM_TERVERIFIKASI' => 'Usaha Anda belum terverifikasi, jadi belum bisa memasang pesanan',
         'PERAN_BELUM_DIPILIH' => 'Pilih peranmu dulu',
         'WILAYAH_WAJIB' => 'Isi desa lahanmu dulu',
+        'WILAYAH_BELUM_TERSEDIA' => 'Desa ini belum tersedia di pilot Tani Muda. Pilih desa lain',
         'PRIVASI_WAJIB' => 'Centang persetujuan kebijakan privasi dulu',
         'OTP_SALAH' => 'Kode salah. Periksa SMS lalu coba lagi',
         'OTP_KEDALUWARSA' => 'Kode sudah kedaluwarsa. Minta kode baru',

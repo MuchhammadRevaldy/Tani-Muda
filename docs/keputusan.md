@@ -570,7 +570,7 @@ Ditetapkan pemilik produk 12 Oktober 2026 (tanggapan D-53); dikerjakan pada hari
 - Berdampak ke: T5.08, T5.15, pemeriksaan penutup gelombang; `arsitektur-backend.md` 2a, 10, 15, 17; `menjalankan-lokal.md`; `cek-wilayah.md`.
 
 ## D-55. Usulan: sisa pesanan rutin dihitung per kiriman, bukan per pesanan
-Ditulis 12 Oktober 2026, **menunggu tanggapan pemilik produk**. Model pesanan, seeder data contoh T5.08, dan gelombang 5.5 tidak dilanjutkan sebelum ada tanggapan.
+Ditulis 12 Oktober 2026. **Disetujui sebagai arah model pada hari yang sama (D-57), dikerjakan setelah lomba 18 Oktober**; sampai saat itu backend mengikuti kontrak sekarang.
 
 **Temuan.** Dua tes di `frontend/src/api/tiruan/sisa-rutin.test.ts`, pesanan sawi rutin 10 kg × 12 kiriman mulai 5 November:
 - **(A) gagal.** Petani A (sawi hidroponik, 35 hari) mengambil 10 kg dan baru terkejar mulai kiriman ke-2. Petani B (sawi bedengan, 28 hari) sebenarnya bisa mengejar kiriman ke-1, tetapi pesanan itu tidak lagi muncul di Pesanan di sekitar. Ini bertentangan dengan D-39 ("kiriman sebelumnya tetap terbuka untuk petani lain").
@@ -595,7 +595,7 @@ Ditulis 12 Oktober 2026, **menunggu tanggapan pemilik produk**. Model pesanan, s
 3. `terambil_kg` dihapus (butir 6) atau dipertahankan sebagai informasi.
 
 ## D-56. Tafsiran: seeder wilayah lengkap dan desa tanpa titik tengah
-Ditulis 12 Oktober 2026. Bagian basis data dan seeder sudah dikerjakan; **perubahan kontrak menunggu tanggapan pemilik produk**.
+Ditulis 12 Oktober 2026. Bagian basis data dan seeder sudah dikerjakan; perubahan kontrak **disetujui** pada hari yang sama (D-57).
 - **"Semua tingkat":** tabel `wilayah` tetap satu baris per desa/kelurahan (83.762 baris, seluruh Indonesia). Nama kecamatan, kabupaten/kota, dan provinsi diambil dari kode induknya, jadi setiap kode di dataset terwakili. Tingkat atas tidak dibuat sebagai baris sendiri karena tidak ada tabel yang merujuknya; dataset lengkap tetap ada di `shared/wilayah/`. Bila nanti formulir perlu memilih kecamatan lebih dulu, tingkat itu ditambahkan sebagai keputusan baru.
 - **Basis data:** `wilayah.lintang`/`bujur` boleh kosong. Kolom baru khusus server `koordinat_perkiraan` (seperti `kode_terverifikasi`, tidak dikirim ke klien). Semua baris hasil impor `kode_terverifikasi = true`. Seeder memakai *upsert* dan tidak menimpa titik yang sudah diisi dengan kosong.
 - **Usulan perubahan kontrak (belum diterapkan):**
@@ -604,6 +604,37 @@ Ditulis 12 Oktober 2026. Bagian basis data dan seeder sudah dikerjakan; **peruba
   - Galat baru `422 WILAYAH_BELUM_TERSEDIA` (rincian `wilayah_id`) di `PUT /akun/peran` dan `PATCH /akun` untuk petani, `POST`/`PATCH /lahan`, dan `POST /pembeli/pesanan` (titik antar). Pembeli tetap boleh memilih desa tanpa titik sebagai desa profilnya.
   - `PesananUntukPetani.titik_desa_antar` sudah boleh null; tidak berubah.
 - Berdampak ke (bila disetujui): `kontrak-api.md` 1.4 dan 2.3, tipe `Wilayah`, `teks/galat-api.ts`, pemilih desa (T4.34–T4.36a, T4.23), klien tiruan, Form Request di gelombang 5.3–5.5.
+- **Disetujui 12 Oktober 2026 (D-57)**, dengan urutan hasil `GET /wilayah` mendahulukan desa yang tersedia di pilot.
+
+## D-57. Keputusan D-55 dan D-56; rencana sampai lomba 18 Oktober 2026
+Ditetapkan pemilik produk 12 Oktober 2026. **Prioritas berubah:** lomba 18 Oktober dengan demo lokal, dan juri ingin melihat basis datanya.
+- **D-55 disetujui sebagai arah model, dikerjakan setelah 18 Oktober.** Yang disetujui: kapasitas per kiriman, baris pengiriman sejak ambil, pengembalian uang muka ditunda sampai kiriman tidak terkejar lagi, dan `terambil_kg` dihapus. **Sampai lomba, backend mengikuti kontrak yang ada sekarang**, dan tes A/B tetap `it.fails`. Syarat pemilik produk saat model itu dikerjakan:
+  - dasbor pembeli menampilkan kiriman yang belum ada petaninya;
+  - aturan "kiriman terakhir yang diterima penuh memakai seluruh sisa saldo" (D-35) diganti "**setiap kiriman memakai tepat bagiannya; selisih pembulatan diselesaikan setelah semua kiriman berstatus akhir**", dengan kasus baru di `shared/kasus-uji/uang.json`;
+  - tangkapan halaman yang berubah diambil ulang.
+- **D-56 disetujui.** Tambahan: `GET /wilayah?cari=` mendahulukan desa `tersedia_pilot`, lalu urut nama. Kontrak 1.4, 2.3, 3.1, 3.2, 3.4, dan 3.9 diubah hari ini.
+- **Pembayaran gagal** yang dicatat di transaksi terpisah (D-54) **tidak boleh memakai atau mengunci `kunci_idempoten`**.
+- **Target sampai lomba:** `docs/naskah-demo.md` berjalan penuh dengan `VITE_SUMBER_DATA=http` terhadap Laravel + MariaDB lokal.
+  - **Cakupan:** hanya endpoint yang dipakai 10 langkah naskah.
+  - **Ditunda:** web push, scheduler, offline, panel admin, editor mentor, dan unggah foto sungguhan (foto contoh dari seeder cukup).
+- **Urutan kerja:**
+  1. seeder T5.08 (kini tidak bergantung D-55);
+  2. perintah artisan atur ulang demo yang mengisi ulang data dengan waktu relatif `J±n` (D-47);
+  3. OTP T5.09 dengan driver log, dan endpoint masuk demo yang hanya aktif saat `APP_ENV=local` untuk pemilih akun demo;
+  4. Policy dasar;
+  5. endpoint Hitung dan Kebun;
+  6. endpoint Jual dengan penguncian baris dan pembayaran tiruan;
+  7. klien HTTP T6.01.
+
+  Rumus uang yang dipakai endpoint diport ke PHP dan lolos `shared/kasus-uji`.
+- **Cara kerja minggu ini:** tidak berhenti per gelombang. Setiap bagian di-commit dengan lint, typecheck, test, build, build:demo, Pest, Pint, dan Larastan hijau; laporan singkat setiap akhir hari; berhenti hanya bila butuh keputusan produk.
+- **Jalan mundur wajib tetap utuh:** `npm run demo` dan `build:demo` dengan data tiruan harus selalu jalan. Perilaku halaman tidak diubah demi penyambungan (D-20).
+- **Titik putus Kamis 15 Oktober malam:** naskah demo dijalankan penuh dengan backend, dua kali dari atur ulang.
+  - Bila lolos, cara menjalankan demo dengan backend ditulis di `naskah-demo.md`: urutan menyalakan XAMPP, `npm run dev`, dan perintah atur ulang.
+  - Bila tidak lolos, langkah yang gagal dilaporkan; demo memakai data tiruan dan basis data ditunjukkan terpisah.
+  - Setelah Kamis malam kode dibekukan; hanya perbaikan yang menghentikan demo.
+- **Tafsiran asisten untuk endpoint demo** (kontrak 3.13): pemilih akun demo dan panel kode uji di mode HTTP memakai endpoint `/demo/*`. Rutenya **hanya didaftarkan saat `APP_ENV=local`** (di lingkungan lain 404), dan menggantikan `KontrolPengembangan` klien tiruan: daftar pengguna uji, masuk sebagai, kode OTP terakhir dari driver log, dan atur ulang data demo.
+- Berdampak ke: T5.08–T5.16, T6.01, T6.09; `kontrak-api.md` 1.4, 2.3, 3.1, 3.2, 3.4, 3.9, 3.13; `naskah-demo.md`.
 
 ---
 
@@ -614,6 +645,7 @@ Ditulis 12 Oktober 2026. Bagian basis data dan seeder sudah dikerjakan; **peruba
 | 2026-10-05 | D-12 sampai D-18 ditetapkan. Butir turunan di D-03, D-06, dan D-11 dikonfirmasi dan dirujuk ke keputusan baru. Jalur tangkapan layar di D-07 diganti mengikuti D-18 |
 | 2026-10-05 | D-19 dan D-20 ditetapkan: backend Laravel + MariaDB tanpa Docker, tampilan dikerjakan lebih dulu. Butir OTP di D-10 dan butir penegakan di D-13 dan D-14 disesuaikan |
 | 2026-10-05 | D-21 sampai D-25 ditetapkan: cookie Sanctum (token untuk React Native), 404 untuk data orang lain, konfirmasi otomatis setiap 15 menit, siap deploy VPS, PHP 8.3+ terpisah |
+| 2026-10-12 | D-57 ditetapkan: D-55 disetujui sebagai arah tetapi dikerjakan setelah lomba 18 Oktober, D-56 disetujui (urutan `tersedia_pilot` dulu), pembayaran gagal tanpa kunci idempoten, target naskah demo dengan backend lokal, titik putus Kamis 15 Oktober |
 | 2026-10-12 | D-54 dicatat (tanggapan D-53): kunci idempoten di transaksi operasi uang tanpa BENTROK, dengan tes serentak dua proses; Larastan level 5 dan tes sintaks PHP 8.3; dataset wilayah resmi di `shared/wilayah/`, kode wilayah data contoh diperbaiki (versi 10), tes kecocokan dataset, seeder wilayah lengkap. D-55 ditulis (menunggu): sisa pesanan rutin per kiriman, karena tes A dan B gagal. D-56 ditulis: desa tanpa titik tengah (perubahan kontrak menunggu) |
 | 2026-10-12 | D-52 ditetapkan dan D-53 dicatat: tidak ada CASCADE di tabel uang dan transaksi, ID `ascii_bin`, jumlah lubang dan polybag bilangan bulat, tes invarian kolom turunan (menemukan `terambil_kg` klien tiruan yang tidak ikut berkurang), kunci idempoten dipesan lebih dulu, PHP target 8.3, MariaDB LTS di VPS |
 | 2026-10-11 | D-52 ditulis: tafsiran gelombang 5.2 bagian pertama (data contoh di `shared/data-contoh/`, ID string dengan ULID untuk baris baru, migrasi semua tabel kontrak dengan batasan CHECK, seeder ditahan sampai kode wilayah dicocokkan) |

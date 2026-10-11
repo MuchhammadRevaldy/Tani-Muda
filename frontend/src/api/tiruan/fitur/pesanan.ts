@@ -25,6 +25,7 @@ import {
   hitungPembayaranKiriman,
   jumlahKirimanRutin,
 } from '../../../lib/pesanan-nilai';
+import { titikWilayah } from '../../../lib/jarak';
 import { metodeUntukLahan } from '../../../lib/pesanan-tampil';
 import { bandingTanggal, selisihHari, tambahHari } from '../../../lib/tanggal';
 import { perkiraanPanen, saranVolumeTandon } from '../../../lib/ukuran-metode';
@@ -275,7 +276,7 @@ function untukPetani(k: Konteks, petani: Pengguna, p: Pesanan): PesananUntukPeta
     jenis_usaha: profil?.jenis_usaha ?? 'lainnya',
     desa_antar: w?.desa ?? '',
     kecamatan_antar: w?.kecamatan ?? '',
-    titik_desa_antar: w ? { lintang: w.lintang, bujur: w.bujur } : null,
+    titik_desa_antar: w ? titikWilayah(w) : null,
     alamat_antar: saya ? p.alamat_antar : null,
     patokan: saya ? p.patokan : null,
     jarak_km: jarakPesananKm(k, petani, p) ?? 0,
@@ -981,11 +982,12 @@ export function buatKlienPembeli(k: Konteks): KlienPembeli {
       if (profil?.status_verifikasi !== 'terverifikasi') k.galat('BELUM_TERVERIFIKASI');
       const salah: Record<
         string,
-        'VALIDASI' | 'TIDAK_DITEMUKAN' | 'HARGA_KOSONG' | 'JUMLAH_KOSONG'
+        'VALIDASI' | 'TIDAK_DITEMUKAN' | 'HARGA_KOSONG' | 'JUMLAH_KOSONG' | 'WILAYAH_BELUM_TERSEDIA'
       > = {};
       if (!k.db.resep.some((r) => r.komoditas_id === m.komoditas_id && k.resepTerlihat(r)))
         salah.komoditas_id = 'VALIDASI';
       if (!k.wilayah(m.wilayah_id)) salah.wilayah_id = 'TIDAK_DITEMUKAN';
+      else if (!k.wilayahTersedia(m.wilayah_id)) salah.wilayah_id = 'WILAYAH_BELUM_TERSEDIA';
       if (!m.alamat_antar?.trim()) salah.alamat_antar = 'VALIDASI';
       if (m.batas_jam_antar && !/^([01]\d|2[0-3]):[0-5]\d$/.test(m.batas_jam_antar))
         salah.batas_jam_antar = 'VALIDASI';

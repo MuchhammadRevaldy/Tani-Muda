@@ -50,10 +50,13 @@ function PilihDesa({
   desa,
   onPilih,
   galat,
+  wajibTersedia,
 }: {
   desa: Wilayah | null;
   onPilih: (w: Wilayah) => void;
   galat?: string;
+  /** Petani hanya boleh memilih desa yang tersedia di pilot (D-56). */
+  wajibTersedia: boolean;
 }) {
   const [cari, setCari] = useState('');
   const kata = cari.trim();
@@ -83,17 +86,23 @@ function PilihDesa({
             <KartuPilihan
               key={w.id}
               dipilih={desa?.id === w.id}
+              nonaktif={wajibTersedia && !w.tersedia_pilot}
               onPilih={() => {
                 onPilih(w);
                 setCari('');
               }}
-              labelAksesibel={`${w.desa}, ${teksPilihPeran.lokasiDesa(w.kecamatan, w.kabupaten)}`}
+              labelAksesibel={`${w.desa}, ${teksPilihPeran.lokasiDesa(w.kecamatan, w.kabupaten)}${w.tersedia_pilot ? '' : `, ${teksPilihPeran.belumTersediaPilot}`}`}
             >
               <div className="flex flex-col px-4 py-3">
                 <span className="font-semibold">{w.desa}</span>
                 <span className="text-keterangan text-teks-pendukung">
                   {teksPilihPeran.lokasiDesa(w.kecamatan, w.kabupaten)}
                 </span>
+                {w.tersedia_pilot ? null : (
+                  <span className="text-keterangan text-teks-pendukung">
+                    {teksPilihPeran.belumTersediaPilot}
+                  </span>
+                )}
               </div>
             </KartuPilihan>
           ))}
@@ -242,7 +251,12 @@ function Formulir({ p, desaAwal }: { p: Pengguna; desaAwal: Wilayah | null }) {
         onChange={(e) => setNama(e.target.value)}
         galat={galat.nama}
       />
-      <PilihDesa desa={desa} onPilih={setDesa} galat={galat.desa} />
+      <PilihDesa
+        desa={desa}
+        onPilih={setDesa}
+        galat={galat.desa}
+        wajibTersedia={p.peran === 'petani'}
+      />
       <label className="flex min-h-sentuh cursor-pointer items-start gap-3">
         <input
           type="checkbox"

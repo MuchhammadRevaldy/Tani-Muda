@@ -7,6 +7,7 @@
  * Data awal = data contoh (shared/data-contoh/*.json) dengan hari ini 2026-10-05 08.00 WIB.
  */
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
+import { teksUntukGalat } from '../teks/galat-api';
 import { adalahGalatApi, type GalatApi, type KodeGalatApi } from './galat';
 import type { KlienApi } from './klien';
 
@@ -268,9 +269,46 @@ export function ujiKontrak(nama: string, siapkan: PenyiapLingkungan): void {
         const r = await K.wilayah.daftar({ cari: 'suka' });
         expect(r.data.map((w) => w.desa)).toEqual(['Sukajaya']);
         const h = await K.wilayah.daftar({ per_halaman: 3, halaman: 2 });
-        expect(h.meta).toEqual({ halaman: 2, per_halaman: 3, total: 8, halaman_terakhir: 3 });
+        expect(h.meta).toEqual({ halaman: 2, per_halaman: 3, total: 9, halaman_terakhir: 3 });
         expect(h.data).toHaveLength(3);
         expect((await K.wilayah.daftar({ per_halaman: 500 })).meta.per_halaman).toBe(100);
+      });
+      it('desa tersedia di pilot lebih dulu, lalu urut nama; desa tanpa titik tidak bisa dipilih petani (D-56, D-57)', async () => {
+        const semua = (await K.wilayah.daftar({ per_halaman: 100 })).data;
+        const tersedia = semua.filter((w) => w.tersedia_pilot).map((w) => w.desa);
+        expect(tersedia).toEqual([...tersedia].sort((a, b) => a.localeCompare(b, 'id')));
+        expect(semua.at(-1)).toMatchObject({
+          desa: 'Cihideung',
+          tersedia_pilot: false,
+          lintang: null,
+          bujur: null,
+        });
+        expect(semua.every((w) => !('kode_terverifikasi' in w))).toBe(true);
+        expect(await K.wilayah.ambil('32.17.01.2003')).toMatchObject({ tersedia_pilot: true });
+        const g = await harapGalat(
+          K.akun.ubahProfil({ wilayah_id: '32.17.02.2004' }),
+          'VALIDASI',
+          422,
+          'wilayah_id',
+        );
+        expect(g.rincian.wilayah_id).toEqual([teksUntukGalat('WILAYAH_BELUM_TERSEDIA')]);
+        await harapGalat(
+          K.lahan.buat({
+            nama: 'Kebun Cihideung',
+            jenis_lahan: 'kebun',
+            satuan_asli: 'm2',
+            nilai_asli: 20,
+            wilayah_id: '32.17.02.2004',
+          }),
+          'VALIDASI',
+          422,
+          'wilayah_id',
+        );
+        // Pembeli boleh memilih desa tanpa titik sebagai desa profilnya.
+        await masuk('pembeli-ratna');
+        expect((await K.akun.ubahProfil({ wilayah_id: '32.17.02.2004' })).pengguna.wilayah_id).toBe(
+          '32.17.02.2004',
+        );
       });
       it('ambil satu; tidak ada → 404', async () => {
         expect(await K.wilayah.ambil('32.17.01.2003')).toMatchObject({

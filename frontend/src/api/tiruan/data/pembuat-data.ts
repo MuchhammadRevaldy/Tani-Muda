@@ -38,7 +38,7 @@ import { resepDariDomain, tugasDariDomain } from '../../peta';
 import type * as A from '../../tipe';
 import type { DataContoh, DataKebun, DataPesanan, WilayahContoh } from './jenis-data';
 
-export const VERSI_DATA_CONTOH = 10;
+export const VERSI_DATA_CONTOH = 11;
 /** Hari acuan saat menghitung; semua tanggal ditulis relatif terhadapnya. */
 const HARI_DASAR = '2026-10-05';
 
@@ -61,6 +61,8 @@ const W = {
   kayuambon: '32.17.01.2002',
   ledeng: '32.73.08.1003',
   batununggal: '32.73.21.1001',
+  /** Desa tetangga di luar pilot, tanpa titik tengah (D-56). */
+  cihideung: '32.17.02.2004',
 } as const;
 
 const wilayahLembang = (
@@ -104,6 +106,16 @@ const WILAYAH: WilayahContoh[] = [
     provinsi: 'Jawa Barat',
     lintang: -6.953,
     bujur: 107.6381,
+    kode_terverifikasi: true,
+  },
+  {
+    id: W.cihideung,
+    desa: 'Cihideung',
+    kecamatan: 'Parongpong',
+    kabupaten: 'Kabupaten Bandung Barat',
+    provinsi: 'Jawa Barat',
+    lintang: null,
+    bujur: null,
     kode_terverifikasi: true,
   },
 ];

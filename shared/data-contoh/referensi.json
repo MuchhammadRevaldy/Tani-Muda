@@ -265,6 +265,16 @@
       "wilayah_id": "32.73.21.1001",
       "satuan": "bata",
       "nilai_m2": 14
+    },
+    {
+      "wilayah_id": "32.17.02.2004",
+      "satuan": "ru",
+      "nilai_m2": 14
+    },
+    {
+      "wilayah_id": "32.17.02.2004",
+      "satuan": "bata",
+      "nilai_m2": 14
     }
   ],
   "input_pertanian": [

@@ -143,17 +143,23 @@ export function HalamanPilihPeran() {
                   <KartuPilihan
                     key={w.id}
                     dipilih={desaId === w.id}
+                    nonaktif={!w.tersedia_pilot}
                     onPilih={() => {
                       setDesa(w);
                       setGalat((g) => ({ ...g, desa: undefined }));
                     }}
-                    labelAksesibel={`${w.desa}, ${t.lokasiDesa(w.kecamatan, w.kabupaten)}`}
+                    labelAksesibel={`${w.desa}, ${t.lokasiDesa(w.kecamatan, w.kabupaten)}${w.tersedia_pilot ? '' : `, ${t.belumTersediaPilot}`}`}
                   >
                     <div className="flex flex-col px-4 py-3">
                       <span className="font-semibold">{w.desa}</span>
                       <span className="text-keterangan text-teks-pendukung">
                         {t.lokasiDesa(w.kecamatan, w.kabupaten)}
                       </span>
+                      {w.tersedia_pilot ? null : (
+                        <span className="text-keterangan text-teks-pendukung">
+                          {t.belumTersediaPilot}
+                        </span>
+                      )}
                     </div>
                   </KartuPilihan>
                 ))}

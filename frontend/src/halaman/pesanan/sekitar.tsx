@@ -20,6 +20,7 @@ import { kelasTombol, Tombol } from '../../komponen/tombol';
 import { Uang } from '../../komponen/uang';
 import { useLayarLebar } from '../../komponen/use-layar-lebar';
 import { formatTanggal, namaHari } from '../../lib/format';
+import { titikWilayah } from '../../lib/jarak';
 import { hitungNilaiPesanan } from '../../lib/pesanan-nilai';
 import { teksPesanan as t } from '../../teks/pesanan';
 import { teksUmum } from '../../teks/umum';
@@ -311,6 +312,7 @@ export function HalamanPesananSekitar() {
   const semua = pesananQ.data?.data ?? [];
   const tampil = semua.filter((p) => filter === 'semua' || p.jenis === filter);
   const desa = wilayahQ.data?.desa ?? null;
+  const pusat = wilayahQ.data ? titikWilayah(wilayahQ.data) : null;
   const ket =
     radius === null
       ? null
@@ -372,9 +374,9 @@ export function HalamanPesananSekitar() {
           <div className="flex items-start gap-6">
             <div className="min-w-0 flex-1">{daftar}</div>
             <aside className="sticky top-6 flex w-panel flex-none flex-col gap-4">
-              {wilayahQ.data ? (
+              {pusat ? (
                 <PetaPembeli
-                  pusat={wilayahQ.data}
+                  pusat={pusat}
                   desa={desa}
                   radius={radius}
                   titik={semua.map((p, i) => ({

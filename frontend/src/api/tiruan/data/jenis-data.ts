@@ -41,7 +41,8 @@ import type {
   Wilayah,
 } from '../../tipe';
 
-export interface WilayahContoh extends Wilayah {
+/** Baris wilayah tersimpan; `tersedia_pilot` dihitung saat dikirim (D-56). */
+export interface WilayahContoh extends Omit<Wilayah, 'tersedia_pilot'> {
   /** Kode Kemendagri sudah dicek ke sumber resmi (D-27); koordinat selalu perkiraan. */
   kode_terverifikasi: boolean;
 }

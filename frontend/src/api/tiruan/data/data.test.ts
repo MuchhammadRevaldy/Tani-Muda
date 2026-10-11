@@ -3,7 +3,7 @@ import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
 import { pastikan } from '../../../lib/hasil';
 import { kapasitasLahan } from '../../../lib/kapasitas-lahan';
-import { jarakKm, urutkanTerdekat } from '../../../lib/jarak';
+import { jarakKm, titikWilayah, urutkanTerdekat } from '../../../lib/jarak';
 import { hitungKebutuhanResep } from '../../../lib/kebutuhan';
 import { hitungModal } from '../../../lib/modal';
 import { hitungNilaiPesanan } from '../../../lib/pesanan-nilai';
@@ -77,11 +77,17 @@ describe('wilayah data contoh cocok dengan dataset resmi', () => {
   });
   it('titik tengah sama dengan shared/wilayah/titik-tengah.json; 16 desa Lembang punya titik', () => {
     for (const w of data.wilayah)
-      expect(titik.find((t) => t.id === w.id)).toMatchObject({
-        desa: w.desa,
-        lintang: w.lintang,
-        bujur: w.bujur,
-      });
+      if (w.lintang === null) expect(titik.some((t) => t.id === w.id)).toBe(false);
+      else
+        expect(titik.find((t) => t.id === w.id)).toMatchObject({
+          desa: w.desa,
+          lintang: w.lintang,
+          bujur: w.bujur,
+        });
+    // Satu desa tanpa titik (di luar pilot) untuk menguji D-56.
+    expect(data.wilayah.filter((w) => w.lintang === null).map((w) => w.id)).toEqual([
+      '32.17.02.2004',
+    ]);
     const lembang = [...resmi.keys()].filter((k) => k.startsWith('32.17.01.'));
     expect(lembang).toHaveLength(16);
     expect(lembang.filter((k) => !titik.some((t) => t.id === k))).toEqual([]);
@@ -245,7 +251,7 @@ describe('T3.08 pengguna uji, lahan, siklus, pesanan', () => {
     ).toBe(24000);
   });
   it('urutan pesanan terbuka dari Desa Lembang: yang terdekat lebih dulu, Kota Bandung paling jauh', () => {
-    const wil = (id: string) => data.wilayah.find((w) => w.id === id)!;
+    const wil = (id: string) => titikWilayah(data.wilayah.find((w) => w.id === id)!)!;
     const pusat = wil('32.17.01.2003');
     const terbuka = data.pesanan.pesanan.filter((p) => p.status !== 'menunggu_pembayaran');
     const urut = urutkanTerdekat(terbuka, pusat, (p) => wil(p.wilayah_id)).map((x) => [

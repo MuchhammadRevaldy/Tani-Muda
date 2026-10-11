@@ -47,6 +47,8 @@ export const teksPilihPeran = {
   desaKosong: 'Desa tidak ditemukan. Coba ketik nama kecamatan.',
   desaDipilih: (desa: string) => `Desa terpilih: ${desa}`,
   lokasiDesa: (kecamatan: string, kabupaten: string) => `Kec. ${kecamatan}, ${kabupaten}`,
+  /** Desa tanpa titik tengah (D-56): tampil, tetapi tidak bisa dipilih petani. */
+  belumTersediaPilot: 'Belum tersedia di pilot',
   simpan: 'Simpan dan lanjut',
   menyimpan: 'Menyimpan…',
   pilihPeranDulu: 'Pilih peran dulu',

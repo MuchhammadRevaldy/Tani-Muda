@@ -149,10 +149,15 @@ const urutTugas = (a: Tugas, b: Tugas) =>
 
 export function buatKlienLahan(k: Konteks): KlienLahan {
   const validasi = (m: Partial<import('../../tipe').LahanMasukan>, lengkap: boolean) => {
-    const salah: Record<string, 'VALIDASI' | 'UKURAN_KOSONG' | 'TIDAK_DITEMUKAN'> = {};
+    const salah: Record<
+      string,
+      'VALIDASI' | 'UKURAN_KOSONG' | 'TIDAK_DITEMUKAN' | 'WILAYAH_BELUM_TERSEDIA'
+    > = {};
     if ((lengkap || m.nama !== undefined) && !m.nama?.trim()) salah.nama = 'VALIDASI';
     if ((lengkap || m.wilayah_id !== undefined) && !k.wilayah(m.wilayah_id))
       salah.wilayah_id = 'TIDAK_DITEMUKAN';
+    else if ((lengkap || m.wilayah_id !== undefined) && !k.wilayahTersedia(m.wilayah_id))
+      salah.wilayah_id = 'WILAYAH_BELUM_TERSEDIA';
     if (m.jenis_lahan === 'hidroponik' && !(Number(m.kapasitas_lubang) > 0))
       salah.kapasitas_lubang = 'UKURAN_KOSONG';
     if (Object.keys(salah).length) k.validasi(salah);

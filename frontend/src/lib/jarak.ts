@@ -11,6 +11,14 @@ export const JARI_JARI_BUMI_KM = 6371;
 
 const rad = (derajat: number) => (derajat * Math.PI) / 180;
 
+/** Titik tengah wilayah, atau null bila desa belum punya titik (di luar pilot, D-56). */
+export function titikWilayah(w: {
+  lintang: number | null;
+  bujur: number | null;
+}): Titik | null {
+  return w.lintang !== null && w.bujur !== null ? { lintang: w.lintang, bujur: w.bujur } : null;
+}
+
 /** Jarak lingkaran besar antara dua titik (km). */
 export function jarakKm(a: Titik, b: Titik): number {
   const dLintang = rad(b.lintang - a.lintang);

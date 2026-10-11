@@ -78,5 +78,15 @@
     "lintang": -6.953,
     "bujur": 107.6381,
     "kode_terverifikasi": true
+  },
+  {
+    "id": "32.17.02.2004",
+    "desa": "Cihideung",
+    "kecamatan": "Parongpong",
+    "kabupaten": "Kabupaten Bandung Barat",
+    "provinsi": "Jawa Barat",
+    "lintang": null,
+    "bujur": null,
+    "kode_terverifikasi": true
   }
 ]

@@ -83,6 +83,8 @@ export function buatKlienAkun(k: Konteks): KlienAkun {
       if (m.peran === 'petani' && !k.wilayah(m.wilayah_id))
         k.validasi({ wilayah_id: 'WILAYAH_WAJIB' });
       if (m.wilayah_id && !k.wilayah(m.wilayah_id)) k.validasi({ wilayah_id: 'TIDAK_DITEMUKAN' });
+      if (m.peran === 'petani' && !k.wilayahTersedia(m.wilayah_id))
+        k.validasi({ wilayah_id: 'WILAYAH_BELUM_TERSEDIA' });
       p.peran = m.peran;
       p.nama = m.nama.trim();
       p.wilayah_id = m.wilayah_id ?? null;
@@ -95,6 +97,8 @@ export function buatKlienAkun(k: Konteks): KlienAkun {
       if (m.nama !== undefined && !m.nama.trim()) k.validasi({ nama: 'VALIDASI' });
       if (m.wilayah_id !== undefined && !k.wilayah(m.wilayah_id))
         k.validasi({ wilayah_id: 'TIDAK_DITEMUKAN' });
+      if (m.wilayah_id !== undefined && p.peran === 'petani' && !k.wilayahTersedia(m.wilayah_id))
+        k.validasi({ wilayah_id: 'WILAYAH_BELUM_TERSEDIA' });
       if (m.zona_waktu !== undefined && !zonaSah(m.zona_waktu))
         k.validasi({ zona_waktu: 'VALIDASI' });
       if (m.nama !== undefined) p.nama = m.nama.trim();
@@ -182,6 +186,7 @@ export function buatKlienWilayah(k: Konteks): KlienWilayah {
     async daftar(p = {}) {
       k.penggunaMasuk();
       const cari = p.cari?.trim().toLowerCase();
+      // Desa yang tersedia di pilot lebih dulu, lalu urut nama desa (D-57).
       const hasil = k.db.wilayah
         .filter(
           (w) =>
@@ -189,13 +194,17 @@ export function buatKlienWilayah(k: Konteks): KlienWilayah {
             w.desa.toLowerCase().includes(cari) ||
             w.kecamatan.toLowerCase().includes(cari),
         )
-        .map(({ kode_terverifikasi: _k, ...w }) => w);
+        .map((w) => k.wilayahKeluar(w))
+        .sort(
+          (a, b) =>
+            Number(b.tersedia_pilot) - Number(a.tersedia_pilot) ||
+            a.desa.localeCompare(b.desa, 'id'),
+        );
       return k.halaman(hasil, p);
     },
     async ambil(id) {
       k.penggunaMasuk();
-      const { kode_terverifikasi: _k, ...w } = k.milik(k.db.wilayah, (x) => x.id === id);
-      return k.salin(w);
+      return k.wilayahKeluar(k.milik(k.db.wilayah, (x) => x.id === id));
     },
   };
 }

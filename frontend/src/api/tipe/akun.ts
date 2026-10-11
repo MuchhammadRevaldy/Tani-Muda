@@ -64,9 +64,11 @@ export interface Wilayah {
   kecamatan: string;
   kabupaten: string;
   provinsi: string;
-  /** Titik tengah desa. */
-  lintang: number;
-  bujur: number;
+  /** Titik tengah desa (perkiraan); null untuk desa di luar pilot (D-56). */
+  lintang: number | null;
+  bujur: number | null;
+  /** Dihitung server: punya titik tengah, jadi bisa dipilih sebagai desa petani, lahan, atau titik antar. */
+  tersedia_pilot: boolean;
 }
 
 // ---- masukan

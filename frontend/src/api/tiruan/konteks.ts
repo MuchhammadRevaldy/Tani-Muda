@@ -11,6 +11,7 @@ import { teksUntukGalat } from '../../teks/galat-api';
 import { GalatApi, type KodeGalatApi } from '../galat';
 import type { Halaman, ParamHalaman, Pengguna, Peran, ResepTanam, Wilayah } from '../tipe';
 import type { BasisData } from './basis-data';
+import type { WilayahContoh } from './data/jenis-data';
 import type { PenyimpananTiruan } from './penyimpanan';
 
 export interface OpsiKonteks {
@@ -108,8 +109,19 @@ export class Konteks {
     return x;
   }
 
-  wilayah(id: string | null | undefined): Wilayah | null {
+  wilayah(id: string | null | undefined): WilayahContoh | null {
     return id ? (this.db.wilayah.find((w) => w.id === id) ?? null) : null;
+  }
+
+  /** Wilayah seperti dikirim API: tanpa kolom khusus server, dengan `tersedia_pilot` (D-56). */
+  wilayahKeluar({ kode_terverifikasi: _k, ...w }: WilayahContoh): Wilayah {
+    return this.salin({ ...w, tersedia_pilot: w.lintang !== null && w.bujur !== null });
+  }
+
+  /** Desa boleh dipilih sebagai desa petani, desa lahan, atau titik antar (D-56). */
+  wilayahTersedia(id: string | null | undefined): boolean {
+    const w = this.wilayah(id);
+    return !!w && w.lintang !== null && w.bujur !== null;
   }
 
   /** Resep boleh dilihat petani: divalidasi, atau contoh bila pengaturan menyala (D-12). */

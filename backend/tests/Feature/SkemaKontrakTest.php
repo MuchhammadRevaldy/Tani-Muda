@@ -66,6 +66,7 @@ function bacaKontrak(): array
 /** Kolom kontrak yang dihitung server saat dikirim, tidak disimpan. */
 const KOLOM_DIHITUNG = [
     'komoditas' => ['status_resep', 'jumlah_pesanan_sekitar'],
+    'wilayah' => ['tersedia_pilot'],
     'lahan' => ['kapasitas'],
     'siklus_tanam' => ['kelompok_pesanan', 'resep_contoh'],
     'resep_tanam' => ['input', 'tugas'],

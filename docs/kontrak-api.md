@@ -73,6 +73,7 @@ Endpoint berhalaman ditandai **(berhalaman)** di bagian 3.
 | 409 | `MELEBIHI_SALDO` | Pencairan melebihi dana yang ditahan |
 | 402 | `PEMBAYARAN_GAGAL` | Pembayaran uang muka gagal (di mode uji coba lewat `simulasi`, D-41) |
 | 409 | `BENTROK` | Data berubah di tempat lain |
+| 422 | `VALIDASI` dengan rincian `wilayah_id` berteks `WILAYAH_BELUM_TERSEDIA` | Desa belum tersedia di pilot (tanpa titik tengah) dipilih sebagai desa petani, desa lahan, atau titik antar; sama seperti `WILAYAH_WAJIB` (D-56) |
 | 419 | `SESI_KEDALUWARSA` | Token CSRF tidak cocok karena sesi berganti atau kedaluwarsa; klien meminta `/sanctum/csrf-cookie` lagi lalu mengulang (D-51) |
 | 422 | `VALIDASI` | Isian salah; lihat `rincian` |
 | 422 | kode logika inti | mis. `LUAS_KOSONG`, `HARGA_NEGATIF`, `TUNDA_DI_LUAR_BATAS`, `KETERANGAN_WAJIB`, `NILAI_DI_LUAR_SKALA`, `NOMOR_HP_TIDAK_VALID`, `OTP_SALAH`, `OTP_KEDALUWARSA`, `FOTO_WAJIB` |
@@ -167,7 +168,8 @@ Tidak ada kolom kata sandi atau nama pengguna (D-04).
 | --- | --- | --- |
 | `id` | string | kode Kemendagri (D-27) |
 | `desa`, `kecamatan`, `kabupaten`, `provinsi` | string | |
-| `lintang`, `bujur` | desimal | titik tengah desa; dasar jarak (D-06) |
+| `lintang`, `bujur` | desimal \| null | titik tengah desa (perkiraan); dasar jarak (D-06). Null untuk desa di luar pilot (D-56) |
+| `tersedia_pilot` | boolean | dihitung server: true bila punya titik tengah. Desa yang belum tersedia tidak bisa dipilih sebagai desa petani, desa lahan, atau titik antar (D-56) |
 
 ### 2.4 Referensi
 
@@ -497,8 +499,8 @@ Peran: P = petani, B = pembeli, M = mentor, A = admin, semua = semua pengguna ma
 | `POST /auth/otp/verifikasi` | publik | `{ nomor_hp, kode, setuju_privasi? }` → `{ akun, pengguna_baru }`; pengguna baru wajib `setuju_privasi: true` | `VALIDASI` (`setuju_privasi`), `OTP_SALAH`, `OTP_KEDALUWARSA` (5 menit), `OTP_TERKUNCI` (5 percobaan) | `akun.verifikasiOtp` |
 | `POST /auth/keluar` | semua | → 204 | | `akun.keluar` |
 | `GET /akun` | semua | → `Akun` (401 bila belum masuk) | | `akun.ambil` |
-| `PUT /akun/peran` | semua, peran kosong | `{ peran, nama, wilayah_id? }` → `Akun` | `WILAYAH_WAJIB` (petani), `STATUS_TIDAK_SESUAI` (sudah berperan) | `akun.pilihPeran` |
-| `PATCH /akun` | semua | `{ nama?, wilayah_id?, zona_waktu?, foto_profil?, terdaftar_kelompok_tani? }` → `Akun` | `VALIDASI` | `akun.ubahProfil` |
+| `PUT /akun/peran` | semua, peran kosong | `{ peran, nama, wilayah_id? }` → `Akun` | `WILAYAH_WAJIB` (petani), `WILAYAH_BELUM_TERSEDIA` (petani), `STATUS_TIDAK_SESUAI` (sudah berperan) | `akun.pilihPeran` |
+| `PATCH /akun` | semua | `{ nama?, wilayah_id?, zona_waktu?, foto_profil?, terdaftar_kelompok_tani? }` → `Akun` | `VALIDASI`, `WILAYAH_BELUM_TERSEDIA` (petani) | `akun.ubahProfil` |
 | `POST /akun/nomor-hp/otp` | semua | `{ nomor_hp }` → `{ nomor_hp, kirim_ulang_dalam_detik, kedaluwarsa_dalam_detik }`; kode dikirim ke **nomor baru**, tidak pernah ada di respons | `VALIDASI` (`nomor_hp`: `NOMOR_HP_TIDAK_VALID`, `NOMOR_SAMA`), `NOMOR_SUDAH_DIPAKAI`, `TERLALU_SERING` | `akun.kirimOtpNomorBaru` |
 | `PUT /akun/nomor-hp` | semua | `{ nomor_hp, kode }` → `Akun` dengan nomor baru; sesi ini tetap (ID sesi diperbarui), **semua sesi lain pengguna itu diakhiri** (D-45) | `VALIDASI` (`NOMOR_SAMA`), `NOMOR_SUDAH_DIPAKAI` (dicek ulang), `OTP_SALAH`, `OTP_KEDALUWARSA`, `OTP_TERKUNCI` | `akun.gantiNomorHp` |
 | `GET /akun/catatan` | P | → `CatatanPetani[]` milik sendiri | | `akun.catatanSaya` |
@@ -508,7 +510,7 @@ Peran: P = petani, B = pembeli, M = mentor, A = admin, semua = semua pengguna ma
 
 | Metode dan jalur | Peran | Masukan → respons | Klien |
 | --- | --- | --- | --- |
-| `GET /wilayah?cari=` (berhalaman) | semua | → `Halaman<Wilayah>` | `wilayah.daftar` |
+| `GET /wilayah?cari=` (berhalaman) | semua | → `Halaman<Wilayah>`, desa `tersedia_pilot` lebih dulu, lalu urut nama desa (D-57); desa yang belum tersedia tetap tampil | `wilayah.daftar` |
 | `GET /wilayah/{id}` | semua | → `Wilayah` | `wilayah.ambil` |
 | `GET /komoditas?jenis_lahan=` | semua | → `Komoditas[]` | `referensi.komoditas` |
 | `GET /metode` | semua | → `MetodeTanam[]` | `referensi.metode` |
@@ -536,8 +538,8 @@ Peran: P = petani, B = pembeli, M = mentor, A = admin, semua = semua pengguna ma
 | Metode dan jalur | Peran | Masukan → respons | Galat khusus | Klien |
 | --- | --- | --- | --- | --- |
 | `GET /lahan` | P | → `Lahan[]` milik sendiri, dengan kapasitas | | `lahan.daftar` |
-| `POST /lahan` | P | `LahanMasukan` (satuan asli dikonversi server) → `Lahan` | `UKURAN_KOSONG`, `VALIDASI` (`kapasitas_lubang` untuk hidroponik) | `lahan.buat` |
-| `PATCH /lahan/{id}` | P (pemilik) | `Partial<LahanMasukan>` → `Lahan` | 404 bukan pemilik | `lahan.ubah` |
+| `POST /lahan` | P | `LahanMasukan` (satuan asli dikonversi server) → `Lahan` | `UKURAN_KOSONG`, `VALIDASI` (`kapasitas_lubang` untuk hidroponik), `WILAYAH_BELUM_TERSEDIA` | `lahan.buat` |
+| `PATCH /lahan/{id}` | P (pemilik) | `Partial<LahanMasukan>` → `Lahan` | 404 bukan pemilik, `WILAYAH_BELUM_TERSEDIA` | `lahan.ubah` |
 | `DELETE /lahan/{id}` | P (pemilik) | → 204 | `STATUS_TIDAK_SESUAI` (masih dipakai siklus) | `lahan.hapus` |
 
 ### 3.5 Kebun
@@ -602,7 +604,7 @@ Konfirmasi otomatis: kiriman `dikirim` yang lewat `batas_periksa_pada` dianggap 
 | Metode dan jalur | Peran | Masukan → respons | Galat khusus | Klien |
 | --- | --- | --- | --- | --- |
 | `GET /pembeli/pesanan` | B | → `PesananDenganKebun[]` (dasbor) | | `pembeli.pesananSaya` |
-| `POST /pembeli/pesanan` | B terverifikasi | `BuatPesananMasukan` (rutin atau sekali panen) → `Pesanan` berstatus `menunggu_pembayaran`; komoditas wajib berresep (P0-19) | `BELUM_TERVERIFIKASI`, `VALIDASI`, `FREKUENSI_TIDAK_VALID` (durasi maks 3 bulan) | `pembeli.buatPesanan` |
+| `POST /pembeli/pesanan` | B terverifikasi | `BuatPesananMasukan` (rutin atau sekali panen) → `Pesanan` berstatus `menunggu_pembayaran`; komoditas wajib berresep (P0-19) | `BELUM_TERVERIFIKASI`, `VALIDASI`, `FREKUENSI_TIDAK_VALID` (durasi maks 3 bulan), `WILAYAH_BELUM_TERSEDIA` (titik antar) | `pembeli.buatPesanan` |
 | `POST /pembeli/pesanan/{id}/bayar-uang-muka` (idempoten) | B (pemilik) | `{ kunci_idempoten, simulasi? }` → `Pembayaran[]` (uang muka ditahan, biaya layanan); `simulasi` `berhasil` \| `gagal` \| `menunggu` hanya di mode uji coba (D-41) | `STATUS_TIDAK_SESUAI`, `PEMBAYARAN_GAGAL` | `pembeli.bayarUangMuka` |
 | `POST /pembeli/pesanan/{id}/batalkan` | B (pemilik) | → `{ pesanan, kompensasi_petani, dikembalikan_ke_pembeli }` (P0-27) | `STATUS_TIDAK_SESUAI` | `pembeli.batalkan` |
 | `GET /pembeli/pembayaran` (berhalaman) | B | → `Halaman<Pembayaran>` terbaru dulu | | `pembeli.pembayaran` |
@@ -637,6 +639,17 @@ Konfirmasi otomatis: kiriman `dikirim` yang lewat `batas_periksa_pada` dianggap 
 | Metode dan jalur | Peran | Masukan → respons | Klien |
 | --- | --- | --- | --- |
 | `GET /kesehatan` | tanpa masuk | → `{ status: 'sehat', basis_data: 'tersambung', waktu }`; 503 `SUMBER_BELUM_TERSEDIA` bila basis data tidak terjangkau (D-51) | – (dipakai pemeriksaan dan `npm run dev`) |
+
+### 3.13 Demo lokal (hanya `APP_ENV=local`)
+
+Rute ini **hanya didaftarkan saat `APP_ENV=local`**; di lingkungan lain jawabannya 404 seperti jalur yang tidak ada (D-57). Dipakai klien HTTP untuk `KontrolPengembangan` (pemilih akun demo, panel kode uji, atur ulang), menggantikan kontrol klien tiruan.
+
+| Metode dan jalur | Peran | Masukan → respons | Kontrol |
+| --- | --- | --- | --- |
+| `GET /demo/pengguna` | publik (lokal) | → `{ id, nama, peran, keterangan }[]` pengguna uji data contoh | `penggunaUji` |
+| `POST /demo/masuk` | publik (lokal) | `{ pengguna_id }` → `Akun`; membuka sesi seperti verifikasi OTP | `masukSebagai` |
+| `GET /demo/kode-otp?nomor_hp=` | publik (lokal) | → `{ kode: string \| null }`, kode terakhir yang dikirim driver log | `kodeUji` |
+| `POST /demo/atur-ulang` | publik (lokal) | → 204; sama dengan `php artisan demo:atur-ulang` (data contoh dengan waktu relatif saat ini, D-47), lalu sesi diakhiri | `aturUlang` |
 
 ---
 
@@ -687,6 +700,7 @@ Konfirmasi otomatis: kiriman `dikirim` yang lewat `batas_periksa_pada` dianggap 
 
 | Tanggal | Perubahan |
 | --- | --- |
+| 2026-10-12 | D-56/D-57: `wilayah.lintang`/`bujur` boleh null dan `tersedia_pilot` (dihitung server); galat `422 WILAYAH_BELUM_TERSEDIA` di pilih peran dan ubah profil (petani), lahan, dan buat pesanan; `GET /wilayah` mendahulukan desa yang tersedia di pilot; endpoint demo lokal (bagian 3.13). |
 | 2026-10-12 | D-53: `lahan.kapasitas_lubang`, `siklus.jumlah_lubang`, dan `jumlah_polybag` menjadi bilangan bulat (sebelumnya "desimal"/"bilangan"); tipe TS memakai alias `BilanganBulat`. |
 | 2026-10-11 | D-52: baris `modul.hst_mulai` (sudah dipakai sejak D-43) dicatat di tabel 2.8; tidak ada perubahan perilaku. |
 | 2026-10-11 | D-51: `GET /kesehatan` (bagian 3.12); 419 token CSRF dijawab dengan kode baru `SESI_KEDALUWARSA`; `rincian` opsional, tidak dikirim bila kosong (sama dengan klien tiruan); 405 dijawab 404. |

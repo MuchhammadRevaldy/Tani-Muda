@@ -121,6 +121,7 @@ export function KartuPilihan({
   onPilih,
   labelAksesibel,
   segera,
+  nonaktif,
   children,
   className,
 }: {
@@ -129,6 +130,8 @@ export function KartuPilihan({
   /** Label untuk pembaca layar, mis. "Pilih Sawi hijau" atau "Cabai rawit, segera hadir". */
   labelAksesibel: string;
   segera?: boolean;
+  /** Tampil tetapi tidak bisa dipilih, mis. desa yang belum tersedia di pilot (D-56). */
+  nonaktif?: boolean;
   children: ReactNode;
   className?: string;
 }) {
@@ -138,7 +141,7 @@ export function KartuPilihan({
         'relative min-h-sentuh rounded-lg border',
         dipilih
           ? 'border-daun-tua bg-daun-lembut'
-          : segera
+          : segera || nonaktif
             ? 'border-garis bg-embun-pagi'
             : 'border-garis bg-putih',
         className,
@@ -150,8 +153,9 @@ export function KartuPilihan({
         role="radio"
         aria-checked={dipilih}
         aria-label={labelAksesibel}
+        disabled={nonaktif}
         onClick={onPilih}
-        className="fokus-cincin absolute inset-0 m-0 h-full w-full cursor-pointer rounded-lg border-0 bg-transparent p-0"
+        className="fokus-cincin absolute inset-0 m-0 h-full w-full cursor-pointer rounded-lg border-0 bg-transparent p-0 disabled:cursor-not-allowed"
       />
       {dipilih ? (
         <span

@@ -1,5 +1,5 @@
 /** Fungsi bantu bersama antar fitur klien tiruan. */
-import { jarakKm } from '../../../lib/jarak';
+import { jarakKm, titikWilayah } from '../../../lib/jarak';
 import { kapasitasLahan } from '../../../lib/kapasitas-lahan';
 import { tambahHari } from '../../../lib/tanggal';
 import { lahanKeDomain, siklusKeDomain } from '../../peta';
@@ -52,8 +52,10 @@ export function pesananTerbuka(k: Konteks, p: Pesanan): boolean {
 
 /** Jarak (km) titik tengah desa petani ke desa titik antar pesanan (D-06). */
 export function jarakPesananKm(k: Konteks, petani: Pengguna, p: Pesanan): number | null {
-  const a = k.wilayah(petani.wilayah_id);
-  const b = k.wilayah(p.wilayah_id);
+  const wa = k.wilayah(petani.wilayah_id);
+  const wb = k.wilayah(p.wilayah_id);
+  const a = wa && titikWilayah(wa);
+  const b = wb && titikWilayah(wb);
   return a && b ? Math.round(jarakKm(a, b) * 10) / 10 : null;
 }
 
