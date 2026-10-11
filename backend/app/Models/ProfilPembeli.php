@@ -6,7 +6,12 @@ use App\Enums\JenisUsaha;
 use App\Enums\StatusVerifikasi;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-/** Tabel `profil_pembeli` (kontrak-api.md bagian 2). */
+/**
+ * Tabel `profil_pembeli` (kontrak-api.md bagian 2).
+ *
+ * @property JenisUsaha $jenis_usaha
+ * @property StatusVerifikasi $status_verifikasi
+ */
 class ProfilPembeli extends Model
 {
     protected $table = 'profil_pembeli';

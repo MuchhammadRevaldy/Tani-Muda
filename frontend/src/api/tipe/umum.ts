@@ -41,6 +41,8 @@ export interface ResponsGalat {
     kode: string;
     pesan: string;
     rincian?: Record<string, string[]>;
+    /** Detik sampai boleh mencoba lagi (hanya 429). */
+    coba_lagi_dalam?: number;
   };
 }
 

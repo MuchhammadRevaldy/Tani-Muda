@@ -6,8 +6,8 @@ namespace App\Http\Galat;
  * Kode galat API, status HTTP, dan teksnya (kontrak-api.md bagian 1.4).
  *
  * Teks sama persis dengan frontend/src/teks/galat-api.ts; tes KodeGalatTest memeriksa keduanya
- * tetap sama. Kode logika inti (src/lib/hasil.ts, mis. LUAS_KOSONG) ditambahkan saat rumusnya
- * diport ke app/Domain/Hitung; kode yang tidak tercantum di STATUS berstatus 422.
+ * tetap sama. Teks kode logika inti (src/lib/hasil.ts, mis. LUAS_KOSONG) ada di TEKS_INTI, sama
+ * dengan frontend/src/teks/galat.ts; kode yang tidak tercantum di STATUS berstatus 422.
  */
 final class KodeGalat
 {
@@ -62,6 +62,52 @@ final class KodeGalat
         'GALAT_SERVER' => 'Ada yang tidak beres di server. Coba lagi sebentar lagi',
     ];
 
+    /** Teks kode galat logika inti, sama persis dengan frontend/src/teks/galat.ts. */
+    public const TEKS_INTI = [
+        'UKURAN_KOSONG' => 'Isi ukurannya dulu',
+        'UKURAN_NEGATIF' => 'Ukuran tidak boleh kurang dari nol',
+        'SATUAN_TIDAK_DIKENAL' => 'Satuan ini belum dikenal di wilayahmu. Pakai m² atau hektare',
+        'SATUAN_TIDAK_COCOK' => 'Satuan dosis dan satuan beli tidak cocok',
+        'LUAS_KOSONG' => 'Isi luas lahan dulu',
+        'LUBANG_KOSONG' => 'Isi jumlah lubang tanam dulu',
+        'POLYBAG_KOSONG' => 'Isi jumlah polybag dulu',
+        'VOLUME_KOSONG' => 'Isi volume tandon dulu',
+        'DOSIS_NEGATIF' => 'Dosis tidak boleh kurang dari nol',
+        'KEMASAN_TIDAK_VALID' => 'Ukuran kemasan harus lebih dari nol',
+        'ISI_KEMASAN_KOSONG' => 'Isi kemasan harus lebih dari nol',
+        'HARGA_NEGATIF' => 'Harga tidak boleh kurang dari nol',
+        'JUMLAH_NEGATIF' => 'Jumlah tidak boleh kurang dari nol',
+        'HARGA_JUAL_KOSONG' => 'Isi harga jual dulu',
+        'PANEN_NEGATIF' => 'Perkiraan panen tidak boleh kurang dari nol',
+        'HASIL_KOSONG' => 'Perkiraan hasil panen belum ada di resep',
+        'NAMA_KOSONG' => 'Isi nama mereknya dulu',
+        'NAMA_ITEM_KOSONG' => 'Isi nama item dulu',
+        'PEMBAGIAN_TIDAK_VALID' => 'Jumlah siklus pembagian minimal 1',
+        'HST_TIDAK_VALID' => 'Hari di resep tidak masuk akal',
+        'INTERVAL_TIDAK_VALID' => 'Jarak hari tugas berulang minimal 1',
+        'UMUR_PANEN_TIDAK_VALID' => 'Umur panen minimal 1 hari',
+        'PERSEN_PANEN_JELEK_TIDAK_VALID' => 'Persen panen jelek harus lebih dari 0 dan paling besar 100',
+        'BATAS_UKUR_TIDAK_VALID' => 'Batas bawah harus di bawah batas atas dan di dalam skala ukur',
+        'TUGAS_TIDAK_ADA' => 'Tugas ini tidak ditemukan',
+        'TUGAS_SUDAH_SELESAI' => 'Tugas ini sudah selesai',
+        'TIDAK_BOLEH_DIGESER' => 'Tugas ini tidak bisa ditunda',
+        'TUNDA_DI_LUAR_BATAS' => 'Tugas bisa ditunda 1 sampai 3 hari',
+        'TIDAK_ADA_TIPE' => 'Tidak ada tugas jenis ini di siklus ini',
+        'NILAI_DI_LUAR_SKALA' => 'Angka ini di luar skala alat ukur. Periksa lagi',
+        'JUMLAH_KOSONG' => 'Isi jumlahnya dulu',
+        'HARGA_KOSONG' => 'Isi harga per kg dulu',
+        'MELEBIHI_PESANAN' => 'Jumlah melebihi sisa pesanan',
+        'MELEBIHI_KIRIMAN' => 'Jumlah yang ditolak melebihi jumlah kiriman',
+        'TOLAK_KOSONG' => 'Isi berat yang ditolak dulu',
+        'ALASAN_TIDAK_DIKENAL' => 'Pilih salah satu alasan',
+        'KETERANGAN_WAJIB' => 'Tulis alasannya dulu',
+        'FREKUENSI_TIDAK_VALID' => 'Jadwal kiriman belum benar',
+        'LAHAN_TIDAK_CUKUP' => 'Lahanmu tidak cukup untuk jumlah ini',
+        'RATING_TIDAK_VALID' => 'Pilih nilai 1 sampai 5 bintang dulu',
+        'JADWAL_TERLALU_DEKAT' => 'Panenmu belum sempat untuk jadwal kirim pesanan ini. Cari pesanan lain yang mulai kirimnya lebih lama',
+        'NOMOR_HP_TIDAK_VALID' => 'Nomor HP belum benar. Contoh: 0812 3456 7890',
+    ];
+
     public static function status(string $kode): int
     {
         return self::STATUS[$kode] ?? 422;
@@ -69,6 +115,6 @@ final class KodeGalat
 
     public static function teks(string $kode): string
     {
-        return self::TEKS[$kode] ?? self::TEKS['GALAT_SERVER'];
+        return self::TEKS[$kode] ?? self::TEKS_INTI[$kode] ?? self::TEKS['GALAT_SERVER'];
     }
 }

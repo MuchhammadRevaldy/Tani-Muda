@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Galat\PenerjemahGalat;
+use App\Http\Middleware\PastikanPeran;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -16,6 +17,7 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware): void {
         // Sanctum mode SPA: permintaan dari SANCTUM_STATEFUL_DOMAINS memakai cookie sesi (D-21).
         $middleware->statefulApi();
+        $middleware->alias(['peran' => PastikanPeran::class]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         // Semua galat di /api/* dijawab dengan format kontrak { galat: { kode, pesan, rincian } }.

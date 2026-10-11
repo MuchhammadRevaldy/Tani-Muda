@@ -31,6 +31,10 @@ it('teks galat sama dengan frontend/src/teks/galat-api.ts', function () {
     expect(KodeGalat::TEKS)->toBe(bacaObjekTs('frontend/src/teks/galat-api.ts', 'teksGalatKhususApi'));
 });
 
+it('teks galat logika inti sama dengan frontend/src/teks/galat.ts', function () {
+    expect(KodeGalat::TEKS_INTI)->toBe(bacaObjekTs('frontend/src/teks/galat.ts', 'teksGalat'));
+});
+
 it('status HTTP sama dengan frontend/src/api/galat.ts', function () {
     $frontend = array_map('intval', bacaObjekTs('frontend/src/api/galat.ts', 'STATUS_KHUSUS'));
 

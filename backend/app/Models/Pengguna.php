@@ -17,6 +17,9 @@ use Laravel\Sanctum\HasApiTokens;
 /**
  * Tabel `pengguna` (kontrak-api.md 2.1). Masuk dengan nomor HP dan OTP; tanpa kata sandi dan nama
  * pengguna (D-04). Sesi cookie Sanctum untuk web, token untuk aplikasi React Native kelak (D-21).
+ *
+ * @property Peran|null $peran
+ * @property StatusAkun $status_akun
  */
 class Pengguna extends Authenticatable
 {
@@ -33,6 +36,8 @@ class Pengguna extends Authenticatable
     protected $keyType = 'string';
 
     protected $guarded = ['id', 'dibuat_pada', 'diperbarui_pada'];
+
+    protected $hidden = ['diperbarui_pada'];
 
     /** Tanpa kata sandi (D-04): sesi "ingat saya" tidak dipakai. */
     protected $rememberTokenName = '';

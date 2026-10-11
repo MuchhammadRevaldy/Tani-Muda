@@ -14,6 +14,11 @@ return [
     |
     */
 
+    // Pengirim kode OTP: `log` (lokal saja; arsitektur-backend.md bagian 5). Penyedia SMS menyusul.
+    'otp' => [
+        'driver' => env('OTP_DRIVER', 'log'),
+    ],
+
     'postmark' => [
         'key' => env('POSTMARK_API_KEY'),
     ],

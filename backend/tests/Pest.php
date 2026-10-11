@@ -5,8 +5,11 @@ use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
 
 // Tes fitur memakai basis data MariaDB `tani_muda_uji` (phpunit.xml), dibuat ulang tiap rangkaian.
+// Permintaan membawa asal frontend seperti peramban lewat proxy Vite, sehingga Sanctum memakai
+// sesi cookie (mode SPA, arsitektur-backend.md 5a).
 pest()->extend(TestCase::class)
     ->use(RefreshDatabase::class)
+    ->beforeEach(fn () => $this->withHeaders(['Origin' => 'http://localhost:5173', 'Referer' => 'http://localhost:5173/']))
     ->in('Feature');
 
 pest()->extend(TestCase::class)->in('Unit');

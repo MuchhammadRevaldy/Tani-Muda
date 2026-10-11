@@ -10,7 +10,7 @@ import {
   useKontrolPengembangan,
   useSumberData,
 } from '../penyedia-klien';
-import { klienBelumTersedia, siapkanKlien } from '../sumber';
+import { siapkanKlien } from '../sumber';
 import { useKomoditas, useMintaResep } from './index';
 
 const KOMODITAS = [{ id: 'sawi', nama: 'Sawi hijau', status_resep: 'tersedia' }];
@@ -92,14 +92,15 @@ describe('aturan ulang dan pemilihan sumber data', () => {
     expect(bolehUlang(0, new GalatApi('GALAT_SERVER', 'x'))).toBe(true);
     expect(bolehUlang(2, new Error('jaringan'))).toBe(false);
   });
-  it('sumber http belum tersedia → galat SUMBER_BELUM_TERSEDIA', async () => {
+  it('sumber http tanpa backend terjangkau → galat SUMBER_BELUM_TERSEDIA; kontrol hanya di pengembangan', async () => {
     const s = await siapkanKlien({ VITE_SUMBER_DATA: 'http' });
     expect(s).toMatchObject({ sumber: 'http', kontrol: null });
     await expect(s.klien.akun.ambil()).rejects.toMatchObject({
       kode: 'SUMBER_BELUM_TERSEDIA',
       status: 503,
     });
-    await expect(klienBelumTersedia().lahan.daftar()).rejects.toBeInstanceOf(GalatApi);
+    const dev = await siapkanKlien({ VITE_SUMBER_DATA: 'http', DEV: true });
+    expect(dev.kontrol?.penggunaUji()).toEqual([]);
   });
   // Tes ini sengaja memuat modul klien tiruan secara dinamis dan memakai latensi buatan mode
   // pengembangan (200–400 ms per panggilan), sekitar 2 detik saat mesin sepi. Batas 5 detik bawaan

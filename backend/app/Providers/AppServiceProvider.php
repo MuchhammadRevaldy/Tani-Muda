@@ -2,10 +2,13 @@
 
 namespace App\Providers;
 
+use App\Domain\Otp\PengirimOtp;
+use App\Domain\Otp\PengirimOtpLog;
 use App\Support\Waktu;
 use DateTimeInterface;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\ServiceProvider;
+use RuntimeException;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -14,7 +17,19 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        // Pengirim OTP (arsitektur-backend.md bagian 5). Driver log hanya boleh di lingkungan lokal:
+        // kode tertulis di log dan terbaca lewat /demo/kode-otp.
+        $this->app->bind(PengirimOtp::class, function () {
+            $driver = config('services.otp.driver');
+            if ($driver === 'log') {
+                if (! $this->app->environment('local', 'testing')) {
+                    throw new RuntimeException('OTP_DRIVER=log hanya boleh dipakai saat APP_ENV=local.');
+                }
+
+                return new PengirimOtpLog;
+            }
+            throw new RuntimeException("OTP_DRIVER tidak dikenal: {$driver}");
+        });
     }
 
     /**

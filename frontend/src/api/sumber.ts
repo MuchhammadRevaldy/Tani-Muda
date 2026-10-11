@@ -1,12 +1,10 @@
 /**
  * Pemilihan implementasi klien API dari variabel lingkungan publik (D-20):
  * - `VITE_SUMBER_DATA=tiruan` (bawaan): klien tiruan dengan data contoh;
- * - `VITE_SUMBER_DATA=http`: klien HTTP ke backend Laravel (Tahap 6; sekarang belum tersedia).
+ * - `VITE_SUMBER_DATA=http`: klien HTTP ke backend Laravel (T6.01), lewat proxy Vite.
  * Klien tiruan dimuat dinamis supaya data contoh tidak ikut bundel bila memakai HTTP.
  */
 import { bacaTampilkanResepContoh } from '../lib/pengaturan';
-import { teksUntukGalat } from '../teks/galat-api';
-import { GalatApi } from './galat';
 import type { KlienApi, KontrolPengembangan, SumberData } from './klien';
 
 export interface LingkunganPublik {
@@ -28,17 +26,18 @@ export function bacaSumberData(nilai: string | undefined): SumberData {
   return nilai === 'http' ? 'http' : 'tiruan';
 }
 
-/** Klien yang setiap metodenya gagal dengan galat jelas (sumber HTTP sebelum Tahap 6). */
-export function klienBelumTersedia(): KlienApi {
-  const gagal = () =>
-    Promise.reject(new GalatApi('SUMBER_BELUM_TERSEDIA', teksUntukGalat('SUMBER_BELUM_TERSEDIA')));
-  const fitur = new Proxy({}, { get: () => gagal });
-  return new Proxy({} as KlienApi, { get: () => fitur });
-}
-
 export async function siapkanKlien(env: LingkunganPublik): Promise<KlienSiap> {
   const sumber = bacaSumberData(env.VITE_SUMBER_DATA);
-  if (sumber === 'http') return { klien: klienBelumTersedia(), sumber, kontrol: null };
+  // Kontrol demo (pemilih akun, kode uji, atur ulang) di pengembangan dan build demo (D-48).
+  const demo = env.DEV === true || env.MODE === 'demo';
+  if (sumber === 'http') {
+    const { buatKlienHttp } = await import('./http/klien-http');
+    const h = buatKlienHttp({ demo });
+    if (!demo) return { klien: h.klien, sumber, kontrol: null };
+    // Endpoint demo hanya ada di backend lokal; bila tidak terjangkau, pemilih akun kosong.
+    await h.muatDemo().catch(() => undefined);
+    return { klien: h.klien, sumber, kontrol: h.kontrol };
+  }
   const [{ buatKlienTiruan }, { localStorageAman }] = await Promise.all([
     import('./tiruan/klien-tiruan'),
     import('./tiruan/penyimpanan'),
@@ -48,7 +47,5 @@ export async function siapkanKlien(env: LingkunganPublik): Promise<KlienSiap> {
     kv: localStorageAman(),
     latensiMs: env.DEV ? [200, 400] : [0, 0],
   });
-  // Kontrol demo (pemilih akun, kode uji, atur ulang) di pengembangan dan build demo (D-48).
-  const demo = env.DEV === true || env.MODE === 'demo';
   return { klien: t.klien, sumber, kontrol: demo ? t.kontrol : null };
 }

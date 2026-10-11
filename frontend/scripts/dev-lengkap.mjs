@@ -10,8 +10,8 @@
  * - `--jadwal` ikut menjalankan `schedule:work`; `--antrean` ikut menjalankan `queue:work` hemat
  *   memori. Keduanya bawaan mati, karena di lokal antrean memakai `sync`.
  *
- * Selama Tahap 5 frontend tetap memakai data tiruan (VITE_SUMBER_DATA=tiruan, D-49), jadi API bisa
- * dicoba lewat http://localhost:5173/api/v1/kesehatan tanpa mengubah perilaku aplikasi.
+ * Frontend memakai klien HTTP ke API ini (VITE_SUMBER_DATA=http, D-57) dengan resep contoh tampil;
+ * `--tiruan` kembali ke data tiruan. Jalan mundur tanpa backend tetap `npm run demo` (data tiruan).
  */
 import { spawn, spawnSync } from 'node:child_process';
 import { existsSync } from 'node:fs';
@@ -92,12 +92,15 @@ if (argumen.includes('--jadwal')) jalankan('jadwal', ['schedule:work', '--no-ans
 if (argumen.includes('--antrean'))
   jalankan('antrean', ['queue:work', '--memory=128', '--sleep=3', '--no-ansi']);
 
-// 3. Vite di proses ini.
+// 3. Vite di proses ini. Variabel proses mengalahkan isi .env frontend.
+process.env.VITE_SUMBER_DATA = argumen.includes('--tiruan') ? 'tiruan' : 'http';
+process.env.VITE_TAMPILKAN_RESEP_CONTOH ??= 'true';
 const { createServer } = await import('vite');
 const server = await createServer();
 await server.listen();
 console.log(
   '\n  API Laravel: http://127.0.0.1:8000 (lewat proxy: http://localhost:5173/api/v1/kesehatan)',
 );
+console.log(`  Sumber data frontend: ${process.env.VITE_SUMBER_DATA}`);
 server.printUrls();
 server.bindCLIShortcuts({ print: true });

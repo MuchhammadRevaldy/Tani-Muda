@@ -27,6 +27,9 @@ abstract class Model extends Eloquent
 
     protected $guarded = ['id', 'dibuat_pada', 'diperbarui_pada'];
 
+    /** `diperbarui_pada` khusus server; tidak ada di bentuk data kontrak. */
+    protected $hidden = ['diperbarui_pada'];
+
     protected function serializeDate(DateTimeInterface $date): string
     {
         return Waktu::iso($date);
