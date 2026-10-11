@@ -11,6 +11,9 @@ pest()->extend(TestCase::class)
 
 pest()->extend(TestCase::class)->in('Unit');
 
+// Tes serentak menjalankan proses PHP terpisah, jadi datanya harus commit (tanpa RefreshDatabase).
+pest()->extend(TestCase::class)->in('Serentak');
+
 /** Jalur dari akar repositori (backend/ ada satu tingkat di bawahnya). */
 function jalurRepo(string $relatif): string
 {
@@ -28,7 +31,7 @@ function isiDataDasar(): array
 {
     $db = DB::connection();
     $db->table('wilayah')->insert(['id' => '32.17.01.2003', 'desa' => 'Lembang', 'kecamatan' => 'Lembang',
-        'kabupaten' => 'Kabupaten Bandung Barat', 'provinsi' => 'Jawa Barat', 'lintang' => -6.8117, 'bujur' => 107.6175]);
+        'kabupaten' => 'Kabupaten Bandung Barat', 'provinsi' => 'Jawa Barat', 'lintang' => -6.8186, 'bujur' => 107.6198]);
     $db->table('pengguna')->insert([
         ['id' => 'petani-uji', 'nomor_hp' => '+6281200000001', 'nama' => 'Petani Uji', 'peran' => 'petani', 'wilayah_id' => '32.17.01.2003'],
         ['id' => 'pembeli-uji', 'nomor_hp' => '+6281300000001', 'nama' => 'Pembeli Uji', 'peran' => 'pembeli', 'wilayah_id' => '32.17.01.2003'],

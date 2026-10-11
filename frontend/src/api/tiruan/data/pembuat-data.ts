@@ -38,7 +38,7 @@ import { resepDariDomain, tugasDariDomain } from '../../peta';
 import type * as A from '../../tipe';
 import type { DataContoh, DataKebun, DataPesanan, WilayahContoh } from './jenis-data';
 
-export const VERSI_DATA_CONTOH = 9;
+export const VERSI_DATA_CONTOH = 10;
 /** Hari acuan saat menghitung; semua tanggal ditulis relatif terhadapnya. */
 const HARI_DASAR = '2026-10-05';
 
@@ -49,16 +49,18 @@ const jRel = (n: number) => `J${n >= 0 ? '+' : ''}${n}`;
 const rel = (tanggal: string) => h(selisihHari(HARI_DASAR, tanggal));
 const tgl = (n: number) => tambahHari(HARI_DASAR, n);
 
-// ---------------------------------------------------------------- wilayah (D-27)
+// ---------------------------------------------------------------- wilayah (D-27, D-54)
+// Kode dan nama dicocokkan dengan dataset resmi shared/wilayah/wilayah.sql; titik tengah sama dengan
+// shared/wilayah/titik-tengah.json (perkiraan). Keduanya dites di data.test.ts.
 const W = {
   lembang: '32.17.01.2003',
   sukajaya: '32.17.01.2013',
-  gudangkahuripan: '32.17.01.2001',
-  cikahuripan: '32.17.01.2002',
-  jayagiri: '32.17.01.2004',
-  kayuambon: '32.17.01.2005',
-  ledeng: '32.73.03.1004',
-  batununggal: '32.73.10.1001',
+  gudangkahuripan: '32.17.01.2007',
+  cikahuripan: '32.17.01.2005',
+  jayagiri: '32.17.01.2008',
+  kayuambon: '32.17.01.2002',
+  ledeng: '32.73.08.1003',
+  batununggal: '32.73.21.1001',
 } as const;
 
 const wilayahLembang = (
@@ -66,7 +68,6 @@ const wilayahLembang = (
   desa: string,
   lintang: number,
   bujur: number,
-  kode_terverifikasi: boolean,
 ): WilayahContoh => ({
   id,
   desa,
@@ -75,25 +76,25 @@ const wilayahLembang = (
   provinsi: 'Jawa Barat',
   lintang,
   bujur,
-  kode_terverifikasi,
+  kode_terverifikasi: true,
 });
 
 const WILAYAH: WilayahContoh[] = [
-  wilayahLembang(W.lembang, 'Lembang', -6.8117, 107.6175, true),
-  wilayahLembang(W.sukajaya, 'Sukajaya', -6.793, 107.639, true),
-  wilayahLembang(W.gudangkahuripan, 'Gudangkahuripan', -6.817, 107.626, false),
-  wilayahLembang(W.cikahuripan, 'Cikahuripan', -6.804, 107.633, false),
-  wilayahLembang(W.jayagiri, 'Jayagiri', -6.826, 107.608, false),
-  wilayahLembang(W.kayuambon, 'Kayuambon', -6.82, 107.621, false),
+  wilayahLembang(W.lembang, 'Lembang', -6.8186, 107.6198),
+  wilayahLembang(W.sukajaya, 'Sukajaya', -6.8111, 107.5988),
+  wilayahLembang(W.gudangkahuripan, 'Gudangkahuripan', -6.8334, 107.6043),
+  wilayahLembang(W.cikahuripan, 'Cikahuripan', -6.8168, 107.6042),
+  wilayahLembang(W.jayagiri, 'Jayagiri', -6.8102, 107.6178),
+  wilayahLembang(W.kayuambon, 'Kayuambon', -6.82, 107.625),
   {
     id: W.ledeng,
     desa: 'Ledeng',
     kecamatan: 'Cidadap',
     kabupaten: 'Kota Bandung',
     provinsi: 'Jawa Barat',
-    lintang: -6.861,
-    bujur: 107.597,
-    kode_terverifikasi: false,
+    lintang: -6.8627,
+    bujur: 107.5994,
+    kode_terverifikasi: true,
   },
   {
     id: W.batununggal,
@@ -101,9 +102,9 @@ const WILAYAH: WilayahContoh[] = [
     kecamatan: 'Bandung Kidul',
     kabupaten: 'Kota Bandung',
     provinsi: 'Jawa Barat',
-    lintang: -6.945,
-    bujur: 107.628,
-    kode_terverifikasi: false,
+    lintang: -6.953,
+    bujur: 107.6381,
+    kode_terverifikasi: true,
   },
 ];
 
@@ -696,8 +697,8 @@ function buatKebun(): DataKebun {
         satuan_asli: 'm2',
         nilai_asli: 180,
         wilayah_id: W.lembang,
-        lintang: -6.8121,
-        bujur: 107.618,
+        lintang: -6.819,
+        bujur: 107.6203,
         kapasitas_lubang: null,
       },
       {
@@ -709,8 +710,8 @@ function buatKebun(): DataKebun {
         satuan_asli: 'm2',
         nilai_asli: 12,
         wilayah_id: W.lembang,
-        lintang: -6.8119,
-        bujur: 107.6178,
+        lintang: -6.8188,
+        bujur: 107.6201,
         kapasitas_lubang: 200,
       },
       {
@@ -722,8 +723,8 @@ function buatKebun(): DataKebun {
         satuan_asli: 'ru',
         nilai_asli: 72,
         wilayah_id: W.sukajaya,
-        lintang: -6.7935,
-        bujur: 107.6395,
+        lintang: -6.8116,
+        bujur: 107.5993,
         kapasitas_lubang: null,
       },
       {
@@ -735,8 +736,8 @@ function buatKebun(): DataKebun {
         satuan_asli: 'm2',
         nilai_asli: 50,
         wilayah_id: W.jayagiri,
-        lintang: -6.8262,
-        bujur: 107.6085,
+        lintang: -6.8104,
+        bujur: 107.6183,
         kapasitas_lubang: null,
       },
     ],

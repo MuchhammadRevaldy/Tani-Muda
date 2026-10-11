@@ -1350,7 +1350,7 @@ export function ujiKontrak(nama: string, siapkan: PenyiapLingkungan): void {
           tanggal_mulai: '2026-10-20',
           harga_per_kg: 5000,
           standar_kualitas: ['Segar'],
-          wilayah_id: '32.17.01.2002',
+          wilayah_id: '32.17.01.2005',
           alamat_antar: 'Jl. Contoh 2',
         };
         await harapGalat(

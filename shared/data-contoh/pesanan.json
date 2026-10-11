@@ -18,7 +18,7 @@
         "Tidak berlubang lebih dari 3 lubang per daun",
         "Bersih dari tanah"
       ],
-      "wilayah_id": "32.17.01.2002",
+      "wilayah_id": "32.17.01.2005",
       "alamat_antar": "Dapur Katering Bu Ratna, Jl. Cikahuripan No. 12 (alamat contoh)",
       "patokan": "Pagar hijau di samping masjid",
       "batas_jam_antar": "07:00",
@@ -47,7 +47,7 @@
         "Daun segar, tidak menguning",
         "Diikat per 250 g"
       ],
-      "wilayah_id": "32.17.01.2005",
+      "wilayah_id": "32.17.01.2002",
       "alamat_antar": "Warung Nasi Bu Imas, Jl. Kayu Ambon (alamat contoh)",
       "patokan": null,
       "batas_jam_antar": "09:00",
@@ -76,7 +76,7 @@
         "Daun segar, tidak menguning",
         "Diikat per 250 g"
       ],
-      "wilayah_id": "32.73.03.1004",
+      "wilayah_id": "32.73.08.1003",
       "alamat_antar": "Kafe Daun Pagi, Jl. Ledeng (alamat contoh)",
       "patokan": "Masuk lewat pintu dapur di belakang",
       "batas_jam_antar": "08:00",
@@ -134,7 +134,7 @@
         "Batang muda dan renyah",
         "Diikat per 250 g"
       ],
-      "wilayah_id": "32.73.10.1001",
+      "wilayah_id": "32.73.21.1001",
       "alamat_antar": "Dapur Katering Sehat Lestari, Batununggal (alamat contoh)",
       "patokan": null,
       "batas_jam_antar": "06:30",
@@ -164,7 +164,7 @@
         "Tidak berlubang lebih dari 3 lubang per daun",
         "Bersih dari tanah"
       ],
-      "wilayah_id": "32.17.01.2005",
+      "wilayah_id": "32.17.01.2002",
       "alamat_antar": "Warung Nasi Bu Imas, Jl. Kayu Ambon (alamat contoh)",
       "patokan": null,
       "batas_jam_antar": "09:00",
@@ -807,7 +807,7 @@
       "pengguna_id": "petani-yogi",
       "komoditas_id": "cabai",
       "metode_id": "bedengan",
-      "wilayah_id": "32.17.01.2001",
+      "wilayah_id": "32.17.01.2007",
       "dibuat_pada": "H-9T19:30"
     }
   ]

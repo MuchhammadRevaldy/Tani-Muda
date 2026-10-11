@@ -1,0 +1,3 @@
+# Salinan apa adanya dari sumber: jangan ubah akhir baris supaya checksum tetap sama.
+wilayah.sql -text
+LICENSE -text

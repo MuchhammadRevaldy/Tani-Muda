@@ -80,9 +80,10 @@ Selama Tahap 5 aplikasi tetap memakai data tiruan (`VITE_SUMBER_DATA=tiruan`, D-
 | --- | --- | --- |
 | `backend/` | `composer uji` | Tes Pest. Tes fitur memakai `tani_muda_uji` (bukan SQLite, bukan basis data pengembangan) |
 | `backend/` | `composer rapi:cek` | Laravel Pint tanpa mengubah berkas (`composer rapi` untuk merapikan) |
+| `backend/` | `composer analisis` | Larastan (PHPStan) level 5 dengan `phpVersion: 80300`: menolak kode yang hanya jalan di PHP 8.4+, karena laptop memakai PHP 8.5 tetapi VPS PHP 8.3 (D-53, D-54). Bagian yang diloloskan Larastan (`new Kelas()->metode()` tanpa kurung, fungsi baru 8.4/8.5) diperiksa `tests/Unit/SintaksPhp83Test.php` di `composer uji`. Konfigurasi di `backend/phpstan.neon`; naikkan `level` bila kode sudah lolos level berikutnya |
 | `frontend/` | `npm run lint`, `npm run typecheck`, `npm test`, `npm run build`, `npm run build:demo` | Pemeriksaan frontend |
 
-Tes Pest dijalankan tanpa `--parallel` agar hemat memori; saat tes backend berjalan, Vite tidak perlu menyala.
+Tes Pest dijalankan tanpa `--parallel` agar hemat memori; saat tes backend berjalan, Vite tidak perlu menyala. Ketiganya (`composer uji`, `composer rapi:cek`, `composer analisis`) dijalankan di pemeriksaan penutup setiap gelombang. Tes di `tests/Serentak` menjalankan proses PHP terpisah dan memakai PHP yang sama dengan yang menjalankan Pest.
 
 ## 5. Mengulang data
 
@@ -91,7 +92,7 @@ cd backend
 php artisan migrate:fresh --seed
 ```
 
-Menghapus semua tabel di `tani_muda` lalu membuatnya lagi. Seeder data contoh (T5.08) ditulis setelah kode wilayah di `docs/cek-wilayah.md` dicocokkan; sampai saat itu basis data hanya berisi struktur tabel.
+Menghapus semua tabel di `tani_muda` lalu membuatnya lagi, dan mengisi seluruh 83.762 desa/kelurahan dari `shared/wilayah/wilayah.sql` (`WilayahSeeder`, beberapa detik). Seeder data contoh (pengguna uji, pesanan, dan sebagainya; T5.08) menyusul setelah D-55 diputuskan.
 
 ## 6. Hemat memori (laptop dengan sekitar 2 GB RAM bebas)
 
@@ -111,7 +112,8 @@ Paling hemat: jalankan langsung `node scripts/dev-lengkap.mjs` di `frontend/`, t
 
 | Gejala | Penyebab dan jalan keluar |
 | --- | --- |
-| `php -v` masih 8.1 | `C:\xampp\php` masih di PATH sistem, atau terminal belum dibuka ulang. Lihat bagian 1. |
+| `php -v` masih 8.1 | `C:\xampp\php` masih di PATH sistem, atau terminal belum dibuka ulang. Terminal di dalam VS Code mewarisi PATH saat VS Code dibuka, jadi tutup dan buka ulang VS Code setelah mengubah PATH. Lihat bagian 1. |
+| Composer gagal di `post-autoload-dump` dengan "require a PHP version >= 8.3.0" | Composer berjalan dengan PHP lama (lihat baris di atas). Paketnya sudah terpasang; jalankan ulang `composer dump-autoload -n` dengan PHP 8.3+. |
 | `php -m` tidak memuat `pdo_mysql` | Folder PHP belum punya `php.ini`. Salin `php.ini-development` menjadi `php.ini`, isi `extension_dir` dengan jalur lengkap folder `ext`, aktifkan ekstensi di `arsitektur-backend.md` 2a. |
 | `npm run dev` berkata basis data belum menyala | Modul MySQL XAMPP belum dinyalakan, atau port 3306 dipakai program lain (mis. MySQL Laragon). |
 | Tes Pest gagal "Unknown database 'tani_muda_uji'" | Basis data uji belum dibuat (bagian 2 langkah 2). |

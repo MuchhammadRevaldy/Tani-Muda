@@ -1,0 +1,23 @@
+{
+  "keterangan": "Titik tengah PERKIRAAN untuk desa pilot (16 desa Kecamatan Lembang) dan kelurahan Kota Bandung yang dipakai data contoh (D-54). Dipakai seeder wilayah dan harus sama dengan shared/data-contoh/wilayah.json (dites). Desa lain di dataset tidak punya koordinat dan belum tersedia di pilot. Sumber: kantor_desa_osm = titik kantor desa di OpenStreetMap; fitur_osm = titik fitur OpenStreetMap yang namanya menyebut desa itu; batas_wilayah_osm = titik tengah batas kelurahan di OpenStreetMap; perkiraan_kasar = tidak ditemukan di OpenStreetMap, diperkirakan dari letak desa tetangga (meleset sampai beberapa km, perlu dicek di peta). Data OpenStreetMap (c) kontributor OpenStreetMap, lisensi ODbL; diambil lewat Nominatim 12 Oktober 2026, dibulatkan 4 desimal.",
+  "titik": [
+    { "id": "32.17.01.2001", "desa": "Pagerwangi", "lintang": -6.8297, "bujur": 107.6326, "sumber": "kantor_desa_osm" },
+    { "id": "32.17.01.2002", "desa": "Kayuambon", "lintang": -6.82, "bujur": 107.625, "sumber": "perkiraan_kasar" },
+    { "id": "32.17.01.2003", "desa": "Lembang", "lintang": -6.8186, "bujur": 107.6198, "sumber": "kantor_desa_osm" },
+    { "id": "32.17.01.2004", "desa": "Cikidang", "lintang": -6.8, "bujur": 107.655, "sumber": "perkiraan_kasar" },
+    { "id": "32.17.01.2005", "desa": "Cikahuripan", "lintang": -6.8168, "bujur": 107.6042, "sumber": "kantor_desa_osm" },
+    { "id": "32.17.01.2006", "desa": "Cikole", "lintang": -6.7972, "bujur": 107.6507, "sumber": "fitur_osm" },
+    { "id": "32.17.01.2007", "desa": "Gudangkahuripan", "lintang": -6.8334, "bujur": 107.6043, "sumber": "kantor_desa_osm" },
+    { "id": "32.17.01.2008", "desa": "Jayagiri", "lintang": -6.8102, "bujur": 107.6178, "sumber": "kantor_desa_osm" },
+    { "id": "32.17.01.2009", "desa": "Cibodas", "lintang": -6.8254, "bujur": 107.6866, "sumber": "kantor_desa_osm" },
+    { "id": "32.17.01.2010", "desa": "Langensari", "lintang": -6.8284, "bujur": 107.6439, "sumber": "kantor_desa_osm" },
+    { "id": "32.17.01.2011", "desa": "Mekarwangi", "lintang": -6.835, "bujur": 107.665, "sumber": "perkiraan_kasar" },
+    { "id": "32.17.01.2012", "desa": "Cibogo", "lintang": -6.8124, "bujur": 107.635, "sumber": "kantor_desa_osm" },
+    { "id": "32.17.01.2013", "desa": "Sukajaya", "lintang": -6.8111, "bujur": 107.5988, "sumber": "kantor_desa_osm" },
+    { "id": "32.17.01.2014", "desa": "Suntenjaya", "lintang": -6.8251, "bujur": 107.704, "sumber": "kantor_desa_osm" },
+    { "id": "32.17.01.2015", "desa": "Wangunharja", "lintang": -6.8159, "bujur": 107.6624, "sumber": "kantor_desa_osm" },
+    { "id": "32.17.01.2016", "desa": "Wangunsari", "lintang": -6.8, "bujur": 107.63, "sumber": "perkiraan_kasar" },
+    { "id": "32.73.08.1003", "desa": "Ledeng", "lintang": -6.8627, "bujur": 107.5994, "sumber": "batas_wilayah_osm" },
+    { "id": "32.73.21.1001", "desa": "Batununggal", "lintang": -6.953, "bujur": 107.6381, "sumber": "batas_wilayah_osm" }
+  ]
+}

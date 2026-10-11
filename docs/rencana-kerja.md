@@ -1007,7 +1007,7 @@ Aturan tahap:
 
 ### Gelombang Tahap 5 (D-49)
 
-Setiap gelombang ditutup dengan pemeriksaan frontend (lint, typecheck, test, build, build:demo, 5 putaran test acak) dan backend (Pest, Pint), satu commit lokal, lalu berhenti menunggu tanggapan.
+Setiap gelombang ditutup dengan pemeriksaan frontend (lint, typecheck, test, build, build:demo, 5 putaran test acak) dan backend (Pest, Pint, Larastan `composer analisis`; D-54), satu commit lokal, lalu berhenti menunggu tanggapan.
 
 | Gelombang | Prioritas | Isi | Tugas |
 | --- | --- | --- | --- |
@@ -1163,8 +1163,9 @@ Selama Tahap 5, frontend tetap memakai `VITE_SUMBER_DATA=tiruan` sebagai bawaan.
   - seeder produksi tanpa resep `contoh` (tes);
   - semua kode wilayah sudah dicocokkan dengan data resmi Kemendagri, bukan situs ensiklopedia (D-36).
 - **Prasyarat:** T5.07, T5.01.
+- **Catatan (12 Okt 2026, D-54 dan D-56):** Kode wilayah sudah dicocokkan, dan tes data contoh membandingkannya dengan dataset resmi `shared/wilayah/wilayah.sql`. Seeder wilayah selesai: `WilayahSeeder` mengimpor seluruh 83.762 desa/kelurahan, dengan titik tengah perkiraan hanya untuk desa pilot; dipanggil `DatabaseSeeder` (juga produksi). **Seeder data contoh belum ditulis**: data pesanan contoh menunggu keputusan model sisa per kiriman (D-55).
 - **Catatan (12 Okt 2026, D-53):** Data hasil seeder wajib lolos `InvarianPesanan::periksa()` dan aturan hapus `RESTRICT`.
-- **Catatan (11 Okt 2026):** Ditahan sampai pemilik produk mencocokkan kode wilayah di `docs/cek-wilayah.md` dengan data Kemendagri (tanggapan D-51). `DatabaseSeeder` sementara kosong.
+- **Catatan (11 Okt 2026):** Ditahan sampai pemilik produk mencocokkan kode wilayah di `docs/cek-wilayah.md` dengan data Kemendagri (tanggapan D-51). Selesai 12 Oktober (D-54).
 
 ### [ ] T5.09 Masuk dengan nomor HP dan OTP (Sanctum) **[DEMO]**
 - **Tujuan:** Endpoint OTP kirim/verifikasi, keluar, dan akun, sesuai `arsitektur-backend.md` bagian 5:
@@ -1267,7 +1268,8 @@ Selama Tahap 5, frontend tetap memakai `VITE_SUMBER_DATA=tiruan` sebagai bawaan.
 - **Selesai bila:**
   - semua operasi uang lewat antarmuka;
   - `pembayaran` hanya ditulis layanan server;
-  - permintaan ganda dengan kunci sama tidak membayar dua kali, termasuk **dua permintaan serentak**: baris `kunci_idempoten` di-insert sebelum operasi uang dalam transaksi yang sama (D-53);
+  - permintaan ganda dengan kunci sama tidak membayar dua kali, termasuk **dua permintaan serentak**: semua operasi uang lewat `Idempotensi::jalankan` (baris `kunci_idempoten` di-insert pertama dalam transaksi operasi uang, respons disimpan sebelum commit, tanpa `BENTROK`; D-54). Tes dasarnya sudah ada (`tests/Serentak/IdempotensiSerentakTest.php`, `tests/Feature/IdempotensiTest.php`); endpoint di gelombang 5.5 ditambah tes serentak sendiri;
+  - baris pembayaran `gagal` tetap tercatat walau transaksi operasi di-rollback (D-54);
   - saldo uang muka tidak pernah negatif;
   - `InvarianPesanan::periksa()` kosong setelah setiap operasi uang di tes (D-53);
   - tes: tahan lalu cairkan, kembalikan, cairkan melebihi saldo ditolak.

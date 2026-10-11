@@ -14,6 +14,7 @@ class Wilayah extends Model
         return [
             'lintang' => 'float',
             'bujur' => 'float',
+            'koordinat_perkiraan' => 'boolean',
             'kode_terverifikasi' => 'boolean',
         ];
     }

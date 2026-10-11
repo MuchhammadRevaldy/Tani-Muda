@@ -33,8 +33,12 @@ return new class extends Migration
             $t->string('kecamatan');
             $t->string('kabupaten');
             $t->string('provinsi');
-            $t->decimal('lintang', 9, 6);
-            $t->decimal('bujur', 9, 6);
+            // Titik tengah desa, dasar jarak (D-06). Kosong untuk desa di luar pilot: desa itu belum
+            // bisa dipilih sebagai desa petani atau titik antar (D-56).
+            $t->decimal('lintang', 9, 6)->nullable();
+            $t->decimal('bujur', 9, 6)->nullable();
+            // Titik tengah hasil perkiraan (shared/wilayah/titik-tengah.json, D-54); tidak dikirim ke klien.
+            $t->boolean('koordinat_perkiraan')->default(false);
             // Kode sudah dicocokkan dengan data resmi Kemendagri (D-36); tidak dikirim ke klien.
             $t->boolean('kode_terverifikasi')->default(false);
             Skema::waktu($t);

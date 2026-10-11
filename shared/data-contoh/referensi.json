@@ -207,32 +207,12 @@
       "nilai_m2": 14
     },
     {
-      "wilayah_id": "32.17.01.2001",
+      "wilayah_id": "32.17.01.2007",
       "satuan": "ru",
       "nilai_m2": 14
     },
     {
-      "wilayah_id": "32.17.01.2001",
-      "satuan": "bata",
-      "nilai_m2": 14
-    },
-    {
-      "wilayah_id": "32.17.01.2002",
-      "satuan": "ru",
-      "nilai_m2": 14
-    },
-    {
-      "wilayah_id": "32.17.01.2002",
-      "satuan": "bata",
-      "nilai_m2": 14
-    },
-    {
-      "wilayah_id": "32.17.01.2004",
-      "satuan": "ru",
-      "nilai_m2": 14
-    },
-    {
-      "wilayah_id": "32.17.01.2004",
+      "wilayah_id": "32.17.01.2007",
       "satuan": "bata",
       "nilai_m2": 14
     },
@@ -247,22 +227,42 @@
       "nilai_m2": 14
     },
     {
-      "wilayah_id": "32.73.03.1004",
+      "wilayah_id": "32.17.01.2008",
       "satuan": "ru",
       "nilai_m2": 14
     },
     {
-      "wilayah_id": "32.73.03.1004",
+      "wilayah_id": "32.17.01.2008",
       "satuan": "bata",
       "nilai_m2": 14
     },
     {
-      "wilayah_id": "32.73.10.1001",
+      "wilayah_id": "32.17.01.2002",
       "satuan": "ru",
       "nilai_m2": 14
     },
     {
-      "wilayah_id": "32.73.10.1001",
+      "wilayah_id": "32.17.01.2002",
+      "satuan": "bata",
+      "nilai_m2": 14
+    },
+    {
+      "wilayah_id": "32.73.08.1003",
+      "satuan": "ru",
+      "nilai_m2": 14
+    },
+    {
+      "wilayah_id": "32.73.08.1003",
+      "satuan": "bata",
+      "nilai_m2": 14
+    },
+    {
+      "wilayah_id": "32.73.21.1001",
+      "satuan": "ru",
+      "nilai_m2": 14
+    },
+    {
+      "wilayah_id": "32.73.21.1001",
       "satuan": "bata",
       "nilai_m2": 14
     }
@@ -1663,7 +1663,7 @@
       "id": "promo-2",
       "pemasang": "Kios Tani Mekar",
       "isi": "Mulsa plastik hitam perak 1 roll, hemat Rp20.000.",
-      "wilayah_id": "32.17.01.2005",
+      "wilayah_id": "32.17.01.2002",
       "jarak_km": 3.5,
       "berlaku_mulai": "H-5",
       "berlaku_sampai": "H+26"
@@ -1672,7 +1672,7 @@
       "id": "promo-3",
       "pemasang": "Toko Hidro Lembang",
       "isi": "Paket rockwool dan netpot untuk 200 lubang, hemat 10%.",
-      "wilayah_id": "32.17.01.2001",
+      "wilayah_id": "32.17.01.2007",
       "jarak_km": 5,
       "berlaku_mulai": "H-2",
       "berlaku_sampai": "H+15"
@@ -1681,7 +1681,7 @@
       "id": "promo-4",
       "pemasang": "Kios Pupuk Resmi Cisarua",
       "isi": "Pupuk organik granul 40 kg, gratis antar ke sawah.",
-      "wilayah_id": "32.17.01.2004",
+      "wilayah_id": "32.17.01.2008",
       "jarak_km": 6,
       "berlaku_mulai": "H-5",
       "berlaku_sampai": "H+26"

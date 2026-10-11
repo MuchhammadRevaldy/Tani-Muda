@@ -82,7 +82,7 @@ it('cast mengikuti kontrak: enum, angka desimal, uang bulat, tanggal tanpa jam',
         ->and($json['harga_jual'])->toBe(6000)
         ->and($json['tanggal_tanam'])->toBe('2026-10-01')
         ->and(Pengiriman::findOrFail('kiriman-uji')->status)->toBe(StatusPengiriman::Terjadwal)
-        ->and(Wilayah::findOrFail('32.17.01.2003')->toArray()['lintang'])->toBe(-6.8117);
+        ->and(Wilayah::findOrFail('32.17.01.2003')->toArray()['lintang'])->toBe(-6.8186);
 });
 
 it('waktu disimpan UTC dan dikirim sebagai ISO 8601 `…000Z`', function () {

@@ -544,6 +544,67 @@ Ditetapkan pemilik produk 12 Oktober 2026 (tanggapan D-52); dikerjakan pada hari
 - **Commit `c7cf6a8`** dibuat asisten lain atas permintaan pemilik produk; boleh digabung saat gelombang 5.2 ditutup.
 - Berdampak ke: T5.04–T5.08, T5.15; `kontrak-api.md` 2.6; `arsitektur-backend.md` 2a, 7, 10, 17.
 
+## D-54. Tanggapan D-53: kunci idempoten tanpa BENTROK, Larastan, kode wilayah resmi
+Ditetapkan pemilik produk 12 Oktober 2026 (tanggapan D-53); dikerjakan pada hari yang sama, kecuali seeder data contoh T5.08 yang menunggu D-55.
+- **`RESTRICT` tambahan untuk `pengeluaran`, `catatan_petani`, `berkas`: disetujui.**
+- **Kunci idempoten tanpa status "sedang berjalan" dan tanpa `BENTROK`** (mengganti butir D-53 dan tafsiran 409 di arsitektur bagian 10):
+  - baris `kunci_idempoten` di-insert sebagai pernyataan **pertama** di transaksi yang sama dengan operasi uang, dan responsnya disimpan di transaksi itu sebelum commit;
+  - permintaan serentak dengan kunci sama menunggu kunci unik, lalu membaca respons tersimpan (baca terkunci, jadi selalu versi terbaru yang sudah commit);
+  - bila transaksi pertama gagal, barisnya ikut di-rollback, jadi tidak ada kunci yatim dan permintaan bisa diulang dengan kunci yang sama.
+
+  Dikerjakan sekarang sebagai `backend/app/Domain/Idempotensi/Idempotensi.php`, supaya tesnya sudah ada sebelum gelombang 5.5:
+  - (a) `tests/Serentak/IdempotensiSerentakTest.php`: dua proses PHP dengan koneksi masing-masing. Dua permintaan serentak dengan kunci sama hanya membayar sekali dan menerima respons yang sama. Bila permintaan pertama gagal, permintaan yang menunggu menjalankan operasinya sendiri. Tes memeriksa bahwa kedua proses benar-benar tumpang tindih. Versi "cek dulu baru insert" dicoba sementara dan membuat tes (a) gagal, jadi tes ini memang menangkap balapan.
+  - (b) `tests/Feature/IdempotensiTest.php`: permintaan yang gagal di tengah transaksi bisa diulang dengan kunci sama; operasi tidak dijalankan lagi untuk kunci yang sudah berhasil.
+
+  Sama dengan klien tiruan (`Konteks.idempoten`): galat tidak disimpan, jadi kunci bisa dipakai ulang. **Catatan untuk gelombang 5.5:** di klien tiruan, `bayar-uang-muka` dengan simulasi gagal mencatat baris pembayaran `gagal` lalu melempar `PEMBAYARAN_GAGAL`, dan baris itu tetap ada (tidak ada rollback di klien tiruan). Di backend, baris itu akan ikut di-rollback. Rencana: catat baris `gagal` di transaksi terpisah setelah rollback, sehingga kunci tetap bisa dipakai ulang dan riwayat gagal tetap tercatat (tes kontrak "baris gagal tetap tercatat").
+- **`terambil_kg` dari alokasi aktif: disetujui.** Dua tes sisa pesanan rutin di klien tiruan (A, B) **keduanya gagal** dengan model sekarang; usulan perubahan model di **D-55**, menunggu tanggapan.
+- **Larastan (dev)**: `larastan/larastan` 3.13 (PHPStan 2.3), `backend/phpstan.neon` dengan `phpVersion: 80300`, **level 5** (level tertinggi yang lolos sekarang; level 6 tinggal 4 temuan anotasi generik). Folder yang dianalisis: `app`, `bootstrap/app.php`, `config`, `database`, `routes`. Folder `tests` tidak, karena PHPStan tanpa plugin Pest tidak mengenal fungsi Pest (38 temuan palsu). Perintah `composer analisis`, dijalankan di pemeriksaan penutup gelombang.
+  - Dicoba dengan berkas sementara: Larastan menolak *property hooks*, *asymmetric visibility*, dan operator pipa, tetapi **meloloskan `new Kelas()->metode()` tanpa kurung dan fungsi baru PHP 8.4/8.5** (`array_find` dan sejenisnya), karena PHPStan membaca daftar fungsi dari PHP 8.5 yang sedang berjalan.
+  - Celah itu ditutup `tests/Unit/SintaksPhp83Test.php` (pemindai token untuk seluruh folder PHP backend, termasuk `tests`), dengan tes pengendali untuk pola yang harus tertangkap dan yang tidak boleh tertangkap.
+- **Kode wilayah resmi**: `db/wilayah.sql` dari `cahyadsn/wilayah` (MIT) disimpan di `shared/wilayah/` bersama lisensi, commit `d68e8d5` (13 Februari 2026), tanggal unduh, dan SHA-256 (`shared/wilayah/README.md`). Isinya 91.599 kode. **Risiko:** berkas itu hanya menyebut Kepmendagri 300.2.2-2138, tidak menyebut perubahan 300.2.2-2430 (dicatat di `cek-wilayah.md`).
+  - **Hasil pencocokan diterapkan** lewat satu pemetaan sekaligus (Cikahuripan dan Kayuambon tertukar): Gudangkahuripan `32.17.01.2007`, Cikahuripan `32.17.01.2005`, Jayagiri `32.17.01.2008`, Kayuambon `32.17.01.2002`, Ledeng `32.73.08.1003` (Kec. Cidadap `32.73.08`), Batununggal `32.73.21.1001` (Kec. Bandung Kidul `32.73.21`). Versi data contoh naik ke 10; semua wilayah `kode_terverifikasi: true`.
+  - **Tes baru** (`frontend/src/api/tiruan/data/data.test.ts`) menggantikan pencocokan manual: setiap wilayah di data contoh ada di dataset dengan nama desa, kecamatan, kabupaten, dan provinsi yang sama; setiap `wilayah_id` yang dirujuk data contoh ada di dataset; titik tengah sama dengan `shared/wilayah/titik-tengah.json`.
+  - **Titik tengah perkiraan** untuk 16 desa Kecamatan Lembang, Ledeng, dan Batununggal di `shared/wilayah/titik-tengah.json`, dengan sumber per titik. Asisten tidak bisa melihat peta, jadi titik diambil dari OpenStreetMap (Nominatim): 11 kantor desa, 1 fitur bernama desa (Cikole), dan 2 batas kelurahan. **Empat desa tidak ditemukan dan hanya perkiraan kasar** (Kayuambon, Cikidang, Mekarwangi, Wangunsari); Kayuambon dipakai data contoh (Sari, Imas). Data contoh ikut memakai titik ini. Temuan: titik lama Sukajaya (±4,9 km) dan Cikahuripan (±3,5 km) terlalu ke timur laut; keduanya ternyata di barat pusat Lembang. Titik lahan contoh digeser sejauh pergeseran desanya. Urutan dan radius pesanan di tes kontrak tetap.
+  - **Seeder wilayah** (`database/seeders/WilayahSeeder.php`, dipanggil `DatabaseSeeder`): seluruh desa/kelurahan dari dataset (83.762 baris); tafsiran "semua tingkat" dan kolom baru di **D-56**. Migrasi `2026_10_11_200001` diubah langsung (belum ada data produksi, seperti D-53).
+- **T5.08 seeder data contoh belum ditulis**: data pesanan contoh bergantung pada model D-55. Commit `c7cf6a8` belum digabung karena gelombang 5.2 belum ditutup.
+- Berdampak ke: T5.08, T5.15, pemeriksaan penutup gelombang; `arsitektur-backend.md` 2a, 10, 15, 17; `menjalankan-lokal.md`; `cek-wilayah.md`.
+
+## D-55. Usulan: sisa pesanan rutin dihitung per kiriman, bukan per pesanan
+Ditulis 12 Oktober 2026, **menunggu tanggapan pemilik produk**. Model pesanan, seeder data contoh T5.08, dan gelombang 5.5 tidak dilanjutkan sebelum ada tanggapan.
+
+**Temuan.** Dua tes di `frontend/src/api/tiruan/sisa-rutin.test.ts`, pesanan sawi rutin 10 kg × 12 kiriman mulai 5 November:
+- **(A) gagal.** Petani A (sawi hidroponik, 35 hari) mengambil 10 kg dan baru terkejar mulai kiriman ke-2. Petani B (sawi bedengan, 28 hari) sebenarnya bisa mengejar kiriman ke-1, tetapi pesanan itu tidak lagi muncul di Pesanan di sekitar. Ini bertentangan dengan D-39 ("kiriman sebelumnya tetap terbuka untuk petani lain").
+- **(B) gagal.** Petani A lapor gagal panen hanya untuk kiriman ke-5 (tepat waktu). Alokasinya tetap aktif karena kiriman lain masih terjadwal, jadi 10 kg kiriman ke-5 tidak muncul lagi untuk petani lain. Ini bertentangan dengan D-03 ("bagian yang tidak terpenuhi ditawarkan ke petani lain").
+- Persiapan kedua tes lulus (A mendapat 11 kiriman mulai ke-2; gagal panen ke-5 tepat waktu dan alokasi tetap `disepakati`), jadi kegagalannya tepat di pemeriksaan sisa. Kedua tes ditandai `it.fails` sampai model diubah.
+- **Penyebab:** `sisa_kg = jumlah_per_kiriman_kg − Σ jumlah_kg alokasi aktif`, dihitung **per pesanan**. Satu alokasi dianggap menutup semua kiriman, padahal ia hanya menutup kiriman yang terkejar dan belum gagal.
+- **Temuan ketiga (dari membaca kode):** kiriman yang tidak pernah diambil siapa pun tidak punya baris `pengiriman`. Pesanan menjadi `selesai` begitu semua baris yang ada selesai, sehingga **uang muka bagian kiriman itu tertahan dan tidak pernah dikembalikan** (pada contoh A: 20% × 10 kg × Rp5.000 = Rp10.000). Selain itu, `laporGagalPanen` selalu memanggil aturan gagal panen dengan `adaPengganti: false`, jadi uang muka langsung dikembalikan tanpa sempat ditawarkan ke petani lain.
+
+**Usulan (rekomendasi asisten):**
+1. **Kapasitas per kiriman.** Untuk setiap kiriman ke-*n* pesanan rutin: `sisa(n) = jumlah_per_kiriman_kg − Σ jumlah_kg baris pengiriman aktif ke-n` (aktif = bukan `gagal`/`dibatalkan`). Pesanan sekali panen tidak berubah (satu kiriman).
+2. **Baris `pengiriman` dibuat saat ambil**, bukan saat setuju: satu baris per kiriman yang terkejar petani itu dan masih punya sisa ≥ jumlah yang diambil. Statusnya baru, `direncanakan`. Saat setuju, statusnya menjadi `terjadwal`. Ubah jumlah atau batal sebelum setuju mengubahnya menjadi `dibatalkan`, tidak dihapus (sejalan D-53). Satu-satunya sumber "siapa menutup kiriman mana" adalah tabel `pengiriman`, dijaga kunci unik (`alokasi_id`, `ke`). Alternatifnya, menghitung dari petak siklus (`petak_ke`) sebelum setuju, tidak butuh kolom baru tetapi membuat dua sumber data; tidak disarankan.
+3. **API petani:** `PesananUntukPetani` ditambah `kiriman_terbuka: { ke, tanggal, sisa_kg }[]` (kiriman yang masih punya sisa dan masih terkejar petani pembaca). `sisa_kg` menjadi sisa terbesar di antara kiriman itu. Pesanan tampil di Pesanan di sekitar bila daftar itu tidak kosong. Ambil pesanan menutup semua kiriman di daftar itu yang sisanya cukup; v1 tidak memilih kiriman satu per satu. `MELEBIHI_PESANAN` bila tidak ada satu pun yang cukup.
+4. **Gagal panen (D-03):** kiriman yang dilaporkan gagal mengembalikan sisanya, jadi langsung ditawarkan lagi. Uang muka bagian itu **dikembalikan saat kiriman itu sudah tidak bisa dikejar siapa pun** (hari ini + umur panen terpendek resep komoditas itu > tanggal kirim) dan belum ada pengganti. Pemeriksaannya ikut jadwal T5.17 (di klien tiruan: `prosesOtomatis`). Untuk kiriman dekat, pengembalian terjadi hampir seketika seperti sekarang; untuk kiriman jauh, petani lain sempat mengambil.
+5. **Kiriman yang tidak pernah diambil** mengikuti aturan yang sama: begitu tidak terkejar lagi, uang muka bagian sisanya dikembalikan ke pembeli, dan pembeli melihat keterangannya. Pesanan baru `selesai` bila setiap kiriman sudah terpenuhi, gagal, atau dikembalikan.
+6. **`pesanan.terambil_kg` dihapus**: per kiriman nilainya tidak bermakna, dan tidak dipakai halaman mana pun. Invarian D-53 untuk kolom itu diganti `Σ jumlah_kg pengiriman aktif per (pesanan, ke) ≤ jumlah_per_kiriman_kg`, yang ditegakkan dengan kunci baris pesanan saat ambil (`arsitektur-backend.md` bagian 8) dan dicek setelah setiap tes kontrak.
+
+**Dampak bila disetujui:** kontrak 2.x (`pengiriman.status` + `direncanakan`, `dibatalkan`; `PesananUntukPetani.kiriman_terbuka`; `pesanan` − `terambil_kg`), alur 3.x ambil, ubah, setuju, gagal panen; klien tiruan, halaman Pesanan di sekitar, detail, dan kesepakatan; data contoh; invarian; migrasi; seeder T5.08; `arsitektur-backend.md` bagian 8.
+
+**Yang perlu diputuskan:**
+1. Model kapasitas per kiriman dengan baris pengiriman sejak ambil (butir 1–3).
+2. Pengembalian uang muka ditunda sampai kiriman tidak terkejar lagi (butir 4–5), atau tetap langsung seperti sekarang (kiriman yang gagal tetap ditawarkan, tetapi pengganti tidak didanai uang muka).
+3. `terambil_kg` dihapus (butir 6) atau dipertahankan sebagai informasi.
+
+## D-56. Tafsiran: seeder wilayah lengkap dan desa tanpa titik tengah
+Ditulis 12 Oktober 2026. Bagian basis data dan seeder sudah dikerjakan; **perubahan kontrak menunggu tanggapan pemilik produk**.
+- **"Semua tingkat":** tabel `wilayah` tetap satu baris per desa/kelurahan (83.762 baris, seluruh Indonesia). Nama kecamatan, kabupaten/kota, dan provinsi diambil dari kode induknya, jadi setiap kode di dataset terwakili. Tingkat atas tidak dibuat sebagai baris sendiri karena tidak ada tabel yang merujuknya; dataset lengkap tetap ada di `shared/wilayah/`. Bila nanti formulir perlu memilih kecamatan lebih dulu, tingkat itu ditambahkan sebagai keputusan baru.
+- **Basis data:** `wilayah.lintang`/`bujur` boleh kosong. Kolom baru khusus server `koordinat_perkiraan` (seperti `kode_terverifikasi`, tidak dikirim ke klien). Semua baris hasil impor `kode_terverifikasi = true`. Seeder memakai *upsert* dan tidak menimpa titik yang sudah diisi dengan kosong.
+- **Usulan perubahan kontrak (belum diterapkan):**
+  - 2.3 `lintang`, `bujur`: `desimal | null`; tambah `tersedia_pilot: boolean` (true bila punya titik tengah).
+  - `GET /wilayah?cari=` tetap menampilkan desa tanpa titik; frontend menulis "belum tersedia di pilot" dan tidak bisa memilihnya.
+  - Galat baru `422 WILAYAH_BELUM_TERSEDIA` (rincian `wilayah_id`) di `PUT /akun/peran` dan `PATCH /akun` untuk petani, `POST`/`PATCH /lahan`, dan `POST /pembeli/pesanan` (titik antar). Pembeli tetap boleh memilih desa tanpa titik sebagai desa profilnya.
+  - `PesananUntukPetani.titik_desa_antar` sudah boleh null; tidak berubah.
+- Berdampak ke (bila disetujui): `kontrak-api.md` 1.4 dan 2.3, tipe `Wilayah`, `teks/galat-api.ts`, pemilih desa (T4.34–T4.36a, T4.23), klien tiruan, Form Request di gelombang 5.3–5.5.
+
 ---
 
 ## Riwayat
@@ -553,6 +614,7 @@ Ditetapkan pemilik produk 12 Oktober 2026 (tanggapan D-52); dikerjakan pada hari
 | 2026-10-05 | D-12 sampai D-18 ditetapkan. Butir turunan di D-03, D-06, dan D-11 dikonfirmasi dan dirujuk ke keputusan baru. Jalur tangkapan layar di D-07 diganti mengikuti D-18 |
 | 2026-10-05 | D-19 dan D-20 ditetapkan: backend Laravel + MariaDB tanpa Docker, tampilan dikerjakan lebih dulu. Butir OTP di D-10 dan butir penegakan di D-13 dan D-14 disesuaikan |
 | 2026-10-05 | D-21 sampai D-25 ditetapkan: cookie Sanctum (token untuk React Native), 404 untuk data orang lain, konfirmasi otomatis setiap 15 menit, siap deploy VPS, PHP 8.3+ terpisah |
+| 2026-10-12 | D-54 dicatat (tanggapan D-53): kunci idempoten di transaksi operasi uang tanpa BENTROK, dengan tes serentak dua proses; Larastan level 5 dan tes sintaks PHP 8.3; dataset wilayah resmi di `shared/wilayah/`, kode wilayah data contoh diperbaiki (versi 10), tes kecocokan dataset, seeder wilayah lengkap. D-55 ditulis (menunggu): sisa pesanan rutin per kiriman, karena tes A dan B gagal. D-56 ditulis: desa tanpa titik tengah (perubahan kontrak menunggu) |
 | 2026-10-12 | D-52 ditetapkan dan D-53 dicatat: tidak ada CASCADE di tabel uang dan transaksi, ID `ascii_bin`, jumlah lubang dan polybag bilangan bulat, tes invarian kolom turunan (menemukan `terambil_kg` klien tiruan yang tidak ikut berkurang), kunci idempoten dipesan lebih dulu, PHP target 8.3, MariaDB LTS di VPS |
 | 2026-10-11 | D-52 ditulis: tafsiran gelombang 5.2 bagian pertama (data contoh di `shared/data-contoh/`, ID string dengan ULID untuk baris baru, migrasi semua tabel kontrak dengan batasan CHECK, seeder ditahan sampai kode wilayah dicocokkan) |
 | 2026-10-11 | D-51 ditetapkan: 419 memakai kode baru `SESI_KEDALUWARSA`; 405 → 404, `rincian` opsional, 5xx tanpa rincian teknis, penghapusan `AGENTS.md`/`CLAUDE.md` dan lisensi `proprietary` (sementara) disetujui |

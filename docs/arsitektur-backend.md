@@ -74,7 +74,7 @@ Saran pengaturan:
 
 ## 2a. Memasang PHP 8.3+ terpisah (prasyarat Tahap 5, T5.00)
 
-PHP baru dipasang di folder sendiri. XAMPP tetap dipakai hanya untuk MariaDB (D-25). Laptop boleh memakai PHP yang lebih baru (8.5), tetapi **kode backend ditulis untuk PHP 8.3** (target VPS, D-53): jangan memakai fitur 8.4+ seperti *property hooks*, *asymmetric visibility*, `new Kelas()->metode()` tanpa kurung, fungsi `array_find`, atau operator pipa `|>`. Contoh di bawah memakai folder `C:\php\8.3`; di laptop pengembangan terpasang `C:\php-8.5.11-nts-Win32-vs17-x64` (PHP 8.5.11 NTS, D-50). Lokasinya bebas, asal PATH menunjuk ke sana.
+PHP baru dipasang di folder sendiri. XAMPP tetap dipakai hanya untuk MariaDB (D-25). Laptop boleh memakai PHP yang lebih baru (8.5), tetapi **kode backend ditulis untuk PHP 8.3** (target VPS, D-53): jangan memakai fitur 8.4+ seperti *property hooks*, *asymmetric visibility*, `new Kelas()->metode()` tanpa kurung, fungsi `array_find`, atau operator pipa `|>`. Diperiksa otomatis oleh Larastan (`composer analisis`, `phpVersion: 80300`) dan `tests/Unit/SintaksPhp83Test.php` untuk dua hal yang diloloskan Larastan (D-54). Contoh di bawah memakai folder `C:\php\8.3`; di laptop pengembangan terpasang `C:\php-8.5.11-nts-Win32-vs17-x64` (PHP 8.5.11 NTS, D-50). Lokasinya bebas, asal PATH menunjuk ke sana.
 
 **Langkah pemasangan (Windows 11):**
 
@@ -339,7 +339,11 @@ Tes ini memakai basis data MariaDB `tani_muda_uji`, **bukan SQLite**, karena SQL
 - `PembayaranTiruan` mensimulasikan semuanya seketika. Referensinya diawali `TIRUAN-`, dan frontend menampilkan label "Mode uji coba".
 - Implementasi dipilih lewat `PEMBAYARAN_DRIVER=tiruan` di `backend/.env`. Kunci payment gateway sungguhan kelak juga hanya di `backend/.env`.
 - Setiap operasi uang tercatat di `pembayaran` (jenis, status `ditahan` / `cair` / `dikembalikan`, nominal, referensi). Permintaan memakai `kunci_idempoten` unik, sehingga klik ganda atau antrean offline tidak membayar dua kali.
-- **Kunci idempoten dipesan lebih dulu** (D-53, gelombang 5.5): baris `kunci_idempoten` (pengguna, endpoint, kunci) di-*insert* **sebelum** operasi uang dijalankan, di dalam transaksi yang sama. Permintaan serentak dengan kunci yang sama tertahan kunci unik dan tidak bisa lolos dua kali. Setelah operasi selesai, `status_http` dan `respons` diisi; permintaan ulang menerima respons yang tersimpan. Bila kunci sudah ada tetapi responsnya belum terisi (permintaan pertama masih berjalan), server menjawab `409 BENTROK`.
+- **Kunci idempoten di transaksi operasi uang** (D-54, `app/Domain/Idempotensi/Idempotensi.php`): baris `kunci_idempoten` (pengguna, endpoint, kunci) di-*insert* sebagai pernyataan **pertama** di transaksi yang sama dengan operasi uang, dan `status_http` serta `respons` diisi di transaksi itu sebelum commit. Tidak ada status "sedang berjalan" dan tidak ada `BENTROK`:
+  - permintaan serentak dengan kunci yang sama menunggu kunci unik sampai transaksi pertama selesai, lalu membaca respons tersimpan dengan baca terkunci;
+  - bila operasi gagal, baris kuncinya ikut di-rollback, jadi tidak ada kunci yatim dan permintaan bisa diulang dengan kunci yang sama;
+  - karena insert kunci adalah pernyataan pertama, permintaan yang menunggu belum memegang kunci baris apa pun, sehingga tidak bisa deadlock dengan transaksi pertama;
+  - hasil yang harus tetap tercatat walau operasi gagal (baris pembayaran `gagal`) ditulis di transaksi terpisah setelah rollback (gelombang 5.5).
 - Konfirmasi kiriman memicu pencairan bagian petani. Penolakan sebagian membuat `sengketa`, dan pencairan bagian yang ditolak menunggu keputusan admin.
 
 ## 11. Scheduler dan antrean
@@ -390,10 +394,11 @@ Antrean memakai driver `database` dengan `php artisan queue:work`. Pengiriman pu
 | Fitur (Pest) | setiap endpoint di `kontrak-api.md`: bentuk respons, kode status, format galat dan paginasi |
 | Akses silang (Pest) | bagian 6; daftar endpoint dibandingkan dengan `route:list` |
 | OTP | kedaluwarsa tepat 5 menit (waktu dibekukan), percobaan ke-6 ditolak, kode tidak pernah ada di respons, driver log ditolak di luar `local` |
-| Serentak | alokasi dua proses (bagian 8) |
+| Serentak (`tests/Serentak`) | proses PHP terpisah dengan koneksi masing-masing, data sudah commit (tanpa `RefreshDatabase`; tabel dikosongkan dengan DELETE sebelum dan sesudah tes): kunci idempoten (D-54), alokasi dua proses (bagian 8) |
+| Analisis statis | `composer analisis`: Larastan level 5 dengan `phpVersion: 80300`; `tests/Unit/SintaksPhp83Test.php` untuk yang diloloskan Larastan (D-54) |
 | Jadwal | perintah terjadwal dengan waktu dimajukan (`travelTo`) untuk batas 6 dan 24 jam, jendela 15 menit, dan 7 hari |
 
-Semua tes memakai basis data `tani_muda_uji` di MariaDB lokal dengan `RefreshDatabase`.
+Semua tes memakai basis data `tani_muda_uji` di MariaDB lokal, dengan `RefreshDatabase` kecuali tes serentak.
 
 ## 16. Peta ke rencana kerja
 
@@ -438,7 +443,7 @@ composer install --no-dev --optimize-autoloader
 cp .env.example .env    # isi nilai produksi, lihat tabel di bawah
 php artisan key:generate
 php artisan migrate --force
-php artisan db:seed --class=ProduksiSeeder --force   # tanpa resep contoh dan pengguna uji (D-12)
+php artisan db:seed --class=ProduksiSeeder --force   # kode wilayah dari ../shared/wilayah; tanpa resep contoh dan pengguna uji (D-12, D-54)
 php artisan config:cache && php artisan route:cache && php artisan event:cache
 sudo chown -R www-data:www-data storage bootstrap/cache
 ```

@@ -1,49 +1,44 @@
 # Pencocokan kode wilayah dengan data Kemendagri
 
-Disiapkan 11 Oktober 2026 untuk gelombang 5.2. **Seeder Laravel (T5.08) belum ditulis sampai daftar ini dicocokkan pemilik produk** (D-27, D-36).
+**Selesai 12 Oktober 2026 (D-54).** Pencocokan manual di dokumen ini sudah digantikan tes otomatis. Dokumen ini mencatat hasil pencocokan pemilik produk dan risiko yang tersisa.
 
-Semua kode di data contoh memakai format Kemendagri `PP.KK.CC.DDDD`: provinsi, kabupaten/kota, kecamatan, desa (`2xxx`) atau kelurahan (`1xxx`). Kode ini **belum pernah dicocokkan dengan data resmi**. Dua kode bertanda "sudah dicek" di T3 hanya dicek ke situs ensiklopedia, yang menurut D-36 hanya boleh dipakai untuk demo. Karena itu semua baris di bawah perlu dicocokkan.
+## Sumber resmi
 
-Lokasi pilot tetap **Kecamatan Lembang, Kabupaten Bandung Barat** (tanggapan D-51). Sumber pencocokan yang disarankan: lampiran Keputusan Menteri Dalam Negeri terbaru tentang pemberian dan pemutakhiran kode serta data wilayah administrasi pemerintahan.
+Dataset `shared/wilayah/wilayah.sql` dari [cahyadsn/wilayah](https://github.com/cahyadsn/wilayah) (MIT), commit `d68e8d5`, diunduh 12 Oktober 2026. Rincian (checksum, lisensi, cara memperbarui) di [`shared/wilayah/README.md`](../shared/wilayah/README.md).
 
-## Cara mengisi
+Tes yang menggantikan pencocokan manual (`frontend/src/api/tiruan/data/data.test.ts`, blok "wilayah data contoh cocok dengan dataset resmi"):
 
-Untuk setiap baris, isi kolom **Kode resmi** dan **Nama resmi** dari data Kemendagri:
+- setiap wilayah di data contoh ada di dataset, dengan nama desa, kecamatan, kabupaten/kota, dan provinsi yang sama;
+- setiap `wilayah_id` yang dirujuk data contoh (pengguna, lahan, pesanan, referensi) ada di dataset;
+- titik tengah data contoh sama dengan `shared/wilayah/titik-tengah.json`, dan ke-16 desa Kecamatan Lembang punya titik.
 
-- Bila sama dengan kolom sekarang, tulis `sama`.
-- Bila berbeda, tulis kode dan nama resminya. Data contoh (`frontend/src/api/tiruan/data/pembuat-data.ts`) dan seeder akan memakai nilai itu.
-- Bila desa/kelurahan itu tidak ada, tulis `tidak ada` dan sebutkan penggantinya bila ada.
+## Risiko: perubahan Kepmendagri 300.2.2-2430 Tahun 2025
 
-Koordinat titik tengah adalah perkiraan untuk menghitung jarak (radius 10 km). Koordinat tidak ada di data Kemendagri, jadi cukup diperiksa kasar di peta, dan boleh dibiarkan.
+Kepala berkas dataset, README sumbernya, dan riwayat commit hanya menyebut **Kepmendagri 300.2.2-2138 Tahun 2025**. Tidak ada yang menyebut keputusan perubahan **300.2.2-2430 Tahun 2025**, jadi belum bisa dipastikan perubahan itu sudah tercakup.
 
-## 1. Kabupaten/kota dan kecamatan
+- Desa yang dipakai data contoh sudah dicocokkan pemilik produk, jadi aman.
+- Desa lain di seluruh Indonesia mungkin berbeda dengan keputusan perubahan itu (kode baru, pemekaran, atau ganti nama). Dampaknya baru terasa bila pilot meluas ke luar Lembang.
+- Sebelum pilot meluas, cek apakah sumber sudah memperbarui berkasnya, lalu ikuti langkah "Memperbarui" di `shared/wilayah/README.md`.
 
-| Kode sekarang | Tingkat | Nama sekarang | Kode resmi | Nama resmi |
-| --- | --- | --- | --- | --- |
-| `32` | provinsi | Jawa Barat | | |
-| `32.17` | kabupaten | Kabupaten Bandung Barat | | |
-| `32.17.01` | kecamatan | Lembang | | |
-| `32.73` | kota | Kota Bandung | | |
-| `32.73.03` | kecamatan | Cidadap | | |
-| `32.73.10` | kecamatan | Bandung Kidul | | |
+## Hasil pencocokan pemilik produk (tanggapan D-53)
 
-## 2. Desa dan kelurahan
+| Desa/kelurahan | Kode lama | Kode resmi | Keterangan |
+| --- | --- | --- | --- |
+| Lembang | `32.17.01.2003` | `32.17.01.2003` | sudah benar |
+| Sukajaya | `32.17.01.2013` | `32.17.01.2013` | sudah benar |
+| Gudangkahuripan | `32.17.01.2001` | `32.17.01.2007` | `2001` adalah Pagerwangi |
+| Cikahuripan | `32.17.01.2002` | `32.17.01.2005` | tertukar dengan Kayuambon |
+| Jayagiri | `32.17.01.2004` | `32.17.01.2008` | `2004` adalah Cikidang |
+| Kayuambon | `32.17.01.2005` | `32.17.01.2002` | tertukar dengan Cikahuripan |
+| Ledeng | `32.73.03.1004` | `32.73.08.1003` | Kec. Cidadap `32.73.08` (`32.73.03` adalah Babakan Ciparay) |
+| Batununggal | `32.73.10.1001` | `32.73.21.1001` | Kec. Bandung Kidul `32.73.21` (`32.73.10` adalah Astanaanyar) |
 
-| No | Kode sekarang | Desa/kelurahan | Kecamatan | Titik tengah (lintang, bujur) | Status sekarang | Dipakai oleh data contoh | Kode resmi | Nama resmi |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 1 | `32.17.01.2003` | Lembang | Lembang | -6,8117; 107,6175 | dicek ke ensiklopedia | Petani Arif Setiawan (2 lahan: Kebun belakang rumah, Rak hidroponik teras), mentor Rahmat Hidayat, admin, permintaan resep, harga dan promo contoh | | |
-| 2 | `32.17.01.2013` | Sukajaya | Lembang | -6,793; 107,639 | dicek ke ensiklopedia | Petani Dewi Lestari (Sawah Sukajaya), pembeli Koperasi Desa Sumber Rejeki (pesanan gabah), permintaan resep, harga contoh | | |
-| 3 | `32.17.01.2001` | Gudangkahuripan | Lembang | -6,817; 107,626 | belum dicek | Petani Yogi Pratama, pembeli Kedai Sayur Pagi (belum terverifikasi), permintaan resep, harga dan promo contoh | | |
-| 4 | `32.17.01.2002` | Cikahuripan | Lembang | -6,804; 107,633 | belum dicek | Pembeli Katering Bu Ratna (pesanan sawi, alur utama demo), harga contoh | | |
-| 5 | `32.17.01.2004` | Jayagiri | Lembang | -6,826; 107,608 | belum dicek | Petani Budi Santoso (Kebun Jayagiri), harga dan promo contoh | | |
-| 6 | `32.17.01.2005` | Kayuambon | Lembang | -6,82; 107,621 | belum dicek | Petani Sari Wulandari, pembeli Warung Nasi Bu Imas (pesanan bayam dan sawi), harga dan promo contoh | | |
-| 7 | `32.73.03.1004` | Ledeng | Cidadap (Kota Bandung) | -6,861; 107,597 | belum dicek | Pembeli Kafe Daun Pagi (pesanan bayam, ±5,9 km dari Desa Lembang), harga contoh | | |
-| 8 | `32.73.10.1001` | Batununggal | Bandung Kidul (Kota Bandung) | -6,945; 107,628 | belum dicek | Pembeli Katering Sehat Lestari (pesanan kangkung, ±14,9 km dari Desa Lembang), harga contoh | | |
+Kode provinsi `32` (Jawa Barat), kabupaten `32.17` (Kabupaten Bandung Barat), kecamatan `32.17.01` (Lembang), dan kota `32.73` (Kota Bandung) sudah benar. Karena ada pasangan yang tertukar, kode diganti lewat satu pemetaan sekaligus, bukan cari-ganti berurutan. Versi data contoh naik ke 10.
 
-Baris 7 dan 8 berada di Kota Bandung, di luar Kecamatan Lembang, sebagai contoh pembeli dari kota. Dengan titik tengah sekarang, Ledeng masih dalam radius 10 km dari Desa Lembang dan Batununggal di luarnya. Bila kodenya diganti, letaknya sebaiknya tetap serupa.
+## Titik tengah
 
-## 3. Setelah dicocokkan
+Dataset Kemendagri tidak memuat koordinat. Titik tengah perkiraan untuk 16 desa Kecamatan Lembang, Ledeng, dan Batununggal ada di `shared/wilayah/titik-tengah.json`, dengan sumber per titik dari OpenStreetMap: kantor desa, fitur bernama desa, atau batas kelurahan.
 
-1. Nilai resmi dimasukkan ke `pembuat-data.ts`, lalu `npm run data-contoh` menulis ulang JSON. Tes data contoh memastikan setiap `wilayah_id` ada di daftar wilayah.
-2. Semua baris diberi `kode_terverifikasi: true`. Tes baru menolak kode yang belum terverifikasi masuk seeder produksi.
-3. Data contoh dipindah ke `shared/data-contoh/`, dan seeder Laravel (T5.08) membaca berkas yang sama.
+- **Perlu dicek di peta:** empat desa yang tidak ditemukan di OpenStreetMap dan hanya diperkirakan kasar dari letak desa tetangga, yaitu Kayuambon, Cikidang, Mekarwangi, dan Wangunsari. Kayuambon dipakai data contoh (Sari Wulandari, Warung Nasi Bu Imas).
+- **Diperbaiki:** titik lama Sukajaya (±4,9 km) dan Cikahuripan (±3,5 km) terlalu ke timur laut; keduanya ternyata di barat pusat Lembang.
+- **Desa di luar daftar** tidak punya titik dan belum tersedia di pilot (D-56).

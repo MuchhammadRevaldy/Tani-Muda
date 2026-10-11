@@ -1,3 +1,5 @@
+import { readFileSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
 import { pastikan } from '../../../lib/hasil';
 import { kapasitasLahan } from '../../../lib/kapasitas-lahan';
@@ -24,15 +26,75 @@ describe('data contoh JSON', () => {
   });
 });
 
+/**
+ * Kode wilayah resmi (D-54): dataset shared/wilayah/wilayah.sql (Kepmendagri, lihat README di
+ * foldernya). Menggantikan pencocokan manual di docs/cek-wilayah.md.
+ */
+describe('wilayah data contoh cocok dengan dataset resmi', () => {
+  const akar = new URL('../../../../../shared/wilayah/', import.meta.url);
+  const sql = readFileSync(fileURLToPath(new URL('wilayah.sql', akar)), 'utf8');
+  const resmi = new Map(
+    [...sql.matchAll(/\('([0-9.]+)','((?:[^']|'')*)'\)/g)].map((m) => [
+      m[1]!,
+      m[2]!.replaceAll("''", "'"),
+    ]),
+  );
+  const titik = (
+    JSON.parse(readFileSync(fileURLToPath(new URL('titik-tengah.json', akar)), 'utf8')) as {
+      titik: { id: string; desa: string; lintang: number; bujur: number }[];
+    }
+  ).titik;
+
+  /** Semua nilai `wilayah_id` di seluruh data contoh. */
+  function semuaWilayahId(x: unknown, hasil = new Set<string>()): Set<string> {
+    if (Array.isArray(x)) x.forEach((y) => semuaWilayahId(y, hasil));
+    else if (x && typeof x === 'object')
+      for (const [k, v] of Object.entries(x)) {
+        if (k === 'wilayah_id' && typeof v === 'string') hasil.add(v);
+        else semuaWilayahId(v, hasil);
+      }
+    return hasil;
+  }
+
+  it('dataset terbaca utuh', () => {
+    expect(resmi.size).toBe(91599);
+    expect(resmi.get('32.17.01.2003')).toBe('Lembang');
+  });
+  it('setiap wilayah di data contoh ada di dataset dengan nama desa, kecamatan, kabupaten, dan provinsi yang sama', () => {
+    for (const w of data.wilayah) {
+      const [pp, kk, cc] = w.id.split('.');
+      expect([w.id, resmi.get(w.id)]).toEqual([w.id, w.desa]);
+      expect(resmi.get(`${pp}.${kk}.${cc}`)).toBe(w.kecamatan);
+      expect(resmi.get(`${pp}.${kk}`)).toBe(w.kabupaten);
+      expect(resmi.get(`${pp}`)).toBe(w.provinsi);
+    }
+  });
+  it('setiap wilayah_id yang dirujuk data contoh ada di dataset dan di daftar wilayah data contoh', () => {
+    const dirujuk = [...semuaWilayahId(data)];
+    expect(dirujuk.length).toBeGreaterThan(5);
+    const daftar = new Set(data.wilayah.map((w) => w.id));
+    expect(dirujuk.filter((id) => !resmi.has(id) || !daftar.has(id))).toEqual([]);
+  });
+  it('titik tengah sama dengan shared/wilayah/titik-tengah.json; 16 desa Lembang punya titik', () => {
+    for (const w of data.wilayah)
+      expect(titik.find((t) => t.id === w.id)).toMatchObject({
+        desa: w.desa,
+        lintang: w.lintang,
+        bujur: w.bujur,
+      });
+    const lembang = [...resmi.keys()].filter((k) => k.startsWith('32.17.01.'));
+    expect(lembang).toHaveLength(16);
+    expect(lembang.filter((k) => !titik.some((t) => t.id === k))).toEqual([]);
+    for (const t of titik) expect(resmi.get(t.id)).toBe(t.desa);
+  });
+});
+
 describe('T3.06 referensi, wilayah, konfigurasi', () => {
-  it('ID wilayah memakai format kode Kemendagri (D-27); dua kode sudah terverifikasi', () => {
-    for (const w of data.wilayah) expect(w.id).toMatch(/^\d{2}\.\d{2}\.\d{2}\.\d{4}$/);
-    expect(
-      data.wilayah
-        .filter((w) => w.kode_terverifikasi)
-        .map((w) => w.id)
-        .sort(),
-    ).toEqual(['32.17.01.2003', '32.17.01.2013']);
+  it('ID wilayah memakai format kode Kemendagri (D-27); semua sudah dicocokkan (D-54)', () => {
+    for (const w of data.wilayah) {
+      expect(w.id).toMatch(/^\d{2}\.\d{2}\.\d{2}\.\d{4}$/);
+      expect(w.kode_terverifikasi).toBe(true);
+    }
   });
   it('angka bisnis hanya ada di konfigurasi', () => {
     expect(data.konfigurasi).toMatchObject({
@@ -191,7 +253,7 @@ describe('T3.08 pengguna uji, lahan, siklus, pesanan', () => {
       Math.round(x.jarakKm * 10) / 10,
     ]);
     expect(urut.at(-1)?.[0]).toBe('pesanan-lestari-kangkung');
-    expect(jarakKm(pusat, wil('32.73.10.1001'))).toBeGreaterThan(data.konfigurasi.radius_km);
-    expect(jarakKm(pusat, wil('32.73.10.1001'))).toBeLessThan(data.konfigurasi.radius_maks_km);
+    expect(jarakKm(pusat, wil('32.73.21.1001'))).toBeGreaterThan(data.konfigurasi.radius_km);
+    expect(jarakKm(pusat, wil('32.73.21.1001'))).toBeLessThan(data.konfigurasi.radius_maks_km);
   });
 });

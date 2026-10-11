@@ -5,14 +5,14 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 
 /**
- * Seeder data contoh dari shared/data-contoh/*.json ditulis di T5.08, setelah semua kode wilayah
- * dicocokkan dengan data Kemendagri (docs/cek-wilayah.md, D-36). Sampai saat itu basis data hanya
- * berisi struktur tabel.
+ * Seeder pengembangan (`migrate:fresh --seed`): kode wilayah resmi (D-54). Data contoh dari
+ * shared/data-contoh/*.json (T5.08) menyusul setelah keputusan model sisa pesanan rutin (D-55).
+ * Produksi memakai ProduksiSeeder.
  */
 class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        //
+        $this->call(WilayahSeeder::class);
     }
 }

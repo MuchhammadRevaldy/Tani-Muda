@@ -9,8 +9,8 @@
       "satuan_asli": "m2",
       "nilai_asli": 180,
       "wilayah_id": "32.17.01.2003",
-      "lintang": -6.8121,
-      "bujur": 107.618,
+      "lintang": -6.819,
+      "bujur": 107.6203,
       "kapasitas_lubang": null
     },
     {
@@ -22,8 +22,8 @@
       "satuan_asli": "m2",
       "nilai_asli": 12,
       "wilayah_id": "32.17.01.2003",
-      "lintang": -6.8119,
-      "bujur": 107.6178,
+      "lintang": -6.8188,
+      "bujur": 107.6201,
       "kapasitas_lubang": 200
     },
     {
@@ -35,8 +35,8 @@
       "satuan_asli": "ru",
       "nilai_asli": 72,
       "wilayah_id": "32.17.01.2013",
-      "lintang": -6.7935,
-      "bujur": 107.6395,
+      "lintang": -6.8116,
+      "bujur": 107.5993,
       "kapasitas_lubang": null
     },
     {
@@ -47,9 +47,9 @@
       "luas_m2": 50,
       "satuan_asli": "m2",
       "nilai_asli": 50,
-      "wilayah_id": "32.17.01.2004",
-      "lintang": -6.8262,
-      "bujur": 107.6085,
+      "wilayah_id": "32.17.01.2008",
+      "lintang": -6.8104,
+      "bujur": 107.6183,
       "kapasitas_lubang": null
     }
   ],

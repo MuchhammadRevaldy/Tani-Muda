@@ -8,6 +8,7 @@ API Laravel 13 untuk Tani Muda, beralamat dasar `/api/v1`. Bentuk data dan endpo
 | `composer uji` | Tes Pest dengan basis data `tani_muda_uji` |
 | `composer rapi:cek` | Periksa kerapian kode (Laravel Pint) tanpa mengubah berkas |
 | `composer rapi` | Rapikan kode dengan Pint |
+| `composer analisis` | Larastan level 5, sintaks dan fungsi PHP 8.3 (D-54) |
 | `php artisan migrate:fresh --seed` | Buat ulang basis data pengembangan `tani_muda` dari nol |
 | `php artisan about` | Versi PHP dan Laravel, zona waktu, dan koneksi basis data |
 
