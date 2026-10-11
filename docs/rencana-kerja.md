@@ -1446,8 +1446,10 @@ Pertanyaan P-1 sampai P-5 versi kedua **sudah dijawab** pada 5 Oktober 2026: res
 
 Semua pertanyaan P-6 sampai P-14 dijawab pada 5 Oktober 2026 (D-26 sampai D-33).
 
-| No | Pertanyaan | Bawaan yang dipakai sementara |
+Pertanyaan P-20 sampai P-22 **sudah dijawab** (dicatat 11 Oktober 2026). Saat ini tidak ada pertanyaan teknis atau produk yang masih terbuka di bagian ini.
+
+| No | Pertanyaan | Jawaban |
 | --- | --- | --- |
-| P-20 | Papan 16–19 menampilkan "Kalau panen jelek: hanya 70 kg karena hujan terus atau ulat". Angka dan alasannya tidak ada di data resep. Apakah resep perlu kolom panen jelek (kg per satuan dan alasan) yang diisi penyuluh? | Bagian "kalau panen jelek" tidak ditampilkan sampai datanya ada (T4.07). |
-| P-21 | Harga jual di kalkulator: papan memakai "harga jual contoh" per komoditas. Perlukah harga jual contoh disimpan di data (per komoditas dan wilayah), atau cukup diisi petani? | Bawaan harga pesanan terdekat untuk komoditas itu, bisa diubah petani; kosong bila tidak ada pesanan. |
-| P-22 | Bundel utama aplikasi sudah lebih dari 500 kB (peringatan Vite). Pemecahan per halaman (lazy route) direncanakan di Tahap 6 bersama PWA. Setuju? | Belum dipecah; tidak mengubah perilaku. |
+| P-20 | Apakah resep perlu kolom panen jelek (kg per satuan dan alasan) yang diisi penyuluh? | **Ya** (D-38): kolom `persen_panen_jelek` dan `alasan_panen_jelek` di resep, diisi penyuluh; data contoh 70% berlabel contoh. Ringkasan kalkulator menampilkan untung atau rugi bila panen hanya sebesar persentase itu. |
+| P-21 | Perlukah harga jual contoh disimpan di data, atau cukup diisi petani? | **Disimpan per tanaman** (D-38): urutan harga kesepakatan → harga pesanan terdekat → `komoditas.harga_jual_contoh`; sumbernya selalu tampil dan petani tetap bisa mengubah. |
+| P-22 | Pemecahan bundel per halaman, setuju? | **Ya, dengan target terukur** (D-38, D-45): JavaScript halaman pertama paling besar 200 kB gzip. **Sudah dikerjakan** di D-48: 151,3 kB (`/`) dan 163,4 kB (`/beranda`), diperiksa otomatis di `npm run build`. |

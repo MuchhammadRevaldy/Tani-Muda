@@ -53,7 +53,7 @@ Endpoint berhalaman ditandai **(berhalaman)** di bagian 3.
 
 - `kode`: stabil, dipakai frontend untuk memilih perilaku. Daftar lengkap di `frontend/src/lib/hasil.ts` (logika inti) dan `frontend/src/api/galat.ts` (khusus API).
 - `pesan`: siap tampil, Bahasa Indonesia, menyebut apa yang harus dilakukan (D-09). Teksnya di `frontend/src/teks/galat.ts` dan `frontend/src/teks/galat-api.ts`; backend mengirim teks yang sama.
-- `rincian`: galat per kolom (`nama_kolom` atau `nilai.pH` untuk isian bersarang). Kode logika inti yang berasal dari satu kolom juga diberi rincian kolom itu.
+- `rincian` **opsional**: hanya dikirim bila berisi; klien memperlakukan kolom yang tidak ada sama dengan `{}` (D-51). Isinya galat per kolom (`nama_kolom` atau `nilai.pH` untuk isian bersarang). Kode logika inti yang berasal dari satu kolom juga diberi rincian kolom itu.
 - `429` juga mengirim kolom `coba_lagi_dalam` (detik) di dalam `galat`.
 
 | Status | Kode | Arti |
@@ -73,7 +73,7 @@ Endpoint berhalaman ditandai **(berhalaman)** di bagian 3.
 | 409 | `MELEBIHI_SALDO` | Pencairan melebihi dana yang ditahan |
 | 402 | `PEMBAYARAN_GAGAL` | Pembayaran uang muka gagal (di mode uji coba lewat `simulasi`, D-41) |
 | 409 | `BENTROK` | Data berubah di tempat lain |
-| 419 | `BENTROK` | Token CSRF tidak cocok karena sesi berganti atau kedaluwarsa; klien meminta `/sanctum/csrf-cookie` lagi lalu mengulang (tafsiran D-51) |
+| 419 | `SESI_KEDALUWARSA` | Token CSRF tidak cocok karena sesi berganti atau kedaluwarsa; klien meminta `/sanctum/csrf-cookie` lagi lalu mengulang (D-51) |
 | 422 | `VALIDASI` | Isian salah; lihat `rincian` |
 | 422 | kode logika inti | mis. `LUAS_KOSONG`, `HARGA_NEGATIF`, `TUNDA_DI_LUAR_BATAS`, `KETERANGAN_WAJIB`, `NILAI_DI_LUAR_SKALA`, `NOMOR_HP_TIDAK_VALID`, `OTP_SALAH`, `OTP_KEDALUWARSA`, `FOTO_WAJIB` |
 | 423 | `OTP_TERKUNCI` | Lima percobaan kode gagal |
@@ -685,7 +685,7 @@ Konfirmasi otomatis: kiriman `dikirim` yang lewat `batas_periksa_pada` dianggap 
 
 | Tanggal | Perubahan |
 | --- | --- |
-| 2026-10-11 | D-51: `GET /kesehatan` (bagian 3.12); 419 token CSRF dijawab dengan kode `BENTROK`; `rincian` tidak dikirim bila kosong (sama dengan klien tiruan). |
+| 2026-10-11 | D-51: `GET /kesehatan` (bagian 3.12); 419 token CSRF dijawab dengan kode baru `SESI_KEDALUWARSA`; `rincian` opsional, tidak dikirim bila kosong (sama dengan klien tiruan); 405 dijawab 404. |
 | 2026-10-05 | Versi pertama (T3.01, T3.02), bersama tipe `frontend/src/api/tipe/`, klien tiruan, dan tes kontrak |
 | 2026-10-07 | D-38: `pengguna.terdaftar_kelompok_tani`, `komoditas.harga_jual_contoh`, `resep_tanam.persen_panen_jelek` dan `alasan_panen_jelek`, pembulatan harga sekitar ke ratusan. Tunda tugas terlambat dihitung dari hari ini. |
 | 2026-10-09 | D-47: `GET /admin/petani` mendapat `cari` dan paginasi (`Halaman<T>`). |

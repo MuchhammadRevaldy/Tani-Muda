@@ -11,6 +11,7 @@ export const teksGalatKhususApi: Record<KodeGalatKhususApi, string> = {
   TIDAK_DIIZINKAN: 'Akunmu tidak bisa membuka bagian ini',
   TIDAK_DITEMUKAN: 'Data ini tidak ditemukan',
   BENTROK: 'Data ini sudah berubah. Muat ulang lalu coba lagi',
+  SESI_KEDALUWARSA: 'Sesimu sudah berakhir. Muat ulang halaman lalu coba lagi',
   TERLALU_SERING: 'Terlalu sering. Tunggu sebentar lalu coba lagi',
   AKUN_NONAKTIF: 'Akunmu sedang dinonaktifkan sementara, jadi belum bisa mengambil pesanan baru',
   BELUM_TERVERIFIKASI: 'Usaha Anda belum terverifikasi, jadi belum bisa memasang pesanan',

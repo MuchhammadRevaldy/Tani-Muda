@@ -484,12 +484,20 @@ Tafsiran teknis saat menulis `docs/kontrak-api.md`. Tidak mengubah perilaku prod
 - Dua basis data dibuat di MariaDB XAMPP dengan `utf8mb4` / `utf8mb4_unicode_ci`: `tani_muda` (pengembangan) dan `tani_muda_uji` (tes). Bawaan server `utf8mb4_general_ci`, jadi collation ditulis eksplisit.
 - Berdampak ke: `arsitektur-backend.md` bagian 2 dan 2a, T5.00.
 
-## D-51. Tafsiran gelombang 5.1: kerangka Laravel, format galat, skrip satu perintah
-Ditulis 11 Oktober 2026, **menunggu tanggapan pemilik produk**.
+## D-51. Gelombang 5.1: kerangka Laravel, format galat, skrip satu perintah
+Ditulis 11 Oktober 2026 sebagai tafsiran, **ditetapkan** dengan tanggapan pemilik produk pada hari yang sama:
+- **419 memakai kode baru `SESI_KEDALUWARSA`**, bukan `BENTROK`, dengan teks sendiri "Sesimu sudah berakhir. Muat ulang halaman lalu coba lagi". Ditambahkan di `frontend/src/api/galat.ts` (kode dan status), `frontend/src/teks/galat-api.ts` (teks), `backend/app/Http/Galat/KodeGalat.php`, dan `kontrak-api.md` 1.4.
+- **405 → 404:** disetujui.
+- **`rincian` tidak dikirim bila kosong:** disetujui; `kontrak-api.md` 1.4 menulis tegas bahwa `rincian` opsional.
+- **5xx tanpa rincian teknis:** disetujui.
+- **`AGENTS.md`/`CLAUDE.md` bawaan Laravel dihapus dan lisensi `proprietary`:** disetujui **sementara**.
+- Butir lain di bawah diterima seperti ditulis.
+
+Isi tafsiran:
 - **Format galat.** Semua galat `/api/*` diubah di satu tempat (`app/Http/Galat/PenerjemahGalat.php`). Pemetaan yang tidak tertulis di kontrak:
   - `rincian` **tidak dikirim bila kosong**, sama dengan `GalatApi.keJson()` di klien tiruan (rencana T5.03 menulis `{ kode, pesan, rincian }`);
   - **405** (metode salah untuk alamat yang ada) dijawab **404 `TIDAK_DITEMUKAN`**, seperti alamat yang tidak ada;
-  - **419** (token CSRF tidak cocok) tetap berstatus 419 dengan kode **`BENTROK`** dan teksnya ("Data ini sudah berubah. Muat ulang lalu coba lagi"), supaya klien HTTP Tahap 6 bisa meminta `/sanctum/csrf-cookie` lagi. Alternatifnya kode baru `SESI_KEDALUWARSA` dengan teks sendiri;
+  - **419** (token CSRF tidak cocok) berstatus 419 dengan kode **`SESI_KEDALUWARSA`** (ditetapkan; tafsiran awal memakai `BENTROK`), supaya klien HTTP Tahap 6 bisa meminta `/sanctum/csrf-cookie` lagi;
   - 400, 413, 415 (permintaan tidak terbaca, terlalu besar) berkode `VALIDASI` dengan status aslinya; galat 5xx berkode `GALAT_SERVER` **tanpa rincian teknis walau `APP_DEBUG` menyala** (rinciannya tetap di log).
 - **Teks dan status galat satu sumber.** `app/Http/Galat/KodeGalat.php` menyalin teks `frontend/src/teks/galat-api.ts` dan status `frontend/src/api/galat.ts`; tes Pest membaca kedua berkas TS itu dan gagal bila ada yang berbeda. Teks kode logika inti (`src/teks/galat.ts`) ditambahkan saat rumusnya diport (gelombang 5.4).
 - **`GET /api/v1/kesehatan`** (tanpa masuk): `{ data: { status: "sehat", basis_data: "tersambung", waktu } }`, atau 503 `SUMBER_BELUM_TERSEDIA` bila basis data tidak terjangkau. Dicatat di `kontrak-api.md` bagian 3.12.
@@ -512,7 +520,8 @@ Ditulis 11 Oktober 2026, **menunggu tanggapan pemilik produk**.
 | 2026-10-05 | D-12 sampai D-18 ditetapkan. Butir turunan di D-03, D-06, dan D-11 dikonfirmasi dan dirujuk ke keputusan baru. Jalur tangkapan layar di D-07 diganti mengikuti D-18 |
 | 2026-10-05 | D-19 dan D-20 ditetapkan: backend Laravel + MariaDB tanpa Docker, tampilan dikerjakan lebih dulu. Butir OTP di D-10 dan butir penegakan di D-13 dan D-14 disesuaikan |
 | 2026-10-05 | D-21 sampai D-25 ditetapkan: cookie Sanctum (token untuk React Native), 404 untuk data orang lain, konfirmasi otomatis setiap 15 menit, siap deploy VPS, PHP 8.3+ terpisah |
-| 2026-10-11 | D-51 ditulis: tafsiran gelombang 5.1 (rincian galat kosong tidak dikirim, 405 → 404, 419 → BENTROK, GET /kesehatan, pembaca Pest kasus bersama, skrip `npm run dev` satu perintah, proxy Vite, memori terukur) |
+| 2026-10-11 | D-51 ditetapkan: 419 memakai kode baru `SESI_KEDALUWARSA`; 405 → 404, `rincian` opsional, 5xx tanpa rincian teknis, penghapusan `AGENTS.md`/`CLAUDE.md` dan lisensi `proprietary` (sementara) disetujui |
+| 2026-10-11 | D-51 ditulis: tafsiran gelombang 5.1 (rincian galat kosong tidak dikirim, 405 → 404, 419 → BENTROK (diganti saat ditetapkan), GET /kesehatan, pembaca Pest kasus bersama, skrip `npm run dev` satu perintah, proxy Vite, memori terukur) |
 | 2026-10-11 | D-50 ditetapkan: PHP 8.5.11 di `C:\php-8.5.11-nts-Win32-vs17-x64`, basis data tetap MariaDB XAMPP (Laragon tidak dipakai) |
 | 2026-10-09 | D-49 ditetapkan: D-48 disetujui (kelebihan 12 kB mode tiruan diterima), ruang kosong untuk label Mode demo, Tahap 5 dibagi gelombang 5.1–5.6 |
 | 2026-10-09 | D-48 ditulis: jam sadar hari (besok/tanggal), build:demo dan preview:demo untuk cadangan demo lokal, pemecahan bundel per halaman (236,7 → 151,3/163,4 kB gzip) |

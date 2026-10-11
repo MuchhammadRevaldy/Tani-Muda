@@ -70,13 +70,12 @@ final class PenerjemahGalat
     }
 
     /**
-     * Token CSRF tidak cocok (sesi berganti atau kedaluwarsa). Status 419 dipertahankan agar
-     * klien HTTP bisa meminta /sanctum/csrf-cookie lagi; kode BENTROK karena tindakannya sama:
-     * muat ulang lalu coba lagi.
+     * Token CSRF tidak cocok karena sesi berganti atau kedaluwarsa (D-51). Klien HTTP meminta
+     * /sanctum/csrf-cookie lagi lalu mengulang permintaan.
      */
     private static function sesiBerubah(): GalatApi
     {
-        return new GalatApi('BENTROK', status: 419);
+        return new GalatApi('SESI_KEDALUWARSA');
     }
 
     private static function keJson(GalatApi $g): JsonResponse

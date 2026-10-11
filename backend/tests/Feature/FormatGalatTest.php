@@ -87,6 +87,8 @@ it('429 TERLALU_SERING membawa coba_lagi_dalam dan header Retry-After', function
         ->assertJsonPath('galat.coba_lagi_dalam', 42);
 });
 
-it('419 token CSRF tidak cocok: kode BENTROK', function () {
-    $this->getJson('/api/v1/uji/csrf')->assertStatus(419)->assertJsonPath('galat.kode', 'BENTROK');
+it('419 token CSRF tidak cocok: SESI_KEDALUWARSA dengan teks sendiri', function () {
+    $this->getJson('/api/v1/uji/csrf')->assertStatus(419)->assertExactJson(['galat' => [
+        'kode' => 'SESI_KEDALUWARSA', 'pesan' => 'Sesimu sudah berakhir. Muat ulang halaman lalu coba lagi',
+    ]]);
 });
