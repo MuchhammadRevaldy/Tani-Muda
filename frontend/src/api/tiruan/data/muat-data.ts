@@ -1,13 +1,13 @@
-/** Muat data contoh dari berkas JSON (yang kelak dipakai juga oleh seeder Laravel). */
-import indeks from './indeks.json';
-import kebun from './kebun.json';
-import konfigurasi from './konfigurasi.json';
-import modul from './modul.json';
-import pengguna from './pengguna.json';
-import pesanan from './pesanan.json';
-import referensi from './referensi.json';
-import resep from './resep.json';
-import wilayah from './wilayah.json';
+/** Muat data contoh dari shared/data-contoh/*.json, berkas yang sama dengan seeder Laravel (T5.01, T5.08). */
+import indeks from '@data-contoh/indeks.json';
+import kebun from '@data-contoh/kebun.json';
+import konfigurasi from '@data-contoh/konfigurasi.json';
+import modul from '@data-contoh/modul.json';
+import pengguna from '@data-contoh/pengguna.json';
+import pesanan from '@data-contoh/pesanan.json';
+import referensi from '@data-contoh/referensi.json';
+import resep from '@data-contoh/resep.json';
+import wilayah from '@data-contoh/wilayah.json';
 import { gabungDataContoh, type BerkasDataContoh } from './berkas-data';
 import type { DataContoh } from './jenis-data';
 

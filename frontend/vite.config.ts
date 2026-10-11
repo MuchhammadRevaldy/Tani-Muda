@@ -1,6 +1,10 @@
 /// <reference types="vitest/config" />
-import { defineConfig } from 'vite';
+import { fileURLToPath } from 'node:url';
+import { defineConfig, searchForWorkspaceRoot } from 'vite';
 import react from '@vitejs/plugin-react';
+
+/** Data contoh bersama frontend dan seeder Laravel (T5.01). */
+const DATA_CONTOH = fileURLToPath(new URL('../shared/data-contoh', import.meta.url));
 
 /**
  * Proxy ke backend Laravel (D-21, arsitektur-backend.md 5a): peramban hanya berbicara dengan
@@ -17,7 +21,9 @@ const proxy = {
 
 export default defineConfig({
   plugins: [react()],
-  server: { proxy },
+  resolve: { alias: { '@data-contoh': DATA_CONTOH } },
+  // shared/ ada di luar folder frontend; server pengembangan perlu izin membacanya.
+  server: { proxy, fs: { allow: [searchForWorkspaceRoot(process.cwd()), DATA_CONTOH] } },
   preview: { proxy },
   // Manifest dipakai scripts/ukur-bundel.mjs untuk mengukur JavaScript halaman pertama (D-48).
   build: { manifest: true },

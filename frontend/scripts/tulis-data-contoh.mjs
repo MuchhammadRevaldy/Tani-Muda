@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Tulis data contoh ke src/api/tiruan/data/*.json dari pembuat-data.ts (lewat Vite, supaya modul
+ * Tulis data contoh ke shared/data-contoh/*.json dari pembuat-data.ts (lewat Vite, supaya modul
  * TypeScript bisa dimuat). Jalankan ulang setelah mengubah fixture atau pembuat data:
  *   npm run data-contoh
  * Tes `data.test.ts` gagal bila JSON tidak sama dengan keluaran pembuat.
@@ -11,7 +11,7 @@ import { fileURLToPath } from 'node:url';
 import { createServer } from 'vite';
 
 const akar = fileURLToPath(new URL('..', import.meta.url));
-const keluar = join(akar, 'src', 'api', 'tiruan', 'data');
+const keluar = join(akar, '..', 'shared', 'data-contoh');
 
 const server = await createServer({
   root: akar,
@@ -24,7 +24,7 @@ try {
   const { pecahDataContoh } = await server.ssrLoadModule('/src/api/tiruan/data/berkas-data.ts');
   for (const [nama, isi] of Object.entries(pecahDataContoh(buatDataContoh()))) {
     writeFileSync(join(keluar, `${nama}.json`), JSON.stringify(isi, null, 2) + '\n');
-    console.log('Tersimpan:', `src/api/tiruan/data/${nama}.json`);
+    console.log('Tersimpan:', `shared/data-contoh/${nama}.json`);
   }
 } finally {
   await server.close();

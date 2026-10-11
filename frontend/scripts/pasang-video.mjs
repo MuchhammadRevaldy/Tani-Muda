@@ -4,7 +4,7 @@
  * dengan id modulnya (mis. modul-sawi-bedengan-4.mp4), lalu jalankan:
  *   npm run pasang-video
  * Skrip memeriksa nama (harus id modul yang ada), format (.mp4), dan ukuran (paling besar
- * konfigurasi batas_video_mb), lalu menulis src/api/tiruan/data/video-modul.json berisi berkas dan
+ * konfigurasi batas_video_mb), lalu menulis shared/data-contoh/video-modul.json berisi berkas dan
  * ukurannya. Klien tiruan memakai daftar ini menggantikan video contoh; backend Tahap 5 membaca
  * berkas yang sama untuk seeder. Berkas yang ditolak tidak dimasukkan dan skrip keluar dengan kode 1.
  */
@@ -14,12 +14,13 @@ import { fileURLToPath } from 'node:url';
 
 const akar = fileURLToPath(new URL('..', import.meta.url));
 const folder = join(akar, 'public', 'video', 'modul');
-const keluar = join(akar, 'src', 'api', 'tiruan', 'data', 'video-modul.json');
+const data = join(akar, '..', 'shared', 'data-contoh');
+const keluar = join(data, 'video-modul.json');
 const modul = JSON.parse(
-  readFileSync(join(akar, 'src', 'api', 'tiruan', 'data', 'modul.json'), 'utf8'),
+  readFileSync(join(data, 'modul.json'), 'utf8'),
 );
 const { batas_video_mb: batasMb } = JSON.parse(
-  readFileSync(join(akar, 'src', 'api', 'tiruan', 'data', 'konfigurasi.json'), 'utf8'),
+  readFileSync(join(data, 'konfigurasi.json'), 'utf8'),
 );
 const idModul = new Set(modul.map((m) => m.id));
 
@@ -48,7 +49,7 @@ for (const nama of readdirSync(folder).sort()) {
 
 writeFileSync(keluar, JSON.stringify(hasil, null, 2) + '\n');
 const n = Object.keys(hasil).length;
-console.log(`${n} video modul terpasang di src/api/tiruan/data/video-modul.json.`);
+console.log(`${n} video modul terpasang di shared/data-contoh/video-modul.json.`);
 for (const [id, v] of Object.entries(hasil))
   console.log(`  ${id}: ${v.berkas} (${v.ukuran_mb} MB)`);
 if (masalah.length) {

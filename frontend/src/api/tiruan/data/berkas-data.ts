@@ -1,6 +1,6 @@
 /**
- * Pembagian data contoh ke beberapa berkas JSON dan penggabungannya kembali. Nama berkas inilah yang
- * kelak dipindah ke shared/data-contoh/ (T5.01).
+ * Pembagian data contoh ke beberapa berkas JSON di shared/data-contoh/ dan penggabungannya kembali.
+ * Berkas yang sama dibaca seeder Laravel (T5.01, T5.08).
  */
 import type { DataContoh } from './jenis-data';
 
@@ -19,7 +19,7 @@ export interface BerkasDataContoh {
 const CATATAN =
   'DATA CONTOH dan fiktif, bukan rekomendasi. Resep berstatus draf dan berlabel "CONTOH, belum divalidasi penyuluh". ' +
   'Tanggal relatif: "H-13" = 13 hari sebelum hari ini; "H+0T07:00" = hari ini pukul 07.00 waktu pengguna; "B+2" = dua bulan dari bulan ini. ' +
-  'Dibuat dari src/api/tiruan/data/pembuat-data.ts dengan "npm run data-contoh"; jangan diubah manual.';
+  'Dibuat dari frontend/src/api/tiruan/data/pembuat-data.ts dengan "npm run data-contoh"; jangan diubah manual.';
 
 export function pecahDataContoh(d: DataContoh): BerkasDataContoh {
   return {

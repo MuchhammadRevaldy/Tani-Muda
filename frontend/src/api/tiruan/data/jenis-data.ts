@@ -1,6 +1,6 @@
 /**
- * Bentuk data contoh (src/api/tiruan/data/*.json). Kelak dipindah ke shared/data-contoh/ dan dibaca
- * seeder Laravel (T5.08). Tanggal ditulis relatif terhadap hari ini supaya demo selalu segar:
+ * Bentuk data contoh (shared/data-contoh/*.json), yang juga dibaca seeder Laravel (T5.08). Tanggal
+ * ditulis relatif terhadap hari ini supaya demo selalu segar:
  * - "H-13"       → tanggal 13 hari sebelum hari ini;
  * - "H+0T07:00"  → hari ini pukul 07.00 waktu pengguna (disimpan UTC setelah diselesaikan);
  * - "B+3"        → bulan ketiga dari bulan ini ("YYYY-MM");

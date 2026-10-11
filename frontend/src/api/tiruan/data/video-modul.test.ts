@@ -6,9 +6,9 @@ import { existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { describe, expect, it, vi } from 'vitest';
 import { buatKlienTiruan } from '../klien-tiruan';
-import konfigurasi from './konfigurasi.json';
-import modul from './modul.json';
-import videoModul from './video-modul.json';
+import konfigurasi from '@data-contoh/konfigurasi.json';
+import modul from '@data-contoh/modul.json';
+import videoModul from '@data-contoh/video-modul.json';
 
 const daftar: Record<string, { berkas: string; ukuran_mb: number }> = videoModul;
 
@@ -27,7 +27,7 @@ describe('video modul asli', () => {
 
   it('klien tiruan memakai video asli menggantikan video contoh', async () => {
     vi.resetModules();
-    vi.doMock('./video-modul.json', () => ({
+    vi.doMock('@data-contoh/video-modul.json', () => ({
       default: { 'modul-sawi-bedengan-4': { berkas: 'modul-sawi-bedengan-4.mp4', ukuran_mb: 4.2 } },
     }));
     const { buatKlienTiruan: buat } = await import('../klien-tiruan');
@@ -41,7 +41,7 @@ describe('video modul asli', () => {
     expect((await t.klien.belajar.ambilModul('modul-sawi-bedengan-2')).video_url).toBe(
       '/video/contoh/semai-sawi.webm',
     );
-    vi.doUnmock('./video-modul.json');
+    vi.doUnmock('@data-contoh/video-modul.json');
     vi.resetModules();
     // Tanpa video asli: modul tanpa video tetap kosong.
     const t2 = buatKlienTiruan({ tampilkanResepContoh: true, kv: null });

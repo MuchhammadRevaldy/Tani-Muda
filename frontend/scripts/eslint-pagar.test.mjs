@@ -18,9 +18,16 @@ describe('pagar impor D-20 (T3.12)', { timeout: 30_000 }, () => {
         'src/halaman/contoh.tsx',
       ),
     ).toContain('no-restricted-imports');
+    // Data contoh bersama (shared/data-contoh, T5.01) lewat alias maupun jalur relatif.
     expect(
       await aturan(
-        "import data from '../../api/tiruan/data/resep.json';\nexport const x = data;\n",
+        "import data from '@data-contoh/resep.json';\nexport const x = data;\n",
+        'src/halaman/hitung/contoh.tsx',
+      ),
+    ).toContain('no-restricted-imports');
+    expect(
+      await aturan(
+        "import data from '../../../../shared/data-contoh/resep.json';\nexport const x = data;\n",
         'src/halaman/hitung/contoh.tsx',
       ),
     ).toContain('no-restricted-imports');

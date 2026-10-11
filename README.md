@@ -73,7 +73,7 @@ Skrip di akar (`npm run dev`, `demo`, `build:demo`, `preview:demo`) hanya meneru
 | `npm run build`                          | Cek tipe dan build produksi ke `dist/`                                                                                  |
 | `npm run ekstrak-desain`                 | Bongkar file desain ke `design/extracted/` (bahan kerja, tidak masuk git)                                               |
 | `npm run tangkap -- <url> <jalur-dasar>` | Tangkapan layar 390px dan 1440px dengan Chrome atau Edge yang terpasang                                                 |
-| `npm run data-contoh`                    | Tulis ulang `src/api/tiruan/data/*.json` dari `pembuat-data.ts`                                                         |
+| `npm run data-contoh`                    | Tulis ulang `shared/data-contoh/*.json` dari `pembuat-data.ts`                                                         |
 | `npm run pasang-video`                   | Pasang video modul asli dari `public/video/modul/` (lihat "Memasang video modul")                                       |
 | `node scripts/buat-ikon.mjs`             | Buat ulang favicon dan ikon layar utama di `public/` dari ikon kebun dan token warna                                    |
 
@@ -105,7 +105,7 @@ Peramban yang belum punya data langsung disiapkan data demo; **Atur ulang data d
 Video asli modul belajar (MP4 360p, D-29) dipasang tanpa mengubah kode:
 
 1. Ekspor video sebagai **MP4 (H.264) 360p**, paling besar **15 MB** (`batas_video_mb` di konfigurasi). Durasi sekitar 3 menit.
-2. Beri nama berkas **sama dengan id modulnya**, lalu taruh di `frontend/public/video/modul/`. Contoh: `modul-sawi-bedengan-4.mp4` untuk modul Perawatan sawi bedengan. Id setiap modul ada di `frontend/src/api/tiruan/data/modul.json` (kolom `id`) dan tampil di alamat halaman pemutar (`/belajar/<id>`).
+2. Beri nama berkas **sama dengan id modulnya**, lalu taruh di `frontend/public/video/modul/`. Contoh: `modul-sawi-bedengan-4.mp4` untuk modul Perawatan sawi bedengan. Id setiap modul ada di `shared/data-contoh/modul.json` (kolom `id`) dan tampil di alamat halaman pemutar (`/belajar/<id>`).
 3. Jalankan:
 
    ```bash
@@ -113,7 +113,7 @@ Video asli modul belajar (MP4 360p, D-29) dipasang tanpa mengubah kode:
    npm run pasang-video
    ```
 
-   Skrip memeriksa nama, format, dan ukuran, lalu menulis `frontend/src/api/tiruan/data/video-modul.json` (nama berkas dan ukurannya). Berkas yang salah nama, bukan MP4, atau terlalu besar disebutkan satu per satu dan tidak dipasang.
+   Skrip memeriksa nama, format, dan ukuran, lalu menulis `shared/data-contoh/video-modul.json` (nama berkas dan ukurannya). Berkas yang salah nama, bukan MP4, atau terlalu besar disebutkan satu per satu dan tidak dipasang.
 
 4. Muat ulang aplikasi. Modul itu langsung memakai video asli menggantikan video contoh atau keterangan "video sedang disiapkan"; data demo tidak perlu diatur ulang.
 5. Commit berkas video dan `video-modul.json` bersama-sama. `npm test` gagal bila daftar menunjuk berkas yang tidak ada.

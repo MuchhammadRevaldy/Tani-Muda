@@ -14,7 +14,7 @@ import { bandingTanggal, selisihHari, tambahHari } from '../../../lib/tanggal';
 import { perkiraanPanen } from '../../../lib/ukuran-metode';
 import { judulUkurUlang } from '../../../teks/jadwal';
 import type { KlienBelajar, KlienKebun, KlienLahan } from '../../klien';
-import videoModul from '../data/video-modul.json';
+import videoModul from '@data-contoh/video-modul.json';
 import { lahanKeDomain, resepKeDomain, tugasDariDomain, tugasKeDomain } from '../../peta';
 import type { Pengguna, ResepTanam, SiklusDetail, SiklusTersimpan, Tugas } from '../../tipe';
 import type { Konteks } from '../konteks';

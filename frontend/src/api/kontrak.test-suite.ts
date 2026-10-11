@@ -4,7 +4,7 @@
  * Tahap 6. Setiap endpoint di docs/kontrak-api.md punya minimal satu kasus, ditambah aturan akses
  * utama (D-22), uang (D-02), kapasitas (D-15, D-34), dan privasi (D-06).
  *
- * Data awal = data contoh (src/api/tiruan/data/*.json) dengan hari ini 2026-10-05 08.00 WIB.
+ * Data awal = data contoh (shared/data-contoh/*.json) dengan hari ini 2026-10-05 08.00 WIB.
  */
 import { beforeEach, describe, expect, it } from 'vitest';
 import { adalahGalatApi, type GalatApi, type KodeGalatApi } from './galat';

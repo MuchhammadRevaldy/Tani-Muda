@@ -449,7 +449,7 @@ Aturan tahap:
   - Data contoh dari desain: 10 komoditas (4 berresep), 4 metode, konversi ru 14 m² untuk wilayah demo, input pertanian dan merek (nomor pendaftaran), laporan harga, kelayakan subsidi (urea, NPK), promo toko tani.
   - **Wilayah**: desa demo di Lembang dan sekitarnya, dengan titik tengah desa.
   - **Konfigurasi bisnis**: uang muka 20, layanan 5, batas periksa 6 jam rutin dan 24 jam sekali panen, batas kabar 3 hari, radius 10 km, kontak admin (D-13).
-- **Berkas:** `frontend/src/api/tiruan/data/referensi.json`, `wilayah.json`, `konfigurasi.json`, tes konsistensi `frontend/src/api/tiruan/data/data.test.ts`.
+- **Berkas:** `shared/data-contoh/referensi.json`, `wilayah.json`, `konfigurasi.json`, tes konsistensi `frontend/src/api/tiruan/data/data.test.ts`.
 - **PRD:** P0-30, P0-34, P0-35; data seperti `ringkasan-desain.md` bagian 5.
 - **Selesai bila:**
   - setiap data cocok dengan tipe T3.03 (diuji);
@@ -468,7 +468,7 @@ Aturan tahap:
   - Semua resep **`status: draf`, `contoh: true`**, berlabel "CONTOH, belum divalidasi penyuluh" (D-10–D-12).
   - Hidroponik hanya untuk sawi (D-05).
   - 6 modul belajar per resep (bedengan, hidroponik sawi, sawah) dengan judul dan menit seperti papan 08 dan 09, serta video placeholder.
-- **Berkas:** `frontend/src/api/tiruan/data/resep.json`, `frontend/src/api/tiruan/data/modul.json` (diturunkan dari fixture T2.01, bukan disalin ulang dengan angka berbeda).
+- **Berkas:** `shared/data-contoh/resep.json`, `shared/data-contoh/modul.json` (diturunkan dari fixture T2.01, bukan disalin ulang dengan angka berbeda).
 - **PRD:** P0-03, P0-05, P0-12, P0-36, P0-37.
 - **Selesai bila:**
   - kalkulator `modal.ts` dengan data resep ini menghasilkan total yang sama dengan fixture T2.01 (tes konsistensi);
@@ -497,7 +497,7 @@ Aturan tahap:
   - kiriman di setiap tahap (uang muka ditahan, menunggu konfirmasi, dana cair, ditolak sebagian dengan sengketa);
   - pembayaran;
   - rating.
-- **Berkas:** `frontend/src/api/tiruan/data/pengguna.json`, `lahan.json`, `siklus.json`, `pesanan.json`, perluasan `data.test.ts`.
+- **Berkas:** `shared/data-contoh/pengguna.json`, `lahan.json`, `siklus.json`, `pesanan.json`, perluasan `data.test.ts`.
 - **PRD:** P0-01, P0-02, P0-19, P0-20, P0-21, P0-25; D-03, D-06, D-13, D-15.
 - **Selesai bila:**
   - setiap peran dan keadaan di atas ada (diuji);

@@ -15,7 +15,8 @@
     "allowImportingTsExtensions": false,
     "skipLibCheck": true,
     "noEmit": true,
-    "types": ["vite/client", "node"]
+    "types": ["vite/client", "node"],
+    "paths": { "@data-contoh/*": ["../shared/data-contoh/*"] }
   },
   "include": ["src", "vite.config.ts", "tailwind.config.ts"]
 }

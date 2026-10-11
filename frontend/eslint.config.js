@@ -53,7 +53,13 @@ export default tseslint.config(
         {
           patterns: [
             {
-              group: ['**/api/tiruan/**', '**/api/sumber', '**/penyedia/**'],
+              group: [
+                '**/api/tiruan/**',
+                '**/api/sumber',
+                '**/penyedia/**',
+                '@data-contoh/**',
+                '**/shared/data-contoh/**',
+              ],
               message:
                 'Halaman dan komponen hanya mengambil data lewat hook di src/api/kueri (keputusan D-20).',
             },
