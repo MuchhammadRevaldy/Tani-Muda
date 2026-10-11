@@ -1,0 +1,117 @@
+{
+  "keterangan": "Jarak Haversine dan radius pesanan (D-06). Angka pecahan dibandingkan dengan toleransi.",
+  "kasus": [
+    {
+      "nama": "Bandung ke Bandung",
+      "fungsi": "jarakKm",
+      "masukan": {
+        "a": {
+          "lintang": -6.9175,
+          "bujur": 107.6191
+        },
+        "b": {
+          "lintang": -6.9175,
+          "bujur": 107.6191
+        }
+      },
+      "keluaran": 0,
+      "toleransi": 0.001
+    },
+    {
+      "nama": "Bandung ke Jakarta",
+      "fungsi": "jarakKm",
+      "masukan": {
+        "a": {
+          "lintang": -6.9175,
+          "bujur": 107.6191
+        },
+        "b": {
+          "lintang": -6.2088,
+          "bujur": 106.8456
+        }
+      },
+      "keluaran": 116.4,
+      "toleransi": 1
+    },
+    {
+      "nama": "Bandung ke Lembang",
+      "fungsi": "jarakKm",
+      "masukan": {
+        "a": {
+          "lintang": -6.9175,
+          "bujur": 107.6191
+        },
+        "b": {
+          "lintang": -6.8117,
+          "bujur": 107.6175
+        }
+      },
+      "keluaran": 11.8,
+      "toleransi": 0.2
+    },
+    {
+      "nama": "satu derajat bujur di khatulistiwa",
+      "fungsi": "jarakKm",
+      "masukan": {
+        "a": {
+          "lintang": 0,
+          "bujur": 0
+        },
+        "b": {
+          "lintang": 0,
+          "bujur": 1
+        }
+      },
+      "keluaran": 111.19,
+      "toleransi": 0.01
+    },
+    {
+      "nama": "setengah keliling bumi",
+      "fungsi": "jarakKm",
+      "masukan": {
+        "a": {
+          "lintang": 0,
+          "bujur": 0
+        },
+        "b": {
+          "lintang": 0,
+          "bujur": 180
+        }
+      },
+      "keluaran": 20015.09,
+      "toleransi": 0.1
+    },
+    {
+      "nama": "tepat di tepi radius 10 km termasuk",
+      "fungsi": "dalamRadius",
+      "masukan": {
+        "titik": {
+          "lintang": 0.08993216059187305,
+          "bujur": 0
+        },
+        "pusat": {
+          "lintang": 0,
+          "bujur": 0
+        },
+        "radiusKm": 10
+      },
+      "keluaran": true
+    },
+    {
+      "nama": "sedikit di luar radius 10 km",
+      "fungsi": "dalamRadius",
+      "masukan": {
+        "titik": {
+          "lintang": 0.09083148219779179,
+          "bujur": 0
+        },
+        "pusat": {
+          "lintang": 0,
+          "bujur": 0
+        },
+        "radiusKm": 10
+      },
+      "keluaran": false
+    }
+  ]
+}

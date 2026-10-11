@@ -6,6 +6,8 @@ Ditetapkan oleh pemilik produk, 4 Oktober 2026. Butir bertanda **(turunan)** ada
 
 ---
 
+> **Jalur berkas.** Sejak T5.01 (D-49) proyek React ada di `frontend/`. Keputusan yang ditulis sebelumnya menyebut jalur dari akar lama (`src/…`, `scripts/…`, `public/…`); bacalah sebagai `frontend/src/…` dan seterusnya. Isi keputusan lama tidak diubah.
+
 ## D-01. Batas periksa kiriman
 - Pesanan **rutin: 6 jam**. Pesanan **sekali panen: 24 jam**.
 - Lewat batas tanpa tanggapan pembeli, kiriman **dianggap diterima** dan dana cair ke petani.
@@ -462,6 +464,45 @@ Tafsiran teknis saat menulis `docs/kontrak-api.md`. Tidak mengubah perilaku prod
 - **Uji:** naskah demo dijalankan terhadap `preview:demo` di peramban kosong (tanpa menekan Atur ulang) pada pukul 10.00 dan 21.00, dengan langkah tambahan membuka `/kebun` sebelum masuk (diarahkan ke Masuk), lalu membuka dan memuat ulang `/kebun` dan `/kebun/siklus-arif-sawi/jadwal` setelah masuk: 15 langkah berhasil di kedua jam.
 - Berdampak ke: T4.21, T4.22, T4.25, T6.03, T6.08, T6.09.
 
+## D-49. Tanggapan D-48; pembagian Tahap 5 per gelombang
+- **Hasil D-48 disetujui.**
+- **Kelebihan 12 kB di build mode tiruan:** diterima; model data tiruan tidak diubah. **Target 200 kB berlaku untuk build produksi** (sudah diperiksa otomatis di `npm run build`).
+- **Label "Mode demo":** konten dan kaki halaman diberi ruang kosong setinggi label selama label terpasang (`html.ada-label-demo` di `index.css`), dan di HP label naik ke atas navigasi bawah bila halaman memilikinya, sehingga label tidak menutupi banner atau konten apa pun. Tangkapan baru: `64-mode-demo-beranda`, `64-mode-demo-halaman-depan`, `64-mode-demo-dasbor-pembeli` (mobile dan desktop, build demo).
+- **Tahap 5 dibagi enam gelombang** dengan tanda prioritas (rencana-kerja.md, bagian Tahap 5):
+  - 5.1 [WAJIB]: T5.00 PHP 8.3+, susun ulang folder (T5.01), kerangka Laravel dan sambungan MariaDB, Pest, kasus uji bersama (T5.02, T5.03).
+  - 5.2 [WAJIB]: migrasi dan seeder (T5.04–T5.08), termasuk memindah data contoh ke `shared/data-contoh/`.
+  - 5.3 [WAJIB]: login OTP, akun, pilih peran, dasar Policy (T5.09, T5.10, bagian akun T5.11).
+  - 5.4 [WAJIB]: endpoint Hitung dan Kebun: resep, lahan, siklus, rencana, tugas, pengukuran, pengeluaran (T5.11, T5.12, bagian kapasitas T5.14).
+  - 5.5 [WAJIB]: endpoint Jual: pesanan, alokasi dengan penguncian baris, kesepakatan, pembayaran tiruan, kiriman, konfirmasi, rating (T5.13–T5.16 bagian Jual).
+  - 5.6: scheduler dan web push [SEBAIKNYA] (T5.17, T5.18), lalu endpoint mentor, admin, dan sengketa [BOLEH DITUNDA] (T5.16 bagian admin/mentor), dan kecocokan kontrak (T5.19).
+- Selama Tahap 5, frontend tetap memakai `VITE_SUMBER_DATA=tiruan` sebagai bawaan, sehingga demo bisa berjalan kapan saja.
+- Berdampak ke: T5.00–T5.19.
+
+## D-50. T5.00: lokasi PHP dan basis data tetap MariaDB XAMPP
+- **PHP 8.5.11 NTS (x64) terpasang di `C:\php-8.5.11-nts-Win32-vs17-x64`** dan berada di PATH sistem. `C:\xampp\php` dihapus dari PATH sistem, sehingga `php` dan Composer memakai PHP 8.5. Folder itu diberi `php.ini` dari `php.ini-development` dengan `extension_dir` berisi jalur lengkap, sepuluh ekstensi wajib, batas unggah 4M/8M, dan `date.timezone = UTC`.
+- **Basis data tetap MariaDB 10.4.32 dari XAMPP** sesuai D-25. MySQL 5.7 dari Laragon sempat dipertimbangkan karena memegang port 3306, lalu dibatalkan pemilik produk. Laragon tidak dipakai proyek ini; MySQL Laragon jangan dinyalakan bersamaan dengan XAMPP karena berebut port 3306.
+- Dua basis data dibuat di MariaDB XAMPP dengan `utf8mb4` / `utf8mb4_unicode_ci`: `tani_muda` (pengembangan) dan `tani_muda_uji` (tes). Bawaan server `utf8mb4_general_ci`, jadi collation ditulis eksplisit.
+- Berdampak ke: `arsitektur-backend.md` bagian 2 dan 2a, T5.00.
+
+## D-51. Tafsiran gelombang 5.1: kerangka Laravel, format galat, skrip satu perintah
+Ditulis 11 Oktober 2026, **menunggu tanggapan pemilik produk**.
+- **Format galat.** Semua galat `/api/*` diubah di satu tempat (`app/Http/Galat/PenerjemahGalat.php`). Pemetaan yang tidak tertulis di kontrak:
+  - `rincian` **tidak dikirim bila kosong**, sama dengan `GalatApi.keJson()` di klien tiruan (rencana T5.03 menulis `{ kode, pesan, rincian }`);
+  - **405** (metode salah untuk alamat yang ada) dijawab **404 `TIDAK_DITEMUKAN`**, seperti alamat yang tidak ada;
+  - **419** (token CSRF tidak cocok) tetap berstatus 419 dengan kode **`BENTROK`** dan teksnya ("Data ini sudah berubah. Muat ulang lalu coba lagi"), supaya klien HTTP Tahap 6 bisa meminta `/sanctum/csrf-cookie` lagi. Alternatifnya kode baru `SESI_KEDALUWARSA` dengan teks sendiri;
+  - 400, 413, 415 (permintaan tidak terbaca, terlalu besar) berkode `VALIDASI` dengan status aslinya; galat 5xx berkode `GALAT_SERVER` **tanpa rincian teknis walau `APP_DEBUG` menyala** (rinciannya tetap di log).
+- **Teks dan status galat satu sumber.** `app/Http/Galat/KodeGalat.php` menyalin teks `frontend/src/teks/galat-api.ts` dan status `frontend/src/api/galat.ts`; tes Pest membaca kedua berkas TS itu dan gagal bila ada yang berbeda. Teks kode logika inti (`src/teks/galat.ts`) ditambahkan saat rumusnya diport (gelombang 5.4).
+- **`GET /api/v1/kesehatan`** (tanpa masuk): `{ data: { status: "sehat", basis_data: "tersambung", waktu } }`, atau 503 `SUMBER_BELUM_TERSEDIA` bila basis data tidak terjangkau. Dicatat di `kontrak-api.md` bagian 3.12.
+- **Pesan validasi umum** Bahasa Indonesia di `lang/id/validation.php` ("Isian harga kemasan wajib diisi."). Pesan itu cadangan: setiap Form Request menulis pesan dan nama kolomnya sendiri yang menyebut apa yang harus dilakukan (D-09), karena nama kolom bersarang tampil kurang rapi (mis. `nilai.pH`).
+- **Waktu** di JSON selalu `YYYY-MM-DDTHH:MM:SS.mmmZ` (UTC, milidetik) lewat `Date::serializeUsing`, sama dengan klien tiruan.
+- **Pembaca Pest kasus uji bersama** ada di `backend/tests/Unit/KasusUjiBersamaTest.php` (bukan `tests/KasusUjiBersama.php` seperti ditulis sebelumnya, karena Pest hanya menjalankan berkas `*Test.php`). Bentuk setiap kasus diperiksa; hasil rumus diperiksa per fungsi dan ditandai "belum diport" (15 fungsi, dilewati) sampai fungsi PHP didaftarkan di `ADAPTOR_HITUNG`.
+- **Skrip satu perintah** `frontend/scripts/dev-lengkap.mjs` (`npm run dev:lengkap`, atau `npm run dev` di akar): memeriksa PHP 8.3+, `backend/vendor`, `backend/.env`, dan port basis data, lalu menjalankan `php artisan serve` dan Vite dalam satu proses Node; `--jadwal` dan `--antrean` opsional. Tanpa paket npm baru (`php artisan dev` bawaan Laravel 13 mengunduh `concurrently` lewat `npx`). `package.json` di akar hanya meneruskan `dev`, `demo`, `build:demo`, `preview:demo` ke `frontend/`.
+- **Proxy Vite** `/api` dan `/sanctum` ke `http://127.0.0.1:8000` di `vite.config.ts` (juga untuk `vite preview`); alamat lain lewat variabel proses `TANI_MUDA_API`, karena `.env` frontend hanya boleh berisi `VITE_*` (arsitektur-backend.md 5a).
+- **Kerangka Laravel yang dibuang atau diubah:** aset frontend Laravel (`package.json`, `vite.config.js`, `resources/css|js`, halaman `welcome`), contoh tes, serta `AGENTS.md`/`CLAUDE.md` bawaan kerangka (panduan umum Laravel Boost yang menyuruh memasang alat lain dan bertentangan dengan `aturan-proyek.md`). Lisensi `composer.json` diganti dari MIT ke `proprietary` sampai ada keputusan lisensi. Migrasi bawaan (`users`, `sessions`, `cache`, `jobs`, `personal_access_tokens`) dibiarkan sampai T5.04 menggantinya dengan tabel `pengguna`.
+- **Memori diukur** (bukan perkiraan) saat `npm run dev` menyala: MariaDB 207 MB, PHP 52 MB, Node + Vite 377 MB, ditambah ±120 MB bila dijalankan lewat npm dari akar (`menjalankan-lokal.md` bagian 6).
+- **Sisa di luar repositori:** folder `C:\php\8.5` (salinan PHP yang sama, tidak di PATH) dan dua basis data kosong di MySQL Laragon boleh dihapus.
+- Berdampak ke: `kontrak-api.md` 1.4, 1.6, 3.12; `arsitektur-backend.md` 2, 2b, 3, 5a; T5.01–T5.03.
+
 ---
 
 ## Riwayat
@@ -471,6 +512,9 @@ Tafsiran teknis saat menulis `docs/kontrak-api.md`. Tidak mengubah perilaku prod
 | 2026-10-05 | D-12 sampai D-18 ditetapkan. Butir turunan di D-03, D-06, dan D-11 dikonfirmasi dan dirujuk ke keputusan baru. Jalur tangkapan layar di D-07 diganti mengikuti D-18 |
 | 2026-10-05 | D-19 dan D-20 ditetapkan: backend Laravel + MariaDB tanpa Docker, tampilan dikerjakan lebih dulu. Butir OTP di D-10 dan butir penegakan di D-13 dan D-14 disesuaikan |
 | 2026-10-05 | D-21 sampai D-25 ditetapkan: cookie Sanctum (token untuk React Native), 404 untuk data orang lain, konfirmasi otomatis setiap 15 menit, siap deploy VPS, PHP 8.3+ terpisah |
+| 2026-10-11 | D-51 ditulis: tafsiran gelombang 5.1 (rincian galat kosong tidak dikirim, 405 → 404, 419 → BENTROK, GET /kesehatan, pembaca Pest kasus bersama, skrip `npm run dev` satu perintah, proxy Vite, memori terukur) |
+| 2026-10-11 | D-50 ditetapkan: PHP 8.5.11 di `C:\php-8.5.11-nts-Win32-vs17-x64`, basis data tetap MariaDB XAMPP (Laragon tidak dipakai) |
+| 2026-10-09 | D-49 ditetapkan: D-48 disetujui (kelebihan 12 kB mode tiruan diterima), ruang kosong untuk label Mode demo, Tahap 5 dibagi gelombang 5.1–5.6 |
 | 2026-10-09 | D-48 ditulis: jam sadar hari (besok/tanggal), build:demo dan preview:demo untuk cadangan demo lokal, pemecahan bundel per halaman (236,7 → 151,3/163,4 kB gzip) |
 | 2026-10-09 | D-47 ditetapkan: Tahap 4 disetujui; GET /admin/petani dengan cari dan paginasi; adegan demo bergantung jam memakai notasi J±n relatif terhadap atur ulang; naskah diuji pada 09.00, 14.00, 19.00, 23.00 |
 | 2026-10-09 | D-46 ditulis: tafsiran gelombang 8 (GET /admin/petani, panel admin dan mentor, validasi resep satu sumber, POST /mentor/resep menjawab VALIDASI, pemeriksaan responsif, jam demo konfirmasi kiriman) |

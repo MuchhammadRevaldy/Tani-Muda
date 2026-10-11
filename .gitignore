@@ -9,6 +9,13 @@ coverage/
 .env.*
 !.env.example
 
+# Backend Laravel (backend/.gitignore memuat sisanya). Isi backend/storage diabaikan oleh berkas
+# .gitignore di tiap subfoldernya, sehingga struktur folder yang dibutuhkan Laravel tetap ikut.
+backend/vendor/
+backend/.env
+backend/.phpunit.cache/
+backend/database/*.sqlite
+
 # Bahan kerja hasil bongkar desain (buat ulang dengan `npm run ekstrak-desain`)
 design/extracted/
 

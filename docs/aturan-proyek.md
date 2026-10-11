@@ -18,10 +18,10 @@ Acuan: `docs/keputusan.md` (keputusan produk, tertinggi), `docs/prd-tani-muda.md
    - Tidak ada kata Inggris di UI (bukan "Dashboard", "Login", "Submit", "OK"). Halaman pembeli bernama "Dasbor" atau "Pesanan aktif".
    - **Bahasa petani:** "Hari ke-13", bukan "HST 13"; "Uang muka sudah masuk", bukan "Pembayaran DP berhasil". Dilarang di tampilan: escrow, task, pending, submit, DP, HST, dashboard, login. ("HST" boleh di kode, basis data, dan panel mentor.)
    - Kalimat biasa, **bukan huruf kapital semua**; tombol diawali kata kerja ("Simpan rencana", "Ambil pesanan"); rupiah ditulis lengkap `Rp1.250.000`.
-   - Dijaga otomatis oleh lint teks (T1.03): daftar kata terlarang di `scripts/kata-terlarang.json`.
+   - Dijaga otomatis oleh lint teks (T1.03): daftar kata terlarang di `frontend/scripts/kata-terlarang.json`.
    - Arti status dibawa juga oleh **ikon dan kata**, tidak hanya warna.
-3. **Semua teks UI lewat satu tempat**: `src/teks/` (objek TypeScript per fitur). Komponen tidak berisi kalimat panjang tertulis langsung kecuali label singkat sekali pakai. Ini memudahkan pengecekan bahasa dan nanti i18n.
-4. Format angka dan tanggal **hanya lewat `src/lib/format.ts`** (fungsi murni dan teruji): `Rp430.000` (tanpa spasi, titik ribuan), minus `−` (U+2212), koma desimal ("6,1"), jam `06.00`, tanggal "Sabtu, 3 Oktober", kisaran dengan en dash. Dilarang memanggil `toLocaleString` atau `Intl` langsung di komponen.
+3. **Semua teks UI lewat satu tempat**: `frontend/src/teks/` (objek TypeScript per fitur). Komponen tidak berisi kalimat panjang tertulis langsung kecuali label singkat sekali pakai. Ini memudahkan pengecekan bahasa dan nanti i18n.
+4. Format angka dan tanggal **hanya lewat `frontend/src/lib/format.ts`** (fungsi murni dan teruji): `Rp430.000` (tanpa spasi, titik ribuan), minus `−` (U+2212), koma desimal ("6,1"), jam `06.00`, tanggal "Sabtu, 3 Oktober", kisaran dengan en dash. Dilarang memanggil `toLocaleString` atau `Intl` langsung di komponen.
 5. Jangan mengarang istilah baru. Kalau butuh kata yang belum ada di PRD atau desain, tulis di daftar pertanyaan, jangan menebak.
 
 ## 2. Token desain: warna dan ukuran
@@ -36,14 +36,14 @@ Acuan: `docs/keputusan.md` (keputusan produk, tertinggi), `docs/prd-tani-muda.md
 5. **Tidak ada bayangan jatuh.** Satu-satunya `box-shadow` adalah cincin fokus (`ring` token `fokus`) dan cincin pilihan. Dilarang `shadow-md`, `shadow-lg`, dll.
 6. Hanya mode terang. Jangan menambah `dark:`.
 7. Pengecualian token harus melewati proses: tambahkan token ke `tailwind.config.ts` **dan** ke `ringkasan-desain.md`, lalu pakai. Jangan membuat nilai satu kali pakai.
-8. Dijaga otomatis oleh lint (tugas T1.03): kalau ada hex atau warna bawaan Tailwind di `src/`, `npm run lint` gagal.
+8. Dijaga otomatis oleh lint (tugas T1.03): kalau ada hex atau warna bawaan Tailwind di `frontend/src/`, `npm run lint` gagal.
 9. Warna di data (mis. batang pengukuran, SVG ilustrasi) memakai kelas token atau `currentColor`; SVG memakai `stroke="currentColor"`.
 10. **Teks yang tidak muat dipotong dengan elipsis** (`truncate`), lalu teks lengkapnya ditampilkan saat disentuh atau diarahkan kursor (D-17). **Jangan memperkecil ukuran huruf** agar teks muat.
 11. Ikon baru di luar `design/icons/` hanya boleh bila gayanya sama: kotak 24×24, garis 2, ujung dan sambungan bulat, tanpa isian, `currentColor` (D-17).
 
-## 3. Logika perhitungan: fungsi murni di `src/lib` dengan unit test
+## 3. Logika perhitungan: fungsi murni di `frontend/src/lib` dengan unit test
 
-1. Semua logika berikut **ditulis sebagai fungsi TypeScript murni di `src/lib/`** (tanpa React, tanpa klien API, tanpa `Date.now()` atau `new Date()` di dalamnya, tanpa efek samping):
+1. Semua logika berikut **ditulis sebagai fungsi TypeScript murni di `frontend/src/lib/`** (tanpa React, tanpa klien API, tanpa `Date.now()` atau `new Date()` di dalamnya, tanpa efek samping):
    - kalkulator (kebutuhan input, pembulatan kemasan, total modal, biaya alat per siklus, pendapatan, untung, titik impas, subsidi);
    - jadwal (membuat tugas dari resep, tanggal tugas sekali/berulang/pengukuran, tunda, ubah tanggal tanam, status terlambat, penyaringan tipe);
    - konversi satuan (m², ru/bata, hektare, dan satuan wilayah);
@@ -51,13 +51,13 @@ Acuan: `docs/keputusan.md` (keputusan produk, tertinggi), `docs/prd-tani-muda.md
    - pesanan (nilai pesanan, uang muka, biaya layanan, luas per panen, luas rutin dan tanam bertahap, ambil sebagian, pembayaran per kiriman, pembagian 80/20);
    - format (rupiah, terbilang, tanggal, jam, desimal).
 2. Waktu dan konfigurasi **dikirim sebagai argumen**: `hariIni: Date`, `konversi: Record<string, number>`, `persenUangMuka`, dst. Tidak ada angka bisnis (14 m² per ru, 20%, 5%) tertulis tetap di dalam fungsi; semuanya dari data atau konfigurasi (PRD menyatakan nilainya bisa berubah).
-3. **Setiap fungsi di `src/lib` wajib punya unit test Vitest** di berkas `*.test.ts` bersebelahan. Syarat minimum per fungsi: satu kasus normal, nilai batas (nol, kosong, negatif, tepat di batas rentang), dan satu kasus dari rumus/contoh di PRD (contoh 5 g/m² × 100 m² = 500 g → kemasan 1 kg → "1 kg").
-4. Tugas yang menyentuh `src/lib` **tidak selesai** sebelum `npm run test` hijau dan cakupan baris di `src/lib` minimal 90% (disetel di konfigurasi Vitest).
-5. **Semua angka yang tampil** (kapasitas, modal, titik impas, uang muka, nilai pembayaran, jumlah kiriman, sisa saldo) berasal dari fungsi di `src/lib` (D-08). Angka dalam teks desain adalah ilustrasi dan **tidak boleh disalin** ke kode.
-5a. Komponen React hanya **memanggil** fungsi di `src/lib`, tidak menghitung sendiri. Backend Laravel memakai port PHP dari rumus yang sama (`backend/app/Domain/Hitung/`), dan kesamaannya dibuktikan oleh kasus uji bersama di `shared/kasus-uji/` yang dijalankan Vitest dan Pest. Server selalu menghitung ulang angka uang dan tidak menerimanya dari klien.
+3. **Setiap fungsi di `frontend/src/lib` wajib punya unit test Vitest** di berkas `*.test.ts` bersebelahan. Syarat minimum per fungsi: satu kasus normal, nilai batas (nol, kosong, negatif, tepat di batas rentang), dan satu kasus dari rumus/contoh di PRD (contoh 5 g/m² × 100 m² = 500 g → kemasan 1 kg → "1 kg").
+4. Tugas yang menyentuh `frontend/src/lib` **tidak selesai** sebelum `npm run test` hijau dan cakupan baris di `frontend/src/lib` minimal 90% (disetel di konfigurasi Vitest).
+5. **Semua angka yang tampil** (kapasitas, modal, titik impas, uang muka, nilai pembayaran, jumlah kiriman, sisa saldo) berasal dari fungsi di `frontend/src/lib` (D-08). Angka dalam teks desain adalah ilustrasi dan **tidak boleh disalin** ke kode.
+5a. Komponen React hanya **memanggil** fungsi di `frontend/src/lib`, tidak menghitung sendiri. Backend Laravel memakai port PHP dari rumus yang sama (`backend/app/Domain/Hitung/`), dan kesamaannya dibuktikan oleh kasus uji bersama di `shared/kasus-uji/` yang dijalankan Vitest dan Pest. Server selalu menghitung ulang angka uang dan tidak menerimanya dari klien.
 6. Aturan pembulatan: uang dibulatkan ke rupiah penuh di satu tempat (`bulatkanRupiah`); kebutuhan input dibulatkan **ke atas** ke kelipatan ukuran kemasan; tampilan dibulatkan di `format.ts`, bukan di logika.
 7. Status "terlambat" **tidak disimpan** di database (PRD): dihitung dari tanggal tugas dan hari ini lewat fungsi murni.
-8. Pesan galat validasi (ukuran nol, harga negatif) dikembalikan fungsi sebagai kode galat yang jelas (`'UKURAN_KOSONG'`), lalu diterjemahkan ke teks Indonesia di `src/teks/`.
+8. Pesan galat validasi (ukuran nol, harga negatif) dikembalikan fungsi sebagai kode galat yang jelas (`'UKURAN_KOSONG'`), lalu diterjemahkan ke teks Indonesia di `frontend/src/teks/`.
 
 ## 4. Responsif: web mobile 390px dan desktop 1440px
 
@@ -75,7 +75,7 @@ Acuan: `docs/keputusan.md` (keputusan produk, tertinggi), `docs/prd-tani-muda.md
 
 1. **Semua angka dosis, harga, hasil panen, rentang pH dan PPM, jadwal HST, dan pembagian biaya dalam repo adalah data contoh dari resep**, bukan rekomendasi agronomis atau keuangan. Resep yang dipakai hanya dari data contoh (data tiruan Tahap 3, lalu `shared/data-contoh/` untuk seeder Laravel) dan berlabel `contoh`.
 2. Konsekuensi di kode:
-   - Dilarang menulis angka dosis, harga, hasil per m², atau rentang pH/PPM langsung di komponen atau di `src/lib`. Angka itu **hanya** ada di data (data contoh JSON, fixture test) dan dibaca lewat klien API.
+   - Dilarang menulis angka dosis, harga, hasil per m², atau rentang pH/PPM langsung di komponen atau di `frontend/src/lib`. Angka itu **hanya** ada di data (data contoh JSON, fixture test) dan dibaca lewat klien API.
    - Fixture test boleh memakai angka contoh, ditandai di nama berkas atau komentar: `fixtures/contoh-resep-sawi.ts`.
 3. Konsekuensi di UI: setiap halaman yang menampilkan hasil hitungan menampilkan catatan yang sama dengan desain: **"Semua harga di halaman ini adalah contoh. Ubah sesuai harga di kios dan upah di desamu."**, dan hasil pengukuran memuat "Rentang dari Resep Tanam yang dicek penyuluh." Aplikasi tidak pernah menyebut merek tertentu sebagai rekomendasi (P0-34) dan promo selalu terpisah (P0-35).
 4. Resep seed berstatus **`draf`**, kolom `contoh = true`, dan berlabel **"CONTOH, belum divalidasi penyuluh"** di data seed dan di tampilan (D-10, D-11). Resep tampil ke petani hanya bila `divalidasi`, atau `contoh` bila `VITE_TAMPILKAN_RESEP_CONTOH=true` (nilai bawaan mati; D-12). Label itu wajib terlihat **di setiap tempat angka resep muncul**: kalkulator, jadwal dan detail tugas, serta rentang pengukuran. Jangan mengklaim validasi yang belum terjadi.
@@ -91,7 +91,7 @@ Acuan: `docs/keputusan.md` (keputusan produk, tertinggi), `docs/prd-tani-muda.md
 5. Dilarang menulis kunci, token, nomor HP asli, atau data pribadi di kode, seed, fixture, log, atau tangkapan layar. Seed memakai nomor dan nama fiktif.
 6. Dana pengguna tidak pernah masuk rekening tim; status ditahan/cair hanya dicatat dari respons payment gateway (PRD). Mode uji coba memakai sandbox gateway.
 7. Foto pengguna disimpan di disk privat backend dan hanya dibuka lewat URL bertanda tangan yang berlaku singkat. Foto dikecilkan sebelum diunggah (desain menjanjikan "Foto dikecilkan otomatis supaya hemat kuota").
-8. Pengecekan otomatis: `npm run lint` gagal bila kode frontend (`src/`) menyebut nama variabel rahasia backend (`APP_KEY`, `DB_PASSWORD`, `…_SECRET`, `…_PRIVATE_KEY`, dan sejenisnya) atau membaca `import.meta.env` selain `VITE_*` dan variabel bawaan Vite. Lint juga gagal bila `.env.example` frontend berisi variabel selain `VITE_*` atau nama yang tampak rahasia.
+8. Pengecekan otomatis: `npm run lint` gagal bila kode frontend (`frontend/src/`) menyebut nama variabel rahasia backend (`APP_KEY`, `DB_PASSWORD`, `…_SECRET`, `…_PRIVATE_KEY`, dan sejenisnya) atau membaca `import.meta.env` selain `VITE_*` dan variabel bawaan Vite. Lint juga gagal bila `.env.example` frontend berisi variabel selain `VITE_*` atau nama yang tampak rahasia.
 
 ## 6a. Antarmuka penyedia (D-10)
 
@@ -103,12 +103,12 @@ Acuan: `docs/keputusan.md` (keputusan produk, tertinggi), `docs/prd-tani-muda.md
 
 1. Stack tetap: frontend React + TypeScript (mode `strict`) + Vite + `vite-plugin-pwa`, Tailwind CSS, Dexie + TanStack Query untuk offline, Vitest; backend **Laravel 13** (PHP ≥ 8.3, dipasang terpisah dari XAMPP; D-25) + Sanctum + Pest dengan **MySQL/MariaDB dari XAMPP**, berjalan lokal tanpa Docker dan siap deploy ke VPS (D-19, D-24). Menambah pustaka besar harus lewat keputusan tertulis di `rencana-kerja.md`.
 2. Struktur:
-   - **Nama file dan folder: kebab-case Bahasa Indonesia yang deskriptif** (D-18), mis. `src/komponen/penggaris-umur-tanam.tsx`, `src/lib/tata-letak-penggaris.ts`. Nama komponen di dalam kode tetap PascalCase. Tanpa spasi, tanda kurung, atau akhiran "(2)". Pengecualian hanya untuk nama baku perkakas (`README.md`, `package.json`, `*.config.ts`, `main.tsx`, `index.css`, `index.html`).
-   - `src/lib/` fungsi murni + test; `src/teks/` teks UI; `src/komponen/` komponen berbagi (nama Indonesia mengikuti desain: `Tombol`, `Kartu`, `KolomIsian`, `InputRupiah`, `Uang`, `ChipStatus`, `BarisTugas`, `PenggarisUmurTanam`, `Banner`, `NavigasiBawah`, `Ikon`, `Sidebar`, …); `src/halaman/` satu folder per halaman; `src/api/` antarmuka klien API, hook TanStack Query, implementasi tiruan (Tahap 3) dan HTTP (Tahap 6); `src/data/offline/` skema Dexie dan antrean (Tahap 6); `src/penyedia/` antarmuka dan implementasi `PenyediaPembayaran` dan `PenyediaOtp`; `src/tipe/` tipe domain.
+   - **Nama file dan folder: kebab-case Bahasa Indonesia yang deskriptif** (D-18), mis. `frontend/src/komponen/penggaris-umur-tanam.tsx`, `frontend/src/lib/tata-letak-penggaris.ts`. Nama komponen di dalam kode tetap PascalCase. Tanpa spasi, tanda kurung, atau akhiran "(2)". Pengecualian hanya untuk nama baku perkakas (`README.md`, `package.json`, `*.config.ts`, `main.tsx`, `index.css`, `index.html`).
+   - `frontend/src/lib/` fungsi murni + test; `frontend/src/teks/` teks UI; `frontend/src/komponen/` komponen berbagi (nama Indonesia mengikuti desain: `Tombol`, `Kartu`, `KolomIsian`, `InputRupiah`, `Uang`, `ChipStatus`, `BarisTugas`, `PenggarisUmurTanam`, `Banner`, `NavigasiBawah`, `Ikon`, `Sidebar`, …); `frontend/src/halaman/` satu folder per halaman; `frontend/src/api/` antarmuka klien API, hook TanStack Query, implementasi tiruan (Tahap 3) dan HTTP (Tahap 6); `frontend/src/data/offline/` skema Dexie dan antrean (Tahap 6); `frontend/src/penyedia/` antarmuka dan implementasi `PenyediaPembayaran` dan `PenyediaOtp`; `frontend/src/tipe/` tipe domain.
    - Mulai Tahap 5, repositori berisi `frontend/` (proyek React), `backend/` (Laravel: migrasi, seeder, Policy, `app/Domain/Hitung/`), dan `shared/` (`kasus-uji/`, `data-contoh/`). Rinciannya di `arsitektur-backend.md` bagian 3.
-2a. **Tidak ada path khusus Windows di kode** (D-24): tidak ada huruf drive (`C:`), tidak ada garis miring terbalik sebagai pemisah folder. Jalur dibangun dengan `path.join` / `new URL(…, import.meta.url)` di Node dan `base_path()` / `storage_path()` di Laravel. `npm run lint` menolak huruf drive di string `src/`. Satu-satunya pengecualian adalah daftar lokasi browser di `scripts/tangkap-layar.mjs`, yang mencoba beberapa OS dan bisa diganti lewat `CHROME_PATH`.
-3. Tidak ada `any` tanpa komentar alasan. Tipe data API ditulis dari `kontrak-api.md` (`src/api/tipe/`), dan nama kolom sama persis dengan kontrak.
-4. **Pemisahan:** halaman dan komponen **hanya mengambil data lewat klien API** (hook di `src/api/kueri/`), tidak pernah memanggil `fetch` langsung dan **tidak pernah mengimpor data tiruan** (D-20, dijaga ESLint). Penulisan yang harus jalan offline lewat antrean Dexie (Tahap 6).
+2a. **Tidak ada path khusus Windows di kode** (D-24): tidak ada huruf drive (`C:`), tidak ada garis miring terbalik sebagai pemisah folder. Jalur dibangun dengan `path.join` / `new URL(…, import.meta.url)` di Node dan `base_path()` / `storage_path()` di Laravel. `npm run lint` menolak huruf drive di string `frontend/src/`. Satu-satunya pengecualian adalah daftar lokasi browser di `frontend/scripts/tangkap-layar.mjs`, yang mencoba beberapa OS dan bisa diganti lewat `CHROME_PATH`.
+3. Tidak ada `any` tanpa komentar alasan. Tipe data API ditulis dari `kontrak-api.md` (`frontend/src/api/tipe/`), dan nama kolom sama persis dengan kontrak.
+4. **Pemisahan:** halaman dan komponen **hanya mengambil data lewat klien API** (hook di `frontend/src/api/kueri/`), tidak pernah memanggil `fetch` langsung dan **tidak pernah mengimpor data tiruan** (D-20, dijaga ESLint). Penulisan yang harus jalan offline lewat antrean Dexie (Tahap 6).
 5. Komponen mengikuti API komponen desain (nama props berbahasa Indonesia seperti di `ringkasan-desain.md` bagian 2.1) supaya perbandingan dengan desain mudah. Aksesibilitas bawaan desain (`role`, `aria-*`, `aria-current`, fokus terlihat) **tidak boleh hilang**.
 6. Dependensi: gunakan versi tetap di `package.json` (tanpa `^` untuk pustaka inti) dan commit `package-lock.json`.
 7. Satu perubahan = satu tugas = satu commit/PR kecil dengan pesan Bahasa Indonesia atau Inggris yang menyebut ID tugas (mis. `T2.04: jadwal otomatis`).
@@ -126,20 +126,20 @@ Acuan: `docs/keputusan.md` (keputusan produk, tertinggi), `docs/prd-tani-muda.md
 
 1. Jadwal, checklist, rencana modal, dan video yang sudah diunduh **harus bisa dibuka tanpa sinyal** (P0-29). Perubahan offline (menandai tugas selesai) masuk antrean Dexie dan tersinkron otomatis saat sinyal kembali.
 2. Banner offline memakai komponen `Banner jenis="offline"` dengan teks dari desain.
-3. Notifikasi web push **dipisah dari salurannya** (P2-02): logika "tugas apa yang dikirim" ada di fungsi murni (`src/lib/pengingat.ts` dan port PHP-nya); pengirimnya scheduler Laravel setiap 15 menit dengan zona waktu Asia/Jakarta, bersamaan dengan konfirmasi otomatis kiriman (D-23). Notifikasi pagi pukul 06.00 waktu pengguna; bila izin ditolak, tugas hari ini tampil sebagai banner (P0-13).
+3. Notifikasi web push **dipisah dari salurannya** (P2-02): logika "tugas apa yang dikirim" ada di fungsi murni (`frontend/src/lib/pengingat.ts` dan port PHP-nya); pengirimnya scheduler Laravel setiap 15 menit dengan zona waktu Asia/Jakarta, bersamaan dengan konfirmasi otomatis kiriman (D-23). Notifikasi pagi pukul 06.00 waktu pengguna; bila izin ditolak, tugas hari ini tampil sebagai banner (P0-13).
 4. iPhone: web push butuh aplikasi ditambahkan ke layar utama; dokumentasikan di README dan tampilkan petunjuk.
 
 ## 10. Pengujian dan kualitas
 
 1. Perintah wajib hijau sebelum tugas ditandai selesai: `npm run lint`, `npm run typecheck`, `npm run test`, `npm run build`, dan mulai Tahap 5 juga `php artisan test` untuk tugas backend.
-2. Unit test: semua `src/lib` (bagian 3). Test komponen untuk perilaku yang bukan sekadar tampilan: `InputRupiah` (titik ribuan, kursor, terbilang), `BarisTugas` (centang), `PenggarisUmurTanam` (tata letak pin), filter tugas, kalkulator (mengubah jumlah memperbarui total).
+2. Unit test: semua `frontend/src/lib` (bagian 3). Test komponen untuk perilaku yang bukan sekadar tampilan: `InputRupiah` (titik ribuan, kursor, terbilang), `BarisTugas` (centang), `PenggarisUmurTanam` (tata letak pin), filter tugas, kalkulator (mengubah jumlah memperbarui total).
 3. Tes akses: tes kontrak klien API (T3.12) dijalankan terhadap klien tiruan dan, sejak Tahap 6, klien HTTP. Di backend, tes Pest akses silang membuktikan pengguna tidak bisa mengakses data milik pengguna lain (petani A ≠ petani B, pembeli tanpa titik lahan, resep draf tidak terbaca petani). Kasus uji perhitungan di `shared/kasus-uji/` harus lulus di Vitest dan Pest.
 4. Tiap halaman punya daftar periksa di deskripsi tugas (bagian 12). Tidak ada tugas halaman yang selesai tanpa membandingkan dengan papan desain terkait.
 5. Jangan menonaktifkan test atau lint untuk meloloskan tugas; perbaiki penyebabnya.
 
 ## 11. Cara bekerja dengan rencana kerja
 
-1. Kerjakan tugas **berurutan sesuai prasyarat** di `rencana-kerja.md`. Jangan melompat ke halaman sebelum komponen dan `src/lib` yang dibutuhkan selesai.
+1. Kerjakan tugas **berurutan sesuai prasyarat** di `rencana-kerja.md`. Jangan melompat ke halaman sebelum komponen dan `frontend/src/lib` yang dibutuhkan selesai.
 2. Tugas bertanda **[DEMO]** diprioritaskan untuk demo lomba.
 3. Untuk tugas halaman bertanda **[DEMO]**: ambil tangkapan layar mobile (390px) dan desktop (1440px) ke `docs/tangkapan/aplikasi/<nomor>-<nama>-mobile.png` dan `-desktop.png` (nama di `design/README.md`; D-18) dengan `npm run tangkap`, **tunjukkan ke pemilik produk, dan berhenti sampai ada tanggapan** sebelum tugas berikutnya (D-07).
 3a. Setelah selesai, centang `[x]` di `rencana-kerja.md` dan tulis satu baris catatan (tanggal, hal yang berbeda dari rencana).
@@ -151,10 +151,10 @@ Acuan: `docs/keputusan.md` (keputusan produk, tertinggi), `docs/prd-tani-muda.md
 - [ ] Semua teks UI Bahasa Indonesia, sesuai aturan bahasa desain.
 - [ ] Tidak ada hex, warna bawaan Tailwind, atau ukuran sembarang di komponen.
 - [ ] Teks ≥ 16px, target sentuh ≥ 48px, tanpa bayangan jatuh.
-- [ ] Logika hitung ada di `src/lib` sebagai fungsi murni, ada unit test, cakupan ≥ 90%.
+- [ ] Logika hitung ada di `frontend/src/lib` sebagai fungsi murni, ada unit test, cakupan ≥ 90%.
 - [ ] Halaman dicek di 390px dan 1440px dan dibandingkan dengan papan desain (sebutkan NN).
 - [ ] Angka dosis, harga, hasil panen berasal dari data resep contoh dan diberi catatan contoh di UI.
-- [ ] Tidak ada angka bisnis tertulis di komponen atau teks; semua dari `src/lib` atau konfigurasi.
+- [ ] Tidak ada angka bisnis tertulis di komponen atau teks; semua dari `frontend/src/lib` atau konfigurasi.
 - [ ] Tidak ada kata terlarang bahasa petani di tampilan.
 - [ ] Tugas halaman [DEMO]: tangkapan layar mobile dan desktop sudah ditunjukkan.
 - [ ] Tidak ada kunci rahasia di frontend (rahasia hanya di `.env` backend), `.env` tidak ikut commit.

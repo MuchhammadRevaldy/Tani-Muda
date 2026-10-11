@@ -12,7 +12,7 @@ Semua pilihan di dokumen ini sudah diputuskan pemilik produk (D-19 sampai D-25).
 ┌─────────────────────────┐  JSON over HTTP   ┌──────────────────────────┐      ┌────────────────┐
 │ frontend/ (React, PWA)  │ ────────────────▶ │ backend/ (Laravel 13 API) │ ───▶ │ MariaDB (XAMPP) │
 │ klien API: tiruan → HTTP│ ◀──────────────── │ Policy, Domain/Hitung,    │      └────────────────┘
-│ src/lib (rumus)         │   cookie Sanctum  │ scheduler, antrean, push  │
+│ frontend/src/lib (rumus)         │   cookie Sanctum  │ scheduler, antrean, push  │
 └─────────────────────────┘                   └──────────────────────────┘
             ▲                                              ▲
             └──────── shared/kasus-uji/*.json ─────────────┘
@@ -31,19 +31,19 @@ Prinsip:
 
 | Bagian | Versi | Catatan |
 | --- | --- | --- |
-| PHP | **8.3 atau lebih baru, dipasang terpisah dari XAMPP** (D-25) | Wajib untuk Laravel 13. PHP XAMPP (8.1.25) tidak dipakai. Langkah pemasangan di bagian 2a. |
+| PHP | **8.3 atau lebih baru, dipasang terpisah dari XAMPP** (D-25); terpasang 8.5.11 NTS di `C:\php-8.5.11-nts-Win32-vs17-x64` (D-50) | Wajib untuk Laravel 13. PHP XAMPP (8.1.25) tidak dipakai. Langkah pemasangan di bagian 2a. |
 | Composer | 2.x | Sudah terpasang; harus memakai PHP baru (dicek di bagian 2a). |
-| MariaDB | 10.4.32 (XAMPP) | Tetap dipakai (D-25). Didukung Laravel 13 (minimal 10.3). Cukup jalankan modul **MySQL** di XAMPP Control Panel (Apache tidak perlu). Dua basis data: `tani_muda` dan `tani_muda_uji`. |
+| MariaDB | 10.4.32 (XAMPP) | Tetap dipakai (D-25). Didukung Laravel 13 (minimal 10.3). Cukup jalankan modul **MySQL** di XAMPP Control Panel (Apache tidak perlu). Dua basis data: `tani_muda` dan `tani_muda_uji`. Laragon tidak dipakai; bila terpasang, MySQL-nya jangan dinyalakan karena berebut port 3306 (D-50). |
 | Node.js | 24 | Untuk frontend, sudah dipakai. |
 
-Proses yang dijalankan saat pengembangan, masing-masing di terminal sendiri:
+Proses yang dijalankan saat pengembangan. **Satu perintah** `npm run dev` di akar repositori (`frontend/scripts/dev-lengkap.mjs`) menjalankan API dan frontend sekaligus setelah memeriksa PHP, `backend/.env`, dan basis data. MariaDB tetap dinyalakan manual di XAMPP Control Panel.
 
 | Proses | Perintah | Alamat |
 | --- | --- | --- |
-| Frontend | `npm run dev` (di `frontend/`) | http://localhost:5173 |
-| API | `php artisan serve` (di `backend/`) | http://localhost:8000 |
-| Scheduler | `php artisan schedule:work` | menjalankan jadwal setiap menit |
-| Antrean | `php artisan queue:work` | mengirim notifikasi dan pekerjaan latar |
+| Frontend | `npm run dev` (di `frontend/`), atau bagian dari `npm run dev` di akar | http://localhost:5173, proxy `/api` dan `/sanctum` ke API (bagian 5a) |
+| API | `php artisan serve` (di `backend/`), atau bagian dari `npm run dev` di akar | http://127.0.0.1:8000 |
+| Scheduler | `php artisan schedule:work`, atau `npm run dev -- --jadwal` | menjalankan jadwal setiap menit |
+| Antrean | `php artisan queue:work`, atau `npm run dev -- --antrean` | mengirim notifikasi dan pekerjaan latar |
 
 Reset data: `php artisan migrate:fresh --seed`. Langkah lengkap ditulis di `docs/menjalankan-lokal.md` (T5.03).
 
@@ -51,14 +51,14 @@ Reset data: `php artisan migrate:fresh --seed`. Langkah lengkap ditulis di `docs
 
 Laptop pengembangan hanya punya sekitar 2 GB RAM bebas saat IDE dan peramban terbuka. Di gelombang 6 Tahap 4, tes halaman yang biasanya selesai dalam 0,2–2 detik menjadi 5–16 detik karena kekurangan memori (D-43). Tahap 5 menambah MariaDB, PHP, scheduler, dan antrean di samping Vite, jadi batas ini ikut menentukan cara kerja dan cara demo.
 
-Perkiraan pemakaian memori tiap proses (angka kasar, perlu diukur ulang di T5.03 dengan Task Manager):
+Pemakaian memori tiap proses. Baris bertanda * diukur di T5.03 (11 Oktober 2026, private bytes saat `npm run dev` menyala; rincian di `docs/menjalankan-lokal.md` bagian 6); sisanya masih perkiraan.
 
-| Proses | Perkiraan | Catatan |
+| Proses | Memori | Catatan |
 | --- | --- | --- |
-| MariaDB XAMPP | 100–200 MB | Bawaan XAMPP sudah hemat (`innodb_buffer_pool_size` kecil). Jangan dinaikkan. |
-| `php artisan serve` | 50–100 MB | Satu proses PHP. |
+| MariaDB XAMPP* | 207 MB | Tabel bawaan Laravel saja; diukur ulang di gelombang 5.2. Bawaan XAMPP sudah hemat (`innodb_buffer_pool_size` kecil). Jangan dinaikkan. |
+| `php artisan serve`* | 52 MB | Dua proses PHP (`artisan serve` dan `php -S` yang dibukanya). |
 | `queue:work` dan `schedule:work` | 50–80 MB per proses | Bisa diganti mode hemat di bawah. |
-| Vite (`npm run dev` / `npm run demo`) | 200–400 MB | |
+| Vite + skrip dev dalam satu proses* | 377 MB | `npm run dev` dari akar menambah dua proses `npm` perantara ±60 MB masing-masing; `node scripts/dev-lengkap.mjs` di `frontend/` lebih hemat. |
 | Vitest (2 pekerja) | 600 MB–1 GB | Hanya saat tes berjalan. |
 | Chrome untuk tangkapan layar | 300–600 MB | Hanya saat skrip tangkap berjalan. |
 
@@ -70,11 +70,11 @@ Saran pengaturan:
 4. **Tes backend.** Pest dijalankan tanpa `--parallel` (atau paling banyak `--processes=2`), seperti Vitest yang dibatasi 2 pekerja (D-43). Saat tes backend berjalan, Vite tidak perlu menyala.
 5. **Composer.** `composer install` dan `composer update` bisa butuh lebih dari 1 GB. Jalankan saat Vite, tes, dan Chrome ditutup.
 6. **Demo.** Sebelum demo, mulai ulang laptop. Buka hanya peramban demo, server Vite (`npm run demo`), dan di Tahap 6 `php artisan serve` dengan MariaDB. IDE ditutup. Antrean memakai `sync` dan scheduler hanya dinyalakan bila adegan demo membutuhkannya (mis. kiriman dianggap diterima setelah 6 jam).
-7. **Ukur, jangan menebak.** Di T5.03, catat pemakaian memori nyata tiap proses di `docs/menjalankan-lokal.md`, lalu sesuaikan tabel di atas.
+7. **Ukur, jangan menebak.** Angka bertanda * di tabel sudah diukur di T5.03. Ukur ulang setiap kali proses baru ditambahkan (antrean, scheduler, web push) dan catat di `docs/menjalankan-lokal.md`.
 
 ## 2a. Memasang PHP 8.3+ terpisah (prasyarat Tahap 5, T5.00)
 
-PHP baru dipasang di folder sendiri. XAMPP tetap dipakai hanya untuk MariaDB (D-25). Contoh di bawah memakai folder `C:\php\8.3`; lokasinya bebas, asal PATH menunjuk ke sana.
+PHP baru dipasang di folder sendiri. XAMPP tetap dipakai hanya untuk MariaDB (D-25). Contoh di bawah memakai folder `C:\php\8.3`; di laptop pengembangan terpasang `C:\php-8.5.11-nts-Win32-vs17-x64` (PHP 8.5.11 NTS, D-50). Lokasinya bebas, asal PATH menunjuk ke sana.
 
 **Langkah pemasangan (Windows 11):**
 
@@ -85,9 +85,12 @@ PHP baru dipasang di folder sendiri. XAMPP tetap dipakai hanya untuk MariaDB (D-
    - `extension_dir = "ext"`
    - aktifkan (hapus `;` di depan): `extension=curl`, `extension=fileinfo`, `extension=gd`, `extension=gmp`, `extension=intl`, `extension=mbstring`, `extension=openssl`, `extension=pdo_mysql`, `extension=sodium`, `extension=zip`
    - `upload_max_filesize = 4M`, `post_max_size = 8M` (foto sudah dikecilkan di HP, maksimal 2 MB)
-5. Tambahkan `C:\php\8.3` ke **PATH pengguna** dan letakkan **di atas** `C:\xampp\php` (atau hapus `C:\xampp\php` dari PATH). Tutup lalu buka lagi semua terminal.
-6. Pastikan Composer memakai PHP baru. Bila `composer -V` masih menyebut PHP 8.1, jalankan ulang installer Composer dan pilih `C:\php\8.3\php.exe`.
-7. Di XAMPP Control Panel, jalankan modul **MySQL** (MariaDB). Buat dua basis data `tani_muda` dan `tani_muda_uji` dengan collation `utf8mb4_unicode_ci`, lewat phpMyAdmin atau `mysql -u root`.
+5. Atur PATH. Windows membaca **PATH sistem lebih dulu** daripada PATH pengguna, jadi bila `C:\xampp\php` ada di PATH sistem, menambah PHP baru di PATH pengguna saja tidak cukup. Langkahnya (butuh izin administrator): buka *Edit the system environment variables* → *Environment Variables* → *System variables* → `Path` → hapus `C:\xampp\php`, lalu tambahkan `C:\php\8.3` dan pindahkan ke atas `C:\ProgramData\ComposerSetup\bin`. Tutup lalu buka lagi semua terminal (termasuk VS Code).
+6. Pastikan Composer memakai PHP baru. `composer.bat` memanggil `php` dari PATH, jadi setelah langkah 5 biasanya sudah benar. Bila `composer -V` masih menyebut PHP 8.1, jalankan ulang installer Composer dan pilih `C:\php\8.3\php.exe`.
+7. Di XAMPP Control Panel, jalankan modul **MySQL** (MariaDB). Buat dua basis data dengan charset eksplisit (bawaan server `utf8mb4_general_ci`):
+   ```
+   C:\xampp\mysql\bin\mysql.exe -uroot -e "CREATE DATABASE tani_muda CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci; CREATE DATABASE tani_muda_uji CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
+   ```
 
 **Cara memeriksa** (semua harus lolos sebelum T5.01 dimulai):
 
@@ -100,7 +103,8 @@ PHP baru dipasang di folder sendiri. XAMPP tetap dipakai hanya untuk MariaDB (D-
 | `composer -V` | `Composer version 2.x` dengan `PHP version 8.3.x` (atau lebih baru) |
 | `composer diagnose` | Tidak ada baris `FAIL` |
 | `php -r "new PDO('mysql:host=127.0.0.1;port=3306', 'root', ''); echo 'MariaDB OK';"` | `MariaDB OK` (modul MySQL XAMPP sedang berjalan; sesuaikan pengguna dan kata sandi) |
-| `mysql -u root -e "SELECT VERSION();"` | `10.4.32-MariaDB` |
+| `mysql -u root -e "SELECT VERSION();"` (pakai `C:\xampp\mysql\bin\mysql.exe`) | `10.4.32-MariaDB` |
+| `mysql -u root -e "SHOW DATABASES LIKE 'tani_muda%';"` | `tani_muda` dan `tani_muda_uji` |
 
 Setelah proyek Laravel dibuat (T5.03), `php artisan about` menampilkan versi PHP, Laravel, dan koneksi basis data dalam satu layar. Hasil pemeriksaan ditulis sebagai catatan di T5.00.
 
@@ -108,15 +112,17 @@ Setelah proyek Laravel dibuat (T5.03), `php artisan about` menampilkan versi PHP
 
 ```
 tani-muda/
-├── frontend/            proyek React yang sekarang ada di akar (src/, public/, package.json, …)
+├── frontend/            proyek React (src/, public/, scripts/, package.json, …), dipindah dari akar di T5.01
 ├── backend/             proyek Laravel
 │   ├── app/
 │   │   ├── Domain/
-│   │   │   ├── Hitung/        port rumus src/lib ke PHP (fungsi murni, tanpa Eloquent)
+│   │   │   ├── Hitung/        port rumus frontend/src/lib ke PHP (fungsi murni, tanpa Eloquent)
 │   │   │   ├── Otp/           antarmuka PengirimOtp + PengirimOtpLog (+ SMS nanti)
 │   │   │   └── Pembayaran/    antarmuka PenyediaPembayaran + PembayaranTiruan
 │   │   ├── Enums/             enum PHP (Peran, StatusAkun, AlasanPenolakan, …)
 │   │   ├── Http/
+│   │   │   ├── Galat/         GalatApi, KodeGalat (kode, status, teks), PenerjemahGalat (satu handler)
+│   │   │   ├── Respons.php    { data }, paginasi { data, meta }
 │   │   │   ├── Controllers/Api/V1/
 │   │   │   ├── Requests/      validasi + pesan galat Bahasa Indonesia
 │   │   │   ├── Resources/     bentuk JSON sesuai kontrak-api.md
@@ -124,15 +130,17 @@ tani-muda/
 │   │   ├── Models/
 │   │   ├── Notifications/     notifikasi web push
 │   │   ├── Policies/
-│   │   └── Services/          proses bisnis yang melibatkan basis data (AmbilPesanan, KonfirmasiKiriman, …)
+│   │   ├── Services/          proses bisnis yang melibatkan basis data (AmbilPesanan, KonfirmasiKiriman, …)
+│   │   └── Support/           Waktu (ISO 8601 UTC `…000Z`)
 │   ├── database/migrations/, database/seeders/
 │   ├── routes/api.php, routes/console.php (jadwal)
 │   ├── lang/id/               pesan validasi Bahasa Indonesia
-│   └── tests/Feature/, tests/Unit/ (Pest)
+│   └── tests/Feature/, tests/Unit/ (Pest; Unit/KasusUjiBersamaTest.php membaca shared/kasus-uji)
 ├── shared/
 │   ├── kasus-uji/       kasus uji perhitungan (JSON) untuk Vitest dan Pest
 │   └── data-contoh/     data contoh (JSON) untuk klien API tiruan dan seeder Laravel
-├── design/  docs/  scripts/
+├── design/  docs/
+├── package.json         skrip akar yang meneruskan ke frontend/ (dev, demo, build:demo, preview:demo)
 └── README.md
 ```
 
@@ -146,7 +154,7 @@ Rincian ada di `kontrak-api.md`. Ringkasnya:
 - **Sukses:** `{ "data": … }`. Daftar berhalaman memakai `{ "data": [ … ], "meta": { "halaman", "per_halaman", "total", "halaman_terakhir" } }` dengan parameter `?halaman=&per_halaman=` (bawaan 20, maksimal 100).
 - **Galat:** `{ "galat": { "kode": "UKURAN_KOSONG", "pesan": "Isi luas lahan dulu", "rincian": { "luas_m2": ["…"] } } }`. `kode` stabil dan dipakai frontend; `pesan` siap tampil dalam Bahasa Indonesia; `rincian` berisi galat per kolom untuk validasi.
 - **Kode status:** 200/201, 204, 401 (belum masuk), 403 (peran atau status akun tidak mengizinkan), 404 (tidak ada **atau milik pengguna lain**, supaya keberadaan data orang lain tidak bocor; D-22), 409 (bentrok, mis. alokasi melebihi pesanan), 422 (validasi), 429 (terlalu sering).
-- **Uang** dalam rupiah bulat (integer, kolom `BIGINT UNSIGNED`). **Berat** dalam kg desimal. **Tanggal** tanpa jam `YYYY-MM-DD`, sama dengan `src/lib`. **Waktu** dalam ISO 8601 UTC berakhiran `Z` (D-31); frontend menampilkannya menurut `pengguna.zona_waktu`.
+- **Uang** dalam rupiah bulat (integer, kolom `BIGINT UNSIGNED`). **Berat** dalam kg desimal. **Tanggal** tanpa jam `YYYY-MM-DD`, sama dengan `frontend/src/lib`. **Waktu** dalam ISO 8601 UTC berakhiran `Z` (D-31); frontend menampilkannya menurut `pengguna.zona_waktu`.
 - Laravel menangani semua galat lewat satu handler (`bootstrap/app.php` → `withExceptions`) yang mengubah `ValidationException`, `AuthorizationException`, `ModelNotFoundException`, dan sejenisnya ke format galat di atas.
 
 ## 5. Masuk dengan nomor HP dan OTP (Sanctum)
@@ -162,7 +170,7 @@ Saat deploy, frontend dan backend berada di domain induk yang sama (bagian 17). 
 Alur:
 
 1. `POST /api/v1/auth/otp/kirim` `{ nomor_hp }`
-   - Nomor dinormalisasi ke `+62…` (rumus sama dengan `src/lib/nomor-hp.ts`).
+   - Nomor dinormalisasi ke `+62…` (rumus sama dengan `frontend/src/lib/nomor-hp.ts`).
    - Kode 6 digit dibuat dengan `random_int`.
    - **Kode hanya disimpan sebagai hash** di tabel `kode_otp` (`nomor_hp`, `hash_kode`, `kedaluwarsa_pada`, `percobaan`, `dipakai_pada`). Hash memakai `hash_hmac('sha256', kode, APP_KEY)`.
    - **Kedaluwarsa 5 menit.** Kode lama untuk nomor yang sama dibatalkan.
@@ -181,6 +189,25 @@ Alur:
 - Penyedia SMS ditambahkan nanti tanpa mengubah alur di atas.
 
 Peran `admin` tidak bisa dipilih sendiri; admin hanya dibuat oleh seeder atau oleh admin lain.
+
+## 5a. Proxy Vite ke Laravel (pengembangan lokal)
+
+Saat pengembangan, peramban hanya berbicara dengan server Vite di `http://localhost:5173`. Vite meneruskan `/api/*` dan `/sanctum/*` ke Laravel di `http://127.0.0.1:8000` (`frontend/vite.config.ts`, berlaku juga untuk `vite preview`).
+
+```
+peramban ──▶ localhost:5173 ──┬── /api/v1/…, /sanctum/csrf-cookie ──▶ 127.0.0.1:8000 (Laravel)
+                              └── halaman, aset, HMR ──────────────▶ Vite
+```
+
+Akibatnya:
+
+- **Satu asal.** Cookie sesi Laravel dan `XSRF-TOKEN` dipasang untuk `localhost`, jadi klien HTTP (Tahap 6) cukup memanggil alamat relatif `/api/v1/…` dengan `credentials: 'include'`. CORS tidak dipakai di jalur ini; `config/cors.php` (asal dari `CORS_ALLOWED_ORIGINS` atau `FRONTEND_URL`, `supports_credentials=true`) hanya berlaku bila frontend memanggil backend langsung.
+- **`Host` tidak diubah** (`changeOrigin: false`), dan peramban mengirim `Origin`/`Referer` `localhost:5173`. Sanctum mengenalinya sebagai permintaan SPA karena `SANCTUM_STATEFUL_DOMAINS=localhost:5173,127.0.0.1:5173`, lalu memakai cookie sesi (`$middleware->statefulApi()` di `bootstrap/app.php`).
+- **Alamat backend lain** diatur dengan variabel proses `TANI_MUDA_API` (bukan `.env` frontend, karena `.env` frontend hanya boleh berisi `VITE_*`).
+- Selama Tahap 5 frontend tetap memakai klien tiruan (`VITE_SUMBER_DATA=tiruan`), jadi proxy hanya dipakai untuk mencoba API, mis. `http://localhost:5173/api/v1/kesehatan`.
+- Saat deploy (bagian 17), nginx berperan seperti proxy ini: frontend dan `/api` dilayani dari domain yang sama.
+
+Pemeriksaan kesehatan: `GET /api/v1/kesehatan` (tanpa masuk) menjawab `{ "data": { "status": "sehat", "basis_data": "tersambung", "waktu": "…Z" } }`, atau 503 `SUMBER_BELUM_TERSEDIA` bila basis data tidak terjangkau.
 
 ## 6. Otorisasi: peran, Policy, dan pengujian
 
@@ -253,7 +280,7 @@ Tabel tambahan yang khusus backend: `kode_otp`, `konfigurasi`, `log_notifikasi` 
   )) AS jarak_km
   ```
 
-- Rumus ini sama dengan `src/lib/jarak.ts` dan `Domain/Hitung/Jarak.php`, dibuktikan oleh `shared/kasus-uji/jarak.json` dengan toleransi 0,01 km.
+- Rumus ini sama dengan `frontend/src/lib/jarak.ts` dan `Domain/Hitung/Jarak.php`, dibuktikan oleh `shared/kasus-uji/jarak.json` dengan toleransi 0,01 km.
 - Hasil diurutkan dari yang terdekat, dengan ID sebagai pemecah seri supaya urutannya stabil.
 
 **Alokasi (`Services/AmbilPesanan`).** Satu transaksi dengan penguncian baris:
@@ -278,7 +305,7 @@ Tes ini memakai basis data MariaDB `tani_muda_uji`, **bukan SQLite**, karena SQL
 
 ## 9. Perhitungan uang di server
 
-- `app/Domain/Hitung/` berisi port PHP dari fungsi `src/lib`: `PesananNilai` (D-02), `Kiriman` (D-01, D-03), `Modal`, `Ringkasan`, `KapasitasLahan` (D-15), `PesananLahan`, `Jarak`, `Pengingat`, dan `Format` (pembulatan). Semuanya fungsi murni: tanpa Eloquent dan tanpa waktu sistem, karena waktu selalu dikirim sebagai argumen.
+- `app/Domain/Hitung/` berisi port PHP dari fungsi `frontend/src/lib`: `PesananNilai` (D-02), `Kiriman` (D-01, D-03), `Modal`, `Ringkasan`, `KapasitasLahan` (D-15), `PesananLahan`, `Jarak`, `Pengingat`, dan `Format` (pembulatan). Semuanya fungsi murni: tanpa Eloquent dan tanpa waktu sistem, karena waktu selalu dikirim sebagai argumen.
 - **Server tidak menerima angka uang dari klien.** Nilai pesanan, uang muka, biaya layanan, pembayaran per kiriman (80% dari pembeli, 20% dari saldo uang muka), dana cair, dan pengembalian dihitung dari data di basis data dan tabel `konfigurasi`.
 - **Bukti kesamaan: `shared/kasus-uji/`.** Setiap berkas JSON berisi daftar kasus:
 
@@ -308,7 +335,7 @@ Jadwal didefinisikan di `routes/console.php` dengan zona waktu **Asia/Jakarta**.
 
 | Perintah | Jadwal | Isi |
 | --- | --- | --- |
-| `pengingat:kirim` | setiap 15 menit | Mengirim pengingat ke pengguna yang jam pengingat paginya (bawaan 06.00) jatuh di jendela 15 menit ini, berisi tugas hari ini dan yang terlambat menurut tipe yang diaktifkan (`Domain/Hitung/Pengingat`, port `src/lib/pengingat.ts`). Pengingat sore hanya bila masih ada tugas belum selesai. |
+| `pengingat:kirim` | setiap 15 menit | Mengirim pengingat ke pengguna yang jam pengingat paginya (bawaan 06.00) jatuh di jendela 15 menit ini, berisi tugas hari ini dan yang terlambat menurut tipe yang diaktifkan (`Domain/Hitung/Pengingat`, port `frontend/src/lib/pengingat.ts`). Pengingat sore hanya bila masih ada tugas belum selesai. |
 | `kiriman:konfirmasi-otomatis` | setiap 15 menit, bersamaan dengan pengingat (D-23) | Kiriman yang belum ditanggapi pembeli lewat batas periksa (**6 jam rutin, 24 jam sekali panen**, dari `konfigurasi`, D-01) dianggap diterima lalu dicairkan. Pencairan terlambat paling lama 15 menit setelah batas. |
 | `pesanan:kembalikan-uang-muka` | harian 01.00 | Uang muka dikembalikan bila 7 hari tanpa petani (PRD P0-23). |
 | `pesanan:ingatkan-bayar` | harian 07.00 | Mengingatkan pembayaran paling lambat sehari sebelum jadwal kirim. |

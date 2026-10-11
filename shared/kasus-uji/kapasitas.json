@@ -1,0 +1,794 @@
+{
+  "keterangan": "Kapasitas lahan dan kebutuhan lahan pesanan: sisa lahan, muat siklus baru, luas per panen, petak bersamaan, ambil sebagian, batas alokasi (D-06, D-15, D-34, D-40).",
+  "kasus": [
+    {
+      "nama": "lahan 120 m², siklus [100] → sisa 20",
+      "fungsi": "kapasitasLahan",
+      "masukan": {
+        "lahan": {
+          "jenisLahan": "kebun",
+          "luasM2": 120,
+          "kapasitasLubang": null
+        },
+        "siklus": [
+          {
+            "status": "aktif",
+            "luasM2": 100,
+            "jumlahLubang": null,
+            "alokasiPesananId": null
+          }
+        ]
+      },
+      "keluaran": {
+        "satuan": "m2",
+        "total": 120,
+        "dipakai": 100.0,
+        "sisa": 20
+      }
+    },
+    {
+      "nama": "lahan 120 m², siklus [] → sisa 120",
+      "fungsi": "kapasitasLahan",
+      "masukan": {
+        "lahan": {
+          "jenisLahan": "kebun",
+          "luasM2": 120,
+          "kapasitasLubang": null
+        },
+        "siklus": []
+      },
+      "keluaran": {
+        "satuan": "m2",
+        "total": 120,
+        "dipakai": 0.0,
+        "sisa": 120
+      }
+    },
+    {
+      "nama": "lahan 120 m², siklus [40, 30, 20] → sisa 30",
+      "fungsi": "kapasitasLahan",
+      "masukan": {
+        "lahan": {
+          "jenisLahan": "kebun",
+          "luasM2": 120,
+          "kapasitasLubang": null
+        },
+        "siklus": [
+          {
+            "status": "aktif",
+            "luasM2": 40,
+            "jumlahLubang": null,
+            "alokasiPesananId": null
+          },
+          {
+            "status": "aktif",
+            "luasM2": 30,
+            "jumlahLubang": null,
+            "alokasiPesananId": null
+          },
+          {
+            "status": "aktif",
+            "luasM2": 20,
+            "jumlahLubang": null,
+            "alokasiPesananId": null
+          }
+        ]
+      },
+      "keluaran": {
+        "satuan": "m2",
+        "total": 120,
+        "dipakai": 90.0,
+        "sisa": 30
+      }
+    },
+    {
+      "nama": "lahan 100 m², siklus [60, 50] → sisa 0",
+      "fungsi": "kapasitasLahan",
+      "masukan": {
+        "lahan": {
+          "jenisLahan": "kebun",
+          "luasM2": 100,
+          "kapasitasLubang": null
+        },
+        "siklus": [
+          {
+            "status": "aktif",
+            "luasM2": 60,
+            "jumlahLubang": null,
+            "alokasiPesananId": null
+          },
+          {
+            "status": "aktif",
+            "luasM2": 50,
+            "jumlahLubang": null,
+            "alokasiPesananId": null
+          }
+        ]
+      },
+      "keluaran": {
+        "satuan": "m2",
+        "total": 100,
+        "dipakai": 110.0,
+        "sisa": 0
+      }
+    },
+    {
+      "nama": "lahan 7.5 m², siklus [2.25] → sisa 5.25",
+      "fungsi": "kapasitasLahan",
+      "masukan": {
+        "lahan": {
+          "jenisLahan": "kebun",
+          "luasM2": 7.5,
+          "kapasitasLubang": null
+        },
+        "siklus": [
+          {
+            "status": "aktif",
+            "luasM2": 2.25,
+            "jumlahLubang": null,
+            "alokasiPesananId": null
+          }
+        ]
+      },
+      "keluaran": {
+        "satuan": "m2",
+        "total": 7.5,
+        "dipakai": 2.25,
+        "sisa": 5.25
+      }
+    },
+    {
+      "nama": "siklus selesai dan rencana tanpa pesanan tidak dihitung",
+      "fungsi": "kapasitasLahan",
+      "masukan": {
+        "lahan": {
+          "jenisLahan": "kebun",
+          "luasM2": 120,
+          "kapasitasLubang": null
+        },
+        "siklus": [
+          {
+            "status": "aktif",
+            "luasM2": 50,
+            "jumlahLubang": null,
+            "alokasiPesananId": null
+          },
+          {
+            "status": "selesai",
+            "luasM2": 30,
+            "jumlahLubang": null,
+            "alokasiPesananId": null
+          },
+          {
+            "status": "rencana",
+            "luasM2": 30,
+            "jumlahLubang": null,
+            "alokasiPesananId": null
+          }
+        ]
+      },
+      "keluaran": {
+        "sisa": 70
+      },
+      "sebagian": true
+    },
+    {
+      "nama": "rencana yang terhubung alokasi pesanan ikut memakai lahan (D-34)",
+      "fungsi": "kapasitasLahan",
+      "masukan": {
+        "lahan": {
+          "jenisLahan": "kebun",
+          "luasM2": 120,
+          "kapasitasLubang": null
+        },
+        "siklus": [
+          {
+            "status": "aktif",
+            "luasM2": 50,
+            "jumlahLubang": null,
+            "alokasiPesananId": null
+          },
+          {
+            "status": "rencana",
+            "luasM2": 40,
+            "jumlahLubang": null,
+            "alokasiPesananId": "alokasi-1"
+          },
+          {
+            "status": "rencana",
+            "luasM2": 30,
+            "jumlahLubang": null,
+            "alokasiPesananId": null
+          }
+        ]
+      },
+      "keluaran": {
+        "satuan": "m2",
+        "total": 120,
+        "dipakai": 90,
+        "sisa": 30
+      }
+    },
+    {
+      "nama": "hidroponik 200 lubang, siklus 100 + 50 lubang → sisa 50",
+      "fungsi": "kapasitasLahan",
+      "masukan": {
+        "lahan": {
+          "jenisLahan": "hidroponik",
+          "luasM2": 12,
+          "kapasitasLubang": 200
+        },
+        "siklus": [
+          {
+            "status": "aktif",
+            "luasM2": 5,
+            "jumlahLubang": 100,
+            "alokasiPesananId": null
+          },
+          {
+            "status": "aktif",
+            "luasM2": 5,
+            "jumlahLubang": 50,
+            "alokasiPesananId": null
+          }
+        ]
+      },
+      "keluaran": {
+        "satuan": "lubang",
+        "total": 200,
+        "dipakai": 150,
+        "sisa": 50
+      }
+    },
+    {
+      "nama": "hidroponik tanpa kapasitas lubang → 0",
+      "fungsi": "kapasitasLahan",
+      "masukan": {
+        "lahan": {
+          "jenisLahan": "hidroponik",
+          "luasM2": 12,
+          "kapasitasLubang": null
+        },
+        "siklus": []
+      },
+      "keluaran": {
+        "total": 0
+      },
+      "sebagian": true
+    },
+    {
+      "nama": "muat: kapasitas setelah siklus baru",
+      "fungsi": "muatSiklusBaru",
+      "masukan": {
+        "lahan": {
+          "jenisLahan": "kebun",
+          "luasM2": 120,
+          "kapasitasLubang": null
+        },
+        "siklus": [
+          {
+            "status": "aktif",
+            "luasM2": 100,
+            "jumlahLubang": null,
+            "alokasiPesananId": null
+          }
+        ],
+        "kebutuhan": 20
+      },
+      "keluaran": {
+        "satuan": "m2",
+        "total": 120,
+        "dipakai": 120,
+        "sisa": 0
+      }
+    },
+    {
+      "nama": "muat hidroponik 50 lubang tepat",
+      "fungsi": "muatSiklusBaru",
+      "masukan": {
+        "lahan": {
+          "jenisLahan": "hidroponik",
+          "luasM2": 12,
+          "kapasitasLubang": 200
+        },
+        "siklus": [
+          {
+            "status": "aktif",
+            "luasM2": null,
+            "jumlahLubang": 150,
+            "alokasiPesananId": null
+          }
+        ],
+        "kebutuhan": 50
+      },
+      "keluaran": {
+        "sisa": 0
+      },
+      "sebagian": true
+    },
+    {
+      "nama": "melebihi sisa lahan",
+      "fungsi": "muatSiklusBaru",
+      "masukan": {
+        "lahan": {
+          "jenisLahan": "kebun",
+          "luasM2": 120,
+          "kapasitasLubang": null
+        },
+        "siklus": [
+          {
+            "status": "aktif",
+            "luasM2": 100,
+            "jumlahLubang": null,
+            "alokasiPesananId": null
+          }
+        ],
+        "kebutuhan": 20.5
+      },
+      "galat": "LAHAN_TIDAK_CUKUP"
+    },
+    {
+      "nama": "melebihi sisa lubang",
+      "fungsi": "muatSiklusBaru",
+      "masukan": {
+        "lahan": {
+          "jenisLahan": "hidroponik",
+          "luasM2": 12,
+          "kapasitasLubang": 200
+        },
+        "siklus": [
+          {
+            "status": "aktif",
+            "luasM2": null,
+            "jumlahLubang": 150,
+            "alokasiPesananId": null
+          }
+        ],
+        "kebutuhan": 51
+      },
+      "galat": "LAHAN_TIDAK_CUKUP"
+    },
+    {
+      "nama": "lahan yang sama tidak untuk dua pesanan sebelum menanam (D-34)",
+      "fungsi": "muatSiklusBaru",
+      "masukan": {
+        "lahan": {
+          "jenisLahan": "kebun",
+          "luasM2": 120,
+          "kapasitasLubang": null
+        },
+        "siklus": [
+          {
+            "status": "rencana",
+            "luasM2": 100,
+            "jumlahLubang": null,
+            "alokasiPesananId": "alokasi-1"
+          }
+        ],
+        "kebutuhan": 30
+      },
+      "galat": "LAHAN_TIDAK_CUKUP"
+    },
+    {
+      "nama": "10 kg ÷ 1.5 kg per satuan",
+      "fungsi": "luasPerPanen",
+      "masukan": {
+        "jumlahKg": 10,
+        "hasilPerSatuan": 1.5
+      },
+      "keluaran": 6.67
+    },
+    {
+      "nama": "6 kg ÷ 1.5 kg per satuan",
+      "fungsi": "luasPerPanen",
+      "masukan": {
+        "jumlahKg": 6,
+        "hasilPerSatuan": 1.5
+      },
+      "keluaran": 4
+    },
+    {
+      "nama": "9 kg ÷ 0.15 kg per satuan",
+      "fungsi": "luasPerPanen",
+      "masukan": {
+        "jumlahKg": 9,
+        "hasilPerSatuan": 0.15
+      },
+      "keluaran": 60
+    },
+    {
+      "nama": "hasil per satuan 0",
+      "fungsi": "luasPerPanen",
+      "masukan": {
+        "jumlahKg": 10,
+        "hasilPerSatuan": 0
+      },
+      "galat": "HASIL_KOSONG"
+    },
+    {
+      "nama": "jumlah 0",
+      "fungsi": "luasPerPanen",
+      "masukan": {
+        "jumlahKg": 0,
+        "hasilPerSatuan": 1.5
+      },
+      "galat": "JUMLAH_KOSONG"
+    },
+    {
+      "nama": "setiap 7 hari, umur 28 hari",
+      "fungsi": "jumlahPetakBersamaan",
+      "masukan": {
+        "frekuensiHari": 7,
+        "umurPanenHari": 28
+      },
+      "keluaran": 4
+    },
+    {
+      "nama": "setiap 7 hari, umur 25 hari",
+      "fungsi": "jumlahPetakBersamaan",
+      "masukan": {
+        "frekuensiHari": 7,
+        "umurPanenHari": 25
+      },
+      "keluaran": 4
+    },
+    {
+      "nama": "setiap 14 hari, umur 28 hari",
+      "fungsi": "jumlahPetakBersamaan",
+      "masukan": {
+        "frekuensiHari": 14,
+        "umurPanenHari": 28
+      },
+      "keluaran": 2
+    },
+    {
+      "nama": "setiap 7 hari, umur 35 hari",
+      "fungsi": "jumlahPetakBersamaan",
+      "masukan": {
+        "frekuensiHari": 7,
+        "umurPanenHari": 35
+      },
+      "keluaran": 5
+    },
+    {
+      "nama": "setiap 3 hari, umur 21 hari",
+      "fungsi": "jumlahPetakBersamaan",
+      "masukan": {
+        "frekuensiHari": 3,
+        "umurPanenHari": 21
+      },
+      "keluaran": 7
+    },
+    {
+      "nama": "frekuensi 0",
+      "fungsi": "jumlahPetakBersamaan",
+      "masukan": {
+        "frekuensiHari": 0,
+        "umurPanenHari": 28
+      },
+      "galat": "FREKUENSI_TIDAK_VALID"
+    },
+    {
+      "nama": "umur 0",
+      "fungsi": "jumlahPetakBersamaan",
+      "masukan": {
+        "frekuensiHari": 7,
+        "umurPanenHari": 0
+      },
+      "galat": "FREKUENSI_TIDAK_VALID"
+    },
+    {
+      "nama": "rutin mingguan 10 kg sawi → 4 petak × 6,67 m²",
+      "fungsi": "kebutuhanLahanPesanan",
+      "masukan": {
+        "m": {
+          "jenis": "rutin",
+          "jumlahKg": 10,
+          "hasilPerSatuan": 1.5,
+          "frekuensiHari": 7,
+          "umurPanenHari": 28
+        }
+      },
+      "keluaran": {
+        "luasPerPanen": 6.67,
+        "jumlahPetak": 4,
+        "luasTotal": 26.67
+      }
+    },
+    {
+      "nama": "sekali panen tanpa petak bertahap",
+      "fungsi": "kebutuhanLahanPesanan",
+      "masukan": {
+        "m": {
+          "jenis": "sekali_panen",
+          "jumlahKg": 550,
+          "hasilPerSatuan": 0.55
+        }
+      },
+      "keluaran": {
+        "luasPerPanen": 1000,
+        "jumlahPetak": 1,
+        "luasTotal": 1000
+      }
+    },
+    {
+      "nama": "rutin tanpa frekuensi",
+      "fungsi": "kebutuhanLahanPesanan",
+      "masukan": {
+        "m": {
+          "jenis": "rutin",
+          "jumlahKg": 10,
+          "hasilPerSatuan": 1.5
+        }
+      },
+      "galat": "FREKUENSI_TIDAK_VALID"
+    },
+    {
+      "nama": "kangkung maksimal yang disarankan selalu cukup",
+      "fungsi": "cekAmbilSebagian",
+      "masukan": {
+        "m": {
+          "jenis": "rutin",
+          "jumlahKg": 4,
+          "hasilPerSatuan": 1.5,
+          "kapasitas": 8,
+          "frekuensiHari": 7,
+          "umurPanenHari": 21
+        }
+      },
+      "keluaran": {
+        "cukup": true,
+        "dibutuhkan": 8,
+        "kapasitas": 8,
+        "jumlahMaksimalKg": 4
+      }
+    },
+    {
+      "nama": "rutin mingguan sawi 5 kg di lahan kosong 20 m²",
+      "fungsi": "cekAmbilSebagian",
+      "masukan": {
+        "m": {
+          "jenis": "rutin",
+          "jumlahKg": 5,
+          "hasilPerSatuan": 1.5,
+          "kapasitas": 20,
+          "frekuensiHari": 7,
+          "umurPanenHari": 28
+        }
+      },
+      "keluaran": {
+        "cukup": true,
+        "dibutuhkan": 13.33,
+        "kapasitas": 20,
+        "jumlahMaksimalKg": 7.5
+      }
+    },
+    {
+      "nama": "rutin mingguan sawi 7.5 kg di lahan kosong 20 m²",
+      "fungsi": "cekAmbilSebagian",
+      "masukan": {
+        "m": {
+          "jenis": "rutin",
+          "jumlahKg": 7.5,
+          "hasilPerSatuan": 1.5,
+          "kapasitas": 20,
+          "frekuensiHari": 7,
+          "umurPanenHari": 28
+        }
+      },
+      "keluaran": {
+        "cukup": true,
+        "dibutuhkan": 20,
+        "kapasitas": 20,
+        "jumlahMaksimalKg": 7.5
+      }
+    },
+    {
+      "nama": "rutin mingguan sawi 8 kg di lahan kosong 20 m²",
+      "fungsi": "cekAmbilSebagian",
+      "masukan": {
+        "m": {
+          "jenis": "rutin",
+          "jumlahKg": 8,
+          "hasilPerSatuan": 1.5,
+          "kapasitas": 20,
+          "frekuensiHari": 7,
+          "umurPanenHari": 28
+        }
+      },
+      "keluaran": {
+        "cukup": false,
+        "dibutuhkan": 21.33,
+        "kapasitas": 20,
+        "jumlahMaksimalKg": 7.5
+      }
+    },
+    {
+      "nama": "rutin mingguan sawi 10 kg di lahan kosong 120 m²",
+      "fungsi": "cekAmbilSebagian",
+      "masukan": {
+        "m": {
+          "jenis": "rutin",
+          "jumlahKg": 10,
+          "hasilPerSatuan": 1.5,
+          "kapasitas": 120,
+          "frekuensiHari": 7,
+          "umurPanenHari": 28
+        }
+      },
+      "keluaran": {
+        "cukup": true,
+        "dibutuhkan": 26.67,
+        "kapasitas": 120,
+        "jumlahMaksimalKg": 45
+      }
+    },
+    {
+      "nama": "rutin mingguan sawi 10 kg di lahan kosong 0 m²",
+      "fungsi": "cekAmbilSebagian",
+      "masukan": {
+        "m": {
+          "jenis": "rutin",
+          "jumlahKg": 10,
+          "hasilPerSatuan": 1.5,
+          "kapasitas": 0,
+          "frekuensiHari": 7,
+          "umurPanenHari": 28
+        }
+      },
+      "keluaran": {
+        "cukup": false,
+        "dibutuhkan": 26.67,
+        "kapasitas": 0,
+        "jumlahMaksimalKg": 0
+      }
+    },
+    {
+      "nama": "hidroponik memakai lubang sebagai kapasitas",
+      "fungsi": "cekAmbilSebagian",
+      "masukan": {
+        "m": {
+          "jenis": "rutin",
+          "jumlahKg": 5,
+          "hasilPerSatuan": 0.15,
+          "kapasitas": 50,
+          "frekuensiHari": 7,
+          "umurPanenHari": 35
+        }
+      },
+      "keluaran": {
+        "cukup": false,
+        "dibutuhkan": 166.67,
+        "kapasitas": 50,
+        "jumlahMaksimalKg": 1.5
+      }
+    },
+    {
+      "nama": "sekali panen dibandingkan langsung dengan kapasitas",
+      "fungsi": "cekAmbilSebagian",
+      "masukan": {
+        "m": {
+          "jenis": "sekali_panen",
+          "jumlahKg": 600,
+          "hasilPerSatuan": 0.55,
+          "kapasitas": 1000
+        }
+      },
+      "keluaran": {
+        "cukup": false,
+        "dibutuhkan": 1090.91,
+        "kapasitas": 1000,
+        "jumlahMaksimalKg": 550
+      }
+    },
+    {
+      "nama": "kapasitas negatif dianggap 0",
+      "fungsi": "cekAmbilSebagian",
+      "masukan": {
+        "m": {
+          "jenis": "sekali_panen",
+          "jumlahKg": 1,
+          "hasilPerSatuan": 1,
+          "kapasitas": -5
+        }
+      },
+      "keluaran": {
+        "kapasitas": 0
+      },
+      "sebagian": true
+    },
+    {
+      "nama": "hasil per satuan 0 ditolak",
+      "fungsi": "cekAmbilSebagian",
+      "masukan": {
+        "m": {
+          "jenis": "sekali_panen",
+          "jumlahKg": 1,
+          "hasilPerSatuan": 0,
+          "kapasitas": 5
+        }
+      },
+      "galat": "HASIL_KOSONG"
+    },
+    {
+      "nama": "pesanan 10, terambil [4, 3], ambil 3",
+      "fungsi": "batasAlokasi",
+      "masukan": {
+        "jumlahPesananKg": 10,
+        "sudahDiambilKg": [
+          4,
+          3
+        ],
+        "ambilKg": 3
+      },
+      "keluaran": {
+        "sisaSebelum": 3,
+        "sisaSesudah": 0
+      }
+    },
+    {
+      "nama": "pesanan 10, terambil [], ambil 6",
+      "fungsi": "batasAlokasi",
+      "masukan": {
+        "jumlahPesananKg": 10,
+        "sudahDiambilKg": [],
+        "ambilKg": 6
+      },
+      "keluaran": {
+        "sisaSebelum": 10,
+        "sisaSesudah": 4
+      }
+    },
+    {
+      "nama": "pesanan 2000, terambil [500, 750], ambil 750",
+      "fungsi": "batasAlokasi",
+      "masukan": {
+        "jumlahPesananKg": 2000,
+        "sudahDiambilKg": [
+          500,
+          750
+        ],
+        "ambilKg": 750
+      },
+      "keluaran": {
+        "sisaSebelum": 750,
+        "sisaSesudah": 0
+      }
+    },
+    {
+      "nama": "melebihi pesanan",
+      "fungsi": "batasAlokasi",
+      "masukan": {
+        "jumlahPesananKg": 10,
+        "sudahDiambilKg": [
+          4,
+          3
+        ],
+        "ambilKg": 3.5
+      },
+      "galat": "MELEBIHI_PESANAN"
+    },
+    {
+      "nama": "pesanan sudah penuh",
+      "fungsi": "batasAlokasi",
+      "masukan": {
+        "jumlahPesananKg": 10,
+        "sudahDiambilKg": [
+          10
+        ],
+        "ambilKg": 0.1
+      },
+      "galat": "MELEBIHI_PESANAN"
+    },
+    {
+      "nama": "jumlah kosong",
+      "fungsi": "batasAlokasi",
+      "masukan": {
+        "jumlahPesananKg": 10,
+        "sudahDiambilKg": [],
+        "ambilKg": 0
+      },
+      "galat": "JUMLAH_KOSONG"
+    }
+  ]
+}

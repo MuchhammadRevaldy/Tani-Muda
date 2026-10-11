@@ -48,7 +48,7 @@ Tujuan tahap: proyek jalan, token dan komponen dasar sama dengan desain, halaman
 
 ### [x] T1.01 Setup proyek **[DEMO]**
 - **Tujuan:** Proyek Vite + React + TypeScript (strict) + Tailwind + Vitest + ESLint + Prettier jalan dengan perintah `dev`, `build`, `test`, `lint`, `typecheck`.
-- **Berkas:** `package.json`, `vite.config.ts`, `tsconfig.json`, `vitest.config.ts` (cakupan `src/lib` ≥ 90%), `eslint.config.js`, `.prettierrc`, `.gitignore` (termasuk `.env`, `design/extracted` tetap dilacak), `.env.example`, `README.md` (cara menjalankan), struktur `src/{lib,teks,komponen,halaman,data,tipe}`. `git init` bila belum ada repo.
+- **Berkas:** `package.json`, `vite.config.ts`, `tsconfig.json`, `vitest.config.ts` (cakupan `frontend/src/lib` ≥ 90%), `eslint.config.js`, `.prettierrc`, `.gitignore` (termasuk `.env`, `design/extracted` tetap dilacak), `.env.example`, `README.md` (cara menjalankan), struktur `frontend/src/{lib,teks,komponen,halaman,data,tipe}`. `git init` bila belum ada repo.
 - **PRD:** Dependensi (PWA, HTTPS).
 - **Selesai bila:** `npm run dev` menampilkan halaman kosong; `npm run test` menjalankan satu tes contoh; `npm run build` sukses; `.env.example` hanya berisi nama variabel publik berawalan `VITE_`.
 - **Prasyarat:** tidak ada.
@@ -56,7 +56,7 @@ Tujuan tahap: proyek jalan, token dan komponen dasar sama dengan desain, halaman
 
 ### [x] T1.02 Token Tailwind dan font **[DEMO]**
 - **Tujuan:** Semua token desain ada di konfigurasi Tailwind; font Plus Jakarta Sans dimuat dari berkas lokal.
-- **Berkas:** `tailwind.config.ts` (17 warna, `fontFamily.sans`, skala `fontSize` dengan tinggi baris untuk 16/22, 16/24, 18/26, 20/28, 22/28 + ukuran landing, `spacing` 4/8/12/16/20/24/32/40/48, `borderRadius` sm/md/lg/sheet/full, `boxShadow.fokus` dan `boxShadow.pilihan`, `height.kontrol` 52, `minHeight/minWidth.sentuh` 48, `screens` sesuai keputusan), `src/index.css` (`@font-face` dari `public/fonts/*.woff2`, salin 4 subset dari `design/extracted/assets/` sesuai `unicode-range` di `pages/00-sistem-desain-desktop.html`; latar `embun-pagi`, antialias, `tabular-nums` util), `index.html` (`lang="id"`).
+- **Berkas:** `tailwind.config.ts` (17 warna, `fontFamily.sans`, skala `fontSize` dengan tinggi baris untuk 16/22, 16/24, 18/26, 20/28, 22/28 + ukuran landing, `spacing` 4/8/12/16/20/24/32/40/48, `borderRadius` sm/md/lg/sheet/full, `boxShadow.fokus` dan `boxShadow.pilihan`, `height.kontrol` 52, `minHeight/minWidth.sentuh` 48, `screens` sesuai keputusan), `frontend/src/index.css` (`@font-face` dari `frontend/public/fonts/*.woff2`, salin 4 subset dari `design/extracted/assets/` sesuai `unicode-range` di `pages/00-sistem-desain-desktop.html`; latar `embun-pagi`, antialias, `tabular-nums` util), `index.html` (`lang="id"`).
 - **PRD:** –(desain 00).
 - **Selesai bila:** halaman uji menampilkan 17 swatch dengan hex persis seperti `ringkasan-desain.md` 1.1; font tampil tanpa meminta jaringan eksternal; `text-sm` dan `shadow-md` tidak tersedia.
 - **Prasyarat:** T1.01.
@@ -64,23 +64,23 @@ Tujuan tahap: proyek jalan, token dan komponen dasar sama dengan desain, halaman
 
 ### [x] T1.03 Lint pelindung aturan
 - **Tujuan:** Aturan 2 dan 6 `aturan-proyek.md` dijaga otomatis. Ditambah **lint teks** untuk aturan bahasa petani (D-09).
-- **Berkas:** `eslint.config.js` (aturan), `scripts/cek-aturan.mjs` (skrip yang gagal bila di `src/` ada hex `#xxxxxx`, `rgb(`, kelas warna bawaan Tailwind, `text-sm|text-xs`, `shadow-(sm|md|lg|xl)`, nilai sembarang `[..px]` untuk warna, nama variabel rahasia backend; aturan rahasia diperbarui 5 Okt 2026 mengikuti D-19), `package.json` (script `lint` memanggil keduanya), tes skrip. `scripts/kata-terlarang.json` (escrow, task, pending, submit, DP, HST, dashboard, login), pemeriksaan pada `src/teks/` dan teks JSX.
+- **Berkas:** `eslint.config.js` (aturan), `frontend/scripts/cek-aturan.mjs` (skrip yang gagal bila di `frontend/src/` ada hex `#xxxxxx`, `rgb(`, kelas warna bawaan Tailwind, `text-sm|text-xs`, `shadow-(sm|md|lg|xl)`, nilai sembarang `[..px]` untuk warna, nama variabel rahasia backend; aturan rahasia diperbarui 5 Okt 2026 mengikuti D-19), `package.json` (script `lint` memanggil keduanya), tes skrip. `frontend/scripts/kata-terlarang.json` (escrow, task, pending, submit, DP, HST, dashboard, login), pemeriksaan pada `frontend/src/teks/` dan teks JSX.
 - **PRD:** –
 - **Selesai bila:** berkas contoh yang melanggar membuat `npm run lint` gagal dan pesan menunjuk berkas dan baris; berkas bersih lolos. Teks berisi "Pembayaran DP berhasil" atau "HST 13" membuat `lint` gagal.
 - **Prasyarat:** T1.02.
-- **Catatan (5 Okt 2026):** ESLint + `scripts/cek-aturan.mjs` (fungsi di `scripts/aturan.mjs`, 17 tes). Juga ESLint melarang impor React dan klien API di `src/lib`.
+- **Catatan (5 Okt 2026):** ESLint + `frontend/scripts/cek-aturan.mjs` (fungsi di `frontend/scripts/aturan.mjs`, 17 tes). Juga ESLint melarang impor React dan klien API di `frontend/src/lib`.
 
 ### [x] T1.04 Teks UI dan kerangka rute
 - **Tujuan:** Rute semua halaman terdaftar (halaman kosong), satu tempat teks UI, halaman memuat/galat/404 dalam Bahasa Indonesia.
-- **Berkas:** `src/teks/umum.ts`, `src/rute.tsx` (rute usulan di `ringkasan-desain.md` bagian 3), `src/halaman/{Memuat,Galat,TidakDitemukan}.tsx`, `src/app.tsx`, `src/main.tsx`.
+- **Berkas:** `frontend/src/teks/umum.ts`, `frontend/src/rute.tsx` (rute usulan di `ringkasan-desain.md` bagian 3), `frontend/src/halaman/{Memuat,Galat,TidakDitemukan}.tsx`, `frontend/src/app.tsx`, `frontend/src/main.tsx`.
 - **PRD:** –
 - **Selesai bila:** semua rute di tabel halaman bisa dibuka dan menampilkan judul placeholder; rute tak dikenal menampilkan "Halaman tidak ditemukan" dengan tombol "Kembali ke beranda".
 - **Prasyarat:** T1.01.
-- **Catatan (5 Okt 2026):** Semua rute terdaftar dengan isi sementara di dalam kerangka yang tepat; `/profil/notifikasi`, `/lahan`, `/pembeli/riwayat`, `/pembeli/pembayaran` ditambahkan. Tes rute di `src/rute.test.tsx`.
+- **Catatan (5 Okt 2026):** Semua rute terdaftar dengan isi sementara di dalam kerangka yang tepat; `/profil/notifikasi`, `/lahan`, `/pembeli/riwayat`, `/pembeli/pembayaran` ditambahkan. Tes rute di `frontend/src/rute.test.tsx`.
 
-### [x] T1.05 Fungsi format angka dan tanggal (`src/lib/format.ts`) **[DEMO]**
+### [x] T1.05 Fungsi format angka dan tanggal (`frontend/src/lib/format.ts`) **[DEMO]**
 - **Tujuan:** Satu sumber format: `titikRibuan`, `formatRupiah` (`Rp430.000`, `−Rp80.000`), `terbilang`, `formatDesimal` (koma), `parseAngka` ("1.250,5" → 1250.5), `formatJam` (`06.00`), `formatTanggal` ("Sabtu, 3 Oktober"), `formatTanggalPendek`, `formatKisaran` ("5,5–6,5"), `bulatkanRupiah`.
-- **Berkas:** `src/lib/format.ts`, `src/lib/format.test.ts`.
+- **Berkas:** `frontend/src/lib/format.ts`, `frontend/src/lib/format.test.ts`.
 - **PRD:** US-04, P0-08, P0-10 (angka uang).
 - **Selesai bila:** tes mencakup 0, ribuan, jutaan, negatif, null/NaN, "seratus", "seribu", "dua belas", "seratus ribu", angka 13 digit, bilangan pecahan ("3,5"), dan semua nama hari/bulan Indonesia; hasil sama dengan fungsi bawaan pustaka desain (`formatRupiah`, `terbilang`) untuk 30 nilai uji.
 - **Prasyarat:** T1.01.
@@ -88,7 +88,7 @@ Tujuan tahap: proyek jalan, token dan komponen dasar sama dengan desain, halaman
 
 ### [x] T1.06 Set ikon **[DEMO]**
 - **Tujuan:** Komponen `Ikon` dengan 16 ikon desain, ditambah ikon tipe tugas, ikon metode, ilustrasi komoditas.
-- **Berkas:** `src/komponen/ikon.tsx` (16 ikon, `ukuran`, `tebal`, `label`, `currentColor`), `src/komponen/ikon-tipe-tugas.tsx` (kalender, putar ulang, pengukur), `src/komponen/ilustrasi-metode.tsx`, `src/komponen/ilustrasi-komoditas.tsx` (sumber SVG: `design/icons/` dan `design/extracted/ikon-sebaris/`; ganti warna hex jadi `currentColor` atau kelas token), `src/komponen/Ikon.test.tsx`.
+- **Berkas:** `frontend/src/komponen/ikon.tsx` (16 ikon, `ukuran`, `tebal`, `label`, `currentColor`), `frontend/src/komponen/ikon-tipe-tugas.tsx` (kalender, putar ulang, pengukur), `frontend/src/komponen/ilustrasi-metode.tsx`, `frontend/src/komponen/ilustrasi-komoditas.tsx` (sumber SVG: `design/icons/` dan `design/extracted/ikon-sebaris/`; ganti warna hex jadi `currentColor` atau kelas token), `frontend/src/komponen/Ikon.test.tsx`.
 - **PRD:** P0-12 (ikon berbeda per tipe).
 - **Selesai bila:** tanpa `label` → `aria-hidden`; dengan `label` → `role="img"`; tidak ada hex tersisa (lolos lint); ikon tampil sama dengan papan 00 bagian Ikon.
 - **Prasyarat:** T1.02, T1.03.
@@ -96,7 +96,7 @@ Tujuan tahap: proyek jalan, token dan komponen dasar sama dengan desain, halaman
 
 ### [x] T1.07 Tombol dan Kartu **[DEMO]**
 - **Tujuan:** `Tombol` (utama, sekunder, ikon, penuh, disabled) dan `Kartu` (judul, keterangan, kanan, kaki biasa/uang, tanpaIsi, tingkatJudul).
-- **Berkas:** `src/komponen/tombol.tsx`, `src/komponen/kartu.tsx`, tes render ringan.
+- **Berkas:** `frontend/src/komponen/tombol.tsx`, `frontend/src/komponen/kartu.tsx`, tes render ringan.
 - **PRD:** –(desain 00).
 - **Selesai bila:** tinggi 52, min lebar 48; fokus memakai cincin token; disabled berwarna `garis`; sama dengan papan 00 bagian "Tombol dan isian" dan "Kartu".
 - **Prasyarat:** T1.06.
@@ -104,7 +104,7 @@ Tujuan tahap: proyek jalan, token dan komponen dasar sama dengan desain, halaman
 
 ### [x] T1.08 KolomIsian, InputRupiah, Uang **[DEMO]**
 - **Tujuan:** Komponen isian dengan galat/bantuan/akhiran, input rupiah berformat dengan terbilang dan kursor terjaga, tampilan uang.
-- **Berkas:** `src/komponen/kolom-isian.tsx`, `src/komponen/input-rupiah.tsx`, `src/komponen/uang.tsx`, tes perilaku (`InputRupiah`: ketik 5000 → "5.000" + "Lima ribu rupiah"; hapus di tengah; tempel "1.250.000"; nol depan; 13 digit maksimum).
+- **Berkas:** `frontend/src/komponen/kolom-isian.tsx`, `frontend/src/komponen/input-rupiah.tsx`, `frontend/src/komponen/uang.tsx`, tes perilaku (`InputRupiah`: ketik 5000 → "5.000" + "Lima ribu rupiah"; hapus di tengah; tempel "1.250.000"; nol depan; 13 digit maksimum).
 - **PRD:** P0-08 (harga), US-04.
 - **Selesai bila:** semua tes lulus; `aria-invalid` dan `aria-describedby` terpasang; angka negatif pada `Uang` merah dengan `−`; sama dengan papan 00.
 - **Prasyarat:** T1.05, T1.07.
@@ -112,7 +112,7 @@ Tujuan tahap: proyek jalan, token dan komponen dasar sama dengan desain, halaman
 
 ### [x] T1.09 ChipStatus, Banner, LabelKecil **[DEMO]**
 - **Tujuan:** 7 status chip, 3 jenis banner, label kecil ("Subsidi", "Nonsubsidi", "Promo", "Ada pesanan", "Segera hadir", "Cocok untuk pemula", "Resep tersedia", "Terdaftar").
-- **Berkas:** `src/komponen/chip-status.tsx`, `src/komponen/banner.tsx`, `src/komponen/label-kecil.tsx`, tes.
+- **Berkas:** `frontend/src/komponen/chip-status.tsx`, `frontend/src/komponen/banner.tsx`, `frontend/src/komponen/label-kecil.tsx`, tes.
 - **PRD:** P0-16, P0-13, P0-29, P0-35 (label "Promo").
 - **Selesai bila:** banner `bahaya` memakai `role="alert"`, `offline` bawaan judul "Kamu sedang offline" dan teks tertunda; chip `terlambat` menerima teks bebas.
 - **Prasyarat:** T1.06.
@@ -120,7 +120,7 @@ Tujuan tahap: proyek jalan, token dan komponen dasar sama dengan desain, halaman
 
 ### [x] T1.10 BarisTugas **[DEMO]**
 - **Tujuan:** Baris tugas dengan centang (terkendali/tidak), chip waktu, ikon tipe, tombol kamera dengan lencana jumlah foto.
-- **Berkas:** `src/komponen/baris-tugas.tsx`, tes (klik centang memanggil `onCentang`, `aria-checked`, label "Tandai selesai: …").
+- **Berkas:** `frontend/src/komponen/baris-tugas.tsx`, tes (klik centang memanggil `onCentang`, `aria-checked`, label "Tandai selesai: …").
 - **PRD:** P0-12, P0-14, US-08.
 - **Selesai bila:** min tinggi 72; centang 48×48; baris selesai berwarna `teks-pendukung`; ikon tipe tampil di meta ("sekali", "berulang", "pengukuran") sesuai papan 20 mobile.
 - **Prasyarat:** T1.06, T1.09.
@@ -128,7 +128,7 @@ Tujuan tahap: proyek jalan, token dan komponen dasar sama dengan desain, halaman
 
 ### [x] T1.11 Pil pilihan, KartuPilihan, Saklar **[DEMO]**
 - **Tujuan:** Pola pilihan yang dipakai di banyak halaman.
-- **Berkas:** `src/komponen/pil-pilihan.tsx` (grup tombol `aria-pressed`), `src/komponen/kartu-pilihan.tsx` (`role="radio"`, terpilih/segera hadir), `src/komponen/saklar.tsx` (`role="switch"`, area 64×48), tes.
+- **Berkas:** `frontend/src/komponen/pil-pilihan.tsx` (grup tombol `aria-pressed`), `frontend/src/komponen/kartu-pilihan.tsx` (`role="radio"`, terpilih/segera hadir), `frontend/src/komponen/saklar.tsx` (`role="switch"`, area 64×48), tes.
 - **PRD:** P0-30, P0-32, P0-38.
 - **Selesai bila:** navigasi keyboard (panah untuk radio, spasi untuk saklar); cincin pilihan inset `daun-tua`; tidak ada hex.
 - **Prasyarat:** T1.07.
@@ -136,15 +136,15 @@ Tujuan tahap: proyek jalan, token dan komponen dasar sama dengan desain, halaman
 
 ### [x] T1.12 Dialog dan LembarBawah
 - **Tujuan:** Satu komponen: sheet di HP (`radius` atas 20) dan dialog 480px di desktop, fokus terkurung, Esc menutup, `aria-modal`.
-- **Berkas:** `src/komponen/dialog.tsx`, tes (fokus kembali ke pemicu).
+- **Berkas:** `frontend/src/komponen/dialog.tsx`, tes (fokus kembali ke pemicu).
 - **PRD:** P0-31 (Minta resep), P0-34 (pilih merek).
 - **Selesai bila:** sama dengan papan 11; gulir latar terkunci; tombol tutup ≥ 48px.
 - **Prasyarat:** T1.07, T1.11.
 - **Catatan (5 Okt 2026):** Ditambah ikon tutup "silang" (di luar desain, dicatat di cek-komponen).
 
-### [x] T1.13 Tata letak penggaris umur tanam (`src/lib/tata-letak-penggaris.ts`) **[DEMO]**
+### [x] T1.13 Tata letak penggaris umur tanam (`frontend/src/lib/tata-letak-penggaris.ts`) **[DEMO]**
 - **Tujuan:** Memindahkan logika tata letak pin penggaris (dari `design/extracted/assets/pustaka-komponen-tani-muda.js`, fungsi `PenggarisUmurTanam`) menjadi fungsi murni: input (lebar, hariIni, hariPanen, jadwal, varian, fungsi ukur teks) → daftar elemen (posisi pin, tingkat, label, tik, ujung, penanda).
-- **Berkas:** `src/lib/tata-letak-penggaris.ts`, `src/lib/tata-letak-penggaris.test.ts`.
+- **Berkas:** `frontend/src/lib/tata-letak-penggaris.ts`, `frontend/src/lib/tata-letak-penggaris.test.ts`.
 - **PRD:** P0-12 (visual jadwal), US-07, US-16.
 - **Selesai bila:** tes untuk: jadwal kosong, satu pin, pin bertabrakan di varian lebar (naik tingkat), pin di hari ke-0 dan hari panen (tidak keluar lebar), `hariIni` > `hariPanen`, label "hari ini" menghindari tik; hasil identik dengan komponen desain pada contoh jadwal sawi (7, 14, 20, 28).
 - **Prasyarat:** T1.01.
@@ -152,7 +152,7 @@ Tujuan tahap: proyek jalan, token dan komponen dasar sama dengan desain, halaman
 
 ### [x] T1.14 PenggarisUmurTanam **[DEMO]**
 - **Tujuan:** Komponen penggaris varian `hp` dan `lebar`, status pin selesai/besok/belum/terlambat/panen, daftar di bawah (HP).
-- **Berkas:** `src/komponen/penggaris-umur-tanam.tsx` (memakai T1.13, `ResizeObserver`, pengukur teks lewat canvas atau `getBoundingClientRect`), tes (aria-label ringkasan).
+- **Berkas:** `frontend/src/komponen/penggaris-umur-tanam.tsx` (memakai T1.13, `ResizeObserver`, pengukur teks lewat canvas atau `getBoundingClientRect`), tes (aria-label ringkasan).
 - **PRD:** P0-12, US-07, US-16, P0-24.
 - **Selesai bila:** sama dengan papan 00 bagian Penggaris (HP lebar 360, lebar 800) dan papan 01 (landing); `aria-label` = "Umur tanam hari ke-13 dari 28. Pupuk 1, …".
 - **Prasyarat:** T1.06, T1.13.
@@ -160,7 +160,7 @@ Tujuan tahap: proyek jalan, token dan komponen dasar sama dengan desain, halaman
 
 ### [x] T1.15 Kerangka halaman (nav, sidebar, header) **[DEMO]**
 - **Tujuan:** Kerangka responsif: HP = header + `NavigasiBawah`; desktop petani = `Sidebar` 256 + konten `max-w 1200`; pembeli = `HeaderPembeli` + `max-w 1152`.
-- **Berkas:** `src/komponen/navigasi-bawah.tsx` (4 menu, lencana), `sidebar.tsx` (tautan, lencana, kartu akun), `menu-akun.tsx` (Profil, Pengaturan notifikasi, Keluar), `header-halaman.tsx` (tombol kembali 48×48), `header-pembeli.tsx`, `src/komponen/kerangka-petani.tsx`, `kerangka-pembeli.tsx`, `src/teks/navigasi.ts`, tes (`aria-current`, lencana "99+").
+- **Berkas:** `frontend/src/komponen/navigasi-bawah.tsx` (4 menu, lencana), `sidebar.tsx` (tautan, lencana, kartu akun), `menu-akun.tsx` (Profil, Pengaturan notifikasi, Keluar), `header-halaman.tsx` (tombol kembali 48×48), `header-pembeli.tsx`, `frontend/src/komponen/kerangka-petani.tsx`, `kerangka-pembeli.tsx`, `frontend/src/teks/navigasi.ts`, tes (`aria-current`, lencana "99+").
 - **PRD:** US-10, US-11 (lencana pesanan).
 - **Selesai bila:** pada 390px muncul nav bawah dan tidak ada sidebar; pada 1440px sebaliknya; sama dengan papan 03 desktop (sidebar) dan 36 (header pembeli). Titik beralih sesuai D-16 (sidebar mulai 1024px).
 - **Prasyarat:** T1.04, T1.06, T1.07, T1.09.
@@ -168,37 +168,37 @@ Tujuan tahap: proyek jalan, token dan komponen dasar sama dengan desain, halaman
 
 ### [x] T1.16 Komponen pelengkap
 - **Tujuan:** `KotakOtp` (6 digit, tempel, hitung mundur), `Stepper` ("Langkah n dari 3"), `Avatar`, `DaftarLangkah` (bernomor), `DaftarSyarat` (centang), `FaqLipat`.
-- **Berkas:** `src/komponen/{KotakOtp,Stepper,Avatar,DaftarLangkah,DaftarSyarat,FaqLipat}.tsx`, tes `KotakOtp` (tempel "123456", hapus mundur, otomatis pindah).
+- **Berkas:** `frontend/src/komponen/{KotakOtp,Stepper,Avatar,DaftarLangkah,DaftarSyarat,FaqLipat}.tsx`, tes `KotakOtp` (tempel "123456", hapus mundur, otomatis pindah).
 - **PRD:** P0-01 (OTP).
 - **Selesai bila:** sama dengan papan 02 mobile, 10 mobile, 22 dan 32; semua target ≥ 48px.
 - **Prasyarat:** T1.08, T1.11.
-- **Catatan (5 Okt 2026):** Nama berkas `pelengkap.tsx` dan `avatar.tsx`; logika OTP di `src/lib/kotak-otp.ts`.
+- **Catatan (5 Okt 2026):** Nama berkas `pelengkap.tsx` dan `avatar.tsx`; logika OTP di `frontend/src/lib/kotak-otp.ts`.
 
 ### [x] T1.17 Halaman `/komponen` untuk dicek terhadap desain **[DEMO]**
 - **Tujuan:** Satu halaman yang menampilkan **semua komponen dengan semua varian dan keadaan**, ditata mengikuti papan 00, supaya bisa dibandingkan berdampingan dengan desain di 390 dan 1440.
-- **Berkas:** `src/halaman/komponen.tsx` (bagian: Warna, Huruf, Tombol dan isian, Kartu, Chip status, Banner, Penggaris, Ikon, Navigasi bawah, Sidebar, Pola pilihan, Dialog, Pelengkap), `src/halaman/komponen/*.tsx`, `docs/cek-komponen.md` (daftar periksa per komponen: sama / beda + catatan).
+- **Berkas:** `frontend/src/halaman/komponen.tsx` (bagian: Warna, Huruf, Tombol dan isian, Kartu, Chip status, Banner, Penggaris, Ikon, Navigasi bawah, Sidebar, Pola pilihan, Dialog, Pelengkap), `frontend/src/halaman/komponen/*.tsx`, `docs/cek-komponen.md` (daftar periksa per komponen: sama / beda + catatan).
 - **PRD:** –(desain 00).
 - **Selesai bila:** buka `/komponen` dan `design/extracted/pages/00-sistem-desain-desktop.html` berdampingan: tiap komponen dicentang di `cek-komponen.md` (warna, ukuran, jarak, teks sama); tidak ada hex dan warna bawaan; keyboard fokus terlihat di semua; bisa dibuka di 390px tanpa gulir horizontal.
 - **Prasyarat:** T1.07 sampai T1.16.
-- **Catatan (5 Okt 2026):** Tangkapan aplikasi di `docs/tangkapan/aplikasi/00-sistem-desain-{mobile,desktop}.png`, papan 00 asli di `docs/tangkapan/desain/00-sistem-desain-desktop.png`; hasil cek di `docs/cek-komponen.md`. Lint, typecheck, 118 tes, dan build hijau; cakupan `src/lib` 98%.
+- **Catatan (5 Okt 2026):** Tangkapan aplikasi di `docs/tangkapan/aplikasi/00-sistem-desain-{mobile,desktop}.png`, papan 00 asli di `docs/tangkapan/desain/00-sistem-desain-desktop.png`; hasil cek di `docs/cek-komponen.md`. Lint, typecheck, 118 tes, dan build hijau; cakupan `frontend/src/lib` 98%.
 
 ---
 
-# Tahap 2. Logika inti (`src/lib`) dan test
+# Tahap 2. Logika inti (`frontend/src/lib`) dan test
 
 Semua fungsi murni, tanpa React, klien API, atau `Date.now()`. Kasus tes rumus uang, kapasitas, dan jarak ditulis sebagai tabel data (`it.each`) supaya di T5.02 mudah dipindah ke `shared/kasus-uji/` dan dipakai juga oleh Pest. Setiap tugas dianggap selesai hanya bila tes lulus dan cakupan berkas ≥ 90%. Contoh angka di tes adalah **contoh** (aturan 5).
 
 ### [x] T2.01 Tipe domain dan fixture contoh resep **[DEMO]**
 - **Tujuan:** Tipe TypeScript untuk Resep, input, tugas, rencana, siklus, pesanan, dst. (nama sesuai Model Data PRD), dan fixture resep contoh sawi bedengan, sawi hidroponik NFT, padi sawah, bayam, kangkung dari data desain (papan 13 mobile, 16 mobile, 18 mobile, 19 mobile, 20 mobile, 21 mobile dan 23 mobile).
-- **Berkas:** `src/tipe/*.ts`, `src/lib/fixtures/contoh-resep-*.ts`, `src/lib/fixtures/contoh-resep.test.ts` (fixture konsisten: hasil per m², HST tugas ≤ umur panen).
+- **Berkas:** `frontend/src/tipe/*.ts`, `frontend/src/lib/fixtures/contoh-resep-*.ts`, `frontend/src/lib/fixtures/contoh-resep.test.ts` (fixture konsisten: hasil per m², HST tugas ≤ umur panen).
 - **PRD:** P0-03, Model Data.
-- **Selesai bila:** `typecheck` hijau; fixture memuat angka contoh dengan tanda `CONTOH` di nama dan komentar; `bacaTampilkanResepContoh(nilaiEnv)` di `src/lib/pengaturan.ts` hanya mengembalikan `true` untuk nilai persis `"true"` (kosong, tidak ada, atau nilai lain → `false`; D-12), dengan tes.
+- **Selesai bila:** `typecheck` hijau; fixture memuat angka contoh dengan tanda `CONTOH` di nama dan komentar; `bacaTampilkanResepContoh(nilaiEnv)` di `frontend/src/lib/pengaturan.ts` hanya mengembalikan `true` untuk nilai persis `"true"` (kosong, tidak ada, atau nilai lain → `false`; D-12), dengan tes.
 - **Prasyarat:** T1.01.
-- **Catatan (5 Okt 2026):** Tipe di `src/tipe/` (resep, kebun, pesanan, belajar; camelCase, dipetakan ke snake_case di T3.03). Fixture 5 resep CONTOH + `contoh-referensi.ts` (komoditas, metode, konversi, faktor sistem hidroponik, konfigurasi bisnis). Ditambah `src/lib/hasil.ts` (tipe `Hasil<T>` dan daftar `KodeGalat`), `src/lib/tanggal.ts`, dan `src/teks/galat.ts` (teks setiap kode galat).
+- **Catatan (5 Okt 2026):** Tipe di `frontend/src/tipe/` (resep, kebun, pesanan, belajar; camelCase, dipetakan ke snake_case di T3.03). Fixture 5 resep CONTOH + `contoh-referensi.ts` (komoditas, metode, konversi, faktor sistem hidroponik, konfigurasi bisnis). Ditambah `frontend/src/lib/hasil.ts` (tipe `Hasil<T>` dan daftar `KodeGalat`), `frontend/src/lib/tanggal.ts`, dan `frontend/src/teks/galat.ts` (teks setiap kode galat).
 
 ### [x] T2.02 Konversi satuan luas `konversi-satuan.ts` **[DEMO]**
 - **Tujuan:** `keM2(nilai, satuan, konversi)`, `dariM2(m2, satuan, konversi)`, `teksBantuanLuas(...)` ("7 ru ≈ 100 m²", "0,1 hektare = 1.000 m²"); `konversi` (ru/bata ke m²) dikirim sebagai argumen.
-- **Berkas:** `src/lib/konversi-satuan.ts` + `.test.ts`.
+- **Berkas:** `frontend/src/lib/konversi-satuan.ts` + `.test.ts`.
 - **PRD:** P0-33, US-25; rumus konversi; `konversi_satuan`.
 - **Selesai bila:** tes: 1 ha = 10.000 m², 7 ru ≈ 98 m² (dengan 14), 100 m² ≈ 7 ru, nilai 0 atau kosong → galat `UKURAN_KOSONG`, nilai negatif ditolak, konversi bukan 14 (mis. 12 m² per ru) menghasilkan hasil berbeda, pembulatan tampilan konsisten dengan teks desain (papan 13 mobile).
 - **Prasyarat:** T1.05, T2.01.
@@ -206,7 +206,7 @@ Semua fungsi murni, tanpa React, klien API, atau `Date.now()`. Kasus tes rumus u
 
 ### [x] T2.03 Kebutuhan input `kebutuhan.ts` **[DEMO]**
 - **Tujuan:** `hitungKebutuhan(input, ukuran)` = dosis × ukuran sesuai dasar dosis (per m², per tanaman, per liter larutan), `bulatkanKeKemasan(jumlah, ukuranKemasan)` selalu ke atas; kebutuhan nutrisi hidroponik = dosis pekatan per liter × volume tandon × jumlah pengisian ulang; validasi ukuran > 0 dengan pesan sesuai metode ("Isi luas lahan dulu", "Isi jumlah lubang tanam dulu", "Isi jumlah polybag dulu").
-- **Berkas:** `src/lib/kebutuhan.ts` + `.test.ts`.
+- **Berkas:** `frontend/src/lib/kebutuhan.ts` + `.test.ts`.
 - **PRD:** P0-07, US-03, rumus "Kebutuhan input" dan "Kebutuhan nutrisi hidroponik".
 - **Selesai bila:** tes contoh PRD (5 g/m² × 100 m² = 500 g → kemasan 1 kg → 1 kg); kelipatan kemasan (1,01 kg dengan kemasan 1 kg → 2 kg); ukuran 0/kosong → kode galat per metode; per tanaman dan per liter; dosis 0; kemasan tidak valid.
 - **Prasyarat:** T2.01.
@@ -214,7 +214,7 @@ Semua fungsi murni, tanpa React, klien API, atau `Date.now()`. Kasus tes rumus u
 
 ### [x] T2.04 Harga item: subsidi dan merek `harga-item.ts` **[DEMO]**
 - **Tujuan:** Penentuan harga satuan efektif sebuah item: urutan prioritas (subsidi aktif → harga isi sendiri → merek terpilih → rata-rata sekitar → harga contoh resep); kelayakan subsidi per input, komoditas, tanggal (`kelayakan_subsidi`); jawaban petani "dapat jatah subsidi"; harga per satuan dari harga kemasan; urutan daftar merek menurut laporan terbaru; merek lain → laporan harga baru; sumber harga sebagai kode (untuk teks "Rata-rata di sekitarmu Rp…/kg").
-- **Berkas:** `src/lib/harga-item.ts` + `.test.ts`.
+- **Berkas:** `frontend/src/lib/harga-item.ts` + `.test.ts`.
 - **PRD:** P0-08, P0-09, P0-34, P0-35 (promo tidak mengubah urutan), US-05, US-26.
 - **Selesai bila:** tes: tidak dapat jatah subsidi → semua nonsubsidi; kelayakan di luar rentang tanggal → nonsubsidi; urutan merek tidak dipengaruhi promo (tes eksplisit); harga per satuan = harga kemasan ÷ isi; item "merek lain" dengan isi 0 → galat; harga negatif ditolak (kode `HARGA_NEGATIF`); item tanpa harga ditandai `BELUM_ADA_HARGA`.
 - **Prasyarat:** T2.01.
@@ -222,7 +222,7 @@ Semua fungsi murni, tanpa React, klien API, atau `Date.now()`. Kasus tes rumus u
 
 ### [x] T2.05 Total modal `modal.ts` **[DEMO]**
 - **Tujuan:** `hitungModal(item[], opsi)`: subtotal item, subtotal per grup, total bahan, biaya alat per siklus (harga alat ÷ jumlah siklus pembagian atau seluruhnya bila tidak dibagi), total modal, daftar item belum berharga + peringatan "total belum lengkap".
-- **Berkas:** `src/lib/modal.ts` + `.test.ts`.
+- **Berkas:** `frontend/src/lib/modal.ts` + `.test.ts`.
 - **PRD:** P0-08, P0-36, US-04, US-27; rumus "Total modal" dan "Biaya alat per siklus".
 - **Selesai bila:** tes dengan fixture sawi bedengan (total modal contoh Rp430.000) dan hidroponik (alat Rp1.500.000 ÷ 10); pembagian 1 siklus; item dihapus; item tambahan (tenaga kerja, sewa); item tanpa harga tidak merusak total dan memunculkan peringatan; pembulatan rupiah.
 - **Prasyarat:** T2.03, T2.04.
@@ -230,15 +230,15 @@ Semua fungsi murni, tanpa React, klien API, atau `Date.now()`. Kasus tes rumus u
 
 ### [x] T2.06 Ringkasan hasil `ringkasan.ts` **[DEMO]**
 - **Tujuan:** `hitungRingkasan({totalModal, perkiraanPanen, hargaJual, ukuranM2})`: modal per m², titik impas (kg, dibulatkan ke atas), pendapatan, untung, skenario "kalau panen jelek", pesan rugi; harga jual dari harga kesepakatan bila siklus terhubung pesanan.
-- **Berkas:** `src/lib/ringkasan.ts` + `.test.ts`.
+- **Berkas:** `frontend/src/lib/ringkasan.ts` + `.test.ts`.
 - **PRD:** P0-10, US-06, P1-03 (struktur skenario); rumus pendapatan/untung/titik impas.
 - **Selesai bila:** tes: contoh sawi (panen 150 kg × Rp5.000 − Rp430.000 = Rp320.000; titik impas 86 kg); untung negatif → `rugi: true` + pesan "Dengan angka ini, kamu berpotensi rugi."; harga jual 0 → titik impas tak terhingga ditangani (kode `HARGA_JUAL_KOSONG`); harga kesepakatan menimpa harga jual.
 - **Prasyarat:** T2.05.
-- **Catatan (5 Okt 2026):** Ditambah `sumberHargaJual` (isian/kesepakatan) dan validasi modal negatif. Teks rugi ada di `src/teks`.
+- **Catatan (5 Okt 2026):** Ditambah `sumberHargaJual` (isian/kesepakatan) dan validasi modal negatif. Teks rugi ada di `frontend/src/teks`.
 
 ### [x] T2.07 Perkiraan panen dan ukuran hidroponik `ukuran-metode.ts` **[DEMO]**
 - **Tujuan:** Perkiraan panen per metode (luas × hasil/m²; lubang × hasil/lubang; polybag), saran volume tandon per sistem, kebutuhan tempat (m²) dengan dan tanpa vertikultur, jumlah per ukuran lahan, pembulatan tampilan.
-- **Berkas:** `src/lib/ukuran-metode.ts` + `.test.ts`.
+- **Berkas:** `frontend/src/lib/ukuran-metode.ts` + `.test.ts`.
 - **PRD:** P0-33, P0-32, US-24, US-25, US-27.
 - **Selesai bila:** tes: sawah 1.000 m² × 0,55 = 550 kg gabah; NFT 200 lubang × 0,15 = 30 kg; tandon NFT 200 lubang = 100 liter; vertikultur mengurangi tempat; semua parameter dari argumen (`hasilPerSatuan`, `faktorTandon`) bukan konstanta.
 - **Prasyarat:** T2.02, T2.03.
@@ -246,7 +246,7 @@ Semua fungsi murni, tanpa React, klien API, atau `Date.now()`. Kasus tes rumus u
 
 ### [x] T2.08 Jadwal otomatis `jadwal-buat.ts` **[DEMO]**
 - **Tujuan:** `buatJadwal(resepTugas[], tanggalTanam)` menghasilkan tugas bertipe **sekali** (tanggal + HST), **berulang** (tanggal tanam + HST mulai + k × interval sampai HST selesai), **pengukuran** (berulang + isian angka). Tugas berulang digabung menjadi satu pengingat dengan keterangan frekuensi ("setiap 3 hari") untuk tampilan. Tanggal sebagai string `YYYY-MM-DD` tanpa jam supaya bebas zona waktu.
-- **Berkas:** `src/lib/jadwal-buat.ts` + `.test.ts`.
+- **Berkas:** `frontend/src/lib/jadwal-buat.ts` + `.test.ts`.
 - **PRD:** P0-12, US-07; rumus tanggal tugas.
 - **Selesai bila:** tes: sekali HST 14 dari tanam 20 Sep → 4 Okt; berulang 1–28 tiap 3 hari menghasilkan 10 kemunculan; interval 1; HST selesai < HST mulai ditolak; tipe `ukur` membawa besaran, batas bawah, batas atas; tanggal tanam di masa lalu (siklus pilot) tetap dihitung; lompat bulan dan tahun kabisat.
 - **Prasyarat:** T2.01.
@@ -254,7 +254,7 @@ Semua fungsi murni, tanpa React, klien API, atau `Date.now()`. Kasus tes rumus u
 
 ### [x] T2.09 Ubah jadwal `jadwal-ubah.ts` **[DEMO]**
 - **Tujuan:** `tundaTugas(jadwal, tugasId, hari 1–3, perkiraanPanen)` (menggeser tugas itu dan tugas **sejenis berikutnya**, hanya yang `bolehDigeser`, mengembalikan `perluKonfirmasi` bila melewati perkiraan panen); `ubahTanggalTanam(jadwal, tanggalBaru)` (hanya yang belum selesai dihitung ulang); `statusTugas(tugas, hariIni)` ("hari-ini", "besok", "terlambat n hari", "selesai"); `kelompokkanPerHari`; `saringTipe`; ringkas tugas berulang.
-- **Berkas:** `src/lib/jadwal-ubah.ts` + `.test.ts`.
+- **Berkas:** `frontend/src/lib/jadwal-ubah.ts` + `.test.ts`.
 - **PRD:** P0-15, P0-16, P0-17, P0-12 (saring tipe), US-08; "Status terlambat tidak disimpan".
 - **Selesai bila:** tes: tunda 1/2/3 hari; tunda 4 ditolak; tunda tugas yang tidak boleh digeser; tugas selesai tidak berubah saat ganti tanggal tanam; terlambat 2 hari pada contoh papan 20 mobile (1 Okt dibanding 3 Okt); penundaan melewati panen → `perluKonfirmasi`; filter tipe "ukur" pada siklus bedengan → daftar kosong dan kode `TIDAK_ADA_TIPE`.
 - **Prasyarat:** T2.08.
@@ -262,7 +262,7 @@ Semua fungsi murni, tanpa React, klien API, atau `Date.now()`. Kasus tes rumus u
 
 ### [x] T2.10 Pengukuran `pengukuran.ts` **[DEMO]**
 - **Tujuan:** `nilaiPengukuran(nilai, batasBawah, batasAtas)` → `normal | terlalu-rendah | terlalu-tinggi | kosong`; saran tindakan dari resep; `perluUkurUlang` (tugas "Ukur ulang" pada hari berikutnya bila di luar rentang); posisi pada batang rentang (`skala`) dan titik grafik 7 pengukuran terakhir.
-- **Berkas:** `src/lib/pengukuran.ts` + `.test.ts`.
+- **Berkas:** `frontend/src/lib/pengukuran.ts` + `.test.ts`.
 - **PRD:** P0-37, US-28; rumus status pengukuran.
 - **Selesai bila:** tes: batas bawah dan atas dihitung **normal** (pH 5,5 dan 6,5), 6,6 terlalu tinggi, 5,4 terlalu rendah; nilai 0 dan kosong → `kosong`; koma desimal ("6,2") diterima lewat `parseAngka`; hasil di luar rentang menghasilkan tugas ukur ulang pada tanggal + 1; hasil normal tidak menambah tugas; grafik dengan < 7 data.
 - **Prasyarat:** T1.05, T2.01.
@@ -270,15 +270,15 @@ Semua fungsi murni, tanpa React, klien API, atau `Date.now()`. Kasus tes rumus u
 
 ### [x] T2.11 Pengingat harian `pengingat.ts` **[DEMO]**
 - **Tujuan:** `tugasUntukNotifikasi(tugas[], pengaturan, hariIni)`: tugas hari ini (plus terlambat) menurut tipe yang diaktifkan, teks judul "n tugas hari ini" dan isi ("Siangi rumput (terlambat), Siram pagi dan sore"), jam pagi; kondisi pengingat sore (hanya bila ada tugas belum selesai); banner pengganti bila izin ditolak.
-- **Berkas:** `src/lib/pengingat.ts` + `.test.ts`.
+- **Berkas:** `frontend/src/lib/pengingat.ts` + `.test.ts`.
 - **PRD:** P0-13, P0-38, P1-05, P2-02 (logika dipisah dari saluran).
 - **Selesai bila:** tes: mematikan tipe tidak menghapus tugas dari daftar jadwal tetapi menghilangkannya dari notifikasi; semua tipe mati → `tanpaPengingatPagi`; tidak ada tugas hari ini → tidak mengirim; sore hanya bila ada belum selesai.
 - **Prasyarat:** T2.09.
-- **Catatan (5 Okt 2026):** Tugas berulang yang tertunggak beberapa kali disebut sekali. Teks "n tugas hari ini" ada di `src/teks/jadwal.ts`.
+- **Catatan (5 Okt 2026):** Tugas berulang yang tertunggak beberapa kali disebut sekali. Teks "n tugas hari ini" ada di `frontend/src/teks/jadwal.ts`.
 
 ### [x] T2.12 Nilai pesanan dan pembayaran `pesanan-nilai.ts` **[DEMO]**
 - **Tujuan:** `hitungNilaiPesanan(jumlahTotal, hargaPerKg, konfigurasi)`: nilai pesanan, uang muka (20% dari konfigurasi), biaya layanan (5%, dibayar pembeli), dibayar sekarang; jumlah total dari kiriman × frekuensi untuk rutin; `hitungPembayaranKiriman(nilaiKiriman, saldoUangMuka, konfigurasi)` (D-02): pembeli membayar **80%** nilai kiriman, **20% diambil dari saldo uang muka**; sisa saldo setelah tiap kiriman; kiriman ditolak sebagian menghitung dari bagian diterima.
-- **Berkas:** `src/lib/pesanan-nilai.ts` + `.test.ts`.
+- **Berkas:** `frontend/src/lib/pesanan-nilai.ts` + `.test.ts`.
 - **PRD:** P0-19, P0-23, P0-26, US-15; **D-02** (mengganti rumus pembayaran per kiriman PRD).
 - **Selesai bila:** tes: 10 kg × 12 kiriman × Rp5.000 = Rp600.000, uang muka Rp120.000, layanan Rp30.000, dibayar sekarang Rp150.000; tiap kiriman Rp50.000 → bayar Rp40.000 + Rp10.000 dari saldo, saldo habis tepat setelah kiriman ke-12; persen 0; jumlah 0 → galat; biaya layanan tidak memotong bagian petani; sekali panen = satu kiriman 80% + 20% saldo; saldo tidak pernah negatif.
 - **Prasyarat:** T1.05.
@@ -286,7 +286,7 @@ Semua fungsi murni, tanpa React, klien API, atau `Date.now()`. Kasus tes rumus u
 
 ### [x] T2.13 Lahan untuk pesanan `pesanan-lahan.ts` **[DEMO]**
 - **Tujuan:** `luasPerPanen`, `luasPesananRutin` (luas per panen × petak yang tumbuh bersamaan), `saranTanamBertahap` (mingguan + umur panen 4 minggu → 4 petak berjarak 1 minggu, tanggal tanam dan panen), `cekAmbilSebagian(jumlah, hasilPerM2, lahanKosong)` → cukup atau tidak + jumlah maksimal disarankan, `batasAlokasi` (total alokasi semua petani ≤ pesanan).
-- **Berkas:** `src/lib/pesanan-lahan.ts` + `.test.ts`.
+- **Berkas:** `frontend/src/lib/pesanan-lahan.ts` + `.test.ts`.
 - **PRD:** P0-21, US-12; rumus luas per panen dan luas rutin.
 - **Selesai bila:** tes: lahan kosong 20 m², hasil per m² dari fixture → luas per panen dan petak bertahap dihitung dari rumus (bukan "6 kg" dari desain; **D-08**); jumlah yang melebihi kapasitas → jumlah maksimal disarankan dari rumus; alokasi melebihi pesanan ditolak (kode `MELEBIHI_PESANAN`); hasil per m² 0 ditolak; pesanan sekali panen tidak memakai petak bertahap; kapasitas lahan datang sebagai argumen dari T2.15a.
 - **Prasyarat:** T2.07.
@@ -294,7 +294,7 @@ Semua fungsi murni, tanpa React, klien API, atau `Date.now()`. Kasus tes rumus u
 
 ### [x] T2.14 Kiriman dan konfirmasi `kiriman.ts` **[DEMO]**
 - **Tujuan:** `konfirmasiKiriman(kiriman, keputusan)`: terima semua, tolak sebagian (berat, alasan `layu_atau_busuk | jumlah_kurang | tidak_sesuai_standar | lainnya`), dana cair untuk petani, bagian dibayar pembeli (80%) dan dari uang muka (20%) lewat T2.12; `statusOtomatis(kiriman, sekarang, konfigurasiJam)` (**D-01**: 6 jam untuk rutin, 24 jam untuk sekali panen; lewat batas = dianggap diterima); `aturanGagalPanen(jadwalKirim, waktuKabar, batasHari)` (**D-03**: kabar ≥ 3 hari sebelum jadwal → bagian ditawarkan ulang; tanpa pengganti → sisa uang muka bagian itu dikembalikan; tidak memberi kabar → `catatanProfil: true`); pembatalan pembeli setelah petani menanam (uang muka jadi kompensasi).
-- **Berkas:** `src/lib/kiriman.ts` + `.test.ts`.
+- **Berkas:** `frontend/src/lib/kiriman.ts` + `.test.ts`.
 - **PRD:** P0-25, P0-26, P0-27, US-14, US-17; **D-01, D-03**.
 - **Selesai bila:** tes: bayam Rp6.000/kg, 5 kg, tolak 1 kg → dana cair Rp24.000; batas 6 jam (rutin) dan 24 jam (sekali panen) dari argumen, diuji tepat di batas, sebelum, dan sesudah; kabar tepat 3 hari sebelum jadwal diterima, kurang dari itu → catatan profil; tanpa pengganti → `dikembalikan` sebesar sisa uang muka bagian itu saja; **tidak ada denda**; tolak lebih berat dari kiriman → galat; alasan di luar daftar → galat.
 - **Prasyarat:** T2.12.
@@ -302,27 +302,27 @@ Semua fungsi murni, tanpa React, klien API, atau `Date.now()`. Kasus tes rumus u
 
 ### [x] T2.15 Jarak dan urutan pesanan `jarak.ts`
 - **Tujuan:** `jarakKm(a, b)` (haversine), `urutkanTerdekat`, `dalamRadius(titik, pusat, radiusKm)`, teks jarak ("4 km", "9,5 km").
-- **Berkas:** `src/lib/jarak.ts` + `.test.ts`.
+- **Berkas:** `frontend/src/lib/jarak.ts` + `.test.ts`.
 - **PRD:** P0-20, US-11.
 - **Selesai bila:** tes jarak titik yang sama = 0, Bandung–Jakarta ≈ 120 km, di tepi radius 10 km, urutan stabil untuk jarak sama.
 - **Prasyarat:** T1.05.
-- **Catatan (5 Okt 2026):** Bandung–Jakarta terukur 116,4 km (rencana menyebut ≈ 120). Fungsi `angkaJarak` memberi angka saja; satuan "km" ditulis di `src/teks`.
+- **Catatan (5 Okt 2026):** Bandung–Jakarta terukur 116,4 km (rencana menyebut ≈ 120). Fungsi `angkaJarak` memberi angka saja; satuan "km" ditulis di `frontend/src/teks`.
 
 ### [x] T2.15a Kapasitas lahan `kapasitas-lahan.ts` **[DEMO]**
 - **Tujuan:** `kapasitasLahan(lahan, siklusAktif[])`. Untuk lahan tanah: luas lahan dikurangi luas siklus aktif di lahan itu (m²). Untuk lahan hidroponik: `kapasitas_lubang` dikurangi jumlah lubang siklus aktif, **bukan luas** (D-15). Satu lahan boleh punya beberapa siklus aktif. Juga `luasDipakai`/`lubangDipakai` dan `muatSiklusBaru(lahan, siklusAktif[], ukuranBaru)`.
-- **Berkas:** `src/lib/kapasitas-lahan.ts` + `.test.ts`.
+- **Berkas:** `frontend/src/lib/kapasitas-lahan.ts` + `.test.ts`.
 - **PRD:** P0-21, US-12; **D-06**, **D-15** (rumus kapasitas), **D-08**.
 - **Selesai bila:** tes: lahan 120 m² dengan siklus aktif 100 m² → 20 m²; tanpa siklus → seluruh luas; siklus selesai tidak dihitung; luas dipakai melebihi luas lahan → 0 (tidak negatif); hidroponik 200 lubang dengan dua siklus aktif 100 + 50 lubang → 50 lubang (luas lahan hidroponik diabaikan); tiga siklus aktif di satu lahan tanah dijumlahkan; `muatSiklusBaru` menolak siklus yang melebihi sisa; satuan asli tidak memengaruhi hitungan.
 - **Prasyarat:** T2.01.
 - **Catatan (5 Okt 2026):** Perbaikan D-34: yang memakai lahan adalah siklus `aktif` dan siklus `rencana` yang terhubung ke alokasi pesanan (`alokasiPesananId`); rencana tanpa pesanan tidak dihitung. Diuji, termasuk kasus dua pesanan untuk lahan yang sama sebelum menanam.
 
 ### [x] T2.16 Progres belajar `belajar.ts` dan gerbang cakupan
-- **Tujuan:** `ringkasProgres(modul[], selesai[])` ("3 dari 6 modul selesai", persen, modul lanjutan); pemeriksaan cakupan seluruh `src/lib`.
-- **Berkas:** `src/lib/belajar.ts` + `.test.ts`, perbarui `vitest.config.ts` (ambang cakupan gagal bila < 90%).
+- **Tujuan:** `ringkasProgres(modul[], selesai[])` ("3 dari 6 modul selesai", persen, modul lanjutan); pemeriksaan cakupan seluruh `frontend/src/lib`.
+- **Berkas:** `frontend/src/lib/belajar.ts` + `.test.ts`, perbarui `vitest.config.ts` (ambang cakupan gagal bila < 90%).
 - **PRD:** P0-05, US-01, US-02.
-- **Selesai bila:** `npm run test -- --coverage` lulus dengan ≥ 90% di semua berkas `src/lib`; semua fungsi murni (tidak ada impor React atau `src/api` di `src/lib`, dicek ESLint).
+- **Selesai bila:** `npm run test -- --coverage` lulus dengan ≥ 90% di semua berkas `frontend/src/lib`; semua fungsi murni (tidak ada impor React atau `frontend/src/api` di `frontend/src/lib`, dicek ESLint).
 - **Prasyarat:** T2.02–T2.15, T2.15a.
-- **Catatan (5 Okt 2026):** Cakupan setiap berkas `src/lib` minimal 95,8% baris dan 93,9% cabang (total 99,2% baris). ESLint melarang impor React, `api`, `data`, `komponen`, dan `penyedia` di `src/lib`. Tes teks di `src/teks/*.test.ts` ikut dijalankan. Lint, typecheck, 491 tes, dan build hijau.
+- **Catatan (5 Okt 2026):** Cakupan setiap berkas `frontend/src/lib` minimal 95,8% baris dan 93,9% cabang (total 99,2% baris). ESLint melarang impor React, `api`, `data`, `komponen`, dan `penyedia` di `frontend/src/lib`. Tes teks di `frontend/src/teks/*.test.ts` ikut dijalankan. Lint, typecheck, 491 tes, dan build hijau.
 
 ---
 
@@ -332,9 +332,9 @@ Tujuan tahap: bentuk data dan endpoint ditetapkan sekali di `docs/kontrak-api.md
 
 Aturan tahap:
 
-- **Halaman dan komponen tidak pernah mengimpor data tiruan atau implementasi tiruan.** Mereka hanya memakai antarmuka klien API lewat hook di `src/api/kueri/`. Aturan ini dijaga ESLint (T3.12).
+- **Halaman dan komponen tidak pernah mengimpor data tiruan atau implementasi tiruan.** Mereka hanya memakai antarmuka klien API lewat hook di `frontend/src/api/kueri/`. Aturan ini dijaga ESLint (T3.12).
 - Klien tiruan **menegakkan aturan yang sama dengan server nanti**: kepemilikan data, peran, status akun, verifikasi pembeli, batas alokasi, kapasitas lahan, privasi titik lahan, dan penyaringan resep contoh. Klien tiruan juga mengembalikan galat dengan format kontrak.
-- Angka uang di klien tiruan dihitung dengan fungsi `src/lib` (D-08), seperti yang nanti dilakukan server dengan rumus yang sama.
+- Angka uang di klien tiruan dihitung dengan fungsi `frontend/src/lib` (D-08), seperti yang nanti dilakukan server dengan rumus yang sama.
 - Data contoh ditulis sebagai **JSON** supaya di Tahap 5 bisa dipindah ke `shared/data-contoh/` dan dipakai seeder Laravel tanpa ditulis ulang.
 
 ### [x] T3.01 Kontrak API: konvensi dan bentuk data **[DEMO]**
@@ -401,8 +401,8 @@ Aturan tahap:
 ### [x] T3.03 Tipe TypeScript dari kontrak **[DEMO]**
 - **Tujuan:**
   - Tipe untuk setiap bentuk data, masukan, dan respons di kontrak, termasuk `Respons<T>`, `Halaman<T>`, `GalatApi` (kode galat sebagai union string), dan bentuk per penonton.
-  - Tipe domain di `src/tipe/` (T2.01) dipakai ulang bila sama, atau dipetakan lewat fungsi murni.
-- **Berkas:** `src/api/tipe/*.ts`, `src/lib/peta-api.ts` + `.test.ts` (pemetaan JSON ↔ tipe domain, mis. tanggal ISO dan angka desimal).
+  - Tipe domain di `frontend/src/tipe/` (T2.01) dipakai ulang bila sama, atau dipetakan lewat fungsi murni.
+- **Berkas:** `frontend/src/api/tipe/*.ts`, `frontend/src/lib/peta-api.ts` + `.test.ts` (pemetaan JSON ↔ tipe domain, mis. tanggal ISO dan angka desimal).
 - **PRD:** Model Data.
 - **Selesai bila:**
   - `typecheck` hijau;
@@ -410,23 +410,23 @@ Aturan tahap:
   - nama kolom sama persis dengan kontrak (tanpa pengubahan camelCase diam-diam);
   - pemetaan teruji.
 - **Prasyarat:** T3.02.
-- **Catatan (5 Okt 2026):** Pemetaan ditaruh di `src/api/peta.ts` + tes, bukan `src/lib/peta-api.ts`, karena `src/lib` dilarang mengimpor lapisan API (T1.03). Tipe dibagi `umum`, `akun`, `referensi`, `resep`, `kebun`, `belajar`, `pesanan`, `lain`.
+- **Catatan (5 Okt 2026):** Pemetaan ditaruh di `frontend/src/api/peta.ts` + tes, bukan `frontend/src/lib/peta-api.ts`, karena `frontend/src/lib` dilarang mengimpor lapisan API (T1.03). Tipe dibagi `umum`, `akun`, `referensi`, `resep`, `kebun`, `belajar`, `pesanan`, `lain`.
 
 ### [x] T3.04 Antarmuka klien API, galat, dan kueri **[DEMO]**
 - **Tujuan:**
   - Antarmuka `KlienApi` dikelompokkan per fitur (`klien.akun`, `klien.lahan`, `klien.kebun`, `klien.pesanan`, …), satu metode per endpoint, mengembalikan `Promise` dari tipe T3.03 atau melempar `GalatApi`.
   - Penyedia React `PenyediaKlienApi` dan hook `useKlienApi`.
-  - Hook TanStack Query di `src/api/kueri/` dengan kunci kueri seragam dan pembatalan cache setelah mutasi.
+  - Hook TanStack Query di `frontend/src/api/kueri/` dengan kunci kueri seragam dan pembatalan cache setelah mutasi.
   - Pilihan implementasi lewat `VITE_SUMBER_DATA` (`tiruan` bawaan; `http` baru tersedia di Tahap 6 dan sementara melempar galat yang jelas).
-  - Penerjemahan `GalatApi` ke teks tampilan lewat `src/teks/`.
-- **Berkas:** `src/api/klien.ts` (antarmuka), `src/api/galat.ts`, `src/api/penyedia-klien.tsx`, `src/api/kueri/*.ts`, `src/lib/kunci-kueri.ts` + tes, `.env.example` (`VITE_SUMBER_DATA`).
+  - Penerjemahan `GalatApi` ke teks tampilan lewat `frontend/src/teks/`.
+- **Berkas:** `frontend/src/api/klien.ts` (antarmuka), `frontend/src/api/galat.ts`, `frontend/src/api/penyedia-klien.tsx`, `frontend/src/api/kueri/*.ts`, `frontend/src/lib/kunci-kueri.ts` + tes, `.env.example` (`VITE_SUMBER_DATA`).
 - **PRD:** –; D-20.
 - **Selesai bila:**
   - satu hook contoh (`useKomoditas`) bekerja di tes komponen dengan klien palsu yang disuntikkan;
   - `GalatApi` membawa `kode`, `pesan`, dan `rincian`;
-  - tidak ada `fetch` atau data tiruan di luar `src/api/`.
+  - tidak ada `fetch` atau data tiruan di luar `frontend/src/api/`.
 - **Prasyarat:** T3.03.
-- **Catatan (5 Okt 2026):** Semua hook ada di satu berkas `src/api/kueri/index.ts` (pembantu di `kueri/bantu.ts`). Galat diulang otomatis hanya untuk 5xx dan jaringan, tidak untuk 4xx. Klien tiruan dimuat dinamis (potongan terpisah ±192 kB) supaya mode `http` kelak tidak membawanya. `src/main.tsx` sudah dibungkus `PenyediaKlienApi`. Ditambah `src/lib/zona-waktu.ts` + tes (D-31).
+- **Catatan (5 Okt 2026):** Semua hook ada di satu berkas `frontend/src/api/kueri/index.ts` (pembantu di `kueri/bantu.ts`). Galat diulang otomatis hanya untuk 5xx dan jaringan, tidak untuk 4xx. Klien tiruan dimuat dinamis (potongan terpisah ±192 kB) supaya mode `http` kelak tidak membawanya. `frontend/src/main.tsx` sudah dibungkus `PenyediaKlienApi`. Ditambah `frontend/src/lib/zona-waktu.ts` + tes (D-31).
 
 ### [x] T3.05 Penyimpanan tiruan **[DEMO]**
 - **Tujuan:** Penyimpanan untuk klien tiruan:
@@ -434,7 +434,7 @@ Aturan tahap:
   - versi skema dan reset ke data contoh;
   - latensi buatan (bawaan 200–400 ms) dan galat buatan yang bisa dinyalakan, supaya keadaan memuat dan gagal di halaman ikut teruji;
   - pembuat ID dan jam yang bisa disuntikkan.
-- **Berkas:** `src/api/tiruan/penyimpanan.ts` + `.test.ts`, `src/api/tiruan/jam.ts`.
+- **Berkas:** `frontend/src/api/tiruan/penyimpanan.ts` + `.test.ts`, `frontend/src/api/tiruan/jam.ts`.
 - **PRD:** –
 - **Selesai bila:**
   - data bertahan setelah muat ulang;
@@ -449,7 +449,7 @@ Aturan tahap:
   - Data contoh dari desain: 10 komoditas (4 berresep), 4 metode, konversi ru 14 m² untuk wilayah demo, input pertanian dan merek (nomor pendaftaran), laporan harga, kelayakan subsidi (urea, NPK), promo toko tani.
   - **Wilayah**: desa demo di Lembang dan sekitarnya, dengan titik tengah desa.
   - **Konfigurasi bisnis**: uang muka 20, layanan 5, batas periksa 6 jam rutin dan 24 jam sekali panen, batas kabar 3 hari, radius 10 km, kontak admin (D-13).
-- **Berkas:** `src/api/tiruan/data/referensi.json`, `wilayah.json`, `konfigurasi.json`, tes konsistensi `src/api/tiruan/data/data.test.ts`.
+- **Berkas:** `frontend/src/api/tiruan/data/referensi.json`, `wilayah.json`, `konfigurasi.json`, tes konsistensi `frontend/src/api/tiruan/data/data.test.ts`.
 - **PRD:** P0-30, P0-34, P0-35; data seperti `ringkasan-desain.md` bagian 5.
 - **Selesai bila:**
   - setiap data cocok dengan tipe T3.03 (diuji);
@@ -468,7 +468,7 @@ Aturan tahap:
   - Semua resep **`status: draf`, `contoh: true`**, berlabel "CONTOH, belum divalidasi penyuluh" (D-10–D-12).
   - Hidroponik hanya untuk sawi (D-05).
   - 6 modul belajar per resep (bedengan, hidroponik sawi, sawah) dengan judul dan menit seperti papan 08 dan 09, serta video placeholder.
-- **Berkas:** `src/api/tiruan/data/resep.json`, `src/api/tiruan/data/modul.json` (diturunkan dari fixture T2.01, bukan disalin ulang dengan angka berbeda).
+- **Berkas:** `frontend/src/api/tiruan/data/resep.json`, `frontend/src/api/tiruan/data/modul.json` (diturunkan dari fixture T2.01, bukan disalin ulang dengan angka berbeda).
 - **PRD:** P0-03, P0-05, P0-12, P0-36, P0-37.
 - **Selesai bila:**
   - kalkulator `modal.ts` dengan data resep ini menghasilkan total yang sama dengan fixture T2.01 (tes konsistensi);
@@ -497,7 +497,7 @@ Aturan tahap:
   - kiriman di setiap tahap (uang muka ditahan, menunggu konfirmasi, dana cair, ditolak sebagian dengan sengketa);
   - pembayaran;
   - rating.
-- **Berkas:** `src/api/tiruan/data/pengguna.json`, `lahan.json`, `siklus.json`, `pesanan.json`, perluasan `data.test.ts`.
+- **Berkas:** `frontend/src/api/tiruan/data/pengguna.json`, `lahan.json`, `siklus.json`, `pesanan.json`, perluasan `data.test.ts`.
 - **PRD:** P0-01, P0-02, P0-19, P0-20, P0-21, P0-25; D-03, D-06, D-13, D-15.
 - **Selesai bila:**
   - setiap peran dan keadaan di atas ada (diuji);
@@ -516,7 +516,7 @@ Aturan tahap:
   - peran salah → `403`;
   - validasi dengan kode galat kontrak;
   - kapasitas lahan saat membuat siklus (`kapasitas-lahan.ts`, D-15).
-- **Berkas:** `src/api/tiruan/klien-tiruan.ts`, `src/api/tiruan/fitur/{akun,referensi,lahan,kebun,belajar}.ts` + tes.
+- **Berkas:** `frontend/src/api/tiruan/klien-tiruan.ts`, `frontend/src/api/tiruan/fitur/{akun,referensi,lahan,kebun,belajar}.ts` + tes.
 - **PRD:** P0-01, P0-03–P0-18, P0-30–P0-33, P0-37, P0-38; D-12, D-15.
 - **Selesai bila:**
   - tes per fitur untuk setiap endpoint di kelompok ini;
@@ -539,7 +539,7 @@ Aturan tahap:
   - pembeli: daftar, status verifikasi, buat pesanan (ditolak bila belum terverifikasi), dasbor;
   - admin: verifikasi, sengketa, catatan petani, nonaktifkan;
   - mentor: resep, versi, validasi.
-- **Berkas:** `src/api/tiruan/fitur/{pesanan,kiriman,pembayaran,pembeli,admin,mentor}.ts` + tes.
+- **Berkas:** `frontend/src/api/tiruan/fitur/{pesanan,kiriman,pembayaran,pembeli,admin,mentor}.ts` + tes.
 - **PRD:** P0-02, P0-19–P0-28, P0-04, P0-31; D-01–D-03, D-06, D-13, D-14.
 - **Selesai bila:**
   - tes untuk setiap aturan di atas;
@@ -553,7 +553,7 @@ Aturan tahap:
   - Antarmuka **`PenyediaOtp`** (`kirimKode`, `verifikasi`) dan **`PenyediaPembayaran`** (`tahan`, `cairkan`, `kembalikan`, `status`).
   - **OTP tiruan** meniru aturan backend nanti: kode 6 digit hanya disimpan sebagai hash, kedaluwarsa 5 menit, paling banyak 5 percobaan, kirim ulang setelah 60 detik. Kode ditampilkan di panel "Kode uji" yang hanya muncul di mode pengembangan.
   - **Pembayaran tiruan** mensimulasikan menahan, mencairkan, dan mengembalikan dana dengan referensi `TIRUAN-…` dan label "Mode uji coba" (D-10).
-- **Berkas:** `src/penyedia/otp/penyedia-otp.ts`, `src/penyedia/otp/otp-tiruan.ts`, `src/penyedia/pembayaran/penyedia-pembayaran.ts`, `src/penyedia/pembayaran/pembayaran-tiruan.ts`, tes keduanya, `src/lib/nomor-hp.ts` + `.test.ts` (normalisasi 0812… / +62812…).
+- **Berkas:** `frontend/src/penyedia/otp/penyedia-otp.ts`, `frontend/src/penyedia/otp/otp-tiruan.ts`, `frontend/src/penyedia/pembayaran/penyedia-pembayaran.ts`, `frontend/src/penyedia/pembayaran/pembayaran-tiruan.ts`, tes keduanya, `frontend/src/lib/nomor-hp.ts` + `.test.ts` (normalisasi 0812… / +62812…).
 - **PRD:** P0-01, P0-23, P0-26, P0-27; D-10.
 - **Selesai bila:**
   - tes OTP: kedaluwarsa tepat di menit ke-5 (jam disuntikkan), percobaan ke-6 ditolak, kode tidak pernah ada di respons;
@@ -565,21 +565,21 @@ Aturan tahap:
 ### [x] T3.12 Tes kontrak dan pagar impor **[DEMO]**
 - **Tujuan:**
   - **Satu rangkaian tes kontrak** yang dijalankan terhadap implementasi `KlienApi` mana pun: bentuk respons, kode galat, paginasi, dan aturan akses utama. Di Tahap 3 dijalankan terhadap klien tiruan; di Tahap 6 rangkaian yang sama dijalankan terhadap klien HTTP.
-  - **Aturan ESLint**: `src/halaman/` dan `src/komponen/` dilarang mengimpor `src/api/tiruan/**` dan `src/penyedia/**/…-tiruan`.
-- **Berkas:** `src/api/kontrak.test-suite.ts`, `src/api/tiruan/kontrak.test.ts`, `eslint.config.js`.
+  - **Aturan ESLint**: `frontend/src/halaman/` dan `frontend/src/komponen/` dilarang mengimpor `frontend/src/api/tiruan/**` dan `frontend/src/penyedia/**/…-tiruan`.
+- **Berkas:** `frontend/src/api/kontrak.test-suite.ts`, `frontend/src/api/tiruan/kontrak.test.ts`, `eslint.config.js`.
 - **PRD:** –; D-20.
 - **Selesai bila:**
   - tes kontrak hijau untuk klien tiruan;
   - impor data tiruan dari halaman membuat `npm run lint` gagal (diuji dengan berkas contoh di tes aturan);
   - setiap endpoint di `kontrak-api.md` punya minimal satu kasus.
 - **Prasyarat:** T3.09, T3.10.
-- **Catatan (5 Okt 2026):** Pagar juga melarang `src/api/sumber` dan `fetch` langsung di halaman dan komponen. Tes aturan ada di `scripts/eslint-pagar.test.mjs`. Satu tes memastikan setiap metode `KlienApi` dipanggil oleh rangkaian kontrak. Lint, typecheck, 648 tes, dan build hijau.
+- **Catatan (5 Okt 2026):** Pagar juga melarang `frontend/src/api/sumber` dan `fetch` langsung di halaman dan komponen. Tes aturan ada di `frontend/scripts/eslint-pagar.test.mjs`. Satu tes memastikan setiap metode `KlienApi` dipanggil oleh rangkaian kontrak. Lint, typecheck, 648 tes, dan build hijau.
 
 ---
 
 # Tahap 4. Halaman per pilar
 
-Setiap tugas halaman: dibuat di **390px dan 1440px**, dibandingkan dengan papan yang disebut, teks di `src/teks/`, hanya komponen Tahap 1, logika dari `src/lib`. **Data hanya lewat klien API** (hook di `src/api/kueri/`) yang di tahap ini memakai implementasi tiruan Tahap 3; halaman tidak pernah mengimpor data tiruan (D-20). Setiap halaman menangani keadaan memuat, kosong, dan gagal. "Turunan" = desain belum ada, dibuat dari pola yang ada (K6).
+Setiap tugas halaman: dibuat di **390px dan 1440px**, dibandingkan dengan papan yang disebut, teks di `frontend/src/teks/`, hanya komponen Tahap 1, logika dari `frontend/src/lib`. **Data hanya lewat klien API** (hook di `frontend/src/api/kueri/`) yang di tahap ini memakai implementasi tiruan Tahap 3; halaman tidak pernah mengimpor data tiruan (D-20). Setiap halaman menangani keadaan memuat, kosong, dan gagal. "Turunan" = desain belum ada, dibuat dari pola yang ada (K6).
 
 **Label contoh (D-36):** setiap tugas yang menampilkan angka resep (kalkulator, perkiraan panen, jadwal termasuk penggaris dan detail tugas, rentang pengukuran) baru selesai bila label "CONTOH, belum divalidasi penyuluh" terlihat di layar di setiap tempat angka itu muncul, untuk siklus atau resep yang `contoh`. Tugas yang terkena ditandai "Label contoh (D-36)" di kriteria selesainya.
 
@@ -608,18 +608,18 @@ Catatan pembagian:
 
 ### [x] T4.01 Sesi pengembangan dan penjaga rute **[DEMO]**
 - **Tujuan:** Penyedia sesi (`useSesi`) dan penjaga rute berdasarkan peran, sehingga halaman bisa dikerjakan sebelum halaman Masuk selesai. Di mode pengembangan tersedia pemilih pengguna uji dari data tiruan (satu per peran dan keadaan, T3.10); di produksi pemilih ini tidak ikut.
-- **Berkas:** `src/api/sesi.tsx` (sesi dari `klien.akun`), `src/komponen/penjaga-rute.tsx`, `src/halaman/pilih-akun-demo.tsx` (hanya mode pengembangan), tes `PenjagaRute`.
+- **Berkas:** `frontend/src/api/sesi.tsx` (sesi dari `klien.akun`), `frontend/src/komponen/penjaga-rute.tsx`, `frontend/src/halaman/pilih-akun-demo.tsx` (hanya mode pengembangan), tes `PenjagaRute`.
 - **PRD:** P0-01.
 - **Selesai bila:** rute petani menolak pembeli dan sebaliknya; rute tanpa sesi mengarah ke `/masuk`; pemilih akun demo hanya aktif di mode data tiruan; produksi tidak memuat pemilih akun demo (dicek otomatis di `build`, D-36).
 - **Tangkapan (D-07):** `docs/tangkapan/aplikasi/43-pilih-akun-demo-mobile.png` (390px) dan `43-pilih-akun-demo-desktop.png` (1440px), ditunjukkan ke pemilik produk; **berhenti menunggu tanggapan** sebelum tugas berikutnya.
 - **Prasyarat:** T3.09, T1.15.
-- **Catatan (5 Okt 2026):** Sesi dari `GET /akun` (`useSesi`, `berandaPeran`, `useHariIni`, `useGantiPengguna` di `src/api/sesi.tsx`). Penjaga: `PenjagaRute` (per peran; peran salah diarahkan ke halaman awal perannya), `PenjagaTamu` (/masuk), `PenjagaTanpaPeran` (/pilih-peran); 7 tes. Kerangka mengambil nama dan desa dari sesi (`src/komponen/kerangka-sesi.tsx`); Keluar di menu akun berfungsi. Pemilih akun demo di `/akun-demo` dimuat malas hanya bila `import.meta.env.DEV` dan hanya aktif bila kontrol tiruan ada; `scripts/cek-build.mjs` (bagian `npm run build`) gagal bila teksnya ada di `dist/`. Saat masuk, keluar, atau ganti akun, cache kueri dikosongkan agar data pengguna lain tidak terlihat. Data contoh versi 2: petani Sari (tanpa siklus) ditambahkan ke pengguna uji.
+- **Catatan (5 Okt 2026):** Sesi dari `GET /akun` (`useSesi`, `berandaPeran`, `useHariIni`, `useGantiPengguna` di `frontend/src/api/sesi.tsx`). Penjaga: `PenjagaRute` (per peran; peran salah diarahkan ke halaman awal perannya), `PenjagaTamu` (/masuk), `PenjagaTanpaPeran` (/pilih-peran); 7 tes. Kerangka mengambil nama dan desa dari sesi (`frontend/src/komponen/kerangka-sesi.tsx`); Keluar di menu akun berfungsi. Pemilih akun demo di `/akun-demo` dimuat malas hanya bila `import.meta.env.DEV` dan hanya aktif bila kontrol tiruan ada; `frontend/scripts/cek-build.mjs` (bagian `npm run build`) gagal bila teksnya ada di `dist/`. Saat masuk, keluar, atau ganti akun, cache kueri dikosongkan agar data pengguna lain tidak terlihat. Data contoh versi 2: petani Sari (tanpa siklus) ditambahkan ke pengguna uji.
 
 ## 4B. Pilar Hitung
 
 ### [x] T4.02 Langkah 1: Mau tanam apa? **[DEMO]**
 - **Tujuan:** Pilih jenis lahan (Semua/Sawah/Kebun/Pekarangan), cari, daftar per kategori dengan umur panen, jumlah pesanan di sekitar, label "Ada pesanan"/"Segera hadir"; ringkasan pilihan + tombol "Lanjut pilih metode".
-- **Berkas:** `src/halaman/hitung/pilih-tanaman.tsx`, `src/teks/hitung.ts`, hook dari `src/api/kueri` (sudah ada sejak T3.04).
+- **Berkas:** `frontend/src/halaman/hitung/pilih-tanaman.tsx`, `frontend/src/teks/hitung.ts`, hook dari `frontend/src/api/kueri` (sudah ada sejak T3.04).
 - **PRD:** P0-30, US-22, US-23; **D-05** (bayam dan kangkung hidroponik "Segera hadir").
 - **Selesai bila:** papan 10 (desktop dengan menu profil terbuka) cocok; filter lahan hanya menampilkan yang cocok; komoditas tanpa resep tetap bisa diketuk; hasil pencarian kosong menampilkan "Tanaman ini belum ada di daftar" dengan "Minta tanaman baru".
 - **Tangkapan (D-07):** `docs/tangkapan/aplikasi/10-hitung-pilih-tanaman-mobile.png` (390px) dan `10-hitung-pilih-tanaman-desktop.png` (1440px), ditunjukkan ke pemilik produk; **berhenti menunggu tanggapan** sebelum tugas berikutnya.
@@ -628,7 +628,7 @@ Catatan pembagian:
 
 ### [x] T4.03 Segera hadir dan Minta resep **[DEMO]**
 - **Tujuan:** Sheet (HP) / dialog (desktop) untuk komoditas tanpa resep; "Minta resep ini" menulis `permintaan_resep`; pesan "Permintaanmu tercatat. Kami kabari saat resepnya siap."; mencegah permintaan ganda.
-- **Berkas:** `src/halaman/hitung/segera-hadir.tsx`, `src/api/kueri/permintaan-resep.ts`.
+- **Berkas:** `frontend/src/halaman/hitung/segera-hadir.tsx`, `frontend/src/api/kueri/permintaan-resep.ts`.
 - **PRD:** P0-31, US-23.
 - **Selesai bila:** papan 11 dan 12 (dua keadaan) cocok; permintaan tercatat per komoditas dan desa; ketuk ulang menampilkan keadaan "sudah diminta".
 - **Tangkapan (D-07):** `docs/tangkapan/aplikasi/11-hitung-segera-hadir-mobile.png` (390px) dan `11-hitung-segera-hadir-desktop.png` (1440px) (juga `12-hitung-segera-hadir-sudah-diminta`), ditunjukkan ke pemilik produk; **berhenti menunggu tanggapan** sebelum tugas berikutnya.
@@ -637,25 +637,25 @@ Catatan pembagian:
 
 ### [x] T4.04 Langkah 2: Pilih cara tanam dan ukuran **[DEMO]**
 - **Tujuan:** Kartu metode (modal awal, lahan, perawatan, "Cocok untuk pemula", "Resep tersedia"/"Segera hadir"); ukuran sesuai metode: luas dengan satuan m²/ru-bata/hektare, jumlah polybag, sistem hidroponik + lubang + tandon, vertikultur; teks bantuan konversi; perkiraan panen langsung; padi hanya Sawah; "Minta resep ini" untuk metode tanpa resep.
-- **Berkas:** `src/halaman/hitung/pilih-metode.tsx`, `src/halaman/hitung/form-ukuran.tsx`.
+- **Berkas:** `frontend/src/halaman/hitung/pilih-metode.tsx`, `frontend/src/halaman/hitung/form-ukuran.tsx`.
 - **PRD:** P0-32, P0-33, US-24, US-25; fungsi `konversi-satuan`, `ukuran-metode`, `kebutuhan` (validasi ukuran).
 - **Selesai bila:** papan 13, 14 dan 15 cocok; "7 ru ≈ 100 m²" muncul dari `teksBantuanLuas`; ukuran kosong menampilkan "Isi luas lahan dulu" / "Isi jumlah lubang tanam dulu"; tombol lanjut nonaktif sampai valid; perkiraan panen berubah saat ukuran berubah. Hidroponik hanya aktif untuk sawi; bayam dan kangkung menampilkan hidroponik "Segera hadir" dengan "Minta resep ini" (D-05). Label contoh (D-36): "CONTOH, belum divalidasi penyuluh" terlihat di setiap tempat angka resep muncul.
 - **Tangkapan (D-07):** `docs/tangkapan/aplikasi/13-hitung-cara-tanam-sawi-bedengan-mobile.png` (390px) dan `13-hitung-cara-tanam-sawi-bedengan-desktop.png` (1440px) (juga nomor 14 dan 15), ditunjukkan ke pemilik produk; **berhenti menunggu tanggapan** sebelum tugas berikutnya.
 - **Prasyarat:** T4.03, T2.02, T2.03, T2.07.
-- **Catatan (6 Okt 2026):** Cara tanam yang ditawarkan mengikuti jenis lahan komoditas (bedengan–kebun, polybag–pekarangan, hidroponik–hidroponik, sawah–sawah). Cara pertama yang punya resep dipilih otomatis, begitu juga sistem hidroponik pertama. Kalimat pendek tiap cara tanam ada di `src/teks/hitung.ts`; baris Lahan dan Perawatan dari data. Padi menampilkan label contoh, bukan "Resepnya sudah dicek penyuluh" seperti papan 15, karena resepnya belum divalidasi. Faktor vertikultur belum ada di data, jadi saklar vertikultur belum mengubah kebutuhan tempat. Formulir ukuran ada di panel kanan desktop dan di kolom isi HP (dirender sekali, `useLayarLebar`).
+- **Catatan (6 Okt 2026):** Cara tanam yang ditawarkan mengikuti jenis lahan komoditas (bedengan–kebun, polybag–pekarangan, hidroponik–hidroponik, sawah–sawah). Cara pertama yang punya resep dipilih otomatis, begitu juga sistem hidroponik pertama. Kalimat pendek tiap cara tanam ada di `frontend/src/teks/hitung.ts`; baris Lahan dan Perawatan dari data. Padi menampilkan label contoh, bukan "Resepnya sudah dicek penyuluh" seperti papan 15, karena resepnya belum divalidasi. Faktor vertikultur belum ada di data, jadi saklar vertikultur belum mengubah kebutuhan tempat. Formulir ukuran ada di panel kanan desktop dan di kolom isi HP (dirender sekali, `useLayarLebar`).
 
 ### [x] T4.05 Langkah 3: Kalkulator, daftar item dan grup **[DEMO]**
 - **Tujuan:** Daftar item per grup dengan subtotal; ubah jumlah dan harga (`InputRupiah`), tambah item (tenaga kerja, sewa lahan), hapus item, harga negatif ditolak, "Harga belum diisi" + peringatan total belum lengkap.
-- **Berkas:** `src/halaman/hitung/kalkulator.tsx`, `src/halaman/hitung/baris-item.tsx`, `src/halaman/hitung/use-rencana.ts` (keadaan rencana di memori, memakai `src/lib/modal`, `kebutuhan`).
+- **Berkas:** `frontend/src/halaman/hitung/kalkulator.tsx`, `frontend/src/halaman/hitung/baris-item.tsx`, `frontend/src/halaman/hitung/use-rencana.ts` (keadaan rencana di memori, memakai `frontend/src/lib/modal`, `kebutuhan`).
 - **PRD:** P0-07, P0-08, US-03, US-04.
 - **Selesai bila:** papan 16 (sawi bedengan 100 m²) dan 19 (padi) cocok; ubah jumlah memperbarui subtotal dan total sama dengan hasil `modal.ts`; item tanpa harga ditandai dan ringkasan memberi peringatan; catatan "Semua harga di halaman ini adalah contoh…" tampil; label "CONTOH, belum divalidasi penyuluh" terlihat di setiap bagian yang memuat angka resep, termasuk lembar dan panel (D-12). Label contoh (D-36): "CONTOH, belum divalidasi penyuluh" terlihat di setiap tempat angka resep muncul.
 - **Tangkapan (D-07):** `docs/tangkapan/aplikasi/16-hitung-modal-sawi-bedengan-mobile.png` (390px) dan `16-hitung-modal-sawi-bedengan-desktop.png` (1440px) (juga nomor 19), ditunjukkan ke pemilik produk; **berhenti menunggu tanggapan** sebelum tugas berikutnya.
 - **Prasyarat:** T4.04, T2.05, T1.08.
-- **Catatan (6 Okt 2026):** Keadaan rencana di `src/halaman/hitung/use-rencana.tsx` (bukan `.ts`, karena memuat penyedia React) dan fungsi murni baru `src/lib/rencana.ts` + 6 tes (total sawi bedengan 100 m² dengan harga contoh Rp430.000). Harga mengikuti prioritas `harga-item.ts`: rata-rata sekitar dipakai sebelum harga contoh, sehingga total di layar (Rp445.008) berbeda dari papan (Rp430.000). Item tambahan tanpa nama menahan simpan (kode baru `NAMA_ITEM_KOSONG`). Ikon baru bergaya sama: cari, label, pensil, info, tambah, hapus. KolomIsian dan InputRupiah mendapat opsi `labelTersembunyi` untuk isian di tabel desktop.
+- **Catatan (6 Okt 2026):** Keadaan rencana di `frontend/src/halaman/hitung/use-rencana.tsx` (bukan `.ts`, karena memuat penyedia React) dan fungsi murni baru `frontend/src/lib/rencana.ts` + 6 tes (total sawi bedengan 100 m² dengan harga contoh Rp430.000). Harga mengikuti prioritas `harga-item.ts`: rata-rata sekitar dipakai sebelum harga contoh, sehingga total di layar (Rp445.008) berbeda dari papan (Rp430.000). Item tambahan tanpa nama menahan simpan (kode baru `NAMA_ITEM_KOSONG`). Ikon baru bergaya sama: cari, label, pensil, info, tambah, hapus. KolomIsian dan InputRupiah mendapat opsi `labelTersembunyi` untuk isian di tabel desktop.
 
 ### [x] T4.06 Subsidi, pilih merek, merek lain, promo **[DEMO]**
 - **Tujuan:** Pilihan Subsidi/Nonsubsidi per item yang memenuhi syarat dengan catatan "Subsidi hanya untuk petani yang terdaftar di kelompok tani."; lembar "Pilih merek" (harga per kemasan, per satuan, jumlah pelapor, hari lalu), "Merek lain, isi sendiri" yang membuat laporan harga baru; tips pembelian di kios resmi; bagian "Promo dari toko tani" terpisah dengan label "Promo".
-- **Berkas:** `src/halaman/hitung/lembar-merek.tsx`, `src/halaman/hitung/bagian-promo.tsx`, `src/halaman/hitung/pilihan-subsidi.tsx`, `src/api/kueri/laporan-harga.ts`.
+- **Berkas:** `frontend/src/halaman/hitung/lembar-merek.tsx`, `frontend/src/halaman/hitung/bagian-promo.tsx`, `frontend/src/halaman/hitung/pilihan-subsidi.tsx`, `frontend/src/api/kueri/laporan-harga.ts`.
 - **PRD:** P0-09, P0-34, P0-35, US-05, US-26.
 - **Selesai bila:** papan 17 cocok; urutan merek berasal dari `harga-item.ts` (laporan terbaru), tidak pernah berubah karena promo; merek lain menulis ke `laporan_harga`; tidak ada merek yang diberi label "rekomendasi". Label contoh (D-36): "CONTOH, belum divalidasi penyuluh" terlihat di setiap tempat angka resep muncul.
 - **Tangkapan (D-07):** `docs/tangkapan/aplikasi/17-hitung-modal-pilih-merek-npk-mobile.png` (390px) dan `17-hitung-modal-pilih-merek-npk-desktop.png` (1440px), ditunjukkan ke pemilik produk; **berhenti menunggu tanggapan** sebelum tugas berikutnya.
@@ -664,7 +664,7 @@ Catatan pembagian:
 
 ### [x] T4.07 Alat sekali beli dan ringkasan hasil **[DEMO]**
 - **Tujuan:** Bagian "Alat sekali beli" dengan saklar "Bagi biaya alat ke 10 siklus" dan teks pembagian; ringkasan: total modal (atau "Modal siklus ini"), modal per m², perkiraan untung, titik impas, "kalau panen jelek" dengan alasan, pesan rugi merah "Dengan angka ini, kamu berpotensi rugi."; harga jual otomatis memakai harga kesepakatan bila terhubung pesanan; kartu "Jadwal yang akan dibuat" dengan penggaris.
-- **Berkas:** `src/halaman/hitung/bagian-alat.tsx`, `src/halaman/hitung/ringkasan-hasil.tsx`.
+- **Berkas:** `frontend/src/halaman/hitung/bagian-alat.tsx`, `frontend/src/halaman/hitung/ringkasan-hasil.tsx`.
 - **PRD:** P0-10, P0-36, US-06, US-27.
 - **Selesai bila:** papan 18 (hidroponik NFT 200 lubang) cocok: modal per siklus dan total alat tampil terpisah; angka sama dengan `ringkasan.ts`; untung negatif tampil merah dengan ikon dan kata; tombol utama tunggal "Simpan rencana". Label contoh (D-36): "CONTOH, belum divalidasi penyuluh" terlihat di setiap tempat angka resep muncul.
 - **Tangkapan (D-07):** `docs/tangkapan/aplikasi/18-hitung-modal-sawi-hidroponik-mobile.png` (390px) dan `18-hitung-modal-sawi-hidroponik-desktop.png` (1440px), ditunjukkan ke pemilik produk; **berhenti menunggu tanggapan** sebelum tugas berikutnya.
@@ -674,47 +674,47 @@ Catatan pembagian:
 
 ### [x] T4.08 Simpan rencana dan pilih tanggal tanam (turunan) **[DEMO]**
 - **Tujuan:** "Simpan rencana" membuat `siklus_tanam` + `rencana_item`; langkah pilih tanggal tanam (turunan; boleh tanggal lampau untuk siklus pilot); pembuatan `tugas` dari resep memakai `jadwal-buat`; rencana masih bisa diubah sebelum tanggal tanam; kembali ke Beranda.
-- **Berkas:** `src/halaman/hitung/pilih-tanggal-tanam.tsx`, hook dari `src/api/kueri` (sudah ada sejak T3.04) (mutasi), `src/lib/rencana-ke-baris.ts` + tes (pemetaan rencana → baris `rencana_item`).
+- **Berkas:** `frontend/src/halaman/hitung/pilih-tanggal-tanam.tsx`, hook dari `frontend/src/api/kueri` (sudah ada sejak T3.04) (mutasi), `frontend/src/lib/rencana-ke-baris.ts` + tes (pemetaan rencana → baris `rencana_item`).
 - **PRD:** P0-11, P0-12, P0-04 (siklus menyimpan versi resep), US-07.
 - **Selesai bila:** setelah simpan, `siklus_tanam.resep_id` = versi resep terpakai; jumlah `tugas` sama dengan `buatJadwal`; mengubah resep di database tidak mengubah siklus lama (diuji); waktu dari rencana sampai simpan terukur (tujuan < 5 menit, P0 tujuan pengguna 1) di catatan demo. Label contoh (D-36): "CONTOH, belum divalidasi penyuluh" terlihat di setiap tempat angka resep muncul.
 - **Tangkapan (D-07):** `docs/tangkapan/aplikasi/41-pilih-tanggal-tanam-mobile.png` (390px) dan `41-pilih-tanggal-tanam-desktop.png` (1440px), ditunjukkan ke pemilik produk; **berhenti menunggu tanggapan** sebelum tugas berikutnya.
 - **Prasyarat:** T4.07, T2.08, T3.09.
-- **Catatan (6 Okt 2026):** Langkah simpan di `/hitung/simpan`: pilih lahan yang cocok (sisa kapasitas tampil; lahan yang tidak cukup tidak bisa dipilih), lalu Hari ini, Pilih tanggal (boleh tanggal lampau), atau Nanti saja. Satu panggilan `POST /siklus`; pemetaan baris rencana ada di `keBarisRencana` (`src/lib/rencana.ts`), bukan berkas `rencana-ke-baris.ts` terpisah. Setelah simpan dengan tanggal, petani dibawa ke Beranda dengan siklus baru terpilih. Rencana tanpa tanggal belum tampil di Beranda; daftar rencana dikerjakan bersama menu Kebun (gelombang 3). Waktu dari rencana sampai simpan belum diukur (catatan demo di T6.08).
+- **Catatan (6 Okt 2026):** Langkah simpan di `/hitung/simpan`: pilih lahan yang cocok (sisa kapasitas tampil; lahan yang tidak cukup tidak bisa dipilih), lalu Hari ini, Pilih tanggal (boleh tanggal lampau), atau Nanti saja. Satu panggilan `POST /siklus`; pemetaan baris rencana ada di `keBarisRencana` (`frontend/src/lib/rencana.ts`), bukan berkas `rencana-ke-baris.ts` terpisah. Setelah simpan dengan tanggal, petani dibawa ke Beranda dengan siklus baru terpilih. Rencana tanpa tanggal belum tampil di Beranda; daftar rencana dikerjakan bersama menu Kebun (gelombang 3). Waktu dari rencana sampai simpan belum diukur (catatan demo di T6.08).
 
 ## 4C. Pilar Jadwal dan pengingat
 
 ### [x] T4.09 Beranda petani **[DEMO]**
 - **Tujuan:** Salam + kota, kartu siklus dengan penggaris, banner "Besok: …", daftar tugas hari ini (`BarisTugas`) termasuk terlambat dan "Isi angka" untuk tugas ukur, kartu "Tawaran pesanan"; keadaan kosong "Mulai siklus tanam pertamamu"; offline dan pengingat diblokir.
-- **Berkas:** `src/halaman/beranda.tsx`, `src/halaman/beranda/*.tsx`, `src/teks/beranda.ts`.
+- **Berkas:** `frontend/src/halaman/beranda.tsx`, `frontend/src/halaman/beranda/*.tsx`, `frontend/src/teks/beranda.ts`.
 - **PRD:** P0-06, P0-13 (banner bila izin ditolak), P0-16, P0-29, US-02, US-11.
 - **Selesai bila:** papan 03, 04 (hidroponik), 05, 06, dan 07 cocok; centang tugas menandai selesai (T4.11); tugas terlambat memakai chip "Terlambat n hari"; tautan ke modul tahap yang sedang berjalan. Label contoh (D-36): "CONTOH, belum divalidasi penyuluh" terlihat di setiap tempat angka resep muncul.
 - **Tangkapan (D-07):** `docs/tangkapan/aplikasi/03-beranda-petani-mobile.png` (390px) dan `03-beranda-petani-desktop.png` (1440px) (juga nomor 04 sampai 07), ditunjukkan ke pemilik produk; **berhenti menunggu tanggapan** sebelum tugas berikutnya.
 - **Prasyarat:** T4.08, T1.10, T1.14, T2.09.
-- **Catatan (5 Okt 2026):** Fungsi murni baru `src/lib/beranda.ts` (tugas hari ini, tugas besok, pin penggaris, hasil ukur terakhir, persen modal) + 14 tes. Beda dari papan: salam selalu "Halo, …" (papan 05–07 memakai "Selamat pagi"); tombol kanan atas HP selalu avatar ke Profil; bila ada beberapa siklus aktif, pil memilih siklus untuk kartu (`?siklus=`), sedangkan "Tugas hari ini" memuat semua siklus dikelompokkan per siklus; kartu hasil ukur dan modal hanya tampil mulai 1024px seperti papan desktop. Isi banner besok umum ("Siapkan bahan dan alatnya…") karena resep contoh belum punya `cara_mengerjakan`; langkah cara mengerjakan ditambahkan di T4.11. Tautan belajar di keadaan kosong tanpa angka menit. Lencana Pesanan belum ditampilkan sampai gelombang 4 menetapkan arti "baru". Penanda "tersimpan di HP, belum terkirim" (papan 06) menunggu antrean offline T6.05. Galat Tahap 1 diperbaiki: garis tepi chip "Hari ini", "Besok", dan "Terlambat" tertimpa `border-transparent`.
+- **Catatan (5 Okt 2026):** Fungsi murni baru `frontend/src/lib/beranda.ts` (tugas hari ini, tugas besok, pin penggaris, hasil ukur terakhir, persen modal) + 14 tes. Beda dari papan: salam selalu "Halo, …" (papan 05–07 memakai "Selamat pagi"); tombol kanan atas HP selalu avatar ke Profil; bila ada beberapa siklus aktif, pil memilih siklus untuk kartu (`?siklus=`), sedangkan "Tugas hari ini" memuat semua siklus dikelompokkan per siklus; kartu hasil ukur dan modal hanya tampil mulai 1024px seperti papan desktop. Isi banner besok umum ("Siapkan bahan dan alatnya…") karena resep contoh belum punya `cara_mengerjakan`; langkah cara mengerjakan ditambahkan di T4.11. Tautan belajar di keadaan kosong tanpa angka menit. Lencana Pesanan belum ditampilkan sampai gelombang 4 menetapkan arti "baru". Penanda "tersimpan di HP, belum terkirim" (papan 06) menunggu antrean offline T6.05. Galat Tahap 1 diperbaiki: garis tepi chip "Hari ini", "Besok", dan "Terlambat" tertimpa `border-transparent`.
 - **Catatan (6 Okt 2026, D-37):** Salam kini "Selamat pagi/siang/sore/malam" menurut jam setempat (`waktuSalam`), dan siklus yang terpilih saat Beranda dibuka adalah yang tugasnya paling mendesak (`siklusPalingMendesak`). Tangkapan 03–07 diperbarui.
 
 ### [x] T4.10 Jadwal siklus **[DEMO]**
 - **Tujuan:** Halaman jadwal: header siklus + tab Jadwal/Modal/Jurnal, filter tipe (Semua/Sekali/Berulang/Pengukuran), daftar dikelompokkan per hari (Terlambat, Hari ini, Besok, tanggal, Sudah selesai), tugas berulang sebagai satu baris dengan frekuensi, keadaan kosong per filter; panel samping desktop ("Tiga jenis tugas", "Pengingat").
-- **Berkas:** `src/halaman/kebun/jadwal.tsx`, `src/halaman/kebun/kerangka-siklus.tsx`, hook dari `src/api/kueri` (sudah ada sejak T3.04).
+- **Berkas:** `frontend/src/halaman/kebun/jadwal.tsx`, `frontend/src/halaman/kebun/kerangka-siklus.tsx`, hook dari `frontend/src/api/kueri` (sudah ada sejak T3.04).
 - **PRD:** P0-12, US-07.
 - **Selesai bila:** papan 20 dan 21 cocok; ikon tipe berbeda di semua daftar; filter "Pengukuran" di siklus bedengan menampilkan pesan papan 20 mobile; pengelompokan = `kelompokkanPerHari`; label "CONTOH, belum divalidasi penyuluh" terlihat di jadwal dan detail tugas bila resepnya contoh (D-12). Label contoh (D-36): "CONTOH, belum divalidasi penyuluh" terlihat di setiap tempat angka resep muncul.
 - **Tangkapan (D-07):** `docs/tangkapan/aplikasi/20-jadwal-sawi-bedengan-mobile.png` (390px) dan `20-jadwal-sawi-bedengan-desktop.png` (1440px) (juga nomor 21), ditunjukkan ke pemilik produk; **berhenti menunggu tanggapan** sebelum tugas berikutnya.
 - **Prasyarat:** T4.08, T2.09, T1.10.
-- **Catatan (7 Okt 2026):** Kerangka siklus (`kerangka-siklus.tsx`) dipakai Jadwal, Modal, Jurnal, Ubah tanggal tanam, dan Akhir siklus: kepala, kartu penggaris, tab sebagai tautan. Tugas berulang dan ukur tampil hari ini dan besok, satu yang terlambat, atau satu berikutnya (fungsi baru `src/lib/jadwal-tampil.ts` + tes); sudah selesai hanya tugas sekali. Menu Kebun (D-26, D-38) dikerjakan di sini: halaman daftar siklus `daftar-siklus.tsx` (sedang ditanam, rencana belum dijadwalkan, sudah selesai); satu siklus aktif tanpa rencana langsung membuka jadwalnya. Tombol "Ubah tanggal tanam" dan "Akhiri siklus" di bawah daftar tugas.
+- **Catatan (7 Okt 2026):** Kerangka siklus (`kerangka-siklus.tsx`) dipakai Jadwal, Modal, Jurnal, Ubah tanggal tanam, dan Akhir siklus: kepala, kartu penggaris, tab sebagai tautan. Tugas berulang dan ukur tampil hari ini dan besok, satu yang terlambat, atau satu berikutnya (fungsi baru `frontend/src/lib/jadwal-tampil.ts` + tes); sudah selesai hanya tugas sekali. Menu Kebun (D-26, D-38) dikerjakan di sini: halaman daftar siklus `daftar-siklus.tsx` (sedang ditanam, rencana belum dijadwalkan, sudah selesai); satu siklus aktif tanpa rencana langsung membuka jadwalnya. Tombol "Ubah tanggal tanam" dan "Akhiri siklus" di bawah daftar tugas.
 - **Perubahan D-40 (8 Okt 2026):** Menu Kebun dan Beranda mengelompokkan petak satu pesanan rutin: satu pil dan satu kelompok tugas di Beranda (nama petak di setiap tugas), satu kartu kelompok yang bisa dibuka di Kebun (`kelompokkanSiklus`, `petakTerkini`, `ringkasKelompok`).
 
 ### [x] T4.11 Detail tugas, tandai selesai, foto, tunda **[DEMO]**
 - **Tujuan:** Detail tugas (chip waktu, banner saran terlambat dari resep, cara mengerjakan, foto bukti, tunda 1–3 hari dengan tanggal baru), "Tandai selesai"; foto opsional diunggah lewat klien API dan masuk jurnal; konfirmasi bila tunda melewati panen (turunan); tugas berulang dan sekali (turunan tampilan non-terlambat).
-- **Berkas:** `src/halaman/kebun/detail-tugas.tsx`, `src/komponen/ambil-foto.tsx` (kamera/galeri, kecilkan sisi klien), `src/lib/kecilkan-foto.ts` + tes (hitung ukuran target), `src/api/kueri/tugas-mutasi.ts`.
+- **Berkas:** `frontend/src/halaman/kebun/detail-tugas.tsx`, `frontend/src/komponen/ambil-foto.tsx` (kamera/galeri, kecilkan sisi klien), `frontend/src/lib/kecilkan-foto.ts` + tes (hitung ukuran target), `frontend/src/api/kueri/tugas-mutasi.ts`.
 - **PRD:** P0-14, P0-15, P0-16, US-08.
 - **Selesai bila:** papan 22 cocok; tunda menggeser tugas sejenis lewat `tundaTugas`; foto masuk jurnal dengan tanggal dan nama tugas; tugas terlambat tetap bisa ditandai selesai. Label contoh (D-36): "CONTOH, belum divalidasi penyuluh" terlihat di setiap tempat angka resep muncul.
 - **Tangkapan (D-07):** `docs/tangkapan/aplikasi/22-detail-tugas-mobile.png` (390px) dan `22-detail-tugas-desktop.png` (1440px), ditunjukkan ke pemilik produk; **berhenti menunggu tanggapan** sebelum tugas berikutnya.
 - **Prasyarat:** T4.10, T3.09, T1.12.
-- **Catatan (7 Okt 2026):** ID tugas dibaca sebagai `siklus:pola@hst` (format kontrak) untuk menemukan siklusnya. Langkah "cara mengerjakan" contoh ditambahkan ke resep data contoh (`contoh-cara-mengerjakan.ts`), juga dipakai banner "Besok" di Beranda (D-37). Tunda dari tugas terlambat kini dihitung dari hari ini sesuai papan 22 (`tundaTugas` mendapat parameter `hariIni`, juga dipakai klien tiruan). `ambil-foto.tsx` mengecilkan foto ke sisi 1280px (`src/lib/kecilkan-foto.ts` + tes) sebelum diunggah; foto ikut saat tugas ditandai selesai dan masuk jurnal. Mutasi tetap di `src/api/kueri/index.ts`, bukan berkas `tugas-mutasi.ts`. Rasio baru `aspect-foto` 4:3.
+- **Catatan (7 Okt 2026):** ID tugas dibaca sebagai `siklus:pola@hst` (format kontrak) untuk menemukan siklusnya. Langkah "cara mengerjakan" contoh ditambahkan ke resep data contoh (`contoh-cara-mengerjakan.ts`), juga dipakai banner "Besok" di Beranda (D-37). Tunda dari tugas terlambat kini dihitung dari hari ini sesuai papan 22 (`tundaTugas` mendapat parameter `hariIni`, juga dipakai klien tiruan). `ambil-foto.tsx` mengecilkan foto ke sisi 1280px (`frontend/src/lib/kecilkan-foto.ts` + tes) sebelum diunggah; foto ikut saat tugas ditandai selesai dan masuk jurnal. Mutasi tetap di `frontend/src/api/kueri/index.ts`, bukan berkas `tugas-mutasi.ts`. Rasio baru `aspect-foto` 4:3.
 
 ### [x] T4.12 Tugas pengukuran pH dan PPM **[DEMO]**
 - **Tujuan:** Isian angka, batang rentang normal dengan posisi, status dengan ikon dan kata, saran dari resep, grafik mini 7 pengukuran dengan pita normal, simpan ke `hasil_pengukuran`, tugas "Ukur ulang" hari berikutnya bila di luar rentang, keterangan "Rentang dari Resep Tanam yang dicek penyuluh."
-- **Berkas:** `src/halaman/kebun/ukur-ph-ppm.tsx`, `src/komponen/batang-rentang.tsx`, `src/komponen/grafik-mini.tsx`, tes kedua komponen.
+- **Berkas:** `frontend/src/halaman/kebun/ukur-ph-ppm.tsx`, `frontend/src/komponen/batang-rentang.tsx`, `frontend/src/komponen/grafik-mini.tsx`, tes kedua komponen.
 - **PRD:** P0-37, US-28.
 - **Selesai bila:** papan 23, 24 dan 25 (normal, pH terlalu tinggi, PPM terlalu rendah) cocok; keadaan dihitung `pengukuran.ts`; hasil di luar rentang membuat tugas `Ukur ulang` pada tanggal + 1; riwayat tujuh pengukuran terakhir; label "CONTOH, belum divalidasi penyuluh" terlihat di samping rentang pH/PPM (D-12). Label contoh (D-36): "CONTOH, belum divalidasi penyuluh" terlihat di setiap tempat angka resep muncul.
 - **Tangkapan (D-07):** `docs/tangkapan/aplikasi/23-cek-ph-ppm-normal-mobile.png` (390px) dan `23-cek-ph-ppm-normal-desktop.png` (1440px) (juga nomor 24 dan 25), ditunjukkan ke pemilik produk; **berhenti menunggu tanggapan** sebelum tugas berikutnya.
@@ -723,7 +723,7 @@ Catatan pembagian:
 
 ### [x] T4.13 Ubah tanggal tanam (turunan)
 - **Tujuan:** Dari jadwal/Detail siklus: ubah tanggal tanam dengan penjelasan "Tugas yang sudah selesai tidak berubah"; tampilan perubahan sebelum konfirmasi.
-- **Berkas:** `src/halaman/kebun/ubah-tanggal-tanam.tsx`.
+- **Berkas:** `frontend/src/halaman/kebun/ubah-tanggal-tanam.tsx`.
 - **PRD:** P0-17.
 - **Selesai bila:** tugas belum selesai dihitung ulang, tugas selesai tidak berubah (cocok dengan `ubahTanggalTanam`); tampil di 390 dan 1440. Label contoh (D-36): "CONTOH, belum divalidasi penyuluh" terlihat di setiap tempat angka resep muncul.
 - **Prasyarat:** T4.10, T2.09.
@@ -731,7 +731,7 @@ Catatan pembagian:
 
 ### [x] T4.14 Pengingat per siklus
 - **Tujuan:** Pilih siklus, jam pengingat pagi (05.00–07.00), saklar pengingat sore, saklar per tipe tugas, contoh tampilan notifikasi, "Lewati siram saat hujan — Segera hadir", simpan ke `pengaturan_pengingat`.
-- **Berkas:** `src/halaman/kebun/pengingat.tsx`, hook dari `src/api/kueri` (sudah ada sejak T3.04).
+- **Berkas:** `frontend/src/halaman/kebun/pengingat.tsx`, hook dari `frontend/src/api/kueri` (sudah ada sejak T3.04).
 - **PRD:** P0-38, US-29, P1-05 (sore).
 - **Selesai bila:** papan 26 cocok; mematikan tipe tidak menghapus tugas dari jadwal dan beranda; contoh notifikasi sama dengan hasil `pengingat.ts`.
 - **Prasyarat:** T4.10, T2.11.
@@ -739,23 +739,23 @@ Catatan pembagian:
 
 ### [x] T4.15 Detail siklus: Modal dan catat pengeluaran
 - **Tujuan:** Rencana dan realisasi (sudah keluar % dari rencana, perkiraan modal akhir, perkiraan untung), per item (hemat/lebih/belum dibeli); form "Catat pengeluaran" (item rencana, nominal, tanggal, foto nota; turunan).
-- **Berkas:** `src/halaman/kebun/modal.tsx`, `src/halaman/kebun/catat-pengeluaran.tsx`, `src/lib/realisasi.ts` + `.test.ts` (selisih per item, persen, modal akhir).
+- **Berkas:** `frontend/src/halaman/kebun/modal.tsx`, `frontend/src/halaman/kebun/catat-pengeluaran.tsx`, `frontend/src/lib/realisasi.ts` + `.test.ts` (selisih per item, persen, modal akhir).
 - **PRD:** P0-18, US-09.
 - **Selesai bila:** papan 27 cocok (desktop diturunkan); selisih dihitung `realisasi.ts` (teruji: sesuai rencana, hemat, lebih, belum dibeli, tanpa rencana); catat pengeluaran memperbarui angka tanpa muat ulang. Label contoh (D-36): "CONTOH, belum divalidasi penyuluh" terlihat di setiap tempat angka resep muncul.
 - **Prasyarat:** T4.10, T2.06.
-- **Catatan (7 Okt 2026):** `src/lib/realisasi.ts` + tes: rencana per item (alat sekali beli hanya bagian siklus ini), status sesuai/hemat/lebih/belum, pengeluaran di luar rencana, perkiraan modal akhir = sudah keluar + rencana item yang belum dibeli. Status "sebagian dibayar" (papan 27, tenaga) belum dibedakan dari hemat. Catat pengeluaran di dialog dengan pilihan item rencana atau "di luar rencana".
+- **Catatan (7 Okt 2026):** `frontend/src/lib/realisasi.ts` + tes: rencana per item (alat sekali beli hanya bagian siklus ini), status sesuai/hemat/lebih/belum, pengeluaran di luar rencana, perkiraan modal akhir = sudah keluar + rencana item yang belum dibeli. Status "sebagian dibayar" (papan 27, tenaga) belum dibedakan dari hemat. Catat pengeluaran di dialog dengan pilihan item rencana atau "di luar rencana".
 
 ### [x] T4.16 Detail siklus: Jurnal
 - **Tujuan:** Foto dan catatan dikelompokkan per minggu ("Minggu ke-2 · Hari ke-7 sampai 13"), foto otomatis dari tugas selesai, tambah foto bukti, catatan hari.
-- **Berkas:** `src/halaman/kebun/jurnal.tsx`, `src/lib/jurnal.ts` + `.test.ts` (pengelompokan minggu).
+- **Berkas:** `frontend/src/halaman/kebun/jurnal.tsx`, `frontend/src/lib/jurnal.ts` + `.test.ts` (pengelompokan minggu).
 - **PRD:** P0-14, P0-24, US-16.
 - **Selesai bila:** papan 28 cocok (desktop diturunkan); pengelompokan minggu teruji (hari ke-0 di minggu 1, hari ke-7 di minggu 2); foto ditampilkan dari URL yang diberikan klien API (di backend berupa URL bertanda tangan, T5.12).
 - **Prasyarat:** T4.11.
-- **Catatan (7 Okt 2026):** `src/lib/jurnal.ts` + tes. Foto contoh di data sekarang berupa gambar SVG di `public/contoh/foto/` (sebelumnya menunjuk berkas `.jpg` yang tidak ada). Tambah ke jurnal: foto dan/atau catatan.
+- **Catatan (7 Okt 2026):** `frontend/src/lib/jurnal.ts` + tes. Foto contoh di data sekarang berupa gambar SVG di `frontend/public/contoh/foto/` (sebelumnya menunjuk berkas `.jpg` yang tidak ada). Tambah ke jurnal: foto dan/atau catatan.
 
 ### [x] T4.17 Akhir siklus: untung sebenarnya (turunan)
 - **Tujuan:** Setelah panen, input pendapatan nyata, ringkasan untung sebenarnya = pendapatan nyata − pengeluaran nyata, dibandingkan dengan rencana.
-- **Berkas:** `src/halaman/kebun/akhir-siklus.tsx`, tambahan `src/lib/realisasi.ts`.
+- **Berkas:** `frontend/src/halaman/kebun/akhir-siklus.tsx`, tambahan `frontend/src/lib/realisasi.ts`.
 - **PRD:** P0-18, tujuan pengguna 3.
 - **Selesai bila:** untung sebenarnya dihitung dari data nyata dan selisih terhadap rencana ditampilkan (teruji); status siklus menjadi selesai. Label contoh (D-36): "CONTOH, belum divalidasi penyuluh" terlihat di setiap tempat angka resep muncul.
 - **Prasyarat:** T4.15.
@@ -765,7 +765,7 @@ Catatan pembagian:
 
 ### [x] T4.18 Pesanan di sekitar **[DEMO]**
 - **Tujuan:** Daftar pesanan dalam radius (konfigurasi, default 10 km) terurut terdekat, filter Semua/Rutin/Sekali panen dengan penanda jenis, keterangan jumlah, "Boleh ambil sebagian", hanya pesanan berresep, keadaan kosong + "Cari sampai 25 km"; tab Di sekitar / Kiriman saya.
-- **Berkas:** `src/halaman/pesanan/sekitar.tsx`, hook dari `src/api/kueri` (sudah ada sejak T3.04).
+- **Berkas:** `frontend/src/halaman/pesanan/sekitar.tsx`, hook dari `frontend/src/api/kueri` (sudah ada sejak T3.04).
 - **PRD:** P0-19 (penanda dan filter), P0-20, US-11.
 - **Lencana menu Pesanan (D-37):** jumlah pesanan baru di sekitar sejak petani terakhir membuka menu Pesanan.
 - **Selesai bila:** papan 29 dan 30 cocok; daftar dari endpoint pesanan di sekitar (jarak dari titik tengah desa); urutan sama dengan `jarak.ts`; radius dan batas bukan angka tetap; petani `dinonaktifkan_sementara` tetap melihat daftar (D-13).
@@ -775,7 +775,7 @@ Catatan pembagian:
 
 ### [x] T4.19 Detail pesanan dan ambil sebagian **[DEMO]**
 - **Tujuan:** Rincian pesanan, "Mau ambil berapa?" (pilihan jumlah), cek lahan (cukup/tidak, jumlah maksimal disarankan), saran tanam bertahap, "Uang yang kamu terima"; tombol "Ambil" nonaktif bila lahan tidak cukup; status uang muka "Uang muka diterima" sebelum diminta menanam. **Kapasitas lahan dari tabel `lahan` lewat `kapasitas-lahan.ts` (D-06, D-08).** Petani memilih lahan; bila belum punya lahan diarahkan ke "Lahan saya" (T4.36a).
-- **Berkas:** `src/halaman/pesanan/detail-pesanan.tsx`, hook dari `src/api/kueri` (sudah ada sejak T3.04).
+- **Berkas:** `frontend/src/halaman/pesanan/detail-pesanan.tsx`, hook dari `frontend/src/api/kueri` (sudah ada sejak T3.04).
 - **PRD:** P0-21, P0-23 (status uang muka), US-12, US-13.
 - **Selesai bila:** papan 31 cocok (desktop diturunkan); semua angka dari `pesanan-lahan.ts` dan `pesanan-nilai.ts`; total alokasi tidak melebihi pesanan (galat `409 MELEBIHI_PESANAN` diterjemahkan ke pesan yang jelas); mengambil memanggil endpoint ambil pesanan dan membuat siklus dengan harga kesepakatan; untuk petani `dinonaktifkan_sementara` tombol "Ambil pesanan" diganti penjelasan singkat dan cara menghubungi admin dari konfigurasi (D-13). Label contoh (D-36): "CONTOH, belum divalidasi penyuluh" terlihat di setiap tempat angka resep muncul.
 - **Tangkapan (D-07):** `docs/tangkapan/aplikasi/31-detail-pesanan-mobile.png` (390px) dan `31-detail-pesanan-desktop.png` (1440px), ditunjukkan ke pemilik produk; **berhenti menunggu tanggapan** sebelum tugas berikutnya.
@@ -785,7 +785,7 @@ Catatan pembagian:
 
 ### [x] T4.20 Kesepakatan digital **[DEMO]**
 - **Tujuan:** Ringkasan (pembeli, jumlah, jadwal, titik antar, harga), standar kualitas, aturan gagal panen, uang dan pembayaran, pernyataan, tombol "Setuju" / "Tanya pembeli dulu"; menyimpan waktu setuju di `alokasi_pesanan`.
-- **Berkas:** `src/halaman/pesanan/kesepakatan.tsx`.
+- **Berkas:** `frontend/src/halaman/pesanan/kesepakatan.tsx`.
 - **PRD:** P0-22.
 - **Selesai bila:** papan 32 cocok (desktop diturunkan); aturan gagal panen memakai D-03: "Kabari paling lambat 3 hari sebelum jadwal kirim. Bagian yang tidak terpenuhi ditawarkan ke petani lain; kalau tidak ada pengganti, sisa uang muka bagian itu dikembalikan ke pembeli."; **tanpa denda**; angka hari dari konfigurasi; setelah setuju jadwal masuk ke kebun.
 - **Tangkapan (D-07):** `docs/tangkapan/aplikasi/32-kesepakatan-mobile.png` (390px) dan `32-kesepakatan-desktop.png` (1440px), ditunjukkan ke pemilik produk; **berhenti menunggu tanggapan** sebelum tugas berikutnya.
@@ -795,7 +795,7 @@ Catatan pembagian:
 
 ### [x] T4.21 Kiriman saya dan foto kualitas **[DEMO]**
 - **Tujuan:** Kiriman hari ini dengan tahap uang (Uang muka ditahan → Menunggu konfirmasi → Dana cair), unggah foto kualitas sebelum kirim, daftar berikutnya dan sebelumnya (termasuk sebagian ditolak).
-- **Berkas:** `src/halaman/pesanan/kiriman-saya.tsx`, hook dari `src/api/kueri` (sudah ada sejak T3.04).
+- **Berkas:** `frontend/src/halaman/pesanan/kiriman-saya.tsx`, hook dari `frontend/src/api/kueri` (sudah ada sejak T3.04).
 - **PRD:** P0-25, US-14.
 - **Selesai bila:** papan 33 cocok (desktop diturunkan); tidak bisa menandai "dikirim" tanpa foto kualitas; chip uang memakai `ChipStatus`.
 - **Tangkapan (D-07):** `docs/tangkapan/aplikasi/33-kiriman-saya-mobile.png` (390px) dan `33-kiriman-saya-desktop.png` (1440px), ditunjukkan ke pemilik produk; **berhenti menunggu tanggapan** sebelum tugas berikutnya.
@@ -807,7 +807,7 @@ Catatan pembagian:
 
 ### [x] T4.22 Dasbor pesanan aktif pembeli **[DEMO]**
 - **Tujuan:** Header pembeli, banner kiriman tiba, daftar pesanan dengan kebun pemenuh (penggaris `lebar`), kiriman berikutnya, ringkasan uang (ditahan, sudah cair), "5 kg … belum ada petani" dengan "Ubah tawaran".
-- **Berkas:** `src/halaman/pembeli/dasbor.tsx`, `src/api/kueri/pesanan-pembeli.ts`.
+- **Berkas:** `frontend/src/halaman/pembeli/dasbor.tsx`, `frontend/src/api/kueri/pesanan-pembeli.ts`.
 - **PRD:** P0-24, US-16, US-18 (tombol pesan lagi tersedia setelah kiriman, ditambahkan di T4.26).
 - **Selesai bila:** papan 36 cocok; pembeli hanya melihat **nama desa dan jarak** kebun, tidak pernah titik lahan (D-06); HP 390px diturunkan (D-07); pembeli tidak bisa melihat pesanan pembeli lain (ditolak klien API); penggaris menampilkan progres tiap kebun.
 - **Tangkapan (D-07):** `docs/tangkapan/aplikasi/36-dasbor-pesanan-pembeli-mobile.png` (390px) dan `36-dasbor-pesanan-pembeli-desktop.png` (1440px), ditunjukkan ke pemilik produk; **berhenti menunggu tanggapan** sebelum tugas berikutnya.
@@ -816,7 +816,7 @@ Catatan pembagian:
 
 ### [x] T4.23 Buat pesanan rutin **[DEMO]**
 - **Tujuan:** Form komoditas (hanya yang punya resep), jumlah, hari kirim, frekuensi, durasi (maks 3 bulan), harga per kg dengan petunjuk harga sekitar, standar kualitas + tambah syarat, titik antar (alamat + patokan + titik peta), ringkasan biaya (nilai pesanan, uang muka, biaya layanan, dibayar sekarang, per kiriman).
-- **Berkas:** `src/halaman/pembeli/buat-pesanan.tsx`, `src/api/kueri/pesanan-mutasi.ts`.
+- **Berkas:** `frontend/src/halaman/pembeli/buat-pesanan.tsx`, `frontend/src/api/kueri/pesanan-mutasi.ts`.
 - **PRD:** P0-19, P0-02 (hanya pembeli terverifikasi), US-15.
 - **Selesai bila:** papan 37 cocok; komoditas tanpa resep tidak bisa dipilih (beda dengan papan yang menampilkan Selada/Pakcoy; PRD berlaku, lihat `ringkasan-desain.md` 3.3 #6); biaya dari `pesanan-nilai.ts`; pembeli belum terverifikasi: tombol nonaktif + penjelasan (T4.28).
 - **Tangkapan (D-07):** `docs/tangkapan/aplikasi/37-buat-pesanan-pembeli-mobile.png` (390px) dan `37-buat-pesanan-pembeli-desktop.png` (1440px), ditunjukkan ke pemilik produk; **berhenti menunggu tanggapan** sebelum tugas berikutnya.
@@ -825,7 +825,7 @@ Catatan pembagian:
 
 ### [x] T4.24 Pesanan sekali panen (turunan)
 - **Tujuan:** Variasi form untuk jenis sekali panen: komoditas, jumlah total, perkiraan bulan panen, harga per kg, standar kualitas, titik ambil; satu kiriman.
-- **Berkas:** `src/halaman/pembeli/buat-pesanan-sekali.tsx` (atau mode di T4.23).
+- **Berkas:** `frontend/src/halaman/pembeli/buat-pesanan-sekali.tsx` (atau mode di T4.23).
 - **PRD:** P0-19, US-30.
 - **Selesai bila:** nilai pesanan dan uang muka sama dengan `pesanan-nilai.ts` untuk satu kiriman; muncul di Pesanan di sekitar dengan penanda "sekali panen".
 - **Prasyarat:** T4.23.
@@ -833,7 +833,7 @@ Catatan pembagian:
 
 ### [x] T4.25 Konfirmasi kiriman pembeli **[DEMO]**
 - **Tujuan:** Foto dari petani, hasil pemeriksaan (terima semua / tolak sebagian dengan berat, alasan, catatan, foto bukti), rincian pembayaran kiriman, batas waktu periksa, tombol "Konfirmasi terima n kg".
-- **Berkas:** `src/halaman/pembeli/konfirmasi-kiriman.tsx`.
+- **Berkas:** `frontend/src/halaman/pembeli/konfirmasi-kiriman.tsx`.
 - **PRD:** P0-25, P0-26, US-17.
 - **Selesai bila:** papan 38 cocok; HP diturunkan; angka dari `kiriman.ts`; alasan penolakan memakai empat pilihan D-06 + foto penolakan; "Lainnya" wajib diisi keterangan, tanpa keterangan muncul galat "Tulis alasannya dulu" (D-14); batas periksa sesuai jenis pesanan (D-01); penolakan sebagian membuat baris `sengketa`; setelah konfirmasi status berubah dan pembayaran tercatat (T4.41).
 - **Tangkapan (D-07):** `docs/tangkapan/aplikasi/38-konfirmasi-kiriman-pembeli-mobile.png` (390px) dan `38-konfirmasi-kiriman-pembeli-desktop.png` (1440px), ditunjukkan ke pemilik produk; **berhenti menunggu tanggapan** sebelum tugas berikutnya.
@@ -842,15 +842,15 @@ Catatan pembagian:
 
 ### [x] T4.26 Rating dua arah (turunan)
 - **Tujuan:** Setelah kiriman, petani dan pembeli saling memberi nilai 1–5 dan komentar; rata-rata tampil di profil.
-- **Berkas:** `src/halaman/pesanan/beri-rating.tsx`, `src/lib/rating.ts` + `.test.ts` (rata-rata, jumlah ulasan).
+- **Berkas:** `frontend/src/halaman/pesanan/beri-rating.tsx`, `frontend/src/lib/rating.ts` + `.test.ts` (rata-rata, jumlah ulasan).
 - **PRD:** P0-28, US-18.
 - **Selesai bila:** hanya pihak terkait kiriman yang bisa menilai, sekali per kiriman; rata-rata dan jumlah ulasan ("4,8 dari 9 ulasan pembeli") benar; pembeli bisa "Pesan lagi".
 - **Prasyarat:** T4.25 (rata-rata tampil di profil lewat T4.35).
-- **Catatan (8 Okt 2026):** `src/lib/rating.ts` (validasi, rata-rata, angka). Komponen `beri-rating.tsx` dipakai pembeli (setelah konfirmasi) dan petani ("Beri nilai pembeli" di Kiriman saya). `rating_saya` pada kiriman mencegah tawaran rating ganda (D-41). Rata-rata di profil menunggu T4.35. Tangkapan: `33-kiriman-saya-beri-nilai-*`.
+- **Catatan (8 Okt 2026):** `frontend/src/lib/rating.ts` (validasi, rata-rata, angka). Komponen `beri-rating.tsx` dipakai pembeli (setelah konfirmasi) dan petani ("Beri nilai pembeli" di Kiriman saya). `rating_saya` pada kiriman mencegah tawaran rating ganda (D-41). Rata-rata di profil menunggu T4.35. Tangkapan: `33-kiriman-saya-beri-nilai-*`.
 
 ### [x] T4.27 Gagal panen dan pembatalan (turunan)
 - **Tujuan:** Petani menyatakan tidak sanggup **paling lambat 3 hari sebelum jadwal kirim** (D-03); bagian itu ditawarkan ke petani lain; tanpa pengganti, sisa uang muka bagian itu dikembalikan ke pembeli (lewat `PenyediaPembayaran`); petani yang tidak memberi kabar mendapat catatan di profil. Pembatalan pembeli setelah petani menanam: uang muka menjadi kompensasi.
-- **Berkas:** `src/halaman/pesanan/lapor-gagal.tsx`, tambahan `src/lib/kiriman.ts`; aturan server di T3.10 (tiruan) dan T5.16/T5.17 (backend).
+- **Berkas:** `frontend/src/halaman/pesanan/lapor-gagal.tsx`, tambahan `frontend/src/lib/kiriman.ts`; aturan server di T3.10 (tiruan) dan T5.16/T5.17 (backend).
 - **PRD:** P0-27.
 - **Selesai bila:** aturan dari `kiriman.ts` (T2.14), **tanpa denda**; lewat batas 3 hari, kabar tetap bisa dikirim tetapi menghasilkan catatan profil; status pembayaran `dikembalikan` pada kasus tanpa pengganti.
 - **Prasyarat:** T4.21, T2.14.
@@ -858,7 +858,7 @@ Catatan pembagian:
 
 ### [x] T4.28 Daftar pembeli dan verifikasi (turunan)
 - **Tujuan:** Setelah memilih peran pembeli: nama usaha, jenis usaha, alamat, foto tempat usaha, status verifikasi tampil jelas; pembeli belum terverifikasi bisa melihat aplikasi tetapi tidak bisa memasang pesanan.
-- **Berkas:** `src/halaman/pembeli/daftar-pembeli.tsx`, `src/halaman/pembeli/status-verifikasi.tsx`.
+- **Berkas:** `frontend/src/halaman/pembeli/daftar-pembeli.tsx`, `frontend/src/halaman/pembeli/status-verifikasi.tsx`.
 - **PRD:** P0-02, US-21.
 - **Selesai bila:** status "Menunggu verifikasi / Terverifikasi / Ditolak" dengan ikon dan kata; klien API menolak pesanan dari yang belum terverifikasi (`403 BELUM_TERVERIFIKASI`).
 - **Prasyarat:** T4.22, T3.09.
@@ -866,17 +866,17 @@ Catatan pembagian:
 
 ### [x] T4.29 Panel admin minimal: verifikasi dan sengketa (turunan)
 - **Tujuan:** Admin menyetujui/menolak pembeli, melihat antrean sengketa (foto, alasan, keputusan), melihat **catatan petani**, dan **menonaktifkan sementara / mengaktifkan kembali** petani (D-03). **Desktop saja, tabel sederhana (D-07).**
-- **Berkas:** `src/halaman/admin/verifikasi-pembeli.tsx`, `src/halaman/admin/sengketa.tsx`.
+- **Berkas:** `frontend/src/halaman/admin/verifikasi-pembeli.tsx`, `frontend/src/halaman/admin/sengketa.tsx`.
 - **PRD:** P0-02, P0-25, US-21.
 - **Selesai bila:** hanya peran admin yang bisa membuka (penjaga rute dan klien API); keputusan sengketa menentukan pencairan sisa bagian.
 - **Prasyarat:** T4.25, T4.28.
-- **Catatan (9 Okt 2026):** Rute `/admin` (verifikasi pembeli), `/admin/sengketa`, `/admin/petani`, `/admin/petani/:id`; berkas `src/halaman/admin/{verifikasi-pembeli,sengketa,petani}.tsx`, kepala panel di `src/halaman/panel/kerangka-panel-sesi.tsx`, tabel di `src/komponen/tabel.tsx`. Endpoint baru `GET /admin/petani` (D-46). Tangkapan turunan `57-admin-verifikasi-pembeli`, `58-admin-sengketa` (+ `-putuskan`), `59-admin-petani`, `60-admin-petani-detail`.
+- **Catatan (9 Okt 2026):** Rute `/admin` (verifikasi pembeli), `/admin/sengketa`, `/admin/petani`, `/admin/petani/:id`; berkas `frontend/src/halaman/admin/{verifikasi-pembeli,sengketa,petani}.tsx`, kepala panel di `frontend/src/halaman/panel/kerangka-panel-sesi.tsx`, tabel di `frontend/src/komponen/tabel.tsx`. Endpoint baru `GET /admin/petani` (D-46). Tangkapan turunan `57-admin-verifikasi-pembeli`, `58-admin-sengketa` (+ `-putuskan`), `59-admin-petani`, `60-admin-petani-detail`.
 
 ## 4F. Pilar Belajar
 
 ### [x] T4.30 Daftar modul belajar **[DEMO]**
 - **Tujuan:** Pilih tanaman dan cara tanam, kemajuan "n dari 6 modul selesai", "Lanjutkan: …", baris modul (selesai, sedang, tersimpan offline, belum), tombol unduh.
-- **Berkas:** `src/halaman/belajar.tsx`, hook dari `src/api/kueri` (sudah ada sejak T3.04).
+- **Berkas:** `frontend/src/halaman/belajar.tsx`, hook dari `frontend/src/api/kueri` (sudah ada sejak T3.04).
 - **PRD:** P0-05, US-01, US-02.
 - **Selesai bila:** papan 08 dan 09 cocok; progres dari `belajar.ts`; modul yang sudah ditonton diberi tanda; tautan dari tugas hari ini membuka modul tahap berjalan (P0-06). Hidroponik hanya muncul untuk sawi (D-05).
 - **Tangkapan (D-07):** `docs/tangkapan/aplikasi/08-belajar-hidroponik-mobile.png` (390px) dan `08-belajar-hidroponik-desktop.png` (1440px) (juga nomor 09), ditunjukkan ke pemilik produk; **berhenti menunggu tanggapan** sebelum tugas berikutnya.
@@ -885,7 +885,7 @@ Catatan pembagian:
 
 ### [x] T4.31 Pemutar modul (turunan) **[DEMO]**
 - **Tujuan:** Halaman modul: video (≤ 3 menit), ringkasan teks, tandai selesai, "Modul berikutnya", pilih kualitas rendah.
-- **Berkas:** `src/halaman/belajar/modul.tsx`, `src/komponen/pemutar-video.tsx`.
+- **Berkas:** `frontend/src/halaman/belajar/modul.tsx`, `frontend/src/komponen/pemutar-video.tsx`.
 - **PRD:** P0-05.
 - **Selesai bila:** video bisa diputar di 390 dan 1440, kontrol ≥ 48px, tombol teks Indonesia; menonton sampai selesai menandai `progres_modul`.
 - **Tangkapan (D-07):** `docs/tangkapan/aplikasi/42-pemutar-modul-mobile.png` (390px) dan `42-pemutar-modul-desktop.png` (1440px), ditunjukkan ke pemilik produk; **berhenti menunggu tanggapan** sebelum tugas berikutnya.
@@ -896,16 +896,16 @@ Catatan pembagian:
 
 ### [x] T4.32 Landing page **[DEMO]**
 - **Tujuan:** Hero + contoh siklus (penggaris), tiga pilar, "Cara kerja Pesan Sebelum Tanam" lima langkah, bagian pembeli, FAQ, penutup.
-- **Berkas:** `src/halaman/landing.tsx`, `src/halaman/landing/*.tsx`, `src/teks/landing.ts`.
+- **Berkas:** `frontend/src/halaman/landing.tsx`, `frontend/src/halaman/landing/*.tsx`, `frontend/src/teks/landing.ts`.
 - **PRD:** –(desain 01–02); mengacu P0-22–P0-26.
-- **Selesai bila:** papan 01 (mobile setinggi 5.240px dan desktop) cocok; tombol "Mulai sebagai petani" dan "Saya pembeli" menuju `/masuk` dengan peran terisi; tidak ada klaim yang tidak didukung (mis. "Dana cair paling lama 6 jam" dibuat dari konfigurasi: 6 jam rutin, 24 jam sekali panen, D-01; angka modal dan titik impas di landing dihitung dari fungsi `src/lib` dengan resep contoh, D-08).
+- **Selesai bila:** papan 01 (mobile setinggi 5.240px dan desktop) cocok; tombol "Mulai sebagai petani" dan "Saya pembeli" menuju `/masuk` dengan peran terisi; tidak ada klaim yang tidak didukung (mis. "Dana cair paling lama 6 jam" dibuat dari konfigurasi: 6 jam rutin, 24 jam sekali panen, D-01; angka modal dan titik impas di landing dihitung dari fungsi `frontend/src/lib` dengan resep contoh, D-08).
 - **Tangkapan (D-07):** `docs/tangkapan/aplikasi/01-halaman-depan-mobile.png` (390px) dan `01-halaman-depan-desktop.png` (1440px), ditunjukkan ke pemilik produk; **berhenti menunggu tanggapan** sebelum tugas berikutnya.
 - **Prasyarat:** T1.14, T1.16.
-- **Catatan (8 Okt 2026):** Rute `/` dengan `src/halaman/landing.tsx`, `landing/hero.tsx`, `landing/bagian.tsx`, `landing/data-landing.ts`; kepala dan kaki bersama di `statis/kerangka-publik.tsx`. Angka dari `GET /publik/contoh` dan `GET /konfigurasi`, dihitung `src/lib/contoh-landing.ts` (sawi 100 m² = Rp430.000, impas 86 kg, untung Rp320.000; padi tanpa subsidi Rp1.715.000, impas 264 kg gabah). Tombol ke `/masuk?peran=…`, peran terisi di Lengkapi akun. Perbaikan penggaris: tangkai pin tidak lagi menembus label (D-44).
+- **Catatan (8 Okt 2026):** Rute `/` dengan `frontend/src/halaman/landing.tsx`, `landing/hero.tsx`, `landing/bagian.tsx`, `landing/data-landing.ts`; kepala dan kaki bersama di `statis/kerangka-publik.tsx`. Angka dari `GET /publik/contoh` dan `GET /konfigurasi`, dihitung `frontend/src/lib/contoh-landing.ts` (sawi 100 m² = Rp430.000, impas 86 kg, untung Rp320.000; padi tanpa subsidi Rp1.715.000, impas 264 kg gabah). Tombol ke `/masuk?peran=…`, peran terisi di Lengkapi akun. Perbaikan penggaris: tangkai pin tidak lagi menembus label (D-44).
 
 ### [x] T4.33 Masuk dengan nomor HP dan OTP **[DEMO]**
 - **Tujuan:** Nomor HP → kirim OTP → 6 digit → sesi; hitung mundur kirim ulang; galat jelas untuk kode salah, kedaluwarsa (5 menit), dan terkunci (5 percobaan); **tanpa kata sandi (D-04)**; centang persetujuan kebijakan privasi berteks draf untuk pengguna baru (D-30); semua lewat klien API (`useKirimOtp`, `useVerifikasiOtp`), yang di mode tiruan memakai `PenyediaOtp` tiruan T3.11 (D-10); menggantikan pemilih akun demo (T4.01) di luar mode pengembangan.
-- **Berkas:** `src/halaman/masuk.tsx`, `src/teks/masuk.ts` (memakai `src/lib/nomor-hp.ts` dan hook dari `src/api/kueri`).
+- **Berkas:** `frontend/src/halaman/masuk.tsx`, `frontend/src/teks/masuk.ts` (memakai `frontend/src/lib/nomor-hp.ts` dan hook dari `frontend/src/api/kueri`).
 - **PRD:** P0-01.
 - **Selesai bila:** papan 02 cocok; halaman hanya memakai klien API, tidak pernah `PenyediaOtp` langsung (dijaga lint T3.12); nomor tidak valid ditolak dengan pesan; pengguna baru tanpa centang privasi tidak bisa lanjut; sesi bertahan setelah muat ulang; mengganti penyedia SMS tidak mengubah halaman.
 - **Tangkapan (D-07):** `docs/tangkapan/aplikasi/02-masuk-mobile.png` (390px) dan `02-masuk-desktop.png` (1440px), ditunjukkan ke pemilik produk; **berhenti menunggu tanggapan** sebelum tugas berikutnya.
@@ -914,7 +914,7 @@ Catatan pembagian:
 
 ### [x] T4.34 Pilih peran dan desa (turunan) **[DEMO]**
 - **Tujuan:** Setelah OTP pertama: pilih peran (petani/pembeli/mentor), petani wajib mengisi desa lokasi lahan (dengan pencarian desa dan koordinat setingkat desa); pembeli lanjut ke T4.28.
-- **Berkas:** `src/halaman/pilih-peran.tsx`, hook dari `src/api/kueri` (sudah ada sejak T3.04) (data wilayah tiruan T3.06).
+- **Berkas:** `frontend/src/halaman/pilih-peran.tsx`, hook dari `frontend/src/api/kueri` (sudah ada sejak T3.04) (data wilayah tiruan T3.06).
 - **PRD:** P0-01.
 - **Selesai bila:** petani tanpa desa tidak bisa lanjut ("Isi desa lahanmu dulu"); peran admin tidak bisa dipilih sendiri; desa tersimpan dan dipakai untuk radius pesanan.
 - **Tangkapan (D-07):** `docs/tangkapan/aplikasi/39-pilih-peran-dan-desa-mobile.png` (390px) dan `39-pilih-peran-dan-desa-desktop.png` (1440px), ditunjukkan ke pemilik produk; **berhenti menunggu tanggapan** sebelum tugas berikutnya.
@@ -923,23 +923,23 @@ Catatan pembagian:
 
 ### [x] T4.35 Profil petani
 - **Tujuan:** Profil dengan statistik (rating, siklus selesai, kg terjual), kartu Akun (nama, nomor HP), Kebun (desa, ringkasan dari tabel `lahan`, komoditas), Pengingat, Bantuan, tombol Keluar. **Tanpa kata sandi, nama pengguna, dan kartu kelompok tani (D-04, D-06).**
-- **Berkas:** `src/halaman/profil.tsx`, hook dari `src/api/kueri` (sudah ada sejak T3.04).
+- **Berkas:** `frontend/src/halaman/profil.tsx`, hook dari `frontend/src/api/kueri` (sudah ada sejak T3.04).
 - **PRD:** P0-01, P0-09, P0-28 (rating di profil).
 - **Selesai bila:** papan 34 cocok tanpa bagian yang dihapus; statistik dari data nyata; catatan petani (D-03) tampil ke petani sendiri.
 - **Prasyarat:** T4.34, T4.26.
-- **Catatan (8 Okt 2026):** Statistik dari `statistikPetani` dan `ringkasLahan` (`src/lib/profil.ts`); nomor tampil lewat `tampilNomorHp`. Kartu Pengingat berisi baris per siklus atau kelompok petak aktif menuju pengaturan siklus (pengingat per siklus, P0-38). Catatan admin tampil bila ada. Keluar ke `/masuk` (D-44).
+- **Catatan (8 Okt 2026):** Statistik dari `statistikPetani` dan `ringkasLahan` (`frontend/src/lib/profil.ts`); nomor tampil lewat `tampilNomorHp`. Kartu Pengingat berisi baris per siklus atau kelompok petak aktif menuju pengaturan siklus (pengingat per siklus, P0-38). Catatan admin tampil bila ada. Keluar ke `/masuk` (D-44).
 
 ### [x] T4.36 Ubah profil
 - **Tujuan:** Foto profil (dikecilkan otomatis), nama, desa, ganti nomor HP dengan OTP ke nomor baru. **Tanpa kata sandi dan nama pengguna (D-04).**
-- **Berkas:** `src/halaman/ubah-profil.tsx`.
+- **Berkas:** `frontend/src/halaman/ubah-profil.tsx`.
 - **PRD:** P0-01; selebihnya turunan desain 49–50.
 - **Selesai bila:** papan 35 cocok tanpa kartu Kata sandi dan isian Nama pengguna; perubahan desa memperbarui jarak pesanan.; ada isian "Saya terdaftar di kelompok tani" (`terdaftar_kelompok_tani`, D-38) yang menjadi bawaan pilihan subsidi di kalkulator
 - **Prasyarat:** T4.35, T4.11 (AmbilFoto).
-- **Catatan (8 Okt 2026):** Dialog ganti nomor `src/halaman/profil/ganti-nomor.tsx` dengan endpoint baru `POST /akun/nomor-hp/otp` dan `PUT /akun/nomor-hp`. Foto lewat `AmbilFoto` dan `POST /berkas`; simpan hanya mengirim yang berubah. Ganti desa membatalkan cache pesanan dan referensi. Tangkapan tambahan: `35-ubah-profil-ganti-nomor-*` (D-44).
+- **Catatan (8 Okt 2026):** Dialog ganti nomor `frontend/src/halaman/profil/ganti-nomor.tsx` dengan endpoint baru `POST /akun/nomor-hp/otp` dan `PUT /akun/nomor-hp`. Foto lewat `AmbilFoto` dan `POST /berkas`; simpan hanya mengirim yang berubah. Ganti desa membatalkan cache pesanan dan referensi. Tangkapan tambahan: `35-ubah-profil-ganti-nomor-*` (D-44).
 
 ### [x] T4.36a Lahan saya (turunan) **[DEMO]**
 - **Tujuan:** Petani mengelola lahan: nama, jenis lahan, luas dengan satuan lokal (nilai asli disimpan), desa, titik koordinat, kapasitas lubang hidroponik; tampil luas yang sedang dipakai dan kapasitas tersisa.
-- **Berkas:** `src/halaman/lahan-saya.tsx`, `src/halaman/lahan/form-lahan.tsx`, hook dari `src/api/kueri` (sudah ada sejak T3.04).
+- **Berkas:** `frontend/src/halaman/lahan-saya.tsx`, `frontend/src/halaman/lahan/form-lahan.tsx`, hook dari `frontend/src/api/kueri` (sudah ada sejak T3.04).
 - **PRD:** P0-21, P0-33; **D-06**.
 - **Selesai bila:** luas disimpan sebagai `luas_m2` + `satuan_asli` + `nilai_asli` lewat `konversi-satuan.ts`; kapasitas tersisa dari `kapasitas-lahan.ts`; titik lahan tidak pernah tampil ke pembeli; 390px (navigasi bawah) dan 1440px (sidebar kiri, dua kolom: daftar dan form).
 - **Tangkapan (D-07):** `docs/tangkapan/aplikasi/40-lahan-saya-mobile.png` (390px) dan `40-lahan-saya-desktop.png` (1440px), ditunjukkan ke pemilik produk; **berhenti menunggu tanggapan** sebelum tugas berikutnya.
@@ -948,17 +948,17 @@ Catatan pembagian:
 
 ### [x] T4.37 Halaman statis: aturan pakai, privasi, tentang, kontak, bantuan (turunan)
 - **Tujuan:** Halaman teks yang ditautkan dari desain; isi singkat sebagai draf yang menunggu peninjauan hukum.
-- **Berkas:** `src/halaman/statis/*.tsx`, `src/teks/statis.ts`.
+- **Berkas:** `frontend/src/halaman/statis/*.tsx`, `frontend/src/teks/statis.ts`.
 - **PRD:** Pertanyaan Terbuka 13 (persetujuan data).
 - **Selesai bila:** semua tautan dari landing, Masuk, Profil, dan footer terbuka; diberi catatan "Draf, belum ditinjau ahli hukum".
 - **Prasyarat:** T4.32.
-- **Catatan (8 Okt 2026):** Satu komponen `src/halaman/statis/halaman-statis.tsx` untuk `/aturan-pakai`, `/privasi`, `/tentang`, `/kontak`, `/bantuan`; teks di `src/teks/statis.ts` dengan angka dari konfigurasi. Tangkapan turunan `52-aturan-pakai`, `53-kebijakan-privasi`, `54-tentang`, `55-kontak`, `56-bantuan` (D-44).
+- **Catatan (8 Okt 2026):** Satu komponen `frontend/src/halaman/statis/halaman-statis.tsx` untuk `/aturan-pakai`, `/privasi`, `/tentang`, `/kontak`, `/bantuan`; teks di `frontend/src/teks/statis.ts` dengan angka dari konfigurasi. Tangkapan turunan `52-aturan-pakai`, `53-kebijakan-privasi`, `54-tentang`, `55-kontak`, `56-bantuan` (D-44).
 
 ## 4H. Peran mentor (di luar demo)
 
 ### [x] T4.38 Mentor: daftar resep dan permintaan resep
 - **Tujuan:** Daftar resep per komoditas dan metode dengan status validasi, daftar permintaan resep terbanyak per komoditas dan wilayah.
-- **Berkas:** `src/halaman/mentor/daftar-resep.tsx`, `src/halaman/mentor/permintaan-resep.tsx`.
+- **Berkas:** `frontend/src/halaman/mentor/daftar-resep.tsx`, `frontend/src/halaman/mentor/permintaan-resep.tsx`.
 - **PRD:** P0-04, US-19, US-31.
 - **Selesai bila:** hanya peran mentor/admin; permintaan diurutkan menurut jumlah. **Desktop saja, tabel sederhana (D-07).**
 - **Prasyarat:** T4.34, T3.10.
@@ -966,15 +966,15 @@ Catatan pembagian:
 
 ### [x] T4.39 Mentor: editor resep dan versi
 - **Tujuan:** Membuat/mengubah resep (input, dosis, dasar dosis, kemasan, tugas, rentang ukur, saran), versi baru saat ubah, tandai divalidasi (validator + tanggal).
-- **Berkas:** `src/halaman/mentor/editor-resep.tsx`, `src/lib/validasi-resep.ts` + `.test.ts` (HST valid, interval > 0, batas bawah ≤ batas atas).
+- **Berkas:** `frontend/src/halaman/mentor/editor-resep.tsx`, `frontend/src/lib/validasi-resep.ts` + `.test.ts` (HST valid, interval > 0, batas bawah ≤ batas atas).
 - **PRD:** P0-03, P0-04, US-19.
 - **Selesai bila:** siklus berjalan tetap memakai versi lama (diuji); resep belum divalidasi tidak terlihat petani; validasi menolak data tidak masuk akal. **Desktop saja, tabel sederhana (D-07).**
 - **Prasyarat:** T4.38, T3.10.
-- **Catatan (9 Okt 2026):** Rute `/mentor/resep/baru` dan `/mentor/resep/:id`; isian di `src/halaman/mentor/form-resep.ts`, aturan di `src/lib/validasi-resep.ts` + 6 tes, juga dipakai klien tiruan (D-46). Tangkapan turunan `63-mentor-editor-resep` (+ `-galat`).
+- **Catatan (9 Okt 2026):** Rute `/mentor/resep/baru` dan `/mentor/resep/:id`; isian di `frontend/src/halaman/mentor/form-resep.ts`, aturan di `frontend/src/lib/validasi-resep.ts` + 6 tes, juga dipakai klien tiruan (D-46). Tangkapan turunan `63-mentor-editor-resep` (+ `-galat`).
 
 ### [x] T4.41 Bayar uang muka, pembayaran, dan riwayat pembeli (turunan) **[DEMO]**
 - **Tujuan:** Dari "Lanjut bayar Rp…" ke lembar bayar mode uji coba, halaman hasil (berhasil/gagal/menunggu), status "Uang muka sudah masuk" di sisi petani sebelum mulai menanam, konfirmasi kiriman memicu pencairan; halaman Pembayaran dan Riwayat pembeli. Semua lewat klien API dan `PenyediaPembayaran` tiruan (T3.11) dengan label "Mode uji coba"; teks memakai bahasa petani (D-09).
-- **Berkas:** `src/halaman/pembeli/bayar.tsx`, `src/halaman/pembeli/pembayaran.tsx`, `src/halaman/pembeli/riwayat.tsx`, hook dari `src/api/kueri` (sudah ada sejak T3.04).
+- **Berkas:** `frontend/src/halaman/pembeli/bayar.tsx`, `frontend/src/halaman/pembeli/pembayaran.tsx`, `frontend/src/halaman/pembeli/riwayat.tsx`, hook dari `frontend/src/api/kueri` (sudah ada sejak T3.04).
 - **PRD:** P0-23, P0-26, US-13, US-14; D-02, D-10.
 - **Selesai bila:** alur penuh dengan data tiruan: pesan → bayar → petani melihat "Uang muka sudah masuk" → kirim → konfirmasi → status "Dana cair"; gagal bayar tidak membuat pesanan aktif; nominal dari klien API (dihitung `pesanan-nilai.ts`), bukan dari halaman; klik ganda tidak membayar dua kali.
 - **Tangkapan (D-07):** `docs/tangkapan/aplikasi/44-bayar-uang-muka-mobile.png` (390px) dan `44-bayar-uang-muka-desktop.png` (1440px), ditunjukkan ke pemilik produk; **berhenti menunggu tanggapan** sebelum tugas berikutnya.
@@ -996,21 +996,43 @@ Catatan pembagian:
 
 # Tahap 5. Backend Laravel
 
-Tujuan tahap: API Laravel yang memenuhi `docs/kontrak-api.md`, dengan basis data MariaDB (XAMPP), login OTP dengan Sanctum, Policy per peran, perhitungan uang di server yang terbukti sama dengan `src/lib`, scheduler, web push, dan pembayaran tiruan. Semuanya berjalan lokal tanpa Docker (D-19). Rancangan rinci ada di `docs/arsitektur-backend.md`.
+Tujuan tahap: API Laravel yang memenuhi `docs/kontrak-api.md`, dengan basis data MariaDB (XAMPP), login OTP dengan Sanctum, Policy per peran, perhitungan uang di server yang terbukti sama dengan `frontend/src/lib`, scheduler, web push, dan pembayaran tiruan. Semuanya berjalan lokal tanpa Docker (D-19). Rancangan rinci ada di `docs/arsitektur-backend.md`.
 
 Aturan tahap:
 
-- Mulai T5.01, semua jalur `src/…` di dokumen ini berada di `frontend/src/…`.
+- Mulai T5.01, semua jalur `frontend/src/…` di dokumen ini berada di `frontend/src/…`.
 - Setiap tugas backend selesai bila tes Pest-nya hijau dan respons sesuai kontrak.
 - Rahasia hanya di `backend/.env`.
 - Semua konfigurasi lewat `.env` dan tidak ada path khusus Windows di kode, supaya bisa di-deploy ke VPS kapan saja (D-24, `arsitektur-backend.md` bagian 17).
 
-### [ ] T5.00 Prasyarat: PHP 8.3+ terpisah dan MariaDB XAMPP **[DEMO]**
+### Gelombang Tahap 5 (D-49)
+
+Setiap gelombang ditutup dengan pemeriksaan frontend (lint, typecheck, test, build, build:demo, 5 putaran test acak) dan backend (Pest, Pint), satu commit lokal, lalu berhenti menunggu tanggapan.
+
+| Gelombang | Prioritas | Isi | Tugas |
+| --- | --- | --- | --- |
+| 5.1 | [WAJIB] | PHP 8.3+, susun ulang folder, kerangka Laravel, sambungan MariaDB, Pest, kasus uji bersama | T5.00, T5.01, T5.02, T5.03 |
+| 5.2 | [WAJIB] | Migrasi dan seeder; data contoh pindah ke `shared/data-contoh/` | T5.04–T5.08 |
+| 5.3 | [WAJIB] | Login OTP, akun, pilih peran, dasar Policy | T5.09, T5.10, T5.11 (akun) |
+| 5.4 | [WAJIB] | Endpoint Hitung dan Kebun: resep, lahan, siklus, rencana, tugas, pengukuran, pengeluaran | T5.11, T5.12, T5.14 (kapasitas) |
+| 5.5 | [WAJIB] | Endpoint Jual: pesanan, alokasi dengan penguncian baris, kesepakatan, pembayaran tiruan, kiriman, konfirmasi, rating | T5.13, T5.14 (uang), T5.15, T5.16 (Jual) |
+| 5.6 | [SEBAIKNYA] lalu [BOLEH DITUNDA] | Scheduler dan web push [SEBAIKNYA]; endpoint mentor, admin, dan sengketa [BOLEH DITUNDA]; kecocokan kontrak | T5.17, T5.18; T5.16 (admin, mentor, sengketa); T5.19 |
+
+Selama Tahap 5, frontend tetap memakai `VITE_SUMBER_DATA=tiruan` sebagai bawaan.
+
+### [x] T5.00 Prasyarat: PHP 8.3+ terpisah dan MariaDB XAMPP **[DEMO]**
 - **Tujuan:** Pasang PHP 8.3 atau lebih baru terpisah dari XAMPP, pastikan Composer memakainya, lalu siapkan basis data `tani_muda` dan `tani_muda_uji` di MariaDB XAMPP (D-25).
 - **Berkas:** tidak ada berkas proyek; hasil pemeriksaan ditulis sebagai catatan tugas ini.
-- **PRD:** –; D-19, D-25.
-- **Selesai bila:** semua pemeriksaan di `arsitektur-backend.md` bagian 2a lolos (`where php`, `php -v`, `php -m`, `composer -V`, `composer diagnose`, koneksi PDO ke MariaDB, versi MariaDB), dan keluarannya disalin ke catatan.
+- **PRD:** –; D-19, D-25, D-50.
+- **Selesai bila:** semua pemeriksaan di `arsitektur-backend.md` bagian 2a lolos (`where php`, `php -v`, `php -m`, `composer -V`, `composer diagnose`, koneksi PDO ke MariaDB, versi MariaDB, dua basis data ada), dan keluarannya disalin ke catatan.
 - **Prasyarat:** T4.40.
+- **Catatan (11 Okt 2026, D-50):** PHP 8.5.11 NTS x64 di `C:\php-8.5.11-nts-Win32-vs17-x64` (PATH sistem; `C:\xampp\php` dihapus dari PATH). Hasil pemeriksaan bagian 2a:
+  - `where php` → `C:\php-8.5.11-nts-Win32-vs17-x64\php.exe`; `php -v` → `PHP 8.5.11 (cli) (NTS Visual C++ 2022 x64)`; `PHP_VERSION_ID >= 80300` → `OK`.
+  - `php -m` memuat `curl`, `fileinfo`, `gd`, `gmp`, `intl`, `mbstring`, `openssl`, `pdo_mysql`, `sodium`, `zip` (`php.ini` dibuat dari `php.ini-development`, `date.timezone = UTC`).
+  - `composer -V` → `Composer version 2.10.3`, `PHP version 8.5.11`. `composer diagnose` → semua `OK`, tanpa celah keamanan (2.9.2 sempat punya 10 celah; diperbarui pemilik produk dengan `composer self-update`).
+  - PDO ke `127.0.0.1:3306` → `MySQL OK`; `SELECT VERSION()` → `10.4.32-MariaDB` (XAMPP).
+  - `tani_muda` dan `tani_muda_uji` dibuat dengan `utf8mb4_unicode_ci`.
+  - Laragon (MySQL 5.7) sempat dipertimbangkan lalu tidak dipakai; jangan dinyalakan bersamaan dengan XAMPP.
 
 ### [ ] T5.01 Struktur repositori: frontend, backend, shared **[DEMO]**
 - **Tujuan:**
@@ -1024,8 +1046,9 @@ Aturan tahap:
   - riwayat git berkas tetap terlacak sebagai pindahan;
   - tidak ada jalur lama yang tertinggal di dokumen.
 - **Prasyarat:** T5.00.
+- **Catatan (11 Okt 2026):** Proyek React dipindah ke `frontend/` dengan `git mv` (356 berkas, tercatat sebagai pindahan); `backend/` dan `shared/kasus-uji/` dibuat; `.gitignore`, README, skrip (`ekstrak-desain`, `tangkap-layar`), dan jalur di dokumen yang masih dipakai diperbarui (`keputusan.md` diberi catatan jalur, isinya tidak diubah). `npm run lint`, `typecheck`, `test`, `build`, `build:demo` hijau di `frontend/`; `npm run demo`, `build:demo`, `preview:demo` juga bisa dijalankan dari akar lewat `package.json` akar. **Belum:** pemindahan data contoh ke `shared/data-contoh/` dikerjakan di gelombang 5.2 bersama seeder (D-49).
 
-### [ ] T5.02 Kasus uji perhitungan bersama **[DEMO]**
+### [x] T5.02 Kasus uji perhitungan bersama **[DEMO]**
 - **Tujuan:** Kasus uji perhitungan Tahap 2 dipindahkan ke `shared/kasus-uji/*.json`, satu berkas per modul rumus:
   - `pesanan-nilai`, `kiriman`, `modal`, `ringkasan`, `kebutuhan`, `kapasitas-lahan`, `pesanan-lahan`, `jarak`, `pengingat`, `format-rupiah`;
   - format `{ nama, fungsi, masukan, keluaran }` atau `{ …, galat }`;
@@ -1034,12 +1057,13 @@ Aturan tahap:
 - **Berkas:** `shared/kasus-uji/*.json`, `shared/kasus-uji/README.md` (format), `frontend/src/lib/*.test.ts` (membaca JSON).
 - **PRD:** D-08.
 - **Selesai bila:** kasus uji memuat pembulatan rata-rata harga ke ratusan rupiah (`bulatkanKeRatusan`, D-38: Rp1.649 → Rp1.600, Rp1.650 → Rp1.700, di bawah Rp100 ke puluhan);
-  - tes Vitest tetap hijau dengan cakupan `src/lib` ≥ 90%;
+  - tes Vitest tetap hijau dengan cakupan `frontend/src/lib` ≥ 90%;
   - setiap fungsi uang dan kapasitas punya kasus di JSON;
   - satu berkas JSON yang sengaja diubah membuat tes gagal (dicek sekali).
 - **Prasyarat:** T5.01.
+- **Catatan (11 Okt 2026):** Cakupan sesuai D-49: `uang.json` (58 kasus), `kapasitas.json` (45), `jarak.json` (7), berisi 15 fungsi uang, kapasitas, dan jarak, termasuk pembulatan negatif, setengah, dan `bulatkanKeRatusan` (Rp1.649 → Rp1.600, Rp1.650 → Rp1.700). Kasus yang dipindah dihapus dari tes TS. Dibaca `frontend/src/lib/kasus-bersama.test.ts` (Vitest) dan `backend/tests/Unit/KasusUjiBersamaTest.php` (Pest: bentuk kasus diperiksa, fungsi ditandai "belum diport" sampai gelombang 5.4–5.5). Satu angka JSON yang sengaja diubah membuat Vitest gagal, dan satu kasus rusak membuat Pest gagal (dicek sekali, lalu dikembalikan). Cakupan `src/lib` 98,88%. Rumus modal, ringkasan, kebutuhan, dan pengingat tetap di tes TS dan dipindah saat rumusnya diport ke PHP.
 
-### [ ] T5.03 Proyek Laravel, format respons, dan panduan lokal **[DEMO]**
+### [x] T5.03 Proyek Laravel, format respons, dan panduan lokal **[DEMO]**
 - **Tujuan:**
   - Pasang Laravel 13 di `backend/`; prasyaratnya PHP ≥ 8.3, karena PHP 8.1 di PATH sekarang terlalu lama (D-19).
   - Koneksi MariaDB XAMPP (`tani_muda`, `tani_muda_uji`), Pest, Sanctum mode SPA, dan CORS untuk `http://localhost:5173` dengan kredensial.
@@ -1056,6 +1080,7 @@ Aturan tahap:
   - `php artisan test` jalan dengan basis data uji;
   - `.env` tidak ikut commit.
 - **Prasyarat:** T5.01, T5.00.
+- **Catatan (11 Okt 2026, D-51):** Laravel 13.35 (API saja, awalan `/api/v1`), Sanctum 4 mode SPA (`statefulApi`), Pest 5.3, Pint, koneksi `mariadb` ke `tani_muda` (pengembangan) dan `tani_muda_uji` (tes, `phpunit.xml`), zona waktu aplikasi UTC dan tampilan bawaan `Asia/Jakarta`, `lang/id/validation.php`. Format galat satu tempat (`app/Http/Galat/PenerjemahGalat.php`), paginasi `Respons::paginasi()`/`halaman()`, waktu `…000Z`, `GET /api/v1/kesehatan`, proxy Vite `/api` dan `/sanctum` (arsitektur 5a), satu perintah `npm run dev` di akar. Pest 139 lulus, 15 dilewati (fungsi belum diport); Pint lulus; tidak ada path Windows di `app`, `config`, `routes`. Panduan `docs/menjalankan-lokal.md` diuji langkah demi langkah di laptop pengembangan; uji dari nol di mesin bersih belum dilakukan.
 
 ### [ ] T5.04 Migrasi: pengguna, wilayah, lahan, kelompok tani **[DEMO]**
 - **Tujuan:** Tabel:
@@ -1155,7 +1180,7 @@ Aturan tahap:
   - kirim ulang terlalu cepat mendapat 429;
   - ganti nomor HP mengakhiri semua sesi lain pengguna itu, sesi yang dipakai tetap (D-45);
   - driver log menolak menyala di luar `local`;
-  - nomor dinormalisasi sama dengan `src/lib/nomor-hp.ts` (kasus uji bersama).
+  - nomor dinormalisasi sama dengan `frontend/src/lib/nomor-hp.ts` (kasus uji bersama).
 - **Prasyarat:** T5.04.
 
 ### [ ] T5.10 Policy per peran dan tes akses silang **[DEMO]**
@@ -1216,7 +1241,7 @@ Aturan tahap:
 
 ### [ ] T5.14 Perhitungan uang dan kapasitas di server **[DEMO]**
 - **Tujuan:**
-  - Port rumus `src/lib` ke `backend/app/Domain/Hitung/`: `PesananNilai` (D-02), `Kiriman` (D-01, D-03), `Modal`, `Ringkasan`, `KapasitasLahan` (D-15), `PesananLahan`, `Jarak`, `Pengingat`, `Format`. Semuanya fungsi murni tanpa Eloquent dan waktu sistem.
+  - Port rumus `frontend/src/lib` ke `backend/app/Domain/Hitung/`: `PesananNilai` (D-02), `Kiriman` (D-01, D-03), `Modal`, `Ringkasan`, `KapasitasLahan` (D-15), `PesananLahan`, `Jarak`, `Pengingat`, `Format`. Semuanya fungsi murni tanpa Eloquent dan waktu sistem.
   - **Server tidak menerima angka uang dari klien.**
 - **Berkas:** `backend/app/Domain/Hitung/*`, `backend/tests/Unit/KasusUjiBersamaTest.php`.
 - **PRD:** P0-08, P0-10, P0-19, P0-21, P0-23, P0-26; D-01–D-03, D-08, D-15.
@@ -1314,7 +1339,7 @@ Tujuan tahap: frontend memakai backend Laravel lewat klien API HTTP tanpa mengub
 - **PRD:** –; D-20.
 - **Selesai bila:**
   - **rangkaian tes kontrak T3.12 lulus terhadap klien HTTP** dengan backend lokal;
-  - tidak ada berkas di `src/halaman/` yang berubah untuk penyambungan (dicek dengan `git diff --stat`).
+  - tidak ada berkas di `frontend/src/halaman/` yang berubah untuk penyambungan (dicek dengan `git diff --stat`).
 - **Prasyarat:** T5.19.
 
 ### [ ] T6.02 Penyambungan per fitur dan perbaikan selisih **[DEMO]**
@@ -1329,13 +1354,13 @@ Tujuan tahap: frontend memakai backend Laravel lewat klien API HTTP tanpa mengub
 
 ### [ ] T6.03 PWA: manifest, service worker, instal **[DEMO]**
 - **Tujuan:** `vite-plugin-pwa` dengan manifest (nama, ikon, warna dari token), precache cangkang aplikasi, halaman offline cadangan, dan petunjuk tambah ke layar utama (untuk iPhone).
-- **Berkas:** `frontend/vite.config.ts`, `frontend/public/ikon/*` (sudah dibuat di gelombang 8 dengan `scripts/buat-ikon.mjs`: 192, 512, maskable 512; D-46), `frontend/src/pwa/daftar-sw.ts`, `frontend/src/komponen/petunjuk-instal.tsx`.
+- **Berkas:** `frontend/vite.config.ts`, `frontend/public/ikon/*` (sudah dibuat di gelombang 8 dengan `frontend/scripts/buat-ikon.mjs`: 192, 512, maskable 512; D-46), `frontend/src/pwa/daftar-sw.ts`, `frontend/src/komponen/petunjuk-instal.tsx`.
 - **PRD:** P0-29, P0-13 (syarat), Dependensi PWA.
 - **Selesai bila:**
   - Lighthouse PWA terpasang;
   - aplikasi terbuka saat offline setelah kunjungan pertama;
   - ikon dan `theme_color` memakai nilai token;
-  - **bundel dipecah per halaman (P-22, D-45): JavaScript yang dimuat di halaman pertama paling besar 200 kB setelah gzip**, diukur dari `dist/` untuk rute `/` dan `/beranda`. Sudah dikerjakan di D-48: 151,3 dan 163,4 kB tanpa klien tiruan, diperiksa otomatis `scripts/ukur-bundel.mjs --batas 200` di `npm run build`.
+  - **bundel dipecah per halaman (P-22, D-45): JavaScript yang dimuat di halaman pertama paling besar 200 kB setelah gzip**, diukur dari `dist/` untuk rute `/` dan `/beranda`. Sudah dikerjakan di D-48: 151,3 dan 163,4 kB tanpa klien tiruan, diperiksa otomatis `frontend/scripts/ukur-bundel.mjs --batas 200` di `npm run build`.
 - **Prasyarat:** T6.02.
 
 ### [ ] T6.04 Skema Dexie dan cache data offline **[DEMO]**
@@ -1392,7 +1417,7 @@ Tujuan tahap: frontend memakai backend Laravel lewat klien API HTTP tanpa mengub
   - cadangan bila backend tidak tersedia (klien tiruan).
 
   Pemeriksaan otomatis API utama dan pemeriksaan bundel produksi untuk memastikan tidak ada rahasia.
-- **Berkas:** `docs/skenario-demo.md`, `scripts/uji-demo.mjs`.
+- **Berkas:** `docs/skenario-demo.md`, `frontend/scripts/uji-demo.mjs`.
 - **PRD:** seluruh siklus P0.
 - **Selesai bila:**
   - jalur demo dijalankan dua kali berturut-turut dari reset tanpa galat, di Android dan iPhone (web push iPhone memerlukan tambah ke layar utama);
@@ -1402,8 +1427,8 @@ Tujuan tahap: frontend memakai backend Laravel lewat klien API HTTP tanpa mengub
 - **Prasyarat:** semua tugas [DEMO].
 
 ### [x] T6.09 Build khusus demo `build:demo` (opsional)
-- **Tujuan:** Bila juri membutuhkan tautan sebelum backend siap, `npm run build:demo` menghasilkan build statis dengan data tiruan, pemilih akun demo, kode uji OTP, dan label **"Mode demo"** yang selalu terlihat di setiap halaman, untuk di-deploy ke hosting statis (D-37). Build produksi biasa (`npm run build`) tetap tanpa akun demo dan tetap dicek `scripts/cek-build.mjs`.
-- **Berkas:** `package.json` (`build:demo`, `vite build --mode demo` dengan keluaran `dist-demo/`), `src/api/sumber.ts` (kontrol pengembangan aktif bila mode demo), komponen label "Mode demo", `scripts/cek-build.mjs` (memastikan build biasa tetap bersih dan build demo selalu berlabel), README (cara deploy statis dan fallback rute SPA).
+- **Tujuan:** Bila juri membutuhkan tautan sebelum backend siap, `npm run build:demo` menghasilkan build statis dengan data tiruan, pemilih akun demo, kode uji OTP, dan label **"Mode demo"** yang selalu terlihat di setiap halaman, untuk di-deploy ke hosting statis (D-37). Build produksi biasa (`npm run build`) tetap tanpa akun demo dan tetap dicek `frontend/scripts/cek-build.mjs`.
+- **Berkas:** `package.json` (`build:demo`, `vite build --mode demo` dengan keluaran `dist-demo/`), `frontend/src/api/sumber.ts` (kontrol pengembangan aktif bila mode demo), komponen label "Mode demo", `frontend/scripts/cek-build.mjs` (memastikan build biasa tetap bersih dan build demo selalu berlabel), README (cara deploy statis dan fallback rute SPA).
 - **PRD:** –; D-20, D-36, D-37.
 - **Selesai bila:** build demo bisa dibuka dari hosting statis tanpa backend; label "Mode demo" terlihat di semua halaman 390px dan 1440px; data demo bisa diatur ulang; build biasa lolos `cek-build.mjs`.
 - **Prasyarat:** T4.40.

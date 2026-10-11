@@ -30,6 +30,6 @@ Status: **sama** = warna, ukuran, jarak, dan teks sesuai papan; **beda** = ada s
 
 Pemeriksaan lain:
 
-- [x] Tidak ada hex, warna bawaan Tailwind, atau ukuran sembarang di `src/` (`npm run lint`).
+- [x] Tidak ada hex, warna bawaan Tailwind, atau ukuran sembarang di `frontend/src/` (`npm run lint`).
 - [x] Fokus keyboard terlihat (cincin `shadow-fokus`) di semua kontrol.
 - [x] 390px tanpa gulir horizontal (diperiksa skrip tangkapan layar).

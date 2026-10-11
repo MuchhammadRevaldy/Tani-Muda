@@ -2,9 +2,9 @@
 
 Kontrak antara frontend React dan backend Laravel (D-19, D-20). Dokumen ini adalah **sumber bentuk data dan daftar endpoint**:
 
-- tipe TypeScript di `src/api/tipe/` ditulis persis dari dokumen ini;
-- klien tiruan (`src/api/tiruan/`) dan backend Laravel (Tahap 5) wajib berperilaku sama;
-- rangkaian tes kontrak `src/api/kontrak.test-suite.ts` dijalankan terhadap keduanya.
+- tipe TypeScript di `frontend/src/api/tipe/` ditulis persis dari dokumen ini;
+- klien tiruan (`frontend/src/api/tiruan/`) dan backend Laravel (Tahap 5) wajib berperilaku sama;
+- rangkaian tes kontrak `frontend/src/api/kontrak.test-suite.ts` dijalankan terhadap keduanya.
 
 Bila ada beda, dokumen ini yang berlaku. Perubahan kontrak dicatat di bagian Riwayat dan disetujui pemilik produk bila menyentuh perilaku.
 
@@ -15,7 +15,7 @@ Bila ada beda, dokumen ini yang berlaku. Perubahan kontrak dicatat di bagian Riw
 ### 1.1 Dasar
 
 - Alamat dasar: **`/api/v1`**. Semua permintaan dan respons berupa JSON UTF-8, kecuali unggah berkas (`multipart/form-data` di HTTP).
-- Nama kolom memakai **`snake_case`**, sama dengan Model Data PRD dan `keputusan.md`. Tidak ada pengubahan ke camelCase di lapisan API; pemetaan ke tipe domain `src/tipe` ada di `src/api/peta.ts`.
+- Nama kolom memakai **`snake_case`**, sama dengan Model Data PRD dan `keputusan.md`. Tidak ada pengubahan ke camelCase di lapisan API; pemetaan ke tipe domain `frontend/src/tipe` ada di `frontend/src/api/peta.ts`.
 - ID berupa string. ID wilayah memakai **kode Kemendagri** `PP.KK.CC.DDDD`, mis. `32.17.01.2003` (D-27).
 
 ### 1.2 Respons sukses
@@ -51,8 +51,8 @@ Endpoint berhalaman ditandai **(berhalaman)** di bagian 3.
 }
 ```
 
-- `kode`: stabil, dipakai frontend untuk memilih perilaku. Daftar lengkap di `src/lib/hasil.ts` (logika inti) dan `src/api/galat.ts` (khusus API).
-- `pesan`: siap tampil, Bahasa Indonesia, menyebut apa yang harus dilakukan (D-09). Teksnya di `src/teks/galat.ts` dan `src/teks/galat-api.ts`; backend mengirim teks yang sama.
+- `kode`: stabil, dipakai frontend untuk memilih perilaku. Daftar lengkap di `frontend/src/lib/hasil.ts` (logika inti) dan `frontend/src/api/galat.ts` (khusus API).
+- `pesan`: siap tampil, Bahasa Indonesia, menyebut apa yang harus dilakukan (D-09). Teksnya di `frontend/src/teks/galat.ts` dan `frontend/src/teks/galat-api.ts`; backend mengirim teks yang sama.
 - `rincian`: galat per kolom (`nama_kolom` atau `nilai.pH` untuk isian bersarang). Kode logika inti yang berasal dari satu kolom juga diberi rincian kolom itu.
 - `429` juga mengirim kolom `coba_lagi_dalam` (detik) di dalam `galat`.
 
@@ -73,6 +73,7 @@ Endpoint berhalaman ditandai **(berhalaman)** di bagian 3.
 | 409 | `MELEBIHI_SALDO` | Pencairan melebihi dana yang ditahan |
 | 402 | `PEMBAYARAN_GAGAL` | Pembayaran uang muka gagal (di mode uji coba lewat `simulasi`, D-41) |
 | 409 | `BENTROK` | Data berubah di tempat lain |
+| 419 | `BENTROK` | Token CSRF tidak cocok karena sesi berganti atau kedaluwarsa; klien meminta `/sanctum/csrf-cookie` lagi lalu mengulang (tafsiran D-51) |
 | 422 | `VALIDASI` | Isian salah; lihat `rincian` |
 | 422 | kode logika inti | mis. `LUAS_KOSONG`, `HARGA_NEGATIF`, `TUNDA_DI_LUAR_BATAS`, `KETERANGAN_WAJIB`, `NILAI_DI_LUAR_SKALA`, `NOMOR_HP_TIDAK_VALID`, `OTP_SALAH`, `OTP_KEDALUWARSA`, `FOTO_WAJIB` |
 | 423 | `OTP_TERKUNCI` | Lima percobaan kode gagal |
@@ -98,7 +99,7 @@ Endpoint berhalaman ditandai **(berhalaman)** di bagian 3.
 
 - Aplikasi web memakai **cookie sesi Sanctum** (D-21). Klien memanggil `GET /sanctum/csrf-cookie` sebelum permintaan yang mengubah data, lalu mengirim cookie `XSRF-TOKEN` sebagai header `X-XSRF-TOKEN`.
 - Aplikasi React Native kelak memakai token Sanctum (`Authorization: Bearer`). Endpoint dan bentuk datanya sama.
-- Semua endpoint wajib masuk, kecuali: `POST /auth/otp/kirim`, `POST /auth/otp/verifikasi`, `GET /akun` (mengembalikan 401 bila belum masuk; klien menerjemahkannya menjadi `null`), `GET /konfigurasi`, dan `GET /publik/contoh` (D-44).
+- Semua endpoint wajib masuk, kecuali: `POST /auth/otp/kirim`, `POST /auth/otp/verifikasi`, `GET /akun` (mengembalikan 401 bila belum masuk; klien menerjemahkannya menjadi `null`), `GET /konfigurasi`, `GET /publik/contoh` (D-44), dan `GET /kesehatan` (D-51).
 
 ### 1.7 Kunci idempoten
 
@@ -106,7 +107,7 @@ Operasi uang dan operasi yang bisa diantrekan offline menerima **`kunci_idempote
 
 ### 1.8 Angka dihitung server
 
-Server **tidak menerima angka uang dari klien** (D-08). Nilai pesanan, uang muka, biaya layanan, pembayaran per kiriman (80% pembeli + 20% dari saldo uang muka, D-02), dana cair, pengembalian, kapasitas lahan, jarak, dan perkiraan panen dihitung server dengan rumus yang sama dengan `src/lib`.
+Server **tidak menerima angka uang dari klien** (D-08). Nilai pesanan, uang muka, biaya layanan, pembayaran per kiriman (80% pembeli + 20% dari saldo uang muka, D-02), dana cair, pengembalian, kapasitas lahan, jarak, dan perkiraan panen dihitung server dengan rumus yang sama dengan `frontend/src/lib`.
 
 ### 1.9 Resep contoh
 
@@ -123,7 +124,7 @@ Kolom bertanda † adalah tambahan di luar Model Data PRD; dasar keputusannya di
 | Kolom | Tipe | Keterangan |
 | --- | --- | --- |
 | `id` | string | |
-| `nomor_hp` | string | ternormalisasi `+62…` (`src/lib/nomor-hp.ts`) |
+| `nomor_hp` | string | ternormalisasi `+62…` (`frontend/src/lib/nomor-hp.ts`) |
 | `nama` | string \| null | null sampai memilih peran |
 | `peran` | `petani` \| `pembeli` \| `mentor` \| `admin` \| null | admin tidak bisa dipilih sendiri |
 | `wilayah_id` | string \| null | desa; wajib untuk petani |
@@ -484,7 +485,7 @@ Tidak ada kolom kata sandi atau nama pengguna (D-04).
 
 ## 3. Endpoint per fitur
 
-Peran: P = petani, B = pembeli, M = mentor, A = admin, semua = semua pengguna masuk, publik = tanpa masuk. Kolom "Klien" = metode di `src/api/klien.ts`.
+Peran: P = petani, B = pembeli, M = mentor, A = admin, semua = semua pengguna masuk, publik = tanpa masuk. Kolom "Klien" = metode di `frontend/src/api/klien.ts`.
 
 ### 3.1 Masuk dan akun
 
@@ -617,7 +618,7 @@ Konfirmasi otomatis: kiriman `dikirim` yang lewat `batas_periksa_pada` dianggap 
 | `POST /admin/petani/{id}/catatan` | A | `{ jenis, isi, pengiriman_id? }` → `CatatanPetani` | `admin.tulisCatatan` |
 | `POST /admin/petani/{id}/status` | A | `{ status_akun }` → `PetaniUntukAdmin` (D-13) | `admin.ubahStatusPetani` |
 | `GET /mentor/resep` | M, A | → `ResepTanam[]` semua versi | `mentor.daftarResep` |
-| `POST /mentor/resep` | M, A | `SimpanResepMasukan` → `ResepTanam` versi baru, `draf` (K3). Angka tidak masuk akal → `422 VALIDASI` dengan rincian per kolom (`hasil_per_satuan`, `umur_panen_hari`, `persen_panen_jelek`, `input`, `tugas`), aturan `src/lib/validasi-resep.ts` (D-46) | `mentor.simpanResep` |
+| `POST /mentor/resep` | M, A | `SimpanResepMasukan` → `ResepTanam` versi baru, `draf` (K3). Angka tidak masuk akal → `422 VALIDASI` dengan rincian per kolom (`hasil_per_satuan`, `umur_panen_hari`, `persen_panen_jelek`, `input`, `tugas`), aturan `frontend/src/lib/validasi-resep.ts` (D-46) | `mentor.simpanResep` |
 | `POST /mentor/resep/{id}/validasi` | M, A | → `ResepTanam` `divalidasi` (resep contoh → `STATUS_TIDAK_SESUAI`) | `mentor.validasiResep` |
 | `GET /mentor/permintaan-resep` | M, A | → `RingkasanPermintaanResep[]` terbanyak dulu | `mentor.ringkasanPermintaan` |
 
@@ -628,6 +629,12 @@ Konfirmasi otomatis: kiriman `dikirim` yang lewat `batas_periksa_pada` dianggap 
 | `POST /notifikasi/langganan` | semua | `LanggananPush` → 204 | `notifikasi.simpanLangganan` |
 | `DELETE /notifikasi/langganan` | semua | `{ endpoint }` → 204 | `notifikasi.hapusLangganan` |
 | `POST /berkas` | semua | `multipart` (`image/jpeg`, `image/png`, `image/webp`; maks 2 MB) → `Berkas` | `berkas.unggah` |
+
+### 3.12 Pemeriksaan server
+
+| Metode dan jalur | Peran | Masukan → respons | Klien |
+| --- | --- | --- | --- |
+| `GET /kesehatan` | tanpa masuk | → `{ status: 'sehat', basis_data: 'tersambung', waktu }`; 503 `SUMBER_BELUM_TERSEDIA` bila basis data tidak terjangkau (D-51) | – (dipakai pemeriksaan dan `npm run dev`) |
 
 ---
 
@@ -678,7 +685,8 @@ Konfirmasi otomatis: kiriman `dikirim` yang lewat `batas_periksa_pada` dianggap 
 
 | Tanggal | Perubahan |
 | --- | --- |
-| 2026-10-05 | Versi pertama (T3.01, T3.02), bersama tipe `src/api/tipe/`, klien tiruan, dan tes kontrak |
+| 2026-10-11 | D-51: `GET /kesehatan` (bagian 3.12); 419 token CSRF dijawab dengan kode `BENTROK`; `rincian` tidak dikirim bila kosong (sama dengan klien tiruan). |
+| 2026-10-05 | Versi pertama (T3.01, T3.02), bersama tipe `frontend/src/api/tipe/`, klien tiruan, dan tes kontrak |
 | 2026-10-07 | D-38: `pengguna.terdaftar_kelompok_tani`, `komoditas.harga_jual_contoh`, `resep_tanam.persen_panen_jelek` dan `alasan_panen_jelek`, pembulatan harga sekitar ke ratusan. Tunda tugas terlambat dihitung dari hari ini. |
 | 2026-10-09 | D-47: `GET /admin/petani` mendapat `cari` dan paginasi (`Halaman<T>`). |
 | 2026-10-09 | D-46: `GET /admin/petani` (daftar petani ringkas); `POST /mentor/resep` menjawab `VALIDASI` dengan rincian; kode galat `UMUR_PANEN_TIDAK_VALID`, `PERSEN_PANEN_JELEK_TIDAK_VALID`, `BATAS_UKUR_TIDAK_VALID`. |

@@ -126,6 +126,7 @@ Halaman ini belum punya papan desain. Halaman dibuat dari pola desain yang ada (
 | 61 | Mentor: daftar resep | mentor | T4.38 | `61-mentor-daftar-resep-mobile.png`, `…-desktop.png` ✓ |
 | 62 | Mentor: permintaan resep | mentor | T4.38 | `62-mentor-permintaan-resep-mobile.png`, `…-desktop.png` ✓ |
 | 63 | Mentor: editor resep | mentor | T4.39 | `63-mentor-editor-resep-mobile.png`, `…-desktop.png` ✓ |
+| 64 | Build demo: label "Mode demo" dengan ruang kosong (Beranda, halaman depan, dasbor pembeli) | semua | T6.09 | `64-mode-demo-*-mobile.png`, `…-desktop.png` ✓ |
 
 Halaman turunan lain (panel mentor dan admin, halaman statis, rating, gagal panen) diberi nomor berikutnya saat tugasnya dikerjakan. Panel mentor dan admin hanya punya versi desktop.
 

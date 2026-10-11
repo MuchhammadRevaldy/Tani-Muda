@@ -1,0 +1,861 @@
+{
+  "keterangan": "Uang: pembulatan rupiah, nilai pesanan, uang muka, biaya layanan, jumlah kiriman, pembayaran kiriman, konfirmasi kiriman (D-01, D-02, D-08, D-14, D-38).",
+  "kasus": [
+    {
+      "nama": "bulatkan rupiah 1234.4",
+      "fungsi": "bulatkanRupiah",
+      "masukan": {
+        "n": 1234.4
+      },
+      "keluaran": 1234
+    },
+    {
+      "nama": "bulatkan rupiah 1234.5",
+      "fungsi": "bulatkanRupiah",
+      "masukan": {
+        "n": 1234.5
+      },
+      "keluaran": 1235
+    },
+    {
+      "nama": "bulatkan rupiah -1234.5",
+      "fungsi": "bulatkanRupiah",
+      "masukan": {
+        "n": -1234.5
+      },
+      "keluaran": -1235
+    },
+    {
+      "nama": "bulatkan rupiah 0",
+      "fungsi": "bulatkanRupiah",
+      "masukan": {
+        "n": 0
+      },
+      "keluaran": 0
+    },
+    {
+      "nama": "bulatkan ke ratusan 1649",
+      "fungsi": "bulatkanKeRatusan",
+      "masukan": {
+        "n": 1649
+      },
+      "keluaran": 1600
+    },
+    {
+      "nama": "bulatkan ke ratusan 1650",
+      "fungsi": "bulatkanKeRatusan",
+      "masukan": {
+        "n": 1650
+      },
+      "keluaran": 1700
+    },
+    {
+      "nama": "bulatkan ke ratusan 15433.33",
+      "fungsi": "bulatkanKeRatusan",
+      "masukan": {
+        "n": 15433.33
+      },
+      "keluaran": 15400
+    },
+    {
+      "nama": "bulatkan ke ratusan 23875",
+      "fungsi": "bulatkanKeRatusan",
+      "masukan": {
+        "n": 23875
+      },
+      "keluaran": 23900
+    },
+    {
+      "nama": "bulatkan ke ratusan 100",
+      "fungsi": "bulatkanKeRatusan",
+      "masukan": {
+        "n": 100
+      },
+      "keluaran": 100
+    },
+    {
+      "nama": "bulatkan ke ratusan 149.99",
+      "fungsi": "bulatkanKeRatusan",
+      "masukan": {
+        "n": 149.99
+      },
+      "keluaran": 100
+    },
+    {
+      "nama": "bulatkan ke ratusan 227",
+      "fungsi": "bulatkanKeRatusan",
+      "masukan": {
+        "n": 227
+      },
+      "keluaran": 200
+    },
+    {
+      "nama": "bulatkan ke ratusan 99",
+      "fungsi": "bulatkanKeRatusan",
+      "masukan": {
+        "n": 99
+      },
+      "keluaran": 100
+    },
+    {
+      "nama": "bulatkan ke ratusan 94",
+      "fungsi": "bulatkanKeRatusan",
+      "masukan": {
+        "n": 94
+      },
+      "keluaran": 90
+    },
+    {
+      "nama": "bulatkan ke ratusan 36.4",
+      "fungsi": "bulatkanKeRatusan",
+      "masukan": {
+        "n": 36.4
+      },
+      "keluaran": 40
+    },
+    {
+      "nama": "bulatkan ke ratusan 3",
+      "fungsi": "bulatkanKeRatusan",
+      "masukan": {
+        "n": 3
+      },
+      "keluaran": 10
+    },
+    {
+      "nama": "bulatkan ke ratusan 0",
+      "fungsi": "bulatkanKeRatusan",
+      "masukan": {
+        "n": 0
+      },
+      "keluaran": 0
+    },
+    {
+      "nama": "bulatkan ke ratusan -5",
+      "fungsi": "bulatkanKeRatusan",
+      "masukan": {
+        "n": -5
+      },
+      "keluaran": 0
+    },
+    {
+      "nama": "rutin 10 kg × 12 kiriman × Rp5.000",
+      "fungsi": "hitungNilaiPesanan",
+      "masukan": {
+        "pesanan": {
+          "jenis": "rutin",
+          "jumlahPerKirimanKg": 10,
+          "jumlahKiriman": 12,
+          "hargaPerKg": 5000
+        },
+        "konfigurasi": {
+          "persenUangMuka": 20,
+          "persenLayanan": 5
+        }
+      },
+      "keluaran": {
+        "jumlahTotalKg": 120,
+        "jumlahKiriman": 12,
+        "nilaiPesanan": 600000,
+        "uangMuka": 120000,
+        "biayaLayanan": 30000,
+        "dibayarSekarang": 150000,
+        "nilaiPerKiriman": 50000
+      }
+    },
+    {
+      "nama": "rutin 5 kg × 8 × Rp6000",
+      "fungsi": "hitungNilaiPesanan",
+      "masukan": {
+        "pesanan": {
+          "jenis": "rutin",
+          "jumlahPerKirimanKg": 5,
+          "jumlahKiriman": 8,
+          "hargaPerKg": 6000
+        },
+        "konfigurasi": {
+          "persenUangMuka": 20,
+          "persenLayanan": 5
+        }
+      },
+      "keluaran": {
+        "nilaiPesanan": 240000,
+        "uangMuka": 48000,
+        "biayaLayanan": 12000
+      },
+      "sebagian": true
+    },
+    {
+      "nama": "rutin 7.5 kg × 4 × Rp4500",
+      "fungsi": "hitungNilaiPesanan",
+      "masukan": {
+        "pesanan": {
+          "jenis": "rutin",
+          "jumlahPerKirimanKg": 7.5,
+          "jumlahKiriman": 4,
+          "hargaPerKg": 4500
+        },
+        "konfigurasi": {
+          "persenUangMuka": 20,
+          "persenLayanan": 5
+        }
+      },
+      "keluaran": {
+        "nilaiPesanan": 135000,
+        "uangMuka": 27000,
+        "biayaLayanan": 6750
+      },
+      "sebagian": true
+    },
+    {
+      "nama": "rutin 3 kg × 1 × Rp3333",
+      "fungsi": "hitungNilaiPesanan",
+      "masukan": {
+        "pesanan": {
+          "jenis": "rutin",
+          "jumlahPerKirimanKg": 3,
+          "jumlahKiriman": 1,
+          "hargaPerKg": 3333
+        },
+        "konfigurasi": {
+          "persenUangMuka": 20,
+          "persenLayanan": 5
+        }
+      },
+      "keluaran": {
+        "nilaiPesanan": 9999,
+        "uangMuka": 2000,
+        "biayaLayanan": 500
+      },
+      "sebagian": true
+    },
+    {
+      "nama": "sekali panen gabah 2.000 kg × Rp6.500",
+      "fungsi": "hitungNilaiPesanan",
+      "masukan": {
+        "pesanan": {
+          "jenis": "sekali_panen",
+          "jumlahTotalKg": 2000,
+          "hargaPerKg": 6500
+        },
+        "konfigurasi": {
+          "persenUangMuka": 20,
+          "persenLayanan": 5
+        }
+      },
+      "keluaran": {
+        "jumlahKiriman": 1,
+        "nilaiPesanan": 13000000,
+        "uangMuka": 2600000,
+        "biayaLayanan": 650000,
+        "nilaiPerKiriman": 13000000
+      },
+      "sebagian": true
+    },
+    {
+      "nama": "persen 0 tanpa uang muka dan biaya layanan",
+      "fungsi": "hitungNilaiPesanan",
+      "masukan": {
+        "pesanan": {
+          "jenis": "sekali_panen",
+          "jumlahTotalKg": 10,
+          "hargaPerKg": 5000
+        },
+        "konfigurasi": {
+          "persenUangMuka": 0,
+          "persenLayanan": 0
+        }
+      },
+      "keluaran": {
+        "uangMuka": 0,
+        "biayaLayanan": 0,
+        "dibayarSekarang": 0
+      },
+      "sebagian": true
+    },
+    {
+      "nama": "nilai pesanan galat 1: JUMLAH_KOSONG",
+      "fungsi": "hitungNilaiPesanan",
+      "masukan": {
+        "pesanan": {
+          "jenis": "rutin",
+          "jumlahPerKirimanKg": 0,
+          "jumlahKiriman": 12,
+          "hargaPerKg": 5000
+        },
+        "konfigurasi": {
+          "persenUangMuka": 20,
+          "persenLayanan": 5
+        }
+      },
+      "galat": "JUMLAH_KOSONG"
+    },
+    {
+      "nama": "nilai pesanan galat 2: JUMLAH_KOSONG",
+      "fungsi": "hitungNilaiPesanan",
+      "masukan": {
+        "pesanan": {
+          "jenis": "sekali_panen",
+          "jumlahTotalKg": 0,
+          "hargaPerKg": 5000
+        },
+        "konfigurasi": {
+          "persenUangMuka": 20,
+          "persenLayanan": 5
+        }
+      },
+      "galat": "JUMLAH_KOSONG"
+    },
+    {
+      "nama": "nilai pesanan galat 3: HARGA_KOSONG",
+      "fungsi": "hitungNilaiPesanan",
+      "masukan": {
+        "pesanan": {
+          "jenis": "rutin",
+          "jumlahPerKirimanKg": 10,
+          "jumlahKiriman": 12,
+          "hargaPerKg": 0
+        },
+        "konfigurasi": {
+          "persenUangMuka": 20,
+          "persenLayanan": 5
+        }
+      },
+      "galat": "HARGA_KOSONG"
+    },
+    {
+      "nama": "nilai pesanan galat 4: FREKUENSI_TIDAK_VALID",
+      "fungsi": "hitungNilaiPesanan",
+      "masukan": {
+        "pesanan": {
+          "jenis": "rutin",
+          "jumlahPerKirimanKg": 10,
+          "jumlahKiriman": 0,
+          "hargaPerKg": 5000
+        },
+        "konfigurasi": {
+          "persenUangMuka": 20,
+          "persenLayanan": 5
+        }
+      },
+      "galat": "FREKUENSI_TIDAK_VALID"
+    },
+    {
+      "nama": "nilai pesanan galat 5: JUMLAH_KOSONG",
+      "fungsi": "hitungNilaiPesanan",
+      "masukan": {
+        "pesanan": {
+          "jenis": "rutin",
+          "jumlahPerKirimanKg": -1,
+          "jumlahKiriman": 2,
+          "hargaPerKg": 5000
+        },
+        "konfigurasi": {
+          "persenUangMuka": 20,
+          "persenLayanan": 5
+        }
+      },
+      "galat": "JUMLAH_KOSONG"
+    },
+    {
+      "nama": "setiap 7 hari selama 84 hari",
+      "fungsi": "jumlahKirimanRutin",
+      "masukan": {
+        "frekuensiHari": 7,
+        "durasiHari": 84,
+        "maksDurasiHari": 92
+      },
+      "keluaran": 12
+    },
+    {
+      "nama": "setiap 7 hari selama 90 hari",
+      "fungsi": "jumlahKirimanRutin",
+      "masukan": {
+        "frekuensiHari": 7,
+        "durasiHari": 90,
+        "maksDurasiHari": 92
+      },
+      "keluaran": 12
+    },
+    {
+      "nama": "setiap 3 hari selama 30 hari",
+      "fungsi": "jumlahKirimanRutin",
+      "masukan": {
+        "frekuensiHari": 3,
+        "durasiHari": 30,
+        "maksDurasiHari": 92
+      },
+      "keluaran": 10
+    },
+    {
+      "nama": "setiap 1 hari selama 7 hari",
+      "fungsi": "jumlahKirimanRutin",
+      "masukan": {
+        "frekuensiHari": 1,
+        "durasiHari": 7,
+        "maksDurasiHari": 92
+      },
+      "keluaran": 7
+    },
+    {
+      "nama": "frekuensi 0, durasi 84 ditolak",
+      "fungsi": "jumlahKirimanRutin",
+      "masukan": {
+        "frekuensiHari": 0,
+        "durasiHari": 84,
+        "maksDurasiHari": 92
+      },
+      "galat": "FREKUENSI_TIDAK_VALID"
+    },
+    {
+      "nama": "frekuensi 7, durasi 0 ditolak",
+      "fungsi": "jumlahKirimanRutin",
+      "masukan": {
+        "frekuensiHari": 7,
+        "durasiHari": 0,
+        "maksDurasiHari": 92
+      },
+      "galat": "FREKUENSI_TIDAK_VALID"
+    },
+    {
+      "nama": "frekuensi 7, durasi 120 ditolak",
+      "fungsi": "jumlahKirimanRutin",
+      "masukan": {
+        "frekuensiHari": 7,
+        "durasiHari": 120,
+        "maksDurasiHari": 92
+      },
+      "galat": "FREKUENSI_TIDAK_VALID"
+    },
+    {
+      "nama": "frekuensi 10, durasi 5 ditolak",
+      "fungsi": "jumlahKirimanRutin",
+      "masukan": {
+        "frekuensiHari": 10,
+        "durasiHari": 5,
+        "maksDurasiHari": 92
+      },
+      "galat": "FREKUENSI_TIDAK_VALID"
+    },
+    {
+      "nama": "frekuensi 1.5, durasi 30 ditolak",
+      "fungsi": "jumlahKirimanRutin",
+      "masukan": {
+        "frekuensiHari": 1.5,
+        "durasiHari": 30,
+        "maksDurasiHari": 92
+      },
+      "galat": "FREKUENSI_TIDAK_VALID"
+    },
+    {
+      "nama": "kiriman Rp50.000: Rp40.000 pembeli + Rp10.000 dari uang muka",
+      "fungsi": "hitungPembayaranKiriman",
+      "masukan": {
+        "m": {
+          "nilaiKiriman": 50000,
+          "nilaiDiterima": 50000,
+          "saldoUangMuka": 120000,
+          "persenUangMuka": 20,
+          "kirimanTerakhir": false
+        }
+      },
+      "keluaran": {
+        "dariUangMuka": 10000,
+        "dibayarPembeli": 40000
+      },
+      "sebagian": true
+    },
+    {
+      "nama": "sekali panen: 80% pembeli, 20% dari uang muka",
+      "fungsi": "hitungPembayaranKiriman",
+      "masukan": {
+        "m": {
+          "nilaiKiriman": 13000000,
+          "nilaiDiterima": 13000000,
+          "saldoUangMuka": 2600000,
+          "persenUangMuka": 20,
+          "kirimanTerakhir": true
+        }
+      },
+      "keluaran": {
+        "nilaiDiterima": 13000000,
+        "dariUangMuka": 2600000,
+        "dibayarPembeli": 10400000,
+        "sisaSaldoUangMuka": 0
+      }
+    },
+    {
+      "nama": "ditolak sebagian: dari bagian diterima, sisa saldo bagian ditolak tetap",
+      "fungsi": "hitungPembayaranKiriman",
+      "masukan": {
+        "m": {
+          "nilaiKiriman": 30000,
+          "nilaiDiterima": 24000,
+          "saldoUangMuka": 6000,
+          "persenUangMuka": 20,
+          "kirimanTerakhir": true
+        }
+      },
+      "keluaran": {
+        "nilaiDiterima": 24000,
+        "dariUangMuka": 4800,
+        "dibayarPembeli": 19200,
+        "sisaSaldoUangMuka": 1200
+      }
+    },
+    {
+      "nama": "saldo tidak pernah negatif",
+      "fungsi": "hitungPembayaranKiriman",
+      "masukan": {
+        "m": {
+          "nilaiKiriman": 50000,
+          "nilaiDiterima": 50000,
+          "saldoUangMuka": 3000,
+          "persenUangMuka": 20,
+          "kirimanTerakhir": false
+        }
+      },
+      "keluaran": {
+        "dariUangMuka": 3000,
+        "dibayarPembeli": 47000,
+        "sisaSaldoUangMuka": 0
+      },
+      "sebagian": true
+    },
+    {
+      "nama": "persen 0: seluruhnya dibayar pembeli",
+      "fungsi": "hitungPembayaranKiriman",
+      "masukan": {
+        "m": {
+          "nilaiKiriman": 50000,
+          "nilaiDiterima": 50000,
+          "saldoUangMuka": 0,
+          "persenUangMuka": 0,
+          "kirimanTerakhir": false
+        }
+      },
+      "keluaran": {
+        "dariUangMuka": 0,
+        "dibayarPembeli": 50000
+      },
+      "sebagian": true
+    },
+    {
+      "nama": "diterima melebihi kiriman",
+      "fungsi": "hitungPembayaranKiriman",
+      "masukan": {
+        "m": {
+          "nilaiKiriman": 100,
+          "nilaiDiterima": 120,
+          "saldoUangMuka": 20,
+          "persenUangMuka": 20,
+          "kirimanTerakhir": false
+        }
+      },
+      "galat": "MELEBIHI_KIRIMAN"
+    },
+    {
+      "nama": "saldo negatif",
+      "fungsi": "hitungPembayaranKiriman",
+      "masukan": {
+        "m": {
+          "nilaiKiriman": 100,
+          "nilaiDiterima": 100,
+          "saldoUangMuka": -1,
+          "persenUangMuka": 20,
+          "kirimanTerakhir": false
+        }
+      },
+      "galat": "JUMLAH_NEGATIF"
+    },
+    {
+      "nama": "bayam Rp6.000/kg, 5 kg, tolak 1 kg → dana cair Rp24.000",
+      "fungsi": "konfirmasiKiriman",
+      "masukan": {
+        "kiriman": {
+          "jumlahDikirimKg": 5,
+          "hargaPerKg": 6000,
+          "saldoUangMuka": 6000,
+          "kirimanTerakhir": false
+        },
+        "keputusan": {
+          "jenis": "tolak_sebagian",
+          "jumlahDitolakKg": 1,
+          "alasan": "layu_atau_busuk"
+        },
+        "persenUangMuka": 20
+      },
+      "keluaran": {
+        "status": "ditolak_sebagian",
+        "jumlahDiterimaKg": 4,
+        "jumlahDitolakKg": 1,
+        "danaCairPetani": 24000,
+        "dibayarPembeli": 19200,
+        "dariUangMuka": 4800,
+        "sisaSaldoUangMuka": 1200,
+        "perluSengketa": true
+      }
+    },
+    {
+      "nama": "terima semua: 80% pembeli, 20% dari uang muka (D-02)",
+      "fungsi": "konfirmasiKiriman",
+      "masukan": {
+        "kiriman": {
+          "jumlahDikirimKg": 5,
+          "hargaPerKg": 6000,
+          "saldoUangMuka": 6000,
+          "kirimanTerakhir": false
+        },
+        "keputusan": {
+          "jenis": "terima_semua"
+        },
+        "persenUangMuka": 20
+      },
+      "keluaran": {
+        "status": "diterima",
+        "jumlahDiterimaKg": 5,
+        "jumlahDitolakKg": 0,
+        "danaCairPetani": 30000,
+        "dibayarPembeli": 24000,
+        "dariUangMuka": 6000,
+        "sisaSaldoUangMuka": 0,
+        "perluSengketa": false
+      }
+    },
+    {
+      "nama": "kirim 10 kg, tolak 2.5 kg × Rp5000",
+      "fungsi": "konfirmasiKiriman",
+      "masukan": {
+        "kiriman": {
+          "jumlahDikirimKg": 10,
+          "hargaPerKg": 5000,
+          "saldoUangMuka": 100000,
+          "kirimanTerakhir": false
+        },
+        "keputusan": {
+          "jenis": "tolak_sebagian",
+          "jumlahDitolakKg": 2.5,
+          "alasan": "jumlah_kurang"
+        },
+        "persenUangMuka": 20
+      },
+      "keluaran": {
+        "danaCairPetani": 37500
+      },
+      "sebagian": true
+    },
+    {
+      "nama": "kirim 5 kg, tolak 5 kg × Rp6000",
+      "fungsi": "konfirmasiKiriman",
+      "masukan": {
+        "kiriman": {
+          "jumlahDikirimKg": 5,
+          "hargaPerKg": 6000,
+          "saldoUangMuka": 100000,
+          "kirimanTerakhir": false
+        },
+        "keputusan": {
+          "jenis": "tolak_sebagian",
+          "jumlahDitolakKg": 5,
+          "alasan": "jumlah_kurang"
+        },
+        "persenUangMuka": 20
+      },
+      "keluaran": {
+        "danaCairPetani": 0
+      },
+      "sebagian": true
+    },
+    {
+      "nama": "kirim 0.3 kg, tolak 0.1 kg × Rp5000",
+      "fungsi": "konfirmasiKiriman",
+      "masukan": {
+        "kiriman": {
+          "jumlahDikirimKg": 0.3,
+          "hargaPerKg": 5000,
+          "saldoUangMuka": 100000,
+          "kirimanTerakhir": false
+        },
+        "keputusan": {
+          "jenis": "tolak_sebagian",
+          "jumlahDitolakKg": 0.1,
+          "alasan": "jumlah_kurang"
+        },
+        "persenUangMuka": 20
+      },
+      "keluaran": {
+        "danaCairPetani": 1000
+      },
+      "sebagian": true
+    },
+    {
+      "nama": "\"Lainnya\" tanpa keterangan (D-14)",
+      "fungsi": "konfirmasiKiriman",
+      "masukan": {
+        "kiriman": {
+          "jumlahDikirimKg": 5,
+          "hargaPerKg": 6000,
+          "saldoUangMuka": 6000,
+          "kirimanTerakhir": false
+        },
+        "keputusan": {
+          "jenis": "tolak_sebagian",
+          "jumlahDitolakKg": 1,
+          "alasan": "lainnya"
+        },
+        "persenUangMuka": 20
+      },
+      "galat": "KETERANGAN_WAJIB"
+    },
+    {
+      "nama": "\"Lainnya\" dengan keterangan kosong",
+      "fungsi": "konfirmasiKiriman",
+      "masukan": {
+        "kiriman": {
+          "jumlahDikirimKg": 5,
+          "hargaPerKg": 6000,
+          "saldoUangMuka": 6000,
+          "kirimanTerakhir": false
+        },
+        "keputusan": {
+          "jenis": "tolak_sebagian",
+          "jumlahDitolakKg": 1,
+          "alasan": "lainnya",
+          "keterangan": "   "
+        },
+        "persenUangMuka": 20
+      },
+      "galat": "KETERANGAN_WAJIB"
+    },
+    {
+      "nama": "\"Lainnya\" dengan keterangan sah",
+      "fungsi": "konfirmasiKiriman",
+      "masukan": {
+        "kiriman": {
+          "jumlahDikirimKg": 5,
+          "hargaPerKg": 6000,
+          "saldoUangMuka": 6000,
+          "kirimanTerakhir": false
+        },
+        "keputusan": {
+          "jenis": "tolak_sebagian",
+          "jumlahDitolakKg": 1,
+          "alasan": "lainnya",
+          "keterangan": "Kemasan sobek"
+        },
+        "persenUangMuka": 20
+      },
+      "keluaran": {
+        "status": "ditolak_sebagian"
+      },
+      "sebagian": true
+    },
+    {
+      "nama": "konfirmasi galat MELEBIHI_KIRIMAN",
+      "fungsi": "konfirmasiKiriman",
+      "masukan": {
+        "kiriman": {
+          "jumlahDikirimKg": 5,
+          "hargaPerKg": 6000,
+          "saldoUangMuka": 6000,
+          "kirimanTerakhir": false
+        },
+        "keputusan": {
+          "jenis": "tolak_sebagian",
+          "jumlahDitolakKg": 6,
+          "alasan": "jumlah_kurang"
+        },
+        "persenUangMuka": 20
+      },
+      "galat": "MELEBIHI_KIRIMAN"
+    },
+    {
+      "nama": "konfirmasi galat TOLAK_KOSONG",
+      "fungsi": "konfirmasiKiriman",
+      "masukan": {
+        "kiriman": {
+          "jumlahDikirimKg": 5,
+          "hargaPerKg": 6000,
+          "saldoUangMuka": 6000,
+          "kirimanTerakhir": false
+        },
+        "keputusan": {
+          "jenis": "tolak_sebagian",
+          "jumlahDitolakKg": 0,
+          "alasan": "jumlah_kurang"
+        },
+        "persenUangMuka": 20
+      },
+      "galat": "TOLAK_KOSONG"
+    },
+    {
+      "nama": "konfirmasi galat ALASAN_TIDAK_DIKENAL",
+      "fungsi": "konfirmasiKiriman",
+      "masukan": {
+        "kiriman": {
+          "jumlahDikirimKg": 5,
+          "hargaPerKg": 6000,
+          "saldoUangMuka": 6000,
+          "kirimanTerakhir": false
+        },
+        "keputusan": {
+          "jenis": "tolak_sebagian",
+          "jumlahDitolakKg": 1,
+          "alasan": "busuk"
+        },
+        "persenUangMuka": 20
+      },
+      "galat": "ALASAN_TIDAK_DIKENAL"
+    },
+    {
+      "nama": "konfirmasi kiriman jumlahDikirimKg tidak sah",
+      "fungsi": "konfirmasiKiriman",
+      "masukan": {
+        "kiriman": {
+          "jumlahDikirimKg": 0,
+          "hargaPerKg": 6000,
+          "saldoUangMuka": 6000,
+          "kirimanTerakhir": false
+        },
+        "keputusan": {
+          "jenis": "terima_semua"
+        },
+        "persenUangMuka": 20
+      },
+      "galat": "JUMLAH_KOSONG"
+    },
+    {
+      "nama": "konfirmasi kiriman hargaPerKg tidak sah",
+      "fungsi": "konfirmasiKiriman",
+      "masukan": {
+        "kiriman": {
+          "jumlahDikirimKg": 5,
+          "hargaPerKg": 0,
+          "saldoUangMuka": 6000,
+          "kirimanTerakhir": false
+        },
+        "keputusan": {
+          "jenis": "terima_semua"
+        },
+        "persenUangMuka": 20
+      },
+      "galat": "HARGA_KOSONG"
+    },
+    {
+      "nama": "konfirmasi kiriman saldoUangMuka tidak sah",
+      "fungsi": "konfirmasiKiriman",
+      "masukan": {
+        "kiriman": {
+          "jumlahDikirimKg": 5,
+          "hargaPerKg": 6000,
+          "saldoUangMuka": -1,
+          "kirimanTerakhir": false
+        },
+        "keputusan": {
+          "jenis": "terima_semua"
+        },
+        "persenUangMuka": 20
+      },
+      "galat": "JUMLAH_NEGATIF"
+    }
+  ]
+}

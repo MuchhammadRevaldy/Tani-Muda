@@ -5,14 +5,14 @@ Dokumen ini merangkum isi `design/desain-tani-muda.html` (63 papan + 1 papan sis
 ## 0. Cara bahan ini dibaca
 
 - File HTML desain adalah bundle bertingkat: bundle luar berisi 64 papan, tiap papan adalah bundle lagi (HTML + font + React + pustaka komponen `TaniMuda`).
-- File desain dibongkar dengan `npm run ekstrak-desain` (`scripts/ekstrak-desain.mjs`), lalu HTML, CSS, data contoh, dan kode komponen aslinya dibaca langsung. Pengecekan visual dilakukan di halaman `/komponen` dan di tiap tugas halaman dengan tangkapan layar berdampingan.
-- **Nomor papan.** "Papan NN" di semua dokumen memakai nomor di [`design/README.md`](../design/README.md): nomor mengikuti urutan alur aplikasi, dan versi mobile serta desktop dari halaman yang sama berbagi nomor. "Papan 03" berarti kedua versi; "papan 03 mobile" berarti satu versi saja. Peta nomor ada di `scripts/papan-desain.mjs`.
+- File desain dibongkar dengan `npm run ekstrak-desain` (`frontend/scripts/ekstrak-desain.mjs`), lalu HTML, CSS, data contoh, dan kode komponen aslinya dibaca langsung. Pengecekan visual dilakukan di halaman `/komponen` dan di tiap tugas halaman dengan tangkapan layar berdampingan.
+- **Nomor papan.** "Papan NN" di semua dokumen memakai nomor di [`design/README.md`](../design/README.md): nomor mengikuti urutan alur aplikasi, dan versi mobile serta desktop dari halaman yang sama berbagi nomor. "Papan 03" berarti kedua versi; "papan 03 mobile" berarti satu versi saja. Peta nomor ada di `frontend/scripts/papan-desain.mjs`.
 - Hasil ekstraksi ada di `design/extracted/` (bahan kerja, tidak masuk git, bisa dibuat ulang kapan saja):
   - `pages/<nomor>-<nama>-<versi>.html`: templat tiap papan untuk dibaca. `<nama-yang-sama>.assets.json` memetakan id aset ke file di `assets/`.
   - `tampil/<nomor>-<nama>-<versi>.html`: papan mandiri yang bisa dibuka di browser atau ditangkap layar.
   - `assets/`: 4 font woff2 (Plus Jakarta Sans variabel, subset latin, latin-ext, vietnamese, cyrillic-ext) dan skrip. `pustaka-komponen-tani-muda.js` adalah **kode sumber 11 komponen** dan menjadi bahan paling penting.
   - `ikon-sebaris/`: 17 SVG yang tertanam di halaman tetapi **tidak ada** di `design/icons/`, yaitu 3 ikon tipe tugas, 4 ikon metode tanam, dan 10 ilustrasi komoditas.
-- Aplikasi dan tes **tidak membaca** `design/extracted/`. Token sudah ada di `tailwind.config.ts`, ikon dan ilustrasi sudah disalin ke `src/komponen/`, dan fungsi pembanding desain disalin ke dalam tes.
+- Aplikasi dan tes **tidak membaca** `design/extracted/`. Token sudah ada di `tailwind.config.ts`, ikon dan ilustrasi sudah disalin ke `frontend/src/komponen/`, dan fungsi pembanding desain disalin ke dalam tes.
 - Papan 00 (`pages/00-sistem-desain-desktop.html`) adalah sistem desain resmi. Semua token di bawah diambil dari sana dan dicocokkan dengan pemakaian nyata di 63 papan lain. Hanya 17 warna hex yang muncul di seluruh desain, dan semuanya ada di daftar token.
 
 ---
@@ -166,7 +166,7 @@ Kontras dan aksesibilitas yang sudah dirancang: `role="checkbox"` + `aria-checke
 | **Banner** | `jenis` (`peringatan` \| `bahaya` \| `offline`), `judul`, `children`, `aksi`, `onAksi`, `tertunda` | `peringatan`: lonceng, `matahari-lembut`. `bahaya`: ikon peringatan, `tomat-lembut`, `role="alert"`. `offline`: latar `teks`, teks putih, radius 8, judul bawaan "Kamu sedang offline" |
 | **NavigasiBawah** | `aktif`/`aktifAwal`, `onPilih`, `lencana` {pesanan: n} | 4 menu tetap: Beranda, Kebun, Pesanan, Belajar. Label selalu tampil. Aktif: teks `daun-tua` 600, pil ikon `daun-lembut`. Lencana (`99+`) |
 
-Fungsi bantu di pustaka desain yang **harus dipindahkan jadi fungsi murni di `src/lib` dan diuji**: `titikRibuan`, `formatRupiah`, `terbilang` (dan `eja`). Format angka lain yang dipakai di halaman: `desimal` (koma sebagai pemisah desimal), `angka` (parser "1.250,5" → 1250.5), `rp`.
+Fungsi bantu di pustaka desain yang **harus dipindahkan jadi fungsi murni di `frontend/src/lib` dan diuji**: `titikRibuan`, `formatRupiah`, `terbilang` (dan `eja`). Format angka lain yang dipakai di halaman: `desimal` (koma sebagai pemisah desimal), `angka` (parser "1.250,5" → 1250.5), `rp`.
 
 ### 2.2 Pola yang ada di desain tetapi bukan komponen pustaka (harus dibuat sendiri)
 
