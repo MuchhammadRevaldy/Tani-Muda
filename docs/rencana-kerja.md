@@ -1150,7 +1150,7 @@ Selama Tahap 5, frontend tetap memakai `VITE_SUMBER_DATA=tiruan` sebagai bawaan.
 - **Prasyarat:** T5.06.
 - **Catatan (11 Okt 2026, D-52):** Migrasi `2026_10_11_200004`: `pesanan`, `alokasi_pesanan`, `pengiriman`, `pembayaran` (`kunci_idempoten` unik), `rating`, `sengketa`, ditambah `kunci_idempoten` (kontrak 1.7). CHECK "lainnya wajib keterangan" dan "ditolak ≤ dikirim" terbukti oleh tes (`tests/Feature/BatasanBasisDataTest.php`, 24 tes), begitu juga kunci idempoten ganda. Data contoh lolos semua batasan dan 55 kunci asing (diperiksa sekali dengan skrip).
 
-### [ ] T5.08 Seeder dari data contoh bersama **[DEMO]**
+### [x] T5.08 Seeder dari data contoh bersama **[DEMO]**
 - **Tujuan:**
   - Seeder membaca `shared/data-contoh/*.json`, sehingga datanya sama persis dengan klien tiruan: referensi, wilayah, konfigurasi, resep draf contoh, modul, pengguna uji per peran, lahan, siklus, pesanan rutin dan sekali panen.
   - Seeder **produksi** terpisah dan tidak memuat resep contoh maupun pengguna uji (D-12).
@@ -1163,6 +1163,7 @@ Selama Tahap 5, frontend tetap memakai `VITE_SUMBER_DATA=tiruan` sebagai bawaan.
   - seeder produksi tanpa resep `contoh` (tes);
   - semua kode wilayah sudah dicocokkan dengan data resmi Kemendagri, bukan situs ensiklopedia (D-36).
 - **Prasyarat:** T5.07, T5.01.
+- **Catatan (12 Okt 2026, D-57): selesai.** `DataContohSeeder` membaca `shared/data-contoh/*.json` dan mengisi 33 tabel berurutan dengan pemeriksaan kunci asing menyala (sekitar 0,6 detik). Waktu relatif diselesaikan `App\Support\TanggalRelatif` (port `tanggal-relatif.ts`, dites dengan kasus yang sama). `php artisan demo:atur-ulang` mengosongkan semua tabel kecuali `wilayah` dan `migrations`, lalu mengisi ulang data contoh relatif terhadap saat itu (hanya `APP_ENV=local`). `ProduksiSeeder` = wilayah + konfigurasi + referensi dasar dan modul. Tes: jumlah baris per tabel sama dengan JSON, `InvarianPesanan::periksa()` kosong, `RESTRICT`, waktu `J±n`, dan seeder produksi tanpa resep contoh dan pengguna uji.
 - **Catatan (12 Okt 2026, D-54 dan D-56):** Kode wilayah sudah dicocokkan, dan tes data contoh membandingkannya dengan dataset resmi `shared/wilayah/wilayah.sql`. Seeder wilayah selesai: `WilayahSeeder` mengimpor seluruh 83.762 desa/kelurahan, dengan titik tengah perkiraan hanya untuk desa pilot; dipanggil `DatabaseSeeder` (juga produksi). **Seeder data contoh belum ditulis**: data pesanan contoh menunggu keputusan model sisa per kiriman (D-55).
 - **Catatan (12 Okt 2026, D-53):** Data hasil seeder wajib lolos `InvarianPesanan::periksa()` dan aturan hapus `RESTRICT`.
 - **Catatan (11 Okt 2026):** Ditahan sampai pemilik produk mencocokkan kode wilayah di `docs/cek-wilayah.md` dengan data Kemendagri (tanggapan D-51). Selesai 12 Oktober (D-54).

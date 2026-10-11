@@ -92,7 +92,16 @@ cd backend
 php artisan migrate:fresh --seed
 ```
 
-Menghapus semua tabel di `tani_muda` lalu membuatnya lagi, dan mengisi seluruh 83.762 desa/kelurahan dari `shared/wilayah/wilayah.sql` (`WilayahSeeder`, beberapa detik). Seeder data contoh (pengguna uji, pesanan, dan sebagainya; T5.08) menyusul setelah D-55 diputuskan.
+Menghapus semua tabel di `tani_muda` lalu membuatnya lagi, mengisi seluruh 83.762 desa/kelurahan dari `shared/wilayah/wilayah.sql` (`WilayahSeeder`, sekitar 3 detik), dan data contoh yang sama dengan klien tiruan (`DataContohSeeder`).
+
+Untuk demo, cukup atur ulang datanya (kurang dari 1 detik, tabel wilayah tidak disentuh):
+
+```bash
+cd backend
+php artisan demo:atur-ulang
+```
+
+Semua data dikembalikan ke data contoh dengan waktu relatif terhadap saat perintah dijalankan (kiriman Bu Imas tercatat dikirim 1 jam sebelumnya, D-47), dan semua sesi berakhir. Perintah ini menolak berjalan bila `APP_ENV` bukan `local`.
 
 ## 6. Hemat memori (laptop dengan sekitar 2 GB RAM bebas)
 
