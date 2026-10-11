@@ -241,7 +241,9 @@ Ditambah kasus khusus: pembeli tidak menerima koordinat lahan, pembeli belum ter
 ## 7. Basis data
 
 - MariaDB 10.4, InnoDB, `utf8mb4` / `utf8mb4_unicode_ci`.
-- Nama tabel dan kolom mengikuti Model Data PRD dan `keputusan.md` (aturan proyek 8).
+- Nama tabel dan kolom mengikuti Model Data PRD dan `keputusan.md` (aturan proyek 8), dan dicek otomatis terhadap `kontrak-api.md` bagian 2 oleh `tests/Feature/SkemaKontrakTest.php` (kolom, enum PHP, dan kolom `enum` MariaDB).
+- **ID string `VARCHAR(64)`** (D-52): ID data contoh dipakai apa adanya oleh seeder; baris baru diberi ULID huruf kecil (`app/Models/Concerns/IdString.php`). Baris tanpa ID di kontrak memakai kunci angka `nomor`. Kolom waktu `dibuat_pada` dan `diperbarui_pada`; sesi basis data UTC (`DB_TIMEZONE=+00:00`).
+- Tipe kolom bersama dan batasan `CHECK` bernama ditulis lewat `app/Support/Skema.php`; daftar batasannya di D-52 dan buktinya di `tests/Feature/BatasanBasisDataTest.php`.
 - Konfigurasi bisnis (uang muka 20%, layanan 5%, batas periksa 6/24 jam, batas kabar 3 hari, radius 10 km, kontak admin) disimpan di tabel `konfigurasi` (`kunci`, `nilai`, `keterangan`), tidak ditulis tetap di kode.
 
 | Jenis data | Tipe kolom |

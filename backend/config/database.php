@@ -67,6 +67,8 @@ return [
         'mariadb' => [
             'driver' => 'mariadb',
             'url' => env('DB_URL'),
+            // Sesi basis data selalu UTC, sama dengan aplikasi (D-31), apa pun zona waktu servernya.
+            'timezone' => env('DB_TIMEZONE', '+00:00'),
             'host' => env('DB_HOST', '127.0.0.1'),
             'port' => env('DB_PORT', '3306'),
             'database' => env('DB_DATABASE', 'laravel'),

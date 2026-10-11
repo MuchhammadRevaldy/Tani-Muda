@@ -380,6 +380,7 @@ Tidak ada kolom kata sandi atau nama pengguna (D-04).
 | --- | --- | --- |
 | `id`, `komoditas_id`, `metode_id`, `tahap`, `judul`, `ringkasan` | string | |
 | `menit`, `urutan` | bilangan bulat | |
+| `hst_mulai`† | bilangan bulat | hari mulai tahap, untuk modul tahap berjalan (D-43) |
 | `video_url` | string \| null | MP4 360p; null = placeholder (D-29) |
 | `ukuran_video_mb`† | desimal \| null | maks 15 MB |
 | `selesai`, `selesai_pada` | boolean, waktu \| null | dari `progres_modul` pengguna yang masuk |
@@ -685,6 +686,7 @@ Konfirmasi otomatis: kiriman `dikirim` yang lewat `batas_periksa_pada` dianggap 
 
 | Tanggal | Perubahan |
 | --- | --- |
+| 2026-10-11 | D-52: baris `modul.hst_mulai` (sudah dipakai sejak D-43) dicatat di tabel 2.8; tidak ada perubahan perilaku. |
 | 2026-10-11 | D-51: `GET /kesehatan` (bagian 3.12); 419 token CSRF dijawab dengan kode baru `SESI_KEDALUWARSA`; `rincian` opsional, tidak dikirim bila kosong (sama dengan klien tiruan); 405 dijawab 404. |
 | 2026-10-05 | Versi pertama (T3.01, T3.02), bersama tipe `frontend/src/api/tipe/`, klien tiruan, dan tes kontrak |
 | 2026-10-07 | D-38: `pengguna.terdaftar_kelompok_tani`, `komoditas.harga_jual_contoh`, `resep_tanam.persen_panen_jelek` dan `alasan_panen_jelek`, pembulatan harga sekitar ke ratusan. Tunda tugas terlambat dihitung dari hari ini. |

@@ -1034,7 +1034,7 @@ Selama Tahap 5, frontend tetap memakai `VITE_SUMBER_DATA=tiruan` sebagai bawaan.
   - `tani_muda` dan `tani_muda_uji` dibuat dengan `utf8mb4_unicode_ci`.
   - Laragon (MySQL 5.7) sempat dipertimbangkan lalu tidak dipakai; jangan dinyalakan bersamaan dengan XAMPP.
 
-### [ ] T5.01 Struktur repositori: frontend, backend, shared **[DEMO]**
+### [x] T5.01 Struktur repositori: frontend, backend, shared **[DEMO]**
 - **Tujuan:**
   - Pindahkan proyek React ke `frontend/`, lalu buat `backend/` dan `shared/` (`shared/kasus-uji/`, `shared/data-contoh/`).
   - Pindahkan data contoh JSON Tahap 3 ke `shared/data-contoh/`; klien tiruan membacanya dari sana.
@@ -1046,7 +1046,7 @@ Selama Tahap 5, frontend tetap memakai `VITE_SUMBER_DATA=tiruan` sebagai bawaan.
   - riwayat git berkas tetap terlacak sebagai pindahan;
   - tidak ada jalur lama yang tertinggal di dokumen.
 - **Prasyarat:** T5.00.
-- **Catatan (11 Okt 2026):** Proyek React dipindah ke `frontend/` dengan `git mv` (356 berkas, tercatat sebagai pindahan); `backend/` dan `shared/kasus-uji/` dibuat; `.gitignore`, README, skrip (`ekstrak-desain`, `tangkap-layar`), dan jalur di dokumen yang masih dipakai diperbarui (`keputusan.md` diberi catatan jalur, isinya tidak diubah). `npm run lint`, `typecheck`, `test`, `build`, `build:demo` hijau di `frontend/`; `npm run demo`, `build:demo`, `preview:demo` juga bisa dijalankan dari akar lewat `package.json` akar. **Belum:** pemindahan data contoh ke `shared/data-contoh/` dikerjakan di gelombang 5.2 bersama seeder (D-49).
+- **Catatan (11 Okt 2026):** Proyek React dipindah ke `frontend/` dengan `git mv` (356 berkas, tercatat sebagai pindahan); `backend/` dan `shared/kasus-uji/` dibuat; `.gitignore`, README, skrip (`ekstrak-desain`, `tangkap-layar`), dan jalur di dokumen yang masih dipakai diperbarui (`keputusan.md` diberi catatan jalur, isinya tidak diubah). `npm run lint`, `typecheck`, `test`, `build`, `build:demo` hijau di `frontend/`; `npm run demo`, `build:demo`, `preview:demo` juga bisa dijalankan dari akar lewat `package.json` akar. Data contoh dipindah ke `shared/data-contoh/` pada gelombang 5.2 (D-52): dibaca frontend lewat alias `@data-contoh`, ditulis `npm run data-contoh` dan `npm run pasang-video`, dijaga pagar lint.
 
 ### [x] T5.02 Kasus uji perhitungan bersama **[DEMO]**
 - **Tujuan:** Kasus uji perhitungan Tahap 2 dipindahkan ke `shared/kasus-uji/*.json`, satu berkas per modul rumus:
@@ -1082,7 +1082,7 @@ Selama Tahap 5, frontend tetap memakai `VITE_SUMBER_DATA=tiruan` sebagai bawaan.
 - **Prasyarat:** T5.01, T5.00.
 - **Catatan (11 Okt 2026, D-51):** Laravel 13.35 (API saja, awalan `/api/v1`), Sanctum 4 mode SPA (`statefulApi`), Pest 5.3, Pint, koneksi `mariadb` ke `tani_muda` (pengembangan) dan `tani_muda_uji` (tes, `phpunit.xml`), zona waktu aplikasi UTC dan tampilan bawaan `Asia/Jakarta`, `lang/id/validation.php`. Format galat satu tempat (`app/Http/Galat/PenerjemahGalat.php`), paginasi `Respons::paginasi()`/`halaman()`, waktu `…000Z`, `GET /api/v1/kesehatan`, proxy Vite `/api` dan `/sanctum` (arsitektur 5a), satu perintah `npm run dev` di akar. Pest 139 lulus, 15 dilewati (fungsi belum diport); Pint lulus; tidak ada path Windows di `app`, `config`, `routes`. Panduan `docs/menjalankan-lokal.md` diuji langkah demi langkah di laptop pengembangan; uji dari nol di mesin bersih belum dilakukan.
 
-### [ ] T5.04 Migrasi: pengguna, wilayah, lahan, kelompok tani **[DEMO]**
+### [x] T5.04 Migrasi: pengguna, wilayah, lahan, kelompok tani **[DEMO]**
 - **Tujuan:** Tabel:
   - `pengguna` (nomor HP, nama, peran, `wilayah_id`, `foto_profil`, `status_akun`), `profil_pembeli` (status verifikasi), `catatan_petani`;
   - `wilayah` (desa, kecamatan, kabupaten, lintang/bujur titik tengah dengan indeks);
@@ -1098,8 +1098,9 @@ Selama Tahap 5, frontend tetap memakai `VITE_SUMBER_DATA=tiruan` sebagai bawaan.
   - enum sesuai kontrak;
   - model punya relasi yang dipakai endpoint.
 - **Prasyarat:** T5.03, T3.01.
+- **Catatan (11 Okt 2026, D-52):** Migrasi `2026_10_11_200001`: `wilayah`, `pengguna` (tanpa kata sandi; `users` bawaan dihapus), `profil_pembeli`, `catatan_petani`, `lahan`, `kelompok_tani`, `anggota_kelompok_tani`, `kode_otp`, `konfigurasi`. Model `Pengguna` (Sanctum) dan 29 enum PHP di `app/Enums`. ID string; baris baru ULID. `migrate:fresh` dan `rollback` jalan dari nol. Nama kolom dan enum dicek otomatis terhadap kontrak bagian 2 (`tests/Feature/SkemaKontrakTest.php`); relasi dicek `ModelTest`.
 
-### [ ] T5.05 Migrasi: referensi, resep, belajar **[DEMO]**
+### [x] T5.05 Migrasi: referensi, resep, belajar **[DEMO]**
 - **Tujuan:** Tabel:
   - referensi: `komoditas`, `metode_tanam`, `konversi_satuan`, `input_pertanian`, `kelayakan_subsidi`, `merek_input`, `laporan_harga`, `promo`;
   - resep: `resep_tanam` (versi sebagai baris baru, K3; `status`, `contoh`, validator), `resep_input`, `resep_tugas`;
@@ -1113,8 +1114,9 @@ Selama Tahap 5, frontend tetap memakai `VITE_SUMBER_DATA=tiruan` sebagai bawaan.
   - satu komoditas bisa punya satu resep per metode per versi;
   - metode berupa data.
 - **Prasyarat:** T5.04.
+- **Catatan (11 Okt 2026, D-52):** Migrasi `2026_10_11_200002`: referensi, `resep_tanam` (unik per komoditas, metode, versi), `resep_input` dan `resep_tugas` (kunci angka, `id` unik per resep), `modul` (termasuk `hst_mulai`), `progres_modul`, `permintaan_resep` (unik juga untuk "tanpa metode"). Harga negatif ditolak basis data (BIGINT UNSIGNED dan CHECK, dites); metode berupa data (dites).
 
-### [ ] T5.06 Migrasi: siklus, tugas, pengukuran, pengeluaran **[DEMO]**
+### [x] T5.06 Migrasi: siklus, tugas, pengukuran, pengeluaran **[DEMO]**
 - **Tujuan:** Tabel:
   - `siklus_tanam` (`resep_id` versi, `lahan_id`, `luas_m2`, `jumlah_lubang`, tanggal tanam, harga jual, status);
   - `rencana_item`, `tugas` (foto bukti), `hasil_pengukuran` (sumber manual/sensor), `pengeluaran` (foto nota);
@@ -1128,8 +1130,9 @@ Selama Tahap 5, frontend tetap memakai `VITE_SUMBER_DATA=tiruan` sebagai bawaan.
   - siklus menyimpan versi resep;
   - tidak ada kolom status terlambat.
 - **Prasyarat:** T5.05.
+- **Catatan (11 Okt 2026, D-52):** Migrasi `2026_10_11_200003`: `siklus_tanam` (menyimpan `resep_id` versi dan `resep_versi`; tanpa kunci unik per lahan, jadi beberapa siklus aktif boleh, dites), `rencana_item`, `tugas` (tanpa kolom terlambat, dites), `hasil_pengukuran`, `pengeluaran`, `jurnal`, `pengaturan_pengingat`, `langganan_notifikasi` (kolom paket web push), `log_notifikasi`, ditambah `berkas`.
 
-### [ ] T5.07 Migrasi: pesanan, alokasi, pembayaran, kiriman, rating, sengketa **[DEMO]**
+### [x] T5.07 Migrasi: pesanan, alokasi, pembayaran, kiriman, rating, sengketa **[DEMO]**
 - **Tujuan:** Tabel:
   - `pesanan` (jenis rutin/sekali panen, `wilayah_id` titik antar, alamat, status), `alokasi_pesanan` (waktu setuju kesepakatan);
   - `pembayaran` (jenis, status `ditahan`/`cair`/`dikembalikan`, nominal, referensi, `kunci_idempoten` unik);
@@ -1145,6 +1148,7 @@ Selama Tahap 5, frontend tetap memakai `VITE_SUMBER_DATA=tiruan` sebagai bawaan.
   - `kunci_idempoten` ganda ditolak;
   - nama kolom sama dengan kontrak.
 - **Prasyarat:** T5.06.
+- **Catatan (11 Okt 2026, D-52):** Migrasi `2026_10_11_200004`: `pesanan`, `alokasi_pesanan`, `pengiriman`, `pembayaran` (`kunci_idempoten` unik), `rating`, `sengketa`, ditambah `kunci_idempoten` (kontrak 1.7). CHECK "lainnya wajib keterangan" dan "ditolak ≤ dikirim" terbukti oleh tes (`tests/Feature/BatasanBasisDataTest.php`, 24 tes), begitu juga kunci idempoten ganda. Data contoh lolos semua batasan dan 55 kunci asing (diperiksa sekali dengan skrip).
 
 ### [ ] T5.08 Seeder dari data contoh bersama **[DEMO]**
 - **Tujuan:**
@@ -1159,6 +1163,7 @@ Selama Tahap 5, frontend tetap memakai `VITE_SUMBER_DATA=tiruan` sebagai bawaan.
   - seeder produksi tanpa resep `contoh` (tes);
   - semua kode wilayah sudah dicocokkan dengan data resmi Kemendagri, bukan situs ensiklopedia (D-36).
 - **Prasyarat:** T5.07, T5.01.
+- **Catatan (11 Okt 2026):** Ditahan sampai pemilik produk mencocokkan kode wilayah di `docs/cek-wilayah.md` dengan data Kemendagri (tanggapan D-51). `DatabaseSeeder` sementara kosong.
 
 ### [ ] T5.09 Masuk dengan nomor HP dan OTP (Sanctum) **[DEMO]**
 - **Tujuan:** Endpoint OTP kirim/verifikasi, keluar, dan akun, sesuai `arsitektur-backend.md` bagian 5:

@@ -3,6 +3,7 @@
 namespace App\Support;
 
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Schema\ColumnDefinition;
 use Illuminate\Support\Facades\DB;
 
 /**
@@ -26,19 +27,19 @@ final class Skema
     }
 
     /** Rupiah bulat, tidak negatif. */
-    public static function uang(Blueprint $t, string $kolom): \Illuminate\Database\Schema\ColumnDefinition
+    public static function uang(Blueprint $t, string $kolom): ColumnDefinition
     {
         return $t->unsignedBigInteger($kolom);
     }
 
     /** Berat dan luas. */
-    public static function jumlah(Blueprint $t, string $kolom): \Illuminate\Database\Schema\ColumnDefinition
+    public static function jumlah(Blueprint $t, string $kolom): ColumnDefinition
     {
         return $t->decimal($kolom, 12, 2);
     }
 
     /** Dosis dan faktor resep yang butuh lebih dari dua desimal. */
-    public static function faktor(Blueprint $t, string $kolom): \Illuminate\Database\Schema\ColumnDefinition
+    public static function faktor(Blueprint $t, string $kolom): ColumnDefinition
     {
         return $t->decimal($kolom, 12, 4);
     }

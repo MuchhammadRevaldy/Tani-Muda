@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Galat\GalatApi;
-use App\Models\User;
+use App\Models\Pengguna;
 use Illuminate\Http\Request;
 use Illuminate\Session\TokenMismatchException;
 use Illuminate\Support\Facades\Route;
@@ -18,7 +18,7 @@ beforeEach(function () {
         ]));
         Route::get('/masuk', fn () => 'rahasia')->middleware('auth:sanctum');
         Route::get('/terlarang', fn () => abort(403, 'pesan Symfony yang tidak boleh bocor'));
-        Route::get('/model/{pengguna}', fn (User $pengguna) => $pengguna);
+        Route::get('/model/{pengguna}', fn (Pengguna $pengguna) => $pengguna);
         Route::get('/meledak', fn () => throw new RuntimeException('SQLSTATE rahasia di server'));
         Route::get('/logika', fn () => throw new GalatApi('LAHAN_TIDAK_CUKUP', 'Lahanmu tidak cukup', ['luas_m2' => ['Sisa lahan 20 m²']]));
         Route::get('/sering', fn () => throw new GalatApi('TERLALU_SERING', cobaLagiDalam: 42));

@@ -91,7 +91,7 @@ cd backend
 php artisan migrate:fresh --seed
 ```
 
-Menghapus semua tabel di `tani_muda` lalu membuatnya lagi. Seeder data contoh ditambahkan di gelombang 5.2.
+Menghapus semua tabel di `tani_muda` lalu membuatnya lagi. Seeder data contoh (T5.08) ditulis setelah kode wilayah di `docs/cek-wilayah.md` dicocokkan; sampai saat itu basis data hanya berisi struktur tabel.
 
 ## 6. Hemat memori (laptop dengan sekitar 2 GB RAM bebas)
 

@@ -73,7 +73,7 @@ Skrip di akar (`npm run dev`, `demo`, `build:demo`, `preview:demo`) hanya meneru
 | `npm run build`                          | Cek tipe dan build produksi ke `dist/`                                                                                  |
 | `npm run ekstrak-desain`                 | Bongkar file desain ke `design/extracted/` (bahan kerja, tidak masuk git)                                               |
 | `npm run tangkap -- <url> <jalur-dasar>` | Tangkapan layar 390px dan 1440px dengan Chrome atau Edge yang terpasang                                                 |
-| `npm run data-contoh`                    | Tulis ulang `shared/data-contoh/*.json` dari `pembuat-data.ts`                                                         |
+| `npm run data-contoh`                    | Tulis ulang `shared/data-contoh/*.json` dari `pembuat-data.ts`                                                          |
 | `npm run pasang-video`                   | Pasang video modul asli dari `public/video/modul/` (lihat "Memasang video modul")                                       |
 | `node scripts/buat-ikon.mjs`             | Buat ulang favicon dan ikon layar utama di `public/` dari ikon kebun dan token warna                                    |
 
@@ -140,10 +140,13 @@ tani-muda/
 │       └── main.tsx        titik masuk
 ├── backend/                API Laravel 13 (/api/v1)
 │   ├── app/Http/           controller API, format galat (Galat/), respons dan paginasi
+│   ├── app/Models/, Enums/ model Eloquent dan pilihan tetap sesuai kontrak
+│   ├── database/migrations/ tabel sesuai kontrak-api.md bagian 2, dengan batasan CHECK
 │   ├── lang/id/            pesan validasi Bahasa Indonesia
 │   └── tests/              tes Pest (Feature memakai basis data tani_muda_uji)
 ├── shared/
-│   └── kasus-uji/          kasus uji uang, kapasitas, jarak (JSON) untuk Vitest dan Pest
+│   ├── kasus-uji/          kasus uji uang, kapasitas, jarak (JSON) untuk Vitest dan Pest
+│   └── data-contoh/        data contoh (JSON) untuk klien tiruan dan seeder Laravel
 ├── design/                 sumber desain (tidak diubah)
 │   ├── desain-tani-muda.html   file desain asli: sistem desain + semua halaman
 │   ├── icons/                  16 ikon resmi

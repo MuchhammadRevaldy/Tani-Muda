@@ -511,6 +511,21 @@ Isi tafsiran:
 - **Sisa di luar repositori:** folder `C:\php\8.5` (salinan PHP yang sama, tidak di PATH) dan dua basis data kosong di MySQL Laragon boleh dihapus.
 - Berdampak ke: `kontrak-api.md` 1.4, 1.6, 3.12; `arsitektur-backend.md` 2, 2b, 3, 5a; T5.01–T5.03.
 
+## D-52. Tafsiran gelombang 5.2 bagian pertama: data contoh bersama dan skema basis data
+Ditulis 11 Oktober 2026, **menunggu tanggapan pemilik produk**. Seeder (T5.08) belum ditulis sampai kode wilayah di `docs/cek-wilayah.md` dicocokkan (tanggapan D-51). Lokasi pilot tetap Lembang.
+- **Data contoh pindah ke `shared/data-contoh/`** (sisa T5.01): sepuluh berkas JSON dipindah dengan `git mv`; frontend membacanya lewat alias `@data-contoh` (Vite, Vitest, TypeScript), `npm run data-contoh` dan `npm run pasang-video` menulis ke sana. Pagar lint D-20 diperluas: halaman dan komponen tidak boleh mengimpor `@data-contoh/**` maupun `shared/data-contoh/**` (dites).
+- **ID string.** Semua tabel data memakai ID string `VARCHAR(64)`, supaya ID data contoh (`petani-arif`, `siklus-arif-sawi:siram@1`) dipakai apa adanya oleh seeder dan sama dengan klien tiruan. Baris baru tanpa ID diberi **ULID huruf kecil**. ID dan kolom waktu tidak bisa diisi massal dari permintaan klien. Kode wilayah memakai `VARCHAR(13)`.
+- **Tabel bawaan Laravel diganti lewat migrasi baru** (aturan proyek 7.4: migrasi lama tidak diubah): `users` dan `password_reset_tokens` dihapus (D-04), kolom pemilik di `sessions` dan `personal_access_tokens` menjadi string. Model `User` diganti `Pengguna`.
+- **Kunci angka `nomor`** untuk baris tanpa ID di kontrak atau yang ID-nya tidak unik global: `resep_input` dan `resep_tugas` (ID seperti `benih`, `siram` berulang di resep lain; unik per resep), `konversi_satuan`, `kelayakan_subsidi`, `progres_modul`, `anggota_kelompok_tani`, `kode_otp`, `log_notifikasi`, `kunci_idempoten`.
+- **Kolom yang dihitung server tidak disimpan**: `komoditas.status_resep` dan `jumlah_pesanan_sekitar`, `lahan.kapasitas`, `siklus.kelompok_pesanan` dan `resep_contoh`, `resep.input`/`tugas` (tabel sendiri), `modul.selesai` (dari `progres_modul`), `alokasi.siklus_ids` (dari `siklus_tanam.alokasi_pesanan_id`), `pengiriman.rating_saya`. Kolom lain di kontrak disimpan, termasuk `pesanan.saldo_uang_muka`, `terambil_kg`, dan `pengiriman.nilai_diterima`, sama seperti klien tiruan; layanan server memperbaruinya dalam transaksi yang sama dengan pembayaran.
+- **Batasan di basis data** (MariaDB menegakkan `CHECK`, nama batasan dipakai tes): harga dan jumlah tidak negatif; "lainnya" wajib keterangan yang tidak kosong (D-14); jumlah ditolak ≤ jumlah dikirim; rating 1–5 dan bukan untuk diri sendiri; satu rating per pemberi per kiriman; terambil ≤ total dan saldo ≤ uang muka; pesanan rutin wajib jumlah, frekuensi, tanggal mulai; sekali panen tepat satu kiriman dan bulan panen; lahan hidroponik wajib kapasitas lubang; pembeli ditolak wajib alasan; resep divalidasi wajib validator dan tanggal; jam pengingat pagi 05.00–07.00; satu resep per komoditas, metode, dan versi; `kunci_idempoten` pembayaran unik; nomor HP unik. Data contoh sudah diperiksa terhadap semua batasan ini dan 55 kunci asing: tidak ada pelanggaran.
+- **Permintaan resep "tanpa metode"**: kunci unik MariaDB menganggap NULL selalu berbeda, jadi kunci uniknya memakai kolom tersimpan `metode_kunci = IFNULL(metode_id, '')`.
+- **Tabel tambahan di luar daftar T5.04–T5.07**: `berkas` (unggah foto, kontrak 2.12), `kunci_idempoten` (kontrak 1.7), dan `langganan_notifikasi` dengan kolom yang sama dengan tabel paket web push gelombang 5.6, supaya paket itu tinggal diarahkan ke tabel ini. `wilayah.kode_terverifikasi` disimpan (tidak dikirim ke klien) agar seeder produksi bisa menolak kode yang belum dicocokkan.
+- **Tipe angka**: berat dan luas `DECIMAL(12,2)`, dosis dan faktor resep `DECIMAL(12,4)` (data contoh punya dosis tiga desimal), koordinat `DECIMAL(9,6)`, uang `BIGINT UNSIGNED`. `jumlah_lubang` dan `jumlah_polybag` bilangan bulat walau kontrak menulis "desimal", karena lubang dan polybag dihitung per buah.
+- **Sesi basis data selalu UTC** (`DB_TIMEZONE=+00:00`), apa pun zona waktu server MariaDB.
+- **Kontrak 2.8** mendapat baris `modul.hst_mulai` yang sudah dipakai sejak D-43 tetapi belum tertulis di tabel.
+- Berdampak ke: T5.01, T5.04–T5.08; `kontrak-api.md` 2.8; `arsitektur-backend.md` 3, 7.
+
 ---
 
 ## Riwayat
@@ -520,6 +535,7 @@ Isi tafsiran:
 | 2026-10-05 | D-12 sampai D-18 ditetapkan. Butir turunan di D-03, D-06, dan D-11 dikonfirmasi dan dirujuk ke keputusan baru. Jalur tangkapan layar di D-07 diganti mengikuti D-18 |
 | 2026-10-05 | D-19 dan D-20 ditetapkan: backend Laravel + MariaDB tanpa Docker, tampilan dikerjakan lebih dulu. Butir OTP di D-10 dan butir penegakan di D-13 dan D-14 disesuaikan |
 | 2026-10-05 | D-21 sampai D-25 ditetapkan: cookie Sanctum (token untuk React Native), 404 untuk data orang lain, konfirmasi otomatis setiap 15 menit, siap deploy VPS, PHP 8.3+ terpisah |
+| 2026-10-11 | D-52 ditulis: tafsiran gelombang 5.2 bagian pertama (data contoh di `shared/data-contoh/`, ID string dengan ULID untuk baris baru, migrasi semua tabel kontrak dengan batasan CHECK, seeder ditahan sampai kode wilayah dicocokkan) |
 | 2026-10-11 | D-51 ditetapkan: 419 memakai kode baru `SESI_KEDALUWARSA`; 405 → 404, `rincian` opsional, 5xx tanpa rincian teknis, penghapusan `AGENTS.md`/`CLAUDE.md` dan lisensi `proprietary` (sementara) disetujui |
 | 2026-10-11 | D-51 ditulis: tafsiran gelombang 5.1 (rincian galat kosong tidak dikirim, 405 → 404, 419 → BENTROK (diganti saat ditetapkan), GET /kesehatan, pembaca Pest kasus bersama, skrip `npm run dev` satu perintah, proxy Vite, memori terukur) |
 | 2026-10-11 | D-50 ditetapkan: PHP 8.5.11 di `C:\php-8.5.11-nts-Win32-vs17-x64`, basis data tetap MariaDB XAMPP (Laragon tidak dipakai) |
