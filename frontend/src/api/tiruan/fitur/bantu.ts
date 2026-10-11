@@ -34,6 +34,17 @@ export function sisaPesananKg(k: Konteks, p: Pesanan): number {
   return Math.round(((p.jumlah_per_kiriman_kg ?? p.jumlah_total_kg) - terambil) * 100) / 100;
 }
 
+/**
+ * Hitung ulang `terambil_kg` dari alokasi aktif (invarian D-52). Dipanggil setiap kali jumlah atau
+ * status alokasi berubah: ambil, ubah jumlah, gagal panen, batal.
+ */
+export function segarkanTerambil(k: Konteks, p: Pesanan): void {
+  const terambil = k.db.pesanan.alokasi
+    .filter((a) => a.pesanan_id === p.id && alokasiAktif(a))
+    .reduce((s, a) => s + a.jumlah_kg, 0);
+  p.terambil_kg = Math.round(terambil * 100) / 100;
+}
+
 /** Pesanan terbuka untuk petani: sudah dibayar uang mukanya, belum selesai, masih ada sisa. */
 export function pesananTerbuka(k: Konteks, p: Pesanan): boolean {
   return (p.status === 'mencari_petani' || p.status === 'berjalan') && sisaPesananKg(k, p) > 0;

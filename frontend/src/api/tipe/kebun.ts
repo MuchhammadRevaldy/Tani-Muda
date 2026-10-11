@@ -2,7 +2,7 @@
 import type { StatusAlokasi } from './pesanan';
 import type { JenisLahan } from './referensi';
 import type { BesaranUkur, TipeTugas } from './resep';
-import type { DenganKunciIdempoten, Rupiah, TanggalISO, WaktuISO } from './umum';
+import type { BilanganBulat, DenganKunciIdempoten, Rupiah, TanggalISO, WaktuISO } from './umum';
 
 export interface KapasitasLahan {
   satuan: 'm2' | 'lubang';
@@ -23,7 +23,7 @@ export interface Lahan {
   wilayah_id: string;
   lintang: number | null;
   bujur: number | null;
-  kapasitas_lubang: number | null;
+  kapasitas_lubang: BilanganBulat | null;
   /** Dihitung server dari siklus yang memakai lahan (D-15, D-34). */
   kapasitas: KapasitasLahan;
 }
@@ -40,8 +40,8 @@ export interface SiklusTanam {
   metode_id: string;
   status: StatusSiklus;
   luas_m2: number | null;
-  jumlah_lubang: number | null;
-  jumlah_polybag: number | null;
+  jumlah_lubang: BilanganBulat | null;
+  jumlah_polybag: BilanganBulat | null;
   volume_tandon_liter: number | null;
   sistem_hidroponik: string | null;
   vertikultur: boolean;
@@ -184,7 +184,7 @@ export interface LahanMasukan {
   wilayah_id: string;
   lintang?: number | null;
   bujur?: number | null;
-  kapasitas_lubang?: number | null;
+  kapasitas_lubang?: BilanganBulat | null;
 }
 
 export interface RencanaItemMasukan {
@@ -204,8 +204,8 @@ export interface BuatSiklusMasukan {
   lahan_id: string;
   /** Ukuran sesuai metode; luas sudah dalam m² (konversi di frontend dengan konversi-satuan.ts). */
   luas_m2?: number | null;
-  jumlah_lubang?: number | null;
-  jumlah_polybag?: number | null;
+  jumlah_lubang?: BilanganBulat | null;
+  jumlah_polybag?: BilanganBulat | null;
   volume_tandon_liter?: number | null;
   sistem_hidroponik?: string | null;
   vertikultur?: boolean;

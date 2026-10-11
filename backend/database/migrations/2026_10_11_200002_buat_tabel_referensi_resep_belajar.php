@@ -57,7 +57,7 @@ return new class extends Migration
 
         Schema::create('konversi_satuan', function (Blueprint $t) {
             $t->id('nomor');
-            $t->string('wilayah_id', 13);
+            Skema::rujukanWilayah($t, 'wilayah_id');
             $t->enum('satuan', SatuanKonversi::nilai());
             Skema::faktor($t, 'nilai_m2');
             Skema::waktu($t);
@@ -77,7 +77,7 @@ return new class extends Migration
 
         Schema::create('merek_input', function (Blueprint $t) {
             Skema::id($t);
-            $t->string('input_id', Skema::PANJANG_ID);
+            Skema::rujukan($t, 'input_id');
             $t->string('nama');
             $t->string('produsen')->nullable();
             Skema::faktor($t, 'isi_kemasan');
@@ -90,8 +90,8 @@ return new class extends Migration
 
         Schema::create('laporan_harga', function (Blueprint $t) {
             Skema::id($t);
-            $t->string('merek_id', Skema::PANJANG_ID);
-            $t->string('pelapor_id', Skema::PANJANG_ID);
+            Skema::rujukan($t, 'merek_id');
+            Skema::rujukan($t, 'pelapor_id');
             Skema::uang($t, 'harga_kemasan');
             $t->string('kecamatan');
             $t->date('tanggal');
@@ -103,8 +103,8 @@ return new class extends Migration
 
         Schema::create('kelayakan_subsidi', function (Blueprint $t) {
             $t->id('nomor');
-            $t->string('input_id', Skema::PANJANG_ID);
-            $t->string('komoditas_id', Skema::PANJANG_ID);
+            Skema::rujukan($t, 'input_id');
+            Skema::rujukan($t, 'komoditas_id');
             $t->date('berlaku_mulai');
             $t->date('berlaku_sampai');
             Skema::uang($t, 'het_per_satuan');
@@ -119,7 +119,7 @@ return new class extends Migration
             Skema::id($t);
             $t->string('pemasang');
             $t->string('isi', 500);
-            $t->string('wilayah_id', 13);
+            Skema::rujukanWilayah($t, 'wilayah_id');
             $t->decimal('jarak_km', 8, 2)->nullable();
             $t->date('berlaku_mulai');
             $t->date('berlaku_sampai');
@@ -131,8 +131,8 @@ return new class extends Migration
 
         Schema::create('resep_tanam', function (Blueprint $t) {
             Skema::id($t);
-            $t->string('komoditas_id', Skema::PANJANG_ID);
-            $t->string('metode_id', Skema::PANJANG_ID);
+            Skema::rujukan($t, 'komoditas_id');
+            Skema::rujukan($t, 'metode_id');
             $t->unsignedInteger('versi');
             $t->enum('status', StatusResep::nilai())->default(StatusResep::Draf->value);
             $t->boolean('contoh')->default(false);
@@ -149,8 +149,8 @@ return new class extends Migration
             Skema::waktu($t);
             // Satu resep per komoditas, metode, dan versi.
             $t->unique(['komoditas_id', 'metode_id', 'versi']);
-            $t->foreign('komoditas_id')->references('id')->on('komoditas');
-            $t->foreign('metode_id')->references('id')->on('metode_tanam');
+            $t->foreign('komoditas_id')->references('id')->on('komoditas')->restrictOnDelete();
+            $t->foreign('metode_id')->references('id')->on('metode_tanam')->restrictOnDelete();
         });
         Skema::periksa('resep_tanam', 'resep_tanam_hasil_positif', '`hasil_per_satuan` > 0');
         Skema::periksa('resep_tanam', 'resep_tanam_umur_positif', '`umur_panen_hari` > 0');
@@ -161,10 +161,10 @@ return new class extends Migration
 
         Schema::create('resep_input', function (Blueprint $t) {
             $t->id('nomor');
-            $t->string('resep_id', Skema::PANJANG_ID);
-            $t->string('id', Skema::PANJANG_ID);
+            Skema::rujukan($t, 'resep_id');
+            Skema::rujukan($t, 'id');
             $t->unsignedSmallInteger('urutan');
-            $t->string('input_id', Skema::PANJANG_ID)->nullable();
+            Skema::rujukan($t, 'input_id')->nullable();
             $t->string('nama');
             $t->string('grup', 32);
             Skema::faktor($t, 'dosis');
@@ -177,14 +177,14 @@ return new class extends Migration
             Skema::uang($t, 'harga_contoh')->nullable();
             $t->unique(['resep_id', 'id']);
             $t->foreign('resep_id')->references('id')->on('resep_tanam')->cascadeOnDelete();
-            $t->foreign('input_id')->references('id')->on('input_pertanian');
+            $t->foreign('input_id')->references('id')->on('input_pertanian')->restrictOnDelete();
         });
         Skema::tidakNegatif('resep_input', 'dosis', 'isi_satuan_beli', 'ukuran_kemasan');
 
         Schema::create('resep_tugas', function (Blueprint $t) {
             $t->id('nomor');
-            $t->string('resep_id', Skema::PANJANG_ID);
-            $t->string('id', Skema::PANJANG_ID);
+            Skema::rujukan($t, 'resep_id');
+            Skema::rujukan($t, 'id');
             $t->unsignedSmallInteger('urutan');
             $t->string('judul');
             $t->enum('tipe', TipeTugas::nilai());
@@ -203,8 +203,8 @@ return new class extends Migration
 
         Schema::create('modul', function (Blueprint $t) {
             Skema::id($t);
-            $t->string('komoditas_id', Skema::PANJANG_ID);
-            $t->string('metode_id', Skema::PANJANG_ID);
+            Skema::rujukan($t, 'komoditas_id');
+            Skema::rujukan($t, 'metode_id');
             $t->string('tahap', 32);
             $t->string('judul');
             $t->string('ringkasan', 1000);
@@ -216,15 +216,15 @@ return new class extends Migration
             $t->decimal('ukuran_video_mb', 5, 1)->nullable();
             Skema::waktu($t);
             $t->index(['komoditas_id', 'metode_id', 'urutan']);
-            $t->foreign('komoditas_id')->references('id')->on('komoditas');
-            $t->foreign('metode_id')->references('id')->on('metode_tanam');
+            $t->foreign('komoditas_id')->references('id')->on('komoditas')->restrictOnDelete();
+            $t->foreign('metode_id')->references('id')->on('metode_tanam')->restrictOnDelete();
         });
         Skema::periksa('modul', 'modul_ukuran_video', '`ukuran_video_mb` IS NULL OR `ukuran_video_mb` BETWEEN 0 AND 15');
 
         Schema::create('progres_modul', function (Blueprint $t) {
             $t->id('nomor');
-            $t->string('pengguna_id', Skema::PANJANG_ID);
-            $t->string('modul_id', Skema::PANJANG_ID);
+            Skema::rujukan($t, 'pengguna_id');
+            Skema::rujukan($t, 'modul_id');
             $t->timestamp('selesai_pada')->useCurrent();
             $t->unique(['pengguna_id', 'modul_id']);
             $t->foreign('pengguna_id')->references('id')->on('pengguna')->cascadeOnDelete();
@@ -233,19 +233,19 @@ return new class extends Migration
 
         Schema::create('permintaan_resep', function (Blueprint $t) {
             Skema::id($t);
-            $t->string('pengguna_id', Skema::PANJANG_ID);
-            $t->string('komoditas_id', Skema::PANJANG_ID);
-            $t->string('metode_id', Skema::PANJANG_ID)->nullable();
-            $t->string('wilayah_id', 13)->nullable();
+            Skema::rujukan($t, 'pengguna_id');
+            Skema::rujukan($t, 'komoditas_id');
+            Skema::rujukan($t, 'metode_id')->nullable();
+            Skema::rujukanWilayah($t, 'wilayah_id')->nullable();
             Skema::waktu($t);
             // Satu permintaan per pengguna, komoditas, dan metode (arsitektur-backend.md bagian 7).
             // NULL selalu dianggap berbeda di kunci unik, jadi "tanpa metode" diwakili string kosong.
-            $t->string('metode_kunci', Skema::PANJANG_ID)->storedAs("IFNULL(`metode_id`, '')");
+            Skema::rujukan($t, 'metode_kunci')->storedAs("IFNULL(`metode_id`, '')");
             $t->unique(['pengguna_id', 'komoditas_id', 'metode_kunci']);
             $t->foreign('pengguna_id')->references('id')->on('pengguna')->cascadeOnDelete();
-            $t->foreign('komoditas_id')->references('id')->on('komoditas');
-            $t->foreign('metode_id')->references('id')->on('metode_tanam');
-            $t->foreign('wilayah_id')->references('id')->on('wilayah');
+            $t->foreign('komoditas_id')->references('id')->on('komoditas')->restrictOnDelete();
+            $t->foreign('metode_id')->references('id')->on('metode_tanam')->restrictOnDelete();
+            $t->foreign('wilayah_id')->references('id')->on('wilayah')->restrictOnDelete();
         });
     }
 

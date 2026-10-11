@@ -53,6 +53,7 @@ import {
   jarakPesananKm,
   namaPengguna,
   pesananTerbuka,
+  segarkanTerambil,
   siklusAlokasi,
   sisaPesananKg,
 } from './bantu';
@@ -538,7 +539,7 @@ export function buatKlienPesanan(k: Konteks): KlienPesanan {
           alokasiId: alokasi.id,
         });
         k.db.pesanan.alokasi.push(alokasi);
-        pesanan.terambil_kg = Math.round((pesanan.terambil_kg + m.jumlah_kg) * 100) / 100;
+        segarkanTerambil(k, pesanan);
         k.simpan();
         return { alokasi: alokasiKeluar(k, alokasi), siklus_ids: siklus.map((s) => s.id) };
       });
@@ -583,9 +584,8 @@ export function buatKlienPesanan(k: Konteks): KlienPesanan {
         pulihkanKebun(k, cadangan);
         throw e;
       }
-      pesanan.terambil_kg =
-        Math.round((pesanan.terambil_kg - a.jumlah_kg + m.jumlah_kg) * 100) / 100;
       a.jumlah_kg = m.jumlah_kg;
+      segarkanTerambil(k, pesanan);
       k.simpan();
       return { alokasi: alokasiKeluar(k, a), siklus_ids: siklus.map((s) => s.id) };
     },
@@ -714,6 +714,7 @@ export function buatKlienPesanan(k: Konteks): KlienPesanan {
       }
       kiriman.status = 'gagal';
       if (!kirimanTerbuka(k, p.id).some((x) => x.alokasi_id === a.id)) a.status = 'gagal';
+      segarkanTerambil(k, p);
       k.simpan();
       return {
         tepat_waktu: r.tepatWaktu,
@@ -1184,6 +1185,7 @@ export function buatKlienPembeli(k: Konteks): KlienPembeli {
       x.status = 'dibatalkan';
       x.saldo_uang_muka = 0;
       for (const a of aktif) a.status = 'dibatalkan';
+      segarkanTerambil(k, x);
       for (const y of k.db.pesanan.pengiriman)
         if (y.pesanan_id === id && y.status === 'terjadwal') y.status = 'gagal';
       k.simpan();

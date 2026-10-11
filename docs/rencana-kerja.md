@@ -1080,7 +1080,7 @@ Selama Tahap 5, frontend tetap memakai `VITE_SUMBER_DATA=tiruan` sebagai bawaan.
   - `php artisan test` jalan dengan basis data uji;
   - `.env` tidak ikut commit.
 - **Prasyarat:** T5.01, T5.00.
-- **Catatan (11 Okt 2026, D-51):** Laravel 13.35 (API saja, awalan `/api/v1`), Sanctum 4 mode SPA (`statefulApi`), Pest 5.3, Pint, koneksi `mariadb` ke `tani_muda` (pengembangan) dan `tani_muda_uji` (tes, `phpunit.xml`), zona waktu aplikasi UTC dan tampilan bawaan `Asia/Jakarta`, `lang/id/validation.php`. Format galat satu tempat (`app/Http/Galat/PenerjemahGalat.php`), paginasi `Respons::paginasi()`/`halaman()`, waktu `…000Z`, `GET /api/v1/kesehatan`, proxy Vite `/api` dan `/sanctum` (arsitektur 5a), satu perintah `npm run dev` di akar. Pest 139 lulus, 15 dilewati (fungsi belum diport); Pint lulus; tidak ada path Windows di `app`, `config`, `routes`. Panduan `docs/menjalankan-lokal.md` diuji langkah demi langkah di laptop pengembangan; uji dari nol di mesin bersih belum dilakukan.
+- **Catatan (11 Okt 2026, D-51):** Laravel 13.35 (API saja, awalan `/api/v1`), Sanctum 4 mode SPA (`statefulApi`), Pest (5.3, lalu 4.7 setelah PHP target dikunci 8.3 di D-53), Pint, koneksi `mariadb` ke `tani_muda` (pengembangan) dan `tani_muda_uji` (tes, `phpunit.xml`), zona waktu aplikasi UTC dan tampilan bawaan `Asia/Jakarta`, `lang/id/validation.php`. Format galat satu tempat (`app/Http/Galat/PenerjemahGalat.php`), paginasi `Respons::paginasi()`/`halaman()`, waktu `…000Z`, `GET /api/v1/kesehatan`, proxy Vite `/api` dan `/sanctum` (arsitektur 5a), satu perintah `npm run dev` di akar. Pest 139 lulus, 15 dilewati (fungsi belum diport); Pint lulus; tidak ada path Windows di `app`, `config`, `routes`. Panduan `docs/menjalankan-lokal.md` diuji langkah demi langkah di laptop pengembangan; uji dari nol di mesin bersih belum dilakukan.
 
 ### [x] T5.04 Migrasi: pengguna, wilayah, lahan, kelompok tani **[DEMO]**
 - **Tujuan:** Tabel:
@@ -1163,6 +1163,7 @@ Selama Tahap 5, frontend tetap memakai `VITE_SUMBER_DATA=tiruan` sebagai bawaan.
   - seeder produksi tanpa resep `contoh` (tes);
   - semua kode wilayah sudah dicocokkan dengan data resmi Kemendagri, bukan situs ensiklopedia (D-36).
 - **Prasyarat:** T5.07, T5.01.
+- **Catatan (12 Okt 2026, D-53):** Data hasil seeder wajib lolos `InvarianPesanan::periksa()` dan aturan hapus `RESTRICT`.
 - **Catatan (11 Okt 2026):** Ditahan sampai pemilik produk mencocokkan kode wilayah di `docs/cek-wilayah.md` dengan data Kemendagri (tanggapan D-51). `DatabaseSeeder` sementara kosong.
 
 ### [ ] T5.09 Masuk dengan nomor HP dan OTP (Sanctum) **[DEMO]**
@@ -1266,8 +1267,9 @@ Selama Tahap 5, frontend tetap memakai `VITE_SUMBER_DATA=tiruan` sebagai bawaan.
 - **Selesai bila:**
   - semua operasi uang lewat antarmuka;
   - `pembayaran` hanya ditulis layanan server;
-  - permintaan ganda dengan kunci sama tidak membayar dua kali;
+  - permintaan ganda dengan kunci sama tidak membayar dua kali, termasuk **dua permintaan serentak**: baris `kunci_idempoten` di-insert sebelum operasi uang dalam transaksi yang sama (D-53);
   - saldo uang muka tidak pernah negatif;
+  - `InvarianPesanan::periksa()` kosong setelah setiap operasi uang di tes (D-53);
   - tes: tahan lalu cairkan, kembalikan, cairkan melebihi saldo ditolak.
 - **Prasyarat:** T5.14, T5.07.
 

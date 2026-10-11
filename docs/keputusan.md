@@ -511,8 +511,8 @@ Isi tafsiran:
 - **Sisa di luar repositori:** folder `C:\php\8.5` (salinan PHP yang sama, tidak di PATH) dan dua basis data kosong di MySQL Laragon boleh dihapus.
 - Berdampak ke: `kontrak-api.md` 1.4, 1.6, 3.12; `arsitektur-backend.md` 2, 2b, 3, 5a; T5.01–T5.03.
 
-## D-52. Tafsiran gelombang 5.2 bagian pertama: data contoh bersama dan skema basis data
-Ditulis 11 Oktober 2026, **menunggu tanggapan pemilik produk**. Seeder (T5.08) belum ditulis sampai kode wilayah di `docs/cek-wilayah.md` dicocokkan (tanggapan D-51). Lokasi pilot tetap Lembang.
+## D-52. Gelombang 5.2 bagian pertama: data contoh bersama dan skema basis data
+Ditulis 11 Oktober 2026 sebagai tafsiran, **ditetapkan** dengan tanggapan pemilik produk pada 12 Oktober 2026 (perubahan di D-53). Seeder (T5.08) belum ditulis sampai kode wilayah di `docs/cek-wilayah.md` dicocokkan (tanggapan D-51). Lokasi pilot tetap Lembang.
 - **Data contoh pindah ke `shared/data-contoh/`** (sisa T5.01): sepuluh berkas JSON dipindah dengan `git mv`; frontend membacanya lewat alias `@data-contoh` (Vite, Vitest, TypeScript), `npm run data-contoh` dan `npm run pasang-video` menulis ke sana. Pagar lint D-20 diperluas: halaman dan komponen tidak boleh mengimpor `@data-contoh/**` maupun `shared/data-contoh/**` (dites).
 - **ID string.** Semua tabel data memakai ID string `VARCHAR(64)`, supaya ID data contoh (`petani-arif`, `siklus-arif-sawi:siram@1`) dipakai apa adanya oleh seeder dan sama dengan klien tiruan. Baris baru tanpa ID diberi **ULID huruf kecil**. ID dan kolom waktu tidak bisa diisi massal dari permintaan klien. Kode wilayah memakai `VARCHAR(13)`.
 - **Tabel bawaan Laravel diganti lewat migrasi baru** (aturan proyek 7.4: migrasi lama tidak diubah): `users` dan `password_reset_tokens` dihapus (D-04), kolom pemilik di `sessions` dan `personal_access_tokens` menjadi string. Model `User` diganti `Pengguna`.
@@ -526,6 +526,24 @@ Ditulis 11 Oktober 2026, **menunggu tanggapan pemilik produk**. Seeder (T5.08) b
 - **Kontrak 2.8** mendapat baris `modul.hst_mulai` yang sudah dipakai sejak D-43 tetapi belum tertulis di tabel.
 - Berdampak ke: T5.01, T5.04–T5.08; `kontrak-api.md` 2.8; `arsitektur-backend.md` 3, 7.
 
+## D-53. Tanggapan D-52: aturan hapus, ID ascii_bin, invarian kolom turunan, PHP 8.3, MariaDB LTS
+Ditetapkan pemilik produk 12 Oktober 2026 (tanggapan D-52); dikerjakan pada hari yang sama.
+- **Tidak ada `CASCADE` di tabel uang dan transaksi.** `pesanan`, `alokasi_pesanan`, `pengiriman`, `pembayaran`, `rating`, `sengketa`, dan kunci asing yang menunjuk ke tabel itu memakai `RESTRICT`: baris transaksi tidak pernah dihapus, cukup diberi status. `siklus_tanam.lahan_id` dan `resep_id` juga `RESTRICT` (P0-04; `DELETE /lahan` ditolak bila masih dipakai). `CASCADE` hanya untuk anak yang tidak bermakna tanpa induk. Karena belum ada data produksi, migrasi `2026_10_11_2000xx` diubah langsung. Ke-65 kunci asing menulis aturannya secara eksplisit; daftarnya di `arsitektur-backend.md` bagian 7. Tafsiran tambahan: `pengeluaran.siklus_id` (uang petani), `catatan_petani` (catatan admin, D-03), dan `berkas` (bukti foto) juga `RESTRICT`.
+- **ID string + ULID: disetujui**, dengan kolom ID `ascii`/`ascii_bin`. Semua kolom ID dan rujukannya dibuat lewat `Skema::id()`/`Skema::rujukan()` (kunci asing MariaDB mewajibkan collation kedua kolom sama). Semua ID data contoh berupa ASCII (diperiksa).
+- **`jumlah_lubang`/`jumlah_polybag` bilangan bulat: disetujui.** Kontrak 2.6 diubah (juga `lahan.kapasitas_lubang`), dan tipe TS memakai alias `BilanganBulat`. Penolakan angka pecahan di masukan ditambahkan bersama Form Request endpoint siklus dan lahan (gelombang 5.4).
+- **Kolom turunan disimpan, dengan tes invarian: disetujui.** Aturannya:
+  - `saldo_uang_muka` = uang muka yang ditahan − semua pencairan, pengembalian, dan kompensasi yang referensinya referensi uang muka;
+  - `terambil_kg` = jumlah `jumlah_kg` alokasi aktif;
+  - `nilai_diterima` = jumlah pencairan kiriman itu, dan null selama belum dikonfirmasi.
+
+  Ditulis dua kali dengan aturan sama: `backend/app/Domain/Invarian/InvarianPesanan.php` (Pest) dan `frontend/src/api/tiruan/invarian.ts`. Rangkaian tes kontrak memeriksanya **setelah setiap tes** (`periksaInvarian` di `Lingkungan`), jadi semua alur uang yang dites ikut menjaganya.
+- **Temuan dari tes invarian:** klien tiruan tidak mengurangi `terambil_kg` saat alokasi gagal panen atau pesanan dibatalkan (kolom itu tidak dipakai halaman mana pun, jadi selisihnya tidak terlihat). Diperbaiki: `segarkanTerambil()` menghitung ulang dari alokasi aktif setiap kali jumlah atau status alokasi berubah.
+- **Kunci idempoten dipesan sebelum operasi uang** (gelombang 5.5): baris `kunci_idempoten` di-insert lebih dulu dalam transaksi yang sama, sehingga permintaan serentak tidak lolos dua kali (`arsitektur-backend.md` bagian 10, T5.15).
+- **PHP target dikunci 8.3**: `config.platform.php = 8.3.0` di `backend/composer.json`. Temuan: dengan lock sebelumnya aplikasi butuh PHP 8.4.1 saat berjalan (Symfony 8.1), bukan hanya alat tes. Setelah dikunci: Symfony 7.4 LTS, Pest 4.7 (dari 5.3), PHPUnit 12.5; Laravel tetap 13.35; tidak ada paket yang butuh PHP ≥ 8.4; semua tes hijau. Laptop tetap memakai PHP 8.5, jadi kode backend tidak boleh memakai fitur 8.4+ (dicatat di `arsitektur-backend.md` 2a; belum ada pemeriksa otomatis).
+- **VPS memakai MariaDB LTS 10.11 atau 11.4**, bukan 10.4 (`arsitektur-backend.md` bagian 17).
+- **Commit `c7cf6a8`** dibuat asisten lain atas permintaan pemilik produk; boleh digabung saat gelombang 5.2 ditutup.
+- Berdampak ke: T5.04–T5.08, T5.15; `kontrak-api.md` 2.6; `arsitektur-backend.md` 2a, 7, 10, 17.
+
 ---
 
 ## Riwayat
@@ -535,6 +553,7 @@ Ditulis 11 Oktober 2026, **menunggu tanggapan pemilik produk**. Seeder (T5.08) b
 | 2026-10-05 | D-12 sampai D-18 ditetapkan. Butir turunan di D-03, D-06, dan D-11 dikonfirmasi dan dirujuk ke keputusan baru. Jalur tangkapan layar di D-07 diganti mengikuti D-18 |
 | 2026-10-05 | D-19 dan D-20 ditetapkan: backend Laravel + MariaDB tanpa Docker, tampilan dikerjakan lebih dulu. Butir OTP di D-10 dan butir penegakan di D-13 dan D-14 disesuaikan |
 | 2026-10-05 | D-21 sampai D-25 ditetapkan: cookie Sanctum (token untuk React Native), 404 untuk data orang lain, konfirmasi otomatis setiap 15 menit, siap deploy VPS, PHP 8.3+ terpisah |
+| 2026-10-12 | D-52 ditetapkan dan D-53 dicatat: tidak ada CASCADE di tabel uang dan transaksi, ID `ascii_bin`, jumlah lubang dan polybag bilangan bulat, tes invarian kolom turunan (menemukan `terambil_kg` klien tiruan yang tidak ikut berkurang), kunci idempoten dipesan lebih dulu, PHP target 8.3, MariaDB LTS di VPS |
 | 2026-10-11 | D-52 ditulis: tafsiran gelombang 5.2 bagian pertama (data contoh di `shared/data-contoh/`, ID string dengan ULID untuk baris baru, migrasi semua tabel kontrak dengan batasan CHECK, seeder ditahan sampai kode wilayah dicocokkan) |
 | 2026-10-11 | D-51 ditetapkan: 419 memakai kode baru `SESI_KEDALUWARSA`; 405 → 404, `rincian` opsional, 5xx tanpa rincian teknis, penghapusan `AGENTS.md`/`CLAUDE.md` dan lisensi `proprietary` (sementara) disetujui |
 | 2026-10-11 | D-51 ditulis: tafsiran gelombang 5.1 (rincian galat kosong tidak dikirim, 405 → 404, 419 → BENTROK (diganti saat ditetapkan), GET /kesehatan, pembaca Pest kasus bersama, skrip `npm run dev` satu perintah, proxy Vite, memori terukur) |

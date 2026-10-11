@@ -50,7 +50,10 @@ function isiDataDasar(): array
         'jumlah_per_kiriman_kg' => 10, 'frekuensi_hari' => 7, 'jumlah_kiriman' => 4, 'jumlah_total_kg' => 40,
         'tanggal_mulai' => '2026-11-02', 'harga_per_kg' => 6000, 'standar_kualitas' => '[]', 'wilayah_id' => '32.17.01.2003',
         'alamat_antar' => 'Dapur uji', 'status' => 'mencari_petani', 'nilai_pesanan' => 240000, 'uang_muka' => 48000,
-        'biaya_layanan' => 12000, 'saldo_uang_muka' => 48000]);
+        'biaya_layanan' => 12000, 'saldo_uang_muka' => 48000, 'terambil_kg' => 10]);
+    // Uang muka ditahan, sehingga kolom turunan pesanan memenuhi invarian (D-52).
+    $db->table('pembayaran')->insert(['id' => 'bayar-uang-muka-uji', 'pesanan_id' => 'pesanan-uji', 'jenis' => 'uang_muka',
+        'nominal' => 48000, 'status' => 'ditahan', 'referensi' => 'TIRUAN-UM-UJI']);
     $db->table('alokasi_pesanan')->insert(['id' => 'alokasi-uji', 'pesanan_id' => 'pesanan-uji', 'petani_id' => 'petani-uji',
         'jumlah_kg' => 10, 'status' => 'berjalan']);
     $db->table('pengiriman')->insert(['id' => 'kiriman-uji', 'alokasi_id' => 'alokasi-uji', 'pesanan_id' => 'pesanan-uji',

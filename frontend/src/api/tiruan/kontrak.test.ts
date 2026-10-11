@@ -2,6 +2,7 @@ import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
 import { ujiKontrak } from '../kontrak.test-suite';
+import { periksaInvarianPesanan } from './invarian';
 import { buatKlienTiruan } from './klien-tiruan';
 import type { PenyimpananKunciNilai } from './penyimpanan';
 
@@ -16,6 +17,7 @@ ujiKontrak('klien tiruan', async ({ tampilkanResepContoh }) => {
     masukSebagai: (id) => t.kontrol.masukSebagai(id),
     kodeOtp: async (nomor) => t.kontrol.kodeUji(nomor),
     majukanJam: (ms) => (sekarang += ms),
+    periksaInvarian: async () => periksaInvarianPesanan(t.konteks.db.pesanan),
   };
 });
 

@@ -9,6 +9,8 @@ export type TanggalISO = string;
 export type WaktuISO = string;
 /** Rupiah bulat. */
 export type Rupiah = number;
+/** Bilangan bulat, mis. jumlah lubang atau polybag yang dihitung per buah (kontrak 2.6, D-52). */
+export type BilanganBulat = number;
 
 export interface MetaHalaman {
   halaman: number;

@@ -24,9 +24,9 @@ return new class extends Migration
     {
         Schema::create('pesanan', function (Blueprint $t) {
             Skema::id($t);
-            $t->string('pembeli_id', Skema::PANJANG_ID);
+            Skema::rujukan($t, 'pembeli_id');
             $t->enum('jenis', JenisPesanan::nilai());
-            $t->string('komoditas_id', Skema::PANJANG_ID);
+            Skema::rujukan($t, 'komoditas_id');
             Skema::jumlah($t, 'jumlah_per_kiriman_kg')->nullable();
             $t->unsignedSmallInteger('frekuensi_hari')->nullable();
             $t->unsignedSmallInteger('jumlah_kiriman');
@@ -37,7 +37,7 @@ return new class extends Migration
             Skema::uang($t, 'harga_per_kg');
             $t->json('standar_kualitas');
             // Desa titik antar; jarak ke petani dihitung dari titik tengahnya (D-06).
-            $t->string('wilayah_id', 13);
+            Skema::rujukanWilayah($t, 'wilayah_id');
             $t->string('alamat_antar', 500);
             $t->string('patokan', 500)->nullable();
             $t->char('batas_jam_antar', 5)->nullable();
@@ -50,9 +50,9 @@ return new class extends Migration
             Skema::waktu($t);
             $t->index(['status', 'komoditas_id']);
             $t->index('pembeli_id');
-            $t->foreign('pembeli_id')->references('id')->on('pengguna');
-            $t->foreign('komoditas_id')->references('id')->on('komoditas');
-            $t->foreign('wilayah_id')->references('id')->on('wilayah');
+            $t->foreign('pembeli_id')->references('id')->on('pengguna')->restrictOnDelete();
+            $t->foreign('komoditas_id')->references('id')->on('komoditas')->restrictOnDelete();
+            $t->foreign('wilayah_id')->references('id')->on('wilayah')->restrictOnDelete();
         });
         Skema::tidakNegatif('pesanan', 'jumlah_per_kiriman_kg', 'jumlah_total_kg', 'terambil_kg');
         Skema::periksa('pesanan', 'pesanan_jumlah_positif', '`jumlah_total_kg` > 0 AND `jumlah_kiriman` > 0 AND `harga_per_kg` > 0');
@@ -65,8 +65,8 @@ return new class extends Migration
 
         Schema::create('alokasi_pesanan', function (Blueprint $t) {
             Skema::id($t);
-            $t->string('pesanan_id', Skema::PANJANG_ID);
-            $t->string('petani_id', Skema::PANJANG_ID);
+            Skema::rujukan($t, 'pesanan_id');
+            Skema::rujukan($t, 'petani_id');
             // Per kiriman untuk pesanan rutin.
             Skema::jumlah($t, 'jumlah_kg');
             $t->enum('status', StatusAlokasi::nilai())->default(StatusAlokasi::MenungguKesepakatan->value);
@@ -74,15 +74,15 @@ return new class extends Migration
             Skema::waktu($t);
             $t->index(['pesanan_id', 'status']);
             $t->index(['petani_id', 'status']);
-            $t->foreign('pesanan_id')->references('id')->on('pesanan')->cascadeOnDelete();
-            $t->foreign('petani_id')->references('id')->on('pengguna');
+            $t->foreign('pesanan_id')->references('id')->on('pesanan')->restrictOnDelete();
+            $t->foreign('petani_id')->references('id')->on('pengguna')->restrictOnDelete();
         });
         Skema::periksa('alokasi_pesanan', 'alokasi_pesanan_jumlah_positif', '`jumlah_kg` > 0');
 
         Schema::create('pengiriman', function (Blueprint $t) {
             Skema::id($t);
-            $t->string('alokasi_id', Skema::PANJANG_ID);
-            $t->string('pesanan_id', Skema::PANJANG_ID);
+            Skema::rujukan($t, 'alokasi_id');
+            Skema::rujukan($t, 'pesanan_id');
             $t->unsignedSmallInteger('ke');
             $t->date('tanggal_jadwal');
             Skema::jumlah($t, 'jumlah_kg');
@@ -103,8 +103,8 @@ return new class extends Migration
             Skema::waktu($t);
             $t->unique(['alokasi_id', 'ke']);
             $t->index(['status', 'batas_periksa_pada']);
-            $t->foreign('alokasi_id')->references('id')->on('alokasi_pesanan')->cascadeOnDelete();
-            $t->foreign('pesanan_id')->references('id')->on('pesanan')->cascadeOnDelete();
+            $t->foreign('alokasi_id')->references('id')->on('alokasi_pesanan')->restrictOnDelete();
+            $t->foreign('pesanan_id')->references('id')->on('pesanan')->restrictOnDelete();
         });
         Skema::tidakNegatif('pengiriman', 'jumlah_kg', 'jumlah_ditolak_kg');
         // D-14: alasan "lainnya" wajib disertai keterangan teks.
@@ -114,8 +114,8 @@ return new class extends Migration
 
         Schema::create('pembayaran', function (Blueprint $t) {
             Skema::id($t);
-            $t->string('pesanan_id', Skema::PANJANG_ID);
-            $t->string('pengiriman_id', Skema::PANJANG_ID)->nullable();
+            Skema::rujukan($t, 'pesanan_id');
+            Skema::rujukan($t, 'pengiriman_id')->nullable();
             $t->enum('jenis', JenisPembayaran::nilai());
             Skema::uang($t, 'nominal');
             $t->enum('status', StatusPembayaran::nilai());
@@ -126,38 +126,38 @@ return new class extends Migration
             $t->string('kunci_idempoten', 100)->nullable()->unique();
             Skema::waktu($t);
             $t->index(['pesanan_id', 'jenis']);
-            $t->foreign('pesanan_id')->references('id')->on('pesanan')->cascadeOnDelete();
-            $t->foreign('pengiriman_id')->references('id')->on('pengiriman')->nullOnDelete();
+            $t->foreign('pesanan_id')->references('id')->on('pesanan')->restrictOnDelete();
+            $t->foreign('pengiriman_id')->references('id')->on('pengiriman')->restrictOnDelete();
         });
 
         Schema::create('rating', function (Blueprint $t) {
             Skema::id($t);
-            $t->string('pengiriman_id', Skema::PANJANG_ID);
-            $t->string('pemberi_id', Skema::PANJANG_ID);
-            $t->string('penerima_id', Skema::PANJANG_ID);
+            Skema::rujukan($t, 'pengiriman_id');
+            Skema::rujukan($t, 'pemberi_id');
+            Skema::rujukan($t, 'penerima_id');
             $t->unsignedTinyInteger('nilai');
             $t->string('komentar', 1000)->nullable();
             Skema::waktu($t);
             // SUDAH_DINILAI: satu rating per pemberi per kiriman.
             $t->unique(['pengiriman_id', 'pemberi_id']);
             $t->index('penerima_id');
-            $t->foreign('pengiriman_id')->references('id')->on('pengiriman')->cascadeOnDelete();
-            $t->foreign('pemberi_id')->references('id')->on('pengguna');
-            $t->foreign('penerima_id')->references('id')->on('pengguna');
+            $t->foreign('pengiriman_id')->references('id')->on('pengiriman')->restrictOnDelete();
+            $t->foreign('pemberi_id')->references('id')->on('pengguna')->restrictOnDelete();
+            $t->foreign('penerima_id')->references('id')->on('pengguna')->restrictOnDelete();
         });
         Skema::periksa('rating', 'rating_nilai_1_sampai_5', '`nilai` BETWEEN 1 AND 5');
         Skema::periksa('rating', 'rating_bukan_diri_sendiri', '`pemberi_id` <> `penerima_id`');
 
         Schema::create('sengketa', function (Blueprint $t) {
             Skema::id($t);
-            $t->string('pengiriman_id', Skema::PANJANG_ID);
+            Skema::rujukan($t, 'pengiriman_id');
             $t->enum('status', StatusSengketa::nilai())->default(StatusSengketa::Terbuka->value);
             $t->enum('keputusan', KeputusanSengketa::nilai())->nullable();
             $t->string('catatan', 1000)->nullable();
             $t->timestamp('diputuskan_pada')->nullable();
             Skema::waktu($t);
             $t->index('status');
-            $t->foreign('pengiriman_id')->references('id')->on('pengiriman')->cascadeOnDelete();
+            $t->foreign('pengiriman_id')->references('id')->on('pengiriman')->restrictOnDelete();
         });
         Skema::periksa('sengketa', 'sengketa_diputuskan_lengkap',
             "`status` <> 'diputuskan' OR (`keputusan` IS NOT NULL AND `diputuskan_pada` IS NOT NULL)");
@@ -165,7 +165,7 @@ return new class extends Migration
         // Kontrak 1.7: permintaan ulang dengan kunci dan endpoint yang sama mengembalikan hasil pertama.
         Schema::create('kunci_idempoten', function (Blueprint $t) {
             $t->id('nomor');
-            $t->string('pengguna_id', Skema::PANJANG_ID);
+            Skema::rujukan($t, 'pengguna_id');
             $t->string('kunci', 100);
             $t->string('endpoint', 191);
             $t->unsignedSmallInteger('status_http')->nullable();
@@ -176,8 +176,8 @@ return new class extends Migration
         });
 
         // Kunci asing yang tertunda karena urutan pembuatan tabel.
-        Schema::table('siklus_tanam', fn (Blueprint $t) => $t->foreign('alokasi_pesanan_id')->references('id')->on('alokasi_pesanan')->nullOnDelete());
-        Schema::table('catatan_petani', fn (Blueprint $t) => $t->foreign('pengiriman_id')->references('id')->on('pengiriman')->nullOnDelete());
+        Schema::table('siklus_tanam', fn (Blueprint $t) => $t->foreign('alokasi_pesanan_id')->references('id')->on('alokasi_pesanan')->restrictOnDelete());
+        Schema::table('catatan_petani', fn (Blueprint $t) => $t->foreign('pengiriman_id')->references('id')->on('pengiriman')->restrictOnDelete());
     }
 
     public function down(): void

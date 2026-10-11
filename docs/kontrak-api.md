@@ -294,7 +294,7 @@ Tidak ada kolom kata sandi atau nama pengguna (D-04).
 | `jenis_lahan` | `sawah` \| `kebun` \| `pekarangan` \| `hidroponik` | |
 | `luas_m2`, `nilai_asli` | desimal | nilai asli = angka yang diketik petani (D-06) |
 | `lintang`, `bujur` | desimal \| null | **hanya untuk pemilik dan admin** (D-06) |
-| `kapasitas_lubang` | bilangan \| null | wajib untuk hidroponik |
+| `kapasitas_lubang` | bilangan bulat \| null | wajib untuk hidroponik |
 | `kapasitas` | `{ satuan: 'm2' \| 'lubang', total, dipakai, sisa }` | dihitung server (D-15, D-34); petak satu pesanan rutin dihitung dari puncak petak yang tumbuh bersamaan, bukan dijumlah semua (D-40) |
 
 | `siklus_tanam` (`SiklusTanam`) | Tipe | Keterangan |
@@ -302,7 +302,8 @@ Tidak ada kolom kata sandi atau nama pengguna (D-04).
 | `id`, `petani_id`, `lahan_id`, `resep_id`, `komoditas_id`, `metode_id`, `satuan_asli` | string | |
 | `resep_versi` | bilangan bulat | versi saat dibuat (P0-04) |
 | `status`† | `rencana` \| `aktif` \| `selesai` | |
-| `luas_m2`, `jumlah_lubang`, `jumlah_polybag`†, `volume_tandon_liter`† | desimal \| null | sesuai metode (D-15) |
+| `luas_m2`, `volume_tandon_liter`† | desimal \| null | sesuai metode (D-15) |
+| `jumlah_lubang`, `jumlah_polybag`† | bilangan bulat \| null | sesuai metode (D-15); dihitung per buah (D-52) |
 | `sistem_hidroponik` | string \| null | |
 | `vertikultur` | boolean | |
 | `nilai_asli` | desimal | |
@@ -686,6 +687,7 @@ Konfirmasi otomatis: kiriman `dikirim` yang lewat `batas_periksa_pada` dianggap 
 
 | Tanggal | Perubahan |
 | --- | --- |
+| 2026-10-12 | D-53: `lahan.kapasitas_lubang`, `siklus.jumlah_lubang`, dan `jumlah_polybag` menjadi bilangan bulat (sebelumnya "desimal"/"bilangan"); tipe TS memakai alias `BilanganBulat`. |
 | 2026-10-11 | D-52: baris `modul.hst_mulai` (sudah dipakai sejak D-43) dicatat di tabel 2.8; tidak ada perubahan perilaku. |
 | 2026-10-11 | D-51: `GET /kesehatan` (bagian 3.12); 419 token CSRF dijawab dengan kode baru `SESI_KEDALUWARSA`; `rincian` opsional, tidak dikirim bila kosong (sama dengan klien tiruan); 405 dijawab 404. |
 | 2026-10-05 | Versi pertama (T3.01, T3.02), bersama tipe `frontend/src/api/tipe/`, klien tiruan, dan tes kontrak |

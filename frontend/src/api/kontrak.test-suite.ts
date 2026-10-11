@@ -6,7 +6,7 @@
  *
  * Data awal = data contoh (shared/data-contoh/*.json) dengan hari ini 2026-10-05 08.00 WIB.
  */
-import { beforeEach, describe, expect, it } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import { adalahGalatApi, type GalatApi, type KodeGalatApi } from './galat';
 import type { KlienApi } from './klien';
 
@@ -18,6 +18,11 @@ export interface Lingkungan {
   kodeOtp(nomorHp: string): Promise<string | null>;
   /** Majukan jam (ms). Bila tidak tersedia, tes yang butuh waktu dilewati. */
   majukanJam?: (ms: number) => void;
+  /**
+   * Pelanggaran invarian kolom turunan (saldo uang muka, kg terambil, dana diterima; D-52).
+   * Diperiksa setelah setiap tes, jadi semua alur uang di rangkaian ini ikut menjaganya.
+   */
+  periksaInvarian?: () => Promise<string[]>;
 }
 
 export type PenyiapLingkungan = (opsi: { tampilkanResepContoh: boolean }) => Promise<Lingkungan>;
@@ -62,6 +67,9 @@ export function ujiKontrak(nama: string, siapkan: PenyiapLingkungan): void {
     beforeEach(async () => {
       L = await siapkan({ tampilkanResepContoh: true });
       K = L.klien;
+    });
+    afterEach(async () => {
+      if (L.periksaInvarian) expect(await L.periksaInvarian()).toEqual([]);
     });
 
     // ------------------------------------------------------------ format umum

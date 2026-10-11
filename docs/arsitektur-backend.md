@@ -74,7 +74,7 @@ Saran pengaturan:
 
 ## 2a. Memasang PHP 8.3+ terpisah (prasyarat Tahap 5, T5.00)
 
-PHP baru dipasang di folder sendiri. XAMPP tetap dipakai hanya untuk MariaDB (D-25). Contoh di bawah memakai folder `C:\php\8.3`; di laptop pengembangan terpasang `C:\php-8.5.11-nts-Win32-vs17-x64` (PHP 8.5.11 NTS, D-50). Lokasinya bebas, asal PATH menunjuk ke sana.
+PHP baru dipasang di folder sendiri. XAMPP tetap dipakai hanya untuk MariaDB (D-25). Laptop boleh memakai PHP yang lebih baru (8.5), tetapi **kode backend ditulis untuk PHP 8.3** (target VPS, D-53): jangan memakai fitur 8.4+ seperti *property hooks*, *asymmetric visibility*, `new Kelas()->metode()` tanpa kurung, fungsi `array_find`, atau operator pipa `|>`. Contoh di bawah memakai folder `C:\php\8.3`; di laptop pengembangan terpasang `C:\php-8.5.11-nts-Win32-vs17-x64` (PHP 8.5.11 NTS, D-50). Lokasinya bebas, asal PATH menunjuk ke sana.
 
 **Langkah pemasangan (Windows 11):**
 
@@ -242,7 +242,7 @@ Ditambah kasus khusus: pembeli tidak menerima koordinat lahan, pembeli belum ter
 
 - MariaDB 10.4, InnoDB, `utf8mb4` / `utf8mb4_unicode_ci`.
 - Nama tabel dan kolom mengikuti Model Data PRD dan `keputusan.md` (aturan proyek 8), dan dicek otomatis terhadap `kontrak-api.md` bagian 2 oleh `tests/Feature/SkemaKontrakTest.php` (kolom, enum PHP, dan kolom `enum` MariaDB).
-- **ID string `VARCHAR(64)`** (D-52): ID data contoh dipakai apa adanya oleh seeder; baris baru diberi ULID huruf kecil (`app/Models/Concerns/IdString.php`). Baris tanpa ID di kontrak memakai kunci angka `nomor`. Kolom waktu `dibuat_pada` dan `diperbarui_pada`; sesi basis data UTC (`DB_TIMEZONE=+00:00`).
+- **ID string `VARCHAR(64)` dengan `ascii`/`ascii_bin`** (D-52, D-53): ID data contoh dipakai apa adanya oleh seeder; baris baru diberi ULID huruf kecil (`app/Models/Concerns/IdString.php`). Semua kolom ID dan rujukannya dibuat lewat `Skema::id()`/`Skema::rujukan()`, karena kunci asing MariaDB mewajibkan charset dan collation kedua kolom sama. Baris tanpa ID di kontrak memakai kunci angka `nomor`. Kolom waktu `dibuat_pada` dan `diperbarui_pada`; sesi basis data UTC (`DB_TIMEZONE=+00:00`).
 - Tipe kolom bersama dan batasan `CHECK` bernama ditulis lewat `app/Support/Skema.php`; daftar batasannya di D-52 dan buktinya di `tests/Feature/BatasanBasisDataTest.php`.
 - Konfigurasi bisnis (uang muka 20%, layanan 5%, batas periksa 6/24 jam, batas kabar 3 hari, radius 10 km, kontak admin) disimpan di tabel `konfigurasi` (`kunci`, `nilai`, `keterangan`), tidak ditulis tetap di kode.
 
@@ -262,6 +262,16 @@ Batasan di tingkat tabel (MariaDB 10.4 menegakkan `CHECK`):
 - `jumlah_ditolak <= jumlah_dikirim`;
 - harga dan jumlah tidak negatif;
 - kunci unik untuk satu permintaan resep per pengguna, komoditas, dan metode.
+
+**Aturan hapus kunci asing (D-53).** Setiap kunci asing menulis aturannya secara eksplisit:
+
+- **Uang dan transaksi tidak pernah dihapus, cukup diberi status.** Semua kunci asing di `pesanan`, `alokasi_pesanan`, `pengiriman`, `pembayaran`, `rating`, `sengketa`, dan semua kunci asing yang menunjuk ke tabel itu (`siklus_tanam.alokasi_pesanan_id`, `catatan_petani.pengiriman_id`), memakai `RESTRICT`. Menghapus pesanan yang punya pembayaran ditolak basis data.
+- **Siklus menahan lahan dan versi resepnya** (`RESTRICT`, P0-04): `DELETE /lahan` ditolak selama lahan masih dipakai siklus, dan versi resep yang dipakai siklus tidak bisa dihapus. `pengeluaran.siklus_id` juga `RESTRICT` karena berisi uang petani. Akun dengan catatan admin atau berkas bukti juga ditahan.
+- **`CASCADE` hanya untuk anak yang tidak bermakna tanpa induknya**: `resep_input`, `resep_tugas`, `progres_modul`, `kunci_idempoten`, `profil_pembeli`, `anggota_kelompok_tani`, `rencana_item`, `tugas`, `hasil_pengukuran`, `jurnal`, `pengaturan_pengingat`, `log_notifikasi`, serta referensi turunan (`merek_input`, `laporan_harga`, `konversi_satuan`, `kelayakan_subsidi`, `promo`, `lahan` milik petani, `permintaan_resep`).
+- **`SET NULL`** hanya untuk rujukan pilihan yang boleh hilang: `kelompok_tani.ketua_id`, `rencana_item.merek_id`, `pengeluaran.rencana_item_id`, `jurnal.tugas_id`.
+- Daftar ini dijaga `tests/Feature/AturanHapusTest.php`: tes membaca `information_schema` dan gagal bila ada `CASCADE` di luar daftar atau aturan selain `RESTRICT` di tabel transaksi.
+
+**Kolom turunan yang disimpan** (`pesanan.saldo_uang_muka`, `pesanan.terambil_kg`, `pengiriman.nilai_diterima`) harus selalu sama dengan hasil hitung ulang dari `pembayaran` dan `alokasi_pesanan`. Aturannya di `app/Domain/Invarian/InvarianPesanan.php` (sama dengan `frontend/src/api/tiruan/invarian.ts`), dites di `tests/Feature/InvarianPesananTest.php`, dan diperiksa setelah setiap tes kontrak.
 
 Status "terlambat" tidak disimpan; status itu dihitung dari tanggal (PRD).
 
@@ -329,6 +339,7 @@ Tes ini memakai basis data MariaDB `tani_muda_uji`, **bukan SQLite**, karena SQL
 - `PembayaranTiruan` mensimulasikan semuanya seketika. Referensinya diawali `TIRUAN-`, dan frontend menampilkan label "Mode uji coba".
 - Implementasi dipilih lewat `PEMBAYARAN_DRIVER=tiruan` di `backend/.env`. Kunci payment gateway sungguhan kelak juga hanya di `backend/.env`.
 - Setiap operasi uang tercatat di `pembayaran` (jenis, status `ditahan` / `cair` / `dikembalikan`, nominal, referensi). Permintaan memakai `kunci_idempoten` unik, sehingga klik ganda atau antrean offline tidak membayar dua kali.
+- **Kunci idempoten dipesan lebih dulu** (D-53, gelombang 5.5): baris `kunci_idempoten` (pengguna, endpoint, kunci) di-*insert* **sebelum** operasi uang dijalankan, di dalam transaksi yang sama. Permintaan serentak dengan kunci yang sama tertahan kunci unik dan tidak bisa lolos dua kali. Setelah operasi selesai, `status_http` dan `respons` diisi; permintaan ulang menerima respons yang tersimpan. Bila kunci sudah ada tetapi responsnya belum terisi (permintaan pertama masih berjalan), server menjawab `409 BENTROK`.
 - Konfirmasi kiriman memicu pencairan bagian petani. Penolakan sebagian membuat `sengketa`, dan pencairan bagian yang ditolak menunggu keputusan admin.
 
 ## 11. Scheduler dan antrean
@@ -409,8 +420,8 @@ Demo lomba berjalan dari laptop (D-24), tetapi langkah berikut harus bisa dijala
 
 **1. Paket server**
 
-- `nginx`, `php8.3-fpm` (atau lebih baru) dengan `php8.3-cli`, `-mysql`, `-mbstring`, `-xml`, `-curl`, `-gd`, `-gmp`, `-intl`, `-zip`, `-bcmath`;
-- `mariadb-server` (atau MySQL 8), `composer`, `supervisor`, `certbot` dengan plugin nginx;
+- `nginx`, `php8.3-fpm` dengan `php8.3-cli`, `-mysql`, `-mbstring`, `-xml`, `-curl`, `-gd`, `-gmp`, `-intl`, `-zip`, `-bcmath`. **Versi PHP target dikunci 8.3** lewat `config.platform.php = 8.3.0` di `backend/composer.json` (D-53), jadi `composer.lock` hanya berisi paket yang jalan di PHP 8.3 (Symfony 7.4 LTS, Pest 4). PHP yang lebih baru di server tetap bisa dipakai;
+- **MariaDB LTS 10.11 atau 11.4** (bukan 10.4 seperti XAMPP lokal, yang sudah tidak didukung pembuatnya), `composer`, `supervisor`, `certbot` dengan plugin nginx. Ubuntu 24.04 menyediakan MariaDB 10.11 di paket `mariadb-server`; 11.4 dari repositori resmi MariaDB. Aplikasi tidak memakai fitur khusus 10.4, dan semua tes Pest harus hijau terhadap versi server sebelum dipakai;
 - Node.js 24 hanya bila frontend dibangun di server. Frontend juga boleh dibangun di laptop lalu diunggah.
 
 **2. Basis data**
