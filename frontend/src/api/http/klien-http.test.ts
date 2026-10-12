@@ -36,7 +36,8 @@ function fetchPalsu(jawaban: Record<string, Array<[number, unknown]>>) {
       headers: { 'Content-Type': 'application/json' },
     });
   }) as typeof fetch;
-  return { f, panggilan, cookie };
+  const antre = (kunci: string, jawab: [number, unknown]) => (jawaban[kunci] ??= []).push(jawab);
+  return { f, panggilan, cookie, antre };
 }
 
 describe('klien HTTP (T6.01)', () => {
@@ -167,6 +168,20 @@ describe('klien HTTP (T6.01)', () => {
     expect(h.kontrol.kodeUji('+6281200000001')).toBeNull();
     await h.klien.akun.kirimOtp({ nomor_hp: '081200000001' });
     expect(h.kontrol.kodeUji('+6281200000001')).toBe('123456');
+    // Ganti nomor HP juga memakai kode uji (halaman Profil, T4.36).
+    p.antre('POST /api/v1/akun/nomor-hp/otp', [
+      200,
+      {
+        data: {
+          nomor_hp: '+6285711112222',
+          kirim_ulang_dalam_detik: 60,
+          kedaluwarsa_dalam_detik: 300,
+        },
+      },
+    ]);
+    p.antre('GET /api/v1/demo/kode-otp', [200, { data: { kode: '654321' } }]);
+    await h.klien.akun.kirimOtpNomorBaru({ nomor_hp: '0857 1111 2222' });
+    expect(h.kontrol.kodeUji('+6285711112222')).toBe('654321');
     await h.kontrol.masukSebagai('petani-arif');
     expect(p.panggilan.find((x) => x.url === '/api/v1/demo/masuk')?.badan).toEqual({
       pengguna_id: 'petani-arif',

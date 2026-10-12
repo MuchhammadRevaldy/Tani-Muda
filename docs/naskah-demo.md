@@ -102,3 +102,33 @@ Bila demo baru berlangsung lebih dari 5 jam setelah atur ulang, atur ulang sekal
 ## Hasil uji
 
 Diuji 12 Oktober 2026 di laptop pengembangan dengan `npm run uji:naskah` terhadap `npm run demo:backend`, setiap putaran diawali atur ulang dan memakai proses Chrome baru (cache kosong). Hasilnya dicatat lagi pada titik putus Kamis 15 Oktober.
+
+**15 putaran berturut-turut, semuanya lolos** (`--ulang 15 --dingin`). Waktu adalah lama mesin menjalankan langkah, bukan lama presenter berbicara:
+
+| Langkah | Terlama (dtk) | Rata-rata (dtk) |
+| --- | --- | --- |
+| 0. Atur ulang data demo | 2,9 | 1,9 |
+| 1. Halaman depan | 1,4 | 1,0 |
+| 2. Daftar petani baru, lalu masuk sebagai Arif | 5,5 | 5,1 |
+| 3. Beranda | 2,9 | 2,8 |
+| 4. Rencana dan modal | 1,9 | 1,8 |
+| 5. Jadwal dan pengukuran | 5,5 | 4,9 |
+| 6. Mengambil pesanan | 3,1 | 2,7 |
+| 7. Pindah ke pembeli | 1,9 | 1,8 |
+| 8. Membuat pesanan dan membayar uang muka | 1,5 | 1,0 |
+| 9. Konfirmasi kiriman | 1,1 | 1,0 |
+| 10. Penutup | 0,2 | 0,1 |
+
+Permintaan API terlama: sekitar 1,7 detik. Penyebabnya, Beranda dan Jadwal mengirim kira-kira 15 permintaan `GET /siklus/{id}/tugas` sekaligus dan server bawaan PHP melayaninya satu per satu. Halaman tetap tampil; presenter cukup menunggu daftar tugas lengkap sebelum menekan tombol.
+
+Skenario lain (`--skenario semua`) lolos di mode backend dan mode tiruan: daftar petani sampai siklus pertama, daftar pembeli sampai "Menunggu verifikasi", dan verifikasi pembeli oleh admin.
+
+Memori saat demo dengan backend (tanpa Chrome): MariaDB sekitar 229 MB, Apache 60 MB, PHP 54 MB, pratinjau Node 128 MB, total sekitar 470 MB.
+
+**Belum diuji:** 3 putaran pertama setelah laptop dinyalakan ulang dengan Chrome dingin. Dijalankan pemilik laptop dengan:
+
+```
+npm run demo:backend
+npm run uji:naskah -- --url http://localhost:4174 --ulang 3 --dingin --catatan uji-restart
+cd backend && php artisan demo:atur-ulang
+```

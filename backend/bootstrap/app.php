@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Galat\PenerjemahGalat;
+use App\Http\Middleware\JamUjiLokal;
 use App\Http\Middleware\PastikanPeran;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -18,6 +19,8 @@ return Application::configure(basePath: dirname(__DIR__))
         // Sanctum mode SPA: permintaan dari SANCTUM_STATEFUL_DOMAINS memakai cookie sesi (D-21).
         $middleware->statefulApi();
         $middleware->alias(['peran' => PastikanPeran::class]);
+        // Jam uji tes kontrak (D-58): hanya berlaku di lingkungan lokal dan tes.
+        $middleware->api(prepend: [JamUjiLokal::class]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         // Semua galat di /api/* dijawab dengan format kontrak { galat: { kode, pesan, rincian } }.

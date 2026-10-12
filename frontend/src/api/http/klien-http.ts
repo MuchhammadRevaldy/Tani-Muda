@@ -147,18 +147,20 @@ export function buatKlienHttp(o: OpsiKlienHttp = {}): {
   const h = new PeminjamHttp(o);
   let penggunaUji: ReturnType<KontrolPengembangan['penggunaUji']> = [];
   const kodeTerakhir = new Map<string, string | null>();
+  /** Mode demo: setelah kode dikirim, ambil kode uji dari /demo/kode-otp untuk panel Kode uji. */
+  async function denganKodeUji(janji: Promise<KirimOtpHasil>): Promise<KirimOtpHasil> {
+    const hasil = await janji;
+    if (o.demo) {
+      const r = await h
+        .get<{ kode: string | null }>('/demo/kode-otp', { nomor_hp: hasil.nomor_hp })
+        .catch(() => ({ kode: null }));
+      kodeTerakhir.set(hasil.nomor_hp, r.kode);
+    }
+    return hasil;
+  }
   const klien: KlienApi = {
     akun: {
-      async kirimOtp(m) {
-        const hasil = await h.post<KirimOtpHasil>('/auth/otp/kirim', m);
-        if (o.demo) {
-          const r = await h
-            .get<{ kode: string | null }>('/demo/kode-otp', { nomor_hp: hasil.nomor_hp })
-            .catch(() => ({ kode: null }));
-          kodeTerakhir.set(hasil.nomor_hp, r.kode);
-        }
-        return hasil;
-      },
+      kirimOtp: (m) => denganKodeUji(h.post<KirimOtpHasil>('/auth/otp/kirim', m)),
       verifikasiOtp: (m) => h.post('/auth/otp/verifikasi', m),
       keluar: () => h.post('/auth/keluar'),
       async ambil() {
@@ -171,7 +173,7 @@ export function buatKlienHttp(o: OpsiKlienHttp = {}): {
       },
       pilihPeran: (m) => h.put('/akun/peran', m),
       ubahProfil: (m) => h.patch('/akun', m),
-      kirimOtpNomorBaru: (m) => h.post('/akun/nomor-hp/otp', m),
+      kirimOtpNomorBaru: (m) => denganKodeUji(h.post<KirimOtpHasil>('/akun/nomor-hp/otp', m)),
       gantiNomorHp: (m) => h.put('/akun/nomor-hp', m),
       catatanSaya: () => h.get('/akun/catatan'),
       simpanProfilPembeli: (m) => h.put('/akun/profil-pembeli', m),
