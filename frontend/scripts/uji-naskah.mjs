@@ -1,11 +1,12 @@
 #!/usr/bin/env node
+/* global document -- dipakai di dalam page.evaluate (berjalan di browser) */
 /**
  * Jalankan docs/naskah-demo.md di peramban sungguhan (Chrome/Edge terpasang, playwright-core),
  * diawali "Atur ulang data demo". Dipakai untuk mode tiruan maupun mode backend (D-57, [AG-11]).
  *
  * Pemakaian:
  *   npm run uji:naskah -- [--url http://localhost:4174] [--ulang 15] [--skenario naskah]
- *                         [--catatan <folder>] [--layar] [--dingin] [--tampil]
+ *                         [--catatan <folder>] [--layar] [--dingin] [--tampil] [--lebar 390]
  *
  * --skenario  naskah (bawaan), daftar-petani, daftar-pembeli, atau semua (berurutan per putaran).
  * --ulang     jalankan N putaran, masing-masing diawali atur ulang (bawaan 1).
@@ -15,6 +16,10 @@
  * --layar     simpan juga tangkapan layar setiap langkah yang berhasil.
  * --dingin    proses Chrome baru di setiap putaran (bawaan: konteks baru, cache tetap kosong).
  * --tampil    jendela peramban terlihat.
+ * --lebar     lebar layar dalam px (bawaan 1440; 390 untuk tampilan HP, tinggi 844).
+ * --layar-hp  dengan --layar: setelah tiap langkah, buka alamat yang sama di peramban kedua selebar
+ *             390px dengan cookie yang sama, lalu potret seluruh halaman. Keadaan sama hanya di mode
+ *             backend (data di server); di mode tiruan data ada di peramban masing-masing.
  */
 import { existsSync, mkdirSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
@@ -32,6 +37,8 @@ const LAYAR_SEMUA = argumen.includes('--layar');
 const DINGIN = argumen.includes('--dingin');
 const TAMPIL = argumen.includes('--tampil');
 const PILIH_SKENARIO = nilai('--skenario', 'naskah');
+const LEBAR = Number(nilai('--lebar', '1440'));
+const LAYAR_HP = argumen.includes('--layar-hp');
 
 const executablePath = [
   process.env.CHROME_PATH,
@@ -293,9 +300,31 @@ for (const s of DAFTAR_SKENARIO)
 
 // ---------------------------------------------------------------- jalankan dan catat
 
+/** Buka `alamat` selebar 390px dengan cookie konteks utama, lalu potret seluruh tinggi halaman. */
+async function potretHp(browser, utama, alamat, berkas) {
+  const hp = await browser.newContext({ viewport: { width: 390, height: 844 } });
+  try {
+    await hp.addCookies(await utama.cookies());
+    const p = await hp.newPage();
+    await p.goto(alamat);
+    await p.waitForLoadState('networkidle').catch(() => {});
+    await p.evaluate(() => document.fonts.ready);
+    await p.waitForTimeout(800);
+    // Viewport setinggi halaman supaya navigasi bawah yang menempel tampil di tempatnya.
+    const tinggi = await p.evaluate(() => document.documentElement.scrollHeight);
+    await p.setViewportSize({ width: 390, height: Math.max(844, tinggi) });
+    await p.waitForTimeout(300);
+    await p.screenshot({ path: berkas });
+  } finally {
+    await hp.close();
+  }
+}
+
 /** Satu skenario di konteks peramban baru (cache kosong); kembalikan waktu tiap langkah. */
 async function jalankan(browser, nama, putaran) {
-  const konteks = await browser.newContext({ viewport: { width: 1440, height: 900 } });
+  const konteks = await browser.newContext({
+    viewport: { width: LEBAR, height: LEBAR < 768 ? 844 : 900 },
+  });
   const page = await konteks.newPage();
   const awal = Date.now();
   const konsol = [];
@@ -381,10 +410,11 @@ async function jalankan(browser, nama, putaran) {
     }
     const dtk = (Date.now() - mulai) / 1000;
     waktu.push({ langkah: judul, dtk });
-    if (FOLDER && LAYAR_SEMUA)
-      await page.screenshot({
-        path: join(FOLDER, `${nama}-${putaran}-${String(nomor).padStart(2, '0')}.png`),
-      });
+    if (FOLDER && LAYAR_SEMUA) {
+      const dasarLayar = join(FOLDER, `${nama}-${putaran}-${String(nomor).padStart(2, '0')}`);
+      await page.screenshot({ path: `${dasarLayar}.png` });
+      if (LAYAR_HP) await potretHp(browser, konteks, page.url(), `${dasarLayar}-hp.png`);
+    }
     console.log(`  ✓ ${judul} (${dtk.toFixed(1)} dtk)`);
   };
 
