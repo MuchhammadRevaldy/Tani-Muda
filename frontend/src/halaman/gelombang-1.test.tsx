@@ -152,7 +152,14 @@ describe('Beranda petani (T4.09)', () => {
       (await screen.findAllByText('CONTOH, belum divalidasi penyuluh')).length,
     ).toBeGreaterThan(0);
     expect(await screen.findByText('Terlambat 2 hari')).toBeInTheDocument();
-    expect(screen.getByText('1 terlambat')).toBeInTheDocument();
+    // Ringkasan tugas dan chip di kartu pemilih siklus (AG-17).
+    expect(screen.getAllByText('1 terlambat')).toHaveLength(2);
+    const pemilih = screen.getByRole('radiogroup', { name: 'Pilih siklus' });
+    expect(
+      within(pemilih).getByRole('radio', {
+        name: 'Sawi hijau · Kebun belakang rumah, 1 terlambat',
+      }),
+    ).toHaveAttribute('aria-checked', 'true');
     expect(await screen.findByText('Besok: Pupuk 2')).toBeInTheDocument();
     expect(await screen.findByRole('heading', { name: 'Katering Bu Ratna' })).toBeInTheDocument();
   });

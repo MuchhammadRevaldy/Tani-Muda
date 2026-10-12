@@ -182,11 +182,19 @@ function KartuHariIni({
           <span className="text-keterangan text-teks-pendukung">{ket}</span>
         </p>
         {foto ? (
-          <img
-            src={foto}
-            alt={alt}
-            className="aspect-foto w-full rounded-md border border-garis bg-daun-lembut object-cover"
-          />
+          <div className="relative overflow-hidden rounded-lg">
+            <img
+              src={foto}
+              alt={alt}
+              className="block aspect-foto w-full bg-daun-lembut object-cover"
+            />
+            {/* Foto bawaan data contoh, bukan foto petani (AG-17). */}
+            {foto.startsWith('/contoh/') ? (
+              <span className="absolute bottom-3 left-3 inline-flex min-h-8 items-center rounded-full bg-putih px-3 font-semibold text-teks shadow-ikon">
+                {t.labelContohFoto}
+              </span>
+            ) : null}
+          </div>
         ) : null}
         {terjadwal ? (
           <AmbilFoto

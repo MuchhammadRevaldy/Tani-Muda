@@ -1,5 +1,6 @@
 /** Teks halaman Masuk (papan 02, T4.33). Petani dan pembeli masuk lewat halaman yang sama. */
 export const teksMasuk = {
+  altIlustrasi: 'Kebun sayur di pagi hari',
   judul: 'Masuk dengan nomor HP',
   sub: 'Tidak perlu kata sandi. Nomor baru otomatis dibuatkan akun.',
   labelNomor: 'Nomor HP',

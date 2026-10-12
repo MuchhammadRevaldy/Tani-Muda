@@ -1428,7 +1428,7 @@ function buatPesanan(): DataPesanan {
   );
   Object.assign(k3, {
     status: 'dikirim',
-    foto_kualitas: '/contoh/foto/bayam-kiriman-3.svg',
+    foto_kualitas: '/contoh/foto/contoh-foto-panen.svg',
     // Selalu satu jam sebelum "Atur ulang data demo", batas periksa 6 jam (D-01, D-47), sehingga
     // konfirmasi kiriman bisa diperagakan kapan pun.
     dikirim_pada: jRel(-1),

@@ -27,7 +27,6 @@ import { Ikon } from '../komponen/ikon';
 import { Dialog } from '../komponen/dialog';
 import { useDesaSaya } from '../komponen/kerangka-sesi';
 import { DaftarLangkah } from '../komponen/pelengkap';
-import { PilPilihan } from '../komponen/pilihan';
 import { kelasTombol, Tombol } from '../komponen/tombol';
 import {
   hasilUkurTerakhir,
@@ -38,6 +37,7 @@ import {
   type WaktuSalam,
 } from '../lib/beranda';
 import { modulTahapBerjalan } from '../lib/belajar';
+import { ringkasKartuSiklus } from '../lib/kartu-siklus';
 import { statusTugas } from '../lib/jadwal-ubah';
 import { teksBeranda as t } from '../teks/beranda';
 import { teksBelajar } from '../teks/belajar';
@@ -50,6 +50,7 @@ import { keKelompok, useNamaSiklus } from './kebun/nama-siklus';
 import { BerandaKosong } from './beranda/beranda-kosong';
 import { DaftarTugasHariIni, type KelompokTugas } from './beranda/daftar-tugas';
 import { KartuSiklus } from './beranda/kartu-siklus';
+import { PemilihSiklus, type OpsiKartuSiklus } from './beranda/pemilih-siklus';
 import { angkaUkur, KartuHasilUkur, KartuModal, KartuTawaran } from './beranda/kartu-samping';
 import { useDaring, useIzinNotifikasi } from './beranda/keadaan-perangkat';
 
@@ -133,6 +134,38 @@ export function HalamanBeranda() {
         : unitDipilih.anggota[0]) ??
       null)
     : null;
+  // Kartu pemilih siklus (AG-17): urutan unit dan pilihan awal tetap seperti di atas (D-37).
+  const tugasKartu = (semuaTugas.data ?? []).flat().map((x) => ({
+    siklusId: x.siklus_id,
+    tipe: x.tipe,
+    hst: x.hst,
+    tanggal: x.tanggal,
+    status: x.status,
+  }));
+  const opsiKartu: OpsiKartuSiklus[] = unit.map((u) => {
+    const pertama = u.anggota[0]!;
+    const wakil = u.kelompok ? (petakTerkini(u.anggota, hariIni) ?? pertama) : pertama;
+    const umurKomoditas =
+      komoditasQ.data?.find((k) => k.id === pertama.komoditas_id)?.umur_panen_hari ?? 0;
+    const r = ringkasKartuSiklus(u.anggota, wakil, tugasKartu, umurKomoditas, hariIni);
+    const tumbuh = u.anggota.filter((a) => a.tanggal_tanam && a.tanggal_tanam <= hariIni).length;
+    return {
+      id: u.id,
+      nama: namaSiklus.unit(u),
+      komoditasId: pertama.komoditas_id,
+      judul: namaSiklus.komoditas(pertama.komoditas_id),
+      sub: u.kelompok
+        ? t.untukPembeli(pertama.kelompok_pesanan?.nama_pembeli ?? '')
+        : namaSiklus.lahan(pertama.lahan_id),
+      segmen: r.segmen,
+      keterangan: u.kelompok
+        ? t.ringkasPetak(u.anggota.length, tumbuh)
+        : r.hariKe === null
+          ? t.belumTanam
+          : t.hariKeDari(r.hariKe, r.umurPanen),
+      terlambat: r.terlambat,
+    };
+  });
   const detailQ = useSiklus(dipilih?.id ?? null);
   const tugasSiklusQ = useTugas(dipilih?.id ?? null);
   const resepQ = useResep(dipilih?.resep_id ?? null);
@@ -270,10 +303,8 @@ export function HalamanBeranda() {
       <div className="flex flex-col gap-5 xl:grid xl:grid-cols-3 xl:items-start xl:gap-6">
         <div className="flex min-w-0 flex-col gap-5 xl:col-span-2">
           {unit.length > 1 ? (
-            <PilPilihan
-              label={t.pilihSiklus}
-              className="lg:flex-wrap"
-              opsi={unit.map((u) => ({ nilai: u.id, label: namaSiklus.unit(u) }))}
+            <PemilihSiklus
+              opsi={opsiKartu}
               nilai={unitDipilih?.id ?? dipilih.id}
               onPilih={(id) => setParam({ siklus: id }, { replace: true })}
             />

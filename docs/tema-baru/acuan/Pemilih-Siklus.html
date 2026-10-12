@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<title>Pemilih siklus dan ilustrasi tambahan</title>
+
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#2E3547}a:hover{color:#F27F3D}
+</style>
+</helmet>
+<div style="width: 1040px; min-height: 1300px; box-sizing: border-box; padding: 56px; background: #F7F8FA; color: #2E3547; font-family: 'Outfit', system-ui, sans-serif; display: flex; flex-direction: column; gap: 56px;">
+
+  <section style="display: flex; flex-direction: column; gap: 20px;">
+    <div style="display: flex; flex-direction: column; gap: 6px;">
+      <p style="margin: 0; font-size: 16px; font-weight: 600; letter-spacing: 0.18em; color: #F27F3D;">Pengganti kapsul</p>
+      <h1 style="margin: 0; font-size: 32px; line-height: 40px; font-weight: 700;">Pemilih siklus berupa kartu bergambar</h1>
+      <p style="margin: 0; font-size: 16px; line-height: 24px; color: #687083;">Desktop: deretan kartu yang bisa digeser, dengan tombol panah bila lebih dari tiga.</p>
+    </div>
+
+    <div role="radiogroup" aria-label="Pilih siklus" style="display: flex; gap: 16px; overflow-x: auto; padding: 8px 4px 24px;">
+      <button type="button" role="radio" aria-checked="true" style="display: flex; flex-direction: column; gap: 12px; width: 272px; flex-shrink: 0; padding: 16px; border: none; border-radius: 24px; background: #FFFFFF; box-shadow: inset 0 0 0 2px #86C232, 0 18px 36px rgba(134,194,50,0.20); text-align: left; font-family: inherit; color: #2E3547; cursor: pointer;">
+        <span style="display: flex; align-items: center; gap: 12px;">
+          <img src="sawi.svg" alt="" aria-hidden="true" style="width: 64px; height: 64px; flex-shrink: 0;">
+          <span style="display: flex; flex-direction: column; min-width: 0;"><span style="font-size: 18px; font-weight: 600;">Sawi hijau</span><span style="font-size: 16px; color: #687083; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Kebun belakang rumah</span></span>
+        </span>
+        <span style="height: 8px; border-radius: 9999px; background: #EEF0F3; overflow: hidden; display: block;"><span style="display: block; width: 50%; height: 8px; border-radius: 9999px; background: linear-gradient(90deg, #76B52A 0%, #A6DD45 100%);"></span></span>
+        <span style="display: flex; justify-content: space-between; align-items: center; font-size: 16px;"><span>Hari ke-14 dari 28</span><span style="display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; border-radius: 9999px; background: #86C232;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span></span>
+      </button>
+
+      <button type="button" role="radio" aria-checked="false" style="display: flex; flex-direction: column; gap: 12px; width: 272px; flex-shrink: 0; padding: 16px; border: none; border-radius: 24px; background: #FFFFFF; box-shadow: 0 14px 30px rgba(46,53,71,0.08); text-align: left; font-family: inherit; color: #2E3547; cursor: pointer;">
+        <span style="display: flex; align-items: center; gap: 12px;">
+          <img src="pakcoy.svg" alt="" aria-hidden="true" style="width: 64px; height: 64px; flex-shrink: 0;">
+          <span style="display: flex; flex-direction: column; min-width: 0;"><span style="font-size: 18px; font-weight: 600;">Sawi hijau</span><span style="font-size: 16px; color: #687083; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Rak hidroponik teras</span></span>
+        </span>
+        <span style="height: 8px; border-radius: 9999px; background: #EEF0F3; overflow: hidden; display: block;"><span style="display: block; width: 34%; height: 8px; border-radius: 9999px; background: linear-gradient(90deg, #76B52A 0%, #A6DD45 100%);"></span></span>
+        <span style="display: flex; justify-content: space-between; align-items: center; font-size: 16px;"><span>Hari ke-12 dari 35</span><span style="display: inline-flex; align-items: center; gap: 4px; padding: 0 10px; min-height: 28px; white-space: nowrap; border-radius: 9999px; background: #FDECEC; color: #B4262B; font-weight: 600;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4l9 16H3z"/><path d="M12 10v4"/></svg>1 terlambat</span></span>
+      </button>
+
+      <button type="button" role="radio" aria-checked="false" style="display: flex; flex-direction: column; gap: 12px; width: 272px; flex-shrink: 0; padding: 16px; border: none; border-radius: 24px; background: #FFFFFF; box-shadow: 0 14px 30px rgba(46,53,71,0.08); text-align: left; font-family: inherit; color: #2E3547; cursor: pointer;">
+        <span style="display: flex; align-items: center; gap: 12px;">
+          <img src="bayam.svg" alt="" aria-hidden="true" style="width: 64px; height: 64px; flex-shrink: 0;">
+          <span style="display: flex; flex-direction: column; min-width: 0;"><span style="font-size: 18px; font-weight: 600;">Bayam</span><span style="font-size: 16px; color: #687083; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Untuk Warung Nasi Bu Imas</span></span>
+        </span>
+        <span style="display: flex; gap: 4px;"><span style="flex: 1; height: 8px; border-radius: 9999px; background: #86C232;"></span><span style="flex: 1; height: 8px; border-radius: 9999px; background: #86C232;"></span><span style="flex: 1; height: 8px; border-radius: 9999px; background: #C9EE7A;"></span><span style="flex: 1; height: 8px; border-radius: 9999px; background: #EEF0F3;"></span></span>
+        <span style="display: flex; justify-content: space-between; align-items: center; font-size: 16px;"><span>4 petak · 2 panen</span><span style="display: inline-flex; align-items: center; padding: 0 10px; min-height: 28px; white-space: nowrap; border-radius: 9999px; background: #FEEEE4; color: #A9461A; font-weight: 600;">Pesanan</span></span>
+      </button>
+
+      <button type="button" role="radio" aria-checked="false" style="display: flex; flex-direction: column; gap: 12px; width: 272px; flex-shrink: 0; padding: 16px; border: none; border-radius: 24px; background: #FFFFFF; box-shadow: 0 14px 30px rgba(46,53,71,0.08); text-align: left; font-family: inherit; color: #2E3547; cursor: pointer;">
+        <span style="display: flex; align-items: center; gap: 12px;">
+          <img src="sawi.svg" alt="" aria-hidden="true" style="width: 64px; height: 64px; flex-shrink: 0;">
+          <span style="display: flex; flex-direction: column; min-width: 0;"><span style="font-size: 18px; font-weight: 600;">Sawi hijau</span><span style="font-size: 16px; color: #687083; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Untuk Katering Bu Ratna</span></span>
+        </span>
+        <span style="display: flex; gap: 3px;"><span style="flex: 1; height: 8px; border-radius: 9999px; background: #C9EE7A;"></span><span style="flex: 1; height: 8px; border-radius: 9999px; background: #C9EE7A;"></span><span style="flex: 1; height: 8px; border-radius: 9999px; background: #EEF0F3;"></span><span style="flex: 1; height: 8px; border-radius: 9999px; background: #EEF0F3;"></span><span style="flex: 1; height: 8px; border-radius: 9999px; background: #EEF0F3;"></span><span style="flex: 1; height: 8px; border-radius: 9999px; background: #EEF0F3;"></span></span>
+        <span style="display: flex; justify-content: space-between; align-items: center; font-size: 16px;"><span>12 petak · 2 tumbuh</span><span style="display: inline-flex; align-items: center; padding: 0 10px; min-height: 28px; white-space: nowrap; border-radius: 9999px; background: #FEEEE4; color: #A9461A; font-weight: 600;">Pesanan</span></span>
+      </button>
+    </div>
+
+    <ul style="margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 6px; font-size: 16px; line-height: 24px; color: #687083;">
+      <li>Gambar tanaman membuat siklus dikenali sekilas, tanpa membaca.</li>
+      <li>Progres dan tanda "terlambat" langsung terlihat, jadi petani tahu siklus mana yang perlu diurus.</li>
+      <li>Kelompok petak pesanan (D-40) tampil sebagai batang bersegmen, satu segmen per petak.</li>
+      <li>Tetap satu pilihan: <code style="font-size: 16px;">role="radiogroup"</code>, panah kiri dan kanan untuk keyboard.</li>
+    </ul>
+  </section>
+
+  <section style="display: flex; gap: 56px; align-items: flex-start;">
+    <div style="display: flex; flex-direction: column; gap: 16px; width: 390px; flex-shrink: 0;">
+      <h2 style="margin: 0; font-size: 24px; font-weight: 600;">Di HP: geser ke samping</h2>
+      <div style="width: 390px; box-sizing: border-box; padding: 16px 0 16px 16px; border-radius: 32px; background: #FFFFFF; box-shadow: 0 18px 40px rgba(46,53,71,0.08); overflow: hidden;">
+        <div style="display: flex; gap: 12px;">
+          <div style="display: flex; align-items: center; gap: 10px; width: 250px; flex-shrink: 0; padding: 12px; border-radius: 20px; background: #FFFFFF; box-shadow: inset 0 0 0 2px #86C232; box-sizing: border-box;">
+            <img src="sawi.svg" alt="" aria-hidden="true" style="width: 52px; height: 52px; flex-shrink: 0;">
+            <span style="display: flex; flex-direction: column; gap: 4px; min-width: 0; flex-grow: 1;"><span style="font-size: 18px; font-weight: 600;">Sawi hijau</span><span style="font-size: 16px; color: #687083;">Hari ke-14 dari 28</span></span>
+          </div>
+          <div style="display: flex; align-items: center; gap: 10px; width: 250px; flex-shrink: 0; padding: 12px; border-radius: 20px; background: #F7F8FA; box-sizing: border-box;">
+            <img src="pakcoy.svg" alt="" aria-hidden="true" style="width: 52px; height: 52px; flex-shrink: 0;">
+            <span style="display: flex; flex-direction: column; gap: 4px; min-width: 0; flex-grow: 1;"><span style="font-size: 18px; font-weight: 600;">Sawi hijau</span><span style="font-size: 16px; color: #B4262B; font-weight: 600;">1 terlambat</span></span>
+          </div>
+        </div>
+        <div style="display: flex; justify-content: center; gap: 6px; padding-top: 14px; padding-right: 16px;" aria-hidden="true"><span style="width: 18px; height: 6px; border-radius: 9999px; background: #86C232;"></span><span style="width: 6px; height: 6px; border-radius: 9999px; background: #D5D9E0;"></span><span style="width: 6px; height: 6px; border-radius: 9999px; background: #D5D9E0;"></span><span style="width: 6px; height: 6px; border-radius: 9999px; background: #D5D9E0;"></span></div>
+      </div>
+      <p style="margin: 0; font-size: 16px; line-height: 24px; color: #687083;">Kartu berikutnya terpotong di tepi layar sebagai tanda bisa digeser. Satu baris saja, tidak memakan tinggi layar.</p>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 16px; flex-grow: 1;">
+      <h2 style="margin: 0; font-size: 24px; font-weight: 600;">Kenapa bukan menu tarik-turun</h2>
+      <p style="margin: 0; font-size: 16px; line-height: 24px; color: #687083;">Menu tarik-turun menyembunyikan pilihan lain dan butuh dua ketukan. Petani dengan 2–4 siklus lebih cepat memilih bila semuanya terlihat. Menu tarik-turun baru masuk akal di atas 6 siklus; untuk itu sudah ada halaman Kebun.</p>
+    </div>
+  </section>
+
+  <section style="display: flex; flex-direction: column; gap: 20px;">
+    <h2 style="margin: 0; font-size: 28px; font-weight: 600;">Ilustrasi pengganti</h2>
+    <div style="display: flex; gap: 32px; align-items: flex-start;">
+      <figure style="margin: 0; display: flex; flex-direction: column; gap: 10px; width: 420px;">
+        <img src="ilustrasi-masuk.svg" alt="Kebun sayur di pagi hari" style="width: 420px; height: 467px; border-radius: 28px; display: block;">
+        <figcaption style="font-size: 16px; color: #687083;">Panel kanan halaman Masuk (menggantikan gambar garis matahari dan bedengan)</figcaption>
+      </figure>
+      <figure style="margin: 0; display: flex; flex-direction: column; gap: 10px; width: 420px;">
+        <div style="position: relative; width: 420px; height: 315px; border-radius: 20px; overflow: hidden;">
+          <img src="contoh-foto-panen.svg" alt="Contoh foto hasil panen: bayam diikat di dalam peti" style="width: 420px; height: 315px; display: block;">
+          <span style="position: absolute; left: 14px; bottom: 14px; display: inline-flex; align-items: center; min-height: 32px; padding: 0 12px; border-radius: 9999px; background: rgba(255,255,255,0.92); color: #2E3547; font-size: 16px; font-weight: 600;">Contoh foto</span>
+        </div>
+        <figcaption style="font-size: 16px; color: #687083;">Contoh foto hasil panen di Kiriman saya (rasio 4:3)</figcaption>
+      </figure>
+    </div>
+  </section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1040,"height":1300}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {};
+  }
+}
+</script>
+</body>
+</html>

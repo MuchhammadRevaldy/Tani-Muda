@@ -332,6 +332,8 @@ export const teksPesanan = {
   fotoJudul: 'Sebelum kirim, unggah foto kualitas',
   fotoKet: 'Pembeli melihat foto ini. Foto melindungimu kalau ada yang ditolak.',
   fotoHasil: 'Foto hasil panen',
+  /** Label di atas foto data contoh (berkas di /contoh/), AG-17. */
+  labelContohFoto: 'Contoh foto',
   fotoHasilKet: 'Wajib',
   fotoTimbangan: 'Foto di timbangan',
   fotoTimbanganKet: 'Boleh dilewati',

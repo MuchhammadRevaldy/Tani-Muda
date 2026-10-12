@@ -68,6 +68,9 @@ const ukuranBernama = {
   'tab-siklus': '360px',
   panel: '360px', // panel samping desktop alur Hitung (papan 10–19)
   dialog: '480px',
+  // Kartu pemilih siklus di Beranda (AG-17): HP memperlihatkan tepi kartu berikutnya.
+  'kartu-siklus': '264px',
+  'kartu-siklus-lebar': '288px',
 };
 
 /** Skala jarak dan ukuran berbasis 4px (dan 2px untuk detail kecil). */

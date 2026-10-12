@@ -233,21 +233,22 @@ describe('Kiriman saya (T4.21)', () => {
 });
 
 describe('tanggapan D-39 (D-40)', () => {
-  it('Beranda: petak satu pesanan menjadi satu pil dan satu kelompok tugas berlabel petak', async () => {
+  it('Beranda: petak satu pesanan menjadi satu kartu dan satu kelompok tugas berlabel petak', async () => {
     await buka('/beranda');
-    const pil = await screen.findByRole('group', { name: 'Pilih siklus' });
+    const pil = await screen.findByRole('radiogroup', { name: 'Pilih siklus' });
     const label = within(pil)
-      .getAllByRole('button')
-      .map((b) => b.textContent);
-    expect(label.filter((x) => x?.includes('untuk Katering Bu Ratna'))).toEqual([
-      'Sawi hijau untuk Katering Bu Ratna',
-    ]);
+      .getAllByRole('radio')
+      .map((b) => b.getAttribute('aria-label'));
+    expect(label.filter((x) => x?.includes('untuk Katering Bu Ratna'))).toHaveLength(1);
+    expect(label.find((x) => x?.includes('untuk Katering Bu Ratna'))).toMatch(
+      /^Sawi hijau untuk Katering Bu Ratna/,
+    );
     expect(label.filter((x) => x?.includes('untuk Warung Nasi Bu Imas'))).toHaveLength(1);
     expect(
       screen.getByRole('heading', { level: 3, name: 'Sawi hijau untuk Katering Bu Ratna' }),
     ).toBeInTheDocument();
     expect(screen.getAllByText(/^Petak panen 20 Okt · /).length).toBeGreaterThan(0);
-    await userEvent.click(within(pil).getByRole('button', { name: /Katering Bu Ratna/ }));
+    await userEvent.click(within(pil).getByRole('radio', { name: /Katering Bu Ratna/ }));
     expect(
       await screen.findByText('Sawi hijau untuk Katering Bu Ratna · Petak panen 20 Okt'),
     ).toBeInTheDocument();

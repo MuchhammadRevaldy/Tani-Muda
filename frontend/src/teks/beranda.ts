@@ -11,6 +11,14 @@ export const teksBeranda = {
   bukaProfil: 'Buka profil',
   buatSiklusBaru: 'Buat siklus baru',
   pilihSiklus: 'Pilih siklus',
+  // ---- kartu pemilih siklus (AG-17)
+  geserKiri: 'Geser kartu siklus ke kiri',
+  geserKanan: 'Geser kartu siklus ke kanan',
+  untukPembeli: (pembeli: string) => `Untuk ${pembeli}`,
+  hariKeDari: (n: number, umur: number) => `Hari ke-${n} dari ${umur}`,
+  belumTanam: 'Belum ditanam',
+  ringkasPetak: (total: number, tumbuh: number) =>
+    tumbuh ? `${total} petak · ${tumbuh} tumbuh` : `${total} petak`,
   namaSiklus: (komoditas: string, lahan: string) => `${komoditas} · ${lahan}`,
   lihatJadwal: 'Lihat jadwal, modal, dan jurnal',
   ukuranLuas: (m2: number) => `${formatDesimal(m2, 1)} m²`,

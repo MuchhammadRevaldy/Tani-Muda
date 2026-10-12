@@ -11,7 +11,7 @@ import { useGantiPengguna } from '../api/sesi';
 import { Dialog } from '../komponen/dialog';
 import { cx } from '../komponen/gabung-kelas';
 import { Ikon } from '../komponen/ikon';
-import { IlustrasiMasukHp, IlustrasiMasukLebar } from '../komponen/ilustrasi-hero';
+import { IlustrasiMasukHp } from '../komponen/ilustrasi-hero';
 import { KolomIsian } from '../komponen/kolom-isian';
 import { LabelKecil } from '../komponen/label-kecil';
 import { Logo } from '../komponen/navigasi';
@@ -269,8 +269,13 @@ export function HalamanMasuk() {
         </p>
       </div>
 
-      <div className="hidden min-w-0 flex-1 items-center justify-center bg-daun-lembut p-8 lg:flex">
-        <IlustrasiMasukLebar />
+      {/* Panel kanan desktop (AG-17): ilustrasi mengisi panel di 1280 dan 1440. */}
+      <div className="relative hidden min-w-0 flex-1 overflow-hidden bg-daun-lembut lg:block">
+        <img
+          src="/ilustrasi/ilustrasi-masuk.svg"
+          alt={t.altIlustrasi}
+          className="absolute inset-0 h-full w-full object-cover"
+        />
       </div>
 
       <Dialog
