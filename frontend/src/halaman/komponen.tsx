@@ -4,7 +4,7 @@ import { Banner } from '../komponen/banner';
 import { BarisTugas } from '../komponen/baris-tugas';
 import { ChipStatus, daftarStatusChip } from '../komponen/chip-status';
 import { Dialog } from '../komponen/dialog';
-import { Ikon, IkonTipeTugas, ikonDesain } from '../komponen/ikon';
+import { Ikon, IkonLingkaran, IkonTipeTugas, ikonDesain } from '../komponen/ikon';
 import {
   IlustrasiKomoditas,
   IlustrasiMetode,
@@ -19,7 +19,7 @@ import { HeaderHalaman, Logo, NavigasiBawah, Sidebar } from '../komponen/navigas
 import { DaftarLangkah, DaftarSyarat, FaqLipat, KotakOtp, Stepper } from '../komponen/pelengkap';
 import { Pin, PenggarisUmurTanam, type JadwalPin } from '../komponen/penggaris-umur-tanam';
 import { GrupRadio, KartuPilihan, PilPilihan, Saklar } from '../komponen/pilihan';
-import { Tombol } from '../komponen/tombol';
+import { Tombol, kelasTombolTambah } from '../komponen/tombol';
 import { Uang } from '../komponen/uang';
 import { Avatar } from '../komponen/avatar';
 import { teksKomponenGaleri as t } from '../teks/galeri';
@@ -228,6 +228,9 @@ export function HalamanKomponen() {
                 {t.tombol.foto}
               </Tombol>
               <Tombol disabled>{t.tombol.nonaktif}</Tombol>
+              <button type="button" aria-label={t.tombol.tambah} className={kelasTombolTambah}>
+                <Ikon nama="tambah" tebal={2.2} />
+              </button>
             </div>
             <p className="m-0 text-keterangan text-teks-pendukung">{t.tombol.ket}</p>
             <div className="h-px bg-garis" />
@@ -311,6 +314,7 @@ export function HalamanKomponen() {
               <LabelKecil nada="garis">{t.label.nonsubsidi}</LabelKecil>
               <LabelKecil nada="promo">{t.label.promo}</LabelKecil>
               <LabelKecil nada="contoh">{t.label.contoh}</LabelKecil>
+              <LabelKecil nada="sorot">{t.label.sorot}</LabelKecil>
             </div>
           </Panel>
           <h2 className="m-0 mt-2 text-dok-1 font-semibold">{t.bagian.banner}</h2>
@@ -365,6 +369,13 @@ export function HalamanKomponen() {
               </div>
             ))}
           </div>
+          <h3 className="m-0 text-judul-bagian font-semibold">{t.ikon.lingkaran}</h3>
+          <div className="flex flex-wrap gap-4">
+            {(['kalender', 'pengukur', 'uang', 'panen'] as const).map((n) => (
+              <IkonLingkaran key={n} nama={n} />
+            ))}
+            <IkonLingkaran nama="luas" besar />
+          </div>
           <h3 className="m-0 text-judul-bagian font-semibold">{t.ikon.tipe}</h3>
           <div className="flex flex-wrap gap-6">
             {(['sekali', 'berulang', 'ukur'] as const).map((tp) => (
@@ -386,7 +397,7 @@ export function HalamanKomponen() {
         </Bagian>
 
         <Bagian judul={t.bagian.nav} keterangan={t.bagian.navKet}>
-          <div className="w-full max-w-hp overflow-hidden rounded-lg border border-garis">
+          <div className="w-full max-w-hp rounded-lg bg-embun-pagi p-3">
             <NavigasiBawah lencana={{ pesanan: 2 }} />
           </div>
           <span className="font-medium">{t.nav.sidebar}</span>

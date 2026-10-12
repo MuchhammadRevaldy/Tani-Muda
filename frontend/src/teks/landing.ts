@@ -40,6 +40,13 @@ export const teksLanding = {
   modal: 'Modal',
   perkiraanUntung: 'Perkiraan untung',
   kalauPanen: (kg: number) => `Kalau panen ${formatAngka(kg)} kg`,
+  // ---- hero (D-59): ringkasan contoh di samping ilustrasi
+  ringkasContoh: (komoditas: string, luas: number) =>
+    `${komoditas.toLowerCase()} ${formatAngka(luas)} m²`,
+  panen: 'Panen',
+  hariKe: (n: number) => `Hari ke-${n}`,
+  titikImpas: 'Titik impas',
+  kg: (n: number) => `${formatAngka(n)} kg`,
   besok: (judul: string) => `Besok: ${judul.toLowerCase()}`,
 
   // ---- tiga pilar

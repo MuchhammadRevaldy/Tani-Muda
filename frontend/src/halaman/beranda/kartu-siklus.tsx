@@ -1,8 +1,12 @@
-/** Kartu siklus dengan penggaris umur tanam (papan 03 dan 04). */
+/**
+ * Kartu siklus dengan penggaris umur tanam (papan 03 dan 04). Kepala kartu mengikuti papan Beranda HP
+ * D-59: ilustrasi komoditas di lingkaran putus-putus, judul, dan keterangan.
+ */
 import { Link } from 'react-router-dom';
 import type { SiklusDetail, Tugas } from '../../api/tipe';
 import { tugasKeDomain } from '../../api/peta';
 import { Ikon } from '../../komponen/ikon';
+import { IlustrasiKomoditas } from '../../komponen/ilustrasi';
 import { Kartu } from '../../komponen/kartu';
 import { LabelKecil } from '../../komponen/label-kecil';
 import { PenggarisUmurTanam } from '../../komponen/penggaris-umur-tanam';
@@ -38,11 +42,24 @@ export function KartuSiklus({
   const tautan =
     'fokus-cincin -mx-4 -mb-4 mt-3 flex min-h-kontrol items-center justify-between border-t border-garis px-4 font-semibold text-daun-tua no-underline hover:text-daun-tekan lg:mt-4';
   return (
-    <Kartu
-      tingkatJudul={2}
-      judul={nama}
-      keterangan={panen ? t.keteranganSiklus(ukuranSiklus(siklus), hariKe, hariPanen, panen) : null}
-    >
+    <Kartu className="rounded-kartu-besar">
+      <div className="mb-3 flex items-center gap-4">
+        <div className="relative grid h-24 w-24 flex-none place-items-center">
+          <div
+            aria-hidden="true"
+            className="absolute inset-1.5 rounded-full border-1.5 border-dashed border-oranye-terang bg-tanah-lembut"
+          />
+          <IlustrasiKomoditas nama={siklus.komoditas_id} ukuran={96} alt="" className="relative" />
+        </div>
+        <div className="min-w-0">
+          <h2 className="m-0 text-judul-bagian font-semibold text-teks">{nama}</h2>
+          {panen ? (
+            <p className="mb-0 mt-1 text-keterangan text-teks-pendukung">
+              {t.keteranganSiklus(ukuranSiklus(siklus), hariKe, hariPanen, panen)}
+            </p>
+          ) : null}
+        </div>
+      </div>
       {siklus.resep_contoh ? (
         <LabelKecil nada="contoh" className="mb-3">
           {teksUmum.labelContoh}

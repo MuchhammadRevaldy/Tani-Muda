@@ -171,7 +171,7 @@ export function PenggarisUmurTanam({
               }}
             >
               <div
-                className="absolute bottom-0 left-0 top-0 bg-daun-tua"
+                className="absolute bottom-0 left-0 top-0 bg-limau bg-progres-limau"
                 style={{ width: tata.jalur.lebarIsi }}
               />
             </div>

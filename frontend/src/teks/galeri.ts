@@ -9,7 +9,7 @@ export const teksKomponenGaleri = {
   bagian: {
     warna: 'Warna',
     warnaKet:
-      'Hijau daun hanya untuk yang tumbuh atau harus dikerjakan. Cokelat tanah hanya untuk uang dan panen. Arti status selalu dibawa juga oleh ikon dan kata, bukan warna saja.',
+      'Limau untuk yang tumbuh atau harus dikerjakan. Oranye untuk uang dan aksen; teks memakai oranye tua. Arti status selalu dibawa juga oleh ikon dan kata, bukan warna saja.',
     warnaTambahan: 'Tambahan agar teks dan batas kontrol lolos kontras',
     huruf: 'Huruf',
     tombol: 'Tombol dan isian',
@@ -18,13 +18,13 @@ export const teksKomponenGaleri = {
     banner: 'Banner',
     penggaris: 'Penggaris Umur Tanam',
     penggarisKet:
-      'Elemen khas Tani Muda. Garis dari hari ke-0 (tanam) sampai hari panen. Bagian yang sudah dilalui hijau daun, penanda gelap untuk hari ini, dan pin di atas garis untuk setiap jadwal. Muncul di beranda petani, di detail siklus, dan di dasbor pembeli.',
+      'Elemen khas Tani Muda. Garis dari hari ke-0 (tanam) sampai hari panen. Bagian yang sudah dilalui limau, penanda gelap untuk hari ini, dan pin di atas garis untuk setiap jadwal. Muncul di beranda petani, di detail siklus, dan di dasbor pembeli.',
     ikon: 'Ikon',
     ikonKet:
-      'Garis 2px di kotak 24px, ujung membulat, hemat kuota. Selalu bersama kata, kecuali tombol kamera dan centang yang punya label untuk pembaca layar.',
+      'Garis 1,7 di kotak 24px, ujung membulat, hemat kuota. Selalu bersama kata, kecuali tombol kamera dan centang yang punya label untuk pembaca layar. Ikon statistik di dalam lingkaran putih berbayang.',
     nav: 'Navigasi',
     navKet:
-      'Empat menu untuk petani, label selalu tampil. Lencana berlatar gelap, bukan merah, karena pesanan baru bukan masalah. Di desktop petani memakai sidebar kiri; pembeli memakai bilah atas.',
+      'Empat menu untuk petani di bilah putih mengambang, label selalu tampil. Lencana oranye tua, bukan merah, karena pesanan baru bukan masalah. Di desktop petani memakai sidebar kiri; pembeli memakai bilah atas.',
     pilihan: 'Pola pilihan',
     tugas: 'Baris tugas',
     dialog: 'Dialog dan lembar bawah',
@@ -78,6 +78,7 @@ export const teksKomponenGaleri = {
     selesai: 'Tandai selesai',
     foto: 'Tambah foto bukti',
     nonaktif: 'Ambil pesanan',
+    tambah: 'Tambah ke rencana',
     ket: 'Pil setinggi 56px, label diawali kata kerja. Paling banyak satu tombol utama di satu layar; pilihan lain memakai tombol sekunder. Tombol terakhir menunjukkan keadaan nonaktif.',
   },
   isian: {
@@ -99,7 +100,7 @@ export const teksKomponenGaleri = {
     kakiUang: 'Kaki berwarna tanah lembut hanya untuk ringkasan uang.',
     totalModal: 'Total modal',
     panenJelek: 'Kalau panen jelek',
-    ket: 'Putih, garis 1px, sudut 16px, tanpa bayangan. Kartu dibedakan oleh isinya, bukan oleh hiasan. Rugi selalu bertanda minus dan berwarna tomat.',
+    ket: 'Putih, sudut 24px, bayangan lembut. Kartu dibedakan oleh isinya, bukan oleh hiasan. Rugi selalu bertanda minus dan berwarna merah.',
   },
   chip: {
     tugas: 'Tugas',
@@ -116,6 +117,7 @@ export const teksKomponenGaleri = {
     nonsubsidi: 'Nonsubsidi',
     promo: 'Promo',
     contoh: 'CONTOH, belum divalidasi penyuluh',
+    sorot: 'Kebun belakang rumah',
   },
   banner: {
     besok: 'Besok: pupuk susulan 2',
@@ -143,6 +145,7 @@ export const teksKomponenGaleri = {
     tipe: 'Tipe tugas',
     namaTipe: { sekali: 'Sekali', berulang: 'Berulang', ukur: 'Pengukuran' },
     ilustrasi: 'Ilustrasi metode dan komoditas (abu-abu = segera hadir)',
+    lingkaran: 'Ikon statistik',
   },
   nav: { sidebar: 'Sidebar desktop petani, menu akun terbuka' },
   pilihan: {
