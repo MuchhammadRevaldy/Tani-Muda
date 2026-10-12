@@ -2,7 +2,17 @@
 
 namespace App\Models;
 
-/** Tabel `konfigurasi` (kontrak-api.md bagian 2). */
+use Illuminate\Support\Carbon;
+
+/**
+ * Tabel `konfigurasi` (kontrak-api.md bagian 2).
+ *
+ * @property string $kunci
+ * @property array<mixed> $nilai
+ * @property string|null $keterangan
+ * @property Carbon $dibuat_pada
+ * @property Carbon|null $diperbarui_pada
+ */
 class Konfigurasi extends Model
 {
     protected $table = 'konfigurasi';

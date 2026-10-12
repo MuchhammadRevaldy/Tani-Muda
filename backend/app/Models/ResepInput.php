@@ -5,7 +5,25 @@ namespace App\Models;
 use App\Enums\DasarDosis;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-/** Tabel `resep_input` (kontrak-api.md bagian 2). */
+/**
+ * Tabel `resep_input` (kontrak-api.md bagian 2).
+ *
+ * @property int $nomor
+ * @property string $resep_id
+ * @property string $id
+ * @property int $urutan
+ * @property string|null $input_id
+ * @property string $nama
+ * @property string $grup
+ * @property float $dosis
+ * @property string $satuan_dosis
+ * @property DasarDosis $dasar_dosis
+ * @property string $satuan_beli
+ * @property float|null $isi_satuan_beli
+ * @property float $ukuran_kemasan
+ * @property bool $alat_sekali_beli
+ * @property int|null $harga_contoh
+ */
 class ResepInput extends Model
 {
     protected $table = 'resep_input';

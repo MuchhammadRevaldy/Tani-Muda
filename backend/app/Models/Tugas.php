@@ -6,8 +6,28 @@ use App\Enums\StatusTugas;
 use App\Enums\TipeTugas;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Carbon;
 
-/** Tabel `tugas` (kontrak-api.md bagian 2). */
+/**
+ * Tabel `tugas` (kontrak-api.md bagian 2).
+ *
+ * @property string $id
+ * @property string $siklus_id
+ * @property string $resep_tugas_id
+ * @property string $judul
+ * @property TipeTugas $tipe
+ * @property Carbon $tanggal
+ * @property int $hst
+ * @property StatusTugas $status
+ * @property Carbon|null $selesai_pada
+ * @property bool $boleh_digeser
+ * @property int|null $interval
+ * @property array<mixed>|null $ukur
+ * @property string|null $foto
+ * @property string|null $catatan
+ * @property Carbon $dibuat_pada
+ * @property Carbon|null $diperbarui_pada
+ */
 class Tugas extends Model
 {
     protected $table = 'tugas';

@@ -4,13 +4,41 @@
  * Kasus uji perhitungan bersama shared/kasus-uji/*.json (T5.02, D-49): berkas yang sama dibaca
  * Vitest di frontend/src/lib/kasus-bersama.test.ts. Format ada di shared/kasus-uji/README.md.
  *
- * Rumus PHP ditulis di app/Domain/Hitung pada gelombang 5.4–5.5. Fungsi yang sudah diport
- * didaftarkan di ADAPTOR_HITUNG (nama fungsi kasus → callable yang menerima `masukan`). Sampai
- * saat itu, bentuk tiap kasus tetap diperiksa dan fungsi yang belum ada ditandai "belum diport".
+ * Rumus PHP ada di app/Domain/Hitung (D-57). Setiap fungsi kasus didaftarkan di adaptorHitung()
+ * (nama fungsi kasus → callable yang menerima `masukan`); fungsi yang belum ada ditandai
+ * "belum diport" dan dilewati.
  */
 
-/** @var array<string, callable(array): mixed> */
-const ADAPTOR_HITUNG = [];
+use App\Domain\Hitung\Jarak;
+use App\Domain\Hitung\KapasitasLahan;
+use App\Domain\Hitung\Kiriman;
+use App\Domain\Hitung\PesananLahan;
+use App\Domain\Hitung\Uang;
+
+/** @return array<string, callable(array): mixed> */
+function adaptorHitung(): array
+{
+    $lahan = fn (array $l) => ['id' => 'lahan'] + $l;
+    $siklus = fn (array $daftar) => array_map(fn ($s) => ['lahanId' => 'lahan'] + $s, $daftar);
+
+    return [
+        'bulatkanRupiah' => fn ($m) => Uang::bulatkanRupiah($m['n']),
+        'bulatkanKeRatusan' => fn ($m) => Uang::bulatkanKeRatusan($m['n']),
+        'hitungNilaiPesanan' => fn ($m) => Uang::hitungNilaiPesanan($m['pesanan'], $m['konfigurasi']),
+        'jumlahKirimanRutin' => fn ($m) => Uang::jumlahKirimanRutin($m['frekuensiHari'], $m['durasiHari'], $m['maksDurasiHari']),
+        'hitungPembayaranKiriman' => fn ($m) => Uang::hitungPembayaranKiriman($m['m']),
+        'konfirmasiKiriman' => fn ($m) => Kiriman::konfirmasiKiriman($m['kiriman'], $m['keputusan'], $m['persenUangMuka']),
+        'kapasitasLahan' => fn ($m) => KapasitasLahan::kapasitasLahan($lahan($m['lahan']), $siklus($m['siklus'])),
+        'muatSiklusBaru' => fn ($m) => KapasitasLahan::muatSiklusBaru($lahan($m['lahan']), $siklus($m['siklus']), $m['kebutuhan']),
+        'luasPerPanen' => fn ($m) => PesananLahan::luasPerPanen($m['jumlahKg'], $m['hasilPerSatuan']),
+        'jumlahPetakBersamaan' => fn ($m) => PesananLahan::jumlahPetakBersamaan($m['frekuensiHari'], $m['umurPanenHari']),
+        'kebutuhanLahanPesanan' => fn ($m) => PesananLahan::kebutuhanLahanPesanan($m['m']),
+        'cekAmbilSebagian' => fn ($m) => PesananLahan::cekAmbilSebagian($m['m']),
+        'batasAlokasi' => fn ($m) => PesananLahan::batasAlokasi($m['jumlahPesananKg'], $m['sudahDiambilKg'], $m['ambilKg']),
+        'jarakKm' => fn ($m) => Jarak::jarakKm($m['a'], $m['b']),
+        'dalamRadius' => fn ($m) => Jarak::dalamRadius($m['titik'], $m['pusat'], $m['radiusKm']),
+    ];
+}
 
 /** @return array<string, array{0: string, 1: array}> */
 function kasusUjiBersama(): array
@@ -81,7 +109,7 @@ function kasusPerFungsi(): array
 }
 
 it('hasil rumus PHP sama dengan kasus', function (string $fungsi, array $daftar) {
-    $adaptor = ADAPTOR_HITUNG[$fungsi] ?? null;
+    $adaptor = adaptorHitung()[$fungsi] ?? null;
     if ($adaptor === null) {
         $this->markTestSkipped('belum diport ('.count($daftar).' kasus): app/Domain/Hitung, gelombang 5.4–5.5');
     }

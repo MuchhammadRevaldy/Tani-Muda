@@ -3,8 +3,21 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Carbon;
 
-/** Tabel `promo` (kontrak-api.md bagian 2). */
+/**
+ * Tabel `promo` (kontrak-api.md bagian 2).
+ *
+ * @property string $id
+ * @property string $pemasang
+ * @property string $isi
+ * @property string $wilayah_id
+ * @property float|null $jarak_km
+ * @property Carbon $berlaku_mulai
+ * @property Carbon $berlaku_sampai
+ * @property Carbon $dibuat_pada
+ * @property Carbon|null $diperbarui_pada
+ */
 class Promo extends Model
 {
     protected $table = 'promo';

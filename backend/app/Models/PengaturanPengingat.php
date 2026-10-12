@@ -3,8 +3,18 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Carbon;
 
-/** Tabel `pengaturan_pengingat` (kontrak-api.md bagian 2). */
+/**
+ * Tabel `pengaturan_pengingat` (kontrak-api.md bagian 2).
+ *
+ * @property string $siklus_id
+ * @property string $jam_pagi
+ * @property bool $pengingat_sore
+ * @property array<mixed> $tipe_aktif
+ * @property Carbon $dibuat_pada
+ * @property Carbon|null $diperbarui_pada
+ */
 class PengaturanPengingat extends Model
 {
     protected $table = 'pengaturan_pengingat';

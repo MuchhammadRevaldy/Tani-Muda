@@ -5,8 +5,20 @@ namespace App\Models;
 use App\Enums\StatusAlokasi;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Carbon;
 
-/** Tabel `alokasi_pesanan` (kontrak-api.md bagian 2). */
+/**
+ * Tabel `alokasi_pesanan` (kontrak-api.md bagian 2).
+ *
+ * @property string $id
+ * @property string $pesanan_id
+ * @property string $petani_id
+ * @property float $jumlah_kg
+ * @property StatusAlokasi $status
+ * @property Carbon|null $disetujui_pada
+ * @property Carbon $dibuat_pada
+ * @property Carbon|null $diperbarui_pada
+ */
 class AlokasiPesanan extends Model
 {
     protected $table = 'alokasi_pesanan';

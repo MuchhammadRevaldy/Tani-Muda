@@ -45,6 +45,8 @@ return new class extends Migration
             Skema::rujukan($t, 'alokasi_pesanan_id')->nullable();
             $t->unsignedSmallInteger('petak_ke')->nullable();
             Skema::uang($t, 'pendapatan_nyata')->nullable();
+            // Urutan masuk (urutan daftar kebun di klien tiruan); khusus server.
+            $t->unsignedInteger('urutan')->default(0)->index();
             Skema::waktu($t);
             // Satu lahan boleh punya beberapa siklus aktif (D-15): tanpa kunci unik per lahan.
             $t->index(['lahan_id', 'status']);
@@ -73,7 +75,10 @@ return new class extends Migration
             $t->enum('asal', AsalRencana::nilai());
             $t->boolean('alat_sekali_beli')->default(false);
             $t->unsignedSmallInteger('jumlah_siklus_pembagian')->default(1);
+            // Urutan tampil dalam satu siklus (urutan item di resep lalu tambahan); khusus server.
+            $t->unsignedSmallInteger('urutan')->default(0);
             Skema::waktu($t);
+            $t->index(['siklus_id', 'urutan']);
             $t->foreign('siklus_id')->references('id')->on('siklus_tanam')->cascadeOnDelete();
             $t->foreign('input_id')->references('id')->on('input_pertanian')->restrictOnDelete();
             $t->foreign('merek_id')->references('id')->on('merek_input')->nullOnDelete();

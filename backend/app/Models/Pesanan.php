@@ -6,8 +6,37 @@ use App\Enums\JenisPesanan;
 use App\Enums\StatusPesanan;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Carbon;
 
-/** Tabel `pesanan` (kontrak-api.md bagian 2). */
+/**
+ * Tabel `pesanan` (kontrak-api.md bagian 2).
+ *
+ * @property string $id
+ * @property string $pembeli_id
+ * @property JenisPesanan $jenis
+ * @property string $komoditas_id
+ * @property float|null $jumlah_per_kiriman_kg
+ * @property int|null $frekuensi_hari
+ * @property int $jumlah_kiriman
+ * @property float $jumlah_total_kg
+ * @property Carbon|null $tanggal_mulai
+ * @property Carbon|null $tanggal_selesai
+ * @property string|null $perkiraan_bulan_panen
+ * @property int $harga_per_kg
+ * @property array<mixed> $standar_kualitas
+ * @property string $wilayah_id
+ * @property string $alamat_antar
+ * @property string|null $patokan
+ * @property string|null $batas_jam_antar
+ * @property StatusPesanan $status
+ * @property int $nilai_pesanan
+ * @property int $uang_muka
+ * @property int $biaya_layanan
+ * @property int $saldo_uang_muka
+ * @property float $terambil_kg
+ * @property Carbon $dibuat_pada
+ * @property Carbon|null $diperbarui_pada
+ */
 class Pesanan extends Model
 {
     protected $table = 'pesanan';

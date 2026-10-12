@@ -137,7 +137,8 @@ async function jalankanNaskah(browser, putaran, catatan) {
     await klik(page, /Kebun belakang rumah/);
     await klik(page, 'Hari ini');
     await klik(page, 'Simpan dan buat jadwal');
-    await lihat(page, /Sawi hijau/);
+    // Tersimpan bila halaman pindah ke Beranda dengan siklus barunya terpilih.
+    await page.waitForURL(/\/beranda\?siklus=/, { timeout: TUNGGU });
   });
   await langkah('5. Jadwal dan pengukuran', async () => {
     await page.goto(`${URL_DASAR}/beranda`);
@@ -150,6 +151,7 @@ async function jalankanNaskah(browser, putaran, catatan) {
     await page.getByLabel('PPM (kepekatan nutrisi)').fill('600');
     await lihat(page, /PPM terlalu rendah/i);
     await klik(page, 'Simpan hasil');
+    await lihat(page, 'Hasil ukur tersimpan.');
   });
   await langkah('6. Mengambil pesanan', async () => {
     await klik(page, /^Pesanan/);

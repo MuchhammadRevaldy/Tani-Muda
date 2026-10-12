@@ -7,8 +7,33 @@ use App\Enums\StatusPengiriman;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Support\Carbon;
 
-/** Tabel `pengiriman` (kontrak-api.md bagian 2). */
+/**
+ * Tabel `pengiriman` (kontrak-api.md bagian 2).
+ *
+ * @property string $id
+ * @property string $alokasi_id
+ * @property string $pesanan_id
+ * @property int $ke
+ * @property Carbon $tanggal_jadwal
+ * @property float $jumlah_kg
+ * @property int $harga_per_kg
+ * @property string|null $foto_kualitas
+ * @property string|null $foto_timbangan
+ * @property StatusPengiriman $status
+ * @property Carbon|null $dikirim_pada
+ * @property Carbon|null $batas_periksa_pada
+ * @property Carbon|null $dikonfirmasi_pada
+ * @property bool $dianggap_diterima
+ * @property float $jumlah_ditolak_kg
+ * @property AlasanPenolakan|null $alasan_penolakan
+ * @property string|null $keterangan_penolakan
+ * @property string|null $foto_penolakan
+ * @property int|null $nilai_diterima
+ * @property Carbon $dibuat_pada
+ * @property Carbon|null $diperbarui_pada
+ */
 class Pengiriman extends Model
 {
     protected $table = 'pengiriman';

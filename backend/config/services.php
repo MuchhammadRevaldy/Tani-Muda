@@ -19,6 +19,11 @@ return [
         'driver' => env('OTP_DRIVER', 'log'),
     ],
 
+    // Penyedia pembayaran: `tiruan` (mode uji coba, D-10). Payment gateway sungguhan menyusul.
+    'pembayaran' => [
+        'driver' => env('PEMBAYARAN_DRIVER', 'tiruan'),
+    ],
+
     'postmark' => [
         'key' => env('POSTMARK_API_KEY'),
     ],

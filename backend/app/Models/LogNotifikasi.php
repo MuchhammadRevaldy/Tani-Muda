@@ -3,8 +3,17 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Carbon;
 
-/** Tabel `log_notifikasi` (kontrak-api.md bagian 2). */
+/**
+ * Tabel `log_notifikasi` (kontrak-api.md bagian 2).
+ *
+ * @property int $nomor
+ * @property string $pengguna_id
+ * @property string $jenis
+ * @property string $kunci
+ * @property Carbon $dikirim_pada
+ */
 class LogNotifikasi extends Model
 {
     protected $table = 'log_notifikasi';

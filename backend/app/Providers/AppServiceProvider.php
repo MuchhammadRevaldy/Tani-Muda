@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use App\Domain\Otp\PengirimOtp;
 use App\Domain\Otp\PengirimOtpLog;
+use App\Domain\Pembayaran\PembayaranTiruan;
+use App\Domain\Pembayaran\PenyediaPembayaran;
 use App\Support\Waktu;
 use DateTimeInterface;
 use Illuminate\Support\Facades\Date;
@@ -29,6 +31,15 @@ class AppServiceProvider extends ServiceProvider
                 return new PengirimOtpLog;
             }
             throw new RuntimeException("OTP_DRIVER tidak dikenal: {$driver}");
+        });
+
+        // Penyedia pembayaran (arsitektur-backend.md bagian 10): satu per permintaan, karena
+        // PembayaranTiruan mencatat dana yang ditahan sebelum barisnya disimpan.
+        $this->app->scoped(PenyediaPembayaran::class, function () {
+            $driver = config('services.pembayaran.driver');
+
+            return $driver === 'tiruan' ? new PembayaranTiruan
+                : throw new RuntimeException("PEMBAYARAN_DRIVER tidak dikenal: {$driver}");
         });
     }
 

@@ -18,6 +18,7 @@
     "lint": "eslint . && node scripts/cek-aturan.mjs",
     "format": "prettier --write .",
     "tangkap": "node scripts/tangkap-layar.mjs",
+    "uji:naskah": "node scripts/uji-naskah.mjs",
     "ekstrak-desain": "node scripts/ekstrak-desain.mjs",
     "data-contoh": "node scripts/tulis-data-contoh.mjs",
     "pasang-video": "node scripts/pasang-video.mjs"

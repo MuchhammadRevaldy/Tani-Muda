@@ -5,7 +5,23 @@ namespace App\Models;
 use App\Enums\TipeTugas;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-/** Tabel `resep_tugas` (kontrak-api.md bagian 2). */
+/**
+ * Tabel `resep_tugas` (kontrak-api.md bagian 2).
+ *
+ * @property int $nomor
+ * @property string $resep_id
+ * @property string $id
+ * @property int $urutan
+ * @property string $judul
+ * @property TipeTugas $tipe
+ * @property int $hst_mulai
+ * @property int|null $hst_selesai
+ * @property int|null $interval
+ * @property array<mixed>|null $ukur
+ * @property bool $boleh_digeser
+ * @property string|null $saran_terlambat
+ * @property array<mixed>|null $cara_mengerjakan
+ */
 class ResepTugas extends Model
 {
     protected $table = 'resep_tugas';

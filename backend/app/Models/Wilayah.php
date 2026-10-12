@@ -3,8 +3,23 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Carbon;
 
-/** Tabel `wilayah` (kontrak-api.md bagian 2). */
+/**
+ * Tabel `wilayah` (kontrak-api.md bagian 2).
+ *
+ * @property string $id
+ * @property string $desa
+ * @property string $kecamatan
+ * @property string $kabupaten
+ * @property string $provinsi
+ * @property float|null $lintang
+ * @property float|null $bujur
+ * @property bool $koordinat_perkiraan
+ * @property bool $kode_terverifikasi
+ * @property Carbon $dibuat_pada
+ * @property Carbon|null $diperbarui_pada
+ */
 class Wilayah extends Model
 {
     protected $table = 'wilayah';

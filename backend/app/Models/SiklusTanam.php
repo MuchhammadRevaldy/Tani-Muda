@@ -6,8 +6,38 @@ use App\Enums\StatusSiklus;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Support\Carbon;
 
-/** Tabel `siklus_tanam` (kontrak-api.md bagian 2). */
+/**
+ * Tabel `siklus_tanam` (kontrak-api.md bagian 2).
+ *
+ * @property string $id
+ * @property string $petani_id
+ * @property string $lahan_id
+ * @property string $resep_id
+ * @property int $resep_versi
+ * @property string $komoditas_id
+ * @property string $metode_id
+ * @property StatusSiklus $status
+ * @property float|null $luas_m2
+ * @property int|null $jumlah_lubang
+ * @property int|null $jumlah_polybag
+ * @property float|null $volume_tandon_liter
+ * @property string|null $sistem_hidroponik
+ * @property bool $vertikultur
+ * @property string $satuan_asli
+ * @property float $nilai_asli
+ * @property Carbon|null $tanggal_tanam
+ * @property bool $dapat_subsidi
+ * @property int $harga_jual
+ * @property float $perkiraan_panen_kg
+ * @property string|null $alokasi_pesanan_id
+ * @property int|null $petak_ke
+ * @property int|null $pendapatan_nyata
+ * @property int $urutan
+ * @property Carbon $dibuat_pada
+ * @property Carbon|null $diperbarui_pada
+ */
 class SiklusTanam extends Model
 {
     protected $table = 'siklus_tanam';

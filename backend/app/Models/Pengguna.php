@@ -12,14 +12,26 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Carbon;
 use Laravel\Sanctum\HasApiTokens;
 
 /**
  * Tabel `pengguna` (kontrak-api.md 2.1). Masuk dengan nomor HP dan OTP; tanpa kata sandi dan nama
  * pengguna (D-04). Sesi cookie Sanctum untuk web, token untuk aplikasi React Native kelak (D-21).
  *
+ * @property string $id
+ * @property string $nomor_hp
+ * @property string|null $nama
  * @property Peran|null $peran
+ * @property string|null $wilayah_id
+ * @property string|null $foto_profil
  * @property StatusAkun $status_akun
+ * @property string $zona_waktu
+ * @property bool $terdaftar_kelompok_tani
+ * @property Carbon|null $setuju_privasi_pada
+ * @property string|null $versi_privasi
+ * @property Carbon $dibuat_pada
+ * @property Carbon|null $diperbarui_pada
  */
 class Pengguna extends Authenticatable
 {

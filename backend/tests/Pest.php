@@ -2,6 +2,7 @@
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 use Tests\TestCase;
 
 // Tes fitur memakai basis data MariaDB `tani_muda_uji` (phpunit.xml), dibuat ulang tiap rangkaian.
@@ -16,6 +17,54 @@ pest()->extend(TestCase::class)->in('Unit');
 
 // Tes serentak menjalankan proses PHP terpisah, jadi datanya harus commit (tanpa RefreshDatabase).
 pest()->extend(TestCase::class)->in('Serentak');
+
+/** Kosongkan semua tabel kecuali riwayat migrasi (tes serentak, tanpa RefreshDatabase). */
+function kosongkanSemuaTabel(): void
+{
+    DB::statement('SET FOREIGN_KEY_CHECKS=0');
+    foreach (Schema::getTableListing(DB::getDatabaseName(), schemaQualified: false) as $tabel) {
+        if ($tabel !== 'migrations') {
+            DB::table($tabel)->delete();
+        }
+    }
+    DB::statement('SET FOREIGN_KEY_CHECKS=1');
+}
+
+/**
+ * Jalankan skrip pekerja tests/Serentak/<skrip> sebagai proses PHP terpisah dengan basis data uji.
+ *
+ * @param  list<string>  $argumen
+ * @return array{0: resource, 1: array<int, resource>}
+ */
+function jalankanPekerja(string $skrip, array $argumen): array
+{
+    $db = config('database.connections.'.config('database.default'));
+    $env = array_merge(getenv(), [
+        'APP_ENV' => 'testing',
+        'DB_CONNECTION' => config('database.default'),
+        'DB_DATABASE' => $db['database'],
+    ]);
+    $proses = proc_open([PHP_BINARY, __DIR__.'/Serentak/'.$skrip, ...$argumen], [1 => ['pipe', 'w'], 2 => ['pipe', 'w']], $pipa, base_path(), $env);
+    expect($proses)->toBeResource();
+
+    return [$proses, $pipa];
+}
+
+/**
+ * @param  array{0: resource, 1: array<int, resource>}  $pekerja
+ * @return array<string, mixed> keluaran JSON pekerja
+ */
+function tungguPekerja(array $pekerja): array
+{
+    [$proses, $pipa] = $pekerja;
+    $keluaran = stream_get_contents($pipa[1]);
+    $galat = stream_get_contents($pipa[2]);
+    fclose($pipa[1]);
+    fclose($pipa[2]);
+    expect(proc_close($proses))->toBe(0, $galat ?: (string) $keluaran);
+
+    return json_decode((string) $keluaran, true, flags: JSON_THROW_ON_ERROR);
+}
 
 /** Jalur dari akar repositori (backend/ ada satu tingkat di bawahnya). */
 function jalurRepo(string $relatif): string

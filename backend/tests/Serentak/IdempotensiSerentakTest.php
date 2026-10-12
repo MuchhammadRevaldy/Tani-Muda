@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Schema;
 
 /*
  * Dua permintaan serentak dengan kunci idempoten yang sama (D-54), sebagai dua proses PHP terpisah
@@ -9,17 +8,6 @@ use Illuminate\Support\Facades\Schema;
  * supaya terlihat oleh proses pekerja, jadi semua tabel dikosongkan sebelum dan sesudah setiap tes
  * (DELETE, bukan TRUNCATE atau migrate:fresh yang di Windows butuh belasan detik).
  */
-
-function kosongkanSemuaTabel(): void
-{
-    DB::statement('SET FOREIGN_KEY_CHECKS=0');
-    foreach (Schema::getTableListing(DB::getDatabaseName(), schemaQualified: false) as $tabel) {
-        if ($tabel !== 'migrations') {
-            DB::table($tabel)->delete();
-        }
-    }
-    DB::statement('SET FOREIGN_KEY_CHECKS=1');
-}
 
 beforeEach(function () {
     $this->artisan('migrate');
@@ -31,43 +19,10 @@ afterEach(function () {
     kosongkanSemuaTabel();
 });
 
-/**
- * @return array{0: resource, 1: array<int, resource>}
- */
+/** @return array{0: resource, 1: array<int, resource>} */
 function mulaiPekerja(string $kunci, int $lamaMs, string $mode = 'berhasil'): array
 {
-    $db = config('database.connections.'.config('database.default'));
-    $env = array_merge(getenv(), [
-        'APP_ENV' => 'testing',
-        'DB_CONNECTION' => config('database.default'),
-        'DB_DATABASE' => $db['database'],
-    ]);
-    $proses = proc_open(
-        [PHP_BINARY, __DIR__.'/pekerja-idempoten.php', $kunci, (string) $lamaMs, $mode],
-        [1 => ['pipe', 'w'], 2 => ['pipe', 'w']],
-        $pipa,
-        base_path(),
-        $env,
-    );
-    expect($proses)->toBeResource();
-
-    return [$proses, $pipa];
-}
-
-/**
- * @param  array{0: resource, 1: array<int, resource>}  $pekerja
- * @return array<string, mixed>
- */
-function tungguPekerja(array $pekerja): array
-{
-    [$proses, $pipa] = $pekerja;
-    $keluaran = stream_get_contents($pipa[1]);
-    $galat = stream_get_contents($pipa[2]);
-    fclose($pipa[1]);
-    fclose($pipa[2]);
-    expect(proc_close($proses))->toBe(0, $galat ?: (string) $keluaran);
-
-    return json_decode((string) $keluaran, true, flags: JSON_THROW_ON_ERROR);
+    return jalankanPekerja('pekerja-idempoten.php', [$kunci, (string) $lamaMs, $mode]);
 }
 
 it('(a) dua permintaan serentak dengan kunci sama hanya membayar sekali dan menerima respons yang sama', function () {

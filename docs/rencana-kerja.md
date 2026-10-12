@@ -1169,6 +1169,7 @@ Selama Tahap 5, frontend tetap memakai `VITE_SUMBER_DATA=tiruan` sebagai bawaan.
 - **Catatan (11 Okt 2026):** Ditahan sampai pemilik produk mencocokkan kode wilayah di `docs/cek-wilayah.md` dengan data Kemendagri (tanggapan D-51). Selesai 12 Oktober (D-54).
 
 ### [ ] T5.09 Masuk dengan nomor HP dan OTP (Sanctum) **[DEMO]**
+- **Catatan (12 Okt 2026, D-57): sebagian besar selesai.** OTP dengan hash HMAC, kedaluwarsa 5 menit, 5 percobaan, jeda 60 detik dan 5 per jam per nomor (`LayananOtp`); driver log hanya di lokal; `GET/PATCH /akun`, `PUT /akun/peran`, ganti nomor HP, catatan, profil pembeli; endpoint demo lokal `/demo/*` (kontrak 3.13). Tes `AuthAkunTest`. **Belum:** batas per alamat IP selain `throttle:30,1`.
 - **Tujuan:** Endpoint OTP kirim/verifikasi, keluar, dan akun, sesuai `arsitektur-backend.md` bagian 5:
   - kode 6 digit **disimpan sebagai hash**;
   - **kedaluwarsa 5 menit**;
@@ -1192,6 +1193,7 @@ Selama Tahap 5, frontend tetap memakai `VITE_SUMBER_DATA=tiruan` sebagai bawaan.
 - **Prasyarat:** T5.04.
 
 ### [ ] T5.10 Policy per peran dan tes akses silang **[DEMO]**
+- **Catatan (12 Okt 2026, D-57): dasar.** Middleware `peran:` (403 `TIDAK_DIIZINKAN` / `PERAN_BELUM_DIPILIH`) dan kepemilikan lewat kueri berpemilik (404 untuk data orang lain, D-22), dicontohkan di `AuthAkunTest` dan `AlurNaskahTest`. **Ditunda setelah lomba:** kelas Policy per model dan tes akses silang yang dibandingkan dengan `route:list`.
 - **Tujuan:**
   - Middleware peran dan middleware akun aktif.
   - Gate `ambil-pesanan` (D-13) dan `pasang-pesanan` (P0-02).
@@ -1210,6 +1212,7 @@ Selama Tahap 5, frontend tetap memakai `VITE_SUMBER_DATA=tiruan` sebagai bawaan.
 - **Prasyarat:** T5.09, T5.07.
 
 ### [ ] T5.11 Endpoint akun, wilayah, referensi, resep, belajar **[DEMO]**
+- **Catatan (12 Okt 2026, D-57): cakupan naskah selesai.** Wilayah (D-56: desa tersedia dulu), komoditas, metode, sistem hidroponik, konversi, konfigurasi, promo, subsidi, harga sekitar, resep, contoh publik, permintaan resep, modul. **Belum:** merek dan laporan harga (`GET /input/{id}/merek`, `POST /laporan-harga`).
 - **Tujuan:** Endpoint sesuai kontrak untuk pilih peran dan desa, profil, wilayah, referensi, resep (resep draf bukan contoh tidak pernah ke petani), permintaan resep, modul, dan progres.
 - **Berkas:** controller, request, resource, dan tes Pest per endpoint.
 - **PRD:** P0-01, P0-03–P0-05, P0-09, P0-30–P0-35; D-05, D-12.
@@ -1219,6 +1222,7 @@ Selama Tahap 5, frontend tetap memakai `VITE_SUMBER_DATA=tiruan` sebagai bawaan.
 - **Prasyarat:** T5.10, T5.08.
 
 ### [ ] T5.12 Endpoint lahan, kebun, jurnal, dan berkas privat **[DEMO]**
+- **Catatan (12 Okt 2026, D-57): cakupan naskah selesai.** Lahan (CRUD, kapasitas), siklus (buat dengan tugas dan rencana item, detail dengan modal, rencana → aktif), tugas, tugas hari ini, selesai tugas dan pengukuran (idempoten, ukur ulang), riwayat ukur, pengeluaran, jurnal, pengingat (baca). **Ditunda setelah lomba:** tunda tugas, geser tanggal siklus aktif, akhiri siklus, catat pengeluaran, tambah jurnal, ubah pengingat, unggah berkas.
 - **Tujuan:**
   - Endpoint lahan (kapasitas tersisa dari `Domain/Hitung/KapasitasLahan`, D-15).
   - Siklus: buat dari rencana, dengan tugas dibuat di server memakai port `jadwal-buat`; ubah tanggal tanam; akhir siklus.
@@ -1234,6 +1238,7 @@ Selama Tahap 5, frontend tetap memakai `VITE_SUMBER_DATA=tiruan` sebagai bawaan.
 - **Prasyarat:** T5.11, T5.14.
 
 ### [ ] T5.13 Radius pesanan dan alokasi dengan penguncian **[DEMO]**
+- **Catatan (12 Okt 2026, D-57): selesai untuk model sekarang.** Pesanan di sekitar (radius, terdekat dulu), detail, ambil pesanan dengan kunci baris pesanan (`tests/Serentak/AmbilPesananSerentakTest.php`, dicoba tanpa kunci dan gagal), ubah jumlah, setuju (petak terkejar aktif dengan tugasnya, jadwal kiriman), alokasi saya, gagal panen. Model sisa per kiriman (D-55) menyusul setelah lomba.
 - **Tujuan:**
   - **Pesanan di sekitar** dengan rumus **Haversine dari koordinat tabel `wilayah`** (titik tengah desa petani ke desa titik antar), memakai prasaring kotak batas. Respons hanya memuat nama desa dan jarak.
   - **Ambil pesanan** dalam **transaksi dengan penguncian baris** (`lockForUpdate` pada pesanan lalu lahan): cek akun aktif, total alokasi, dan kapasitas lahan; buat alokasi, siklus dengan harga kesepakatan, dan rencana item.
@@ -1248,6 +1253,7 @@ Selama Tahap 5, frontend tetap memakai `VITE_SUMBER_DATA=tiruan` sebagai bawaan.
 - **Prasyarat:** T5.11, T5.14.
 
 ### [ ] T5.14 Perhitungan uang dan kapasitas di server **[DEMO]**
+- **Catatan (12 Okt 2026, D-57): selesai.** `app/Domain/Hitung` (uang, kiriman, kapasitas, lahan pesanan, jarak, jadwal, modal, kebutuhan resep, pengukuran) dengan pembulatan yang meniru JavaScript; semua 15 fungsi `shared/kasus-uji` lolos di Pest, tanpa yang dilewati.
 - **Tujuan:**
   - Port rumus `frontend/src/lib` ke `backend/app/Domain/Hitung/`: `PesananNilai` (D-02), `Kiriman` (D-01, D-03), `Modal`, `Ringkasan`, `KapasitasLahan` (D-15), `PesananLahan`, `Jarak`, `Pengingat`, `Format`. Semuanya fungsi murni tanpa Eloquent dan waktu sistem.
   - **Server tidak menerima angka uang dari klien.**
@@ -1260,6 +1266,7 @@ Selama Tahap 5, frontend tetap memakai `VITE_SUMBER_DATA=tiruan` sebagai bawaan.
 - **Prasyarat:** T5.02, T5.03.
 
 ### [ ] T5.15 Pembayaran tiruan di server **[DEMO]**
+- **Catatan (12 Okt 2026, D-57): selesai untuk naskah.** `PenyediaPembayaran` + `PembayaranTiruan` (referensi `TIRUAN-…`, saldo per referensi dari tabel pembayaran); bayar uang muka idempoten dengan simulasi gagal yang dicatat tanpa kunci idempoten; tahan saat dikirim, cairkan dan kembalikan saat konfirmasi; invarian dicek di `AlurNaskahTest`.
 - **Tujuan:**
   - Antarmuka `Domain/Pembayaran/PenyediaPembayaran` (`tahan`, `cairkan`, `kembalikan`, `status`) dan implementasi `PembayaranTiruan` (referensi `TIRUAN-…`), dipilih lewat `PEMBAYARAN_DRIVER`.
   - Endpoint bayar uang muka dan biaya layanan, dengan nominal dari `PesananNilai`.
@@ -1277,6 +1284,7 @@ Selama Tahap 5, frontend tetap memakai `VITE_SUMBER_DATA=tiruan` sebagai bawaan.
 - **Prasyarat:** T5.14, T5.07.
 
 ### [ ] T5.16 Endpoint kiriman, konfirmasi, sengketa, rating, admin, mentor **[DEMO]**
+- **Catatan (12 Okt 2026, D-57): cakupan naskah selesai.** Kiriman saya, detail, foto kualitas dan timbangan, dikirim, konfirmasi (idempoten, tolak sebagian membuat sengketa), konfirmasi otomatis saat dibaca (D-01), rating, ringkasan rating; dasbor pembeli, buat pesanan, bayar uang muka, batalkan, riwayat pembayaran. **Ditunda setelah lomba:** panel admin, editor mentor.
 - **Tujuan:** Endpoint sesuai kontrak untuk:
   - kiriman (foto kualitas wajib sebelum dikirim);
   - konfirmasi dan tolak sebagian: alasan dari empat pilihan, "Lainnya" wajib keterangan (D-14); membuat sengketa;
@@ -1341,6 +1349,7 @@ Selama Tahap 5, frontend tetap memakai `VITE_SUMBER_DATA=tiruan` sebagai bawaan.
 Tujuan tahap: frontend memakai backend Laravel lewat klien API HTTP tanpa mengubah halaman, lalu mode offline, notifikasi, dan uji jalur demo dari awal sampai akhir.
 
 ### [ ] T6.01 Klien API HTTP **[DEMO]**
+- **Catatan (12 Okt 2026, D-57): selesai.** `frontend/src/api/http/klien-http.ts` (CSRF Sanctum, galat kontrak, ulang sekali saat 419, kontrol demo lewat `/demo/*`); `npm run dev` memakai klien HTTP. `npm run uji:naskah` menjalankan 10 langkah naskah di Chrome: lolos dengan backend dan dengan data tiruan.
 - **Tujuan:**
   - Implementasi `KlienApi` dengan `fetch` ke `VITE_API_URL`: cookie Sanctum dan CSRF (`/sanctum/csrf-cookie`), pemetaan galat dan paginasi sesuai kontrak, batas waktu, dan header `kunci_idempoten`.
   - `PenyediaOtp` dan `PenyediaPembayaran` versi HTTP.

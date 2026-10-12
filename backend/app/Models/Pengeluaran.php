@@ -3,8 +3,21 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Carbon;
 
-/** Tabel `pengeluaran` (kontrak-api.md bagian 2). */
+/**
+ * Tabel `pengeluaran` (kontrak-api.md bagian 2).
+ *
+ * @property string $id
+ * @property string $siklus_id
+ * @property string|null $rencana_item_id
+ * @property string $nama
+ * @property int $nominal
+ * @property Carbon $tanggal
+ * @property string|null $foto_nota
+ * @property Carbon $dibuat_pada
+ * @property Carbon|null $diperbarui_pada
+ */
 class Pengeluaran extends Model
 {
     protected $table = 'pengeluaran';

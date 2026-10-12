@@ -3,8 +3,22 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Carbon;
 
-/** Tabel `jurnal` (kontrak-api.md bagian 2). */
+/**
+ * Tabel `jurnal` (kontrak-api.md bagian 2).
+ *
+ * @property string $id
+ * @property string $siklus_id
+ * @property Carbon $tanggal
+ * @property int $hari_ke
+ * @property string|null $foto
+ * @property string|null $catatan
+ * @property string|null $tugas_id
+ * @property string|null $judul_tugas
+ * @property Carbon $dibuat_pada
+ * @property Carbon|null $diperbarui_pada
+ */
 class Jurnal extends Model
 {
     protected $table = 'jurnal';

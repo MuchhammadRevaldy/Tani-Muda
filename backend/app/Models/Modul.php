@@ -3,8 +3,25 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Carbon;
 
-/** Tabel `modul` (kontrak-api.md bagian 2). */
+/**
+ * Tabel `modul` (kontrak-api.md bagian 2).
+ *
+ * @property string $id
+ * @property string $komoditas_id
+ * @property string $metode_id
+ * @property string $tahap
+ * @property string $judul
+ * @property string $ringkasan
+ * @property int $menit
+ * @property int $urutan
+ * @property int $hst_mulai
+ * @property string|null $video_url
+ * @property float|null $ukuran_video_mb
+ * @property Carbon $dibuat_pada
+ * @property Carbon|null $diperbarui_pada
+ */
 class Modul extends Model
 {
     protected $table = 'modul';

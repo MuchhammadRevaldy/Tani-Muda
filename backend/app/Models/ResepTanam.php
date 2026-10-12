@@ -7,8 +7,30 @@ use App\Enums\DasarUkuran;
 use App\Enums\StatusResep;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Carbon;
 
-/** Tabel `resep_tanam` (kontrak-api.md bagian 2). */
+/**
+ * Tabel `resep_tanam` (kontrak-api.md bagian 2).
+ *
+ * @property string $id
+ * @property string $komoditas_id
+ * @property string $metode_id
+ * @property int $versi
+ * @property StatusResep $status
+ * @property bool $contoh
+ * @property AsalAngkaContoh|null $asal_angka_contoh
+ * @property string|null $validator
+ * @property Carbon|null $tanggal_validasi
+ * @property float $hasil_per_satuan
+ * @property DasarUkuran $dasar_ukuran
+ * @property int $umur_panen_hari
+ * @property int|null $jumlah_pengisian_larutan
+ * @property int|null $persen_panen_jelek
+ * @property string|null $alasan_panen_jelek
+ * @property array<mixed> $standar_kualitas
+ * @property Carbon $dibuat_pada
+ * @property Carbon|null $diperbarui_pada
+ */
 class ResepTanam extends Model
 {
     protected $table = 'resep_tanam';

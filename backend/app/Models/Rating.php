@@ -3,8 +3,20 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Carbon;
 
-/** Tabel `rating` (kontrak-api.md bagian 2). */
+/**
+ * Tabel `rating` (kontrak-api.md bagian 2).
+ *
+ * @property string $id
+ * @property string $pengiriman_id
+ * @property string $pemberi_id
+ * @property string $penerima_id
+ * @property int $nilai
+ * @property string|null $komentar
+ * @property Carbon $dibuat_pada
+ * @property Carbon|null $diperbarui_pada
+ */
 class Rating extends Model
 {
     protected $table = 'rating';

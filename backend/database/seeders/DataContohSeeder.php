@@ -83,6 +83,12 @@ class DataContohSeeder extends Seeder
 
                     continue;
                 }
+                if ($tabel === 'rencana_item') {
+                    $baris = self::denganUrutan($baris, 'siklus_id');
+                }
+                if ($tabel === 'siklus_tanam') {
+                    $baris = array_map(fn ($b, $i) => $b + ['urutan' => $i + 1], $baris, array_keys($baris));
+                }
                 self::sisipkan($tabel, $baris);
             }
         });
@@ -127,6 +133,23 @@ class DataContohSeeder extends Seeder
         foreach (array_chunk(array_map(self::keBaris(...), $baris), self::POTONGAN) as $potongan) {
             DB::table($tabel)->insert($potongan);
         }
+    }
+
+    /**
+     * Nomor urut per induk mengikuti urutan baris di JSON (urutan tampil klien tiruan).
+     *
+     * @param  list<array<string, mixed>>  $baris
+     * @return list<array<string, mixed>>
+     */
+    private static function denganUrutan(array $baris, string $induk): array
+    {
+        $hitung = [];
+
+        return array_map(function ($b) use (&$hitung, $induk) {
+            $hitung[$b[$induk]] = ($hitung[$b[$induk]] ?? 0) + 1;
+
+            return $b + ['urutan' => $hitung[$b[$induk]]];
+        }, $baris);
     }
 
     /**

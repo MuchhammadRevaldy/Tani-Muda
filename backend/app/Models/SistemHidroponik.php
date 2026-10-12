@@ -2,7 +2,19 @@
 
 namespace App\Models;
 
-/** Tabel `sistem_hidroponik` (kontrak-api.md bagian 2). */
+use Illuminate\Support\Carbon;
+
+/**
+ * Tabel `sistem_hidroponik` (kontrak-api.md bagian 2).
+ *
+ * @property string $id
+ * @property string $nama
+ * @property string $keterangan
+ * @property float $liter_tandon_per_lubang
+ * @property float $tempat_per_lubang_m2
+ * @property Carbon $dibuat_pada
+ * @property Carbon|null $diperbarui_pada
+ */
 class SistemHidroponik extends Model
 {
     protected $table = 'sistem_hidroponik';

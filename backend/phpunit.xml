@@ -30,6 +30,7 @@
              lockForUpdate dan fungsi trigonometri harus sama dengan produksi). -->
         <env name="DB_CONNECTION" value="mariadb"/>
         <env name="DB_DATABASE" value="tani_muda_uji"/>
+        <env name="TAMPILKAN_RESEP_CONTOH" value="true"/>
         <env name="DB_URL" value=""/>
         <env name="MAIL_MAILER" value="array"/>
         <env name="QUEUE_CONNECTION" value="sync"/>

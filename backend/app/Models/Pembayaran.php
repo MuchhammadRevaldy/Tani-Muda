@@ -5,8 +5,23 @@ namespace App\Models;
 use App\Enums\JenisPembayaran;
 use App\Enums\StatusPembayaran;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Carbon;
 
-/** Tabel `pembayaran` (kontrak-api.md bagian 2). */
+/**
+ * Tabel `pembayaran` (kontrak-api.md bagian 2).
+ *
+ * @property string $id
+ * @property string $pesanan_id
+ * @property string|null $pengiriman_id
+ * @property JenisPembayaran $jenis
+ * @property int $nominal
+ * @property StatusPembayaran $status
+ * @property string $referensi
+ * @property bool $mode_uji_coba
+ * @property string|null $kunci_idempoten
+ * @property Carbon $dibuat_pada
+ * @property Carbon|null $diperbarui_pada
+ */
 class Pembayaran extends Model
 {
     protected $table = 'pembayaran';

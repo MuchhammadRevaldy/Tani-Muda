@@ -5,8 +5,23 @@ namespace App\Models;
 use App\Enums\StatusUkur;
 use App\Enums\SumberUkur;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Carbon;
 
-/** Tabel `hasil_pengukuran` (kontrak-api.md bagian 2). */
+/**
+ * Tabel `hasil_pengukuran` (kontrak-api.md bagian 2).
+ *
+ * @property string $id
+ * @property string $tugas_id
+ * @property string $siklus_id
+ * @property string $besaran
+ * @property float $nilai
+ * @property StatusUkur $status
+ * @property SumberUkur $sumber
+ * @property Carbon $tanggal
+ * @property Carbon $dicatat_pada
+ * @property Carbon $dibuat_pada
+ * @property Carbon|null $diperbarui_pada
+ */
 class HasilPengukuran extends Model
 {
     protected $table = 'hasil_pengukuran';

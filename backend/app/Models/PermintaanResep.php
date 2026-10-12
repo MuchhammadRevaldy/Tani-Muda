@@ -3,8 +3,20 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Carbon;
 
-/** Tabel `permintaan_resep` (kontrak-api.md bagian 2). */
+/**
+ * Tabel `permintaan_resep` (kontrak-api.md bagian 2).
+ *
+ * @property string $id
+ * @property string $pengguna_id
+ * @property string $komoditas_id
+ * @property string|null $metode_id
+ * @property string|null $wilayah_id
+ * @property Carbon $dibuat_pada
+ * @property Carbon|null $diperbarui_pada
+ * @property string|null $metode_kunci
+ */
 class PermintaanResep extends Model
 {
     protected $table = 'permintaan_resep';

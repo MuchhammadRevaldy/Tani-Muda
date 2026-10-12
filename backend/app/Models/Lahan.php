@@ -5,8 +5,25 @@ namespace App\Models;
 use App\Enums\JenisLahan;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Carbon;
 
-/** Tabel `lahan` (kontrak-api.md bagian 2). */
+/**
+ * Tabel `lahan` (kontrak-api.md bagian 2).
+ *
+ * @property string $id
+ * @property string $petani_id
+ * @property string $nama
+ * @property JenisLahan $jenis_lahan
+ * @property float $luas_m2
+ * @property string $satuan_asli
+ * @property float $nilai_asli
+ * @property string $wilayah_id
+ * @property float|null $lintang
+ * @property float|null $bujur
+ * @property int|null $kapasitas_lubang
+ * @property Carbon $dibuat_pada
+ * @property Carbon|null $diperbarui_pada
+ */
 class Lahan extends Model
 {
     protected $table = 'lahan';
