@@ -7,6 +7,7 @@
     "dev": "vite",
     "dev:lengkap": "node scripts/dev-lengkap.mjs",
     "demo": "node scripts/demo.mjs",
+    "demo:backend": "node scripts/demo-backend.mjs",
     "build": "tsc -p tsconfig.json --noEmit && vite build && node scripts/cek-build.mjs && node scripts/ukur-bundel.mjs dist --batas 200",
     "preview": "vite preview",
     "build:demo": "tsc -p tsconfig.json --noEmit && node scripts/build-demo.mjs",

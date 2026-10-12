@@ -33,6 +33,10 @@ it('referensi dan wilayah: konfigurasi publik, komoditas dengan pesanan di sekit
     $w = $this->getJson('/api/v1/wilayah?per_halaman=100')->assertOk()->json('data');
     expect(end($w))->toMatchArray(['desa' => 'Cihideung', 'tersedia_pilot' => false])
         ->and($w[0]['tersedia_pilot'])->toBeTrue();
+    // Nama desa yang cocok lebih dulu dari desa yang hanya cocok kecamatannya (D-58).
+    $lembang = array_column($this->getJson('/api/v1/wilayah?cari=lembang')->json('data'), 'desa');
+    expect($lembang[0])->toBe('Lembang')->and(count($lembang))->toBeGreaterThan(3);
+    $this->getJson('/api/v1/wilayah?cari=%25')->assertOk()->assertJsonCount(0, 'data');
     $this->getJson('/api/v1/harga-sekitar?input_id=urea')->assertOk()->assertJsonStructure(['data' => ['input_id', 'harga_per_satuan', 'jumlah_laporan']]);
     $this->getJson('/api/v1/resep/resep-sawi-bedengan')->assertOk()->assertJsonPath('data.tugas.0.id', 'siram');
 });

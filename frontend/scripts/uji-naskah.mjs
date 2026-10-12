@@ -1,20 +1,22 @@
 #!/usr/bin/env node
 /**
- * Jalankan 10 langkah docs/naskah-demo.md di peramban sungguhan (Chrome/Edge terpasang,
- * playwright-core), diawali "Atur ulang data demo". Dipakai untuk mode tiruan maupun mode backend
- * (D-57: titik putus Kamis, dua kali dari atur ulang).
+ * Jalankan docs/naskah-demo.md di peramban sungguhan (Chrome/Edge terpasang, playwright-core),
+ * diawali "Atur ulang data demo". Dipakai untuk mode tiruan maupun mode backend (D-57, [AG-11]).
  *
  * Pemakaian:
- *   node scripts/uji-naskah.mjs [--url http://localhost:5173] [--ulang 2] [--layar <folder>] [--tampil]
+ *   npm run uji:naskah -- [--url http://localhost:4174] [--ulang 15] [--skenario naskah]
+ *                         [--catatan <folder>] [--layar] [--dingin] [--tampil]
  *
- * --ulang   jalankan seluruh naskah N kali, masing-masing diawali atur ulang (bawaan 1).
- * --layar   simpan tangkapan layar setiap langkah ke folder itu.
- * --tampil  jendela peramban terlihat (bawaan tanpa jendela).
- *
- * Mode backend juga mencatat setiap permintaan /api/v1 dan menandai jawaban 4xx/5xx yang tidak
- * diharapkan, supaya endpoint yang belum ada langsung terlihat.
+ * --skenario  naskah (bawaan), daftar-petani, daftar-pembeli, atau semua (berurutan per putaran).
+ * --ulang     jalankan N putaran, masing-masing diawali atur ulang (bawaan 1).
+ * --catatan   folder diagnosis. Saat langkah gagal: tangkapan layar seluruh halaman, isi DOM,
+ *             tombol dan tautan yang terlihat, log konsol, dan waktu setiap permintaan API.
+ *             Juga ringkasan.json berisi waktu tiap langkah di setiap putaran.
+ * --layar     simpan juga tangkapan layar setiap langkah yang berhasil.
+ * --dingin    proses Chrome baru di setiap putaran (bawaan: konteks baru, cache tetap kosong).
+ * --tampil    jendela peramban terlihat.
  */
-import { existsSync, mkdirSync } from 'node:fs';
+import { existsSync, mkdirSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { chromium } from 'playwright-core';
 
@@ -25,8 +27,11 @@ const nilai = (nama, bawaan) => {
 };
 const URL_DASAR = nilai('--url', 'http://localhost:5173').replace(/\/$/, '');
 const ULANG = Number(nilai('--ulang', '1'));
-const FOLDER_LAYAR = nilai('--layar', null);
+const FOLDER = nilai('--catatan', null) ?? nilai('--layar', null);
+const LAYAR_SEMUA = argumen.includes('--layar');
+const DINGIN = argumen.includes('--dingin');
 const TAMPIL = argumen.includes('--tampil');
+const PILIH_SKENARIO = nilai('--skenario', 'naskah');
 
 const executablePath = [
   process.env.CHROME_PATH,
@@ -41,11 +46,11 @@ if (!executablePath) {
   console.error('Chrome/Edge tidak ditemukan. Setel CHROME_PATH.');
   process.exit(1);
 }
-if (FOLDER_LAYAR) mkdirSync(FOLDER_LAYAR, { recursive: true });
+if (FOLDER) mkdirSync(FOLDER, { recursive: true });
 
 const TUNGGU = 15_000;
 
-/** Tombol atau tautan dengan nama yang cocok (teks persis atau pola). */
+/** Tombol, tautan, radio, atau tab terlihat dengan nama yang cocok (teks atau pola). */
 const tombol = (page, nama) =>
   page
     .getByRole('button', { name: nama })
@@ -58,64 +63,37 @@ const tombol = (page, nama) =>
 async function klik(page, nama) {
   const t = tombol(page, nama);
   await t.waitFor({ state: 'visible', timeout: TUNGGU });
-  await t.click();
+  await t.click({ timeout: TUNGGU });
 }
 
 async function lihat(page, teks) {
   await page.getByText(teks).locator('visible=true').first().waitFor({ timeout: TUNGGU });
 }
 
-async function jalankanNaskah(browser, putaran, catatan) {
-  const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
-  const { galatApi, dipanggil } = catatan;
-  page.on('response', (r) => {
-    const u = new URL(r.url());
-    if (!u.pathname.startsWith('/api/v1/')) return;
-    const kunci = `${r.request().method()} ${u.pathname.replace(/\/[^/]*[0-9][^/]*$/, '/{id}')}`;
-    dipanggil.set(kunci, (dipanggil.get(kunci) ?? 0) + 1);
-    // 401 GET /akun wajar sebelum masuk.
-    if (r.status() >= 400 && !(r.status() === 401 && u.pathname === '/api/v1/akun'))
-      galatApi.push(`${r.status()} ${r.request().method()} ${u.pathname}`);
-  });
-  page.on('pageerror', (e) => galatApi.push(`galat halaman: ${e.message}`));
+async function aturUlang(page) {
+  await page.goto(`${URL_DASAR}/akun-demo`);
+  await klik(page, 'Atur ulang data demo');
+  await lihat(page, 'Data demo sudah dikembalikan');
+}
 
-  let nomor = 0;
-  const langkah = async (judul, kerja) => {
-    nomor += 1;
-    const mulai = Date.now();
-    try {
-      await kerja();
-    } catch (e) {
-      if (FOLDER_LAYAR)
-        await page.screenshot({
-          path: join(FOLDER_LAYAR, `${putaran}-gagal-${nomor}.png`),
-          fullPage: true,
-        });
-      throw new Error(`Langkah ${judul} gagal: ${e.message.split('\n')[0]}`, { cause: e });
-    }
-    if (FOLDER_LAYAR)
-      await page.screenshot({
-        path: join(FOLDER_LAYAR, `${putaran}-${String(nomor).padStart(2, '0')}.png`),
-      });
-    console.log(`  ✓ ${judul} (${((Date.now() - mulai) / 1000).toFixed(1)} dtk)`);
-  };
+// ---------------------------------------------------------------- skenario
 
-  await langkah('0. Atur ulang data demo', async () => {
-    await page.goto(`${URL_DASAR}/akun-demo`);
-    await klik(page, 'Atur ulang data demo');
-    await lihat(page, 'Data demo sudah dikembalikan');
-  });
+/** docs/naskah-demo.md, 10 langkah. */
+async function naskah(page, langkah) {
+  await langkah('0. Atur ulang data demo', () => aturUlang(page));
   await langkah('1. Halaman depan', async () => {
     await page.goto(`${URL_DASAR}/`);
     await lihat(page, 'Rp430.000');
     await lihat(page, 'Rp320.000');
   });
-  await langkah('2. Masuk sebagai petani', async () => {
+  await langkah('2. Daftar petani baru, lalu masuk sebagai Arif', async () => {
     await klik(page, 'Mulai sebagai petani');
     await page
       .getByLabel(/nomor HP/i)
       .first()
       .waitFor({ timeout: TUNGGU });
+    await masukNomorBaru(page, NOMOR_PETANI_BARU);
+    await pilihPeranPetani(page);
     await page.goto(`${URL_DASAR}/akun-demo`);
     await klik(page, 'Masuk sebagai Arif');
   });
@@ -194,31 +172,275 @@ async function jalankanNaskah(browser, putaran, catatan) {
     await klik(page, /^Pembayaran/);
     await lihat(page, /Ref\. /);
   });
-  await page.close();
 }
 
-const browser = await chromium.launch({ executablePath, headless: !TAMPIL });
-let gagal = false;
+/** Nomor fiktif untuk daftar akun baru; sama dengan docs/naskah-demo.md langkah 2. */
+export const NOMOR_PETANI_BARU = '0857 0000 1001';
+const NOMOR_PEMBELI_BARU = '0857 0000 2001';
+
+/** Masuk dengan nomor belum terdaftar: kode dari panel Kode uji, lalu setuju privasi. */
+async function masukNomorBaru(page, nomor) {
+  await page.goto(`${URL_DASAR}/masuk`);
+  await page.getByLabel('Nomor HP').fill(nomor);
+  await klik(page, 'Kirim kode');
+  const panel = page.getByText(/Kode uji: \d{6}/).first();
+  await panel.waitFor({ timeout: TUNGGU });
+  const kode = (await panel.textContent()).match(/\d{6}/)[0];
+  await page.getByLabel('Angka ke-1').click();
+  await page.keyboard.type(kode);
+  await klik(page, 'Masuk');
+  await lihat(page, 'Nomor ini belum punya akun');
+  await page.getByLabel('Saya setuju dengan kebijakan privasi Tani Muda').check();
+  await klik(page, 'Masuk');
+  await page.getByRole('heading', { name: 'Lengkapi akun' }).waitFor({ timeout: TUNGGU });
+}
+
+/** Lengkapi akun sebagai petani di desa pilot (nama dan desa sama dengan naskah demo). */
+async function pilihPeranPetani(page) {
+  await klik(page, /^Petani/);
+  await page.getByLabel('Nama lengkap').fill('Rina Agustina');
+  await page.getByLabel('Desa lokasi lahan').fill('Jayagiri');
+  await klik(page, /^Jayagiri,/);
+  await klik(page, 'Simpan dan lanjut');
+  await lihat(page, 'Mulai siklus tanam pertamamu');
+}
+
+/** Daftar petani baru sampai siklus pertama (T4.33, T4.34, T4.36a). */
+async function daftarPetani(page, langkah) {
+  await langkah('0. Atur ulang data demo', () => aturUlang(page));
+  await langkah('1. Masuk dengan nomor baru dan setuju privasi', () =>
+    masukNomorBaru(page, NOMOR_PETANI_BARU),
+  );
+  await langkah('2. Pilih peran petani dan desa', () => pilihPeranPetani(page));
+  await langkah('3. Tambah lahan', async () => {
+    await page.goto(`${URL_DASAR}/lahan`);
+    await lihat(page, 'Belum ada lahan. Tambah lahan pertamamu.');
+    // Petani tanpa lahan langsung melihat formulirnya; tombol hanya bila formulir belum terbuka.
+    if (!(await page.getByLabel('Nama lahan').isVisible())) await klik(page, 'Tambah lahan');
+    await page.getByLabel('Nama lahan').fill('Kebun Rina');
+    await page.getByLabel('Luas lahan').fill('50');
+    await klik(page, 'Simpan lahan');
+    await lihat(page, 'Kebun Rina');
+  });
+  await langkah('4. Buat siklus pertama', async () => {
+    await page.goto(`${URL_DASAR}/beranda`);
+    await klik(page, 'Mulai siklus tanam');
+    await klik(page, /Sawi hijau/);
+    await klik(page, 'Lanjut pilih metode');
+    await page
+      .getByLabel(/Luas lahan/)
+      .first()
+      .fill('20');
+    await klik(page, 'Lanjut hitung modal');
+    await klik(page, 'Simpan rencana');
+    await klik(page, /Kebun Rina/);
+    await klik(page, 'Hari ini');
+    await klik(page, 'Simpan dan buat jadwal');
+    await page.waitForURL(/\/beranda\?siklus=/, { timeout: TUNGGU });
+    await lihat(page, /hari ke-0/i);
+  });
+}
+
+/** Daftar pembeli baru sampai data usaha menunggu verifikasi (T4.28, T4.33, T4.34). */
+async function daftarPembeli(page, langkah) {
+  await langkah('0. Atur ulang data demo', () => aturUlang(page));
+  await langkah('1. Masuk dengan nomor baru dan setuju privasi', () =>
+    masukNomorBaru(page, NOMOR_PEMBELI_BARU),
+  );
+  await langkah('2. Pilih peran pembeli', async () => {
+    await klik(page, /^Pembeli/);
+    await page.getByLabel('Nama lengkap').fill('Dina Lestari');
+    await klik(page, 'Simpan dan lanjut');
+    await page.waitForURL(/\/pembeli\/daftar/, { timeout: TUNGGU });
+  });
+  await langkah('3. Data usaha', async () => {
+    await page.getByLabel('Nama usaha').fill('Warung Dina');
+    await page.getByLabel('Alamat tempat usaha').fill('Jl. Raya Lembang 12');
+    await page.getByLabel('Desa tempat usaha').fill('Lembang');
+    await klik(page, /^Lembang,/);
+    await klik(page, 'Kirim untuk diperiksa');
+    await page.getByRole('region', { name: 'Menunggu verifikasi' }).waitFor({ timeout: TUNGGU });
+  });
+}
+
+/** Pembeli baru diverifikasi admin lewat /admin, lalu bisa memasang pesanan (P0-02, kontrak 3.10). */
+async function verifikasiPembeli(page, langkah) {
+  await daftarPembeli(page, langkah);
+  await langkah('4. Admin memverifikasi', async () => {
+    await page.goto(`${URL_DASAR}/akun-demo`);
+    await klik(page, 'Masuk sebagai Admin');
+    // Pemilih akun mengarahkan ke halaman awal peran; tunggu supaya permintaan masuk selesai.
+    await page.waitForURL(/\/admin/, { timeout: TUNGGU });
+    await klik(page, 'Setujui Warung Dina');
+    await lihat(page, 'Warung Dina sudah terverifikasi.');
+  });
+}
+
+const SKENARIO = {
+  naskah,
+  'daftar-petani': daftarPetani,
+  'daftar-pembeli': daftarPembeli,
+  'verifikasi-pembeli': verifikasiPembeli,
+};
+const DAFTAR_SKENARIO = PILIH_SKENARIO === 'semua' ? Object.keys(SKENARIO) : [PILIH_SKENARIO];
+for (const s of DAFTAR_SKENARIO)
+  if (!SKENARIO[s]) {
+    console.error(
+      `Skenario tidak dikenal: ${s}. Pilih: ${Object.keys(SKENARIO).join(', ')}, semua.`,
+    );
+    process.exit(1);
+  }
+
+// ---------------------------------------------------------------- jalankan dan catat
+
+/** Satu skenario di konteks peramban baru (cache kosong); kembalikan waktu tiap langkah. */
+async function jalankan(browser, nama, putaran) {
+  const konteks = await browser.newContext({ viewport: { width: 1440, height: 900 } });
+  const page = await konteks.newPage();
+  const awal = Date.now();
+  const konsol = [];
+  const api = [];
+  const mulaiMinta = new Map();
+  const galatApi = [];
+  page.on('console', (m) =>
+    konsol.push(`${((Date.now() - awal) / 1000).toFixed(1)}s ${m.type()}: ${m.text()}`),
+  );
+  page.on('pageerror', (e) => {
+    konsol.push(`galat halaman: ${e.message}`);
+    galatApi.push(`galat halaman: ${e.message}`);
+  });
+  page.on('request', (r) => {
+    if (new URL(r.url()).pathname.startsWith('/api/v1/')) mulaiMinta.set(r, Date.now());
+  });
+  const selesaiMinta = (r, status) => {
+    const mulai = mulaiMinta.get(r);
+    if (mulai === undefined) return;
+    const u = new URL(r.url());
+    api.push({
+      mulai_dtk: Number(((mulai - awal) / 1000).toFixed(2)),
+      ms: Date.now() - mulai,
+      metode: r.method(),
+      jalur: u.pathname + u.search,
+      status,
+    });
+    // Wajar: 401 GET /akun sebelum masuk, dan 422 verifikasi pertama nomor baru tanpa centang
+    // privasi (memunculkan "Nomor ini belum punya akun").
+    const wajar =
+      (status === 401 && u.pathname === '/api/v1/akun') ||
+      (status === 422 && u.pathname === '/api/v1/auth/otp/verifikasi');
+    if (typeof status === 'number' && status >= 400 && !wajar)
+      galatApi.push(`${status} ${r.method()} ${u.pathname}`);
+  };
+  page.on('requestfinished', async (r) => selesaiMinta(r, (await r.response())?.status() ?? 0));
+  page.on('requestfailed', (r) => selesaiMinta(r, `gagal: ${r.failure()?.errorText ?? '?'}`));
+
+  const waktu = [];
+  let nomor = 0;
+  const langkah = async (judul, kerja) => {
+    nomor += 1;
+    const mulai = Date.now();
+    try {
+      await kerja();
+    } catch (e) {
+      const dasar = FOLDER ? join(FOLDER, `${nama}-${putaran}-gagal-${nomor}`) : null;
+      if (dasar) {
+        await page.screenshot({ path: `${dasar}.png`, fullPage: true }).catch(() => undefined);
+        writeFileSync(`${dasar}.html`, await page.content().catch(() => ''));
+        const terlihat = await page
+          .evaluate(() =>
+            [...globalThis.document.querySelectorAll('button, a, [role="radio"], [role="tab"]')]
+              .filter((el) => el.getClientRects().length > 0)
+              .map(
+                (el) =>
+                  `${el.tagName.toLowerCase()}: ${(el.getAttribute('aria-label') || el.textContent || '').trim().slice(0, 80)}${el.disabled ? ' (nonaktif)' : ''}`,
+              ),
+          )
+          .catch(() => []);
+        writeFileSync(
+          `${dasar}.json`,
+          JSON.stringify(
+            {
+              langkah: judul,
+              galat: e.message,
+              url: page.url(),
+              detik_sejak_mulai: (Date.now() - awal) / 1000,
+              terlihat,
+              konsol,
+              api,
+            },
+            null,
+            2,
+          ),
+        );
+      }
+      await konteks.close();
+      throw new Error(
+        `Langkah ${judul} gagal: ${e.message.split('\n')[0]}${dasar ? ` (diagnosis: ${dasar}.*)` : ''}`,
+        { cause: e },
+      );
+    }
+    const dtk = (Date.now() - mulai) / 1000;
+    waktu.push({ langkah: judul, dtk });
+    if (FOLDER && LAYAR_SEMUA)
+      await page.screenshot({
+        path: join(FOLDER, `${nama}-${putaran}-${String(nomor).padStart(2, '0')}.png`),
+      });
+    console.log(`  ✓ ${judul} (${dtk.toFixed(1)} dtk)`);
+  };
+
+  await SKENARIO[nama](page, langkah);
+  await konteks.close();
+  const lambat = api.filter((x) => x.ms >= 1000);
+  return { waktu, galatApi, lambat };
+}
+
+const hasil = [];
+let browser = DINGIN ? null : await chromium.launch({ executablePath, headless: !TAMPIL });
+let gagal = 0;
 try {
   for (let i = 1; i <= ULANG; i++) {
-    console.log(`Putaran ${i} (${URL_DASAR})`);
-    const catatan = { galatApi: [], dipanggil: new Map() };
-    try {
-      await jalankanNaskah(browser, i, catatan);
-    } catch (e) {
-      gagal = true;
-      console.error(`  ✗ ${e.message}`);
-    }
-    if (catatan.dipanggil.size) {
-      console.log(`  Endpoint dipanggil (${catatan.dipanggil.size}):`);
-      for (const [k, n] of [...catatan.dipanggil].sort()) console.log(`    ${k} ×${n}`);
-    }
-    if (catatan.galatApi.length) {
-      console.log('  Jawaban galat selama naskah:');
-      for (const g of [...new Set(catatan.galatApi)]) console.log(`    ${g}`);
+    for (const nama of DAFTAR_SKENARIO) {
+      if (DINGIN) browser = await chromium.launch({ executablePath, headless: !TAMPIL });
+      console.log(`Putaran ${i} · ${nama} (${URL_DASAR})`);
+      try {
+        const r = await jalankan(browser, nama, i);
+        hasil.push({ putaran: i, skenario: nama, lolos: true, ...r });
+        if (r.galatApi.length)
+          console.log(`  Jawaban galat: ${[...new Set(r.galatApi)].join('; ')}`);
+        if (r.lambat.length)
+          console.log(
+            `  Permintaan API ≥ 1 dtk: ${r.lambat.map((x) => `${x.metode} ${x.jalur} ${x.ms} ms`).join('; ')}`,
+          );
+      } catch (e) {
+        gagal += 1;
+        hasil.push({ putaran: i, skenario: nama, lolos: false, galat: e.message });
+        console.error(`  ✗ ${e.message}`);
+      }
+      if (DINGIN) await browser.close();
     }
   }
 } finally {
-  await browser.close();
+  if (!DINGIN) await browser.close();
 }
+
+// Ringkasan: waktu terlama dan rata-rata tiap langkah dari putaran yang lolos.
+console.log(`\nRingkasan: ${hasil.length - gagal} dari ${hasil.length} lolos`);
+for (const nama of DAFTAR_SKENARIO) {
+  const per = new Map();
+  for (const h of hasil.filter((x) => x.skenario === nama && x.lolos))
+    for (const w of h.waktu) per.set(w.langkah, [...(per.get(w.langkah) ?? []), w.dtk]);
+  if (!per.size) continue;
+  console.log(`  ${nama}: langkah, terlama, rata-rata (dtk)`);
+  for (const [l, d] of per)
+    console.log(
+      `    ${l.padEnd(46)} ${Math.max(...d)
+        .toFixed(1)
+        .padStart(5)} ${(d.reduce((a, b) => a + b, 0) / d.length).toFixed(1).padStart(5)}`,
+    );
+}
+if (FOLDER)
+  writeFileSync(
+    join(FOLDER, 'ringkasan.json'),
+    JSON.stringify({ url: URL_DASAR, dingin: DINGIN, hasil }, null, 2),
+  );
 process.exit(gagal ? 1 : 0);

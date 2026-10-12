@@ -186,7 +186,13 @@ export function buatKlienWilayah(k: Konteks): KlienWilayah {
     async daftar(p = {}) {
       k.penggunaMasuk();
       const cari = p.cari?.trim().toLowerCase();
-      // Desa yang tersedia di pilot lebih dulu, lalu urut nama desa (D-57).
+      // Desa yang tersedia di pilot lebih dulu (D-57); di dalamnya desa yang namanya cocok dengan
+      // kata cari (sama persis, diawali, memuat) sebelum yang hanya cocok kecamatannya (D-58).
+      const cocok = (desa: string) => {
+        const d = desa.toLowerCase();
+        if (!cari) return 0;
+        return d === cari ? 0 : d.startsWith(cari) ? 1 : d.includes(cari) ? 2 : 3;
+      };
       const hasil = k.db.wilayah
         .filter(
           (w) =>
@@ -198,6 +204,7 @@ export function buatKlienWilayah(k: Konteks): KlienWilayah {
         .sort(
           (a, b) =>
             Number(b.tersedia_pilot) - Number(a.tersedia_pilot) ||
+            cocok(a.desa) - cocok(b.desa) ||
             a.desa.localeCompare(b.desa, 'id'),
         );
       return k.halaman(hasil, p);

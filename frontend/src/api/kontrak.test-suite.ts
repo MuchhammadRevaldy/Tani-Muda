@@ -268,6 +268,10 @@ export function ujiKontrak(nama: string, siapkan: PenyiapLingkungan): void {
       it('cari dan paginasi', async () => {
         const r = await K.wilayah.daftar({ cari: 'suka' });
         expect(r.data.map((w) => w.desa)).toEqual(['Sukajaya']);
+        // Nama desa yang cocok lebih dulu dari desa yang hanya cocok kecamatannya (D-58).
+        const lembang = (await K.wilayah.daftar({ cari: 'lembang' })).data.map((w) => w.desa);
+        expect(lembang[0]).toBe('Lembang');
+        expect(lembang.length).toBeGreaterThan(3);
         const h = await K.wilayah.daftar({ per_halaman: 3, halaman: 2 });
         expect(h.meta).toEqual({ halaman: 2, per_halaman: 3, total: 9, halaman_terakhir: 3 });
         expect(h.data).toHaveLength(3);

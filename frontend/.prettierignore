@@ -3,3 +3,5 @@ dist/
 coverage/
 docs/
 package-lock.json
+dist-demo/
+dist-demo-backend/

@@ -2,6 +2,7 @@
 node_modules/
 dist/
 dist-demo/
+dist-demo-backend/
 coverage/
 
 # Rahasia: hanya .env.example yang masuk repo

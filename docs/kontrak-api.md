@@ -510,7 +510,7 @@ Peran: P = petani, B = pembeli, M = mentor, A = admin, semua = semua pengguna ma
 
 | Metode dan jalur | Peran | Masukan → respons | Klien |
 | --- | --- | --- | --- |
-| `GET /wilayah?cari=` (berhalaman) | semua | → `Halaman<Wilayah>`, desa `tersedia_pilot` lebih dulu, lalu urut nama desa (D-57); desa yang belum tersedia tetap tampil | `wilayah.daftar` |
+| `GET /wilayah?cari=` (berhalaman) | semua | → `Halaman<Wilayah>`, desa `tersedia_pilot` lebih dulu (D-57); di dalamnya desa yang namanya cocok dengan `cari` (sama persis, diawali, lalu memuat) sebelum desa yang hanya cocok kecamatannya, lalu urut nama desa (D-58); desa yang belum tersedia tetap tampil | `wilayah.daftar` |
 | `GET /wilayah/{id}` | semua | → `Wilayah` | `wilayah.ambil` |
 | `GET /komoditas?jenis_lahan=` | semua | → `Komoditas[]` | `referensi.komoditas` |
 | `GET /metode` | semua | → `MetodeTanam[]` | `referensi.metode` |
@@ -700,6 +700,7 @@ Rute ini **hanya didaftarkan saat `APP_ENV=local`**; di lingkungan lain jawabann
 
 | Tanggal | Perubahan |
 | --- | --- |
+| 2026-10-12 | D-58: urutan `GET /wilayah?cari=` mendahulukan nama desa yang cocok di dalam kelompok tersedia/belum tersedia. |
 | 2026-10-12 | D-56/D-57: `wilayah.lintang`/`bujur` boleh null dan `tersedia_pilot` (dihitung server); galat `422 WILAYAH_BELUM_TERSEDIA` di pilih peran dan ubah profil (petani), lahan, dan buat pesanan; `GET /wilayah` mendahulukan desa yang tersedia di pilot; endpoint demo lokal (bagian 3.13). |
 | 2026-10-12 | D-53: `lahan.kapasitas_lubang`, `siklus.jumlah_lubang`, dan `jumlah_polybag` menjadi bilangan bulat (sebelumnya "desimal"/"bilangan"); tipe TS memakai alias `BilanganBulat`. |
 | 2026-10-11 | D-52: baris `modul.hst_mulai` (sudah dipakai sejak D-43) dicatat di tabel 2.8; tidak ada perubahan perilaku. |

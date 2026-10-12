@@ -85,6 +85,12 @@ Selama Tahap 5 aplikasi tetap memakai data tiruan (`VITE_SUMBER_DATA=tiruan`, D-
 
 Tes Pest dijalankan tanpa `--parallel` agar hemat memori; saat tes backend berjalan, Vite tidak perlu menyala. Ketiganya (`composer uji`, `composer rapi:cek`, `composer analisis`) dijalankan di pemeriksaan penutup setiap gelombang. Tes di `tests/Serentak` menjalankan proses PHP terpisah dan memakai PHP yang sama dengan yang menjalankan Pest.
 
+## 4a. Demo dengan backend
+
+`npm run demo:backend` di akar repositori: build frontend mode demo yang tersambung ke backend, lalu API dan aplikasi di `http://localhost:4174` (proses pratinjau sekitar 118 MB). Dipakai untuk demo di depan juri; urutan hari-H di `docs/naskah-demo.md`. `--tanpa-build` memakai build sebelumnya.
+
+Uji naskah otomatis: `npm run uji:naskah -- --url http://localhost:4174 [--ulang 15] [--dingin] [--skenario semua] [--catatan <folder>]`. Skenario: `naskah`, `daftar-petani`, `daftar-pembeli`, `verifikasi-pembeli`. Saat langkah gagal, folder catatan berisi tangkapan layar, DOM, tombol yang terlihat, log konsol, dan waktu setiap permintaan API.
+
 ## 5. Mengulang data
 
 ```bash

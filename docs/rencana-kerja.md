@@ -1193,7 +1193,7 @@ Selama Tahap 5, frontend tetap memakai `VITE_SUMBER_DATA=tiruan` sebagai bawaan.
 - **Prasyarat:** T5.04.
 
 ### [ ] T5.10 Policy per peran dan tes akses silang **[DEMO]**
-- **Catatan (12 Okt 2026, D-57): dasar.** Middleware `peran:` (403 `TIDAK_DIIZINKAN` / `PERAN_BELUM_DIPILIH`) dan kepemilikan lewat kueri berpemilik (404 untuk data orang lain, D-22), dicontohkan di `AuthAkunTest` dan `AlurNaskahTest`. **Ditunda setelah lomba:** kelas Policy per model dan tes akses silang yang dibandingkan dengan `route:list`.
+- **Catatan (12 Okt 2026, D-57): dasar.** Middleware `peran:` (403 `TIDAK_DIIZINKAN` / `PERAN_BELUM_DIPILIH`) dan kepemilikan lewat kueri berpemilik (404 untuk data orang lain, D-22), dicontohkan di `AuthAkunTest` dan `AlurNaskahTest`. **Ditunda setelah lomba:** kelas Policy per model dan tes akses silang yang dibandingkan dengan `route:list`. **Syarat wajib ([AG-11]): Policy per model dan tes akses silang lengkap harus selesai sebelum pilot dengan pengguna sungguhan atau deploy apa pun**, termasuk deploy uji coba di VPS.
 - **Tujuan:**
   - Middleware peran dan middleware akun aktif.
   - Gate `ambil-pesanan` (D-13) dan `pasang-pesanan` (P0-02).

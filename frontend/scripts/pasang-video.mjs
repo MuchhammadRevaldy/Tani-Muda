@@ -16,9 +16,7 @@ const akar = fileURLToPath(new URL('..', import.meta.url));
 const folder = join(akar, 'public', 'video', 'modul');
 const data = join(akar, '..', 'shared', 'data-contoh');
 const keluar = join(data, 'video-modul.json');
-const modul = JSON.parse(
-  readFileSync(join(data, 'modul.json'), 'utf8'),
-);
+const modul = JSON.parse(readFileSync(join(data, 'modul.json'), 'utf8'));
 const { batas_video_mb: batasMb } = JSON.parse(
   readFileSync(join(data, 'konfigurasi.json'), 'utf8'),
 );

@@ -34,16 +34,17 @@ function kosongkanSemuaTabel(): void
  * Jalankan skrip pekerja tests/Serentak/<skrip> sebagai proses PHP terpisah dengan basis data uji.
  *
  * @param  list<string>  $argumen
+ * @param  array<string, string>  $envTambahan
  * @return array{0: resource, 1: array<int, resource>}
  */
-function jalankanPekerja(string $skrip, array $argumen): array
+function jalankanPekerja(string $skrip, array $argumen, array $envTambahan = []): array
 {
     $db = config('database.connections.'.config('database.default'));
     $env = array_merge(getenv(), [
         'APP_ENV' => 'testing',
         'DB_CONNECTION' => config('database.default'),
         'DB_DATABASE' => $db['database'],
-    ]);
+    ], $envTambahan);
     $proses = proc_open([PHP_BINARY, __DIR__.'/Serentak/'.$skrip, ...$argumen], [1 => ['pipe', 'w'], 2 => ['pipe', 'w']], $pipa, base_path(), $env);
     expect($proses)->toBeResource();
 

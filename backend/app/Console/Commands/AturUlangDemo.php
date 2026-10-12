@@ -5,13 +5,15 @@ namespace App\Console\Commands;
 use Carbon\CarbonImmutable;
 use Database\Seeders\DataContohSeeder;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 /**
  * Atur ulang data demo (D-47, D-57): semua tabel dikosongkan lalu diisi data contoh dengan waktu
  * relatif terhadap saat perintah dijalankan, sama dengan "Atur ulang data demo" di klien tiruan.
- * Tabel wilayah resmi dan riwayat migrasi tetap. Semua sesi ikut berakhir. Hanya untuk lingkungan
+ * Tabel wilayah resmi dan riwayat migrasi tetap. Pengguna yang dibuat setelah seeder ikut hilang,
+ * semua sesi berakhir, dan batas laju OTP kosong lagi. Hanya untuk lingkungan
  * lokal (dan tes), karena menghapus semua data.
  */
 class AturUlangDemo extends Command
@@ -52,5 +54,8 @@ class AturUlangDemo extends Command
             }
             DataContohSeeder::isi($sekarang);
         });
+        // Batas laju (throttle OTP per IP) dan kode uji tersimpan di cache: dikosongkan supaya nomor
+        // yang sama bisa dipakai lagi di setiap latihan ([AG-11]).
+        Cache::flush();
     }
 }

@@ -12,17 +12,22 @@ use Illuminate\Http\Request;
 /** Wilayah (kontrak 2.3 dan 3.2, D-56, D-57). */
 class WilayahController extends Controller
 {
-    /** GET /wilayah?cari= : desa tersedia di pilot lebih dulu, lalu urut nama desa. */
+    /**
+     * GET /wilayah?cari= : desa tersedia di pilot lebih dulu (D-57). Di dalamnya, desa yang namanya
+     * cocok dengan kata cari (sama persis, diawali, lalu memuat) sebelum desa yang hanya cocok
+     * kecamatannya (D-58), lalu urut nama desa.
+     */
     public function daftar(Request $request): JsonResponse
     {
         ['halaman' => $halaman, 'per_halaman' => $per] = Respons::paginasi($request);
-        $q = Wilayah::query();
+        $q = Wilayah::query()->orderByRaw('lintang IS NULL');
         $cari = trim((string) $request->query('cari'));
         if ($cari !== '') {
-            $q->where(fn ($w) => $w->where('desa', 'like', "%{$cari}%")->orWhere('kecamatan', 'like', "%{$cari}%"));
+            $pola = str_replace(['\\', '%', '_'], ['\\\\', '\\%', '\\_'], $cari);
+            $q->where(fn ($w) => $w->where('desa', 'like', "%{$pola}%")->orWhere('kecamatan', 'like', "%{$pola}%"))
+                ->orderByRaw('CASE WHEN desa = ? THEN 0 WHEN desa LIKE ? THEN 1 WHEN desa LIKE ? THEN 2 ELSE 3 END', [$cari, "{$pola}%", "%{$pola}%"]);
         }
-        $hasil = $q->orderByRaw('lintang IS NULL')->orderBy('desa')->orderBy('id')
-            ->paginate($per, ['*'], 'halaman', $halaman);
+        $hasil = $q->orderBy('desa')->orderBy('id')->paginate($per, ['*'], 'halaman', $halaman);
 
         return Respons::halaman($hasil, self::bentuk(...));
     }

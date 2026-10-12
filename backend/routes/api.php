@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\V1\AdminController;
 use App\Http\Controllers\Api\V1\AkunController;
 use App\Http\Controllers\Api\V1\AuthController;
 use App\Http\Controllers\Api\V1\BelajarController;
@@ -112,6 +113,12 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/pembeli/pesanan/{id}/bayar-uang-muka', [PembeliController::class, 'bayarUangMuka']);
         Route::post('/pembeli/pesanan/{id}/batalkan', [PembeliController::class, 'batalkan']);
         Route::get('/pembeli/pembayaran', [PembeliController::class, 'pembayaran']);
+    });
+
+    // Admin (3.10): verifikasi pembeli
+    Route::middleware('peran:admin')->group(function () {
+        Route::get('/admin/pembeli', [AdminController::class, 'pembeliMenunggu']);
+        Route::post('/admin/pembeli/{id}/verifikasi', [AdminController::class, 'verifikasi']);
     });
 });
 
