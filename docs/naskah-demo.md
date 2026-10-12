@@ -127,7 +127,23 @@ Skenario lain (`--skenario semua`) lolos di mode backend dan mode tiruan: daftar
 
 Memori saat demo dengan backend (tanpa Chrome): MariaDB sekitar 229 MB, Apache 60 MB, PHP 54 MB, pratinjau Node 128 MB, total sekitar 470 MB.
 
-**Belum diuji:** 3 putaran pertama setelah laptop dinyalakan ulang dengan Chrome dingin. Dijalankan pemilik laptop dengan:
+**3 putaran pertama setelah laptop dinyalakan ulang, semuanya lolos** (12 Oktober 2026: laptop menyala pukul 23.23, uji pukul 23.44, Chrome dingin, `--ulang 3 --dingin`). Langkah terlama 5,1 detik (langkah 2); langkah 5 terlama 4,4 detik; permintaan API terlama 1,6 detik. Tidak ada galat API. Jadi tidak ada perlambatan pada putaran pertama setelah restart dibandingkan 15 putaran di atas.
+
+| Langkah | Putaran 1 | Putaran 2 | Putaran 3 |
+| --- | --- | --- | --- |
+| 0. Atur ulang data demo | 1,9 | 1,8 | 1,8 |
+| 1. Halaman depan | 0,9 | 0,9 | 1,0 |
+| 2. Daftar petani baru, lalu masuk sebagai Arif | 5,1 | 4,7 | 4,9 |
+| 3. Beranda | 1,9 | 2,4 | 2,4 |
+| 4. Rencana dan modal | 1,3 | 2,0 | 1,7 |
+| 5. Jadwal dan pengukuran | 3,2 | 4,4 | 4,4 |
+| 6. Mengambil pesanan | 2,3 | 2,5 | 2,5 |
+| 7. Pindah ke pembeli | 1,8 | 1,9 | 1,9 |
+| 8. Membuat pesanan dan membayar uang muka | 0,7 | 1,0 | 0,6 |
+| 9. Konfirmasi kiriman | 0,8 | 0,9 | 0,6 |
+| 10. Penutup | 0,1 | 0,1 | 0,1 |
+
+Cara mengulang uji setelah restart:
 
 ```powershell
 # Terminal 1, biarkan menyala:
