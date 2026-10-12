@@ -58,24 +58,26 @@ Prasyarat sekali saja: PHP 8.3+ di PATH, `backend/.env` ada, `composer install` 
 2. Buka **XAMPP Control Panel**, tekan **Start** pada **MySQL** dan **Apache** (Apache hanya untuk phpMyAdmin).
 3. Terminal pertama, di folder repositori:
 
-   ```bash
+   ```powershell
    npm run demo:backend
    ```
 
    Perintah ini memeriksa PHP, `backend/.env`, dan MariaDB, membangun frontend mode demo (sekitar 30 detik), lalu menyalakan API dan aplikasi. Tunggu sampai tertulis `Demo dengan backend: http://localhost:4174`. Bila kode tidak berubah sejak kemarin, `npm run demo:backend -- --tanpa-build` langsung menyala.
 4. Terminal kedua, satu putaran cepat untuk memastikan semuanya jalan (sekitar 30 detik, tanpa jendela):
 
-   ```bash
+   ```powershell
    npm run uji:naskah -- --url http://localhost:4174
    ```
 
    Hasilnya harus `Ringkasan: 1 dari 1 lolos`. Putuskan mode demo di sini (lihat aturan hari-H).
 5. **Atur ulang data sesudah latihan**, karena latihan mengubah data (Rina sudah terdaftar, pesanan sudah diambil):
 
-   ```bash
-   cd backend
-   php artisan demo:atur-ulang
+   ```powershell
+   cd "C:\Users\Sandy\Tani Muda\backend"
+   & "C:\php-8.5.11-nts-Win32-vs17-x64\php.exe" artisan demo:atur-ulang
    ```
+
+   Jalur PHP ditulis lengkap karena `php` di PATH laptop ini masih PHP 8.1 bawaan XAMPP, sedangkan Laravel butuh 8.3 ke atas.
 
    Atau dari aplikasi: `/akun-demo` → **Atur ulang data demo**. Atur ulang menghapus semua perubahan, termasuk pengguna yang mendaftar setelah data contoh dan batas kirim ulang OTP, jadi nomor `0857 0000 1001` bisa dipakai lagi.
 6. Buka `http://localhost:4174/` di satu jendela Chrome, zoom 100%, dan pastikan angka Rp430.000 tampil. Siapkan tab phpMyAdmin (bagian di atas).
@@ -127,8 +129,13 @@ Memori saat demo dengan backend (tanpa Chrome): MariaDB sekitar 229 MB, Apache 6
 
 **Belum diuji:** 3 putaran pertama setelah laptop dinyalakan ulang dengan Chrome dingin. Dijalankan pemilik laptop dengan:
 
-```
+```powershell
+# Terminal 1, biarkan menyala:
+cd "C:\Users\Sandy\Tani Muda"
 npm run demo:backend
+# Terminal 2:
+cd "C:\Users\Sandy\Tani Muda"
 npm run uji:naskah -- --url http://localhost:4174 --ulang 3 --dingin --catatan uji-restart
-cd backend && php artisan demo:atur-ulang
 ```
+
+Catatan uji tersimpan di `frontend\uji-restart`. Sesudahnya atur ulang data seperti langkah 5 di atas.

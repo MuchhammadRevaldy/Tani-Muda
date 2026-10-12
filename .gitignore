@@ -26,3 +26,5 @@ design/extracted/
 Thumbs.db
 # Tangkapan sementara (tangkapan untuk pemilik produk disimpan di docs/tangkapan/)
 .tangkapan-sementara/
+# Catatan uji:naskah
+frontend/uji-*/

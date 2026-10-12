@@ -7,6 +7,7 @@
     "demo": "npm --prefix frontend run demo",
     "demo:backend": "npm --prefix frontend run demo:backend",
     "build:demo": "npm --prefix frontend run build:demo",
-    "preview:demo": "npm --prefix frontend run preview:demo"
+    "preview:demo": "npm --prefix frontend run preview:demo",
+    "uji:naskah": "npm --prefix frontend run uji:naskah --"
   }
 }
