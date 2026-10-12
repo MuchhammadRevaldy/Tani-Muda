@@ -8,6 +8,11 @@ import { BarisTugas } from './baris-tugas';
 import { ChipStatus } from './chip-status';
 import { Dialog } from './dialog';
 import { Ikon } from './ikon';
+import {
+  IlustrasiKomoditas,
+  alamatIlustrasiKomoditas,
+  daftarIlustrasiKomoditas,
+} from './ilustrasi';
 import { InputRupiah } from './input-rupiah';
 import { Kartu } from './kartu';
 import { KolomIsian } from './kolom-isian';
@@ -38,7 +43,8 @@ describe('Tombol dan Kartu', () => {
     render(<Tombol>Simpan rencana</Tombol>);
     const b = screen.getByRole('button', { name: 'Simpan rencana' });
     expect(b).toHaveAttribute('type', 'button');
-    expect(b.className).toContain('bg-daun-tua');
+    expect(b.className).toContain('bg-tombol-limau');
+    expect(b.className).toContain('rounded-full');
     expect(b.className).toContain('min-h-kontrol');
   });
   it('kartu dengan judul h2 dan kaki uang', () => {
@@ -103,7 +109,7 @@ describe('Uang', () => {
   it('negatif merah dengan minus', () => {
     render(<Uang nilai={-80000} label="Kalau panen jelek" />);
     const angka = screen.getByText('−Rp80.000');
-    expect(angka.className).toContain('text-tomat');
+    expect(angka.className).toContain('text-tomat-teks');
   });
 });
 
@@ -351,5 +357,31 @@ describe('PenggarisUmurTanam', () => {
       'Umur tanam hari ke-13 dari 28. Pupuk 1, hari ke-7 · selesai. Pupuk 2, hari ke-14 · besok.',
     );
     expect(screen.getByRole('list')).toHaveTextContent('hari ke-14 · besok');
+  });
+});
+
+describe('IlustrasiKomoditas (D-59)', () => {
+  it('memuat SVG 3D lewat <img> dengan alt', () => {
+    render(<IlustrasiKomoditas nama="cabai" />);
+    const g = screen.getByRole('img', { name: 'Ilustrasi cabai rawit' });
+    expect(g.tagName).toBe('IMG');
+    expect(g).toHaveAttribute('src', '/ilustrasi/komoditas/cabai-rawit.svg');
+  });
+  it('alt kosong menjadikannya hiasan; segera hadir tampil redup', () => {
+    const { container } = render(<IlustrasiKomoditas nama="padi" alt="" segera />);
+    const g = container.querySelector('img');
+    expect(g).toHaveAttribute('alt', '');
+    expect(g?.className).toContain('grayscale');
+  });
+  it('komoditas tanpa ilustrasi memakai ikon kebun, bukan gambar rusak', () => {
+    const { container } = render(<IlustrasiKomoditas nama="durian" alt="" />);
+    expect(container.querySelector('img')).toBeNull();
+    expect(container.querySelector('svg')).not.toBeNull();
+  });
+  it('11 ilustrasi, semuanya ada berkasnya di public/', async () => {
+    const { existsSync } = await import('node:fs');
+    expect(daftarIlustrasiKomoditas).toHaveLength(11);
+    for (const n of daftarIlustrasiKomoditas)
+      expect(existsSync(`public${alamatIlustrasiKomoditas(n)}`), n).toBe(true);
   });
 });

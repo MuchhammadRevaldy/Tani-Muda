@@ -14,7 +14,7 @@ export interface KartuProps extends Omit<HTMLAttributes<HTMLElement>, 'title'> {
   tingkatJudul?: 2 | 3;
 }
 
-/** Kartu putih, garis 1px, sudut 16px, tanpa bayangan. */
+/** Kartu putih, sudut 24px, bayangan lembut (D-59). */
 export function Kartu({
   judul,
   keterangan,
@@ -31,7 +31,7 @@ export function Kartu({
   const Judul = tingkatJudul === 2 ? 'h2' : 'h3';
   return (
     <section
-      className={cx('overflow-hidden rounded-lg border border-garis bg-putih', className)}
+      className={cx('overflow-hidden rounded-kartu bg-putih shadow-kartu', className)}
       {...lain}
     >
       {adaKepala ? (

@@ -10,18 +10,21 @@ import { Ikon, type NamaIkon } from './ikon';
  * - promo: "Promo" (selalu terlihat sebagai iklan, P0-35)
  * - polos: "Resep tersedia" (teks hijau dengan ikon)
  * - contoh: "CONTOH, belum divalidasi penyuluh" (D-10, D-11)
+ * - sorot: label berjarak huruf oranye di atas judul, mis. nama lahan (papan Sistem tema D-59)
  */
-export type NadaLabel = 'hijau' | 'segera' | 'garis' | 'promo' | 'polos' | 'contoh';
+export type NadaLabel = 'hijau' | 'segera' | 'garis' | 'promo' | 'polos' | 'contoh' | 'sorot';
 
 const NADA: Record<NadaLabel, string> = {
   hijau: 'min-h-7.5 rounded-full bg-daun-lembut px-2.5 font-medium text-daun-tua',
   segera:
     'min-h-7.5 rounded-full border-1.5 border-matahari bg-matahari-lembut px-2.5 font-medium text-matahari-teks',
   garis: 'min-h-6.5 rounded-full border-1.5 border-garis-kuat px-2 font-medium text-teks',
+  sorot: 'font-semibold tracking-lebar text-tanah',
   promo:
-    'min-h-7 rounded-sm border-1.5 border-matahari bg-matahari-lembut px-2.5 font-semibold text-matahari-teks',
+    'min-h-7 rounded-full border-1.5 border-matahari bg-matahari-lembut px-2.5 font-semibold text-matahari-teks',
   polos: 'font-medium text-daun-tua',
-  contoh: 'min-h-7 rounded-sm border-1.5 border-garis-kuat bg-putih px-2.5 font-semibold text-teks',
+  contoh:
+    'min-h-7 rounded-full border-1.5 border-matahari bg-matahari-lembut px-2.5 font-semibold text-matahari-teks',
 };
 
 export function LabelKecil({

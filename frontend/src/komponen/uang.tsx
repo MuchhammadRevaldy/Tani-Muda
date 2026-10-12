@@ -18,7 +18,7 @@ export function Uang({ nilai, label, keterangan, besar, className }: UangProps) 
       className={cx(
         'whitespace-nowrap font-semibold',
         besar && 'text-uang',
-        rugi ? 'text-tomat' : 'text-tanah',
+        rugi ? 'text-tomat-teks' : 'text-tanah',
       )}
     >
       {formatRupiah(nilai)}

@@ -317,7 +317,7 @@ function BarisKiriman({ d, nama }: { d: KirimanLengkap; nama: string }) {
       </div>
       <span className="text-teks-pendukung">{ket}</span>
       {selesai && ditolak ? (
-        <span className="flex items-start gap-1.5 font-medium text-tomat">
+        <span className="flex items-start gap-1.5 font-medium text-tomat-teks">
           <Ikon nama="peringatan" ukuran={20} className="mt-0.5" />
           {t.ditolak(
             x.jumlah_ditolak_kg,

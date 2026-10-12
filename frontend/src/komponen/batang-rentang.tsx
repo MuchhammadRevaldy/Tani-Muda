@@ -17,7 +17,7 @@ const WARNA_PENANDA: Record<StatusPengukuran, string> = {
 const WARNA_TEKS: Record<StatusPengukuran, string> = {
   normal: 'text-daun-tua',
   'terlalu-tinggi': 'text-matahari-teks',
-  'terlalu-rendah': 'text-tomat',
+  'terlalu-rendah': 'text-tomat-teks',
   kosong: 'text-teks-pendukung',
 };
 

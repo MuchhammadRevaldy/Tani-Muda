@@ -40,7 +40,7 @@ const KELAS_KALIMAT: Record<StatusPin, string> = {
   selesai: 'text-daun-tua',
   besok: 'font-medium text-matahari-teks',
   belum: 'text-teks-pendukung',
-  terlambat: 'font-medium text-tomat',
+  terlambat: 'font-medium text-tomat-teks',
   panen: 'text-tanah',
 };
 
@@ -78,12 +78,12 @@ export function Pin({
 }
 
 let kanvas: CanvasRenderingContext2D | null | undefined;
-/** Ukur lebar teks 16px Plus Jakarta Sans lewat canvas; cadangan perkiraan bila tidak ada. */
+/** Ukur lebar teks 16px Outfit lewat canvas; cadangan perkiraan bila tidak ada. */
 const ukurTeksCanvas: UkurTeks = (teks, berat) => {
   try {
     if (kanvas === undefined) kanvas = document.createElement('canvas').getContext('2d');
     if (!kanvas) return ukurTeksPerkiraan(teks, berat);
-    kanvas.font = `${berat} 16px "Plus Jakarta Sans", system-ui, sans-serif`;
+    kanvas.font = `${berat} 16px Outfit, system-ui, sans-serif`;
     return Math.ceil(kanvas.measureText(teks).width);
   } catch {
     return ukurTeksPerkiraan(teks, berat);

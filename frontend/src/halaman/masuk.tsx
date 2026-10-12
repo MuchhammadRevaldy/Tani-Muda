@@ -192,7 +192,7 @@ export function HalamanMasuk() {
           {galatPrivasi ? (
             <p
               role="alert"
-              className="m-0 flex items-start gap-2 text-keterangan font-medium text-tomat"
+              className="m-0 flex items-start gap-2 text-keterangan font-medium text-tomat-teks"
             >
               <Ikon nama="peringatan" ukuran={20} className="mt-px" />
               <span>{galatPrivasi}</span>

@@ -1,39 +1,62 @@
 import type { Config } from 'tailwindcss';
 
 /**
- * Token desain Tani Muda. Sumber: design/extracted/pages/00-sistem-desain-desktop.html (papan sistem desain)
- * dan docs/ringkasan-desain.md bagian 1.
+ * Token desain Tani Muda. Sumber: tema baru D-59 (artifact "Tema Baru Tani Muda", papan Sistem tema) dan
+ * docs/ringkasan-desain.md bagian 1. Nama token lama dipertahankan dengan nilai baru (D-59) supaya
+ * pemakaian di halaman tidak perlu diganti sebelum lomba; penggantian nama dikerjakan setelahnya.
  *
  * Bagian tema di bawah sengaja MENGGANTI tema bawaan Tailwind (bukan `extend`), sehingga
  * warna bawaan (`bg-green-600`), ukuran teks kecil (`text-sm`), dan bayangan (`shadow-md`)
  * tidak tersedia sama sekali. Menambah token: ubah di sini DAN di ringkasan-desain.md.
  */
 
-/** 17 warna desain. Satu-satunya tempat hex boleh ditulis. */
+/** Warna desain (D-59). Satu-satunya tempat hex boleh ditulis. */
 export const warna = {
-  'daun-tua': '#1E6B45',
-  'daun-tekan': '#16573A',
-  'daun-lembut': '#E3F0E5',
-  'embun-pagi': '#F3F7EF',
+  // Limau: tombol utama dan progres. Teks putih di atas limau kontrasnya 1,8–2,5:1, diterima
+  // pemilik produk sebagai utang desain yang wajib ditinjau sebelum pilot (D-59).
+  limau: '#86C232',
+  'limau-terang': '#95D23B',
+  'limau-tekan': '#76B52A',
+  // Limau tua: peran teks, garis pilihan, dan ikon aktif (6,4:1 di atas putih).
+  'daun-tua': '#3D6B0E',
+  'daun-tekan': '#2F540A',
+  'daun-lembut': '#EEF8DF',
+  'embun-pagi': '#F7F8FA',
   putih: '#FFFFFF',
-  tanah: '#6B4A2E',
-  'tanah-lembut': '#F4ECE3',
-  matahari: '#D99A1E',
-  'matahari-teks': '#8A5A00',
-  'matahari-lembut': '#FFF4DA',
-  tomat: '#C8402E',
-  'tomat-teks': '#A93624',
-  'tomat-lembut': '#FCEBE7',
-  teks: '#1F2420',
-  'teks-pendukung': '#5B665D',
-  garis: '#DDE6D8',
-  'garis-kuat': '#738076',
+  // Oranye: aksen, tombol tambah, lencana. Untuk teks dipakai oranye tua (tanah, 5,1:1).
+  oranye: '#F27F3D',
+  'oranye-terang': '#F79459',
+  'oranye-tekan': '#EE6F2C',
+  tanah: '#B4501A',
+  'tanah-lembut': '#FEEEE4',
+  matahari: '#F5A524',
+  'matahari-teks': '#8A5200',
+  'matahari-lembut': '#FFF5E0',
+  tomat: '#E5484D',
+  'tomat-teks': '#B4262B',
+  'tomat-lembut': '#FDECEC',
+  // Biru tua: teks utama dan kartu sorotan.
+  teks: '#2E3547',
+  // Teks pendukung di atas kartu sorotan biru tua (7,8:1).
+  'teks-redup': '#C9CEDA',
+  'teks-pendukung': '#687083',
+  garis: '#EEF0F3',
+  // Garis kontrol (kolom isian, lingkaran centang): minimal 3:1 terhadap putih (WCAG 1.4.11).
+  'garis-kuat': '#8A91A0',
 } as const;
+
+/** Bayangan bernama (D-59). Bayangan bawaan Tailwind tetap dilarang (cek-aturan BAYANGAN). */
+const bayangan = {
+  kartu: '0 24px 48px rgba(46,53,71,.10)',
+  ikon: '0 10px 24px rgba(46,53,71,.10)',
+  'cahaya-limau': '0 16px 32px rgba(134,194,50,.45)',
+  'cahaya-oranye': '0 14px 28px rgba(242,127,61,.45)',
+};
 
 /** Ukuran bernama yang dipakai berulang di desain. */
 const ukuranBernama = {
   sentuh: '48px', // target sentuh minimum
-  kontrol: '52px', // tinggi tombol dan kolom isian
+  kontrol: '56px', // tinggi tombol dan kolom isian (D-59: 56–60px)
   chip: '34px',
   lingkaran: '30px', // lingkaran centang tugas
   pin: '28px',
@@ -76,6 +99,7 @@ const skala = {
   20: '80px',
   22: '88px',
   24: '96px',
+  26: '104px',
   ...ukuranBernama,
 };
 
@@ -94,10 +118,10 @@ const config: Config = {
       inherit: 'inherit',
       ...warna,
       // Tirai di belakang dialog/sheet: warna teks 56% (papan 11).
-      tirai: 'rgb(31 36 32 / 0.56)',
+      tirai: 'rgb(46 53 71 / 0.56)',
     },
     fontFamily: {
-      sans: ['"Plus Jakarta Sans"', 'system-ui', '"Segoe UI"', 'sans-serif'],
+      sans: ['Outfit', 'system-ui', '"Segoe UI"', 'sans-serif'],
     },
     // [ukuran, tinggi baris]. Teks paling kecil 16px.
     fontSize: {
@@ -123,6 +147,8 @@ const config: Config = {
       normal: '400',
       medium: '500',
       semibold: '600',
+      // Hanya judul besar (hero halaman depan, nama di Beranda), seperti papan D-59.
+      bold: '700',
     },
     lineHeight: {
       none: '1',
@@ -136,6 +162,8 @@ const config: Config = {
     letterSpacing: {
       normal: '0',
       rapat: '-0.01em',
+      // Label kecil berjarak huruf (papan Sistem tema D-59).
+      lebar: '0.12em',
     },
     spacing: skala,
     borderRadius: {
@@ -147,6 +175,9 @@ const config: Config = {
       tab: '14px',
       lg: '16px',
       sheet: '20px',
+      kartu: '24px',
+      nav: '28px', // navigasi bawah mengambang (papan Beranda HP)
+      'kartu-besar': '32px',
       full: '9999px',
     },
     borderWidth: {
@@ -159,7 +190,7 @@ const config: Config = {
     },
     boxShadow: {
       none: 'none',
-      // Satu-satunya bayangan: cincin fokus dan cincin pilihan. Tidak ada bayangan jatuh.
+      ...bayangan,
       fokus: `0 0 0 2px ${warna.putih}, 0 0 0 4px ${warna['daun-tua']}`,
       pilihan: `inset 0 0 0 2px ${warna['daun-tua']}`,
       garis: `0 0 0 1px ${warna.garis}`,
@@ -175,6 +206,13 @@ const config: Config = {
       dok: '900px',
       pembeli: '1152px',
       konten: '1200px',
+    },
+    backgroundImage: {
+      none: 'none',
+      // Gradasi tombol (D-59): atas terang, bawah tekan.
+      'tombol-limau': `linear-gradient(180deg, ${warna['limau-terang']} 0%, ${warna['limau-tekan']} 100%)`,
+      'tombol-oranye': `linear-gradient(180deg, ${warna['oranye-terang']} 0%, ${warna['oranye-tekan']} 100%)`,
+      'progres-limau': `linear-gradient(90deg, ${warna['limau-tekan']} 0%, ${warna['limau-terang']} 100%)`,
     },
     extend: {
       textUnderlineOffset: { 3: '3px' },

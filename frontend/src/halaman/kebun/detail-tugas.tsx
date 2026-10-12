@@ -201,7 +201,7 @@ export function HalamanDetailTugas() {
               <button
                 type="button"
                 onClick={() => setFoto(null)}
-                className="fokus-cincin -ml-2 inline-flex min-h-sentuh cursor-pointer items-center self-start rounded-md border-0 bg-transparent px-2 font-semibold text-tomat"
+                className="fokus-cincin -ml-2 inline-flex min-h-sentuh cursor-pointer items-center self-start rounded-md border-0 bg-transparent px-2 font-semibold text-tomat-teks"
               >
                 {t.hapusFoto}
               </button>

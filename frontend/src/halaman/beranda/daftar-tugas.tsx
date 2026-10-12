@@ -116,7 +116,7 @@ export function DaftarTugasHariIni({
           {t.tugasHariIni}
         </h2>
         {terlambat ? (
-          <span className="inline-flex items-center gap-1.5 font-medium text-tomat">
+          <span className="inline-flex items-center gap-1.5 font-medium text-tomat-teks">
             <Ikon nama="peringatan" ukuran={18} />
             {t.jumlahTerlambat(terlambat)}
           </span>

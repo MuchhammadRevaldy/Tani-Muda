@@ -8,6 +8,18 @@ const WARNA_BAWAAN =
 const AWALAN_WARNA =
   'bg|text|border|ring|fill|stroke|from|to|via|outline|divide|placeholder|shadow|accent|caret|decoration';
 
+/** Token bayangan di tailwind.config.ts (D-59). Selain ini, kelas shadow-* dilarang. */
+const BAYANGAN_BERNAMA = [
+  'none',
+  'fokus',
+  'pilihan',
+  'garis',
+  'kartu',
+  'ikon',
+  'cahaya-limau',
+  'cahaya-oranye',
+];
+
 /**
  * Nama kunci rahasia backend (D-19): APP_KEY, DB_PASSWORD, VAPID_PRIVATE_KEY, …_SECRET, …_TOKEN
  * milik server, dan service role. Hanya boleh ada di .env backend, tidak pernah di frontend.
@@ -35,8 +47,10 @@ export const ATURAN_POLA = [
   },
   {
     kode: 'BAYANGAN',
-    pesan: 'Bayangan jatuh dilarang. Hanya shadow-fokus/pilihan/garis',
-    pola: /\bshadow-(sm|md|lg|xl|2xl|inner)\b/,
+    pesan: `Bayangan bawaan atau sembarang dilarang. Hanya token bernama: shadow-${BAYANGAN_BERNAMA.join('/')} (D-59)`,
+    pola: new RegExp(
+      `(^|[\\s'"\`:])shadow(?!-(?:${BAYANGAN_BERNAMA.join('|')})(?![\\w-]))(?=[-\\s'"\`]|$)`,
+    ),
   },
   {
     kode: 'NILAI_SEMBARANG',

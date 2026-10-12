@@ -20,17 +20,17 @@ const STATUS: Record<StatusChip, { label: string; ikon: NamaIkon | null; kelas: 
   'hari-ini': {
     label: 'Hari ini',
     ikon: null,
-    kelas: 'border-2 border-daun-tua bg-putih text-daun-tua',
+    kelas: 'border-2 border-limau bg-putih text-teks',
   },
   besok: {
     label: 'Besok',
     ikon: 'jam',
-    kelas: 'border-matahari bg-matahari-lembut text-matahari-teks',
+    kelas: 'border-transparent bg-matahari-lembut text-matahari-teks',
   },
   terlambat: {
     label: 'Terlambat',
     ikon: 'peringatan',
-    kelas: 'border-tomat bg-tomat-lembut text-tomat-teks',
+    kelas: 'border-transparent bg-tomat-lembut text-tomat-teks',
   },
   'uang-muka-ditahan': {
     label: 'Uang muka ditahan',
@@ -45,7 +45,7 @@ const STATUS: Record<StatusChip, { label: string; ikon: NamaIkon | null; kelas: 
   'dana-cair': {
     label: 'Dana cair',
     ikon: 'uang',
-    kelas: 'border-transparent bg-daun-tua text-putih',
+    kelas: 'border-transparent bg-teks text-putih',
   },
 };
 
@@ -66,7 +66,7 @@ export function ChipStatus({
   return (
     <span
       className={cx(
-        'inline-flex min-h-chip items-center gap-2 whitespace-nowrap rounded-full border-1.5 px-3 align-middle text-keterangan font-medium',
+        'inline-flex min-h-chip items-center gap-2 whitespace-nowrap rounded-full border-1.5 px-3 align-middle text-keterangan font-semibold',
         s.kelas,
         className,
       )}
@@ -74,7 +74,7 @@ export function ChipStatus({
       {s.ikon ? (
         <Ikon nama={s.ikon} ukuran={18} tebal={2.25} />
       ) : (
-        <span className="h-2.5 w-2.5 flex-none rounded-full bg-current" aria-hidden="true" />
+        <span className="h-2 w-2 flex-none rounded-full bg-limau" aria-hidden="true" />
       )}
       <span>{children ?? s.label}</span>
     </span>

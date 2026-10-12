@@ -28,7 +28,7 @@ function KetStatus({ i }: { i: ItemRealisasi }) {
     );
   if (i.status === 'lebih')
     return (
-      <span className="inline-flex items-start gap-1.5 font-medium text-tomat">
+      <span className="inline-flex items-start gap-1.5 font-medium text-tomat-teks">
         <Ikon nama="peringatan" ukuran={18} className="mt-0.5" />
         {t.statusItem.lebih(formatRupiah(i.selisih))}
       </span>
@@ -87,7 +87,7 @@ function Isi({ d }: { d: DataSiklus }) {
               />
             ) : null}
             {untung.ok && untung.nilai.rugi ? (
-              <p className="m-0 flex items-start gap-2 text-keterangan font-medium text-tomat">
+              <p className="m-0 flex items-start gap-2 text-keterangan font-medium text-tomat-teks">
                 <Ikon nama="peringatan" ukuran={20} className="mt-px" />
                 {t.rugi}
               </p>

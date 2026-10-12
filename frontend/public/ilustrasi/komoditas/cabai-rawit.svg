@@ -1,0 +1,103 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" role="img" aria-label="Cabai rawit">
+  <title>Cabai rawit</title>
+  <defs>
+    <radialGradient id="cabai-bayang" cx="50%" cy="50%" r="50%"><stop offset="0.00" stop-color="rgba(46,53,71,.30)"/><stop offset="1.00" stop-color="rgba(46,53,71,0)"/></radialGradient>
+    <linearGradient id="cabai-d1" x1="0" y1="1" x2="0.35" y2="0"><stop offset="0.00" stop-color="#3E9B1F"/><stop offset="0.50" stop-color="#7CCB2B"/><stop offset="1.00" stop-color="#C9F23E"/></linearGradient>
+    <linearGradient id="cabai-d2" x1="0" y1="1" x2="0.35" y2="0"><stop offset="0.00" stop-color="#2B7516"/><stop offset="0.50" stop-color="#5DAE25"/><stop offset="1.00" stop-color="#9BD836"/></linearGradient>
+    <linearGradient id="cabai-d3" x1="0" y1="1" x2="0.35" y2="0"><stop offset="0.00" stop-color="#1D5A15"/><stop offset="0.50" stop-color="#3B8F24"/><stop offset="1.00" stop-color="#79C23A"/></linearGradient>
+    <linearGradient id="cabai-batang" x1="0" y1="1" x2="0" y2="0"><stop offset="0.00" stop-color="#4E9A2A"/><stop offset="1.00" stop-color="#8CCB4A"/></linearGradient>
+    <linearGradient id="cabai-buah" x1="0" y1="1" x2="0.3" y2="0"><stop offset="0.00" stop-color="#B3261E"/><stop offset="0.50" stop-color="#E5482F"/><stop offset="1.00" stop-color="#FF8A5C"/></linearGradient>
+  </defs>
+  <ellipse cx="120" cy="212" rx="64" ry="10" fill="url(#cabai-bayang)"/>
+  <ellipse cx="120" cy="206" rx="20.48" ry="4.5" fill="#6B4A2E" opacity=".55"/>
+  <path d="M120 204 C120 170 118 140 120 110" stroke="url(#cabai-batang)" stroke-width="6" fill="none" stroke-linecap="round"/>
+  <path d="M120 160 C100 145 80 130 68 112" stroke="url(#cabai-batang)" stroke-width="4" fill="none" stroke-linecap="round"/>
+  <path d="M120 145 C140 130 158 118 170 98" stroke="url(#cabai-batang)" stroke-width="4" fill="none" stroke-linecap="round"/>
+  <path d="M120 125 C110 110 98 92 94 76" stroke="url(#cabai-batang)" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+  <path d="M120 115 C128 100 134 84 136 66" stroke="url(#cabai-batang)" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+  <g transform="translate(68 114) rotate(-55)">
+    <path d="M0 0 C-12.35 -7.199999999999999 -13 -24.8 0 -40 C13 -24.8 12.35 -7.199999999999999 0 0 Z" fill="url(#cabai-d3)"/>
+    <path d="M0 -1.6 C0.52 -16 0 -28 -0.65 -36.800000000000004" stroke="#EFFFD0" stroke-opacity=".7" stroke-width="1.56" fill="none" stroke-linecap="round"/>
+    <path d="M-5.8500000000000005 -12 C-7.8 -20 -6.5 -28 -3.9 -32.8" stroke="#fff" stroke-opacity=".32" stroke-width="2.34" fill="none" stroke-linecap="round"/>
+  </g>
+  <g transform="translate(80 128) rotate(-100)">
+    <path d="M0 0 C-11.399999999999999 -6.4799999999999995 -12 -22.32 0 -36 C12 -22.32 11.399999999999999 -6.4799999999999995 0 0 Z" fill="url(#cabai-d1)"/>
+    <path d="M0 -1.44 C0.48 -14.4 0 -25.2 -0.6000000000000001 -33.120000000000005" stroke="#EFFFD0" stroke-opacity=".7" stroke-width="1.44" fill="none" stroke-linecap="round"/>
+    <path d="M-5.4 -10.799999999999999 C-7.199999999999999 -18 -6 -25.2 -3.5999999999999996 -29.52" stroke="#fff" stroke-opacity=".32" stroke-width="2.16" fill="none" stroke-linecap="round"/>
+  </g>
+  <g transform="translate(94 80) rotate(-30)">
+    <path d="M0 0 C-11.399999999999999 -6.84 -12 -23.56 0 -38 C12 -23.56 11.399999999999999 -6.84 0 0 Z" fill="url(#cabai-d1)"/>
+    <path d="M0 -1.52 C0.48 -15.200000000000001 0 -26.599999999999998 -0.6000000000000001 -34.96" stroke="#EFFFD0" stroke-opacity=".7" stroke-width="1.44" fill="none" stroke-linecap="round"/>
+    <path d="M-5.4 -11.4 C-7.199999999999999 -19 -6 -26.599999999999998 -3.5999999999999996 -31.159999999999997" stroke="#fff" stroke-opacity=".32" stroke-width="2.16" fill="none" stroke-linecap="round"/>
+  </g>
+  <g transform="translate(170 100) rotate(50)">
+    <path d="M0 0 C-12.35 -7.199999999999999 -13 -24.8 0 -40 C13 -24.8 12.35 -7.199999999999999 0 0 Z" fill="url(#cabai-d3)"/>
+    <path d="M0 -1.6 C0.52 -16 0 -28 -0.65 -36.800000000000004" stroke="#EFFFD0" stroke-opacity=".7" stroke-width="1.56" fill="none" stroke-linecap="round"/>
+    <path d="M-5.8500000000000005 -12 C-7.8 -20 -6.5 -28 -3.9 -32.8" stroke="#fff" stroke-opacity=".32" stroke-width="2.34" fill="none" stroke-linecap="round"/>
+  </g>
+  <g transform="translate(154 120) rotate(100)">
+    <path d="M0 0 C-11.399999999999999 -6.4799999999999995 -12 -22.32 0 -36 C12 -22.32 11.399999999999999 -6.4799999999999995 0 0 Z" fill="url(#cabai-d1)"/>
+    <path d="M0 -1.44 C0.48 -14.4 0 -25.2 -0.6000000000000001 -33.120000000000005" stroke="#EFFFD0" stroke-opacity=".7" stroke-width="1.44" fill="none" stroke-linecap="round"/>
+    <path d="M-5.4 -10.799999999999999 C-7.199999999999999 -18 -6 -25.2 -3.5999999999999996 -29.52" stroke="#fff" stroke-opacity=".32" stroke-width="2.16" fill="none" stroke-linecap="round"/>
+  </g>
+  <g transform="translate(136 70) rotate(25)">
+    <path d="M0 0 C-11.399999999999999 -6.84 -12 -23.56 0 -38 C12 -23.56 11.399999999999999 -6.84 0 0 Z" fill="url(#cabai-d1)"/>
+    <path d="M0 -1.52 C0.48 -15.200000000000001 0 -26.599999999999998 -0.6000000000000001 -34.96" stroke="#EFFFD0" stroke-opacity=".7" stroke-width="1.44" fill="none" stroke-linecap="round"/>
+    <path d="M-5.4 -11.4 C-7.199999999999999 -19 -6 -26.599999999999998 -3.5999999999999996 -31.159999999999997" stroke="#fff" stroke-opacity=".32" stroke-width="2.16" fill="none" stroke-linecap="round"/>
+  </g>
+  <g transform="translate(120 112) rotate(-5)">
+    <path d="M0 0 C-12.35 -7.56 -13 -26.04 0 -42 C13 -26.04 12.35 -7.56 0 0 Z" fill="url(#cabai-d1)"/>
+    <path d="M0 -1.68 C0.52 -16.8 0 -29.4 -0.65 -38.64" stroke="#EFFFD0" stroke-opacity=".7" stroke-width="1.56" fill="none" stroke-linecap="round"/>
+    <path d="M-5.8500000000000005 -12.6 C-7.8 -21 -6.5 -29.4 -3.9 -34.44" stroke="#fff" stroke-opacity=".32" stroke-width="2.34" fill="none" stroke-linecap="round"/>
+  </g>
+  <g transform="translate(114 150) rotate(-75)">
+    <path d="M0 0 C-10.45 -6.12 -11 -21.08 0 -34 C11 -21.08 10.45 -6.12 0 0 Z" fill="url(#cabai-d3)"/>
+    <path d="M0 -1.36 C0.44 -13.600000000000001 0 -23.799999999999997 -0.55 -31.28" stroke="#EFFFD0" stroke-opacity=".7" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+    <path d="M-4.95 -10.2 C-6.6 -17 -5.5 -23.799999999999997 -3.3 -27.88" stroke="#fff" stroke-opacity=".32" stroke-width="1.98" fill="none" stroke-linecap="round"/>
+  </g>
+  <g transform="translate(126 140) rotate(75)">
+    <path d="M0 0 C-10.45 -6.12 -11 -21.08 0 -34 C11 -21.08 10.45 -6.12 0 0 Z" fill="url(#cabai-d3)"/>
+    <path d="M0 -1.36 C0.44 -13.600000000000001 0 -23.799999999999997 -0.55 -31.28" stroke="#EFFFD0" stroke-opacity=".7" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+    <path d="M-4.95 -10.2 C-6.6 -17 -5.5 -23.799999999999997 -3.3 -27.88" stroke="#fff" stroke-opacity=".32" stroke-width="1.98" fill="none" stroke-linecap="round"/>
+  </g>
+  <g transform="translate(102 96) rotate(-60)">
+    <path d="M0 0 C-9.5 -5.3999999999999995 -10 -18.6 0 -30 C10 -18.6 9.5 -5.3999999999999995 0 0 Z" fill="url(#cabai-d3)"/>
+    <path d="M0 -1.2 C0.4 -12 0 -21 -0.5 -27.6" stroke="#EFFFD0" stroke-opacity=".7" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+    <path d="M-4.5 -9 C-6 -15 -5 -21 -3 -24.599999999999998" stroke="#fff" stroke-opacity=".32" stroke-width="1.7999999999999998" fill="none" stroke-linecap="round"/>
+  </g>
+  <g transform="translate(142 88) rotate(65)">
+    <path d="M0 0 C-9.5 -5.3999999999999995 -10 -18.6 0 -30 C10 -18.6 9.5 -5.3999999999999995 0 0 Z" fill="url(#cabai-d3)"/>
+    <path d="M0 -1.2 C0.4 -12 0 -21 -0.5 -27.6" stroke="#EFFFD0" stroke-opacity=".7" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+    <path d="M-4.5 -9 C-6 -15 -5 -21 -3 -24.599999999999998" stroke="#fff" stroke-opacity=".32" stroke-width="1.7999999999999998" fill="none" stroke-linecap="round"/>
+  </g>
+  <g transform="translate(76 120) rotate(-160)">
+    <path d="M-4 0 C-5 10 -3 22 0 30 C3 22 5 10 4 0 Z" fill="url(#cabai-buah)"/>
+    <path d="M-2 4 C-3 12 -2 18 -1 23" stroke="#fff" stroke-opacity=".55" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+    <path d="M-5 1 Q0 -4 5 1 Q0 4 -5 1 Z" fill="#4E9A2A"/>
+  </g>
+  <g transform="translate(160 108) rotate(165)">
+    <path d="M-4 0 C-5 10 -3 22 0 30 C3 22 5 10 4 0 Z" fill="url(#cabai-buah)"/>
+    <path d="M-2 4 C-3 12 -2 18 -1 23" stroke="#fff" stroke-opacity=".55" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+    <path d="M-5 1 Q0 -4 5 1 Q0 4 -5 1 Z" fill="#4E9A2A"/>
+  </g>
+  <g transform="translate(102 88) rotate(-170)">
+    <path d="M-4 0 C-5 10 -3 22 0 30 C3 22 5 10 4 0 Z" fill="url(#cabai-buah)"/>
+    <path d="M-2 4 C-3 12 -2 18 -1 23" stroke="#fff" stroke-opacity=".55" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+    <path d="M-5 1 Q0 -4 5 1 Q0 4 -5 1 Z" fill="#4E9A2A"/>
+  </g>
+  <g transform="translate(146 76) rotate(172)">
+    <path d="M-4 0 C-5 10 -3 22 0 30 C3 22 5 10 4 0 Z" fill="url(#cabai-buah)"/>
+    <path d="M-2 4 C-3 12 -2 18 -1 23" stroke="#fff" stroke-opacity=".55" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+    <path d="M-5 1 Q0 -4 5 1 Q0 4 -5 1 Z" fill="#4E9A2A"/>
+  </g>
+  <g transform="translate(128 132) rotate(180)">
+    <path d="M-4 0 C-5 10 -3 22 0 30 C3 22 5 10 4 0 Z" fill="url(#cabai-buah)"/>
+    <path d="M-2 4 C-3 12 -2 18 -1 23" stroke="#fff" stroke-opacity=".55" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+    <path d="M-5 1 Q0 -4 5 1 Q0 4 -5 1 Z" fill="#4E9A2A"/>
+  </g>
+  <g transform="translate(90 140) rotate(-175)">
+    <path d="M-4 0 C-5 10 -3 22 0 30 C3 22 5 10 4 0 Z" fill="url(#cabai-buah)"/>
+    <path d="M-2 4 C-3 12 -2 18 -1 23" stroke="#fff" stroke-opacity=".55" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+    <path d="M-5 1 Q0 -4 5 1 Q0 4 -5 1 Z" fill="#4E9A2A"/>
+  </g>
+</svg>

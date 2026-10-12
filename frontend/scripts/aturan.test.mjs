@@ -27,6 +27,32 @@ describe('aturan warna dan ukuran', () => {
     expect(kode('src/komponen/A.tsx', '<p className="text-sm" />')).toContain('TEKS_KECIL');
     expect(kode('src/komponen/A.tsx', '<p className="shadow-md" />')).toContain('BAYANGAN');
   });
+  it('bayangan: hanya token bernama D-59 yang boleh', () => {
+    for (const k of [
+      'shadow',
+      'shadow-sm',
+      'shadow-2xl',
+      'shadow-inner',
+      'shadow-kartu-x',
+      'hover:shadow-lg',
+    ])
+      expect(kode('src/komponen/A.tsx', `<p className="${k}" />`), k).toContain('BAYANGAN');
+    expect(kode('src/komponen/A.tsx', '<p className="shadow-[0_1px_2px_black]" />')).toContain(
+      'BAYANGAN',
+    );
+    for (const k of [
+      'shadow-kartu',
+      'shadow-ikon',
+      'shadow-cahaya-limau',
+      'shadow-cahaya-oranye',
+      'focus-visible:shadow-fokus',
+      'shadow-none',
+    ])
+      expect(kode('src/komponen/A.tsx', `<p className="${k}" />`), k).not.toContain('BAYANGAN');
+    expect(
+      kode('src/komponen/A.tsx', 'const shadowing = 1; const x = bayangan.shadow;'),
+    ).not.toContain('BAYANGAN');
+  });
   it('menolak nilai sembarang', () => {
     expect(kode('src/komponen/A.tsx', '<p className="w-[53px]" />')).toContain('NILAI_SEMBARANG');
     expect(kode('src/komponen/A.tsx', '<p className="bg-[#fff]" />')).toContain('NILAI_SEMBARANG');

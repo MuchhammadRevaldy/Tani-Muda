@@ -67,7 +67,7 @@ function KartuLahan({ l, onUbah, onHapus }: { l: Lahan; onUbah: () => void; onHa
             type="button"
             onClick={onHapus}
             aria-label={t.hapus(l.nama)}
-            className="fokus-cincin inline-flex min-h-sentuh cursor-pointer items-center gap-1.5 rounded-ikon border-0 bg-transparent px-2 text-isi font-semibold text-tomat"
+            className="fokus-cincin inline-flex min-h-sentuh cursor-pointer items-center gap-1.5 rounded-ikon border-0 bg-transparent px-2 text-isi font-semibold text-tomat-teks"
           >
             <Ikon nama="hapus" ukuran={20} />
             {t.tombolHapus}
@@ -158,7 +158,7 @@ export function HalamanLahanSaya() {
         <div className="flex flex-col gap-3">
           <p className="m-0 text-teks-pendukung">{t.hapusIsi}</p>
           {hapus.isError ? (
-            <p role="alert" className="m-0 text-tomat">
+            <p role="alert" className="m-0 text-tomat-teks">
               {hapus.error.message}
             </p>
           ) : null}

@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" role="img" aria-label="Kedelai">
+  <title>Kedelai</title>
+  <defs>
+    <radialGradient id="kedelai-bayang" cx="50%" cy="50%" r="50%"><stop offset="0.00" stop-color="rgba(46,53,71,.30)"/><stop offset="1.00" stop-color="rgba(46,53,71,0)"/></radialGradient>
+    <linearGradient id="kedelai-d1" x1="0" y1="1" x2="0.35" y2="0"><stop offset="0.00" stop-color="#3E9B1F"/><stop offset="0.50" stop-color="#7CCB2B"/><stop offset="1.00" stop-color="#C9F23E"/></linearGradient>
+    <linearGradient id="kedelai-d2" x1="0" y1="1" x2="0.35" y2="0"><stop offset="0.00" stop-color="#2B7516"/><stop offset="0.50" stop-color="#5DAE25"/><stop offset="1.00" stop-color="#9BD836"/></linearGradient>
+    <linearGradient id="kedelai-d3" x1="0" y1="1" x2="0.35" y2="0"><stop offset="0.00" stop-color="#1D5A15"/><stop offset="0.50" stop-color="#3B8F24"/><stop offset="1.00" stop-color="#79C23A"/></linearGradient>
+    <linearGradient id="kedelai-batang" x1="0" y1="1" x2="0" y2="0"><stop offset="0.00" stop-color="#4E9A2A"/><stop offset="1.00" stop-color="#8CCB4A"/></linearGradient>
+    <linearGradient id="kedelai-polong" x1="0" y1="0" x2="1" y2="0"><stop offset="0.00" stop-color="#7E9A3A"/><stop offset="0.50" stop-color="#B7CF6A"/><stop offset="1.00" stop-color="#DCE8A8"/></linearGradient>
+  </defs>
+  <ellipse cx="120" cy="212" rx="66" ry="10" fill="url(#kedelai-bayang)"/>
+  <ellipse cx="120" cy="206" rx="21.12" ry="4.5" fill="#6B4A2E" opacity=".55"/>
+  <path d="M120 204 C120 175 118 140 120 104" stroke="url(#kedelai-batang)" stroke-width="5" fill="none" stroke-linecap="round"/>
+  <path d="M120 168 C94 156 74 140 64 120" stroke="url(#kedelai-batang)" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+  <path d="M120 150 C146 138 166 122 174 102" stroke="url(#kedelai-batang)" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+  <path d="M120 126 C106 112 96 96 92 80" stroke="url(#kedelai-batang)" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <g transform="translate(64 122) rotate(-78)">
+    <path d="M0 0 C-12.35 -6.12 -13 -21.08 0 -34 C13 -21.08 12.35 -6.12 0 0 Z" fill="url(#kedelai-d1)"/>
+    <path d="M0 -1.36 C0.52 -13.600000000000001 0 -23.799999999999997 -0.65 -31.28" stroke="#EFFFD0" stroke-opacity=".7" stroke-width="1.56" fill="none" stroke-linecap="round"/>
+    <path d="M-5.8500000000000005 -10.2 C-7.8 -17 -6.5 -23.799999999999997 -3.9 -27.88" stroke="#fff" stroke-opacity=".32" stroke-width="2.34" fill="none" stroke-linecap="round"/>
+  </g>
+  <g transform="translate(64 122) rotate(-40)">
+    <path d="M0 0 C-12.35 -6.12 -13 -21.08 0 -34 C13 -21.08 12.35 -6.12 0 0 Z" fill="url(#kedelai-d1)"/>
+    <path d="M0 -1.36 C0.52 -13.600000000000001 0 -23.799999999999997 -0.65 -31.28" stroke="#EFFFD0" stroke-opacity=".7" stroke-width="1.56" fill="none" stroke-linecap="round"/>
+    <path d="M-5.8500000000000005 -10.2 C-7.8 -17 -6.5 -23.799999999999997 -3.9 -27.88" stroke="#fff" stroke-opacity=".32" stroke-width="2.34" fill="none" stroke-linecap="round"/>
+  </g>
+  <g transform="translate(64 122) rotate(-2)">
+    <path d="M0 0 C-12.35 -6.12 -13 -21.08 0 -34 C13 -21.08 12.35 -6.12 0 0 Z" fill="url(#kedelai-d1)"/>
+    <path d="M0 -1.36 C0.52 -13.600000000000001 0 -23.799999999999997 -0.65 -31.28" stroke="#EFFFD0" stroke-opacity=".7" stroke-width="1.56" fill="none" stroke-linecap="round"/>
+    <path d="M-5.8500000000000005 -10.2 C-7.8 -17 -6.5 -23.799999999999997 -3.9 -27.88" stroke="#fff" stroke-opacity=".32" stroke-width="2.34" fill="none" stroke-linecap="round"/>
+  </g>
+  <g transform="translate(174 104) rotate(2)">
+    <path d="M0 0 C-12.35 -6.12 -13 -21.08 0 -34 C13 -21.08 12.35 -6.12 0 0 Z" fill="url(#kedelai-d1)"/>
+    <path d="M0 -1.36 C0.52 -13.600000000000001 0 -23.799999999999997 -0.65 -31.28" stroke="#EFFFD0" stroke-opacity=".7" stroke-width="1.56" fill="none" stroke-linecap="round"/>
+    <path d="M-5.8500000000000005 -10.2 C-7.8 -17 -6.5 -23.799999999999997 -3.9 -27.88" stroke="#fff" stroke-opacity=".32" stroke-width="2.34" fill="none" stroke-linecap="round"/>
+  </g>
+  <g transform="translate(174 104) rotate(40)">
+    <path d="M0 0 C-12.35 -6.12 -13 -21.08 0 -34 C13 -21.08 12.35 -6.12 0 0 Z" fill="url(#kedelai-d1)"/>
+    <path d="M0 -1.36 C0.52 -13.600000000000001 0 -23.799999999999997 -0.65 -31.28" stroke="#EFFFD0" stroke-opacity=".7" stroke-width="1.56" fill="none" stroke-linecap="round"/>
+    <path d="M-5.8500000000000005 -10.2 C-7.8 -17 -6.5 -23.799999999999997 -3.9 -27.88" stroke="#fff" stroke-opacity=".32" stroke-width="2.34" fill="none" stroke-linecap="round"/>
+  </g>
+  <g transform="translate(174 104) rotate(78)">
+    <path d="M0 0 C-12.35 -6.12 -13 -21.08 0 -34 C13 -21.08 12.35 -6.12 0 0 Z" fill="url(#kedelai-d1)"/>
+    <path d="M0 -1.36 C0.52 -13.600000000000001 0 -23.799999999999997 -0.65 -31.28" stroke="#EFFFD0" stroke-opacity=".7" stroke-width="1.56" fill="none" stroke-linecap="round"/>
+    <path d="M-5.8500000000000005 -10.2 C-7.8 -17 -6.5 -23.799999999999997 -3.9 -27.88" stroke="#fff" stroke-opacity=".32" stroke-width="2.34" fill="none" stroke-linecap="round"/>
+  </g>
+  <g transform="translate(120 106) rotate(-38)">
+    <path d="M0 0 C-12.9675 -6.426 -13.65 -22.134 0 -35.7 C13.65 -22.134 12.9675 -6.426 0 0 Z" fill="url(#kedelai-d1)"/>
+    <path d="M0 -1.4280000000000002 C0.546 -14.280000000000001 0 -24.990000000000002 -0.6825000000000001 -32.844" stroke="#EFFFD0" stroke-opacity=".7" stroke-width="1.638" fill="none" stroke-linecap="round"/>
+    <path d="M-6.1425 -10.71 C-8.19 -17.85 -6.825 -24.990000000000002 -4.095 -29.274" stroke="#fff" stroke-opacity=".32" stroke-width="2.457" fill="none" stroke-linecap="round"/>
+  </g>
+  <g transform="translate(120 106) rotate(0)">
+    <path d="M0 0 C-12.9675 -6.426 -13.65 -22.134 0 -35.7 C13.65 -22.134 12.9675 -6.426 0 0 Z" fill="url(#kedelai-d1)"/>
+    <path d="M0 -1.4280000000000002 C0.546 -14.280000000000001 0 -24.990000000000002 -0.6825000000000001 -32.844" stroke="#EFFFD0" stroke-opacity=".7" stroke-width="1.638" fill="none" stroke-linecap="round"/>
+    <path d="M-6.1425 -10.71 C-8.19 -17.85 -6.825 -24.990000000000002 -4.095 -29.274" stroke="#fff" stroke-opacity=".32" stroke-width="2.457" fill="none" stroke-linecap="round"/>
+  </g>
+  <g transform="translate(120 106) rotate(38)">
+    <path d="M0 0 C-12.9675 -6.426 -13.65 -22.134 0 -35.7 C13.65 -22.134 12.9675 -6.426 0 0 Z" fill="url(#kedelai-d1)"/>
+    <path d="M0 -1.4280000000000002 C0.546 -14.280000000000001 0 -24.990000000000002 -0.6825000000000001 -32.844" stroke="#EFFFD0" stroke-opacity=".7" stroke-width="1.638" fill="none" stroke-linecap="round"/>
+    <path d="M-6.1425 -10.71 C-8.19 -17.85 -6.825 -24.990000000000002 -4.095 -29.274" stroke="#fff" stroke-opacity=".32" stroke-width="2.457" fill="none" stroke-linecap="round"/>
+  </g>
+  <g transform="translate(92 82) rotate(-58)">
+    <path d="M0 0 C-10.497499999999999 -5.202 -11.049999999999999 -17.918 0 -28.9 C11.049999999999999 -17.918 10.497499999999999 -5.202 0 0 Z" fill="url(#kedelai-d3)"/>
+    <path d="M0 -1.156 C0.44199999999999995 -11.56 0 -20.229999999999997 -0.5525 -26.588" stroke="#EFFFD0" stroke-opacity=".7" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+    <path d="M-4.972499999999999 -8.67 C-6.629999999999999 -14.45 -5.5249999999999995 -20.229999999999997 -3.3149999999999995 -23.697999999999997" stroke="#fff" stroke-opacity=".32" stroke-width="1.9889999999999997" fill="none" stroke-linecap="round"/>
+  </g>
+  <g transform="translate(92 82) rotate(-20)">
+    <path d="M0 0 C-10.497499999999999 -5.202 -11.049999999999999 -17.918 0 -28.9 C11.049999999999999 -17.918 10.497499999999999 -5.202 0 0 Z" fill="url(#kedelai-d3)"/>
+    <path d="M0 -1.156 C0.44199999999999995 -11.56 0 -20.229999999999997 -0.5525 -26.588" stroke="#EFFFD0" stroke-opacity=".7" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+    <path d="M-4.972499999999999 -8.67 C-6.629999999999999 -14.45 -5.5249999999999995 -20.229999999999997 -3.3149999999999995 -23.697999999999997" stroke="#fff" stroke-opacity=".32" stroke-width="1.9889999999999997" fill="none" stroke-linecap="round"/>
+  </g>
+  <g transform="translate(92 82) rotate(18)">
+    <path d="M0 0 C-10.497499999999999 -5.202 -11.049999999999999 -17.918 0 -28.9 C11.049999999999999 -17.918 10.497499999999999 -5.202 0 0 Z" fill="url(#kedelai-d3)"/>
+    <path d="M0 -1.156 C0.44199999999999995 -11.56 0 -20.229999999999997 -0.5525 -26.588" stroke="#EFFFD0" stroke-opacity=".7" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+    <path d="M-4.972499999999999 -8.67 C-6.629999999999999 -14.45 -5.5249999999999995 -20.229999999999997 -3.3149999999999995 -23.697999999999997" stroke="#fff" stroke-opacity=".32" stroke-width="1.9889999999999997" fill="none" stroke-linecap="round"/>
+  </g>
+  <g transform="translate(98 152) rotate(30)">
+    <path d="M-5 0 C-7 8 -5 12 -6 18 C-7 24 -5 28 -6 34 C-5 40 -2 42 0 42 C2 42 5 40 6 34 C5 28 7 24 6 18 C5 12 7 8 5 0 Z" fill="url(#kedelai-polong)"/>
+    <path d="M-2 4 L-2 36" stroke="#fff" stroke-opacity=".45" stroke-width="2" stroke-linecap="round"/>
+  </g>
+  <g transform="translate(108 158) rotate(10)">
+    <path d="M-5 0 C-7 8 -5 12 -6 18 C-7 24 -5 28 -6 34 C-5 40 -2 42 0 42 C2 42 5 40 6 34 C5 28 7 24 6 18 C5 12 7 8 5 0 Z" fill="url(#kedelai-polong)"/>
+    <path d="M-2 4 L-2 36" stroke="#fff" stroke-opacity=".45" stroke-width="2" stroke-linecap="round"/>
+  </g>
+  <g transform="translate(134 140) rotate(-14)">
+    <path d="M-5 0 C-7 8 -5 12 -6 18 C-7 24 -5 28 -6 34 C-5 40 -2 42 0 42 C2 42 5 40 6 34 C5 28 7 24 6 18 C5 12 7 8 5 0 Z" fill="url(#kedelai-polong)"/>
+    <path d="M-2 4 L-2 36" stroke="#fff" stroke-opacity=".45" stroke-width="2" stroke-linecap="round"/>
+  </g>
+  <g transform="translate(146 134) rotate(-32)">
+    <path d="M-5 0 C-7 8 -5 12 -6 18 C-7 24 -5 28 -6 34 C-5 40 -2 42 0 42 C2 42 5 40 6 34 C5 28 7 24 6 18 C5 12 7 8 5 0 Z" fill="url(#kedelai-polong)"/>
+    <path d="M-2 4 L-2 36" stroke="#fff" stroke-opacity=".45" stroke-width="2" stroke-linecap="round"/>
+  </g>
+  <g transform="translate(82 134) rotate(50)">
+    <path d="M-5 0 C-7 8 -5 12 -6 18 C-7 24 -5 28 -6 34 C-5 40 -2 42 0 42 C2 42 5 40 6 34 C5 28 7 24 6 18 C5 12 7 8 5 0 Z" fill="url(#kedelai-polong)"/>
+    <path d="M-2 4 L-2 36" stroke="#fff" stroke-opacity=".45" stroke-width="2" stroke-linecap="round"/>
+  </g>
+</svg>

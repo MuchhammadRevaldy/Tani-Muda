@@ -21,7 +21,7 @@ export function PesanKolom({
     return (
       <p
         id={`${id}-pesan`}
-        className="m-0 flex items-start gap-2 text-keterangan font-medium text-tomat"
+        className="m-0 flex items-start gap-2 text-keterangan font-medium text-tomat-teks"
       >
         <Ikon nama="peringatan" ukuran={20} className="mt-px" />
         <span>{galat}</span>
@@ -40,7 +40,7 @@ export function PesanKolom({
 
 export const kelasBingkai = (galat: boolean) =>
   cx(
-    'flex min-h-kontrol items-stretch overflow-hidden rounded-md bg-putih',
+    'flex min-h-kontrol items-stretch overflow-hidden rounded-lg bg-putih',
     'focus-within:border-daun-tua focus-within:shadow-fokus',
     galat ? 'border-2 border-tomat' : 'border-1.5 border-garis-kuat',
   );
@@ -129,7 +129,7 @@ export function KolomTeks({
         aria-invalid={galat ? true : undefined}
         aria-describedby={galat || bantuan ? `${idKolom}-pesan` : undefined}
         className={cx(
-          'fokus-cincin w-full rounded-md bg-putih px-4 py-3 text-isi text-teks outline-none placeholder:text-teks-pendukung',
+          'fokus-cincin w-full rounded-lg bg-putih px-4 py-3 text-isi text-teks outline-none placeholder:text-teks-pendukung',
           galat ? 'border-2 border-tomat' : 'border-1.5 border-garis-kuat',
         )}
         {...lain}

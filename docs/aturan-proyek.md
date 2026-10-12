@@ -26,6 +26,8 @@ Acuan: `docs/keputusan.md` (keputusan produk, tertinggi), `docs/prd-tani-muda.md
 
 ## 2. Token desain: warna dan ukuran
 
+> **Sebagian digantikan D-59 (13 Oktober 2026, tema baru):** palet limau/oranye/biru tua dengan nama token lama; bayangan boleh hanya sebagai token bernama (butir 5); huruf Outfit; tinggi kontrol 56px (butir 4); ikon garis 1,7 (butir 11); arti warna di butir 3 mengikuti `keputusan.md` D-59. Butir lain tetap.
+
 1. **Semua warna dan ukuran lewat token di `tailwind.config.ts`** (diambil dari `ringkasan-desain.md` bagian 1). Dilarang:
    - menulis hex, `rgb()`, atau `hsl()` di komponen, CSS, atau `style={{}}`;
    - memakai warna bawaan Tailwind (`bg-green-600`, `text-gray-500`, `border-red-500`);

@@ -175,7 +175,7 @@ export function HalamanKomponen() {
             <div className="flex items-end gap-6 pb-2">
               <span className="text-dok-3 font-semibold text-daun-tua">Aa</span>
               <div className="flex flex-col gap-0.5 pb-2">
-                <span className="text-judul-bagian font-semibold">Plus Jakarta Sans</span>
+                <span className="text-judul-bagian font-semibold">Outfit</span>
                 <span className="text-keterangan text-teks-pendukung">{t.huruf.bobot}</span>
               </div>
             </div>

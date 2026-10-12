@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" role="img" aria-label="Kangkung">
+  <title>Kangkung</title>
+  <defs>
+    <radialGradient id="kangkung-bayang" cx="50%" cy="50%" r="50%"><stop offset="0.00" stop-color="rgba(46,53,71,.30)"/><stop offset="1.00" stop-color="rgba(46,53,71,0)"/></radialGradient>
+    <linearGradient id="kangkung-d1" x1="0" y1="1" x2="0.35" y2="0"><stop offset="0.00" stop-color="#3E9B1F"/><stop offset="0.50" stop-color="#7CCB2B"/><stop offset="1.00" stop-color="#C9F23E"/></linearGradient>
+    <linearGradient id="kangkung-d2" x1="0" y1="1" x2="0.35" y2="0"><stop offset="0.00" stop-color="#2B7516"/><stop offset="0.50" stop-color="#5DAE25"/><stop offset="1.00" stop-color="#9BD836"/></linearGradient>
+    <linearGradient id="kangkung-d3" x1="0" y1="1" x2="0.35" y2="0"><stop offset="0.00" stop-color="#1D5A15"/><stop offset="0.50" stop-color="#3B8F24"/><stop offset="1.00" stop-color="#79C23A"/></linearGradient>
+    <linearGradient id="kangkung-batang" x1="0" y1="1" x2="0" y2="0"><stop offset="0.00" stop-color="#4E9A2A"/><stop offset="1.00" stop-color="#8CCB4A"/></linearGradient>
+    
+  </defs>
+  <ellipse cx="120" cy="212" rx="70" ry="10" fill="url(#kangkung-bayang)"/>
+  <ellipse cx="120" cy="206" rx="22.400000000000002" ry="4.5" fill="#6B4A2E" opacity=".55"/>
+  <g transform="rotate(-12 120 204)">
+  <path d="M120 204 L120 124" stroke="#B9E07E" stroke-width="5" fill="none" stroke-linecap="round"/>
+    <g transform="translate(120 124) scale(0.9)">
+      <path d="M0 0 L-19.5 8 C-13.5 2 -10.5 -2 -8.25 -4 C-13.5 -23.4 -10.5 -54.599999999999994 0 -78 C10.5 -54.599999999999994 13.5 -23.4 8.25 -4 C10.5 -2 13.5 2 19.5 8 Z" fill="url(#kangkung-d2)"/>
+      <path d="M0 -2 C1 -30 0 -55 -1 -72" stroke="#F2FFD6" stroke-opacity=".7" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <path d="M-7 -20 C-9 -34 -7 -48 -3 -58" stroke="#fff" stroke-opacity=".35" stroke-width="3" fill="none" stroke-linecap="round"/>
+    </g>
+  </g>
+  <g transform="rotate(14 120 204)">
+  <path d="M120 204 L120 120" stroke="#B9E07E" stroke-width="5" fill="none" stroke-linecap="round"/>
+    <g transform="translate(120 120) scale(0.9)">
+      <path d="M0 0 L-19.5 8 C-13.5 2 -10.5 -2 -8.25 -4 C-13.5 -23.4 -10.5 -54.599999999999994 0 -78 C10.5 -54.599999999999994 13.5 -23.4 8.25 -4 C10.5 -2 13.5 2 19.5 8 Z" fill="url(#kangkung-d2)"/>
+      <path d="M0 -2 C1 -30 0 -55 -1 -72" stroke="#F2FFD6" stroke-opacity=".7" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <path d="M-7 -20 C-9 -34 -7 -48 -3 -58" stroke="#fff" stroke-opacity=".35" stroke-width="3" fill="none" stroke-linecap="round"/>
+    </g>
+  </g>
+  <g transform="rotate(-46 120 204)">
+  <path d="M120 204 L120 144" stroke="#B9E07E" stroke-width="5" fill="none" stroke-linecap="round"/>
+    <g transform="translate(120 144) scale(0.82)">
+      <path d="M0 0 L-19.5 8 C-13.5 2 -10.5 -2 -8.25 -4 C-13.5 -23.4 -10.5 -54.599999999999994 0 -78 C10.5 -54.599999999999994 13.5 -23.4 8.25 -4 C10.5 -2 13.5 2 19.5 8 Z" fill="url(#kangkung-d1)"/>
+      <path d="M0 -2 C1 -30 0 -55 -1 -72" stroke="#F2FFD6" stroke-opacity=".7" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <path d="M-7 -20 C-9 -34 -7 -48 -3 -58" stroke="#fff" stroke-opacity=".35" stroke-width="3" fill="none" stroke-linecap="round"/>
+    </g>
+  </g>
+  <g transform="rotate(44 120 204)">
+  <path d="M120 204 L120 142" stroke="#B9E07E" stroke-width="5" fill="none" stroke-linecap="round"/>
+    <g transform="translate(120 142) scale(0.82)">
+      <path d="M0 0 L-19.5 8 C-13.5 2 -10.5 -2 -8.25 -4 C-13.5 -23.4 -10.5 -54.599999999999994 0 -78 C10.5 -54.599999999999994 13.5 -23.4 8.25 -4 C10.5 -2 13.5 2 19.5 8 Z" fill="url(#kangkung-d1)"/>
+      <path d="M0 -2 C1 -30 0 -55 -1 -72" stroke="#F2FFD6" stroke-opacity=".7" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <path d="M-7 -20 C-9 -34 -7 -48 -3 -58" stroke="#fff" stroke-opacity=".35" stroke-width="3" fill="none" stroke-linecap="round"/>
+    </g>
+  </g>
+  <g transform="rotate(0 120 204)">
+  <path d="M120 204 L120 112" stroke="#B9E07E" stroke-width="5" fill="none" stroke-linecap="round"/>
+    <g transform="translate(120 112) scale(1.02)">
+      <path d="M0 0 L-19.5 8 C-13.5 2 -10.5 -2 -8.25 -4 C-13.5 -23.4 -10.5 -54.599999999999994 0 -78 C10.5 -54.599999999999994 13.5 -23.4 8.25 -4 C10.5 -2 13.5 2 19.5 8 Z" fill="url(#kangkung-d1)"/>
+      <path d="M0 -2 C1 -30 0 -55 -1 -72" stroke="#F2FFD6" stroke-opacity=".7" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <path d="M-7 -20 C-9 -34 -7 -48 -3 -58" stroke="#fff" stroke-opacity=".35" stroke-width="3" fill="none" stroke-linecap="round"/>
+    </g>
+  </g>
+</svg>

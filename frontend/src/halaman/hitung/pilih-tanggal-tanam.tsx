@@ -164,7 +164,7 @@ export function HalamanPilihTanggalTanam() {
                       )}
                     </span>
                     {!cukup ? (
-                      <span className="text-keterangan font-medium text-tomat">
+                      <span className="text-keterangan font-medium text-tomat-teks">
                         {t.lahanKurang(angkaJumlah(butuh), satuanKapasitas)}
                       </span>
                     ) : null}

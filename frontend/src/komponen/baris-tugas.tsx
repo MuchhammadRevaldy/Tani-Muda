@@ -96,7 +96,7 @@ export function BarisTugas({
           className={cx(
             'grid h-lingkaran w-lingkaran place-items-center rounded-full border-2 text-putih',
             selesai
-              ? 'border-daun-tua bg-daun-tua'
+              ? 'border-limau bg-limau shadow-cahaya-limau'
               : 'border-garis-kuat bg-putih group-hover:border-daun-tua',
           )}
         >
@@ -148,13 +148,13 @@ export function BarisTugas({
           type="button"
           onClick={onKamera}
           aria-label={jumlahFoto ? t.fotoBukti(jumlahFoto) : t.tambahFoto}
-          className="fokus-cincin relative grid h-sentuh w-sentuh flex-none cursor-pointer place-items-center rounded-sm border-1.5 border-garis-kuat bg-putih p-0 text-teks hover:border-daun-tua hover:text-daun-tua"
+          className="fokus-cincin relative grid h-sentuh w-sentuh flex-none cursor-pointer place-items-center rounded-full border-0 bg-putih p-0 text-teks shadow-ikon hover:text-daun-tua"
         >
           <Ikon nama="kamera" />
           {jumlahFoto ? (
             <span
               aria-hidden="true"
-              className="absolute -right-2 -top-2 h-6.5 min-w-6.5 rounded-full border-2 border-putih bg-daun-tua px-1.5 text-center text-keterangan font-semibold text-putih"
+              className="absolute -right-2 -top-2 h-6.5 min-w-6.5 rounded-full border-2 border-putih bg-tanah px-1.5 text-center text-keterangan font-semibold text-putih"
             >
               {jumlahFoto}
             </span>

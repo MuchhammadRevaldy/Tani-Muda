@@ -27,7 +27,7 @@ export type Lencana = Partial<Record<MenuPetani, number>>;
 
 const teksLencana = (n: number) => (n > 99 ? '99+' : String(n));
 
-/** Navigasi bawah HP: 4 menu, label selalu tampil, lencana gelap (bukan merah). */
+/** Navigasi bawah HP mengambang (D-59): 4 menu, label selalu tampil, lencana oranye tua (bukan merah). */
 export function NavigasiBawah({
   lencana = {},
   className,
@@ -38,11 +38,7 @@ export function NavigasiBawah({
   return (
     <nav
       aria-label={teksKomponen.nav.label}
-      className={cx(
-        'grid grid-cols-4 gap-1 border-t border-garis bg-putih px-2 pt-2',
-        'pb-[calc(theme(spacing.2)+env(safe-area-inset-bottom,0px))]',
-        className,
-      )}
+      className={cx('grid grid-cols-4 gap-1 rounded-nav bg-putih p-2 shadow-kartu', className)}
     >
       {MENU_PETANI.map((m) => {
         const n = lencana[m.id];
@@ -52,24 +48,19 @@ export function NavigasiBawah({
             to={m.ke}
             className={({ isActive }) =>
               cx(
-                'fokus-cincin group flex min-h-nav-item flex-col items-center justify-center gap-1 rounded-md py-1 text-nav no-underline',
+                'fokus-cincin group flex min-h-nav-item flex-col items-center justify-center gap-0.5 rounded-sheet py-1 text-nav no-underline',
                 isActive
-                  ? 'font-semibold text-daun-tua hover:text-daun-tua'
+                  ? 'bg-daun-lembut font-semibold text-daun-tua hover:text-daun-tua'
                   : 'font-medium text-teks-pendukung hover:text-teks',
               )
             }
           >
             {({ isActive }) => (
               <>
-                <span
-                  className={cx(
-                    'relative grid h-8 w-nav-ikon place-items-center rounded-full',
-                    isActive && 'bg-daun-lembut',
-                  )}
-                >
-                  <Ikon nama={m.ikon} />
+                <span className="relative grid h-7 w-nav-ikon place-items-center">
+                  <Ikon nama={m.ikon} tebal={isActive ? 1.9 : 1.7} />
                   {n ? (
-                    <span className="absolute -top-1.5 left-8 h-6 min-w-6 rounded-full border-2 border-putih bg-teks px-1 text-center text-nav font-semibold text-putih">
+                    <span className="absolute -top-1.5 left-8 h-6 min-w-6 rounded-full border-2 border-putih bg-tanah px-1 text-center text-nav font-semibold text-putih">
                       {teksLencana(n)}
                     </span>
                   ) : null}
@@ -151,7 +142,7 @@ function MenuAkun({
       ref={ref}
       role="menu"
       aria-label={teksKomponen.nav.menuAkun}
-      className="absolute bottom-24 left-4 right-4 flex flex-col rounded-md border-1.5 border-garis-kuat bg-putih p-1.5"
+      className="absolute bottom-24 left-4 right-4 flex flex-col rounded-lg bg-putih p-1.5 shadow-kartu"
     >
       {akunLengkap ? (
         <>
@@ -178,7 +169,7 @@ function MenuAkun({
         }}
         className={cx(
           item,
-          'cursor-pointer border-0 bg-transparent text-left text-isi font-semibold text-tomat hover:text-tomat',
+          'cursor-pointer border-0 bg-transparent text-left text-isi font-semibold text-tomat-teks hover:text-tomat-teks',
         )}
       >
         {teksNavigasi.keluar}
@@ -229,7 +220,7 @@ export function Sidebar({
               aria-current={m.id === menuAktif ? 'page' : undefined}
               className={({ isActive }) =>
                 cx(
-                  'fokus-cincin flex min-h-sentuh items-center gap-3 rounded-md px-3 no-underline',
+                  'fokus-cincin flex min-h-sentuh items-center gap-3 rounded-full px-4 no-underline',
                   isActive || m.id === menuAktif
                     ? 'bg-daun-lembut font-semibold text-daun-tua hover:text-daun-tua'
                     : 'font-medium text-teks-pendukung hover:bg-embun-pagi hover:text-teks',
@@ -244,7 +235,7 @@ export function Sidebar({
               {n ? (
                 <span
                   aria-hidden="true"
-                  className="h-6 min-w-6 rounded-full bg-teks px-1.5 text-center text-isi font-semibold text-putih"
+                  className="h-6 min-w-6 rounded-full bg-tanah px-1.5 text-center text-isi font-semibold text-putih"
                 >
                   {teksLencana(n)}
                 </span>
@@ -281,7 +272,7 @@ export function Sidebar({
           aria-label={teksKomponen.nav.bukaMenuAkun}
           aria-describedby={terpotong ? idLengkap : undefined}
           onClick={() => setTerbuka((x) => !x)}
-          className="fokus-cincin flex min-h-nav-item w-full cursor-pointer items-center gap-3 rounded-md border border-garis bg-putih px-3 py-2 text-left text-isi text-teks"
+          className="fokus-cincin flex min-h-nav-item w-full cursor-pointer items-center gap-3 rounded-lg border border-garis bg-putih px-3 py-2 text-left text-isi text-teks"
         >
           <Avatar nama={akun.nama} ukuran={40} />
           <span className="flex min-w-0 flex-1 flex-col">
@@ -375,7 +366,7 @@ export function HeaderPembeli({ namaUsaha }: { namaUsaha: string }) {
                 to={m.ke}
                 aria-current={aktif ? 'page' : undefined}
                 className={cx(
-                  'fokus-cincin inline-flex min-h-sentuh flex-none items-center rounded-md px-3.5 no-underline',
+                  'fokus-cincin inline-flex min-h-sentuh flex-none items-center rounded-full px-4 no-underline',
                   aktif
                     ? 'bg-daun-lembut font-semibold text-daun-tua hover:text-daun-tua'
                     : 'font-medium text-teks hover:bg-embun-pagi hover:text-teks',

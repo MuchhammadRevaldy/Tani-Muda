@@ -92,7 +92,7 @@ function Isi({ d }: { d: DataSiklus }) {
           ) : null}
         </dl>
         {untung !== null && untung < 0 ? (
-          <p className="m-0 flex items-start gap-2 font-medium text-tomat">
+          <p className="m-0 flex items-start gap-2 font-medium text-tomat-teks">
             <Ikon nama="peringatan" ukuran={20} className="mt-0.5" />
             {t.rugiNyata}
           </p>

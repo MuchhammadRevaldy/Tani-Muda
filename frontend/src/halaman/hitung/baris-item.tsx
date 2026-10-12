@@ -112,7 +112,7 @@ export function BarisItem({
   const subsidiAktif = harga.sumber === 'subsidi';
   const subtotalTampil =
     subtotal === null ? (
-      <span className="inline-flex items-center gap-1.5 whitespace-nowrap font-medium text-tomat">
+      <span className="inline-flex items-center gap-1.5 whitespace-nowrap font-medium text-tomat-teks">
         <Ikon nama="peringatan" ukuran={18} />
         {t.hargaBelum}
       </span>
@@ -126,7 +126,7 @@ export function BarisItem({
     </button>
   ) : null;
   const tombolHapus = onHapus ? (
-    <button type="button" onClick={onHapus} className={cx(tautanAksi, 'text-tomat')}>
+    <button type="button" onClick={onHapus} className={cx(tautanAksi, 'text-tomat-teks')}>
       <Ikon nama="hapus" ukuran={20} />
       {t.hapusItem(item.nama)}
     </button>

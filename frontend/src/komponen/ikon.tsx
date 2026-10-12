@@ -1,22 +1,18 @@
 /**
- * Ikon garis 24px, ujung bulat, warna mengikuti teks (currentColor).
+ * Ikon garis 24px tebal 1,7, ujung bulat, warna mengikuti teks (currentColor) (D-59).
  * Sumber: pustaka desain (design/extracted/assets/pustaka-komponen-tani-muda.js) dan design/icons/.
  * Tanpa `label` → dekoratif (aria-hidden). Dengan `label` → role="img".
  */
 
 // Isi SVG statis dari desain. Bukan masukan pengguna, aman disisipkan.
 const IKON = {
-  beranda:
-    '<path d="M3.5 10.5 12 3.8l8.5 6.7"/><path d="M5.8 9v10.2c0 .5.4.8.8.8H10v-5.5h4V20h3.4c.4 0 .8-.3.8-.8V9"/>',
+  beranda: '<path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/>',
   kebun:
-    '<path d="M12 20.5v-8.5"/><path d="M12 12c0-3.9-2.6-6.5-7.5-6.5 0 4.2 2.8 6.5 7.5 6.5Z"/><path d="M12 14.5c0-3.4 2.3-5.8 7-5.8 0 3.6-2.6 5.8-7 5.8Z"/><path d="M4.5 20.5h15"/>',
-  pesanan:
-    '<path d="M6 3.5h12v17l-2.4-1.6-2.4 1.6-1.2-.8-1.2.8-2.4-1.6L6 20.5Z"/><path d="M9.5 8.5h5"/><path d="M9.5 12.5h5"/>',
-  belajar:
-    '<path d="M12 6.8C10.4 5.2 7.9 4.6 3.8 4.6v13.2c4.1 0 6.6.6 8.2 2.2 1.6-1.6 4.1-2.2 8.2-2.2V4.6c-4.1 0-6.6.6-8.2 2.2Z"/><path d="M12 6.8V20"/>',
+    '<path d="M12 21v-9"/><path d="M12 12c0-4 3-7 8-7 0 4-3 7-8 7z"/><path d="M12 14c0-3-2.5-5.5-7-5.5 0 3 2.5 5.5 7 5.5z"/>',
+  pesanan: '<path d="M5 8h14l-1 12H6L5 8z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/>',
+  belajar: '<rect x="3" y="5" width="18" height="14" rx="3"/><path d="M10 9.5v5l4-2.5-4-2.5z"/>',
   centang: '<path d="M5 12.6 9.6 17.2 19 7.6"/>',
-  kamera:
-    '<path d="M3.8 8.6c0-.9.7-1.6 1.6-1.6h2.3l1.6-2.5h5.4L16.3 7h2.3c.9 0 1.6.7 1.6 1.6v9.3c0 .9-.7 1.6-1.6 1.6H5.4c-.9 0-1.6-.7-1.6-1.6Z"/><circle cx="12" cy="12.8" r="3.4"/>',
+  kamera: '<path d="M4 8h3l2-2.5h6L17 8h3v11H4z"/><circle cx="12" cy="13" r="3.5"/>',
   jam: '<circle cx="12" cy="12" r="8.2"/><path d="M12 7.6V12l3 2"/>',
   peringatan:
     '<path d="M10.4 4.4 3 17.6c-.7 1.2.2 2.7 1.6 2.7h14.8c1.4 0 2.3-1.5 1.6-2.7L13.6 4.4c-.7-1.2-2.5-1.2-3.2 0Z"/><path d="M12 9.4v4.2"/><path d="M12 16.9h.01"/>',
@@ -24,20 +20,19 @@ const IKON = {
     '<rect x="5" y="10.5" width="14" height="10" rx="2"/><path d="M8.2 10.5V8a3.8 3.8 0 0 1 7.6 0v2.5"/><path d="M12 14.4v2.4"/>',
   'jam-pasir':
     '<path d="M6.5 3.5h11"/><path d="M6.5 20.5h11"/><path d="M8 3.5v2.2c0 2.3 4 4 4 6.3s-4 4-4 6.3v2.2"/><path d="M16 3.5v2.2c0 2.3-4 4-4 6.3s4 4 4 6.3v2.2"/>',
-  uang: '<rect x="2.8" y="6.5" width="18.4" height="11" rx="2"/><circle cx="12" cy="12" r="2.6"/><path d="M6.4 10v4"/><path d="M17.6 10v4"/>',
+  uang: '<rect x="3" y="6" width="18" height="12" rx="3"/><circle cx="12" cy="12" r="2.5"/><path d="M6.5 9.5v5M17.5 9.5v5"/>',
   offline:
     '<path d="M3.5 3.5l17 17"/><path d="M9.4 6.4a5.6 5.6 0 0 1 8 3.6 4.1 4.1 0 0 1 2.5 6.6"/><path d="M16.6 18.3H7.2a4.3 4.3 0 0 1-.9-8.5"/>',
   panen:
     '<path d="M3.8 10.2h16.4l-1.7 8.6c-.2.9-1 1.5-1.9 1.5H7.4c-.9 0-1.7-.6-1.9-1.5Z"/><path d="M8 10.2 11 4.6"/><path d="M16 10.2 13 4.6"/><path d="M9.6 13.6v3.2"/><path d="M14.4 13.6v3.2"/>',
-  lonceng:
-    '<path d="M6.2 16.6v-5.4a5.8 5.8 0 0 1 11.6 0v5.4l1.7 1.7h-15Z"/><path d="M10 20.6a2.1 2.1 0 0 0 4 0"/>',
+  lonceng: '<path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15z"/><path d="M10 20.5a2 2 0 0 0 4 0"/>',
   'panah-kanan': '<path d="M9.5 5.8 15.7 12l-6.2 6.2"/>',
   'panah-kiri': '<path d="M14.5 5.8 8.3 12l6.2 6.2"/>',
   // Ikon tipe tugas (P0-12): tertanam di halaman desain, diekstrak ke design/extracted/ikon-sebaris/.
   kalender:
-    '<rect x="4" y="5.5" width="16" height="14.5" rx="2"/><path d="M4 10h16M8.5 3.5v4M15.5 3.5v4"/><path d="M11.9 14.6h.2"/>',
-  ulang:
-    '<path d="M4.5 11.5a7.5 7.5 0 0 1 13-5.1l2 2.1"/><path d="M19.5 4v4.5H15"/><path d="M19.5 12.5a7.5 7.5 0 0 1-13 5.1l-2-2.1"/><path d="M4.5 20v-4.5H9"/>',
+    '<rect x="3.5" y="5" width="17" height="15" rx="3"/><path d="M3.5 10h17M8 3v4M16 3v4"/>',
+  ulang: '<path d="M20 12a8 8 0 1 1-2.3-5.6"/><path d="M20 4v4.5h-4.5"/>',
+  luas: '<path d="M8 3v18M5 6l3-3 3 3M5 18l3 3 3-3"/><path d="M15 6h4M15 10h3M15 14h4M15 18h3"/>',
   pengukur:
     '<path d="M3.5 16.5a8.5 8.5 0 0 1 17 0"/><path d="M12 16.5l4-5"/><circle cx="12" cy="16.5" r="1.4"/><path d="M6.2 12.4l1 .8M17.8 12.4l-1 .8M12 8v1.3"/>',
   // Panah naik-turun di tombol akun sidebar (papan desktop).
@@ -95,7 +90,7 @@ export interface IkonProps {
   className?: string;
 }
 
-export function Ikon({ nama, ukuran = 24, tebal = 2, label, className }: IkonProps) {
+export function Ikon({ nama, ukuran = 24, tebal = 1.7, label, className }: IkonProps) {
   const berlabel = Boolean(label);
   return (
     <svg
@@ -144,5 +139,31 @@ export function IkonTipeTugas({
       label={label}
       className={['text-daun-tua', className].filter(Boolean).join(' ')}
     />
+  );
+}
+
+/** Ikon di dalam lingkaran putih berbayang, untuk statistik dan angka ringkas (D-59). */
+export function IkonLingkaran({
+  nama,
+  besar,
+  className,
+}: {
+  nama: NamaIkon;
+  /** 56px (halaman depan desktop); bawaan 44px. */
+  besar?: boolean;
+  className?: string;
+}) {
+  return (
+    <span
+      className={[
+        'grid flex-none place-items-center rounded-full bg-putih text-teks shadow-ikon',
+        besar ? 'h-14 w-14' : 'h-11 w-11',
+        className,
+      ]
+        .filter(Boolean)
+        .join(' ')}
+    >
+      <Ikon nama={nama} ukuran={besar ? 26 : 22} />
+    </span>
   );
 }

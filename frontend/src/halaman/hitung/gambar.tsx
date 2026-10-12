@@ -1,22 +1,14 @@
-/** Ilustrasi komoditas dan cara tanam untuk alur Hitung; data baru tanpa gambar memakai daun/bedengan. */
+/** Ilustrasi komoditas dan cara tanam untuk alur Hitung; data baru tanpa gambar memakai ikon kebun/bedengan. */
 import {
   IlustrasiKomoditas,
   IlustrasiMetode,
-  daftarIlustrasiKomoditas,
   daftarIlustrasiMetode,
-  type NamaIlustrasiKomoditas,
   type NamaIlustrasiMetode,
 } from '../../komponen/ilustrasi';
 
-const SAMARAN: Record<string, NamaIlustrasiKomoditas> = { sawi: 'daun', pakcoy: 'daun' };
-
+/** Nama komoditas selalu tertulis di sebelah gambar, jadi gambar dekoratif (alt kosong). */
 export function GambarKomoditas({ id, segera }: { id: string; segera?: boolean }) {
-  const nama =
-    SAMARAN[id] ??
-    (daftarIlustrasiKomoditas.includes(id as NamaIlustrasiKomoditas)
-      ? (id as NamaIlustrasiKomoditas)
-      : 'daun');
-  return <IlustrasiKomoditas nama={nama} segera={segera} />;
+  return <IlustrasiKomoditas nama={id} segera={segera} alt="" />;
 }
 
 export function GambarMetode({ id, segera }: { id: string; segera?: boolean }) {

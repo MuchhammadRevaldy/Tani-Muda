@@ -19,6 +19,8 @@ Dokumen ini merangkum isi `design/desain-tani-muda.html` (63 papan + 1 papan sis
 
 ## 1. Token
 
+> **Sebagian digantikan D-59 (13 Oktober 2026, tema baru):** nilai warna, huruf (Outfit), radius kartu dan tombol, bayangan, dan tinggi kontrol yang berlaku ada di `frontend/tailwind.config.ts` dan `keputusan.md` D-59. Tabel di bawah mencatat desain awal.
+
 ### 1.1 Warna (17 token)
 
 Prinsip dari desain: hijau daun hanya untuk yang tumbuh atau harus dikerjakan; cokelat tanah hanya untuk uang dan panen; arti status **selalu** dibawa juga oleh ikon dan kata, bukan warna saja; hanya mode terang.

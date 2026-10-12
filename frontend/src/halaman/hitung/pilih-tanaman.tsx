@@ -243,7 +243,7 @@ export function HalamanPilihTanaman() {
           {teksUmum.memuat}
         </p>
       ) : komoditasQ.isError ? (
-        <p role="alert" className="m-0 text-tomat">
+        <p role="alert" className="m-0 text-tomat-teks">
           {komoditasQ.error.message}
         </p>
       ) : tampil.length === 0 ? (

@@ -11,7 +11,7 @@ import {
 
 /**
  * Kerangka halaman petani (D-07):
- * - HP (< lg): satu kolom, padding 16px, navigasi bawah menempel.
+ * - HP (< lg): satu kolom, padding 16px, navigasi bawah mengambang (D-59).
  * - Desktop (≥ lg, 1024px): sidebar kiri 256px + konten maksimal 1200px.
  */
 export function KerangkaPetani({
@@ -46,7 +46,10 @@ export function KerangkaPetani({
           <div className="mx-auto flex max-w-konten flex-col gap-6">{children}</div>
         </main>
         {tanpaNav ? null : (
-          <div data-nav-bawah className="sticky bottom-0 z-10 lg:hidden">
+          <div
+            data-nav-bawah
+            className="sticky bottom-0 z-10 px-3 pb-[calc(theme(spacing.4)+env(safe-area-inset-bottom,0px))] lg:hidden"
+          >
             <NavigasiBawah lencana={lencana} />
           </div>
         )}
