@@ -143,6 +143,8 @@ Memori saat demo dengan backend (tanpa Chrome): MariaDB sekitar 229 MB, Apache 6
 | 9. Konfirmasi kiriman | 0,8 | 0,9 | 0,6 |
 | 10. Penutup | 0,1 | 0,1 | 0,1 |
 
+**Tema baru (cabang `tema-baru`, D-59, [AG-15], [AG-17], [AG-19]), 13 Oktober 2026: 5 putaran berturut-turut lolos** dengan `npm run demo:backend` (`--ulang 5 --dingin`). Terlama per langkah: atur ulang 2,4; halaman depan 1,0; daftar petani 5,2; Beranda 2,9; rencana 1,9; jadwal 4,3; pesanan 3,0; pindah ke pembeli 2,4; uang muka 1,5; konfirmasi 1,0; penutup 0,1 detik. Tangkapan layar setiap langkah (desktop dan HP dengan keadaan yang sama, `--layar --layar-hp`) dan halaman Masuk, Beranda, Kiriman saya, Notifikasi ada di `docs/tema-baru/tangkapan/`.
+
 Cara mengulang uji setelah restart:
 
 ```powershell

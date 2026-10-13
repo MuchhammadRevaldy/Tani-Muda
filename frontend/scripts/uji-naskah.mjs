@@ -309,6 +309,11 @@ async function potretHp(browser, utama, alamat, berkas) {
     await p.goto(alamat);
     await p.waitForLoadState('networkidle').catch(() => {});
     await p.evaluate(() => document.fonts.ready);
+    await p
+      .getByText('Sedang memuat')
+      .first()
+      .waitFor({ state: 'detached', timeout: TUNGGU })
+      .catch(() => {});
     await p.waitForTimeout(800);
     // Viewport setinggi halaman supaya navigasi bawah yang menempel tampil di tempatnya.
     const tinggi = await p.evaluate(() => document.documentElement.scrollHeight);
@@ -412,6 +417,16 @@ async function jalankan(browser, nama, putaran) {
     waktu.push({ langkah: judul, dtk });
     if (FOLDER && LAYAR_SEMUA) {
       const dasarLayar = join(FOLDER, `${nama}-${putaran}-${String(nomor).padStart(2, '0')}`);
+      // Tunggu data halaman tujuan selesai dimuat supaya potret tidak menangkap halaman sebelumnya.
+      await page.waitForLoadState('networkidle').catch(() => {});
+      // Kueri lanjutan (mis. detail siklus baru) baru mulai sesaat setelah halaman tampil.
+      await page.waitForTimeout(1500);
+      await page
+        .getByText('Sedang memuat')
+        .first()
+        .waitFor({ state: 'detached', timeout: TUNGGU })
+        .catch(() => {});
+      await page.waitForTimeout(500);
       await page.screenshot({ path: `${dasarLayar}.png` });
       if (LAYAR_HP) await potretHp(browser, konteks, page.url(), `${dasarLayar}-hp.png`);
     }
