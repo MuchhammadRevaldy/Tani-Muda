@@ -30,6 +30,12 @@ export const teksKomponenGaleri = {
     dialog: 'Dialog dan lembar bawah',
     pelengkap: 'Pelengkap',
   },
+  logo: {
+    judul: 'Logo',
+    tanda: 'Tanda merek',
+    satuWarna: 'Satu warna, latar gelap',
+    ikon: 'Ikon aplikasi',
+  },
   warna: {
     limau: { nama: 'Limau', guna: 'Tombol utama, centang selesai, progres. Bukan untuk teks' },
     'limau-terang': { nama: 'Limau terang', guna: 'Awal gradasi tombol utama' },

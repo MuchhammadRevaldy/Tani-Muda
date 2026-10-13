@@ -692,6 +692,13 @@ Ditetapkan 14 Oktober 2026 di cabang `animasi`, dengan syarat gabung AG-22.
 - **Skenario `uji:naskah` baru `akun-pembeli`:** masuk sebagai pembeli → menu akun → Profil → Ubah profil (ganti nama) → Keluar → `/masuk`.
 - Berdampak ke: `navigasi.tsx`, `kerangka*.tsx`, `ubah-profil.tsx`, `pembeli/profil.tsx`, `pengaturan-demo.mjs`, `index.css`, `design/README.md` (65, 66).
 
+## D-63. Logo baru ([AG-24])
+Ditetapkan 14 Oktober 2026 oleh pemilik produk (AG-24 menyebutnya D-62; nomor itu sudah dipakai untuk menu akun dan profil pembeli, jadi dicatat sebagai D-63).
+- **Tanda merek:** tunas dua daun limau di atas garis tanah biru tua. SVG di `frontend/public/logo/`: `logo-tanda.svg` (latar terang), `logo-satu-warna.svg` (latar gelap, `currentColor`, dipakai sebagai SVG sebaris lewat komponen `TandaSatuWarna`), `logo-ikon.svg` dan `logo-ikon-maskable.svg` (sumber ikon). Render 3D JPG pemilik produk dipindah dari `design/icons/` ke `design/logo/` (aturan 7.8: `design/icons/` tidak diubah); dipakai untuk slide dan dokumen, bukan aplikasi.
+- **Semua tempat logo memakai komponen `Logo`/`TandaMerek`** (`<img>` `logo-tanda.svg`, `alt=""` karena nama "Tani Muda" di sebelahnya; `alt="Tani Muda"` bila berdiri sendiri): sidebar petani, header pembeli, halaman depan (kepala dan kaki), halaman statis, Masuk, pilih peran, pilih akun demo, kepala panel admin dan mentor, `/komponen`. Ikon "Kebun" di navigasi dan ikon kebun lain yang bukan merek tetap ikon garis.
+- **Favicon dan ikon PWA** dibuat `scripts/buat-ikon.mjs` dari SVG itu: `favicon.svg`, `favicon.ico` (16/32/48), `ikon/ikon-192.png`, `ikon/ikon-512.png` dari `logo-ikon.svg`; `ikon/ikon-maskable-512.png` dari `logo-ikon-maskable.svg`. *Tafsiran:* `apple-touch-icon.png` (180) juga dari versi maskable berlatar penuh, karena iOS mengisi sudut transparan `logo-ikon.svg` dengan hitam dan membulatkan sudut sendiri. `theme-color` di `index.html` diganti dari hijau lama ke token limau (#86C232), dengan tes.
+- Berdampak ke: `navigasi.tsx`, `komponen.tsx`, `index.html`, `scripts/buat-ikon.mjs`, `public/`, `design/logo/`.
+
 ---
 
 ## Riwayat
@@ -701,6 +708,7 @@ Ditetapkan 14 Oktober 2026 di cabang `animasi`, dengan syarat gabung AG-22.
 | 2026-10-05 | D-12 sampai D-18 ditetapkan. Butir turunan di D-03, D-06, dan D-11 dikonfirmasi dan dirujuk ke keputusan baru. Jalur tangkapan layar di D-07 diganti mengikuti D-18 |
 | 2026-10-05 | D-19 dan D-20 ditetapkan: backend Laravel + MariaDB tanpa Docker, tampilan dikerjakan lebih dulu. Butir OTP di D-10 dan butir penegakan di D-13 dan D-14 disesuaikan |
 | 2026-10-05 | D-21 sampai D-25 ditetapkan: cookie Sanctum (token untuk React Native), 404 untuk data orang lain, konfirmasi otomatis setiap 15 menit, siap deploy VPS, PHP 8.3+ terpisah |
+| 2026-10-14 | D-63 ([AG-24]): logo baru di semua kerangka, favicon dan ikon PWA dari SVG logo, theme-color limau |
 | 2026-10-14 | D-62 ([AG-23]): menu akun dan profil pembeli, ubah profil varian pembeli, sakelar animasi `VITE_ANIMASI`, skenario uji akun-pembeli |
 | 2026-10-13 | D-61 ([AG-22], cabang `animasi`): animasi CSS bertoken yang mati saat gerak dikurangi, POST /berkas dengan URL bertanda tangan dan cast FotoBerkas, perbaikan garis tahap uang |
 | 2026-10-13 | D-60 ([AG-19]): 501 BELUM_TERSEDIA untuk endpoint yang belum ada, lima endpoint kebun dan referensi di backend, pusat notifikasi; tes kontrak terhadap backend 43/19 → 47/15 |

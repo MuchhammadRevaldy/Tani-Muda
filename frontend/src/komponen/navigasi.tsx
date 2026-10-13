@@ -78,7 +78,65 @@ export function NavigasiBawah({
   );
 }
 
-/** Logo Tani Muda (ikon kebun + nama). */
+/** Berkas tanda merek (D-63): tunas dua daun di atas tanah, untuk latar terang. */
+export const BERKAS_TANDA = '/logo/logo-tanda.svg';
+
+/**
+ * Tanda merek saja. `alt` kosong bila tulisan "Tani Muda" ada di sebelahnya; "Tani Muda" bila tanda
+ * berdiri sendiri (D-63).
+ */
+export function TandaMerek({
+  ukuran,
+  berdiriSendiri,
+  className,
+}: {
+  ukuran: number;
+  berdiriSendiri?: boolean;
+  className?: string;
+}) {
+  return (
+    <img
+      src={BERKAS_TANDA}
+      alt={berdiriSendiri ? teksNavigasi.namaAplikasi : ''}
+      width={ukuran}
+      height={ukuran}
+      data-logo="tanda"
+      className={cx('block flex-none', className)}
+    />
+  );
+}
+
+/**
+ * Tanda merek satu warna untuk latar gelap (D-63): SVG sebaris dengan currentColor, sama dengan
+ * public/logo/logo-satu-warna.svg. Selalu hiasan; nama merek ditulis di sebelahnya.
+ */
+export function TandaSatuWarna({ ukuran, className }: { ukuran: number; className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 100 100"
+      width={ukuran}
+      height={ukuran}
+      fill="currentColor"
+      aria-hidden="true"
+      focusable="false"
+      data-logo="satu-warna"
+      className={cx('block flex-none', className)}
+    >
+      <path
+        d="M15 77 Q50 67 85 77"
+        stroke="currentColor"
+        strokeWidth="9"
+        strokeLinecap="round"
+        fill="none"
+      />
+      <path d="M45.5 70 L45.5 50 C45.5 46.5 47.5 44.5 50 44.5 C52.5 44.5 54.5 46.5 54.5 50 L54.5 70 Z" />
+      <path d="M49 47.5 C43 47.5 21 45.5 14.5 30 C11.5 22.5 14.5 16.5 22.5 16.5 C37 16.5 51 30 49 47.5 Z" />
+      <path d="M51 47.5 C57 47.5 79 45.5 85.5 30 C88.5 22.5 85.5 16.5 77.5 16.5 C63 16.5 49 30 51 47.5 Z" />
+    </svg>
+  );
+}
+
+/** Logo Tani Muda: tanda merek (D-63) dan nama. Ikon "Kebun" di menu tetap ikon garis. */
 export function Logo({ besar, className }: { besar?: boolean; className?: string }) {
   return (
     <span
@@ -88,7 +146,7 @@ export function Logo({ besar, className }: { besar?: boolean; className?: string
         className,
       )}
     >
-      <Ikon nama="kebun" ukuran={besar ? 28 : 24} />
+      <TandaMerek ukuran={besar ? 36 : 30} />
       <span>{teksNavigasi.namaAplikasi}</span>
     </span>
   );
@@ -449,7 +507,7 @@ export function HeaderPembeli({
     <header className="border-b border-garis bg-putih">
       <div className="mx-auto flex min-h-16 max-w-pembeli flex-wrap items-center gap-x-8 gap-y-2 px-4 py-2 lg:px-6">
         <span className="flex items-center gap-2 text-judul-bagian font-semibold text-daun-tua">
-          <Ikon nama="kebun" />
+          <TandaMerek ukuran={30} />
           <span>{teksNavigasi.namaAplikasi}</span>
           <span className="text-isi font-normal text-teks-pendukung">
             {teksNavigasi.untukPembeli}

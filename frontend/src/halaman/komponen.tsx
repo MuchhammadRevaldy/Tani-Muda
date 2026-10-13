@@ -15,7 +15,14 @@ import { InputRupiah } from '../komponen/input-rupiah';
 import { Kartu } from '../komponen/kartu';
 import { KolomIsian } from '../komponen/kolom-isian';
 import { LabelKecil } from '../komponen/label-kecil';
-import { HeaderHalaman, Logo, NavigasiBawah, Sidebar } from '../komponen/navigasi';
+import {
+  HeaderHalaman,
+  Logo,
+  NavigasiBawah,
+  Sidebar,
+  TandaMerek,
+  TandaSatuWarna,
+} from '../komponen/navigasi';
 import { DaftarLangkah, DaftarSyarat, FaqLipat, KotakOtp, Stepper } from '../komponen/pelengkap';
 import { Pin, PenggarisUmurTanam, type JadwalPin } from '../komponen/penggaris-umur-tanam';
 import { GrupRadio, KartuPilihan, PilPilihan, Saklar } from '../komponen/pilihan';
@@ -153,6 +160,25 @@ export function HalamanKomponen() {
         <Logo besar />
         <h1 className="m-0 text-tampil-3 font-semibold tracking-rapat lg:text-dok-2">{t.judul}</h1>
         <p className="m-0 text-judul-bagian font-normal text-teks-pendukung">{t.pengantar}</p>
+        {/* Logo merek (D-63): tanda, satu warna di latar gelap, ikon aplikasi. */}
+        <div className="flex flex-wrap items-end gap-6" aria-label={t.logo.judul} role="group">
+          <figure className="m-0 flex flex-col items-center gap-2">
+            <TandaMerek ukuran={64} berdiriSendiri />
+            <figcaption className="text-keterangan text-teks-pendukung">{t.logo.tanda}</figcaption>
+          </figure>
+          <figure className="m-0 flex flex-col items-center gap-2">
+            <span className="grid h-16 w-16 place-items-center rounded-lg bg-teks text-putih">
+              <TandaSatuWarna ukuran={44} />
+            </span>
+            <figcaption className="text-keterangan text-teks-pendukung">
+              {t.logo.satuWarna}
+            </figcaption>
+          </figure>
+          <figure className="m-0 flex flex-col items-center gap-2">
+            <img src="/logo/logo-ikon.svg" alt="" width={64} height={64} className="block" />
+            <figcaption className="text-keterangan text-teks-pendukung">{t.logo.ikon}</figcaption>
+          </figure>
+        </div>
       </header>
 
       <Bagian judul={t.bagian.warna} keterangan={t.bagian.warnaKet}>

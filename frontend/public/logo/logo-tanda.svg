@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" role="img" aria-label="Tani Muda">
+  <title>Tani Muda</title>
+  <defs>
+    <linearGradient id="tm-daun" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#A9D85A"/><stop offset=".6" stop-color="#8CC63A"/><stop offset="1" stop-color="#76B42B"/>
+    </linearGradient>
+    <linearGradient id="tm-tanah" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#46507A"/><stop offset="1" stop-color="#2E3547"/>
+    </linearGradient>
+  </defs>
+  <path d="M15 77 Q50 67 85 77" stroke="url(#tm-tanah)" stroke-width="9" stroke-linecap="round" fill="none"/>
+  <path d="M45.5 70 L45.5 50 C45.5 46.5 47.5 44.5 50 44.5 C52.5 44.5 54.5 46.5 54.5 50 L54.5 70 Z" fill="url(#tm-daun)"/>
+  <path d="M49 47.5 C43 47.5 21 45.5 14.5 30 C11.5 22.5 14.5 16.5 22.5 16.5 C37 16.5 51 30 49 47.5 Z" fill="url(#tm-daun)"/>
+  <path d="M51 47.5 C57 47.5 79 45.5 85.5 30 C88.5 22.5 85.5 16.5 77.5 16.5 C63 16.5 49 30 51 47.5 Z" fill="url(#tm-daun)"/>
+  <path d="M20 23 C24 21 31 22 36 26" stroke="#fff" stroke-opacity=".45" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+  <path d="M80 23 C76 21 69 22 64 26" stroke="#fff" stroke-opacity=".3" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+</svg>

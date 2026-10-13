@@ -1,1 +1,15 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" rx="7" fill="#1E6B45"/><g transform="translate(4.48 4.48) scale(0.96)" fill="none" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5v-8.5"/><path d="M12 12c0-3.9-2.6-6.5-7.5-6.5 0 4.2 2.8 6.5 7.5 6.5Z"/><path d="M12 14.5c0-3.4 2.3-5.8 7-5.8 0 3.6-2.6 5.8-7 5.8Z"/><path d="M4.5 20.5h15"/></g></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" role="img" aria-label="Tani Muda">
+  <title>Tani Muda</title>
+  <defs>
+    <linearGradient id="ti-latar" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#9DD148"/><stop offset="1" stop-color="#7AB82D"/>
+    </linearGradient>
+  </defs>
+  <rect width="100" height="100" rx="22" fill="url(#ti-latar)"/>
+  <g transform="translate(10 9) scale(.8)" fill="#FFFFFF">
+    <path d="M15 77 Q50 67 85 77" stroke="#FFFFFF" stroke-width="9" stroke-linecap="round" fill="none"/>
+    <path d="M45.5 70 L45.5 50 C45.5 46.5 47.5 44.5 50 44.5 C52.5 44.5 54.5 46.5 54.5 50 L54.5 70 Z"/>
+    <path d="M49 47.5 C43 47.5 21 45.5 14.5 30 C11.5 22.5 14.5 16.5 22.5 16.5 C37 16.5 51 30 49 47.5 Z"/>
+    <path d="M51 47.5 C57 47.5 79 45.5 85.5 30 C88.5 22.5 85.5 16.5 77.5 16.5 C63 16.5 49 30 51 47.5 Z"/>
+  </g>
+</svg>
