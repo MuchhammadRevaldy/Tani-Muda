@@ -10,6 +10,10 @@ import './index.css';
 const LabelModeDemo =
   import.meta.env.MODE === 'demo' ? lazy(() => import('./komponen/label-mode-demo')) : null;
 
+// Sakelar animasi (D-61, [AG-23]): `mati` mematikan semua animasi, setara prefers-reduced-motion.
+if (import.meta.env.VITE_ANIMASI === 'mati')
+  document.documentElement.classList.add('tanpa-animasi');
+
 const akar = document.getElementById('root');
 if (!akar) throw new Error('Elemen #root tidak ditemukan');
 

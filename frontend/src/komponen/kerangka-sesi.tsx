@@ -48,9 +48,14 @@ export function KerangkaPetaniSesi({
 export function KerangkaPembeliSesi({ children }: { children: ReactNode }) {
   const { akun } = useSesi();
   const { pathname } = useLocation();
+  const { keluar } = useKeluarSesi();
+  const navigate = useNavigate();
   return (
     <KerangkaPembeli
       namaUsaha={akun?.profil_pembeli?.nama_usaha ?? akun?.pengguna.nama ?? ''}
+      foto={akun?.pengguna.foto_profil ?? null}
+      // Sama dengan petani: POST /auth/keluar, cache kueri dikosongkan, lalu ke /masuk.
+      onKeluar={() => void keluar().then(() => navigate('/masuk', { replace: true }))}
       kunciHalaman={pathname}
     >
       {children}

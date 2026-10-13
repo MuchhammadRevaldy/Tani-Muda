@@ -1,4 +1,5 @@
 import { cx } from '../komponen/gabung-kelas';
+import { animasiMati } from '../lib/gerak';
 import { teksUmum } from '../teks/umum';
 
 /**
@@ -6,6 +7,13 @@ import { teksUmum } from '../teks/umum';
  * teks "Sedang memuat…" tetap ada untuk pembaca layar lewat role="status".
  */
 export function Memuat({ className }: { className?: string }) {
+  // Sakelar animasi mati: tunas tidak dipakai (animasinya di dalam SVG), teks tampil biasa.
+  if (animasiMati())
+    return (
+      <p role="status" className={cx('m-0 p-4 text-teks-pendukung', className)}>
+        {teksUmum.memuat}
+      </p>
+    );
   return (
     <div role="status" className={cx('flex flex-col items-center p-6', className)}>
       <img

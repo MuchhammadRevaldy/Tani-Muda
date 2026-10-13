@@ -42,6 +42,8 @@ it('POST jurnal: catatan atau foto wajib; hari ke dihitung dari tanggal tanam; t
         ->assertStatus(422)->assertJsonStructure(['galat' => ['rincian' => ['catatan']]]);
     $tanam = DB::table('siklus_tanam')->where('id', 'siklus-arif-sawi')->value('tanggal_tanam');
     $hariIni = CarbonImmutable::now()->toDateString();
+    // Jurnal contoh hari ini dibuat saat seeding; jurnal baru dibuat sesudahnya (urutan terbaru dulu).
+    $this->travel(5)->seconds();
     $j = $this->postJson('/api/v1/siklus/siklus-arif-sawi/jurnal', ['tanggal' => $hariIni, 'catatan' => ' Daun mulai lebar '])
         ->assertOk()->json('data');
     expect($j['catatan'])->toBe('Daun mulai lebar')

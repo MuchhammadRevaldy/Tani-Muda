@@ -17,6 +17,8 @@ Layar: laptop 1440 px (tampilan desktop), zoom 100%. Dua jendela atau tab: aplik
 
 **Versi lomba:** tag `demo-tema-baru` (tema baru D-59, [AG-21]). Cadangan bila ada masalah dengan tema baru: tag `demo-aman` (`git switch --detach demo-aman`, lalu `npm run demo:backend`). Kode dibekukan Kamis 15 Oktober malam; setelah itu hanya perbaikan yang menghentikan demo.
 
+**Bila animasi membuat demo tersendat:** matikan sakelarnya lalu jalankan ulang, tanpa mengubah kode: `$env:VITE_ANIMASI='mati'; npm run demo:backend` (sakelar tetapnya di `frontend/scripts/pengaturan-demo.mjs`, D-62).
+
 **Aturan hari-H:** mode demo diputuskan **setelah latihan pagi** dan **tidak berpindah di tengah demo**. Bila latihan pagi dengan backend lancar, pakai backend. Bila ada yang macet dan tidak selesai dalam 10 menit, pakai tiruan, dan basis data ditunjukkan terpisah setelah demo bila juri meminta.
 
 ## Alur

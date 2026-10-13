@@ -32,7 +32,7 @@ import { formatDesimal } from '../lib/format';
 import { tampilNomorHp } from '../lib/nomor-hp';
 import { statistikPetani } from '../lib/profil';
 import { teksPilihPeran } from '../teks/sesi';
-import { teksUbahProfil as t } from '../teks/profil';
+import { teksUbahProfil as t, teksUbahProfilPembeli } from '../teks/profil';
 import { DialogGantiNomor } from './profil/ganti-nomor';
 import { namaDesa } from './profil/nama-desa';
 
@@ -165,7 +165,25 @@ function Pratinjau({
   );
 }
 
-function Formulir({ p, desaAwal }: { p: Pengguna; desaAwal: Wilayah | null }) {
+/** Petani: desa, kelompok tani, pratinjau untuk pembeli. Pembeli: nama, foto, nomor HP saja ([AG-23]). */
+type Varian = 'petani' | 'pembeli';
+
+const VARIAN = {
+  petani: { t, kembali: '/profil' },
+  pembeli: { t: teksUbahProfilPembeli, kembali: '/pembeli/profil' },
+} as const;
+
+function Formulir({
+  p,
+  desaAwal,
+  varian,
+}: {
+  p: Pengguna;
+  desaAwal: Wilayah | null;
+  varian: Varian;
+}) {
+  const { t, kembali } = VARIAN[varian];
+  const petani = varian === 'petani';
   const lebar = useLayarLebar();
   const navigate = useNavigate();
   const ubah = useUbahProfil();
@@ -188,8 +206,8 @@ function Formulir({ p, desaAwal }: { p: Pengguna; desaAwal: Wilayah | null }) {
     if (!nama.trim()) return setGalat({ nama: t.isiNama });
     const m: UbahProfilMasukan = {};
     if (nama.trim() !== p.nama) m.nama = nama.trim();
-    if (desa && desa.id !== p.wilayah_id) m.wilayah_id = desa.id;
-    if (kelompok !== p.terdaftar_kelompok_tani) m.terdaftar_kelompok_tani = kelompok;
+    if (petani && desa && desa.id !== p.wilayah_id) m.wilayah_id = desa.id;
+    if (petani && kelompok !== p.terdaftar_kelompok_tani) m.terdaftar_kelompok_tani = kelompok;
     try {
       if (foto.jenis === 'hapus') m.foto_profil = null;
       if (foto.jenis === 'baru') {
@@ -201,10 +219,10 @@ function Formulir({ p, desaAwal }: { p: Pengguna; desaAwal: Wilayah | null }) {
     } catch {
       return setGalat({ foto: t.gagalFoto });
     }
-    if (!Object.keys(m).length) return navigate('/profil');
+    if (!Object.keys(m).length) return navigate(kembali);
     try {
       await ubah.mutateAsync(m);
-      navigate('/profil', { state: { info: t.tersimpan } });
+      navigate(kembali, { state: { info: t.tersimpan } });
     } catch (e) {
       if (adalahGalatApi(e))
         setGalat({
@@ -251,24 +269,21 @@ function Formulir({ p, desaAwal }: { p: Pengguna; desaAwal: Wilayah | null }) {
         onChange={(e) => setNama(e.target.value)}
         galat={galat.nama}
       />
-      <PilihDesa
-        desa={desa}
-        onPilih={setDesa}
-        galat={galat.desa}
-        wajibTersedia={p.peran === 'petani'}
-      />
-      <label className="flex min-h-sentuh cursor-pointer items-start gap-3">
-        <input
-          type="checkbox"
-          checked={kelompok}
-          onChange={(e) => setKelompok(e.target.checked)}
-          className="fokus-cincin mt-0.5 h-6 w-6 flex-none cursor-pointer accent-daun-tua"
-        />
-        <span className="flex flex-col gap-0.5">
-          <span className="font-medium">{t.kelompokTani}</span>
-          <span className="text-keterangan text-teks-pendukung">{t.kelompokTaniKet}</span>
-        </span>
-      </label>
+      {petani ? <PilihDesa desa={desa} onPilih={setDesa} galat={galat.desa} wajibTersedia /> : null}
+      {petani ? (
+        <label className="flex min-h-sentuh cursor-pointer items-start gap-3">
+          <input
+            type="checkbox"
+            checked={kelompok}
+            onChange={(e) => setKelompok(e.target.checked)}
+            className="fokus-cincin mt-0.5 h-6 w-6 flex-none cursor-pointer accent-daun-tua"
+          />
+          <span className="flex flex-col gap-0.5">
+            <span className="font-medium">{t.kelompokTani}</span>
+            <span className="text-keterangan text-teks-pendukung">{t.kelompokTaniKet}</span>
+          </span>
+        </label>
+      ) : null}
     </div>
   );
 
@@ -301,7 +316,7 @@ function Formulir({ p, desaAwal }: { p: Pengguna; desaAwal: Wilayah | null }) {
         {sedang ? t.menyimpan : t.simpan}
       </Tombol>
       {lebar ? (
-        <Link to="/profil" className={kelasTombol('sekunder', true)}>
+        <Link to={kembali} className={kelasTombol('sekunder', true)}>
           {t.batal}
         </Link>
       ) : null}
@@ -345,7 +360,7 @@ function Formulir({ p, desaAwal }: { p: Pengguna; desaAwal: Wilayah | null }) {
         {kartuNomor}
       </div>
       <aside className="sticky top-6 flex w-panel flex-none flex-col gap-4">
-        <Pratinjau p={p} nama={nama} foto={fotoTampil} desa={desa} />
+        {petani ? <Pratinjau p={p} nama={nama} foto={fotoTampil} desa={desa} /> : null}
         {tindakan}
       </aside>
       {dialog}
@@ -353,11 +368,12 @@ function Formulir({ p, desaAwal }: { p: Pengguna; desaAwal: Wilayah | null }) {
   );
 }
 
-function Kepala({ children }: { children?: ReactNode }) {
+function Kepala({ varian, children }: { varian: Varian; children?: ReactNode }) {
+  const { t, kembali } = VARIAN[varian];
   return (
     <div className="flex flex-col gap-3">
       <Link
-        to="/profil"
+        to={kembali}
         className="fokus-cincin -ml-2 inline-flex min-h-sentuh items-center gap-1 self-start rounded-md pl-1 pr-3 font-medium text-daun-tua no-underline"
       >
         <Ikon nama="panah-kiri" ukuran={20} />
@@ -372,16 +388,19 @@ function Kepala({ children }: { children?: ReactNode }) {
   );
 }
 
-export function HalamanUbahProfil() {
+export function HalamanUbahProfil({ varian = 'petani' }: { varian?: Varian }) {
   const { akun } = useSesi();
   const p = akun?.pengguna;
-  const wilayahQ = useWilayahSatu(p?.wilayah_id ?? null);
+  // Desa pembeli diatur di Data usaha, jadi tidak perlu dimuat di sini.
+  const wilayahQ = useWilayahSatu(varian === 'petani' ? (p?.wilayah_id ?? null) : null);
   if (!p) return null;
-  const siapDesa = !p.wilayah_id || wilayahQ.data || wilayahQ.isError;
+  const siapDesa = varian === 'pembeli' || !p.wilayah_id || wilayahQ.data || wilayahQ.isError;
   return (
     <>
-      <Kepala />
-      {siapDesa ? <Formulir key={p.id} p={p} desaAwal={wilayahQ.data ?? null} /> : null}
+      <Kepala varian={varian} />
+      {siapDesa ? (
+        <Formulir key={p.id} p={p} desaAwal={wilayahQ.data ?? null} varian={varian} />
+      ) : null}
     </>
   );
 }

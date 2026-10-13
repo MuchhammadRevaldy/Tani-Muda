@@ -117,23 +117,57 @@ function useTerpotong(daftar: RefObject<HTMLElement | null>[], isi: string) {
   return terpotong;
 }
 
-/** Menu akun di sidebar: Profil, Pengaturan notifikasi, Keluar. */
+/** Satu butir menu akun (tautan). */
+export interface ButirMenuAkun {
+  label: string;
+  ke: string;
+}
+
+/** Butir menu akun petani (sidebar). */
+const BUTIR_PETANI: ButirMenuAkun[] = [
+  { label: teksNavigasi.profil, ke: '/profil' },
+  { label: teksNavigasi.pengaturanNotifikasi, ke: '/profil/notifikasi' },
+];
+
+/**
+ * Menu akun: butir tautan, garis, lalu Keluar (merah). Fokus pindah ke butir pertama saat dibuka;
+ * Esc atau klik di luar menutup, dan Esc mengembalikan fokus ke tombol pembuka (`onTutup(true)`).
+ * Dipakai sidebar petani dan header pembeli ([AG-23]).
+ */
 function MenuAkun({
+  butir,
   onTutup,
   onKeluar,
   akunLengkap,
+  className,
 }: {
-  onTutup: () => void;
+  butir: ButirMenuAkun[];
+  onTutup: (kembalikanFokus?: boolean) => void;
   onKeluar?: () => void;
   /** Nama dan keterangan lengkap, ditampilkan bila di tombol akun terpotong (layar sentuh). */
   akunLengkap?: Akun;
+  className?: string;
 }) {
   const ref = useRef<HTMLDivElement>(null);
   useEffect(() => {
     ref.current?.querySelector<HTMLElement>('[role="menuitem"]')?.focus();
-    const tekan = (e: KeyboardEvent) => e.key === 'Escape' && onTutup();
+    const tekan = (e: KeyboardEvent) => e.key === 'Escape' && onTutup(true);
+    const klikLuar = (e: MouseEvent) => {
+      const sasaran = e.target as Node;
+      // Klik di tombol pembuka ditangani tombol itu sendiri (buka/tutup).
+      if (
+        ref.current?.contains(sasaran) ||
+        (sasaran as Element).closest?.('[aria-haspopup="menu"]')
+      )
+        return;
+      onTutup();
+    };
     document.addEventListener('keydown', tekan);
-    return () => document.removeEventListener('keydown', tekan);
+    document.addEventListener('mousedown', klikLuar);
+    return () => {
+      document.removeEventListener('keydown', tekan);
+      document.removeEventListener('mousedown', klikLuar);
+    };
   }, [onTutup]);
   const item =
     'fokus-cincin flex min-h-sentuh items-center rounded-sm px-3 font-medium text-teks no-underline hover:bg-embun-pagi hover:text-teks';
@@ -142,7 +176,10 @@ function MenuAkun({
       ref={ref}
       role="menu"
       aria-label={teksKomponen.nav.menuAkun}
-      className="absolute bottom-24 left-4 right-4 flex flex-col rounded-lg bg-putih p-1.5 shadow-kartu"
+      className={cx(
+        'absolute z-20 flex flex-col rounded-lg bg-putih p-1.5 shadow-kartu',
+        className,
+      )}
     >
       {akunLengkap ? (
         <>
@@ -153,12 +190,11 @@ function MenuAkun({
           <div className="mx-1.5 my-1 h-px bg-garis" />
         </>
       ) : null}
-      <Link role="menuitem" to="/profil" className={item} onClick={onTutup}>
-        {teksNavigasi.profil}
-      </Link>
-      <Link role="menuitem" to="/profil/notifikasi" className={item} onClick={onTutup}>
-        {teksNavigasi.pengaturanNotifikasi}
-      </Link>
+      {butir.map((b) => (
+        <Link key={b.ke} role="menuitem" to={b.ke} className={item} onClick={() => onTutup()}>
+          {b.label}
+        </Link>
+      ))}
       <div className="mx-1.5 my-1 h-px bg-garis" />
       <button
         role="menuitem"
@@ -200,6 +236,7 @@ export function Sidebar({
   const refNama = useRef<HTMLSpanElement>(null);
   const refKet = useRef<HTMLSpanElement>(null);
   const terpotong = useTerpotong([refNama, refKet], akun.nama + akun.keterangan);
+  const refTombol = useRef<HTMLButtonElement>(null);
   const idLengkap = useId();
   return (
     <aside
@@ -247,9 +284,14 @@ export function Sidebar({
       <div className="flex-1" />
       {terbuka ? (
         <MenuAkun
-          onTutup={() => setTerbuka(false)}
+          butir={BUTIR_PETANI}
+          onTutup={(kembali) => {
+            setTerbuka(false);
+            if (kembali) refTombol.current?.focus();
+          }}
           onKeluar={onKeluar}
           akunLengkap={terpotong ? akun : undefined}
+          className="bottom-24 left-4 right-4"
         />
       ) : null}
       <div className="group relative">
@@ -266,6 +308,7 @@ export function Sidebar({
           </div>
         ) : null}
         <button
+          ref={refTombol}
           type="button"
           aria-haspopup="menu"
           aria-expanded={terbuka}
@@ -332,8 +375,68 @@ export function HeaderHalaman({
 
 export type MenuPembeli = 'aktif' | 'riwayat' | 'pembayaran';
 
-/** Header pembeli (desktop): logo "untuk pembeli", 3 menu, nama usaha. Di HP menu digulir. */
-export function HeaderPembeli({ namaUsaha }: { namaUsaha: string }) {
+/** Butir menu akun pembeli ([AG-23]). */
+const BUTIR_PEMBELI: ButirMenuAkun[] = [
+  { label: teksNavigasi.profil, ke: '/pembeli/profil' },
+  { label: teksNavigasi.dataUsaha, ke: '/pembeli/daftar' },
+];
+
+/** Tombol akun pembeli di kanan atas header: avatar, nama usaha, panah; membuka menu akun. */
+function TombolAkunPembeli({
+  namaUsaha,
+  foto,
+  onKeluar,
+}: {
+  namaUsaha: string;
+  foto?: string | null;
+  onKeluar?: () => void;
+}) {
+  const [terbuka, setTerbuka] = useState(false);
+  const refTombol = useRef<HTMLButtonElement>(null);
+  return (
+    <div className="relative ml-auto lg:order-last lg:ml-0">
+      <button
+        ref={refTombol}
+        type="button"
+        aria-haspopup="menu"
+        aria-expanded={terbuka}
+        aria-label={teksKomponen.nav.bukaMenuAkunUsaha(namaUsaha)}
+        onClick={() => setTerbuka((x) => !x)}
+        className="fokus-cincin flex min-h-sentuh max-w-full cursor-pointer items-center gap-2 rounded-full border border-garis bg-putih py-1 pl-1 pr-2 text-left text-isi font-medium text-teks md:pr-3"
+      >
+        <Avatar nama={namaUsaha} foto={foto ?? null} ukuran={40} />
+        {/* Di HP cukup avatar dan panah supaya muat satu baris dengan logo; nama ada di label. */}
+        <span className="hidden min-w-0 truncate md:inline">{namaUsaha}</span>
+        <Ikon nama="panah-naik-turun" ukuran={20} className="flex-none text-teks-pendukung" />
+      </button>
+      {terbuka ? (
+        <MenuAkun
+          butir={BUTIR_PEMBELI}
+          onTutup={(kembali) => {
+            setTerbuka(false);
+            if (kembali) refTombol.current?.focus();
+          }}
+          onKeluar={onKeluar}
+          className="right-0 top-full mt-2 w-sidebar max-w-[calc(100vw-theme(spacing.8))]"
+        />
+      ) : null}
+    </div>
+  );
+}
+
+/**
+ * Header pembeli: logo "untuk pembeli", 3 menu, dan tombol akun (nama usaha) yang membuka menu
+ * Profil, Data usaha, Keluar. Di HP menu digulir dan tombol akun tetap terlihat.
+ */
+export function HeaderPembeli({
+  namaUsaha,
+  foto,
+  onKeluar,
+}: {
+  namaUsaha: string;
+  foto?: string | null;
+  onKeluar?: () => void;
+}) {
   const { pathname } = useLocation();
   // Buat pesanan, bayar, dan periksa kiriman adalah bagian dari "Pesanan aktif" (papan 37, 38).
   const bagianAktif = /^\/pembeli(\/(pesanan|kiriman)(\/|$)|\/?$)/.test(pathname);
@@ -352,7 +455,7 @@ export function HeaderPembeli({ namaUsaha }: { namaUsaha: string }) {
             {teksNavigasi.untukPembeli}
           </span>
         </span>
-        <span className="font-medium lg:order-last">{namaUsaha}</span>
+        <TombolAkunPembeli namaUsaha={namaUsaha} foto={foto} onKeluar={onKeluar} />
         <nav
           aria-label={teksNavigasi.menuPembeli}
           className="flex w-full gap-1 overflow-x-auto lg:w-auto lg:flex-1"

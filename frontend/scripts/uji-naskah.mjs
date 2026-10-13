@@ -8,7 +8,8 @@
  *   npm run uji:naskah -- [--url http://localhost:4174] [--ulang 15] [--skenario naskah]
  *                         [--catatan <folder>] [--layar] [--dingin] [--tampil] [--lebar 390]
  *
- * --skenario  naskah (bawaan), daftar-petani, daftar-pembeli, atau semua (berurutan per putaran).
+ * --skenario  naskah (bawaan), daftar-petani, daftar-pembeli, verifikasi-pembeli, akun-pembeli,
+ *             atau semua (berurutan per putaran).
  * --ulang     jalankan N putaran, masing-masing diawali atur ulang (bawaan 1).
  * --catatan   folder diagnosis. Saat langkah gagal: tangkapan layar seluruh halaman, isi DOM,
  *             tombol dan tautan yang terlihat, log konsol, dan waktu setiap permintaan API.
@@ -311,11 +312,40 @@ async function verifikasiPembeli(page, langkah) {
   });
 }
 
+/** Menu akun pembeli → Profil → Ubah profil (ganti nama) → Keluar → /masuk ([AG-23]). */
+async function akunPembeli(page, langkah) {
+  await langkah('0. Atur ulang data demo', () => aturUlang(page));
+  await langkah('1. Masuk sebagai pembeli', async () => {
+    await klik(page, 'Masuk sebagai Ratna');
+    await page.waitForURL(/\/pembeli/, { timeout: TUNGGU });
+  });
+  await langkah('2. Menu akun lalu Profil', async () => {
+    await klik(page, /^Menu akun/);
+    await page.getByRole('menuitem', { name: 'Profil' }).click({ timeout: TUNGGU });
+    await page.waitForURL(/\/pembeli\/profil$/, { timeout: TUNGGU });
+    await lihat(page, 'Data usaha');
+  });
+  await langkah('3. Ubah profil: ganti nama', async () => {
+    await klik(page, 'Ubah profil');
+    await page.waitForURL(/\/pembeli\/profil\/ubah/, { timeout: TUNGGU });
+    await page.getByLabel('Nama lengkap').fill('Ratna Kusuma Uji');
+    await klik(page, 'Simpan perubahan');
+    await page.waitForURL(/\/pembeli\/profil$/, { timeout: TUNGGU });
+    await lihat(page, 'Ratna Kusuma Uji');
+  });
+  await langkah('4. Keluar lewat menu akun', async () => {
+    await klik(page, /^Menu akun/);
+    await page.getByRole('menuitem', { name: 'Keluar' }).click({ timeout: TUNGGU });
+    await page.waitForURL(/\/masuk/, { timeout: TUNGGU });
+  });
+}
+
 const SKENARIO = {
   naskah,
   'daftar-petani': daftarPetani,
   'daftar-pembeli': daftarPembeli,
   'verifikasi-pembeli': verifikasiPembeli,
+  'akun-pembeli': akunPembeli,
 };
 const DAFTAR_SKENARIO = PILIH_SKENARIO === 'semua' ? Object.keys(SKENARIO) : [PILIH_SKENARIO];
 for (const s of DAFTAR_SKENARIO)

@@ -33,6 +33,8 @@ export const judulRute = {
   kesepakatan: 'Periksa kesepakatan',
   profil: 'Profil',
   ubahProfil: 'Ubah profil',
+  profilPembeli: 'Profil',
+  ubahProfilPembeli: 'Ubah profil',
   lahan: 'Lahan saya',
   dasborPembeli: 'Pesanan aktif',
   riwayat: 'Riwayat',

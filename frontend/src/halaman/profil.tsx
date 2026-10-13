@@ -35,7 +35,7 @@ import { keKelompok, useNamaSiklus } from './kebun/nama-siklus';
 import { namaDesa } from './profil/nama-desa';
 
 /** Baris kartu: label di atas nilai (HP) atau sejajar (desktop); bisa berupa tautan. */
-function Baris({
+export function Baris({
   label,
   nilai,
   ke,
@@ -90,7 +90,7 @@ function Baris({
   );
 }
 
-function KartuDaftar({
+export function KartuDaftar({
   judul,
   keterangan,
   children,
@@ -311,7 +311,8 @@ function KartuBantuan() {
   );
 }
 
-function TombolKeluar() {
+/** Keluar: POST /auth/keluar, cache kueri dikosongkan, lalu ke /masuk (petani dan pembeli). */
+export function TombolKeluar() {
   const { keluar, sedang } = useKeluarSesi();
   const navigate = useNavigate();
   return (

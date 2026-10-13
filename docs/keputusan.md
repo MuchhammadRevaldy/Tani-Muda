@@ -683,6 +683,15 @@ Ditetapkan 13 Oktober 2026 di cabang `animasi`; digabung ke master hanya bila sy
 - **Garis tahap uang di Kiriman saya** ditarik dari tepi ke tepi lingkaran di bawah lingkaran (z-0 / z-10).
 - Berdampak ke: `tailwind.config.ts`, `index.css`, `scripts/aturan.mjs` (bayangan `kartu-angkat`, `cahaya-limau-terang`, `cahaya-oranye-terang`), `scripts/uji-naskah.mjs`, komponen Memuat, FaqLipat, Tombol, kerangka; backend berkas.
 
+## D-62. Menu akun dan profil pembeli, sakelar animasi ([AG-23])
+Ditetapkan 14 Oktober 2026 di cabang `animasi`, dengan syarat gabung AG-22.
+- **Menu akun di header pembeli:** tombol akun (avatar inisial atau foto, nama usaha, ikon panah) membuka menu Profil, Data usaha, garis, Keluar (merah). Komponen `MenuAkun` dipakai bersama dengan sidebar petani: `aria-haspopup`, fokus ke butir pertama saat dibuka, Esc menutup dan mengembalikan fokus ke tombol, klik di luar menutup. Keluar sama dengan petani: `POST /auth/keluar`, cache kueri di-reset, lalu ke `/masuk`. *Tafsiran:* di HP tombol hanya menampilkan avatar dan panah (nama usaha ada di label aksesibel "Menu akun <nama usaha>") supaya muat satu baris dengan logo.
+- **`/pembeli/profil`** (tangkapan 65): kartu Akun (foto, nama, nomor HP tersamar, Ubah profil), Data usaha (nama, jenis, alamat, desa, status verifikasi dengan ikon dan kata, menuju `/pembeli/daftar`), penilaian dari petani (`GET /pengguna/{id}/rating`), Keluar. Sapaan "Anda".
+- **`/pembeli/profil/ubah`** (tangkapan 66): formulir Ubah profil yang sama dengan varian `pembeli` (nama, foto lewat `POST /berkas`, ganti nomor dengan OTP ke nomor baru), tanpa desa, kelompok tani, dan pratinjau petani; teks bersapaan "Anda". `PATCH /akun` dan ganti nomor sudah terbuka untuk semua peran di backend dan klien tiruan; ditambah tes kontrak bersama dan tes Pest untuk pembeli.
+- **Sakelar animasi:** `VITE_ANIMASI` di `scripts/pengaturan-demo.mjs` (`nyala`/`mati`, bisa ditimpa sekali jalan dengan variabel lingkungan) untuk `npm run demo`, `build:demo`, dan `demo:backend`. `mati` memasang kelas `tanpa-animasi` di `<html>` dengan aturan yang sama dengan `prefers-reduced-motion`; SVG beranimasi diganti versi diam (sawi hero) atau teks (Memuat).
+- **Skenario `uji:naskah` baru `akun-pembeli`:** masuk sebagai pembeli → menu akun → Profil → Ubah profil (ganti nama) → Keluar → `/masuk`.
+- Berdampak ke: `navigasi.tsx`, `kerangka*.tsx`, `ubah-profil.tsx`, `pembeli/profil.tsx`, `pengaturan-demo.mjs`, `index.css`, `design/README.md` (65, 66).
+
 ---
 
 ## Riwayat
@@ -692,6 +701,7 @@ Ditetapkan 13 Oktober 2026 di cabang `animasi`; digabung ke master hanya bila sy
 | 2026-10-05 | D-12 sampai D-18 ditetapkan. Butir turunan di D-03, D-06, dan D-11 dikonfirmasi dan dirujuk ke keputusan baru. Jalur tangkapan layar di D-07 diganti mengikuti D-18 |
 | 2026-10-05 | D-19 dan D-20 ditetapkan: backend Laravel + MariaDB tanpa Docker, tampilan dikerjakan lebih dulu. Butir OTP di D-10 dan butir penegakan di D-13 dan D-14 disesuaikan |
 | 2026-10-05 | D-21 sampai D-25 ditetapkan: cookie Sanctum (token untuk React Native), 404 untuk data orang lain, konfirmasi otomatis setiap 15 menit, siap deploy VPS, PHP 8.3+ terpisah |
+| 2026-10-14 | D-62 ([AG-23]): menu akun dan profil pembeli, ubah profil varian pembeli, sakelar animasi `VITE_ANIMASI`, skenario uji akun-pembeli |
 | 2026-10-13 | D-61 ([AG-22], cabang `animasi`): animasi CSS bertoken yang mati saat gerak dikurangi, POST /berkas dengan URL bertanda tangan dan cast FotoBerkas, perbaikan garis tahap uang |
 | 2026-10-13 | D-60 ([AG-19]): 501 BELUM_TERSEDIA untuk endpoint yang belum ada, lima endpoint kebun dan referensi di backend, pusat notifikasi; tes kontrak terhadap backend 43/19 → 47/15 |
 | 2026-10-13 | D-59 ditetapkan ([AG-15]): tema baru sebelum lomba di cabang `tema-baru` dengan tag `demo-aman`; palet limau/oranye/biru tua, bayangan sebagai token, Outfit, ilustrasi komoditas 3D; utang desain tombol putih di atas limau |

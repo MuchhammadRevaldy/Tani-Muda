@@ -21,6 +21,8 @@ export const teksKomponen = {
     baru: (n: number) => `, ${n} baru`,
     menuAkun: 'Menu akun',
     bukaMenuAkun: 'Buka menu akun',
+    /** Label tombol akun pembeli; memuat nama usaha yang terlihat (WCAG 2.5.3). */
+    bukaMenuAkunUsaha: (namaUsaha: string) => `Menu akun ${namaUsaha}`,
   },
   dialog: { tutup: 'Tutup' },
   penggaris: {

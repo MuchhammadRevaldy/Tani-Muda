@@ -153,7 +153,22 @@ html.js-gulir .muncul-gulir:not(.terlihat) {
   }
 }
 
-/* Semua gerak mati bila pengguna meminta gerak dikurangi. */
+/* Semua gerak mati bila pengguna meminta gerak dikurangi, atau bila sakelar animasi demo mati
+   (kelas tanpa-animasi di <html>, VITE_ANIMASI=mati; [AG-23]). Dua blok yang sama persis. */
+html.tanpa-animasi *,
+html.tanpa-animasi *::before,
+html.tanpa-animasi *::after {
+  animation-duration: 0.01ms !important;
+  animation-delay: 0ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+  transition-delay: 0ms !important;
+  scroll-behavior: auto !important;
+}
+html.tanpa-animasi.js-gulir .muncul-gulir:not(.terlihat) {
+  opacity: 1;
+  transform: none;
+}
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

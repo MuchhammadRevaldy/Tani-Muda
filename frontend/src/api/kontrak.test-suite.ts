@@ -60,6 +60,10 @@ const kunci = (() => {
   return () => `uji-${++n}`;
 })();
 
+/** JPEG asli 1×1 piksel: backend memeriksa jenis berkas dari isinya ([AG-22]). */
+const JPEG_1PX =
+  'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAABAAEDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDoKKKK+IPPP//Z';
+
 export function ujiKontrak(nama: string, siapkan: PenyiapLingkungan): void {
   describe(`kontrak API: ${nama}`, () => {
     let L: Lingkungan;
@@ -190,6 +194,24 @@ export function ujiKontrak(nama: string, siapkan: PenyiapLingkungan): void {
         expect(
           (await K.akun.ubahProfil({ nama: 'Arif S.', zona_waktu: 'Asia/Makassar' })).pengguna,
         ).toMatchObject({ nama: 'Arif S.', zona_waktu: 'Asia/Makassar' });
+      });
+      it('pembeli mengubah nama dan foto, lalu ganti nomor HP dengan kode ke nomor baru ([AG-23])', async () => {
+        await masuk('pembeli-ratna');
+        const nama = await K.akun.ubahProfil({ nama: 'Ratna Kusuma Dewi' });
+        expect(nama.pengguna).toMatchObject({ id: 'pembeli-ratna', nama: 'Ratna Kusuma Dewi' });
+        const foto = await K.berkas.unggah({
+          nama: 'profil.jpg',
+          jenis: 'image/jpeg',
+          isi: JPEG_1PX,
+        });
+        const denganFoto = await K.akun.ubahProfil({ foto_profil: foto.url });
+        expect(denganFoto.pengguna.foto_profil).toBeTruthy();
+        const r = await K.akun.kirimOtpNomorBaru({ nomor_hp: '0857 3333 4444' });
+        expect(r.nomor_hp).toBe('+6285733334444');
+        const kode = (await L.kodeOtp('+6285733334444')) as string;
+        const akun = await K.akun.gantiNomorHp({ nomor_hp: '085733334444', kode });
+        expect(akun.pengguna).toMatchObject({ id: 'pembeli-ratna', nomor_hp: '+6285733334444' });
+        expect(akun.profil_pembeli?.nama_usaha).toBeTruthy();
       });
       it('ganti nomor HP: kode dari nomor baru, nomor terpakai dan nomor sama ditolak (T4.36)', async () => {
         await masuk('petani-arif');
@@ -1696,7 +1718,7 @@ export function ujiKontrak(nama: string, siapkan: PenyiapLingkungan): void {
         const b = await K.berkas.unggah({
           nama: 'a.jpg',
           jenis: 'image/jpeg',
-          isi: 'data:image/jpeg;base64,C:/Program Files/Git/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAABAAEDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDoKKKK+IPPP/Z',
+          isi: JPEG_1PX,
         });
         expect(b.jenis).toBe('image/jpeg');
         expect(b.ukuran_byte).toBeGreaterThan(0);

@@ -49,6 +49,9 @@ const HalamanMasuk = lazy(() =>
 const HalamanProfil = lazy(() =>
   import('./halaman/profil').then((m) => ({ default: m.HalamanProfil })),
 );
+const HalamanProfilPembeli = lazy(() =>
+  import('./halaman/pembeli/profil').then((m) => ({ default: m.HalamanProfilPembeli })),
+);
 const HalamanNotifikasi = lazy(() =>
   import('./halaman/notifikasi').then((m) => ({ default: m.HalamanNotifikasi })),
 );
@@ -340,6 +343,11 @@ export const daftarRute: RouteObject[] = [
       { path: '/pembeli/daftar', element: pembeli('daftarPembeli', <HalamanDaftarPembeli />) },
       { path: '/pembeli/riwayat', element: pembeli('riwayat', <HalamanRiwayat />) },
       { path: '/pembeli/pembayaran', element: pembeli('pembayaran', <HalamanPembayaran />) },
+      { path: '/pembeli/profil', element: pembeli('profilPembeli', <HalamanProfilPembeli />) },
+      {
+        path: '/pembeli/profil/ubah',
+        element: pembeli('ubahProfilPembeli', <HalamanUbahProfil varian="pembeli" />),
+      },
       { path: '/pembeli/pesanan/baru', element: pembeli('buatPesanan', <HalamanBuatPesanan />) },
       { path: '/pembeli/pesanan/:id/bayar', element: pembeli('bayarUangMuka', <HalamanBayar />) },
       {

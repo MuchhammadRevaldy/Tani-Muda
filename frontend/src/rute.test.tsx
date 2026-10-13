@@ -26,6 +26,8 @@ const jalur = [
   ['/profil/notifikasi', 'Notifikasi', 'petani-arif'],
   ['/pembeli', 'Pesanan aktif', 'pembeli-ratna'],
   ['/pembeli/riwayat', 'Riwayat', 'pembeli-ratna'],
+  ['/pembeli/profil', 'Profil', 'pembeli-ratna'],
+  ['/pembeli/profil/ubah', 'Ubah profil', 'pembeli-ratna'],
   ['/admin', 'Verifikasi pembeli', 'admin-tani'],
   ['/mentor', 'Resep tanam', 'mentor-rahmat'],
 ] as const;

@@ -117,3 +117,30 @@ export const teksUbahProfil = {
   nomorTersimpan: 'Nomor HP berhasil diganti',
   gagalUmum: 'Belum berhasil. Periksa sinyal lalu coba lagi.',
 } as const;
+
+/** Profil pembeli /pembeli/profil ([AG-23]); sapaan "Anda" (D-09). */
+export const teksProfilPembeli = {
+  judul: 'Profil',
+  sub: 'Atur akun dan data usaha Anda.',
+  akun: 'Akun',
+  ubahProfil: 'Ubah profil',
+  dataUsaha: 'Data usaha',
+  namaUsaha: 'Nama usaha',
+  jenisUsaha: 'Jenis usaha',
+  alamat: 'Alamat',
+  desa: 'Desa',
+  statusVerifikasi: 'Status verifikasi',
+  ubahDataUsaha: 'Ubah data usaha',
+  rating: 'Penilaian dari petani',
+  ratingNilai: (rata: number, jumlah: number) =>
+    ({ angka: formatDesimal(rata, 1, true), ket: `dari 5 · ${jumlah} ulasan petani` }) as const,
+  belumAdaRating: 'Belum ada penilaian dari petani.',
+} as const;
+
+/** Teks Ubah profil versi pembeli: sapaan "Anda" (D-09), tanpa desa dan kelompok tani. */
+export const teksUbahProfilPembeli = {
+  ...teksUbahProfil,
+  sub: 'Nama dan foto tampil untuk petani yang memenuhi pesanan Anda. Desa usaha diatur di Data usaha.',
+  isiNama: 'Isi nama lengkap Anda',
+  nomorKet: 'Kode SMS dikirim ke nomor baru untuk memastikan nomornya milik Anda.',
+} as const;

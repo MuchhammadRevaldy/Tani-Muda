@@ -12,6 +12,7 @@ import { LabelKecil } from '../../komponen/label-kecil';
 import { kelasTombol } from '../../komponen/tombol';
 import { formatRupiah } from '../../lib/format';
 import { teksLanding as t } from '../../teks/landing';
+import { animasiMati } from '../../lib/gerak';
 import { teksUmum } from '../../teks/umum';
 import { kelasWadah } from '../statis/kerangka-publik';
 import type { DataLanding } from './data-landing';
@@ -51,7 +52,7 @@ function Contoh({ d }: { d: NonNullable<DataLanding['petani']> }) {
           aria-hidden="true"
           className="absolute inset-5 rounded-full border-2 border-dashed border-oranye-terang bg-tanah-lembut"
         />
-        {d.komoditas.id === 'sawi' ? (
+        {d.komoditas.id === 'sawi' && !animasiMati() ? (
           // Daun bergoyang pelan; animasinya di dalam SVG dan mati saat gerak dikurangi (D-61).
           <img
             src="/ilustrasi/sawi-bergerak.svg"

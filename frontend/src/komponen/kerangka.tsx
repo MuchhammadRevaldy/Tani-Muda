@@ -69,16 +69,20 @@ export function KerangkaPetani({
 /** Kerangka halaman pembeli: header atas + konten maksimal 1152px. Di HP menjadi satu kolom. */
 export function KerangkaPembeli({
   namaUsaha,
+  foto,
+  onKeluar,
   kunciHalaman,
   children,
 }: {
   namaUsaha: string;
+  foto?: string | null;
+  onKeluar?: () => void;
   kunciHalaman?: string;
   children: ReactNode;
 }) {
   return (
     <div className="min-h-layar bg-embun-pagi text-teks">
-      <HeaderPembeli namaUsaha={namaUsaha} />
+      <HeaderPembeli namaUsaha={namaUsaha} foto={foto} onKeluar={onKeluar} />
       <main
         key={kunciHalaman}
         className="mx-auto flex max-w-pembeli animate-masuk-halaman flex-col gap-6 px-4 pb-12 pt-6 lg:px-6"

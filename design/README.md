@@ -127,6 +127,8 @@ Halaman ini belum punya papan desain. Halaman dibuat dari pola desain yang ada (
 | 62 | Mentor: permintaan resep | mentor | T4.38 | `62-mentor-permintaan-resep-mobile.png`, `…-desktop.png` ✓ |
 | 63 | Mentor: editor resep | mentor | T4.39 | `63-mentor-editor-resep-mobile.png`, `…-desktop.png` ✓ |
 | 64 | Build demo: label "Mode demo" dengan ruang kosong (Beranda, halaman depan, dasbor pembeli) | semua | T6.09 | `64-mode-demo-*-mobile.png`, `…-desktop.png` ✓ |
+| 65 | Profil pembeli, termasuk menu akun di header pembeli ([AG-23]) | pembeli | AG-23 | `65-profil-pembeli-mobile.png`, `…-desktop.png`, `65-profil-pembeli-menu-akun-*.png` ✓ |
+| 66 | Ubah profil pembeli (nama, foto, nomor HP) ([AG-23]) | pembeli | AG-23 | `66-ubah-profil-pembeli-mobile.png`, `…-desktop.png` ✓ |
 
 Halaman turunan lain (panel mentor dan admin, halaman statis, rating, gagal panen) diberi nomor berikutnya saat tugasnya dikerjakan. Panel mentor dan admin hanya punya versi desktop.
 

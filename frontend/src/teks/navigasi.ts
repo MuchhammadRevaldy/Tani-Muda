@@ -11,6 +11,7 @@ export const teksNavigasi = {
   profil: 'Profil',
   pengaturanNotifikasi: 'Pengaturan notifikasi',
   keluar: 'Keluar',
+  dataUsaha: 'Data usaha',
   kembali: 'Kembali',
   pesananAktif: 'Pesanan aktif',
   riwayat: 'Riwayat',
