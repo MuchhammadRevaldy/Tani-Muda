@@ -25,6 +25,14 @@ export interface OpsiKartuSiklus {
   terlambat: number;
 }
 
+/**
+ * Teks satu baris dengan elipsis; teks lengkap tampil di tempat saat kartu diarahkan kursor,
+ * disentuh, atau difokus (D-17). Keterangan melayang tidak dipakai karena deretan yang bisa
+ * digeser memotong apa pun di luar batasnya.
+ */
+const terpotong =
+  'truncate group-hover:overflow-visible group-hover:whitespace-normal group-focus:overflow-visible group-focus:whitespace-normal';
+
 function BatangProgres({ segmen }: { segmen: number[] }) {
   return (
     <div className="flex gap-1" aria-hidden="true">
@@ -145,25 +153,25 @@ export function PemilihSiklus({
               tabIndex={aktif ? 0 : -1}
               onClick={() => onPilih(o.id)}
               className={cx(
-                'fokus-cincin flex w-kartu-siklus flex-none cursor-pointer snap-start flex-col gap-3 rounded-kartu border-2 bg-putih p-4 text-left text-isi text-teks shadow-ikon lg:w-kartu-siklus-lebar',
+                'fokus-cincin group flex w-kartu-siklus flex-none cursor-pointer snap-start flex-col gap-3 rounded-kartu border-2 bg-putih p-4 text-left text-isi text-teks shadow-ikon lg:w-kartu-siklus-lebar',
                 aktif ? 'border-limau' : 'border-transparent hover:border-garis-kuat',
               )}
             >
               <span className="flex items-center gap-3">
                 <IlustrasiKomoditas nama={o.komoditasId} ukuran={48} alt="" />
                 <span className="flex min-w-0 flex-col">
-                  <span className="truncate font-semibold">{o.judul}</span>
-                  <span className="truncate text-keterangan text-teks-pendukung">{o.sub}</span>
+                  <span className={cx(terpotong, 'font-semibold')}>{o.judul}</span>
+                  <span className={cx(terpotong, 'text-keterangan text-teks-pendukung')}>
+                    {o.sub}
+                  </span>
                 </span>
               </span>
               <BatangProgres segmen={o.segmen} />
-              <span className="flex min-h-chip items-center justify-between gap-2">
-                <span className="min-w-0 text-keterangan">{o.keterangan}</span>
-                {o.terlambat ? (
-                  <ChipStatus status="terlambat" className="flex-none">
-                    {t.jumlahTerlambat(o.terlambat)}
-                  </ChipStatus>
-                ) : aktif ? (
+              {/* Keterangan hari satu baris; chip terlambat di baris sendiri supaya tidak saling
+                  mendesak ([AG-21]). */}
+              <span className="flex min-h-7 items-center justify-between gap-2">
+                <span className={cx(terpotong, 'min-w-0 text-keterangan')}>{o.keterangan}</span>
+                {aktif ? (
                   <span
                     aria-hidden="true"
                     className="grid h-7 w-7 flex-none place-items-center rounded-full bg-limau text-putih"
@@ -172,6 +180,11 @@ export function PemilihSiklus({
                   </span>
                 ) : null}
               </span>
+              {o.terlambat ? (
+                <ChipStatus status="terlambat" className="self-start">
+                  {t.jumlahTerlambat(o.terlambat)}
+                </ChipStatus>
+              ) : null}
             </button>
           );
         })}

@@ -262,7 +262,7 @@ export const teksPembeli = {
   menungguIsi:
     'Kami menunggu kabar dari penyedia pembayaran. Pesanan aktif setelah pembayaran berhasil.',
   cekLagi: 'Cek lagi',
-  lihatPesanan: 'Lihat Pesanan aktif',
+  lihatPesanan: 'Lihat pesanan aktif',
   sudahDibayar: 'Uang muka pesanan ini sudah dibayar.',
 
   // ---- pembayaran dan riwayat (halaman turunan 49, 50)

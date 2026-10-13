@@ -1,14 +1,23 @@
 import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { createMemoryRouter, RouterProvider } from 'react-router-dom';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { buatQueryClient, PenyediaKlienApi } from '../api/penyedia-klien';
 import { buatKlienTiruan } from '../api/tiruan/klien-tiruan';
 import { daftarRute } from '../rute';
 
-async function buka(izin: NotificationPermission) {
-  vi.stubGlobal('Notification', { permission: izin, requestPermission: vi.fn() });
+const KET_DIIZINKAN =
+  'Pengingat lewat HP aktif di versi berikutnya. Untuk sekarang, tugas hari ini tampil di Beranda.';
+
+async function buka(
+  izin: NotificationPermission,
+  requestPermission = vi.fn(async (): Promise<NotificationPermission> => izin),
+) {
+  vi.stubGlobal('Notification', { permission: izin, requestPermission });
   const t = buatKlienTiruan({ tampilkanResepContoh: true, kv: null });
   await t.kontrol.masukSebagai('petani-arif');
+  // Langganan push belum tersedia ([AG-21]): halaman tidak boleh memanggilnya.
+  const simpan = vi.spyOn(t.klien.notifikasi, 'simpanLangganan');
   render(
     <PenyediaKlienApi klien={t.klien} kontrol={t.kontrol} queryClient={buatQueryClient()}>
       <RouterProvider
@@ -17,6 +26,10 @@ async function buka(izin: NotificationPermission) {
     </PenyediaKlienApi>,
   );
   await screen.findByRole('heading', { level: 1, name: 'Notifikasi' });
+  expect(
+    screen.getByRole('heading', { name: 'Izin notifikasi di perangkat ini' }),
+  ).toBeInTheDocument();
+  return { simpan, requestPermission };
 }
 
 afterEach(() => vi.unstubAllGlobals());
@@ -36,9 +49,21 @@ describe('pusat notifikasi ([AG-19])', () => {
     expect(screen.getByText('Belum ditanya')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Izinkan notifikasi' })).toBeEnabled();
   });
-  it('diizinkan', async () => {
-    await buka('granted');
+  it('diizinkan: keterangan pengingat HP di versi berikutnya, tanpa memanggil langganan ([AG-21])', async () => {
+    const { simpan } = await buka('granted');
     expect(screen.getByText('Diizinkan')).toBeInTheDocument();
+    expect(screen.getByText(KET_DIIZINKAN)).toBeInTheDocument();
     expect(screen.queryByRole('button', { name: 'Izinkan notifikasi' })).toBeNull();
+    expect(simpan).not.toHaveBeenCalled();
+  });
+  it('setelah izin diberikan: keterangan yang sama, tanpa memanggil langganan ([AG-21])', async () => {
+    const minta = vi.fn(async (): Promise<NotificationPermission> => 'granted');
+    const { simpan } = await buka('default', minta);
+    expect(screen.queryByText(KET_DIIZINKAN)).toBeNull();
+    await userEvent.click(screen.getByRole('button', { name: 'Izinkan notifikasi' }));
+    expect(await screen.findByText(KET_DIIZINKAN)).toBeInTheDocument();
+    expect(screen.getByText('Diizinkan')).toBeInTheDocument();
+    expect(minta).toHaveBeenCalledOnce();
+    expect(simpan).not.toHaveBeenCalled();
   });
 });

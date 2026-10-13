@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen, within } from '@testing-library/react';
 import { useState } from 'react';
 import { describe, expect, it } from 'vitest';
 import { PemilihSiklus, type OpsiKartuSiklus } from './pemilih-siklus';
@@ -71,5 +71,22 @@ describe('PemilihSiklus (AG-17)', () => {
     render(<Uji />);
     const kartu = screen.getByRole('radio', { name: 'Bayam untuk Warung Nasi Bu Imas' });
     expect(kartu.querySelectorAll('[aria-hidden="true"] > div')).toHaveLength(4);
+  });
+  it('nama, lahan, dan keterangan berelipsis dengan teks lengkap saat disentuh atau disorot; chip di baris sendiri ([AG-21])', () => {
+    render(<Uji />);
+    const kartu = screen.getByRole('radio', { name: /Rak hidroponik teras/ });
+    expect(kartu.className).toContain('group');
+    for (const teks of ['Rak hidroponik teras', 'Hari ke-12 dari 35']) {
+      const el = within(kartu).getByText(teks);
+      expect(el.className).toContain('truncate');
+      expect(el.className).toContain('group-hover:whitespace-normal');
+      expect(el.className).toContain('group-focus:whitespace-normal');
+    }
+    // Chip terlambat tidak berbagi baris dengan keterangan hari.
+    const chip = within(kartu)
+      .getByText('1 terlambat')
+      .closest<HTMLElement>('span.whitespace-nowrap')!;
+    expect(chip.parentElement).toBe(kartu);
+    expect(within(kartu).getByText('Hari ke-12 dari 35').parentElement).not.toContainElement(chip);
   });
 });
