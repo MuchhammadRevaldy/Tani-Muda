@@ -35,6 +35,7 @@ import { kelompokKiriman, tahapUang } from '../../lib/pesanan-tampil';
 import { teksPembeli } from '../../teks/pembeli';
 import { teksPesanan as t } from '../../teks/pesanan';
 import { teksUmum } from '../../teks/umum';
+import { teksGagalMuat } from '../../teks/galat-api';
 import { Memuat } from '../memuat';
 import { BeriRating } from './beri-rating';
 import { KerangkaPesanan, useKomoditasPeta } from './kerangka-pesanan';
@@ -420,7 +421,8 @@ export function HalamanKirimanSaya() {
   const pesananQ = usePesananUntukPetaniBanyak(idPesanan);
 
   let isi: ReactNode;
-  if (kirimanQ.isError) isi = <p className="m-0 text-teks-pendukung">{teksUmum.galatIsi}</p>;
+  if (kirimanQ.isError)
+    isi = <p className="m-0 text-teks-pendukung">{teksGagalMuat(kirimanQ.error)}</p>;
   else if (!kirimanQ.data || !konfigurasiQ.data || !pesananQ.data) isi = <Memuat />;
   else if (!kirimanQ.data.length)
     isi = (

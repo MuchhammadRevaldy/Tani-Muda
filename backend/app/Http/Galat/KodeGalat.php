@@ -32,6 +32,7 @@ final class KodeGalat
         'TERLALU_SERING' => 429,
         'GALAT_SERVER' => 500,
         'SUMBER_BELUM_TERSEDIA' => 503,
+        'BELUM_TERSEDIA' => 501,
     ];
 
     public const TEKS = [
@@ -59,6 +60,7 @@ final class KodeGalat
         'MELEBIHI_SALDO' => 'Nominal melebihi dana yang ditahan',
         'PEMBAYARAN_GAGAL' => 'Pembayaran belum berhasil. Uang Anda tidak terpotong; coba bayar lagi',
         'SUMBER_BELUM_TERSEDIA' => 'Sambungan ke server belum tersedia',
+        'BELUM_TERSEDIA' => 'Fitur ini belum tersedia di versi demo',
         'GALAT_SERVER' => 'Ada yang tidak beres di server. Coba lagi sebentar lagi',
     ];
 

@@ -36,6 +36,7 @@ import { jamLokal, tanggalLokal, ZONA_BAWAAN } from '../../lib/zona-waktu';
 import { teksGalat } from '../../teks/galat';
 import { teksPembeli as t } from '../../teks/pembeli';
 import { teksUmum } from '../../teks/umum';
+import { teksGagalMuat } from '../../teks/galat-api';
 import { Memuat } from '../memuat';
 import { BeriRating } from '../pesanan/beri-rating';
 import { useKomoditasPeta } from '../pesanan/kerangka-pesanan';
@@ -397,7 +398,8 @@ export function HalamanKonfirmasiKiriman() {
   const k = useKomoditasPeta();
   const w = useWaktu();
   const pukul = usePukul();
-  if (kirimanQ.isError) return <p className="m-0 text-teks-pendukung">{teksUmum.galatIsi}</p>;
+  if (kirimanQ.isError)
+    return <p className="m-0 text-teks-pendukung">{teksGagalMuat(kirimanQ.error)}</p>;
   if (!kirimanQ.data || !pesananQ.data || !konfigurasiQ.data) return <Memuat />;
   const x = kirimanQ.data;
   const p = pesananQ.data.find((y) => y.id === x.pesanan_id);

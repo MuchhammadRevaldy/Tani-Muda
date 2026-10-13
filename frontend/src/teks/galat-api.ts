@@ -2,8 +2,9 @@
  * Teks untuk kode galat khusus API. Kode logika inti memakai src/teks/galat.ts. Klien tiruan dan
  * backend mengirim teks yang sama sebagai `pesan`.
  */
-import type { KodeGalatApi, KodeGalatKhususApi } from '../api/galat';
+import { adalahGalatApi, type KodeGalatApi, type KodeGalatKhususApi } from '../api/galat';
 import { teksGalat } from './galat';
+import { teksUmum } from './umum';
 
 export const teksGalatKhususApi: Record<KodeGalatKhususApi, string> = {
   VALIDASI: 'Ada isian yang belum benar',
@@ -30,6 +31,7 @@ export const teksGalatKhususApi: Record<KodeGalatKhususApi, string> = {
   MELEBIHI_SALDO: 'Nominal melebihi dana yang ditahan',
   PEMBAYARAN_GAGAL: 'Pembayaran belum berhasil. Uang Anda tidak terpotong; coba bayar lagi',
   SUMBER_BELUM_TERSEDIA: 'Sambungan ke server belum tersedia',
+  BELUM_TERSEDIA: 'Fitur ini belum tersedia di versi demo',
   GALAT_SERVER: 'Ada yang tidak beres di server. Coba lagi sebentar lagi',
 };
 
@@ -38,4 +40,14 @@ export function teksUntukGalat(kode: KodeGalatApi): string {
   return kode in teksGalatKhususApi
     ? teksGalatKhususApi[kode as KodeGalatKhususApi]
     : teksGalat[kode as keyof typeof teksGalat];
+}
+
+/**
+ * Teks untuk halaman atau bagian yang gagal dimuat: fitur yang belum ada di backend demo memakai
+ * "Fitur ini belum tersedia di versi demo" ([AG-19]); galat lain memakai teks umum.
+ */
+export function teksGagalMuat(galat: unknown): string {
+  return adalahGalatApi(galat) && galat.kode === 'BELUM_TERSEDIA'
+    ? teksGalatKhususApi.BELUM_TERSEDIA
+    : teksUmum.galatIsi;
 }

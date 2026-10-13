@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\V1\AdminController;
 use App\Http\Controllers\Api\V1\AkunController;
 use App\Http\Controllers\Api\V1\AuthController;
 use App\Http\Controllers\Api\V1\BelajarController;
+use App\Http\Controllers\Api\V1\BelumTersediaController;
 use App\Http\Controllers\Api\V1\DemoController;
 use App\Http\Controllers\Api\V1\KebunController;
 use App\Http\Controllers\Api\V1\KesehatanController;
@@ -18,6 +19,30 @@ use Illuminate\Support\Facades\Route;
 
 // Semua rute di berkas ini berawalan /api/v1 (bootstrap/app.php, kontrak-api.md bagian 1.1).
 
+/** Endpoint kontrak yang belum ada di backend ([AG-19]); lihat bagian bawah berkas. */
+$endpointBelumTersedia = [
+    ['GET', '/input/{id}/merek'],
+    ['POST', '/laporan-harga'],
+    ['PUT', '/siklus/{id}/pengingat'],
+    ['POST', '/siklus/{id}/jurnal'],
+    ['POST', '/siklus/{id}/pengeluaran'],
+    ['POST', '/siklus/{id}/akhiri'],
+    ['POST', '/tugas/{id}/tunda'],
+    ['POST', '/berkas'],
+    ['POST', '/notifikasi/langganan'],
+    ['DELETE', '/notifikasi/langganan'],
+    ['GET', '/admin/sengketa'],
+    ['POST', '/admin/sengketa/{id}/putuskan'],
+    ['GET', '/admin/petani'],
+    ['GET', '/admin/petani/{id}'],
+    ['POST', '/admin/petani/{id}/catatan'],
+    ['POST', '/admin/petani/{id}/status'],
+    ['GET', '/mentor/resep'],
+    ['POST', '/mentor/resep'],
+    ['POST', '/mentor/resep/{id}/validasi'],
+    ['GET', '/mentor/permintaan-resep'],
+];
+
 Route::get('/kesehatan', KesehatanController::class);
 Route::get('/konfigurasi', [ReferensiController::class, 'konfigurasi']);
 Route::get('/publik/contoh', [ResepController::class, 'contohPublik']);
@@ -29,7 +54,7 @@ Route::middleware('throttle:30,1')->group(function () {
 });
 
 // ---------------------------------------------------------------- wajib masuk
-Route::middleware('auth:sanctum')->group(function () {
+Route::middleware('auth:sanctum')->group(function () use ($endpointBelumTersedia) {
     Route::post('/auth/keluar', [AuthController::class, 'keluar']);
     Route::get('/akun', [AkunController::class, 'ambil']);
     Route::put('/akun/peran', [AkunController::class, 'pilihPeran']);
@@ -120,6 +145,12 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/admin/pembeli', [AdminController::class, 'pembeliMenunggu']);
         Route::post('/admin/pembeli/{id}/verifikasi', [AdminController::class, 'verifikasi']);
     });
+
+    // Endpoint kontrak yang belum dikerjakan: 501 BELUM_TERSEDIA, "Fitur ini belum tersedia di versi
+    // demo" ([AG-19]). Hapus barisnya saat endpoint dibuat. Tes: KontrakRuteTest.
+    foreach ($endpointBelumTersedia as [$metode, $jalur]) {
+        Route::match([$metode], $jalur, BelumTersediaController::class);
+    }
 });
 
 // ---------------------------------------------------------------- demo lokal (3.13, D-57)

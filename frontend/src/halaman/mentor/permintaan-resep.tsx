@@ -5,7 +5,7 @@
 import { useKomoditas, useMetode, useRingkasanPermintaan } from '../../api/kueri';
 import { Kepala, Sel, Tabel } from '../../komponen/tabel';
 import { teksPanel } from '../../teks/panel';
-import { teksUmum } from '../../teks/umum';
+import { teksGagalMuat } from '../../teks/galat-api';
 import { Memuat } from '../memuat';
 import { KerangkaPanelSesi } from '../panel/kerangka-panel-sesi';
 
@@ -21,7 +21,7 @@ export function HalamanPermintaanResep() {
       {q.isPending ? (
         <Memuat />
       ) : q.isError ? (
-        <p className="m-0 text-teks-pendukung">{teksUmum.galatIsi}</p>
+        <p className="m-0 text-teks-pendukung">{teksGagalMuat(q.error)}</p>
       ) : !daftar.length ? (
         <p className="m-0 rounded-lg border border-garis bg-putih p-6 text-teks-pendukung">
           {teksPanel.kosong}

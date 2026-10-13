@@ -13,7 +13,7 @@ import { FaqLipat } from '../../komponen/pelengkap';
 import { kelasTombol } from '../../komponen/tombol';
 import { teksPrivasi } from '../../teks/privasi';
 import { teksStatis as t, type AngkaAturan, type Bagian } from '../../teks/statis';
-import { teksUmum } from '../../teks/umum';
+import { teksGagalMuat } from '../../teks/galat-api';
 import { Memuat } from '../memuat';
 import { KerangkaPublik } from './kerangka-publik';
 
@@ -150,7 +150,7 @@ function Isi({ jenis, k }: { jenis: JenisStatis; k: Konfigurasi }) {
 export function HalamanStatis({ jenis }: { jenis: JenisStatis }) {
   const k = useKonfigurasi();
   let isi: ReactNode;
-  if (k.isError) isi = <p className="m-0 text-teks-pendukung">{teksUmum.galatIsi}</p>;
+  if (k.isError) isi = <p className="m-0 text-teks-pendukung">{teksGagalMuat(k.error)}</p>;
   else if (!k.data) isi = <Memuat />;
   else isi = <Isi jenis={jenis} k={k.data} />;
   return (

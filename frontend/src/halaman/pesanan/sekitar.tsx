@@ -23,7 +23,7 @@ import { formatTanggal, namaHari } from '../../lib/format';
 import { titikWilayah } from '../../lib/jarak';
 import { hitungNilaiPesanan } from '../../lib/pesanan-nilai';
 import { teksPesanan as t } from '../../teks/pesanan';
-import { teksUmum } from '../../teks/umum';
+import { teksGagalMuat } from '../../teks/galat-api';
 import { Memuat } from '../memuat';
 import { KerangkaPesanan, useKomoditasPeta } from './kerangka-pesanan';
 import { PetaPembeli } from './peta-pembeli';
@@ -324,7 +324,11 @@ export function HalamanPesananSekitar() {
 
   let isi;
   if (pesananQ.isError || konfigurasiQ.isError)
-    isi = <p className="m-0 text-teks-pendukung">{teksUmum.galatIsi}</p>;
+    isi = (
+      <p className="m-0 text-teks-pendukung">
+        {teksGagalMuat(pesananQ.error ?? konfigurasiQ.error)}
+      </p>
+    );
   else if (!konfigurasi || radius === null || pesananQ.isPending) isi = <Memuat />;
   else if (!semua.length)
     isi = (

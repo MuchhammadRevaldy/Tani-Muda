@@ -25,6 +25,7 @@ import { formatTanggal } from '../../lib/format';
 import { tambahHari } from '../../lib/tanggal';
 import { teksPesanan as t } from '../../teks/pesanan';
 import { teksUmum } from '../../teks/umum';
+import { teksGagalMuat } from '../../teks/galat-api';
 import { Memuat } from '../memuat';
 import { useKomoditasPeta } from './kerangka-pesanan';
 
@@ -49,7 +50,8 @@ export function HalamanLaporGagal() {
       <span>{t.kembaliKiriman}</span>
     </Link>
   );
-  if (kirimanQ.isError) return <p className="m-0 text-teks-pendukung">{teksUmum.galatIsi}</p>;
+  if (kirimanQ.isError)
+    return <p className="m-0 text-teks-pendukung">{teksGagalMuat(kirimanQ.error)}</p>;
   if (!kirimanQ.data || !pesananQ.data || !konfigurasiQ.data) return <Memuat />;
   const x = kirimanQ.data;
   const p = pesananQ.data;

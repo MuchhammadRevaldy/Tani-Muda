@@ -80,6 +80,7 @@ Endpoint berhalaman ditandai **(berhalaman)** di bagian 3.
 | 423 | `OTP_TERKUNCI` | Lima percobaan kode gagal |
 | 429 | `TERLALU_SERING` | Kirim ulang OTP terlalu cepat atau terlalu banyak |
 | 500 | `GALAT_SERVER` | Galat server |
+| 501 | `BELUM_TERSEDIA` | Endpoint kontrak yang belum dikerjakan di backend demo; pesan "Fitur ini belum tersedia di versi demo" ([AG-19]) |
 | 503 | `SUMBER_BELUM_TERSEDIA` | Klien HTTP belum tersambung (hanya frontend sebelum Tahap 6) |
 
 ### 1.5 Tipe nilai

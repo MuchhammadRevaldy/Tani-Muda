@@ -31,6 +31,7 @@ import { tambahHari } from '../../lib/tanggal';
 import { teksPembeli as t } from '../../teks/pembeli';
 import { kg, teksFrekuensiKirim } from '../../teks/pesanan';
 import { teksUmum } from '../../teks/umum';
+import { teksGagalMuat } from '../../teks/galat-api';
 import { Memuat } from '../memuat';
 import { useKomoditasPeta } from '../pesanan/kerangka-pesanan';
 import { StatusVerifikasi } from './status-verifikasi';
@@ -269,7 +270,8 @@ export function HalamanDasborPembeli() {
   const [dibatalkan, setDibatalkan] = useState<string | null>(null);
   const profil = akun?.profil_pembeli ?? null;
   if (akun && !profil) return <Navigate to="/pembeli/daftar" replace />;
-  if (pesananQ.isError) return <p className="m-0 text-teks-pendukung">{teksUmum.galatIsi}</p>;
+  if (pesananQ.isError)
+    return <p className="m-0 text-teks-pendukung">{teksGagalMuat(pesananQ.error)}</p>;
   if (!pesananQ.data || !konfigurasiQ.data) return <Memuat />;
 
   const daftar = pesananQ.data.filter(aktif);

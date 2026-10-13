@@ -16,6 +16,7 @@ import { kelasTombol, Tombol } from '../../komponen/tombol';
 import { formatTanggal } from '../../lib/format';
 import { teksPanel } from '../../teks/panel';
 import { teksUmum } from '../../teks/umum';
+import { teksGagalMuat } from '../../teks/galat-api';
 import { Memuat } from '../memuat';
 import { KerangkaPanelSesi } from '../panel/kerangka-panel-sesi';
 import { kelompokResep, useNamaResep } from './form-resep';
@@ -73,7 +74,7 @@ export function HalamanDaftarResep() {
       {resepQ.isPending ? (
         <Memuat />
       ) : resepQ.isError ? (
-        <p className="m-0 text-teks-pendukung">{teksUmum.galatIsi}</p>
+        <p className="m-0 text-teks-pendukung">{teksGagalMuat(resepQ.error)}</p>
       ) : (
         <Tabel
           label={t.resepJudul}

@@ -17,7 +17,7 @@ import { PemutarVideo } from '../../komponen/pemutar-video';
 import { kelasTombol, Tombol } from '../../komponen/tombol';
 import { useLayarLebar } from '../../komponen/use-layar-lebar';
 import { teksBelajar as t } from '../../teks/belajar';
-import { teksUmum } from '../../teks/umum';
+import { teksGagalMuat } from '../../teks/galat-api';
 import { Memuat } from '../memuat';
 
 function Isi({ m, semua }: { m: Modul; semua: Modul[] }) {
@@ -168,7 +168,8 @@ export function HalamanModul() {
   const modulQ = useModulSatu(id ?? null);
   const m = modulQ.data;
   const semuaQ = useModul(m ? { komoditas_id: m.komoditas_id, metode_id: m.metode_id } : null);
-  if (modulQ.isError) return <p className="m-0 text-teks-pendukung">{teksUmum.galatIsi}</p>;
+  if (modulQ.isError)
+    return <p className="m-0 text-teks-pendukung">{teksGagalMuat(modulQ.error)}</p>;
   if (!m || !semuaQ.data) return <Memuat />;
   return <Isi key={m.id} m={m} semua={semuaQ.data} />;
 }

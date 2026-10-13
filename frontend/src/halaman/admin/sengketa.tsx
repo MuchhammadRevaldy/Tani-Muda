@@ -17,6 +17,7 @@ import { formatTanggalPendek } from '../../lib/format';
 import { teksPanel } from '../../teks/panel';
 import { teksPembeli } from '../../teks/pembeli';
 import { teksUmum } from '../../teks/umum';
+import { teksGagalMuat } from '../../teks/galat-api';
 import { Memuat } from '../memuat';
 import { KerangkaPanelSesi } from '../panel/kerangka-panel-sesi';
 
@@ -122,7 +123,7 @@ export function HalamanSengketa() {
       {daftarQ.isPending ? (
         <Memuat />
       ) : daftarQ.isError ? (
-        <p className="m-0 text-teks-pendukung">{teksUmum.galatIsi}</p>
+        <p className="m-0 text-teks-pendukung">{teksGagalMuat(daftarQ.error)}</p>
       ) : !daftar.length ? (
         <p className="m-0 rounded-lg border border-garis bg-putih p-6 text-teks-pendukung">
           {t.sengketaKosong}

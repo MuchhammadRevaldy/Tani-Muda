@@ -14,7 +14,7 @@ import { Uang } from '../../komponen/uang';
 import { formatJam, formatTanggal } from '../../lib/format';
 import { jamLokal, tanggalLokal, ZONA_BAWAAN } from '../../lib/zona-waktu';
 import { teksPembeli as t } from '../../teks/pembeli';
-import { teksUmum } from '../../teks/umum';
+import { teksGagalMuat } from '../../teks/galat-api';
 import { Memuat } from '../memuat';
 import { useKomoditasPeta } from '../pesanan/kerangka-pesanan';
 
@@ -33,7 +33,8 @@ export function HalamanPembayaran() {
   const pesananQ = usePesananPembeli();
   const k = useKomoditasPeta();
   const kepala = <HeaderHalaman judul={t.judulPembayaran} keterangan={t.ketPembayaran} />;
-  if (bayarQ.isError) return <p className="m-0 text-teks-pendukung">{teksUmum.galatIsi}</p>;
+  if (bayarQ.isError)
+    return <p className="m-0 text-teks-pendukung">{teksGagalMuat(bayarQ.error)}</p>;
   if (!bayarQ.data || !pesananQ.data) return <Memuat />;
   const baris = bayarQ.data.data;
   const komoditas = (pesananId: string) => {

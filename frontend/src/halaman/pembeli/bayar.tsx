@@ -26,6 +26,7 @@ import { Uang } from '../../komponen/uang';
 import { teksPembeli as t } from '../../teks/pembeli';
 import { kg } from '../../teks/pesanan';
 import { teksUmum } from '../../teks/umum';
+import { teksGagalMuat } from '../../teks/galat-api';
 import { Memuat } from '../memuat';
 import { useKomoditasPeta } from '../pesanan/kerangka-pesanan';
 
@@ -153,7 +154,8 @@ export function HalamanBayar() {
   const { id } = useParams();
   const pesananQ = usePesananPembeli();
   const konfigurasiQ = useKonfigurasi();
-  if (pesananQ.isError) return <p className="m-0 text-teks-pendukung">{teksUmum.galatIsi}</p>;
+  if (pesananQ.isError)
+    return <p className="m-0 text-teks-pendukung">{teksGagalMuat(pesananQ.error)}</p>;
   if (!pesananQ.data || !konfigurasiQ.data) return <Memuat />;
   const p = pesananQ.data.find((x) => x.id === id);
   return (

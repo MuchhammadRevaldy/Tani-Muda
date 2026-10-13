@@ -11,7 +11,7 @@ import { Uang } from '../../komponen/uang';
 import { formatTanggal } from '../../lib/format';
 import { tanggalLokal } from '../../lib/zona-waktu';
 import { teksPembeli as t } from '../../teks/pembeli';
-import { teksUmum } from '../../teks/umum';
+import { teksGagalMuat } from '../../teks/galat-api';
 import { Memuat } from '../memuat';
 import { useKomoditasPeta } from '../pesanan/kerangka-pesanan';
 
@@ -19,7 +19,8 @@ export function HalamanRiwayat() {
   const pesananQ = usePesananPembeli();
   const k = useKomoditasPeta();
   const kepala = <HeaderHalaman judul={t.judulRiwayat} keterangan={t.ketRiwayat} />;
-  if (pesananQ.isError) return <p className="m-0 text-teks-pendukung">{teksUmum.galatIsi}</p>;
+  if (pesananQ.isError)
+    return <p className="m-0 text-teks-pendukung">{teksGagalMuat(pesananQ.error)}</p>;
   if (!pesananQ.data) return <Memuat />;
   const selesai = pesananQ.data.filter((p) => p.status === 'selesai' || p.status === 'dibatalkan');
   return (

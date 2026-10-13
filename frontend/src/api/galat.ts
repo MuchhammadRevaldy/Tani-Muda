@@ -32,6 +32,7 @@ export type KodeGalatKhususApi =
   | 'MELEBIHI_SALDO'
   | 'PEMBAYARAN_GAGAL'
   | 'SUMBER_BELUM_TERSEDIA'
+  | 'BELUM_TERSEDIA'
   | 'GALAT_SERVER';
 
 export type KodeGalatApi = KodeGalat | KodeGalatKhususApi;
@@ -58,6 +59,7 @@ const STATUS_KHUSUS: Partial<Record<KodeGalatApi, number>> = {
   TERLALU_SERING: 429,
   GALAT_SERVER: 500,
   SUMBER_BELUM_TERSEDIA: 503,
+  BELUM_TERSEDIA: 501,
 };
 
 export function statusHttp(kode: KodeGalatApi): number {

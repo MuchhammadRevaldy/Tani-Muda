@@ -28,7 +28,7 @@ import { kelasTombol } from '../komponen/tombol';
 import { useLayarLebar } from '../komponen/use-layar-lebar';
 import { keadaanModul, ringkasProgres, sisaMenit } from '../lib/belajar';
 import { teksBelajar as t } from '../teks/belajar';
-import { teksUmum } from '../teks/umum';
+import { teksGagalMuat } from '../teks/galat-api';
 import { modulKeDomain } from '../api/peta';
 import { Memuat } from './memuat';
 
@@ -163,7 +163,8 @@ export function HalamanBelajar() {
   );
 
   const kepala = <HeaderHalaman judul={t.judul} keterangan={t.sub} />;
-  if (komoditasQ.isError) return <p className="m-0 text-teks-pendukung">{teksUmum.galatIsi}</p>;
+  if (komoditasQ.isError)
+    return <p className="m-0 text-teks-pendukung">{teksGagalMuat(komoditasQ.error)}</p>;
   if (!komoditasQ.data || !metodeQ.data || !konfigurasiQ.data) return <Memuat />;
 
   const namaKomoditas = tersedia.find((k) => k.id === komoditasId)?.nama ?? '';
