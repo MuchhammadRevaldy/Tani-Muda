@@ -21,13 +21,8 @@ use Illuminate\Support\Facades\Route;
 
 /** Endpoint kontrak yang belum ada di backend ([AG-19]); lihat bagian bawah berkas. */
 $endpointBelumTersedia = [
-    ['GET', '/input/{id}/merek'],
     ['POST', '/laporan-harga'],
-    ['PUT', '/siklus/{id}/pengingat'],
-    ['POST', '/siklus/{id}/jurnal'],
-    ['POST', '/siklus/{id}/pengeluaran'],
     ['POST', '/siklus/{id}/akhiri'],
-    ['POST', '/tugas/{id}/tunda'],
     ['POST', '/berkas'],
     ['POST', '/notifikasi/langganan'],
     ['DELETE', '/notifikasi/langganan'],
@@ -74,6 +69,7 @@ Route::middleware('auth:sanctum')->group(function () use ($endpointBelumTersedia
     Route::get('/promo', [ReferensiController::class, 'promo']);
     Route::get('/kelayakan-subsidi', [ReferensiController::class, 'kelayakanSubsidi']);
     Route::get('/harga-sekitar', [ReferensiController::class, 'hargaSekitar']);
+    Route::get('/input/{id}/merek', [ReferensiController::class, 'merek']);
 
     // Belajar (3.6)
     Route::get('/modul', [BelajarController::class, 'daftar']);
@@ -103,6 +99,10 @@ Route::middleware('auth:sanctum')->group(function () use ($endpointBelumTersedia
         Route::get('/siklus/{id}/pengeluaran', [KebunController::class, 'daftarPengeluaran']);
         Route::get('/siklus/{id}/jurnal', [KebunController::class, 'jurnal']);
         Route::get('/siklus/{id}/pengingat', [KebunController::class, 'ambilPengingat']);
+        Route::put('/siklus/{id}/pengingat', [KebunController::class, 'ubahPengingat']);
+        Route::post('/siklus/{id}/jurnal', [KebunController::class, 'tambahJurnal']);
+        Route::post('/tugas/{id}/tunda', [KebunController::class, 'tundaTugas']);
+        Route::post('/siklus/{id}/pengeluaran', [KebunController::class, 'catatPengeluaran']);
         Route::get('/tugas/hari-ini', [KebunController::class, 'tugasHariIni']);
         Route::post('/tugas/{id}/selesai', [KebunController::class, 'selesaikanTugas']);
         Route::post('/tugas/{id}/pengukuran', [KebunController::class, 'catatPengukuran']);

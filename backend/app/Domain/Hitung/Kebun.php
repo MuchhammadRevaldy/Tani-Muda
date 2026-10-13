@@ -301,4 +301,50 @@ final class Kebun
     {
         return array_intersect($status, ['terlalu-rendah', 'terlalu-tinggi']) !== [] ? Angka::tambahHari($tanggalUkur, 1) : null;
     }
+
+    /**
+     * Tunda tugas 1–3 hari (tundaTugas di lib/jadwal-ubah.ts, P0-15) ([AG-19]). Tugas sejenis
+     * berikutnya (pola resep sama, belum selesai, tanggal sama atau sesudahnya) ikut bergeser. Bila
+     * tugas sudah terlambat, tanggal baru dihitung dari hari ini.
+     *
+     * @param  list<array{id: string, resep_tugas_id: string, tanggal: string, status: string, boleh_digeser: bool}>  $jadwal
+     * @return array{ok: true, nilai: array{tanggal: array<string, string>, perlu_konfirmasi: bool}}|array{ok: false, galat: string}
+     */
+    public static function tundaTugas(array $jadwal, string $tugasId, mixed $hari, string $perkiraanPanen, ?string $hariIni = null): array
+    {
+        $target = null;
+        foreach ($jadwal as $t) {
+            if ($t['id'] === $tugasId) {
+                $target = $t;
+            }
+        }
+        if ($target === null) {
+            return Hasil::gagal('TUGAS_TIDAK_ADA');
+        }
+        if ($target['status'] === 'selesai') {
+            return Hasil::gagal('TUGAS_SUDAH_SELESAI');
+        }
+        if (! $target['boleh_digeser']) {
+            return Hasil::gagal('TIDAK_BOLEH_DIGESER');
+        }
+        if (! is_int($hari) || $hari < 1 || $hari > 3) {
+            return Hasil::gagal('TUNDA_DI_LUAR_BATAS');
+        }
+        $terlambat = $hariIni !== null ? max(0, Angka::selisihHari($target['tanggal'], $hariIni)) : 0;
+        $geser = $hari + $terlambat;
+        $tanggal = [];
+        $perlu = false;
+        foreach ($jadwal as $t) {
+            if ($t['resep_tugas_id'] !== $target['resep_tugas_id'] || $t['status'] !== 'belum' || $t['tanggal'] < $target['tanggal']) {
+                continue;
+            }
+            $baru = Angka::tambahHari($t['tanggal'], $geser);
+            $tanggal[$t['id']] = $baru;
+            if (Angka::selisihHari($perkiraanPanen, $baru) > 0) {
+                $perlu = true;
+            }
+        }
+
+        return Hasil::ok(['tanggal' => $tanggal, 'perlu_konfirmasi' => $perlu]);
+    }
 }

@@ -10,6 +10,7 @@ use App\Enums\Peran;
 use App\Http\Controllers\Controller;
 use App\Http\Galat\GalatApi;
 use App\Http\Respons;
+use App\Models\InputPertanian;
 use App\Models\KelayakanSubsidi;
 use App\Models\Komoditas;
 use App\Models\KonversiSatuan;
@@ -23,6 +24,7 @@ use App\Models\SistemHidroponik;
 use App\Models\Wilayah;
 use App\Support\HariIni;
 use App\Support\Konfigurasi;
+use Collator;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -129,6 +131,53 @@ class ReferensiController extends Controller
             'harga_per_satuan' => Uang::rataRataSekitar($laporan, $isi, $kecamatan, $hariIni, $rentang, (int) Konfigurasi::angka('laporan_harga_minimal')),
             'jumlah_laporan' => $jumlah,
         ]);
+    }
+
+    /**
+     * GET /input/{id}/merek: merek terurut laporan terbaru di kecamatan pengguna, lalu jumlah pelapor,
+     * lalu nama; merek tanpa laporan di akhir (P0-34, urutkanMerek di lib/harga-item.ts) ([AG-19]).
+     */
+    public function merek(Request $request, string $id): JsonResponse
+    {
+        /** @var Pengguna $p */
+        $p = $request->user();
+        if (! InputPertanian::whereKey($id)->exists()) {
+            throw new GalatApi('TIDAK_DITEMUKAN');
+        }
+        $kecamatan = (string) Wilayah::find($p->wilayah_id)?->kecamatan;
+        $hariIni = HariIni::untuk($p);
+        $merek = MerekInput::where('input_id', $id)->orderBy('id')->get();
+        $laporan = LaporanHarga::whereIn('merek_id', $merek->pluck('id'))->where('kecamatan', $kecamatan)
+            ->orderBy('id')->get()
+            ->filter(fn (LaporanHarga $l) => Angka::selisihHari($l->tanggal->toDateString(), $hariIni) >= 0);
+        $ringkas = $merek->map(function (MerekInput $m) use ($laporan, $hariIni) {
+            $milik = $laporan->where('merek_id', $m->id)->sortByDesc(fn (LaporanHarga $l) => $l->tanggal->toDateString())->values();
+            /** @var LaporanHarga|null $terbaru */
+            $terbaru = $milik->first();
+
+            return [
+                'merek' => self::tanpaWaktu($m->toArray()),
+                'harga_kemasan' => $terbaru?->harga_kemasan,
+                'harga_per_satuan' => $terbaru && $m->isi_kemasan > 0 ? $terbaru->harga_kemasan / $m->isi_kemasan : null,
+                'jumlah_pelapor' => $milik->pluck('pelapor_id')->unique()->count(),
+                'hari_lalu' => $terbaru ? Angka::selisihHari($terbaru->tanggal->toDateString(), $hariIni) : null,
+                'terbaru' => $terbaru?->tanggal->toDateString(),
+            ];
+        })->all();
+        $kolator = new Collator('id');
+        usort($ringkas, function (array $a, array $b) use ($kolator) {
+            if ($a['terbaru'] !== $b['terbaru']) {
+                return $a['terbaru'] === null ? 1 : ($b['terbaru'] === null ? -1 : strcmp($b['terbaru'], $a['terbaru']));
+            }
+
+            return ($b['jumlah_pelapor'] <=> $a['jumlah_pelapor']) ?: (int) $kolator->compare($a['merek']['nama'], $b['merek']['nama']);
+        });
+
+        return Respons::data(array_map(function (array $r) {
+            unset($r['terbaru']);
+
+            return $r;
+        }, $ringkas));
     }
 
     /** @param  array<string, mixed>  $data */

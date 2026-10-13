@@ -19,6 +19,7 @@ use App\Models\Lahan;
 use App\Models\PengaturanPengingat;
 use App\Models\Pengeluaran;
 use App\Models\Pengguna;
+use App\Models\RencanaItem;
 use App\Models\ResepTanam;
 use App\Models\SiklusTanam;
 use App\Models\Tugas;
@@ -323,6 +324,144 @@ class KebunController extends Controller
         $s = $this->siklus($this->petani($request), $id);
 
         return Respons::data(self::tanpaWaktu((PengaturanPengingat::find($s->id) ?? throw new GalatApi('TIDAK_DITEMUKAN'))->toArray()));
+    }
+
+    /**
+     * POST /tugas/{id}/tunda: `{ hari: 1–3, konfirmasi? }` → `{ diterapkan, perlu_konfirmasi, tugas }`.
+     * Melewati perkiraan panen tanpa konfirmasi tidak diterapkan (P0-15) ([AG-19]).
+     */
+    public function tundaTugas(Request $request, string $id): JsonResponse
+    {
+        $p = $this->petani($request);
+        [, $siklus] = $this->tugas($p, $id);
+        if ($siklus->tanggal_tanam === null) {
+            throw new GalatApi('STATUS_TIDAK_SESUAI');
+        }
+
+        return DB::transaction(function () use ($request, $p, $id, $siklus) {
+            $milik = Tugas::where('siklus_id', $siklus->id)->lockForUpdate()->get();
+            $umur = (int) ResepTanam::where('id', $siklus->resep_id)->value('umur_panen_hari');
+            $panen = Angka::tambahHari($siklus->tanggal_tanam->toDateString(), $umur);
+            $jadwal = $milik->map(fn (Tugas $t) => [
+                'id' => $t->id, 'resep_tugas_id' => $t->resep_tugas_id, 'tanggal' => $t->tanggal->toDateString(),
+                'status' => $t->status->value, 'boleh_digeser' => $t->boleh_digeser,
+            ])->values()->all();
+            $r = Kebun::tundaTugas($jadwal, $id, $request->input('hari'), $panen, HariIni::untuk($p));
+            if (! $r['ok']) {
+                throw GalatApi::validasi(['hari' => $r['galat']], $r['galat']);
+            }
+            $perlu = $r['nilai']['perlu_konfirmasi'];
+            $terapkan = ! $perlu || $request->boolean('konfirmasi');
+            if ($terapkan) {
+                foreach ($milik as $t) {
+                    if (isset($r['nilai']['tanggal'][$t->id])) {
+                        $t->forceFill(['tanggal' => $r['nilai']['tanggal'][$t->id]])->save();
+                    }
+                }
+            }
+
+            return Respons::data([
+                'diterapkan' => $terapkan,
+                'perlu_konfirmasi' => $perlu,
+                'tugas' => self::urut(Tugas::where('siklus_id', $siklus->id)->get()),
+            ]);
+        });
+    }
+
+    /** PUT /siklus/{id}/pengingat: jam pagi 05:00–07:00, pengingat sore, tipe tugas aktif ([AG-19]). */
+    public function ubahPengingat(Request $request, string $id): JsonResponse
+    {
+        $s = $this->siklus($this->petani($request), $id);
+        $jam = $request->input('jam_pagi');
+        if (! is_string($jam) || preg_match('/^0[5-7]:[0-5]\d$/', $jam) !== 1 || $jam > '07:00') {
+            throw GalatApi::validasi(['jam_pagi' => 'VALIDASI']);
+        }
+        $sore = $request->input('pengingat_sore');
+        $tipe = $request->input('tipe_aktif');
+        $salah = [];
+        if (! is_bool($sore)) {
+            $salah['pengingat_sore'] = 'VALIDASI';
+        }
+        if (! is_array($tipe) || array_filter(['sekali', 'berulang', 'ukur'], fn ($k) => ! is_bool($tipe[$k] ?? null)) !== []) {
+            $salah['tipe_aktif'] = 'VALIDASI';
+        }
+        if ($salah !== []) {
+            throw GalatApi::validasi($salah);
+        }
+        $x = PengaturanPengingat::find($s->id) ?? throw new GalatApi('TIDAK_DITEMUKAN');
+        $x->forceFill([
+            'jam_pagi' => $jam,
+            'pengingat_sore' => $sore,
+            'tipe_aktif' => ['sekali' => $tipe['sekali'], 'berulang' => $tipe['berulang'], 'ukur' => $tipe['ukur']],
+        ])->save();
+
+        return Respons::data(self::tanpaWaktu($x->refresh()->toArray()));
+    }
+
+    /** POST /siklus/{id}/jurnal: foto atau catatan wajib salah satu ([AG-19]). */
+    public function tambahJurnal(Request $request, string $id): JsonResponse
+    {
+        $s = $this->siklus($this->petani($request), $id);
+        $foto = $request->input('foto');
+        $catatan = is_string($request->input('catatan')) ? trim($request->input('catatan')) : '';
+        if (! $foto && $catatan === '') {
+            throw GalatApi::validasi(['catatan' => 'VALIDASI']);
+        }
+        $tanggal = $request->input('tanggal');
+        if (! self::tanggalSah($tanggal)) {
+            throw GalatApi::validasi(['tanggal' => 'VALIDASI']);
+        }
+        $j = Jurnal::forceCreate([
+            'siklus_id' => $s->id,
+            'tanggal' => $tanggal,
+            'hari_ke' => $s->tanggal_tanam ? Angka::selisihHari($s->tanggal_tanam->toDateString(), $tanggal) : 0,
+            'foto' => is_string($foto) && $foto !== '' ? $foto : null,
+            'catatan' => $catatan !== '' ? $catatan : null,
+            'tugas_id' => null,
+            'judul_tugas' => null,
+        ]);
+
+        return Respons::data(self::tanpaWaktu($j->refresh()->toArray()));
+    }
+
+    /** POST /siklus/{id}/pengeluaran (idempoten) ([AG-19]). */
+    public function catatPengeluaran(Request $request, string $id): JsonResponse
+    {
+        $p = $this->petani($request);
+        $s = $this->siklus($p, $id);
+
+        return JawabIdempoten::jalankan($request, $p, "pengeluaran:{$s->id}", function () use ($request, $s) {
+            $nama = is_string($request->input('nama')) ? trim($request->input('nama')) : '';
+            $nominal = $request->input('nominal');
+            $tanggal = $request->input('tanggal');
+            $rencana = $request->input('rencana_item_id');
+            $salah = [];
+            if ($nama === '') {
+                $salah['nama'] = 'VALIDASI';
+            }
+            if (! is_int($nominal) || $nominal < 0) {
+                $salah['nominal'] = is_int($nominal) || is_float($nominal) ? 'HARGA_NEGATIF' : 'VALIDASI';
+            }
+            if (! self::tanggalSah($tanggal)) {
+                $salah['tanggal'] = 'VALIDASI';
+            }
+            if ($rencana !== null && ! RencanaItem::where('id', $rencana)->where('siklus_id', $s->id)->exists()) {
+                $salah['rencana_item_id'] = 'VALIDASI';
+            }
+            if ($salah !== []) {
+                throw GalatApi::validasi($salah);
+            }
+            $x = Pengeluaran::forceCreate([
+                'siklus_id' => $s->id,
+                'rencana_item_id' => $rencana,
+                'nama' => $nama,
+                'nominal' => $nominal,
+                'tanggal' => $tanggal,
+                'foto_nota' => is_string($request->input('foto_nota')) ? $request->input('foto_nota') : null,
+            ]);
+
+            return self::tanpaWaktu($x->refresh()->toArray());
+        });
     }
 
     /** @param  Collection<int, Tugas>  $tugas */
