@@ -82,7 +82,7 @@ export function KartuSiklus({
       />
       <Link to={`/kebun/${encodeURIComponent(siklus.id)}/jadwal`} className={tautan}>
         <span>{t.lihatJadwal}</span>
-        <Ikon nama="panah-kanan" />
+        <Ikon nama="panah-kanan" className="panah-geser" />
       </Link>
     </Kartu>
   );

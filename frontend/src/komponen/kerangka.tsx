@@ -21,9 +21,12 @@ export function KerangkaPetani({
   tanpaNav,
   onKeluar,
   menuAktif,
+  kunciHalaman,
   className,
 }: {
   akun: Akun;
+  /** Berganti tiap pergantian rute: konten utama masuk dengan animasi pendek (D-61). */
+  kunciHalaman?: string;
   menuAktif?: MenuPetani;
   lencana?: Lencana;
   children: ReactNode;
@@ -43,7 +46,12 @@ export function KerangkaPetani({
       />
       <div className="flex min-w-0 flex-1 flex-col">
         <main className={cx('flex-1 px-4 pb-6 pt-2 lg:px-10 lg:pb-12 lg:pt-6', className)}>
-          <div className="mx-auto flex max-w-konten flex-col gap-6">{children}</div>
+          <div
+            key={kunciHalaman}
+            className="mx-auto flex max-w-konten animate-masuk-halaman flex-col gap-6"
+          >
+            {children}
+          </div>
         </main>
         {tanpaNav ? null : (
           <div
@@ -61,15 +69,20 @@ export function KerangkaPetani({
 /** Kerangka halaman pembeli: header atas + konten maksimal 1152px. Di HP menjadi satu kolom. */
 export function KerangkaPembeli({
   namaUsaha,
+  kunciHalaman,
   children,
 }: {
   namaUsaha: string;
+  kunciHalaman?: string;
   children: ReactNode;
 }) {
   return (
     <div className="min-h-layar bg-embun-pagi text-teks">
       <HeaderPembeli namaUsaha={namaUsaha} />
-      <main className="mx-auto flex max-w-pembeli flex-col gap-6 px-4 pb-12 pt-6 lg:px-6">
+      <main
+        key={kunciHalaman}
+        className="mx-auto flex max-w-pembeli animate-masuk-halaman flex-col gap-6 px-4 pb-12 pt-6 lg:px-6"
+      >
         {children}
       </main>
     </div>

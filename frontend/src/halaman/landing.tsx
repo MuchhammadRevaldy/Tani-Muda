@@ -6,17 +6,30 @@
 import { BagianPembeli, CaraKerja, Pilar, TanyaJawab } from './landing/bagian';
 import { useDataLanding } from './landing/data-landing';
 import { Hero } from './landing/hero';
+import { useMunculGulir } from './landing/muncul-gulir';
 import { KerangkaPublik } from './statis/kerangka-publik';
 
 export function HalamanLanding() {
   const d = useDataLanding();
+  useMunculGulir();
+  // Setiap bagian muncul saat digulir (D-61); hero ikut, karena langsung berada di layar.
   return (
     <KerangkaPublik>
-      <Hero d={d} />
-      <Pilar d={d} />
-      <CaraKerja d={d} />
-      <BagianPembeli d={d} />
-      <TanyaJawab d={d} />
+      <div className="muncul-gulir">
+        <Hero d={d} />
+      </div>
+      <div className="muncul-gulir">
+        <Pilar d={d} />
+      </div>
+      <div className="muncul-gulir">
+        <CaraKerja d={d} />
+      </div>
+      <div className="muncul-gulir">
+        <BagianPembeli d={d} />
+      </div>
+      <div className="muncul-gulir">
+        <TanyaJawab d={d} />
+      </div>
     </KerangkaPublik>
   );
 }

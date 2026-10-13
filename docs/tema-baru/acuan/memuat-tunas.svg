@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" role="img" aria-label="Memuat">
+  <title>Memuat</title>
+  <style>
+    .batang { transform-box: view-box; transform-origin: 48px 74px; animation: tumbuh 1.8s cubic-bezier(.2,.8,.2,1) infinite; }
+    .daun-kiri { transform-box: view-box; transform-origin: 48px 50px; animation: buka-kiri 1.8s cubic-bezier(.2,.8,.2,1) infinite; }
+    .daun-kanan { transform-box: view-box; transform-origin: 48px 48px; animation: buka-kanan 1.8s cubic-bezier(.2,.8,.2,1) infinite; }
+    .tanah { animation: denyut 1.8s ease-in-out infinite; transform-box: view-box; transform-origin: 48px 76px; }
+    @keyframes tumbuh { 0% { transform: scaleY(0); } 0% { opacity: 1; } 35%, 85% { transform: scaleY(1); opacity: 1; } 100% { transform: scaleY(1); opacity: 0; } }
+    @keyframes buka-kiri { 0%, 25% { transform: rotate(40deg) scale(0); } 55%, 85% { transform: rotate(0) scale(1); opacity: 1; } 100% { transform: rotate(0) scale(1); opacity: 0; } }
+    @keyframes buka-kanan { 0%, 32% { transform: rotate(-40deg) scale(0); } 62%, 85% { transform: rotate(0) scale(1); opacity: 1; } 100% { transform: rotate(0) scale(1); opacity: 0; } }
+    @keyframes denyut { 0%, 100% { transform: scaleX(.9); } 50% { transform: scaleX(1.05); } }
+    @media (prefers-reduced-motion: reduce) { .batang, .daun-kiri, .daun-kanan, .tanah { animation: none; } }
+  </style>
+  <defs>
+    <linearGradient id="t-daun" x1="0" y1="1" x2=".4" y2="0"><stop offset="0" stop-color="#3E9B1F"/><stop offset=".55" stop-color="#7CCB2B"/><stop offset="1" stop-color="#C9F23E"/></linearGradient>
+    <radialGradient id="t-tanah" cx="50%" cy="40%" r="60%"><stop offset="0" stop-color="#A86A42"/><stop offset="1" stop-color="#6B3C22"/></radialGradient>
+  </defs>
+  <ellipse class="tanah" cx="48" cy="77" rx="22" ry="6" fill="url(#t-tanah)"/>
+  <path class="batang" d="M48 76 C48 66 48 58 48 48" stroke="#5FAE34" stroke-width="4" stroke-linecap="round" fill="none"/>
+  <g class="daun-kiri">
+    <path d="M47 51 C40 38 24 36 18 44 C25 55 38 56 47 51 Z" fill="url(#t-daun)"/>
+    <path d="M44 50 C37 46 30 45 24 46" stroke="#fff" stroke-opacity=".45" stroke-width="2" fill="none" stroke-linecap="round"/>
+  </g>
+  <g class="daun-kanan">
+    <path d="M49 49 C55 33 72 29 79 37 C73 50 59 53 49 49 Z" fill="url(#t-daun)"/>
+    <path d="M52 47 C59 42 66 40 72 40" stroke="#fff" stroke-opacity=".45" stroke-width="2" fill="none" stroke-linecap="round"/>
+  </g>
+</svg>

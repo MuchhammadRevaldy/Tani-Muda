@@ -1,4 +1,4 @@
-import { useState, type ReactNode } from 'react';
+import { useState, type ReactNode, type CSSProperties } from 'react';
 import { Link } from 'react-router-dom';
 import { teksKomponen } from '../teks/komponen';
 import { ChipStatus, type StatusChip } from './chip-status';
@@ -35,6 +35,8 @@ export interface BarisTugasProps {
   onKamera?: () => void;
   tanpaKamera?: boolean;
   className?: string;
+  /** Mis. --urutan untuk muncul bertahap (D-61). */
+  style?: CSSProperties;
 }
 
 /** Baris tugas: centang 48px, judul, meta (tipe, keterangan, chip), kamera. */
@@ -55,6 +57,7 @@ export function BarisTugas({
   onKamera,
   tanpaKamera,
   className,
+  style,
 }: BarisTugasProps) {
   const terkendali = selesaiTerkendali !== undefined;
   const [selesaiSendiri, setSelesaiSendiri] = useState(selesaiAwal);
@@ -78,6 +81,7 @@ export function BarisTugas({
 
   return (
     <div
+      style={style}
       className={cx(
         'flex min-h-baris-tugas items-center gap-2 bg-putih py-2 pl-1 pr-3',
         '[&+&]:border-t [&+&]:border-garis',

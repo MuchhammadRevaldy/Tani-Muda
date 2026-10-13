@@ -17,6 +17,7 @@
  * --dingin    proses Chrome baru di setiap putaran (bawaan: konteks baru, cache tetap kosong).
  * --tampil    jendela peramban terlihat.
  * --lebar     lebar layar dalam px (bawaan 1440; 390 untuk tampilan HP, tinggi 844).
+ * --tanpa-animasi  emulasi prefers-reduced-motion: reduce (pembanding waktu dengan animasi, D-61).
  * --layar-hp  dengan --layar: setelah tiap langkah, buka alamat yang sama di peramban kedua selebar
  *             390px dengan cookie yang sama, lalu potret seluruh halaman. Keadaan sama hanya di mode
  *             backend (data di server); di mode tiruan data ada di peramban masing-masing.
@@ -39,6 +40,9 @@ const TAMPIL = argumen.includes('--tampil');
 const PILIH_SKENARIO = nilai('--skenario', 'naskah');
 const LEBAR = Number(nilai('--lebar', '1440'));
 const LAYAR_HP = argumen.includes('--layar-hp');
+const TANPA_ANIMASI = argumen.includes('--tanpa-animasi');
+/** Opsi konteks peramban bersama: gerak dikurangi bila --tanpa-animasi. */
+const GERAK = TANPA_ANIMASI ? { reducedMotion: 'reduce' } : {};
 
 const executablePath = [
   process.env.CHROME_PATH,
@@ -67,9 +71,33 @@ const tombol = (page, nama) =>
     .locator('visible=true')
     .first();
 
+/**
+ * Tunggu animasi CSS yang sedang berjalan pada elemen target atau leluhurnya (mis. masuk halaman,
+ * kartu bertahap, muncul saat digulir) supaya klik tidak mendarat di posisi yang masih bergerak
+ * (D-61). Animasi berulang tanpa akhir diabaikan; paling lama 2 detik.
+ */
+async function tungguAnimasi(locator) {
+  await locator
+    .evaluate(async (el) => {
+      const berjalan = document.getAnimations().filter((a) => {
+        const sasaran = a.effect && a.effect.target;
+        if (!sasaran || a.playState === 'finished') return false;
+        if (a.effect.getComputedTiming().iterations === Infinity) return false;
+        return sasaran === el || (sasaran.contains && sasaran.contains(el));
+      });
+      if (!berjalan.length) return;
+      await Promise.race([
+        Promise.all(berjalan.map((a) => a.finished.catch(() => undefined))),
+        new Promise((r) => setTimeout(r, 2000)),
+      ]);
+    })
+    .catch(() => undefined);
+}
+
 async function klik(page, nama) {
   const t = tombol(page, nama);
   await t.waitFor({ state: 'visible', timeout: TUNGGU });
+  await tungguAnimasi(t);
   await t.click({ timeout: TUNGGU });
 }
 
@@ -302,7 +330,7 @@ for (const s of DAFTAR_SKENARIO)
 
 /** Buka `alamat` selebar 390px dengan cookie konteks utama, lalu potret seluruh tinggi halaman. */
 async function potretHp(browser, utama, alamat, berkas) {
-  const hp = await browser.newContext({ viewport: { width: 390, height: 844 } });
+  const hp = await browser.newContext({ viewport: { width: 390, height: 844 }, ...GERAK });
   try {
     await hp.addCookies(await utama.cookies());
     const p = await hp.newPage();
@@ -329,6 +357,7 @@ async function potretHp(browser, utama, alamat, berkas) {
 async function jalankan(browser, nama, putaran) {
   const konteks = await browser.newContext({
     viewport: { width: LEBAR, height: LEBAR < 768 ? 844 : 900 },
+    ...GERAK,
   });
   const page = await konteks.newPage();
   const awal = Date.now();

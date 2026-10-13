@@ -147,7 +147,7 @@ export function KartuHasilUkur({
         )}
         <Link to={`/kebun/${encodeURIComponent(siklusId)}/jadwal`} className={tautanPanah}>
           {t.lihatRiwayatUkur}
-          <Ikon nama="panah-kanan" ukuran={20} />
+          <Ikon nama="panah-kanan" className="panah-geser" ukuran={20} />
         </Link>
       </div>
     </Kartu>
@@ -211,7 +211,7 @@ export function KartuModal({ nama, siklus }: { nama: string; siklus: SiklusDetai
         </div>
         <Link to={`/kebun/${encodeURIComponent(siklus.id)}/modal`} className={tautanPanah}>
           {t.lihatRincianModal}
-          <Ikon nama="panah-kanan" ukuran={20} />
+          <Ikon nama="panah-kanan" className="panah-geser" ukuran={20} />
         </Link>
       </div>
     </Kartu>

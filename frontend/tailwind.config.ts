@@ -51,6 +51,38 @@ const bayangan = {
   ikon: '0 10px 24px rgba(46,53,71,.10)',
   'cahaya-limau': '0 16px 32px rgba(134,194,50,.45)',
   'cahaya-oranye': '0 14px 28px rgba(242,127,61,.45)',
+  // Hover di perangkat berkursor (D-61): sedikit lebih tebal atau lebih terang.
+  'kartu-angkat': '0 28px 56px rgba(46,53,71,.14)',
+  'cahaya-limau-terang': '0 18px 36px rgba(134,194,50,.55)',
+  'cahaya-oranye-terang': '0 16px 32px rgba(242,127,61,.55)',
+};
+
+/**
+ * Gerak (D-61): durasi, kurva, dan keyframes sebagai token. Hanya transform dan opacity; semuanya
+ * mati di prefers-reduced-motion (src/index.css). Setiap animasi berakhir di `transform: none`
+ * supaya pembungkus konten tidak menjadi blok penampung bagi dialog `position: fixed`.
+ */
+const kurvaKeluar = 'cubic-bezier(.2,.8,.2,1)';
+const gerak = {
+  durasi: { cepat: '150ms', sedang: '200ms', lambat: '250ms', bertahap: '300ms', muncul: '400ms' },
+  kurva: { keluar: kurvaKeluar },
+  jeda: { bertahap: '50ms' },
+  keyframes: {
+    'masuk-halaman': {
+      from: { opacity: '0', transform: 'translateY(8px)' },
+      to: { opacity: '1', transform: 'none' },
+    },
+    'muncul-bertahap': {
+      from: { opacity: '0', transform: 'translateY(8px)' },
+      to: { opacity: '1', transform: 'none' },
+    },
+    denyut: { '0%, 100%': { opacity: '1' }, '50%': { opacity: '.55' } },
+  },
+  animasi: {
+    'masuk-halaman': `masuk-halaman 200ms ${kurvaKeluar} both`,
+    'muncul-bertahap': `muncul-bertahap 300ms ${kurvaKeluar} both`,
+    denyut: 'denyut 1.6s ease-in-out infinite',
+  },
 };
 
 /** Ukuran bernama yang dipakai berulang di desain. */
@@ -78,6 +110,7 @@ const skala = {
   0: '0px',
   px: '1px',
   0.5: '2px',
+  0.75: '3px', // geser panah tautan saat hover (D-61)
   1: '4px',
   1.5: '6px',
   2: '8px',
@@ -218,6 +251,11 @@ const config: Config = {
       'progres-limau': `linear-gradient(90deg, ${warna['limau-tekan']} 0%, ${warna['limau-terang']} 100%)`,
     },
     extend: {
+      transitionDuration: gerak.durasi,
+      transitionTimingFunction: gerak.kurva,
+      transitionDelay: gerak.jeda,
+      keyframes: gerak.keyframes,
+      animation: gerak.animasi,
       textUnderlineOffset: { 3: '3px' },
       // Foto bukti, jurnal, dan foto kiriman (papan 22, 28).
       aspectRatio: { foto: '4 / 3' },
@@ -234,6 +272,8 @@ const config: Config = {
     },
   },
   plugins: [],
+  // Gaya hover hanya di perangkat yang mendukung hover (kursor), tidak menempel di layar sentuh (D-61).
+  future: { hoverOnlyWhenSupported: true },
 };
 
 export default config;

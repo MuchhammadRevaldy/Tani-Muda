@@ -71,7 +71,9 @@ function Baris({
           <span className={cx('min-w-0 font-medium', sejajar && 'xl:text-right')}>{nilai}</span>
         ) : null}
       </span>
-      {ke ? <Ikon nama="panah-kanan" className="flex-none text-teks-pendukung" /> : null}
+      {ke ? (
+        <Ikon nama="panah-kanan" className="panah-geser flex-none text-teks-pendukung" />
+      ) : null}
     </>
   );
   const kelas = cx('flex min-h-16 items-center gap-3 py-3', !akhir && 'border-b border-garis');

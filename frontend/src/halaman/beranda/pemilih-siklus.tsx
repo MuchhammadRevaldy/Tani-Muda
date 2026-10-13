@@ -153,7 +153,7 @@ export function PemilihSiklus({
               tabIndex={aktif ? 0 : -1}
               onClick={() => onPilih(o.id)}
               className={cx(
-                'fokus-cincin group flex w-kartu-siklus flex-none cursor-pointer snap-start flex-col gap-3 rounded-kartu border-2 bg-putih p-4 text-left text-isi text-teks shadow-ikon lg:w-kartu-siklus-lebar',
+                'kartu-interaktif fokus-cincin group flex w-kartu-siklus flex-none cursor-pointer snap-start flex-col gap-3 rounded-kartu border-2 bg-putih p-4 text-left text-isi text-teks shadow-ikon lg:w-kartu-siklus-lebar',
                 aktif ? 'border-limau' : 'border-transparent hover:border-garis-kuat',
               )}
             >

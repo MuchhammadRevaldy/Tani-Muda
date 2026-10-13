@@ -121,7 +121,7 @@ function KartuPesanan({
         {nomor === undefined ? (
           <span className="flex items-center justify-between gap-2">
             <ChipJenis jenis={p.jenis} />
-            <Ikon nama="panah-kanan" className="text-teks-pendukung" />
+            <Ikon nama="panah-kanan" className="panah-geser text-teks-pendukung" />
           </span>
         ) : null}
         <span className="flex flex-wrap items-center gap-x-3 gap-y-1">
@@ -155,7 +155,7 @@ function KartuPesanan({
     </>
   );
   const kelas = cx(
-    'fokus-cincin flex w-full items-start gap-4 rounded-lg bg-putih p-4 text-left text-teks no-underline',
+    'kartu-interaktif fokus-cincin flex w-full items-start gap-4 rounded-lg bg-putih p-4 text-left text-teks no-underline',
     dipilih ? 'border-2 border-daun-tua' : 'border border-garis hover:border-garis-kuat',
   );
   if (onPilih)
@@ -268,7 +268,7 @@ function KosongSekitar({
       </section>
       <Link
         to="/hitung/tanaman"
-        className="fokus-cincin flex items-center gap-3 rounded-lg border border-garis bg-putih p-4 text-teks no-underline hover:border-garis-kuat"
+        className="kartu-interaktif fokus-cincin flex items-center gap-3 rounded-lg border border-garis bg-putih p-4 text-teks no-underline hover:border-garis-kuat"
       >
         <span className="grid h-12 w-12 flex-none place-items-center rounded-md bg-daun-lembut text-daun-tua">
           <Ikon nama="kebun" />
@@ -277,7 +277,7 @@ function KosongSekitar({
           <span className="font-semibold">{t.sambilMenunggu}</span>
           <span className="text-teks-pendukung">{t.siapkanLahan}</span>
         </span>
-        <Ikon nama="panah-kanan" className="text-teks-pendukung" />
+        <Ikon nama="panah-kanan" className="panah-geser text-teks-pendukung" />
       </Link>
     </div>
   );

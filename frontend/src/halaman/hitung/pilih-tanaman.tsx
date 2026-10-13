@@ -44,7 +44,7 @@ function BarisKomoditas({
   return (
     <div
       className={cx(
-        'relative flex min-h-baris-tugas items-center gap-3 rounded-lg border p-4',
+        'kartu-interaktif relative flex min-h-baris-tugas items-center gap-3 rounded-lg border p-4',
         dipilih ? 'border-daun-tua bg-daun-lembut' : 'border-garis bg-putih',
       )}
     >
@@ -68,7 +68,7 @@ function BarisKomoditas({
         ) : null}
       </div>
       {segera ? (
-        <Ikon nama="panah-kanan" className="flex-none text-teks-pendukung" />
+        <Ikon nama="panah-kanan" className="panah-geser flex-none text-teks-pendukung" />
       ) : (
         <span
           aria-hidden="true"

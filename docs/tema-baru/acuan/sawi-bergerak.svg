@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" role="img" aria-label="Sawi hijau">
+  <title>Sawi hijau</title>
+  <style>
+    .ayun { transform-box: view-box; transform-origin: 120px 204px; animation: ayun 5.2s ease-in-out infinite alternate; }
+    .a1 { animation-duration: 5.6s; animation-delay: -1.2s; }
+    .a2 { animation-duration: 4.8s; animation-delay: -2.4s; }
+    .a3 { animation-duration: 6.1s; animation-delay: -0.6s; }
+    .a4 { animation-duration: 5.0s; animation-delay: -3.1s; }
+    .a5 { animation-duration: 5.4s; animation-delay: -1.8s; }
+    @keyframes ayun { from { transform: rotate(-2.2deg); } to { transform: rotate(2.6deg); } }
+    @media (prefers-reduced-motion: reduce) { .ayun { animation: none; } }
+  </style>
+  <defs>
+    <radialGradient id="sawi-bayang" cx="50%" cy="50%" r="50%"><stop offset="0.00" stop-color="rgba(46,53,71,.30)"/><stop offset="1.00" stop-color="rgba(46,53,71,0)"/></radialGradient>
+    <linearGradient id="sawi-d1" x1="0" y1="1" x2="0.35" y2="0"><stop offset="0.00" stop-color="#3E9B1F"/><stop offset="0.50" stop-color="#7CCB2B"/><stop offset="1.00" stop-color="#C9F23E"/></linearGradient>
+    <linearGradient id="sawi-d2" x1="0" y1="1" x2="0.35" y2="0"><stop offset="0.00" stop-color="#2B7516"/><stop offset="0.50" stop-color="#5DAE25"/><stop offset="1.00" stop-color="#9BD836"/></linearGradient>
+    <linearGradient id="sawi-d3" x1="0" y1="1" x2="0.35" y2="0"><stop offset="0.00" stop-color="#1D5A15"/><stop offset="0.50" stop-color="#3B8F24"/><stop offset="1.00" stop-color="#79C23A"/></linearGradient>
+    <linearGradient id="sawi-batang" x1="0" y1="1" x2="0" y2="0"><stop offset="0.00" stop-color="#4E9A2A"/><stop offset="1.00" stop-color="#8CCB4A"/></linearGradient>
+    <linearGradient id="sawi-tangkai" x1="0" y1="1" x2="0" y2="0"><stop offset="0.00" stop-color="#C8E88E"/><stop offset="1.00" stop-color="#F6FDE6"/></linearGradient>
+  </defs>
+  <ellipse cx="120" cy="212" rx="72" ry="10" fill="url(#sawi-bayang)"/>
+  <ellipse cx="120" cy="206" rx="23.04" ry="4.5" fill="#6B4A2E" opacity=".55"/>
+  <g class="ayun a1"><g transform="rotate(-24 120 204) translate(120 204) scale(0.9)">
+    <path d="M-5.5 0 C-5.5 -30 -3.3 -55 -2 -70 L2 -70 C3.3 -55 5.5 -30 5.5 0 Z" fill="url(#sawi-tangkai)"/>
+    
+    <g transform="translate(0 -62) rotate(0)">
+      <path d="M0 0 C-28.35 -9.200000000000001 -31.049999999999997 -73.60000000000001 -6.75 -90.16 C-2.7 -93.84 2.7 -93.84 6.75 -90.16 C31.049999999999997 -73.60000000000001 28.35 -9.200000000000001 0 0 Z" fill="url(#sawi-d2)"/>
+      <path d="M0 -3.68 C1.08 -36.800000000000004 0 -64.39999999999999 -1.35 -84.64" stroke="#EFFFD0" stroke-opacity=".7" stroke-width="3.2399999999999998" fill="none" stroke-linecap="round"/>
+      <path d="M-12.15 -27.599999999999998 C-16.2 -46 -13.5 -64.39999999999999 -8.1 -75.44" stroke="#fff" stroke-opacity=".32" stroke-width="4.859999999999999" fill="none" stroke-linecap="round"/>
+    </g>
+  </g></g>
+  <g class="ayun a2"><g transform="rotate(24 120 204) translate(120 204) scale(0.9)">
+    <path d="M-5.5 0 C-5.5 -30 -3.3 -55 -2 -70 L2 -70 C3.3 -55 5.5 -30 5.5 0 Z" fill="url(#sawi-tangkai)"/>
+    
+    <g transform="translate(0 -62) rotate(0)">
+      <path d="M0 0 C-28.35 -9.200000000000001 -31.049999999999997 -73.60000000000001 -6.75 -90.16 C-2.7 -93.84 2.7 -93.84 6.75 -90.16 C31.049999999999997 -73.60000000000001 28.35 -9.200000000000001 0 0 Z" fill="url(#sawi-d2)"/>
+      <path d="M0 -3.68 C1.08 -36.800000000000004 0 -64.39999999999999 -1.35 -84.64" stroke="#EFFFD0" stroke-opacity=".7" stroke-width="3.2399999999999998" fill="none" stroke-linecap="round"/>
+      <path d="M-12.15 -27.599999999999998 C-16.2 -46 -13.5 -64.39999999999999 -8.1 -75.44" stroke="#fff" stroke-opacity=".32" stroke-width="4.859999999999999" fill="none" stroke-linecap="round"/>
+    </g>
+  </g></g>
+  <g class="ayun a3"><g transform="rotate(-50 120 204) translate(120 204) scale(0.84)">
+    <path d="M-5.5 0 C-5.5 -30 -3.3 -55 -2 -70 L2 -70 C3.3 -55 5.5 -30 5.5 0 Z" fill="url(#sawi-tangkai)"/>
+    
+    <g transform="translate(0 -62) rotate(0)">
+      <path d="M0 0 C-28.35 -9.200000000000001 -31.049999999999997 -73.60000000000001 -6.75 -90.16 C-2.7 -93.84 2.7 -93.84 6.75 -90.16 C31.049999999999997 -73.60000000000001 28.35 -9.200000000000001 0 0 Z" fill="url(#sawi-d1)"/>
+      <path d="M0 -3.68 C1.08 -36.800000000000004 0 -64.39999999999999 -1.35 -84.64" stroke="#EFFFD0" stroke-opacity=".7" stroke-width="3.2399999999999998" fill="none" stroke-linecap="round"/>
+      <path d="M-12.15 -27.599999999999998 C-16.2 -46 -13.5 -64.39999999999999 -8.1 -75.44" stroke="#fff" stroke-opacity=".32" stroke-width="4.859999999999999" fill="none" stroke-linecap="round"/>
+    </g>
+  </g></g>
+  <g class="ayun a4"><g transform="rotate(48 120 204) translate(120 204) scale(0.84)">
+    <path d="M-5.5 0 C-5.5 -30 -3.3 -55 -2 -70 L2 -70 C3.3 -55 5.5 -30 5.5 0 Z" fill="url(#sawi-tangkai)"/>
+    
+    <g transform="translate(0 -62) rotate(0)">
+      <path d="M0 0 C-28.35 -9.200000000000001 -31.049999999999997 -73.60000000000001 -6.75 -90.16 C-2.7 -93.84 2.7 -93.84 6.75 -90.16 C31.049999999999997 -73.60000000000001 28.35 -9.200000000000001 0 0 Z" fill="url(#sawi-d1)"/>
+      <path d="M0 -3.68 C1.08 -36.800000000000004 0 -64.39999999999999 -1.35 -84.64" stroke="#EFFFD0" stroke-opacity=".7" stroke-width="3.2399999999999998" fill="none" stroke-linecap="round"/>
+      <path d="M-12.15 -27.599999999999998 C-16.2 -46 -13.5 -64.39999999999999 -8.1 -75.44" stroke="#fff" stroke-opacity=".32" stroke-width="4.859999999999999" fill="none" stroke-linecap="round"/>
+    </g>
+  </g></g>
+  <g class="ayun a5"><g transform="rotate(-4 120 204) translate(120 204) scale(1)">
+    <path d="M-5.5 0 C-5.5 -30 -3.3 -55 -2 -70 L2 -70 C3.3 -55 5.5 -30 5.5 0 Z" fill="url(#sawi-tangkai)"/>
+    
+    <g transform="translate(0 -62) rotate(0)">
+      <path d="M0 0 C-28.35 -9.200000000000001 -31.049999999999997 -73.60000000000001 -6.75 -90.16 C-2.7 -93.84 2.7 -93.84 6.75 -90.16 C31.049999999999997 -73.60000000000001 28.35 -9.200000000000001 0 0 Z" fill="url(#sawi-d1)"/>
+      <path d="M0 -3.68 C1.08 -36.800000000000004 0 -64.39999999999999 -1.35 -84.64" stroke="#EFFFD0" stroke-opacity=".7" stroke-width="3.2399999999999998" fill="none" stroke-linecap="round"/>
+      <path d="M-12.15 -27.599999999999998 C-16.2 -46 -13.5 -64.39999999999999 -8.1 -75.44" stroke="#fff" stroke-opacity=".32" stroke-width="4.859999999999999" fill="none" stroke-linecap="round"/>
+    </g>
+  </g></g>
+</svg>

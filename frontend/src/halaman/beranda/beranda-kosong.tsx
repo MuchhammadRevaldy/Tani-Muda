@@ -18,7 +18,7 @@ export function BerandaKosong() {
       </section>
       <Link
         to="/belajar"
-        className="fokus-cincin flex min-h-nav-item items-center gap-3 rounded-lg border border-garis bg-putih px-4 py-3 text-teks no-underline hover:text-teks"
+        className="kartu-interaktif fokus-cincin flex min-h-nav-item items-center gap-3 rounded-lg border border-garis bg-putih px-4 py-3 text-teks no-underline hover:text-teks"
       >
         <span className="grid h-10 w-10 flex-none place-items-center rounded-md bg-daun-lembut text-daun-tua">
           <Ikon nama="belajar" />
@@ -27,7 +27,7 @@ export function BerandaKosong() {
           <span className="font-semibold">{t.kosong.belajarJudul}</span>
           <span className="text-keterangan text-teks-pendukung">{t.kosong.belajarIsi}</span>
         </span>
-        <Ikon nama="panah-kanan" className="text-teks-pendukung" />
+        <Ikon nama="panah-kanan" className="panah-geser text-teks-pendukung" />
       </Link>
     </div>
   );

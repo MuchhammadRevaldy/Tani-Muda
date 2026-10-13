@@ -22,9 +22,11 @@ import { tugasKeDomain } from '../api/peta';
 import { useSesi, useWaktuLokal } from '../api/sesi';
 import type { Tugas } from '../api/tipe';
 import { Avatar } from '../komponen/avatar';
+import { useBertahap } from '../komponen/bertahap';
 import { Banner } from '../komponen/banner';
 import { Ikon } from '../komponen/ikon';
 import { Dialog } from '../komponen/dialog';
+import { cx } from '../komponen/gabung-kelas';
 import { useDesaSaya } from '../komponen/kerangka-sesi';
 import { DaftarLangkah } from '../komponen/pelengkap';
 import { kelasTombol, Tombol } from '../komponen/tombol';
@@ -48,6 +50,7 @@ import { hasilPengukuranKeDomain } from '../api/peta';
 import { kelompokkanSiklus, petakTerkini } from '../lib/kelompok-siklus';
 import { keKelompok, useNamaSiklus } from './kebun/nama-siklus';
 import { BerandaKosong } from './beranda/beranda-kosong';
+import { KerangkaKartuMuat } from './memuat';
 import { DaftarTugasHariIni, type KelompokTugas } from './beranda/daftar-tugas';
 import { KartuSiklus } from './beranda/kartu-siklus';
 import { PemilihSiklus, type OpsiKartuSiklus } from './beranda/pemilih-siklus';
@@ -192,19 +195,20 @@ export function HalamanBeranda() {
     >
       <Ikon nama="kalender" ukuran={20} />
       {teksKebun.rencanaBeranda(jumlahRencana)}
-      <Ikon nama="panah-kanan" ukuran={20} />
+      <Ikon nama="panah-kanan" className="panah-geser" ukuran={20} />
     </Link>
   ) : null;
   const kepala = <Kepala nama={nama} waktu={waktu} tanggal={hariIni} desa={desa} />;
   const bannerOffline = daring ? null : <Banner jenis="offline">{t.offlineIsi}</Banner>;
 
-  if (siklusQ.isPending || tugasQ.isPending || (unit.length > 0 && !dipilih)) {
+  const memuatAwal = siklusQ.isPending || tugasQ.isPending || (unit.length > 0 && !dipilih);
+  // Kartu dan baris tugas muncul berurutan hanya saat Beranda pertama dibuka (D-61).
+  const bertahap = useBertahap(!memuatAwal && !!detailQ.data);
+  if (memuatAwal) {
     return (
       <>
         {kepala}
-        <p role="status" className="m-0 text-teks-pendukung">
-          {teksUmum.memuat}
-        </p>
+        <KerangkaKartuMuat />
       </>
     );
   }
@@ -301,7 +305,9 @@ export function HalamanBeranda() {
       ) : null}
 
       <div className="flex flex-col gap-5 xl:grid xl:grid-cols-3 xl:items-start xl:gap-6">
-        <div className="flex min-w-0 flex-col gap-5 xl:col-span-2">
+        <div
+          className={cx('flex min-w-0 flex-col gap-5 xl:col-span-2', bertahap && 'bertahap-anak')}
+        >
           {unit.length > 1 ? (
             <PemilihSiklus
               opsi={opsiKartu}
@@ -317,14 +323,12 @@ export function HalamanBeranda() {
               hariIni={hariIni}
             />
           ) : (
-            <p role="status" className="m-0 text-teks-pendukung">
-              {teksUmum.memuat}
-            </p>
+            <KerangkaKartuMuat />
           )}
           {modulTahap ? (
             <Link
               to={`/belajar/${encodeURIComponent(modulTahap.id)}`}
-              className="fokus-cincin flex items-center gap-3 rounded-lg border border-garis bg-putih p-4 text-teks no-underline hover:border-daun-tua hover:text-teks"
+              className="kartu-interaktif fokus-cincin flex items-center gap-3 rounded-lg border border-garis bg-putih p-4 text-teks no-underline hover:border-daun-tua hover:text-teks"
             >
               <span className="grid h-12 w-12 flex-none place-items-center rounded-md bg-daun-lembut text-daun-tua">
                 <Ikon nama="belajar" />
@@ -337,7 +341,7 @@ export function HalamanBeranda() {
                   {teksBelajar.tontonModul(modulTahap.judul, modulTahap.menit)}
                 </span>
               </span>
-              <Ikon nama="panah-kanan" className="text-teks-pendukung" />
+              <Ikon nama="panah-kanan" className="panah-geser text-teks-pendukung" />
             </Link>
           ) : null}
           {penandaRencana}
@@ -359,10 +363,16 @@ export function HalamanBeranda() {
             hasilUkur={hasilUkur}
             ukurUtama={!tawaran}
             contoh={adaContoh}
+            bertahap={bertahap}
           />
         </div>
 
-        <aside className="flex min-w-0 flex-col gap-5 xl:sticky xl:top-6">
+        <aside
+          className={cx(
+            'flex min-w-0 flex-col gap-5 xl:sticky xl:top-6',
+            bertahap && 'bertahap-anak',
+          )}
+        >
           {tawaran ? (
             <KartuTawaran
               pesanan={tawaran}

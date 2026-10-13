@@ -67,3 +67,106 @@ html.ada-label-demo footer {
     bottom: theme('spacing.26');
   }
 }
+
+/* ---------- Gerak (D-61) ---------- */
+
+/* Muncul saat digulir (halaman depan): hanya bila JavaScript dan IntersectionObserver jalan
+   (kelas js-gulir dipasang skrip), sehingga konten tetap terlihat bila keduanya gagal. Sekali saja. */
+.muncul-gulir {
+  transition:
+    opacity theme('transitionDuration.muncul') theme('transitionTimingFunction.keluar'),
+    transform theme('transitionDuration.muncul') theme('transitionTimingFunction.keluar');
+}
+html.js-gulir .muncul-gulir:not(.terlihat) {
+  opacity: 0;
+  transform: translateY(16px);
+}
+
+/* Kartu dan baris bertahap: --urutan diisi 0–7 (item ke-8 dan seterusnya 0, langsung). */
+.muncul-bertahap {
+  animation: theme('animation.muncul-bertahap');
+  animation-delay: calc(var(--urutan, 0) * theme('transitionDelay.bertahap'));
+}
+
+/* Anak langsung sebuah kolom (Beranda): sama, urutan dari posisinya; anak ke-9 dan seterusnya
+   tanpa jeda. */
+.bertahap-anak > * {
+  animation: theme('animation.muncul-bertahap');
+}
+.bertahap-anak > :nth-child(2) {
+  animation-delay: calc(1 * theme('transitionDelay.bertahap'));
+}
+.bertahap-anak > :nth-child(3) {
+  animation-delay: calc(2 * theme('transitionDelay.bertahap'));
+}
+.bertahap-anak > :nth-child(4) {
+  animation-delay: calc(3 * theme('transitionDelay.bertahap'));
+}
+.bertahap-anak > :nth-child(5) {
+  animation-delay: calc(4 * theme('transitionDelay.bertahap'));
+}
+.bertahap-anak > :nth-child(6) {
+  animation-delay: calc(5 * theme('transitionDelay.bertahap'));
+}
+.bertahap-anak > :nth-child(7) {
+  animation-delay: calc(6 * theme('transitionDelay.bertahap'));
+}
+.bertahap-anak > :nth-child(8) {
+  animation-delay: calc(7 * theme('transitionDelay.bertahap'));
+}
+
+/* Lipatan tanya jawab: tinggi lewat grid-template-rows 0fr → 1fr. */
+.lipatan {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition:
+    grid-template-rows theme('transitionDuration.lambat') theme('transitionTimingFunction.keluar'),
+    opacity theme('transitionDuration.lambat') theme('transitionTimingFunction.keluar');
+}
+.lipatan[data-terbuka='true'] {
+  grid-template-rows: 1fr;
+  opacity: 1;
+}
+.lipatan > * {
+  overflow: hidden;
+}
+
+/* Kartu yang bisa diklik naik 2px dengan bayangan sedikit lebih tebal; panah tautan bergeser 3px.
+   Hanya di perangkat berkursor, supaya tidak menempel di layar sentuh. */
+.kartu-interaktif {
+  transition:
+    transform theme('transitionDuration.sedang') theme('transitionTimingFunction.keluar'),
+    box-shadow theme('transitionDuration.sedang') theme('transitionTimingFunction.keluar');
+}
+.panah-geser {
+  transition: transform theme('transitionDuration.cepat') theme('transitionTimingFunction.keluar');
+}
+@media (hover: hover) {
+  .kartu-interaktif:hover {
+    transform: translateY(calc(-1 * theme('spacing[0.5]')));
+    box-shadow: theme('boxShadow.kartu-angkat');
+  }
+  a:hover .panah-geser,
+  button:hover .panah-geser {
+    transform: translateX(theme('spacing[0.75]'));
+  }
+}
+
+/* Semua gerak mati bila pengguna meminta gerak dikurangi. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0ms !important;
+    scroll-behavior: auto !important;
+  }
+  html.js-gulir .muncul-gulir:not(.terlihat) {
+    opacity: 1;
+    transform: none;
+  }
+}

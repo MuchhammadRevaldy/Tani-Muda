@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type ReactNode } from 'react';
+import { useEffect, useId, useRef, useState, type ReactNode } from 'react';
 import { formatHitungMundur } from '../lib/format';
 import { hapusMundurOtp, isiOtp, kodeLengkap, otpKosong } from '../lib/kotak-otp';
 import { teksKomponen } from '../teks/komponen';
@@ -177,26 +177,53 @@ export function DaftarSyarat({ butir }: { butir: ReactNode[] }) {
 
 /* ---------- FaqLipat ---------- */
 
-/** Tanya jawab yang bisa dilipat (landing). Butir pertama terbuka. */
+/**
+ * Tanya jawab yang bisa dibuka dan ditutup (landing, Bantuan); butir pertama terbuka (D-61): tombol dengan aria-expanded, isi bertransisi tinggi
+ * lewat grid-template-rows 0fr → 1fr ditambah opacity (kelas `lipatan`), panah berputar 180°.
+ */
 export function FaqLipat({ butir }: { butir: { tanya: string; jawab: ReactNode }[] }) {
+  const idDasar = useId();
+  const [terbuka, setTerbuka] = useState<Set<number>>(() => new Set([0]));
+  const ganti = (i: number) =>
+    setTerbuka((lama) => {
+      const baru = new Set(lama);
+      if (baru.has(i)) baru.delete(i);
+      else baru.add(i);
+      return baru;
+    });
   return (
     <div className="flex flex-col overflow-hidden rounded-lg border border-garis bg-putih">
-      {butir.map((b, i) => (
-        <details
-          key={i}
-          open={i === 0}
-          className={cx('group px-4', i > 0 && 'border-t border-garis')}
-        >
-          <summary className="fokus-cincin flex min-h-16 cursor-pointer list-none items-center justify-between gap-3 font-semibold [&::-webkit-details-marker]:hidden">
-            <span>{b.tanya}</span>
-            <Ikon
-              nama="panah-kanan"
-              className="rotate-90 text-teks-pendukung transition-transform group-open:-rotate-90"
-            />
-          </summary>
-          <p className="mb-4 mt-0 text-teks-pendukung">{b.jawab}</p>
-        </details>
-      ))}
+      {butir.map((b, i) => {
+        const buka = terbuka.has(i);
+        const idIsi = `${idDasar}-${i}`;
+        return (
+          <div key={i} className={cx('px-4', i > 0 && 'border-t border-garis')}>
+            <h3 className="m-0 text-isi">
+              <button
+                type="button"
+                aria-expanded={buka}
+                aria-controls={idIsi}
+                onClick={() => ganti(i)}
+                className="fokus-cincin flex min-h-16 w-full cursor-pointer items-center justify-between gap-3 border-0 bg-transparent p-0 text-left text-isi font-semibold text-teks"
+              >
+                <span>{b.tanya}</span>
+                <Ikon
+                  nama="panah-kanan"
+                  className={cx(
+                    'rotate-90 text-teks-pendukung transition-transform duration-lambat ease-keluar',
+                    buka && '-rotate-90',
+                  )}
+                />
+              </button>
+            </h3>
+            <div id={idIsi} className="lipatan" data-terbuka={buka} inert={!buka}>
+              <div>
+                <p className="mb-4 mt-0 text-teks-pendukung">{b.jawab}</p>
+              </div>
+            </div>
+          </div>
+        );
+      })}
     </div>
   );
 }

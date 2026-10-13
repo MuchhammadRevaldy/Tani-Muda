@@ -139,6 +139,7 @@ export function KartuPilihan({
     <div
       className={cx(
         'relative min-h-sentuh rounded-lg border',
+        !(segera || nonaktif) && 'kartu-interaktif',
         dipilih
           ? 'border-daun-tua bg-daun-lembut'
           : segera || nonaktif

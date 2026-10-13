@@ -47,7 +47,7 @@ function KartuSiklusRingkas({ s, nama }: { s: SiklusTanam; nama: string }) {
   return (
     <Link
       to={tujuan(s)}
-      className="fokus-cincin flex min-h-baris-tugas items-center gap-3 rounded-lg border border-garis bg-putih p-4 text-teks no-underline hover:border-daun-tua hover:text-teks"
+      className="kartu-interaktif fokus-cincin flex min-h-baris-tugas items-center gap-3 rounded-lg border border-garis bg-putih p-4 text-teks no-underline hover:border-daun-tua hover:text-teks"
     >
       <GambarKomoditas id={s.komoditas_id} segera={s.status !== 'aktif'} />
       <span className="flex min-w-0 flex-1 flex-col gap-0.5">
@@ -67,7 +67,7 @@ function KartuSiklusRingkas({ s, nama }: { s: SiklusTanam; nama: string }) {
               ? t.lihatRingkasan
               : t.bukaJadwal}
         </span>
-        <Ikon nama="panah-kanan" />
+        <Ikon nama="panah-kanan" className="panah-geser" />
       </span>
     </Link>
   );
@@ -85,7 +85,7 @@ function BarisPetak({ s, nama }: { s: SiklusTanam; nama: string }) {
           <span className="font-medium">{nama}</span>
           <span className="text-keterangan text-teks-pendukung">{keterangan}</span>
         </span>
-        <Ikon nama="panah-kanan" className="text-teks-pendukung" />
+        <Ikon nama="panah-kanan" className="panah-geser text-teks-pendukung" />
       </Link>
     </li>
   );

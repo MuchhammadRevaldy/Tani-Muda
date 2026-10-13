@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { kunciIdempotenBaru, useSelesaikanTugas } from '../../api/kueri';
 import type { Tugas } from '../../api/tipe';
 import { Banner } from '../../komponen/banner';
+import { gayaBertahap } from '../../komponen/bertahap';
 import { BarisTugas } from '../../komponen/baris-tugas';
 import { Ikon } from '../../komponen/ikon';
 import { LabelKecil } from '../../komponen/label-kecil';
@@ -35,6 +36,7 @@ export function DaftarTugasHariIni({
   hasilUkur,
   ukurUtama,
   contoh,
+  bertahap = false,
 }: {
   kelompok: KelompokTugas[];
   hariIni: TanggalISO;
@@ -44,6 +46,8 @@ export function DaftarTugasHariIni({
   ukurUtama: boolean;
   /** Ada tugas dari resep contoh → label contoh (D-36). */
   contoh: boolean;
+  /** Baris muncul berurutan (hanya saat Beranda pertama dibuka, D-61). */
+  bertahap?: boolean;
 }) {
   const navigate = useNavigate();
   const selesaikan = useSelesaikanTugas();
@@ -69,7 +73,9 @@ export function DaftarTugasHariIni({
     }
   }
 
+  let urutan = 0;
   function baris(tugas: Tugas, labelPetak?: Record<string, string>) {
+    const gaya = gayaBertahap(bertahap, urutan++);
     const s = statusTugas(tugas, hariIni);
     const selesai = tugas.status === 'selesai' || sedangSelesai.has(tugas.id);
     const keterangan = [
@@ -88,6 +94,8 @@ export function DaftarTugasHariIni({
     return (
       <BarisTugas
         key={tugas.id}
+        className={gaya.className}
+        style={gaya.style}
         judul={tugas.judul}
         tipe={tugas.tipe}
         keterangan={keterangan}

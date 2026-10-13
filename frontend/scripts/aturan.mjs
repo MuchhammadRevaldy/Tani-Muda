@@ -18,6 +18,9 @@ const BAYANGAN_BERNAMA = [
   'ikon',
   'cahaya-limau',
   'cahaya-oranye',
+  'kartu-angkat',
+  'cahaya-limau-terang',
+  'cahaya-oranye-terang',
 ];
 
 /**

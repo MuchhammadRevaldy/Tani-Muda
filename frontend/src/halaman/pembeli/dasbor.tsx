@@ -17,6 +17,7 @@ import {
 } from '../../api/kueri';
 import { useHariIni, useSesi } from '../../api/sesi';
 import type { KebunUntukPembeli, Pengiriman, PesananDenganKebun } from '../../api/tipe';
+import { gayaBertahap, useBertahap } from '../../komponen/bertahap';
 import { Avatar } from '../../komponen/avatar';
 import { ChipStatus } from '../../komponen/chip-status';
 import { Dialog } from '../../komponen/dialog';
@@ -269,6 +270,8 @@ export function HalamanDasborPembeli() {
   const k = useKomoditasPeta();
   const [dibatalkan, setDibatalkan] = useState<string | null>(null);
   const profil = akun?.profil_pembeli ?? null;
+  // Kartu pesanan muncul berurutan hanya saat dasbor pertama dibuka (D-61).
+  const bertahap = useBertahap(!!pesananQ.data && !!konfigurasiQ.data);
   if (akun && !profil) return <Navigate to="/pembeli/daftar" replace />;
   if (pesananQ.isError)
     return <p className="m-0 text-teks-pendukung">{teksGagalMuat(pesananQ.error)}</p>;
@@ -357,15 +360,16 @@ export function HalamanDasborPembeli() {
   );
 
   const isi = daftar.length ? (
-    daftar.map((p) => (
-      <KartuPesanan
-        key={p.id}
-        p={p}
-        komoditas={k.nama(p.komoditas_id)}
-        hariKembali={konfigurasiQ.data.hari_kembali_uang_muka}
-        lebar={lebar}
-        onBatal={setDibatalkan}
-      />
+    daftar.map((p, i) => (
+      <div key={p.id} {...gayaBertahap(bertahap, i)}>
+        <KartuPesanan
+          p={p}
+          komoditas={k.nama(p.komoditas_id)}
+          hariKembali={konfigurasiQ.data.hari_kembali_uang_muka}
+          lebar={lebar}
+          onBatal={setDibatalkan}
+        />
+      </div>
     ))
   ) : (
     <section className="flex flex-col items-start gap-3 rounded-lg border border-garis bg-putih p-6">

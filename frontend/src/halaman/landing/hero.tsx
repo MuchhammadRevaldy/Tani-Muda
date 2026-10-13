@@ -51,7 +51,22 @@ function Contoh({ d }: { d: NonNullable<DataLanding['petani']> }) {
           aria-hidden="true"
           className="absolute inset-5 rounded-full border-2 border-dashed border-oranye-terang bg-tanah-lembut"
         />
-        <IlustrasiKomoditas nama={d.komoditas.id} ukuran={420} className="relative h-full w-full" />
+        {d.komoditas.id === 'sawi' ? (
+          // Daun bergoyang pelan; animasinya di dalam SVG dan mati saat gerak dikurangi (D-61).
+          <img
+            src="/ilustrasi/sawi-bergerak.svg"
+            alt="Ilustrasi sawi hijau"
+            width={420}
+            height={420}
+            className="relative block h-full w-full"
+          />
+        ) : (
+          <IlustrasiKomoditas
+            nama={d.komoditas.id}
+            ukuran={420}
+            className="relative h-full w-full"
+          />
+        )}
       </div>
       <div className="flex flex-col gap-5 lg:col-span-3">
         <p className="m-0 text-teks-pendukung">

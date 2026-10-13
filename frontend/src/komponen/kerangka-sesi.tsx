@@ -1,6 +1,6 @@
 /** Kerangka halaman yang mengisi nama dan keterangan akun dari sesi (T4.01). */
 import type { ReactNode } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useWilayahSatu } from '../api/kueri';
 import { useLencanaPesanan } from '../api/pesanan-dilihat';
 import { useKeluarSesi, useSesi } from '../api/sesi';
@@ -28,6 +28,7 @@ export function KerangkaPetaniSesi({
   const desa = useDesaSaya();
   const { keluar } = useKeluarSesi();
   const navigate = useNavigate();
+  const { pathname } = useLocation();
   const p = akun?.pengguna;
   const baru = useLencanaPesanan(p?.peran === 'petani');
   return (
@@ -36,6 +37,7 @@ export function KerangkaPetaniSesi({
       lencana={baru > 0 ? { pesanan: baru } : undefined}
       tanpaNav={tanpaNav}
       menuAktif={menuAktif}
+      kunciHalaman={pathname}
       onKeluar={() => void keluar().then(() => navigate('/masuk', { replace: true }))}
     >
       {children}
@@ -45,8 +47,12 @@ export function KerangkaPetaniSesi({
 
 export function KerangkaPembeliSesi({ children }: { children: ReactNode }) {
   const { akun } = useSesi();
+  const { pathname } = useLocation();
   return (
-    <KerangkaPembeli namaUsaha={akun?.profil_pembeli?.nama_usaha ?? akun?.pengguna.nama ?? ''}>
+    <KerangkaPembeli
+      namaUsaha={akun?.profil_pembeli?.nama_usaha ?? akun?.pengguna.nama ?? ''}
+      kunciHalaman={pathname}
+    >
       {children}
     </KerangkaPembeli>
   );
