@@ -665,6 +665,14 @@ Ditetapkan 13 Oktober 2026 oleh pemilik produk. Acuan visual: artifact "Tema Bar
 - **Tambahan [AG-17], 13 Oktober** (acuan di `docs/tema-baru/acuan/`): panel kanan Masuk memakai `ilustrasi-masuk.svg` (`object-fit: cover`); foto contoh hasil panen kiriman hari ini diganti `contoh-foto-panen.svg` (4:3) dengan label "Contoh foto" di pojok kiri bawah untuk setiap foto berkas `/contoh/`; pemilih siklus Beranda menjadi deretan kartu bergambar (ilustrasi, nama, lahan atau pembeli, batang progres umur, bersegmen per petak untuk kelompok D-40, chip "n terlambat"), satu baris yang bisa digeser dengan tombol panah di desktop, `radiogroup` dengan panah kiri/kanan. Urutan dan pilihan awal tetap D-37. *Tafsiran:* umur panen di kartu = hari tugas sekali terakhir (tugas panen), cadangan umur komoditas; keterangan kelompok "n petak · m tumbuh".
 - Berdampak ke: `aturan-proyek.md` bagian 2; `ringkasan-desain.md` bagian 1; `tailwind.config.ts`; `scripts/aturan.mjs`; komponen dasar; `naskah-demo.md` (tangkapan layar).
 
+## D-60. Celah backend demo dan pusat notifikasi ([AG-19], menjalankan AG-12)
+Ditetapkan 13 Oktober 2026; tanggapan D-58 disetujui pemilik produk.
+- **Endpoint kontrak yang belum dikerjakan menjawab 501 `BELUM_TERSEDIA`** dengan pesan "Fitur ini belum tersedia di versi demo", bukan 404 yang tampil sebagai "Ada yang tidak beres". Daftarnya satu tempat di `backend/routes/api.php` (`$endpointBelumTersedia`); tes `KontrakRuteTest` memastikan setiap endpoint di `kontrak-api.md` punya rute. Halaman yang gagal dimuat memakai `teksGagalMuat`, dan aksi yang gagal menampilkan pesan dari server.
+- **Endpoint baru di backend:** `PUT /siklus/{id}/pengingat`, `GET /input/{id}/merek`, `POST /siklus/{id}/jurnal`, `POST /siklus/{id}/pengeluaran` (idempoten), `POST /tugas/{id}/tunda` (`Kebun::tundaTugas` meniru `lib/jadwal-ubah.ts`). Masih `BELUM_TERSEDIA` (15): lapor harga, unggah berkas, langganan notifikasi (2), akhiri siklus, sengketa (2), admin petani (4), mentor (4).
+- **Tes kontrak frontend terhadap backend:** sebelum 43 lulus / 19 gagal, sesudah 47 / 15. Sisa yang gagal: endpoint di atas, perbedaan dataset desa lengkap (2), resep contoh dimatikan di backend (2), dan sesi 120 menit (D-58).
+- **`/profil/notifikasi` menjadi pusat notifikasi:** status izin notifikasi browser (diizinkan; diblokir dengan petunjuk menyalakannya; belum ditanya dengan tombol meminta izin; tidak didukung), lalu kartu Pengingat dari Profil (jam pagi dan status pengingat sore per siklus atau kelompok petak, menuju `/kebun/:id/pengingat`). Fungsi `Sementara` dan teks `segeraDibangun` dihapus; tes memastikan tidak ada rute yang menampilkan "Halaman ini sedang dibangun".
+- Berdampak ke: `kontrak-api.md` 1.4; T4.14, T4.36, T5.x (endpoint kebun dan referensi).
+
 ---
 
 ## Riwayat
@@ -674,6 +682,7 @@ Ditetapkan 13 Oktober 2026 oleh pemilik produk. Acuan visual: artifact "Tema Bar
 | 2026-10-05 | D-12 sampai D-18 ditetapkan. Butir turunan di D-03, D-06, dan D-11 dikonfirmasi dan dirujuk ke keputusan baru. Jalur tangkapan layar di D-07 diganti mengikuti D-18 |
 | 2026-10-05 | D-19 dan D-20 ditetapkan: backend Laravel + MariaDB tanpa Docker, tampilan dikerjakan lebih dulu. Butir OTP di D-10 dan butir penegakan di D-13 dan D-14 disesuaikan |
 | 2026-10-05 | D-21 sampai D-25 ditetapkan: cookie Sanctum (token untuk React Native), 404 untuk data orang lain, konfirmasi otomatis setiap 15 menit, siap deploy VPS, PHP 8.3+ terpisah |
+| 2026-10-13 | D-60 ([AG-19]): 501 BELUM_TERSEDIA untuk endpoint yang belum ada, lima endpoint kebun dan referensi di backend, pusat notifikasi; tes kontrak terhadap backend 43/19 → 47/15 |
 | 2026-10-13 | D-59 ditetapkan ([AG-15]): tema baru sebelum lomba di cabang `tema-baru` dengan tag `demo-aman`; palet limau/oranye/biru tua, bayangan sebagai token, Outfit, ilustrasi komoditas 3D; utang desain tombol putih di atas limau |
 | 2026-10-12 | D-58 ditulis ([AG-11]): `npm run demo:backend`, diagnosis di uji naskah, daftar akun dan verifikasi pembeli di mode backend, naskah baru dengan bukti basis data; tafsiran urutan pencarian desa |
 | 2026-10-12 | D-57 ditetapkan: D-55 disetujui sebagai arah tetapi dikerjakan setelah lomba 18 Oktober, D-56 disetujui (urutan `tersedia_pilot` dulu), pembayaran gagal tanpa kunci idempoten, target naskah demo dengan backend lokal, titik putus Kamis 15 Oktober |
