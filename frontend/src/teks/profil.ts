@@ -51,6 +51,9 @@ export const teksProfil = {
   pengingat: 'Pengingat',
   pengingatKet: 'Jam dan jenis pengingat diatur per siklus.',
   pagiPukul: (jam: string) => `Pagi pukul ${jam.replace(':', '.')}`,
+  /** "Pagi pukul 06.00 · sore menyala" (pusat notifikasi dan Profil, [AG-19]). */
+  jadwalPengingat: (jam: string, sore: boolean) =>
+    `Pagi pukul ${jam.replace(':', '.')} · sore ${sore ? 'menyala' : 'mati'}`,
   tanpaSiklusAktif: 'Pengingat muncul setelah kamu punya siklus aktif.',
 
   bantuan: 'Bantuan',

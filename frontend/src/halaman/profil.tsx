@@ -268,7 +268,7 @@ function BarisPengingat({ id, nama, akhir }: { id: string; nama: string; akhir: 
   return (
     <Baris
       label={nama}
-      nilai={q.data ? t.pagiPukul(q.data.jam_pagi) : null}
+      nilai={q.data ? t.jadwalPengingat(q.data.jam_pagi, q.data.pengingat_sore) : null}
       bertumpuk
       ke={`/kebun/${encodeURIComponent(id)}/pengingat`}
       akhir={akhir}
@@ -276,7 +276,8 @@ function BarisPengingat({ id, nama, akhir }: { id: string; nama: string; akhir: 
   );
 }
 
-function KartuPengingat() {
+/** Daftar siklus atau kelompok petak aktif dengan jadwal pengingatnya (Profil dan /profil/notifikasi). */
+export function KartuPengingat() {
   const aktifQ = useDaftarSiklus({ status: 'aktif' });
   const nama = useNamaSiklus();
   const unit = kelompokkanSiklus((aktifQ.data ?? []).map(keKelompok));

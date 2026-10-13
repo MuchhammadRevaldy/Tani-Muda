@@ -1,7 +1,6 @@
 import { lazy, Suspense, useEffect, type ReactNode } from 'react';
 import { createBrowserRouter, Outlet, type RouteObject } from 'react-router-dom';
 import type { MenuPetani } from './komponen/navigasi';
-import { HeaderHalaman } from './komponen/navigasi';
 import { KerangkaPembeliSesi, KerangkaPetaniSesi } from './komponen/kerangka-sesi';
 import { PenjagaRute, PenjagaTamu, PenjagaTanpaPeran } from './komponen/penjaga-rute';
 import { Galat } from './halaman/galat';
@@ -49,6 +48,9 @@ const HalamanMasuk = lazy(() =>
 );
 const HalamanProfil = lazy(() =>
   import('./halaman/profil').then((m) => ({ default: m.HalamanProfil })),
+);
+const HalamanNotifikasi = lazy(() =>
+  import('./halaman/notifikasi').then((m) => ({ default: m.HalamanNotifikasi })),
 );
 const HalamanStatis = lazy(() =>
   import('./halaman/statis/halaman-statis').then((m) => ({ default: m.HalamanStatis })),
@@ -170,19 +172,9 @@ function JudulDokumen({ kunci }: { kunci: KunciRute }) {
   return null;
 }
 
-/** Isi sementara untuk halaman yang belum dibangun (Tahap 4). */
-function Sementara({ kunci }: { kunci: KunciRute }) {
-  return (
-    <>
-      <JudulDokumen kunci={kunci} />
-      <HeaderHalaman judul={judulRute[kunci]} keterangan={teksUmum.segeraDibangun} />
-    </>
-  );
-}
-
 const halamanPetani = (
   kunci: KunciRute,
-  isi: ReactNode = <Sementara kunci={kunci} />,
+  isi: ReactNode,
   opsi: { tanpaNav?: boolean; menuAktif?: MenuPetani } = {},
 ): ReactNode => (
   <PenjagaRute peran={['petani']}>
@@ -192,13 +184,10 @@ const halamanPetani = (
     </KerangkaPetaniSesi>
   </PenjagaRute>
 );
-const petani = (kunci: KunciRute, opsi: { tanpaNav?: boolean } = {}): ReactNode =>
-  halamanPetani(kunci, <Sementara kunci={kunci} />, opsi);
-
 const hitung = (kunci: KunciRute, isi: ReactNode): ReactNode =>
   halamanPetani(kunci, isi, { tanpaNav: true, menuAktif: 'kebun' });
 
-const pembeli = (kunci: KunciRute, isi: ReactNode = <Sementara kunci={kunci} />): ReactNode => (
+const pembeli = (kunci: KunciRute, isi: ReactNode): ReactNode => (
   <PenjagaRute peran={['pembeli']}>
     <KerangkaPembeliSesi>
       <JudulDokumen kunci={kunci} />
@@ -345,7 +334,7 @@ export const daftarRute: RouteObject[] = [
       },
       { path: '/profil', element: halamanPetani('profil', <HalamanProfil />) },
       { path: '/profil/ubah', element: halamanPetani('ubahProfil', <HalamanUbahProfil />) },
-      { path: '/profil/notifikasi', element: petani('pengingat') },
+      { path: '/profil/notifikasi', element: halamanPetani('notifikasi', <HalamanNotifikasi />) },
       { path: '/lahan', element: halamanPetani('lahan', <HalamanLahanSaya />) },
       { path: '/pembeli', element: pembeli('dasborPembeli', <HalamanDasborPembeli />) },
       { path: '/pembeli/daftar', element: pembeli('daftarPembeli', <HalamanDaftarPembeli />) },

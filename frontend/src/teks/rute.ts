@@ -20,6 +20,7 @@ export const judulRute = {
   modal: 'Modal',
   jurnal: 'Jurnal',
   pengingat: 'Pengingat per siklus',
+  notifikasi: 'Notifikasi',
   ubahTanggalTanam: 'Tanggal tanam',
   akhirSiklus: 'Akhiri siklus',
   detailTugas: 'Detail tugas',

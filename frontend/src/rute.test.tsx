@@ -1,8 +1,9 @@
-import { render, screen } from '@testing-library/react';
+import { cleanup, render, screen } from '@testing-library/react';
 import { createMemoryRouter, RouterProvider } from 'react-router-dom';
 import { describe, expect, it } from 'vitest';
 import { buatQueryClient, PenyediaKlienApi } from './api/penyedia-klien';
 import { buatKlienTiruan } from './api/tiruan/klien-tiruan';
+import type { RouteObject } from 'react-router-dom';
 import { daftarRute } from './rute';
 
 /** [alamat, judul h1, pengguna uji yang masuk (null = belum masuk)] */
@@ -22,6 +23,7 @@ const jalur = [
   ['/lahan', 'Lahan saya', 'petani-arif'],
   ['/profil', 'Profil', 'petani-arif'],
   ['/profil/ubah', 'Ubah profil', 'petani-arif'],
+  ['/profil/notifikasi', 'Notifikasi', 'petani-arif'],
   ['/pembeli', 'Pesanan aktif', 'pembeli-ratna'],
   ['/pembeli/riwayat', 'Riwayat', 'pembeli-ratna'],
   ['/admin', 'Verifikasi pembeli', 'admin-tani'],
@@ -62,4 +64,30 @@ describe('rute', () => {
       await screen.findByRole('heading', { level: 1, name: 'Sistem desain: kebun di pagi hari' }),
     ).toBeInTheDocument();
   });
+  it('tidak ada rute yang menampilkan "Halaman ini sedang dibangun" ([AG-19])', async () => {
+    const semua: string[] = [];
+    const kumpul = (rute: RouteObject[]) => {
+      for (const r of rute) {
+        if (r.path && r.path !== '*') semua.push(r.path);
+        if (r.children) kumpul(r.children);
+      }
+    };
+    kumpul(daftarRute);
+    expect(semua.length).toBeGreaterThan(40);
+    const peran = (p: string) =>
+      p.startsWith('/pembeli')
+        ? 'pembeli-ratna'
+        : p.startsWith('/admin')
+          ? 'admin-tani'
+          : p.startsWith('/mentor')
+            ? 'mentor-rahmat'
+            : 'petani-arif';
+    for (const p of semua) {
+      const url = p.replace(/:id/g, 'siklus-arif-sawi');
+      await buka(url.startsWith('/') ? url : `/${url}`, peran(url));
+      await screen.findAllByRole('heading', { level: 1 }, { timeout: 3000 }).catch(() => []);
+      expect(screen.queryByText(/sedang dibangun/i), url).toBeNull();
+      cleanup();
+    }
+  }, 60_000);
 });
