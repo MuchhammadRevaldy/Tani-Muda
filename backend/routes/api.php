@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\V1\AkunController;
 use App\Http\Controllers\Api\V1\AuthController;
 use App\Http\Controllers\Api\V1\BelajarController;
 use App\Http\Controllers\Api\V1\BelumTersediaController;
+use App\Http\Controllers\Api\V1\BerkasController;
 use App\Http\Controllers\Api\V1\DemoController;
 use App\Http\Controllers\Api\V1\KebunController;
 use App\Http\Controllers\Api\V1\KesehatanController;
@@ -23,7 +24,6 @@ use Illuminate\Support\Facades\Route;
 $endpointBelumTersedia = [
     ['POST', '/laporan-harga'],
     ['POST', '/siklus/{id}/akhiri'],
-    ['POST', '/berkas'],
     ['POST', '/notifikasi/langganan'],
     ['DELETE', '/notifikasi/langganan'],
     ['GET', '/admin/sengketa'],
@@ -49,7 +49,11 @@ Route::middleware('throttle:30,1')->group(function () {
 });
 
 // ---------------------------------------------------------------- wajib masuk
+// Unduh berkas privat: hanya lewat URL bertanda tangan 10 menit (bagian 13, [AG-22]).
+Route::get('/berkas/{id}/unduh', [BerkasController::class, 'unduh'])->middleware('signed:relative')->name('berkas.unduh');
+
 Route::middleware('auth:sanctum')->group(function () use ($endpointBelumTersedia) {
+    Route::post('/berkas', [BerkasController::class, 'unggah']);
     Route::post('/auth/keluar', [AuthController::class, 'keluar']);
     Route::get('/akun', [AkunController::class, 'ambil']);
     Route::put('/akun/peran', [AkunController::class, 'pilihPeran']);

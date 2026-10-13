@@ -90,15 +90,17 @@ function TahapUang({
             {i > 0 ? (
               <span
                 aria-hidden="true"
+                // Dari tepi lingkaran sebelumnya ke tepi lingkaran ini (lingkaran 40px, jarak kolom
+                // 4px), di bawah lingkaran, supaya tidak tampak menembusnya ([AG-22]).
                 className={cx(
-                  'absolute right-1/2 top-5 h-0.5 w-full',
+                  'absolute left-[calc(-50%+theme(spacing.4))] right-[calc(50%+theme(spacing.5))] top-5 z-0 h-0.5',
                   lewat || aktif ? 'bg-daun-tua' : 'bg-garis',
                 )}
               />
             ) : null}
             <span
               className={cx(
-                'relative grid h-10 w-10 place-items-center rounded-full border-2',
+                'relative z-10 grid h-10 w-10 place-items-center rounded-full border-2',
                 aktif
                   ? i === 2
                     ? 'border-daun-tua bg-daun-tua text-putih'

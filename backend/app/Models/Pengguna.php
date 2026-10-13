@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Casts\FotoBerkas;
 use App\Enums\Peran;
 use App\Enums\StatusAkun;
 use App\Models\Concerns\IdString;
@@ -57,6 +58,7 @@ class Pengguna extends Authenticatable
     protected function casts(): array
     {
         return [
+            'foto_profil' => FotoBerkas::class,
             'peran' => Peran::class,
             'status_akun' => StatusAkun::class,
             'terdaftar_kelompok_tani' => 'boolean',

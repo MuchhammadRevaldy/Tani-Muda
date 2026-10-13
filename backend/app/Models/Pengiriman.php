@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Casts\FotoBerkas;
 use App\Enums\AlasanPenolakan;
 use App\Enums\StatusPengiriman;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -41,6 +42,9 @@ class Pengiriman extends Model
     protected function casts(): array
     {
         return [
+            'foto_kualitas' => FotoBerkas::class,
+            'foto_timbangan' => FotoBerkas::class,
+            'foto_penolakan' => FotoBerkas::class,
             'ke' => 'integer',
             'tanggal_jadwal' => 'date:Y-m-d',
             'jumlah_kg' => 'float',

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Casts\FotoBerkas;
 use App\Enums\JenisUsaha;
 use App\Enums\StatusVerifikasi;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -30,6 +31,7 @@ class ProfilPembeli extends Model
     protected function casts(): array
     {
         return [
+            'foto_tempat_usaha' => FotoBerkas::class,
             'jenis_usaha' => JenisUsaha::class,
             'status_verifikasi' => StatusVerifikasi::class,
         ];

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Casts\FotoBerkas;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
 
@@ -25,6 +26,7 @@ class Pengeluaran extends Model
     protected function casts(): array
     {
         return [
+            'foto_nota' => FotoBerkas::class,
             'nominal' => 'integer',
             'tanggal' => 'date:Y-m-d',
         ];

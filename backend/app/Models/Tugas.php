@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Casts\FotoBerkas;
 use App\Enums\StatusTugas;
 use App\Enums\TipeTugas;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -35,6 +36,7 @@ class Tugas extends Model
     protected function casts(): array
     {
         return [
+            'foto' => FotoBerkas::class,
             'tipe' => TipeTugas::class,
             'tanggal' => 'date:Y-m-d',
             'hst' => 'integer',

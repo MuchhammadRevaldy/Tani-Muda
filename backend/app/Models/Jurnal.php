@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Casts\FotoBerkas;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
 
@@ -26,6 +27,7 @@ class Jurnal extends Model
     protected function casts(): array
     {
         return [
+            'foto' => FotoBerkas::class,
             'tanggal' => 'date:Y-m-d',
             'hari_ke' => 'integer',
         ];
