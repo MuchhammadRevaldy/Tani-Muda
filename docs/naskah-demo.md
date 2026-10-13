@@ -15,7 +15,7 @@ Layar: laptop 1440 px (tampilan desktop), zoom 100%. Dua jendela atau tab: aplik
 | **Backend (utama)** | `npm run demo:backend` | `http://localhost:4174` | Aplikasi tersambung ke Laravel + MariaDB di laptop; juri bisa melihat datanya bertambah di phpMyAdmin. |
 | Tiruan (cadangan) | `npm run demo` | `http://localhost:5173` | Data contoh di peramban, tanpa basis data. Langkah phpMyAdmin dilewati. |
 
-**Versi lomba:** tag `demo-animasi` (tema baru D-59 dengan animasi D-61, berkas privat, profil pembeli D-62; [AG-22], [AG-23]). Jalan mundur: tag `demo-tema-baru` (tanpa animasi), lalu `demo-aman` (tema lama): `git switch --detach <tag>`, lalu `npm run demo:backend`. Kode dibekukan Kamis 15 Oktober malam; setelah itu hanya perbaikan yang menghentikan demo.
+**Versi lomba:** tag `demo-logo` (logo baru D-63 di atas `demo-animasi`; [AG-24]; uji 3/3 dingin dengan `demo:backend`). Jalan mundur berurutan: `demo-animasi` (logo lama), `demo-tema-baru` (tanpa animasi), `demo-aman` (tema lama): `git switch --detach <tag>`, lalu `npm run demo:backend`. Kode dibekukan Kamis 15 Oktober malam; setelah itu hanya perbaikan yang menghentikan demo.
 
 **Bila animasi membuat demo tersendat:** matikan sakelarnya lalu jalankan ulang, tanpa mengubah kode: `$env:VITE_ANIMASI='mati'; npm run demo:backend` (sakelar tetapnya di `frontend/scripts/pengaturan-demo.mjs`, D-62).
 
