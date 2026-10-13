@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-label="Panen pertama">
+  <title>Panen pertama</title>
+  <defs>
+    <linearGradient id="panen-pertama-tepi" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFE08A"/><stop offset="1" stop-color="#A87414"/></linearGradient>
+    <linearGradient id="panen-pertama-muka" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFD25E"/><stop offset="1" stop-color="#E3A62A"/></linearGradient>
+    <radialGradient id="panen-pertama-bayang" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#2E3547" stop-opacity=".28"/><stop offset="1" stop-color="#2E3547" stop-opacity="0"/></radialGradient>
+    <linearGradient id="panen-pertama-kilau" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".55"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+  </defs>
+  <ellipse cx="60" cy="113" rx="34" ry="5" fill="url(#panen-pertama-bayang)"/>
+  <circle cx="60" cy="58" r="50" fill="url(#panen-pertama-tepi)"/>
+  <circle cx="60" cy="58" r="40" fill="url(#panen-pertama-muka)"/>
+  <ellipse cx="60" cy="36" rx="30" ry="14" fill="url(#panen-pertama-kilau)"/>
+  <g transform="translate(31.2 29.2) scale(2.4)" fill="none" stroke="#2E3547" stroke-opacity=".22" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" transform-origin="0 0"><g transform="translate(.4 .6)"><path d="M4 10h16l-1.5 9h-13z"/><path d="M8 10l2-5M16 10l-2-5"/><path d="M9 14v2M12 14v2M15 14v2"/></g></g>
+  <g transform="translate(31.2 29.2) scale(2.4)" fill="none" stroke="#FFFFFF" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10h16l-1.5 9h-13z"/><path d="M8 10l2-5M16 10l-2-5"/><path d="M9 14v2M12 14v2M15 14v2"/></g>
+</svg>
