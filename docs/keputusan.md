@@ -699,11 +699,26 @@ Ditetapkan 14 Oktober 2026 oleh pemilik produk (AG-24 menyebutnya D-62; nomor it
 - **Favicon dan ikon PWA** dibuat `scripts/buat-ikon.mjs` dari SVG itu: `favicon.svg`, `favicon.ico` (16/32/48), `ikon/ikon-192.png`, `ikon/ikon-512.png` dari `logo-ikon.svg`; `ikon/ikon-maskable-512.png` dari `logo-ikon-maskable.svg`. *Tafsiran:* `apple-touch-icon.png` (180) juga dari versi maskable berlatar penuh, karena iOS mengisi sudut transparan `logo-ikon.svg` dengan hitam dan membulatkan sudut sendiri. `theme-color` di `index.html` diganti dari hijau lama ke token limau (#86C232), dengan tes.
 - Berdampak ke: `navigasi.tsx`, `komponen.tsx`, `index.html`, `scripts/buat-ikon.mjs`, `public/`, `design/logo/`.
 
+## D-64. PRD tambahan 12 fitur sebelum lomba ([AG-28])
+Ditetapkan 14 Oktober 2026 oleh pemilik produk (disahkan lewat `docs/prd-fitur-tambahan.md` v1.1).
+- **12 Fitur Tambahan (F-00 sampai F-11):** Dikerjakan sebelum lomba 18 Oktober 2026 dalam Tahap 7 di `rencana-kerja.md` (gelombang Rabu F-00 s/d F-03, Kamis F-04 s/d F-06, Jumat F-07 s/d F-09, Sabtu pagi F-10 dan F-11).
+- **Pembekuan kode baru:** Dipindah ke **Sabtu, 17 Oktober 2026 pukul 12.00** (menggantikan batas Kamis malam di D-57). Setelah itu hanya perbaikan darurat yang menghentikan demo.
+- **Setiap fitur bersakelar mandiri:** Sakelar `VITE_FITUR_<NAMA>` (frontend) dan `FITUR_<NAMA>` (backend `config/fitur.php`, `.env.example`, `scripts/pengaturan-demo.mjs`). Saat mati, menu/tombol tidak tampil dan endpoint menjawab 501 `BELUM_TERSEDIA`.
+- **Tag harian dan gerbang:** Tag `demo-rabu`, `demo-kamis`, `demo-jumat`, `demo-sabtu`/`demo-lomba`. Gerbang: lint, typecheck, test (cakupan `src/lib` ≥ 90%), build, build:demo, Pest, Pint, Larastan hijau, serta `uji:naskah --ulang 3` dengan `demo:backend` lolos dengan semua sakelar menyala DAN semua sakelar mati. Fitur yang belum stabil dimatikan sakelarnya, jangan menahan tag.
+- **Fitur Tahap 7 hanya di backend:** Mengikuti pengecualian D-20 (tampilan antarmuka hanya tersambung saat backend aktif; di mode tiruan bawaan sakelar mati, kecuali data contoh statis).
+- **Kebijakan data & keamanan:** Policy dan tes akses silang (404/403) wajib untuk semua tabel baru berisi data pribadi atau transaksi. Kunci rahasia API (`OPENAI_API_KEY`, pencarian berita, dll.) hanya di `backend/.env`, tidak pernah di kode, respons API, commit, atau log. Fallback ke driver `tiruan` bila offline atau tanpa kunci.
+- **Peta petani (F-08):** Wajib persetujuan eksplisit petani, lokasi dibulatkan ~1 km (menyesuaikan D-06, UU PDP No. 27/2022), dan hanya dapat dilihat oleh pembeli terverifikasi.
+- **Harga dari berita (F-10):** Menggunakan API pencarian resmi, menyertakan sumber, tanggal, dan tautan; berlabel "harga pasar"; dan TIDAK mengisi harga otomatis di formulir pesanan/jual.
+- **Deteksi penyakit (F-04) & Chatbot (F-05):** Berlabel dugaan, tanpa resep/dosis pestisida keras, dan selalu menyediakan tombol rujukan ke penyuluh pertanian.
+- **Di luar cakupan:** Monstera dan tanaman hias lainnya (tidak cocok dengan model per kg dan siklus panen pangan).
+- Berdampak ke: `docs/prd-fitur-tambahan.md`, `docs/rencana-kerja.md`, `docs/aturan-proyek.md`, `README.md`, `backend/`, `frontend/`.
+
 ---
 
 ## Riwayat
 | Tanggal | Perubahan |
 | --- | --- |
+| 2026-10-14 | D-64 ([AG-28]): PRD tambahan 12 fitur v1.1 disahkan; pembekuan kode Sabtu 17 Okt 12.00; sakelar per fitur; tag harian; privasi peta & batas AI |
 | 2026-10-04 | D-01 sampai D-11 ditetapkan |
 | 2026-10-05 | D-12 sampai D-18 ditetapkan. Butir turunan di D-03, D-06, dan D-11 dikonfirmasi dan dirujuk ke keputusan baru. Jalur tangkapan layar di D-07 diganti mengikuti D-18 |
 | 2026-10-05 | D-19 dan D-20 ditetapkan: backend Laravel + MariaDB tanpa Docker, tampilan dikerjakan lebih dulu. Butir OTP di D-10 dan butir penegakan di D-13 dan D-14 disesuaikan |

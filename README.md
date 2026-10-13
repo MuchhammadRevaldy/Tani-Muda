@@ -160,7 +160,8 @@ tani-muda/
     ├── rencana-kerja.md    tahap, tugas, dan progres
     ├── ringkasan-desain.md token, komponen, dan daftar halaman
     ├── cek-komponen.md     hasil perbandingan komponen dengan desain
-    ├── prd-tani-muda.md    kebutuhan produk (PRD)
+    ├── prd-tani-muda.md    kebutuhan produk inti (PRD v1)
+    ├── prd-fitur-tambahan.md PRD tambahan 12 fitur sebelum lomba (v1.1)
     └── tangkapan/          tangkapan layar aplikasi dan desain
 ```
 
@@ -172,10 +173,11 @@ Baca berurutan sebelum mengerjakan tugas:
 
 1. [`docs/keputusan.md`](docs/keputusan.md): keputusan produk; **mengalahkan PRD dan desain**.
 2. [`docs/aturan-proyek.md`](docs/aturan-proyek.md): aturan wajib di setiap tugas.
-3. [`docs/rencana-kerja.md`](docs/rencana-kerja.md): daftar tugas dan progres.
-4. [`docs/ringkasan-desain.md`](docs/ringkasan-desain.md): token, komponen, dan halaman.
-5. [`docs/kontrak-api.md`](docs/kontrak-api.md): bentuk data dan endpoint API.
-6. [`docs/arsitektur-backend.md`](docs/arsitektur-backend.md): rancangan backend Laravel.
+3. [`docs/prd-fitur-tambahan.md`](docs/prd-fitur-tambahan.md): spesifikasi 12 fitur tambahan sebelum lomba (D-64).
+4. [`docs/rencana-kerja.md`](docs/rencana-kerja.md): daftar tugas dan progres.
+5. [`docs/ringkasan-desain.md`](docs/ringkasan-desain.md): token, komponen, dan halaman.
+6. [`docs/kontrak-api.md`](docs/kontrak-api.md): bentuk data dan endpoint API.
+7. [`docs/arsitektur-backend.md`](docs/arsitektur-backend.md): rancangan backend Laravel.
 
 ## Keamanan
 

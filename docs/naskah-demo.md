@@ -15,7 +15,9 @@ Layar: laptop 1440 px (tampilan desktop), zoom 100%. Dua jendela atau tab: aplik
 | **Backend (utama)** | `npm run demo:backend` | `http://localhost:4174` | Aplikasi tersambung ke Laravel + MariaDB di laptop; juri bisa melihat datanya bertambah di phpMyAdmin. |
 | Tiruan (cadangan) | `npm run demo` | `http://localhost:5173` | Data contoh di peramban, tanpa basis data. Langkah phpMyAdmin dilewati. |
 
-**Versi lomba:** tag `demo-logo` (logo baru D-63 di atas `demo-animasi`; [AG-24]; uji 3/3 dingin dengan `demo:backend`). Jalan mundur berurutan: `demo-animasi` (logo lama), `demo-tema-baru` (tanpa animasi), `demo-aman` (tema lama): `git switch --detach <tag>`, lalu `npm run demo:backend`. Kode dibekukan Kamis 15 Oktober malam; setelah itu hanya perbaikan yang menghentikan demo.
+**Versi lomba:** tag `demo-logo` (logo baru D-63 di atas `demo-animasi`; [AG-24]; uji 3/3 dingin dengan `demo:backend`). Jalan mundur berurutan: `demo-animasi` (logo lama), `demo-tema-baru` (tanpa animasi), `demo-aman` (tema lama): `git switch --detach <tag>`, lalu `npm run demo:backend`. Dengan disahkannya PRD tambahan 12 fitur (D-64), **kode dibekukan Sabtu, 17 Oktober 2026 pukul 12.00**; setelah itu hanya perbaikan darurat yang menghentikan demo.
+
+**Rencana Segmen Fitur Pintar (~1,5 menit):** Setelah gelombang fitur Tahap 7 stabil, alur 7 menit akan menyelipkan 1 segmen singkat "Fitur pintar" (pilihan 2–3 fitur terkuat: saran memperbanyak untung F-01, level/lencana F-03, deteksi penyakit foto F-04, atau cuaca F-06) tanpa mengubah inti 5 pilar demo. Fitur lainnya cukup disebut lewat slide.
 
 **Bila animasi membuat demo tersendat:** matikan sakelarnya lalu jalankan ulang, tanpa mengubah kode: `$env:VITE_ANIMASI='mati'; npm run demo:backend` (sakelar tetapnya di `frontend/scripts/pengaturan-demo.mjs`, D-62).
 

@@ -2,7 +2,7 @@
 
 Daftar tugas berurutan, dikelompokkan per tahap. Dibaca bersama `aturan-proyek.md` (aturan wajib), `ringkasan-desain.md` (token, komponen, halaman), `arsitektur-backend.md` (rancangan Laravel), `kontrak-api.md` (bentuk data dan endpoint, dibuat di Tahap 3), dan PRD di `docs/`.
 
-Urutan tahap (D-20): **1** fondasi → **2** logika inti → **3** kontrak API dan data tiruan → **4** semua halaman dengan data tiruan → **5** backend Laravel → **6** penyambungan, offline, notifikasi, uji menyeluruh. Fokus saat ini tampilan; backend dikerjakan setelah semua halaman selesai.
+Urutan tahap (D-20, D-64): **1** fondasi → **2** logika inti → **3** kontrak API dan data tiruan → **4** semua halaman dengan data tiruan → **5** backend Laravel → **6** penyambungan, offline, notifikasi, uji menyeluruh → **7** 12 fitur tambahan sebelum lomba (D-64). Fokus saat ini menyelesaikan gelombang harian Tahap 7.
 
 ## Cara membaca
 
@@ -1452,6 +1452,104 @@ Tujuan tahap: frontend memakai backend Laravel lewat klien API HTTP tanpa mengub
 - **Selesai bila:** build demo bisa dibuka dari hosting statis tanpa backend; label "Mode demo" terlihat di semua halaman 390px dan 1440px; data demo bisa diatur ulang; build biasa lolos `cek-build.mjs`.
 - **Prasyarat:** T4.40.
 - **Catatan (9 Okt 2026, D-48):** Dikerjakan lebih awal sebagai cadangan demo **lokal** (tanpa deploy Vercel/Netlify): `npm run build:demo` → `dist-demo/`, `npm run preview:demo` → `http://localhost:4173`. Fallback rute SPA dari `vite preview`. Diuji dengan naskah demo di peramban kosong pada dua jam berbeda.
+
+---
+
+# Tahap 7. Fitur Tambahan Sebelum Lomba (D-64)
+
+Tujuan tahap: Mengerjakan 12 fitur tambahan (F-00 s/d F-11) sesuai PRD Tambahan v1.1 sebelum batas pembekuan Sabtu, 17 Oktober 2026 pukul 12.00. Setiap fitur dilengkapi sakelar mandiri (`VITE_FITUR_*` dan `FITUR_*`) dan driver tiruan agar demo lomba tetap stabil meski tanpa internet atau bila salah satu fitur dimatikan.
+
+Dikelompokkan per gelombang harian:
+- **Rabu 14 Okt (F-00 s/d F-03):** Fondasi AI, optimasi untung & pH, tanaman baru, level & lencana (`demo-rabu`).
+- **Kamis 15 Okt (F-04 s/d F-06):** Deteksi penyakit foto, chatbot RAG, cuaca Open-Meteo (`demo-kamis`).
+- **Jumat 16 Okt (F-07 s/d F-09):** Marketplace stok & COD, peta petani, chat petani-pembeli (`demo-jumat`).
+- **Sabtu 17 Okt pagi (F-10 s/d F-11):** Harga berita, saran harian tugas beres (`demo-lomba`).
+
+---
+
+### [ ] T7.00 Fondasi AI (`PenyediaAI`)
+- **Tujuan:** Gerbang tunggal AI backend mendukung OpenAI (`openai`) dengan custom Base URL (`AI_BASE_URL` bawaan Dattio AI `https://bandelbanget.xyz/v1`), model teks (`AI_MODEL_TEKS` bawaan `glm-5.2`), vision, embedding, JSON terstruktur, dan driver `tiruan` (offline fallback). Dilengkapi tabel `log_ai`, batas harian 30 panggilan, batas waktu 30s, dan persetujuan privasi AI `pengguna.setuju_ai_pada`.
+- **Berkas:** `backend/app/Domain/AI/PenyediaAI.php`, `backend/app/Infrastructure/AI/DriverOpenAI.php`, `backend/app/Infrastructure/AI/DriverTiruan.php`, `backend/config/ai.php`, migrasi `log_ai` dan `pengguna.setuju_ai_pada`, seeder data contoh AI di `shared/data-contoh/ai/`, tes Pest.
+- **PRD:** PRD Tambahan F-00, D-64.
+- **Selesai bila:** Tes Pest untuk driver openai & tiruan lulus, batas harian ditegakkan, kuota/galat penyedia menghasilkan 503 rapi tanpa bocor kunci API.
+- **Prasyarat:** Tahap 5 selesai.
+
+### [ ] T7.01 Saran untung lahan sempit, item opsional, panduan cek pH
+- **Tujuan:** Tambah kolom `resep_input.opsional` (boolean) & `keterangan_opsional`. Di kalkulator, tampilkan paling banyak 3 saran matematis saat untung tipis / rugi tanpa AI. Tambah panduan pengerjaan cek pH memakai kertas universal di tugas pengukuran pH.
+- **Berkas:** `backend/database/migrations/*_tambah_opsional_resep_input.php`, `frontend/src/lib/saran-untung.ts` + `.test.ts`, pembaruan kalkulator modal, data contoh resep, dan petunjuk tugas pH.
+- **PRD:** PRD Tambahan F-01, D-64.
+- **Selesai bila:** Skenario naskah langkah 4 (sawi 20 m²) memunculkan saran untung yang valid; switch opsional berfungsi; tes unit kalkulator 100% lulus.
+- **Prasyarat:** T7.00.
+
+### [ ] T7.02 Tanaman baru: Cabai rawit, tomat, selada
+- **Tujuan:** Tambah komoditas baru `selada` dan resep contoh untuk cabai rawit, tomat, dan selada (metode bedengan, polybag, dan hidroponik) berstatus contoh (`contoh: true`, `asal_angka_contoh: 'dikarang'`).
+- **Berkas:** `shared/data-contoh/`, seeder `ResepSeeder.php`, modul belajar placeholder, tes konsistensi data contoh.
+- **PRD:** PRD Tambahan F-02, D-64.
+- **Selesai bila:** Ketiga tanaman muncul di Hitung langkah 1 dan kalkulator modal serta jadwalnya berjalan konsisten.
+- **Prasyarat:** T7.01.
+
+### [ ] T7.03 Level petani dan 15 lencana pencapaian (SVG 3D)
+- **Tujuan:** Sistem level 5 tingkat (Benih s/d Panen Raya) dari akumulasi poin riil server dan 10 lencana pencapaian. Aset 15 SVG 3D disalin ke `frontend/public/lencana/`. Endpoint `GET /akun/level`. Tampilan profil, sidebar, dan dasbor pembeli.
+- **Berkas:** `frontend/src/lib/level.ts` + `.test.ts`, `backend/app/Domain/Hitung/Level.php`, migrasi `lencana_pengguna`, seeder lencana, komponen profil, aset `frontend/public/lencana/*.svg`.
+- **PRD:** PRD Tambahan F-03, D-64.
+- **Selesai bila:** Poin bertambah dari aksi riil; status level dan lencana aktif/terkunci (grayscale) tampil di profil dan kartu akun; tes Pest & Vitest lulus. Tag `demo-rabu` siap dibuat.
+- **Prasyarat:** T7.00, T7.02.
+
+### [ ] T7.04 Deteksi penyakit dari foto (AI dugaan berpagar)
+- **Tujuan:** Analisis foto tanaman `POST /deteksi` via vision model AI berpagar (tanpa rekomendasi dosis/merek pestisida keras) dengan output dugaan penyakit/hama, gejala, langkah aman, dan tombol rujukan ke penyuluh.
+- **Berkas:** Migrasi `deteksi_tanaman`, `backend/app/Http/Controllers/DeteksiController.php`, filter pengaman backend, integrasi UI kamera/jurnal di frontend.
+- **PRD:** PRD Tambahan F-04, D-64.
+- **Selesai bila:** Deteksi foto mengembalikan JSON dugaan berpagar; pencegahan teks dosis/merek teruji otomatis; fallback rapi saat offline.
+- **Prasyarat:** T7.00.
+
+### [ ] T7.05 Chatbot "Tanya Tani Muda" (RAG)
+- **Tujuan:** Chatbot mengambang konsultasi pertanian bagi petani dengan sumber pengetahuan terbatas (resep, modul, paper akses terbuka). Embedding via `PenyediaAI::embedding` dan cosine similarity di PHP.
+- **Berkas:** Migrasi `pengetahuan_sumber`, `pengetahuan_potongan`, `obrolan_bot`, perintah `php artisan pengetahuan:muat`, controller `ChatbotController.php`, komponen UI floating chat.
+- **PRD:** PRD Tambahan F-05, D-64.
+- **Selesai bila:** Bot menjawab dengan rujukan sumber yang sesuai; pertanyaan di luar basis pengetahuan merujuk ke penyuluh; batas harian ditegakkan.
+- **Prasyarat:** T7.00.
+
+### [ ] T7.06 Cuaca Open-Meteo & kecocokan suhu tanaman
+- **Tujuan:** Kartu cuaca di Beranda berdasarkan titik tengah desa petani via Open-Meteo API (cache 1 jam). Indikator kecocokan suhu tanaman untuk tiap siklus aktif dan saran penyesuaian suhu di resep.
+- **Berkas:** `backend/app/Services/CuacaService.php`, `frontend/src/lib/suhu.ts` + `.test.ts`, migrasi kolom suhu di `resep_tanam`, komponen KartuCuaca di Beranda.
+- **PRD:** PRD Tambahan F-06, D-64.
+- **Selesai bila:** Data cuaca tampil dengan status kecocokan teks + ikon; fallback 503 rapi bila gagal; tag `demo-kamis` siap dibuat.
+- **Prasyarat:** T7.00.
+
+### [ ] T7.07 Marketplace stok siap jual & opsi COD
+- **Tujuan:** Model jual kedua untuk panen yang sudah siap. Menu "Stok saya" untuk petani dan "Stok siap jual" untuk pembeli dengan pilihan bayar COD atau aplikasi.
+- **Berkas:** Migrasi tabel `stok` dan `pesanan_stok`, relasi `pembayaran` dan `rating`, controller stok, UI daftar dan transaksi stok, tes transaksi `RESTRICT`.
+- **PRD:** PRD Tambahan F-07, D-64.
+- **Selesai bila:** Alur jual beli stok berhasil dari status menunggu hingga selesai; stok berkurang atomik; COD tidak memicu tabel pembayaran; tes akses silang hijau.
+- **Prasyarat:** T7.03.
+
+### [ ] T7.08 Peta sebaran petani sekitar pembeli (privasi ~1 km)
+- **Tujuan:** Peta Leaflet/OSM untuk pembeli menampilkan sebaran petani dalam radius 10–15 km. Petani wajib memberi izin ("Tampilkan saya di peta pembeli") dan koordinat dibulatkan ~1 km (2 desimal).
+- **Berkas:** Kolom lokasi di `pengguna`, endpoint `GET /peta/petani`, halaman PetaPetani dengan Leaflet di frontend, tes privasi dan pembulatan lokasi.
+- **PRD:** PRD Tambahan F-08, D-64.
+- **Selesai bila:** Peta menampilkan lingkaran radius dan marker petani yang punya stok; koordinat presisi tidak pernah terekspos; hanya terlihat oleh pembeli terverifikasi.
+- **Prasyarat:** T7.07.
+
+### [ ] T7.09 Chat langsung petani dan pembeli
+- **Tujuan:** Fitur pesan teks antara petani dan pembeli terkait transaksi atau dari titik peta. Polling periodik (5s saat aktif, 60s background).
+- **Berkas:** Migrasi tabel `percakapan` dan `pesan`, controller chat, UI obrolan, tes akses silang (hanya pemilik percakapan yang bisa membaca).
+- **PRD:** PRD Tambahan F-09, D-64.
+- **Selesai bila:** Pesan terkirim dan diterima secara polling; batas karakter 1.000 ditegakkan; tag `demo-jumat` siap dibuat.
+- **Prasyarat:** T7.07, T7.08.
+
+### [ ] T7.10 Pemantauan harga pasar dari berita
+- **Tujuan:** Informasi harga acuan di kalkulator dan form pesanan yang diekstrak AI dari pencarian berita resmi (Google Search / News API). Berlabel "harga pasar", ada sumber & tanggal, dan tidak otomatis mengisi input harga.
+- **Berkas:** Migrasi tabel `harga_berita`, perintah scheduler `harga:pantau`, controller `HargaBeritaController.php`, komponen kartu harga berita.
+- **PRD:** PRD Tambahan F-10, D-64.
+- **Selesai bila:** Berita terekstrak rapi ke tabel; UI menampilkan harga pasar dengan tautan sumber valid; tidak mengisi formulir otomatis.
+- **Prasyarat:** T7.00.
+
+### [ ] T7.11 Saran harian setelah tugas beres
+- **Tujuan:** Kartu ringkasan harian di Beranda saat semua tugas hari ini selesai: rekap tugas, foto, poin yang didapat, tugas besok, dan 1–2 saran resep untuk fase tanam aktif.
+- **Berkas:** `frontend/src/lib/ringkasan-harian.ts` + `.test.ts`, integrasi kartu Beranda.
+- **PRD:** PRD Tambahan F-11, D-64.
+- **Selesai bila:** Kartu otomatis muncul begitu tugas hari ini beres; tombol cek foto aktif jika ada unggahan foto; tag `demo-lomba` siap dibuat dan kode dibekukan Sabtu 12.00.
+- **Prasyarat:** T7.03, T7.10.
 
 ---
 

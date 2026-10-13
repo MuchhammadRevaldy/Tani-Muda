@@ -4,7 +4,7 @@
 
 Aturan ini **wajib diikuti di setiap tugas**, oleh manusia maupun asisten AI. Sebelum menandai tugas di `rencana-kerja.md` selesai, cek daftar di bagian 12.
 
-Acuan: `docs/keputusan.md` (keputusan produk, tertinggi), `docs/prd-tani-muda.md` (kebutuhan), `docs/ringkasan-desain.md` (token, komponen, halaman), `docs/kontrak-api.md` (bentuk data dan endpoint, sejak Tahap 3), `docs/arsitektur-backend.md` (rancangan Laravel), `design/` (sumber desain, jangan diubah).
+Acuan: `docs/keputusan.md` (keputusan produk, tertinggi), `docs/prd-tani-muda.md` (kebutuhan inti), `docs/prd-fitur-tambahan.md` (PRD tambahan v1.1 12 fitur sebelum lomba), `docs/ringkasan-desain.md` (token, komponen, halaman), `docs/kontrak-api.md` (bentuk data dan endpoint, sejak Tahap 3), `docs/arsitektur-backend.md` (rancangan Laravel), `design/` (sumber desain, jangan diubah).
 
 ---
 
