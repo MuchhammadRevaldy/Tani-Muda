@@ -15,6 +15,8 @@ Layar: laptop 1440 px (tampilan desktop), zoom 100%. Dua jendela atau tab: aplik
 | **Backend (utama)** | `npm run demo:backend` | `http://localhost:4174` | Aplikasi tersambung ke Laravel + MariaDB di laptop; juri bisa melihat datanya bertambah di phpMyAdmin. |
 | Tiruan (cadangan) | `npm run demo` | `http://localhost:5173` | Data contoh di peramban, tanpa basis data. Langkah phpMyAdmin dilewati. |
 
+**Versi lomba:** tag `demo-tema-baru` (tema baru D-59, [AG-21]). Cadangan bila ada masalah dengan tema baru: tag `demo-aman` (`git switch --detach demo-aman`, lalu `npm run demo:backend`). Kode dibekukan Kamis 15 Oktober malam; setelah itu hanya perbaikan yang menghentikan demo.
+
 **Aturan hari-H:** mode demo diputuskan **setelah latihan pagi** dan **tidak berpindah di tengah demo**. Bila latihan pagi dengan backend lancar, pakai backend. Bila ada yang macet dan tidak selesai dalam 10 menit, pakai tiruan, dan basis data ditunjukkan terpisah setelah demo bila juri meminta.
 
 ## Alur
@@ -144,6 +146,8 @@ Memori saat demo dengan backend (tanpa Chrome): MariaDB sekitar 229 MB, Apache 6
 | 10. Penutup | 0,1 | 0,1 | 0,1 |
 
 **Tema baru (cabang `tema-baru`, D-59, [AG-15], [AG-17], [AG-19]), 13 Oktober 2026: 5 putaran berturut-turut lolos** dengan `npm run demo:backend` (`--ulang 5 --dingin`). Terlama per langkah: atur ulang 2,4; halaman depan 1,0; daftar petani 5,2; Beranda 2,9; rencana 1,9; jadwal 4,3; pesanan 3,0; pindah ke pembeli 2,4; uang muka 1,5; konfirmasi 1,0; penutup 0,1 detik. Tangkapan layar setiap langkah (desktop dan HP dengan keadaan yang sama, `--layar --layar-hp`) dan halaman Masuk, Beranda, Kiriman saya, Notifikasi ada di `docs/tema-baru/tangkapan/`.
+
+**Versi lomba `demo-tema-baru` ([AG-21]), 13 Oktober 2026: 5 putaran berturut-turut lolos** dengan `npm run demo:backend` (`--ulang 5 --dingin`); terlama 4,8 detik (daftar petani) dan 4,5 detik (jadwal).
 
 Cara mengulang uji setelah restart:
 
