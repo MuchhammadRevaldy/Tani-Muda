@@ -15,7 +15,7 @@ Layar: laptop 1440 px (tampilan desktop), zoom 100%. Dua jendela atau tab: aplik
 | **Backend (utama)** | `npm run demo:backend` | `http://localhost:4174` | Aplikasi tersambung ke Laravel + MariaDB di laptop; juri bisa melihat datanya bertambah di phpMyAdmin. |
 | Tiruan (cadangan) | `npm run demo` | `http://localhost:5173` | Data contoh di peramban, tanpa basis data. Langkah phpMyAdmin dilewati. |
 
-**Versi lomba:** tag `demo-tema-baru` (tema baru D-59, [AG-21]). Cadangan bila ada masalah dengan tema baru: tag `demo-aman` (`git switch --detach demo-aman`, lalu `npm run demo:backend`). Kode dibekukan Kamis 15 Oktober malam; setelah itu hanya perbaikan yang menghentikan demo.
+**Versi lomba:** tag `demo-animasi` (tema baru D-59 dengan animasi D-61, berkas privat, profil pembeli D-62; [AG-22], [AG-23]). Jalan mundur: tag `demo-tema-baru` (tanpa animasi), lalu `demo-aman` (tema lama): `git switch --detach <tag>`, lalu `npm run demo:backend`. Kode dibekukan Kamis 15 Oktober malam; setelah itu hanya perbaikan yang menghentikan demo.
 
 **Bila animasi membuat demo tersendat:** matikan sakelarnya lalu jalankan ulang, tanpa mengubah kode: `$env:VITE_ANIMASI='mati'; npm run demo:backend` (sakelar tetapnya di `frontend/scripts/pengaturan-demo.mjs`, D-62).
 
@@ -150,6 +150,24 @@ Memori saat demo dengan backend (tanpa Chrome): MariaDB sekitar 229 MB, Apache 6
 **Tema baru (cabang `tema-baru`, D-59, [AG-15], [AG-17], [AG-19]), 13 Oktober 2026: 5 putaran berturut-turut lolos** dengan `npm run demo:backend` (`--ulang 5 --dingin`). Terlama per langkah: atur ulang 2,4; halaman depan 1,0; daftar petani 5,2; Beranda 2,9; rencana 1,9; jadwal 4,3; pesanan 3,0; pindah ke pembeli 2,4; uang muka 1,5; konfirmasi 1,0; penutup 0,1 detik. Tangkapan layar setiap langkah (desktop dan HP dengan keadaan yang sama, `--layar --layar-hp`) dan halaman Masuk, Beranda, Kiriman saya, Notifikasi ada di `docs/tema-baru/tangkapan/`.
 
 **Versi lomba `demo-tema-baru` ([AG-21]), 13 Oktober 2026: 5 putaran berturut-turut lolos** dengan `npm run demo:backend` (`--ulang 5 --dingin`); terlama 4,8 detik (daftar petani) dan 4,5 detik (jadwal).
+
+**Versi `demo-animasi` ([AG-22], [AG-23]), 14 Oktober 2026: 5 putaran dingin berturut-turut lolos dengan animasi menyala**, juga 5/5 dengan `--tanpa-animasi`, dan semua skenario (`--skenario semua`, termasuk `akun-pembeli`) lolos. Waktu terlama per langkah (dtk), dibanding AG-21:
+
+| Langkah | AG-21 | Animasi menyala | Tanpa animasi |
+| --- | --- | --- | --- |
+| 0. Atur ulang | 1,9 | 2,7 | 1,9 |
+| 1. Halaman depan | 0,9 | 1,2 | 0,9 |
+| 2. Daftar petani | 4,8 | 7,2 | 6,4 |
+| 3. Beranda | 2,4 | 3,5 | 2,9 |
+| 4. Rencana dan modal | 1,5 | 3,2 | 3,1 |
+| 5. Jadwal dan pengukuran | 4,5 | 7,5 | 5,4 |
+| 6. Mengambil pesanan | 2,4 | 5,0 | 4,3 |
+| 7. Pindah ke pembeli | 1,8 | 2,6 | 2,3 |
+| 8. Uang muka | 0,8 | 2,5 | 2,1 |
+| 9. Konfirmasi kiriman | 0,9 | 2,4 | 1,9 |
+| 10. Penutup | 0,2 | 0,6 | 0,5 |
+
+Kolom "tanpa animasi" ikut naik dibanding AG-21, jadi sebagian kenaikan datang dari beban mesin saat uji (server pratinjau tambahan menyala). Selisih karena animasi sendiri terutama waktu skrip menunggu animasi masuk halaman dan kartu bertahap selesai sebelum mengklik (paling besar di langkah jadwal, sekitar 2 detik). Bila saat latihan terasa tersendat, matikan sakelar animasi (lihat aturan di atas).
 
 Cara mengulang uji setelah restart:
 
