@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-label="Pengukur teliti">
+  <title>Pengukur teliti</title>
+  <defs>
+    <linearGradient id="pengukur-teliti-tepi" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFB27E"/><stop offset="1" stop-color="#C4521C"/></linearGradient>
+    <linearGradient id="pengukur-teliti-muka" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFA36B"/><stop offset="1" stop-color="#EE6F2C"/></linearGradient>
+    <radialGradient id="pengukur-teliti-bayang" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#2E3547" stop-opacity=".28"/><stop offset="1" stop-color="#2E3547" stop-opacity="0"/></radialGradient>
+    <linearGradient id="pengukur-teliti-kilau" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".55"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+  </defs>
+  <ellipse cx="60" cy="113" rx="34" ry="5" fill="url(#pengukur-teliti-bayang)"/>
+  <circle cx="60" cy="58" r="50" fill="url(#pengukur-teliti-tepi)"/>
+  <circle cx="60" cy="58" r="40" fill="url(#pengukur-teliti-muka)"/>
+  <ellipse cx="60" cy="36" rx="30" ry="14" fill="url(#pengukur-teliti-kilau)"/>
+  <g transform="translate(31.2 29.2) scale(2.4)" fill="none" stroke="#2E3547" stroke-opacity=".22" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" transform-origin="0 0"><g transform="translate(.4 .6)"><path d="M10 14V5a2 2 0 0 1 4 0v9a4 4 0 1 1-4 0z"/><path d="M12 10v6"/></g></g>
+  <g transform="translate(31.2 29.2) scale(2.4)" fill="none" stroke="#FFFFFF" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M10 14V5a2 2 0 0 1 4 0v9a4 4 0 1 1-4 0z"/><path d="M12 10v6"/></g>
+</svg>
