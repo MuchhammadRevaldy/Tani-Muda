@@ -63,6 +63,7 @@ class Pengguna extends Authenticatable
             'status_akun' => StatusAkun::class,
             'terdaftar_kelompok_tani' => 'boolean',
             'setuju_privasi_pada' => 'datetime',
+            'setuju_ai_pada' => 'datetime',
         ];
     }
 

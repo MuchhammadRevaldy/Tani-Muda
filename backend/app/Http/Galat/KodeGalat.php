@@ -33,6 +33,9 @@ final class KodeGalat
         'GALAT_SERVER' => 500,
         'SUMBER_BELUM_TERSEDIA' => 503,
         'BELUM_TERSEDIA' => 501,
+        'AI_TIDAK_TERSEDIA' => 503,
+        'BATAS_AI_TERCAPAI' => 429,
+        'PERSETUJUAN_AI_WAJIB' => 403,
     ];
 
     public const TEKS = [
@@ -61,6 +64,9 @@ final class KodeGalat
         'PEMBAYARAN_GAGAL' => 'Pembayaran belum berhasil. Uang Anda tidak terpotong; coba bayar lagi',
         'SUMBER_BELUM_TERSEDIA' => 'Sambungan ke server belum tersedia',
         'BELUM_TERSEDIA' => 'Fitur ini belum tersedia di versi demo',
+        'AI_TIDAK_TERSEDIA' => 'Fitur pintar sedang tidak bisa dipakai. Coba lagi nanti',
+        'BATAS_AI_TERCAPAI' => 'Batas pemakaian fitur pintar harianmu sudah tercapai. Coba lagi besok',
+        'PERSETUJUAN_AI_WAJIB' => 'Centang persetujuan pemakaian fitur pintar dulu',
         'GALAT_SERVER' => 'Ada yang tidak beres di server. Coba lagi sebentar lagi',
     ];
 

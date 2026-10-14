@@ -1,0 +1,25 @@
+{
+  "teks": "Halo petani muda! Contoh jawaban, mode tanpa internet. Pastikan kebutuhan air dan nutrisi tanamanmu tercukupi dengan baik sesuai jadwal perawatan di Tani Muda.",
+  "gambar": {
+    "dugaan": [
+      {
+        "nama": "Bercak Daun Alternaria (Dugaan awal)",
+        "keyakinan": "sedang",
+        "alasan": "Tampak bercak konsentris kecokelatan pada daun bagian bawah."
+      }
+    ],
+    "gejala_terlihat": ["Bercak cokelat melingkar", "Ujung daun agak menguning"],
+    "langkah_aman": [
+      "Petik dan buang daun yang terinfeksi jauh dari area tanam.",
+      "Kurangi penyiraman dari atas daun; siram langsung ke pangkal tanah atau media.",
+      "Jaga jarak tanam agar sirkulasi udara lancar."
+    ],
+    "perlu_penyuluh": true,
+    "catatan": "Contoh jawaban, mode tanpa internet. Konsultasikan ke penyuluh sebelum mengambil tindakan lanjutan."
+  },
+  "embedding": [0.0123, -0.0456, 0.0789, 0.0321, -0.0654, 0.0987, -0.0112, 0.0443],
+  "jsonTerstruktur": {
+    "status": "sukses",
+    "keterangan": "Contoh jawaban terstruktur, mode tanpa internet."
+  }
+}
