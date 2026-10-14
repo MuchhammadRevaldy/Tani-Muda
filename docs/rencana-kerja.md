@@ -1467,28 +1467,28 @@ Dikelompokkan per gelombang harian:
 
 ---
 
-### [ ] T7.00 Fondasi AI (`PenyediaAI`)
+### [x] T7.00 Fondasi AI (`PenyediaAI`)
 - **Tujuan:** Gerbang tunggal AI backend mendukung OpenAI (`openai`) dengan custom Base URL (`AI_BASE_URL` bawaan Dattio AI `https://bandelbanget.xyz/v1`), model teks (`AI_MODEL_TEKS` bawaan `glm-5.2`), vision, embedding, JSON terstruktur, dan driver `tiruan` (offline fallback). Dilengkapi tabel `log_ai`, batas harian 30 panggilan, batas waktu 30s, dan persetujuan privasi AI `pengguna.setuju_ai_pada`.
 - **Berkas:** `backend/app/Domain/AI/PenyediaAI.php`, `backend/app/Infrastructure/AI/DriverOpenAI.php`, `backend/app/Infrastructure/AI/DriverTiruan.php`, `backend/config/ai.php`, migrasi `log_ai` dan `pengguna.setuju_ai_pada`, seeder data contoh AI di `shared/data-contoh/ai/`, tes Pest.
 - **PRD:** PRD Tambahan F-00, D-64.
 - **Selesai bila:** Tes Pest untuk driver openai & tiruan lulus, batas harian ditegakkan, kuota/galat penyedia menghasilkan 503 rapi tanpa bocor kunci API.
 - **Prasyarat:** Tahap 5 selesai.
 
-### [ ] T7.01 Saran untung lahan sempit, item opsional, panduan cek pH
+### [x] T7.01 Saran untung lahan sempit, item opsional, panduan cek pH
 - **Tujuan:** Tambah kolom `resep_input.opsional` (boolean) & `keterangan_opsional`. Di kalkulator, tampilkan paling banyak 3 saran matematis saat untung tipis / rugi tanpa AI. Tambah panduan pengerjaan cek pH memakai kertas universal di tugas pengukuran pH.
 - **Berkas:** `backend/database/migrations/*_tambah_opsional_resep_input.php`, `frontend/src/lib/saran-untung.ts` + `.test.ts`, pembaruan kalkulator modal, data contoh resep, dan petunjuk tugas pH.
 - **PRD:** PRD Tambahan F-01, D-64.
 - **Selesai bila:** Skenario naskah langkah 4 (sawi 20 m²) memunculkan saran untung yang valid; switch opsional berfungsi; tes unit kalkulator 100% lulus.
 - **Prasyarat:** T7.00.
 
-### [ ] T7.02 Tanaman baru: Cabai rawit, tomat, selada
+### [x] T7.02 Tanaman baru: Cabai rawit, tomat, selada
 - **Tujuan:** Tambah komoditas baru `selada` dan resep contoh untuk cabai rawit, tomat, dan selada (metode bedengan, polybag, dan hidroponik) berstatus contoh (`contoh: true`, `asal_angka_contoh: 'dikarang'`).
 - **Berkas:** `shared/data-contoh/`, seeder `ResepSeeder.php`, modul belajar placeholder, tes konsistensi data contoh.
 - **PRD:** PRD Tambahan F-02, D-64.
 - **Selesai bila:** Ketiga tanaman muncul di Hitung langkah 1 dan kalkulator modal serta jadwalnya berjalan konsisten.
 - **Prasyarat:** T7.01.
 
-### [ ] T7.03 Level petani dan 15 lencana pencapaian (SVG 3D)
+### [x] T7.03 Level petani dan 15 lencana pencapaian (SVG 3D)
 - **Tujuan:** Sistem level 5 tingkat (Benih s/d Panen Raya) dari akumulasi poin riil server dan 10 lencana pencapaian. Aset 15 SVG 3D disalin ke `frontend/public/lencana/`. Endpoint `GET /akun/level`. Tampilan profil, sidebar, dan dasbor pembeli.
 - **Berkas:** `frontend/src/lib/level.ts` + `.test.ts`, `backend/app/Domain/Hitung/Level.php`, migrasi `lencana_pengguna`, seeder lencana, komponen profil, aset `frontend/public/lencana/*.svg`.
 - **PRD:** PRD Tambahan F-03, D-64.
