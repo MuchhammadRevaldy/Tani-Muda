@@ -28,7 +28,7 @@ final class Level
     ];
 
     /**
-     * @param array<string, int> $peristiwa
+     * @param  array<string, int>  $peristiwa
      */
     public static function hitungPoin(array $peristiwa): int
     {
@@ -41,7 +41,7 @@ final class Level
     }
 
     /**
-     * @param list<array{level: string, poin_minimal: int, ikon: string}> $ambang
+     * @param  list<array{level: string, poin_minimal: int, ikon: string}>  $ambang
      * @return array{
      *   poin: int,
      *   level: string,
@@ -88,7 +88,7 @@ final class Level
     }
 
     /**
-     * @param array<string, mixed> $statistik
+     * @param  array<string, mixed>  $statistik
      * @return array{
      *   diraih: list<string>,
      *   terkunci: list<array{kode: string, nama: string, syarat: string, kemajuan: string}>
@@ -103,7 +103,7 @@ final class Level
                 'syarat' => 'Siklus pertama aktif',
                 'peran' => ['petani'],
                 'cek' => fn ($s) => ($s['siklus_aktif'] ?? 0) >= 1 || ($s['siklus_selesai'] ?? 0) >= 1,
-                'kemajuan' => fn ($s) => min(1, ($s['siklus_aktif'] ?? 0) + ($s['siklus_selesai'] ?? 0)) . '/1 siklus',
+                'kemajuan' => fn ($s) => min(1, ($s['siklus_aktif'] ?? 0) + ($s['siklus_selesai'] ?? 0)).'/1 siklus',
             ],
             [
                 'kode' => 'tepat-waktu-7-hari',
@@ -111,7 +111,7 @@ final class Level
                 'syarat' => '7 hari berturut-turut semua tugas selesai tepat waktu',
                 'peran' => ['petani'],
                 'cek' => fn ($s) => ($s['hari_berturut_tepat_waktu'] ?? 0) >= 7,
-                'kemajuan' => fn ($s) => min(7, (int) ($s['hari_berturut_tepat_waktu'] ?? 0)) . '/7 hari',
+                'kemajuan' => fn ($s) => min(7, (int) ($s['hari_berturut_tepat_waktu'] ?? 0)).'/7 hari',
             ],
             [
                 'kode' => 'kebun-terdokumentasi',
@@ -119,7 +119,7 @@ final class Level
                 'syarat' => '20 foto bukti tugas',
                 'peran' => ['petani'],
                 'cek' => fn ($s) => ($s['jumlah_foto'] ?? 0) >= 20,
-                'kemajuan' => fn ($s) => min(20, (int) ($s['jumlah_foto'] ?? 0)) . '/20 foto',
+                'kemajuan' => fn ($s) => min(20, (int) ($s['jumlah_foto'] ?? 0)).'/20 foto',
             ],
             [
                 'kode' => 'pengukur-teliti',
@@ -127,7 +127,7 @@ final class Level
                 'syarat' => '10 pengukuran pH/PPM diisi',
                 'peran' => ['petani'],
                 'cek' => fn ($s) => ($s['jumlah_pengukuran'] ?? 0) >= 10,
-                'kemajuan' => fn ($s) => min(10, (int) ($s['jumlah_pengukuran'] ?? 0)) . '/10 pengukuran',
+                'kemajuan' => fn ($s) => min(10, (int) ($s['jumlah_pengukuran'] ?? 0)).'/10 pengukuran',
             ],
             [
                 'kode' => 'pelajar-rajin',
@@ -143,7 +143,7 @@ final class Level
                 'syarat' => 'Siklus pertama selesai dipanen',
                 'peran' => ['petani'],
                 'cek' => fn ($s) => ($s['siklus_selesai'] ?? 0) >= 1,
-                'kemajuan' => fn ($s) => min(1, (int) ($s['siklus_selesai'] ?? 0)) . '/1 panen',
+                'kemajuan' => fn ($s) => min(1, (int) ($s['siklus_selesai'] ?? 0)).'/1 panen',
             ],
             [
                 'kode' => 'dipercaya-pembeli',
@@ -151,7 +151,7 @@ final class Level
                 'syarat' => '5 kiriman diterima tanpa penolakan',
                 'peran' => ['petani'],
                 'cek' => fn ($s) => ($s['kiriman_diterima_penuh'] ?? 0) >= 5,
-                'kemajuan' => fn ($s) => min(5, (int) ($s['kiriman_diterima_penuh'] ?? 0)) . '/5 kiriman',
+                'kemajuan' => fn ($s) => min(5, (int) ($s['kiriman_diterima_penuh'] ?? 0)).'/5 kiriman',
             ],
             [
                 'kode' => 'bintang-lima',
@@ -159,7 +159,7 @@ final class Level
                 'syarat' => 'Rata-rata rating ≥ 4,8 dari ≥ 5 ulasan',
                 'peran' => ['petani', 'pembeli'],
                 'cek' => fn ($s) => ($s['jumlah_ulasan'] ?? 0) >= 5 && ($s['rata_rata_rating'] ?? 0) >= 4.8,
-                'kemajuan' => fn ($s) => number_format((float) ($s['rata_rata_rating'] ?? 0), 1) . '/5.0 (' . ($s['jumlah_ulasan'] ?? 0) . ' ulasan)',
+                'kemajuan' => fn ($s) => number_format((float) ($s['rata_rata_rating'] ?? 0), 1).'/5.0 ('.($s['jumlah_ulasan'] ?? 0).' ulasan)',
             ],
             [
                 'kode' => 'pesanan-pertama',
@@ -167,7 +167,7 @@ final class Level
                 'syarat' => 'Pesanan pertama berhasil dibayar',
                 'peran' => ['pembeli'],
                 'cek' => fn ($s) => ($s['pesanan_dibayar'] ?? 0) >= 1,
-                'kemajuan' => fn ($s) => min(1, (int) ($s['pesanan_dibayar'] ?? 0)) . '/1 pesanan',
+                'kemajuan' => fn ($s) => min(1, (int) ($s['pesanan_dibayar'] ?? 0)).'/1 pesanan',
             ],
             [
                 'kode' => 'pembeli-setia',
@@ -175,7 +175,7 @@ final class Level
                 'syarat' => '3 pesanan selesai diterima',
                 'peran' => ['pembeli'],
                 'cek' => fn ($s) => ($s['pesanan_selesai'] ?? 0) >= 3,
-                'kemajuan' => fn ($s) => min(3, (int) ($s['pesanan_selesai'] ?? 0)) . '/3 pesanan',
+                'kemajuan' => fn ($s) => min(3, (int) ($s['pesanan_selesai'] ?? 0)).'/3 pesanan',
             ],
         ];
 

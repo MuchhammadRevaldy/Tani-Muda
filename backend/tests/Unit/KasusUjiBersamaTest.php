@@ -12,6 +12,7 @@
 use App\Domain\Hitung\Jarak;
 use App\Domain\Hitung\KapasitasLahan;
 use App\Domain\Hitung\Kiriman;
+use App\Domain\Hitung\Level;
 use App\Domain\Hitung\PesananLahan;
 use App\Domain\Hitung\Uang;
 
@@ -37,9 +38,10 @@ function adaptorHitung(): array
         'batasAlokasi' => fn ($m) => PesananLahan::batasAlokasi($m['jumlahPesananKg'], $m['sudahDiambilKg'], $m['ambilKg']),
         'jarakKm' => fn ($m) => Jarak::jarakKm($m['a'], $m['b']),
         'dalamRadius' => fn ($m) => Jarak::dalamRadius($m['titik'], $m['pusat'], $m['radiusKm']),
-        'hitungPoin' => fn ($m) => \App\Domain\Hitung\Level::hitungPoin($m['peristiwa']),
+        'hitungPoin' => fn ($m) => Level::hitungPoin($m['peristiwa']),
         'levelDariPoin' => function ($m) {
-            $h = \App\Domain\Hitung\Level::levelDariPoin($m['poin']);
+            $h = Level::levelDariPoin($m['poin']);
+
             return ['level' => $h['level'], 'levelBerikutnya' => $h['level_berikutnya'], 'poinKeBerikutnya' => $h['poin_ke_berikutnya']];
         },
     ];

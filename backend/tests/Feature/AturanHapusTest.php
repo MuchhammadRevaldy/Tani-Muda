@@ -20,6 +20,7 @@ const BOLEH_CASCADE = [
     'resep_tugas.resep_id', 'progres_modul.pengguna_id', 'progres_modul.modul_id', 'permintaan_resep.pengguna_id',
     'rencana_item.siklus_id', 'tugas.siklus_id', 'hasil_pengukuran.tugas_id', 'hasil_pengukuran.siklus_id',
     'jurnal.siklus_id', 'pengaturan_pengingat.siklus_id', 'log_notifikasi.pengguna_id', 'kunci_idempoten.pengguna_id',
+    'lencana_pengguna.pengguna_id',
 ];
 
 /** @return list<object{tabel: string, kolom: string, induk: string, aturan: string}> */

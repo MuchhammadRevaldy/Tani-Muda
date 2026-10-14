@@ -25,11 +25,11 @@ class LayananAI
         }
 
         $driver = config('ai.driver', 'tiruan');
-        if ($driver === 'openai' && !empty(config('ai.api_key'))) {
-            return new DriverOpenAI();
+        if ($driver === 'openai' && ! empty(config('ai.api_key'))) {
+            return new DriverOpenAI;
         }
 
-        return new DriverTiruan();
+        return new DriverTiruan;
     }
 
     public function periksaPersetujuan(?string $penggunaId): void
@@ -91,8 +91,8 @@ class LayananAI
     }
 
     /**
-     * @param array<int, array{role: string, content: string|array<mixed>}> $pesan
-     * @param array<string, mixed> $opsi
+     * @param  array<int, array{role: string, content: string|array<mixed>}>  $pesan
+     * @param  array<string, mixed>  $opsi
      */
     public function teks(string $fitur, ?string $penggunaId, array $pesan, array $opsi = []): JawabanAI
     {
@@ -104,22 +104,25 @@ class LayananAI
         try {
             $jawaban = $penyedia->teks($pesan, $opsi);
             $this->catatLog($penggunaId, $fitur, $jawaban->model, $jawaban->tokenMasuk, $jawaban->tokenKeluar, true);
+
             return $jawaban;
         } catch (GalatApi $e) {
             $this->catatLog($penggunaId, $fitur, 'unknown', 0, 0, false, $e->kode);
-            if (!($penyedia instanceof DriverTiruan)) {
-                $tiruan = new DriverTiruan();
+            if (! ($penyedia instanceof DriverTiruan)) {
+                $tiruan = new DriverTiruan;
                 $jawaban = $tiruan->teks($pesan, $opsi);
                 $this->catatLog($penggunaId, $fitur, 'tiruan-fallback', $jawaban->tokenMasuk, $jawaban->tokenKeluar, true);
+
                 return $jawaban;
             }
             throw $e;
         } catch (Throwable) {
             $this->catatLog($penggunaId, $fitur, 'unknown', 0, 0, false, 'AI_TIDAK_TERSEDIA');
-            if (!($penyedia instanceof DriverTiruan)) {
-                $tiruan = new DriverTiruan();
+            if (! ($penyedia instanceof DriverTiruan)) {
+                $tiruan = new DriverTiruan;
                 $jawaban = $tiruan->teks($pesan, $opsi);
                 $this->catatLog($penggunaId, $fitur, 'tiruan-fallback', $jawaban->tokenMasuk, $jawaban->tokenKeluar, true);
+
                 return $jawaban;
             }
             throw new GalatApi('AI_TIDAK_TERSEDIA');
@@ -127,8 +130,8 @@ class LayananAI
     }
 
     /**
-     * @param array<int, array{role: string, content: string}> $pesan
-     * @param array<string, mixed> $opsi
+     * @param  array<int, array{role: string, content: string}>  $pesan
+     * @param  array<string, mixed>  $opsi
      */
     public function gambar(string $fitur, ?string $penggunaId, string $jalurBerkas, array $pesan, array $opsi = []): JawabanAI
     {
@@ -140,22 +143,25 @@ class LayananAI
         try {
             $jawaban = $penyedia->gambar($jalurBerkas, $pesan, $opsi);
             $this->catatLog($penggunaId, $fitur, $jawaban->model, $jawaban->tokenMasuk, $jawaban->tokenKeluar, true);
+
             return $jawaban;
         } catch (GalatApi $e) {
             $this->catatLog($penggunaId, $fitur, 'unknown', 0, 0, false, $e->kode);
-            if (!($penyedia instanceof DriverTiruan)) {
-                $tiruan = new DriverTiruan();
+            if (! ($penyedia instanceof DriverTiruan)) {
+                $tiruan = new DriverTiruan;
                 $jawaban = $tiruan->gambar($jalurBerkas, $pesan, $opsi);
                 $this->catatLog($penggunaId, $fitur, 'tiruan-fallback', $jawaban->tokenMasuk, $jawaban->tokenKeluar, true);
+
                 return $jawaban;
             }
             throw $e;
         } catch (Throwable) {
             $this->catatLog($penggunaId, $fitur, 'unknown', 0, 0, false, 'AI_TIDAK_TERSEDIA');
-            if (!($penyedia instanceof DriverTiruan)) {
-                $tiruan = new DriverTiruan();
+            if (! ($penyedia instanceof DriverTiruan)) {
+                $tiruan = new DriverTiruan;
                 $jawaban = $tiruan->gambar($jalurBerkas, $pesan, $opsi);
                 $this->catatLog($penggunaId, $fitur, 'tiruan-fallback', $jawaban->tokenMasuk, $jawaban->tokenKeluar, true);
+
                 return $jawaban;
             }
             throw new GalatApi('AI_TIDAK_TERSEDIA');
@@ -163,7 +169,7 @@ class LayananAI
     }
 
     /**
-     * @param array<int, string> $teks
+     * @param  array<int, string>  $teks
      * @return array<int, array<int, float>>
      */
     public function embedding(string $fitur, ?string $penggunaId, array $teks): array
@@ -176,11 +182,13 @@ class LayananAI
         try {
             $hasil = $penyedia->embedding($teks);
             $this->catatLog($penggunaId, $fitur, 'embedding', count($teks), 0, true);
+
             return $hasil;
         } catch (Throwable) {
             $this->catatLog($penggunaId, $fitur, 'embedding', 0, 0, false, 'AI_TIDAK_TERSEDIA');
-            if (!($penyedia instanceof DriverTiruan)) {
-                $tiruan = new DriverTiruan();
+            if (! ($penyedia instanceof DriverTiruan)) {
+                $tiruan = new DriverTiruan;
+
                 return $tiruan->embedding($teks);
             }
             throw new GalatApi('AI_TIDAK_TERSEDIA');
@@ -188,9 +196,9 @@ class LayananAI
     }
 
     /**
-     * @param array<int, array{role: string, content: string}> $pesan
-     * @param array<string, mixed> $skema
-     * @param array<string, mixed> $opsi
+     * @param  array<int, array{role: string, content: string}>  $pesan
+     * @param  array<string, mixed>  $skema
+     * @param  array<string, mixed>  $opsi
      * @return array<string, mixed>
      */
     public function jsonTerstruktur(string $fitur, ?string $penggunaId, array $pesan, array $skema, array $opsi = []): array
@@ -203,11 +211,13 @@ class LayananAI
         try {
             $hasil = $penyedia->jsonTerstruktur($pesan, $skema, $opsi);
             $this->catatLog($penggunaId, $fitur, 'json-terstruktur', 50, 50, true);
+
             return $hasil;
         } catch (Throwable) {
             $this->catatLog($penggunaId, $fitur, 'json-terstruktur', 0, 0, false, 'AI_TIDAK_TERSEDIA');
-            if (!($penyedia instanceof DriverTiruan)) {
-                $tiruan = new DriverTiruan();
+            if (! ($penyedia instanceof DriverTiruan)) {
+                $tiruan = new DriverTiruan;
+
                 return $tiruan->jsonTerstruktur($pesan, $skema, $opsi);
             }
             throw new GalatApi('AI_TIDAK_TERSEDIA');

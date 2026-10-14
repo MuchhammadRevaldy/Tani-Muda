@@ -8,7 +8,7 @@ namespace App\Domain\AI;
 final class JawabanAI
 {
     /**
-     * @param array<string, mixed>|null $dataTerstruktur
+     * @param  array<string, mixed>|null  $dataTerstruktur
      */
     public function __construct(
         public readonly string $konten,

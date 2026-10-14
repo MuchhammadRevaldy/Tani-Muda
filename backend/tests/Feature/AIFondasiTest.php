@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Schema;
 
 it('driver tiruan mengembalikan respons berlabel tanpa internet', function () {
-    $driver = new DriverTiruan();
+    $driver = new DriverTiruan;
 
     $teks = $driver->teks([['role' => 'user', 'content' => 'Halo']]);
     expect($teks->tiruan)->toBeTrue()
@@ -80,7 +80,7 @@ it('driver openai memanggil chat completions dengan format OpenAI yang benar', f
 
 it('layanan AI mewajibkan persetujuan privasi AI', function () {
     $ids = isiDataDasar();
-    $layanan = new LayananAI(new DriverTiruan());
+    $layanan = new LayananAI(new DriverTiruan);
 
     // Petani belum setuju AI (setuju_ai_pada = null)
     expect(fn () => $layanan->teks('uji', $ids['petani'], [['role' => 'user', 'content' => 'Tanya']]))
@@ -98,7 +98,7 @@ it('layanan AI mewajibkan persetujuan privasi AI', function () {
 
 it('layanan AI menegakkan batas harian panggilan', function () {
     $ids = isiDataDasar();
-    $layanan = new LayananAI(new DriverTiruan());
+    $layanan = new LayananAI(new DriverTiruan);
     $layanan->catatPersetujuan($ids['petani']);
 
     config(['ai.batas_harian' => 3]);
@@ -114,7 +114,7 @@ it('layanan AI menegakkan batas harian panggilan', function () {
 
 it('layanan AI mencatat riwayat ke tabel log_ai tanpa membocorkan rahasia', function () {
     $ids = isiDataDasar();
-    $layanan = new LayananAI(new DriverTiruan());
+    $layanan = new LayananAI(new DriverTiruan);
     $layanan->catatPersetujuan($ids['petani']);
 
     $layanan->teks('konsultasi', $ids['petani'], [['role' => 'user', 'content' => 'Pertanyaan rahasia']]);

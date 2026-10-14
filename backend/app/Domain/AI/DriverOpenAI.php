@@ -26,12 +26,14 @@ class DriverOpenAI implements PenyediaAI
         if (empty($kunci)) {
             throw new GalatApi('AI_TIDAK_TERSEDIA', 'Kunci API AI belum dikonfigurasi.');
         }
+
         return (string) $kunci;
     }
 
     private function ambilBaseUrl(): string
     {
         $url = $this->baseUrl ?? config('ai.base_url', 'https://api.openai.com/v1');
+
         return rtrim((string) $url, '/');
     }
 
@@ -41,6 +43,7 @@ class DriverOpenAI implements PenyediaAI
         if (empty($model)) {
             throw new GalatApi('AI_TIDAK_TERSEDIA', 'Nama model AI teks belum dikonfigurasi di .env.');
         }
+
         return (string) $model;
     }
 
@@ -50,6 +53,7 @@ class DriverOpenAI implements PenyediaAI
         if (empty($model)) {
             throw new GalatApi('AI_TIDAK_TERSEDIA', 'Nama model AI gambar belum dikonfigurasi di .env.');
         }
+
         return (string) $model;
     }
 
@@ -59,6 +63,7 @@ class DriverOpenAI implements PenyediaAI
         if (empty($model)) {
             throw new GalatApi('AI_TIDAK_TERSEDIA', 'Nama model AI embedding belum dikonfigurasi di .env.');
         }
+
         return (string) $model;
     }
 
@@ -70,15 +75,15 @@ class DriverOpenAI implements PenyediaAI
 
         try {
             $response = Http::withHeaders([
-                'Authorization' => 'Bearer ' . $apiKey,
+                'Authorization' => 'Bearer '.$apiKey,
                 'Content-Type' => 'application/json',
-            ])->timeout($this->timeout)->post($baseUrl . '/chat/completions', [
+            ])->timeout($this->timeout)->post($baseUrl.'/chat/completions', [
                 'model' => $model,
                 'messages' => $pesan,
                 'temperature' => $opsi['temperature'] ?? 0.7,
             ]);
 
-            if (!$response->successful()) {
+            if (! $response->successful()) {
                 throw new GalatApi('AI_TIDAK_TERSEDIA');
             }
 
@@ -108,7 +113,7 @@ class DriverOpenAI implements PenyediaAI
         $baseUrl = $this->ambilBaseUrl();
         $model = $this->ambilModelGambar($opsi['model'] ?? null);
 
-        if (!file_exists($jalurBerkas)) {
+        if (! file_exists($jalurBerkas)) {
             throw new GalatApi('AI_TIDAK_TERSEDIA', 'Berkas gambar tidak ditemukan.');
         }
 
@@ -119,7 +124,7 @@ class DriverOpenAI implements PenyediaAI
 
         $tipeMime = mime_content_type($jalurBerkas) ?: 'image/jpeg';
         $base64 = base64_encode($isiGambar);
-        $dataUri = 'data:' . $tipeMime . ';base64,' . $base64;
+        $dataUri = 'data:'.$tipeMime.';base64,'.$base64;
 
         // Siapkan pesan multimodal
         $pesanBaru = $pesan;
@@ -133,14 +138,14 @@ class DriverOpenAI implements PenyediaAI
 
         try {
             $response = Http::withHeaders([
-                'Authorization' => 'Bearer ' . $apiKey,
+                'Authorization' => 'Bearer '.$apiKey,
                 'Content-Type' => 'application/json',
-            ])->timeout($this->timeout)->post($baseUrl . '/chat/completions', [
+            ])->timeout($this->timeout)->post($baseUrl.'/chat/completions', [
                 'model' => $model,
                 'messages' => $pesanBaru,
             ]);
 
-            if (!$response->successful()) {
+            if (! $response->successful()) {
                 throw new GalatApi('AI_TIDAK_TERSEDIA');
             }
 
@@ -179,14 +184,14 @@ class DriverOpenAI implements PenyediaAI
 
         try {
             $response = Http::withHeaders([
-                'Authorization' => 'Bearer ' . $apiKey,
+                'Authorization' => 'Bearer '.$apiKey,
                 'Content-Type' => 'application/json',
-            ])->timeout($this->timeout)->post($baseUrl . '/embeddings', [
+            ])->timeout($this->timeout)->post($baseUrl.'/embeddings', [
                 'model' => $model,
                 'input' => $teks,
             ]);
 
-            if (!$response->successful()) {
+            if (! $response->successful()) {
                 throw new GalatApi('AI_TIDAK_TERSEDIA');
             }
 
@@ -213,7 +218,7 @@ class DriverOpenAI implements PenyediaAI
         $pesanTambahan = $pesan;
         $pesanTambahan[] = [
             'role' => 'system',
-            'content' => "Kamu adalah asisten terstruktur. Wajib kembalikan HANYA format JSON valid tanpa tanda markdown (tanpa ```json) yang mematuhi skema berikut:\n" . $skemaJson,
+            'content' => "Kamu adalah asisten terstruktur. Wajib kembalikan HANYA format JSON valid tanpa tanda markdown (tanpa ```json) yang mematuhi skema berikut:\n".$skemaJson,
         ];
 
         $jawaban = $this->teks($pesanTambahan, array_merge($opsi, ['temperature' => 0.2]));

@@ -38,7 +38,7 @@ class AkunController extends Controller
         }
 
         $p = $this->pengguna($request);
-        $peran = $p->peran?->value ?? 'petani';
+        $peran = $p->peran->value;
 
         // Hitung statistik dari aktivitas nyata pengguna
         $siklusAktif = DB::table('siklus_tanam')->where('petani_id', $p->id)->whereIn('status', ['draf', 'aktif'])->count();
@@ -60,7 +60,7 @@ class AkunController extends Controller
                 $jumlahFoto++;
             }
             if ($t->selesai_pada !== null) {
-                $tglBatas = date('Y-m-d 23:59:59', strtotime($t->tanggal . ' +1 day'));
+                $tglBatas = date('Y-m-d 23:59:59', strtotime($t->tanggal.' +1 day'));
                 if ($t->selesai_pada <= $tglBatas) {
                     $tugasTepatWaktu++;
                 } else {
@@ -84,7 +84,7 @@ class AkunController extends Controller
             ->where('pengiriman.status', 'diterima')
             ->where(function ($q) use ($p) {
                 $q->where('alokasi_pesanan.petani_id', $p->id)
-                  ->orWhere('pesanan.pembeli_id', $p->id);
+                    ->orWhere('pesanan.pembeli_id', $p->id);
             })->count();
 
         $ratingStats = DB::table('rating')

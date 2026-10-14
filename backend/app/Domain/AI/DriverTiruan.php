@@ -14,7 +14,7 @@ class DriverTiruan implements PenyediaAI
     public function __construct(?string $jalurBerkas = null)
     {
         $jalur = $jalurBerkas ?? base_path('../shared/data-contoh/ai/contoh-jawaban.json');
-        if (!file_exists($jalur)) {
+        if (! file_exists($jalur)) {
             $this->data = [
                 'teks' => 'Contoh jawaban, mode tanpa internet. Rawat tanamanmu sesuai jadwal.',
                 'gambar' => [
@@ -33,6 +33,7 @@ class DriverTiruan implements PenyediaAI
                 'embedding' => [0.0123, -0.0456, 0.0789],
                 'jsonTerstruktur' => ['status' => 'sukses'],
             ];
+
             return;
         }
 
@@ -43,6 +44,7 @@ class DriverTiruan implements PenyediaAI
     public function teks(array $pesan, array $opsi = []): JawabanAI
     {
         $konten = (string) ($this->data['teks'] ?? 'Contoh jawaban, mode tanpa internet.');
+
         return new JawabanAI(
             konten: $konten,
             tokenMasuk: 15,
@@ -57,6 +59,7 @@ class DriverTiruan implements PenyediaAI
         /** @var array<string, mixed> $dataGambar */
         $dataGambar = $this->data['gambar'] ?? [];
         $konten = (string) json_encode($dataGambar, JSON_UNESCAPED_UNICODE);
+
         return new JawabanAI(
             konten: $konten,
             dataTerstruktur: $dataGambar,
@@ -75,6 +78,7 @@ class DriverTiruan implements PenyediaAI
         foreach ($teks as $_) {
             $hasil[] = $vektorContoh;
         }
+
         return $hasil;
     }
 

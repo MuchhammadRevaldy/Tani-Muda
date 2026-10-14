@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
@@ -10,8 +11,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property string $id
  * @property string $pengguna_id
  * @property string $kode
- * @property \Carbon\CarbonImmutable $diraih_pada
- * @property \Carbon\CarbonImmutable|null $dilihat_pada
+ * @property CarbonImmutable $diraih_pada
+ * @property CarbonImmutable|null $dilihat_pada
  */
 class LencanaPengguna extends Model
 {
