@@ -21,6 +21,12 @@ export const CONTOH_RESEP_SAWI_BEDENGAN: ResepTanam = {
   alasanPanenJelek: 'hujan terus atau serangan ulat',
   hasilPerSatuan: 1.5,
   umurPanenHari: 28,
+  suhuIdealMin: 15.0,
+  suhuIdealMaks: 25.0,
+  suhuBatasMin: 10.0,
+  suhuBatasMaks: 32.0,
+  saranSuhuTinggi: 'Pasang paranet dan siram sore hari',
+  saranSuhuRendah: 'Gunakan mulsa jerami untuk menjaga kehangatan',
   standarKualitas: [
     'Daun hijau segar, tidak layu',
     'Tidak berlubang lebih dari 3 lubang per daun',

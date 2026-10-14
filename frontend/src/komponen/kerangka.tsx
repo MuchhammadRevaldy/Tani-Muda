@@ -8,6 +8,7 @@ import {
   type Lencana,
   type MenuPetani,
 } from './navigasi';
+import { ChatbotMengambang } from './chatbot-mengambang';
 
 /**
  * Kerangka halaman petani (D-07):
@@ -61,6 +62,7 @@ export function KerangkaPetani({
             <NavigasiBawah lencana={lencana} />
           </div>
         )}
+        <ChatbotMengambang />
       </div>
     </div>
   );

@@ -21,6 +21,12 @@ export const CONTOH_RESEP_BAYAM_BEDENGAN: ResepTanam = {
   alasanPanenJelek: 'hujan terus atau serangan ulat',
   hasilPerSatuan: 1.2,
   umurPanenHari: 25,
+  suhuIdealMin: 20,
+  suhuIdealMaks: 30,
+  suhuBatasMin: 15,
+  suhuBatasMaks: 35,
+  saranSuhuTinggi: 'Siram teratur di pagi dan sore hari',
+  saranSuhuRendah: 'Tutup bedengan dengan sungkup plastik transparan',
   standarKualitas: ['Daun segar, tidak menguning', 'Diikat per 250 g'],
   input: [
     {
@@ -129,6 +135,12 @@ export const CONTOH_RESEP_KANGKUNG_BEDENGAN: ResepTanam = {
   alasanPanenJelek: 'hujan terus atau serangan ulat',
   hasilPerSatuan: 1.5,
   umurPanenHari: 21,
+  suhuIdealMin: 20,
+  suhuIdealMaks: 32,
+  suhuBatasMin: 15,
+  suhuBatasMaks: 36,
+  saranSuhuTinggi: 'Pastikan kelembapan tanah terjaga dengan penyiraman rutin',
+  saranSuhuRendah: 'Gunakan mulsa organik',
   standarKualitas: ['Batang muda dan renyah', 'Diikat per 250 g'],
   input: [
     {

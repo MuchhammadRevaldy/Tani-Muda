@@ -21,6 +21,7 @@ import {
   luasPerPanen,
 } from './pesanan-lahan';
 import { hitungNilaiPesanan, hitungPembayaranKiriman, jumlahKirimanRutin } from './pesanan-nilai';
+import { kecocokanSuhu } from './suhu';
 
 interface Kasus {
   nama: string;
@@ -59,6 +60,7 @@ const FUNGSI: Record<string, (m: any) => unknown> = {
     const h = levelDariPoin(m.poin);
     return { level: h.level, levelBerikutnya: h.levelBerikutnya, poinKeBerikutnya: h.poinKeBerikutnya };
   },
+  kecocokanSuhu: (m) => kecocokanSuhu(m.suhu, m.rentang),
 };
 /* eslint-enable @typescript-eslint/no-explicit-any */
 

@@ -6,3 +6,5 @@ export * from './pesanan';
 export * from './referensi';
 export * from './resep';
 export * from './umum';
+export * from './ai';
+export * from './cuaca';

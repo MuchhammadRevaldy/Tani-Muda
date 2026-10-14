@@ -36,6 +36,7 @@ final class KodeGalat
         'AI_TIDAK_TERSEDIA' => 503,
         'BATAS_AI_TERCAPAI' => 429,
         'PERSETUJUAN_AI_WAJIB' => 403,
+        'CUACA_TIDAK_TERSEDIA' => 503,
     ];
 
     public const TEKS = [
@@ -67,6 +68,7 @@ final class KodeGalat
         'AI_TIDAK_TERSEDIA' => 'Fitur pintar sedang tidak bisa dipakai. Coba lagi nanti',
         'BATAS_AI_TERCAPAI' => 'Batas pemakaian fitur pintar harianmu sudah tercapai. Coba lagi besok',
         'PERSETUJUAN_AI_WAJIB' => 'Centang persetujuan pemakaian fitur pintar dulu',
+        'CUACA_TIDAK_TERSEDIA' => 'Data perkiraan cuaca belum bisa dimuat. Coba lagi nanti',
         'GALAT_SERVER' => 'Ada yang tidak beres di server. Coba lagi sebentar lagi',
     ];
 

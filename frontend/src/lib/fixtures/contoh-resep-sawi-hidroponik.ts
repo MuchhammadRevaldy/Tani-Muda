@@ -22,6 +22,12 @@ export const CONTOH_RESEP_SAWI_HIDROPONIK: ResepTanam = {
   hasilPerSatuan: 0.15,
   umurPanenHari: 35,
   jumlahPengisianLarutan: 2,
+  suhuIdealMin: 16,
+  suhuIdealMaks: 26,
+  suhuBatasMin: 12,
+  suhuBatasMaks: 33,
+  saranSuhuTinggi: 'Dinginkan tandon nutrisi dengan sirkulasi atau naungan',
+  saranSuhuRendah: 'Jaga tandon tertutup rapat agar suhu larutan stabil',
   standarKualitas: ['Daun hijau segar, tidak layu', 'Akar bersih, tidak membusuk'],
   input: [
     {

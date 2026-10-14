@@ -56,6 +56,7 @@ import { KartuSiklus } from './beranda/kartu-siklus';
 import { PemilihSiklus, type OpsiKartuSiklus } from './beranda/pemilih-siklus';
 import { angkaUkur, KartuHasilUkur, KartuModal, KartuTawaran } from './beranda/kartu-samping';
 import { useDaring, useIzinNotifikasi } from './beranda/keadaan-perangkat';
+import { KartuCuaca } from './beranda/kartu-cuaca';
 
 function Kepala({
   nama,
@@ -373,6 +374,7 @@ export function HalamanBeranda() {
             bertahap && 'bertahap-anak',
           )}
         >
+          <KartuCuaca />
           {tawaran ? (
             <KartuTawaran
               pesanan={tawaran}

@@ -652,6 +652,17 @@ Rute ini **hanya didaftarkan saat `APP_ENV=local`**; di lingkungan lain jawabann
 | `GET /demo/kode-otp?nomor_hp=` | publik (lokal) | → `{ kode: string \| null }`, kode terakhir yang dikirim driver log | `kodeUji` |
 | `POST /demo/atur-ulang` | publik (lokal) | → 204; sama dengan `php artisan demo:atur-ulang` (data contoh dengan waktu relatif saat ini, D-47), lalu sesi diakhiri | `aturUlang` |
 
+### 3.14 Fitur Tambahan (F-04 Deteksi Penyakit, F-05 Chatbot, F-06 Cuaca)†
+
+| Metode dan jalur | Peran | Masukan → respons | Galat khusus | Klien |
+| --- | --- | --- | --- | --- |
+| `POST /akun/setuju-ai` | semua masuk | → `{ setuju_ai_pada: waktu }` | | `akun.setujuAi` |
+| `POST /deteksi` | petani | `{ foto_url, siklus_id?, tugas_id? }` → `DeteksiTanaman` | `PERSETUJUAN_AI_WAJIB`, `AI_TIDAK_TERSEDIA` (503) | `deteksi.deteksi` |
+| `GET /deteksi?siklus_id=` | petani | → `DeteksiTanaman[]` | | `deteksi.riwayat` |
+| `POST /chatbot` | semua masuk | `{ pesan, percakapan_id? }` → `JawabanChatbot` | `PERSETUJUAN_AI_WAJIB`, `AI_TIDAK_TERSEDIA` (503) | `chatbot.tanya` |
+| `GET /chatbot/riwayat?percakapan_id=` | semua masuk | → `PesanObrolanBot[]` | | `chatbot.riwayat` |
+| `GET /cuaca` | petani | → `DataCuaca` | `CUACA_TIDAK_TERSEDIA` (503) | `cuaca.ambil` |
+
 ---
 
 ## 4. Halaman → endpoint
@@ -694,6 +705,9 @@ Rute ini **hanya didaftarkan saat `APP_ENV=local`**; di lingkungan lain jawabann
 | T4.38–T4.39 Mentor | `GET`/`POST /mentor/resep`, `POST /mentor/resep/{id}/validasi`, `GET /mentor/permintaan-resep`, `GET /komoditas`, `GET /metode` |
 | T4.41 Bayar uang muka, pembayaran | `POST /pembeli/pesanan/{id}/bayar-uang-muka`, `GET /pembeli/pembayaran` |
 | T6.07 Notifikasi | `POST`/`DELETE /notifikasi/langganan` |
+| F-04 Deteksi Penyakit | `POST /akun/setuju-ai`, `POST /deteksi`, `GET /deteksi` |
+| F-05 Chatbot Tanya Tani Muda | `POST /akun/setuju-ai`, `POST /chatbot`, `GET /chatbot/riwayat` |
+| F-06 Cuaca dan Kecocokan Suhu | `GET /cuaca` |
 
 ---
 
@@ -701,6 +715,7 @@ Rute ini **hanya didaftarkan saat `APP_ENV=local`**; di lingkungan lain jawabann
 
 | Tanggal | Perubahan |
 | --- | --- |
+| 2026-10-14 | [AG-30] Gelombang Kamis: F-04 deteksi penyakit foto, F-05 chatbot "Tanya Tani Muda", F-06 cuaca & kecocokan suhu tanaman (bagian 3.14). |
 | 2026-10-12 | D-58: urutan `GET /wilayah?cari=` mendahulukan nama desa yang cocok di dalam kelompok tersedia/belum tersedia. |
 | 2026-10-12 | D-56/D-57: `wilayah.lintang`/`bujur` boleh null dan `tersedia_pilot` (dihitung server); galat `422 WILAYAH_BELUM_TERSEDIA` di pilih peran dan ubah profil (petani), lahan, dan buat pesanan; `GET /wilayah` mendahulukan desa yang tersedia di pilot; endpoint demo lokal (bagian 3.13). |
 | 2026-10-12 | D-53: `lahan.kapasitas_lubang`, `siklus.jumlah_lubang`, dan `jumlah_polybag` menjadi bilangan bulat (sebelumnya "desimal"/"bilangan"); tipe TS memakai alias `BilanganBulat`. |

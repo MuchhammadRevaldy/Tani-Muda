@@ -292,6 +292,14 @@ export function buatKlienAkun(k: Konteks): KlienAkun {
         lencana_terkunci: hasilLencana.terkunci,
       };
     },
+
+    async setujuAi() {
+      const p = k.penggunaMasuk();
+      const sekarang = k.sekarangIso();
+      p.setuju_ai_pada = sekarang;
+      k.simpan();
+      return { setuju_ai_pada: sekarang };
+    },
   };
 }
 

@@ -118,6 +118,8 @@ export interface KlienAkun {
   simpanProfilPembeli(m: ProfilPembeliMasukan): Promise<ProfilPembeli>;
   /** GET /akun/level (PRD Tambahan F-03, D-64). */
   level(): Promise<import('./tipe').LevelPengguna>;
+  /** POST /akun/setuju-ai (PRD Tambahan F-04, D-64). */
+  setujuAi(): Promise<{ setuju_ai_pada: string }>;
 }
 
 export interface KlienWilayah {
@@ -313,6 +315,25 @@ export interface KlienBerkas {
   unggah(m: UnggahBerkasMasukan): Promise<Berkas>;
 }
 
+export interface KlienDeteksi {
+  /** POST /deteksi */
+  deteksi(m: { foto_base64: string; catatan?: string; siklus_id?: string; tugas_id?: string }): Promise<import('./tipe').DeteksiTanaman>;
+  /** GET /deteksi */
+  riwayat(siklusId?: string): Promise<import('./tipe').DeteksiTanaman[]>;
+}
+
+export interface KlienChatbot {
+  /** POST /chatbot */
+  tanya(pesan: string, percakapanId?: string): Promise<import('./tipe').JawabanChatbot>;
+  /** GET /chatbot/riwayat */
+  riwayat(percakapanId?: string): Promise<import('./tipe').PesanObrolanBot[]>;
+}
+
+export interface KlienCuaca {
+  /** GET /cuaca */
+  ambil(): Promise<import('./tipe').DataCuaca>;
+}
+
 export interface KlienApi {
   akun: KlienAkun;
   wilayah: KlienWilayah;
@@ -328,6 +349,9 @@ export interface KlienApi {
   mentor: KlienMentor;
   notifikasi: KlienNotifikasi;
   berkas: KlienBerkas;
+  deteksi: KlienDeteksi;
+  chatbot: KlienChatbot;
+  cuaca: KlienCuaca;
 }
 
 /**

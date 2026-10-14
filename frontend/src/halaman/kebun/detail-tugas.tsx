@@ -26,6 +26,7 @@ import { DaftarLangkah } from '../../komponen/pelengkap';
 import { GrupRadio, KartuPilihan } from '../../komponen/pilihan';
 import { kelasTombol, Tombol } from '../../komponen/tombol';
 import { useLayarLebar } from '../../komponen/use-layar-lebar';
+import { ModalDeteksiTanaman } from '../../komponen/modal-deteksi-tanaman';
 import { formatTanggal } from '../../lib/format';
 import { BATAS_TUNDA, statusTugas, tundaTugas } from '../../lib/jadwal-ubah';
 import { teksFrekuensi, teksStatusWaktu } from '../../teks/jadwal';
@@ -52,6 +53,7 @@ export function HalamanDetailTugas() {
   const [hariTunda, setHariTunda] = useState<number>(BATAS_TUNDA.min);
   const [konfirmasi, setKonfirmasi] = useState(false);
   const [pesan, setPesan] = useState<string | null>(null);
+  const [modalDeteksi, setModalDeteksi] = useState(false);
 
   if (galat) return <Navigate to="/kebun" replace />;
   if (memuat || !d) {
@@ -217,6 +219,16 @@ export function HalamanDetailTugas() {
             />
           ) : null}
         </div>
+        <div className="mt-3 border-t border-garis/60 pt-3">
+          <Tombol
+            varian="sekunder"
+            ikon="peringatan"
+            penuh
+            onClick={() => setModalDeteksi(true)}
+          >
+            Deteksi Gejala Tanaman (AI)
+          </Tombol>
+        </div>
       </Kartu>
     );
 
@@ -317,6 +329,12 @@ export function HalamanDetailTugas() {
           </Tombol>
         </div>
       </Dialog>
+      <ModalDeteksiTanaman
+        terbuka={modalDeteksi}
+        onTutup={() => setModalDeteksi(false)}
+        siklusId={siklusId}
+        tugasId={tugas.id}
+      />
     </>
   );
 }

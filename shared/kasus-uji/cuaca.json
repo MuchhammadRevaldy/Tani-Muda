@@ -1,0 +1,187 @@
+{
+  "keterangan": "Kecocokan suhu tanaman dan cuaca desa: status kecocokan, toleransi batas suhu, dan rekomendasi tindakan (PRD Tambahan F-06).",
+  "kasus": [
+    {
+      "nama": "suhu berada tepat di tengah rentang ideal",
+      "fungsi": "kecocokanSuhu",
+      "masukan": {
+        "suhu": 25.0,
+        "rentang": {
+          "suhu_ideal_min": 20.0,
+          "suhu_ideal_maks": 28.0,
+          "suhu_batas_min": 15.0,
+          "suhu_batas_maks": 34.0,
+          "saran_suhu_tinggi": "Pasang paranet dan siram sore hari",
+          "saran_suhu_rendah": "Gunakan mulsa jerami untuk menjaga kehangatan"
+        }
+      },
+      "keluaran": {
+        "status": "cocok",
+        "label": "Cocok",
+        "cocok": true,
+        "saran": null
+      }
+    },
+    {
+      "nama": "suhu sama persis dengan batas ideal bawah",
+      "fungsi": "kecocokanSuhu",
+      "masukan": {
+        "suhu": 20.0,
+        "rentang": {
+          "suhu_ideal_min": 20.0,
+          "suhu_ideal_maks": 28.0,
+          "suhu_batas_min": 15.0,
+          "suhu_batas_maks": 34.0,
+          "saran_suhu_tinggi": "Pasang paranet",
+          "saran_suhu_rendah": "Gunakan mulsa"
+        }
+      },
+      "keluaran": {
+        "status": "cocok",
+        "label": "Cocok",
+        "cocok": true,
+        "saran": null
+      }
+    },
+    {
+      "nama": "suhu sama persis dengan batas ideal atas",
+      "fungsi": "kecocokanSuhu",
+      "masukan": {
+        "suhu": 28.0,
+        "rentang": {
+          "suhu_ideal_min": 20.0,
+          "suhu_ideal_maks": 28.0,
+          "suhu_batas_min": 15.0,
+          "suhu_batas_maks": 34.0,
+          "saran_suhu_tinggi": "Pasang paranet",
+          "saran_suhu_rendah": "Gunakan mulsa"
+        }
+      },
+      "keluaran": {
+        "status": "cocok",
+        "label": "Cocok",
+        "cocok": true,
+        "saran": null
+      }
+    },
+    {
+      "nama": "suhu agak panas (di antara ideal maks dan batas maks)",
+      "fungsi": "kecocokanSuhu",
+      "masukan": {
+        "suhu": 31.5,
+        "rentang": {
+          "suhu_ideal_min": 20.0,
+          "suhu_ideal_maks": 28.0,
+          "suhu_batas_min": 15.0,
+          "suhu_batas_maks": 34.0,
+          "saran_suhu_tinggi": "Pasang naungan paranet dan siram sore",
+          "saran_suhu_rendah": "Gunakan mulsa jerami"
+        }
+      },
+      "keluaran": {
+        "status": "agak_panas",
+        "label": "Agak panas",
+        "cocok": false,
+        "saran": "Pasang naungan paranet dan siram sore"
+      }
+    },
+    {
+      "nama": "suhu terlalu panas (melebihi batas maks)",
+      "fungsi": "kecocokanSuhu",
+      "masukan": {
+        "suhu": 36.0,
+        "rentang": {
+          "suhu_ideal_min": 20.0,
+          "suhu_ideal_maks": 28.0,
+          "suhu_batas_min": 15.0,
+          "suhu_batas_maks": 34.0,
+          "saran_suhu_tinggi": "Pasang naungan paranet dan siram sore",
+          "saran_suhu_rendah": "Gunakan mulsa jerami"
+        }
+      },
+      "keluaran": {
+        "status": "terlalu_panas",
+        "label": "Terlalu panas",
+        "cocok": false,
+        "saran": "Pasang naungan paranet dan siram sore"
+      }
+    },
+    {
+      "nama": "suhu agak dingin (di antara batas min dan ideal min)",
+      "fungsi": "kecocokanSuhu",
+      "masukan": {
+        "suhu": 17.5,
+        "rentang": {
+          "suhu_ideal_min": 20.0,
+          "suhu_ideal_maks": 28.0,
+          "suhu_batas_min": 15.0,
+          "suhu_batas_maks": 34.0,
+          "saran_suhu_tinggi": "Pasang naungan paranet",
+          "saran_suhu_rendah": "Gunakan mulsa jerami tebal"
+        }
+      },
+      "keluaran": {
+        "status": "agak_dingin",
+        "label": "Agak dingin",
+        "cocok": false,
+        "saran": "Gunakan mulsa jerami tebal"
+      }
+    },
+    {
+      "nama": "suhu terlalu dingin (di bawah batas min)",
+      "fungsi": "kecocokanSuhu",
+      "masukan": {
+        "suhu": 12.0,
+        "rentang": {
+          "suhu_ideal_min": 20.0,
+          "suhu_ideal_maks": 28.0,
+          "suhu_batas_min": 15.0,
+          "suhu_batas_maks": 34.0,
+          "saran_suhu_tinggi": "Pasang naungan paranet",
+          "saran_suhu_rendah": "Gunakan mulsa jerami tebal"
+        }
+      },
+      "keluaran": {
+        "status": "terlalu_dingin",
+        "label": "Terlalu dingin",
+        "cocok": false,
+        "saran": "Gunakan mulsa jerami tebal"
+      }
+    },
+    {
+      "nama": "data rentang suhu belum terisi",
+      "fungsi": "kecocokanSuhu",
+      "masukan": {
+        "suhu": 26.0,
+        "rentang": null
+      },
+      "keluaran": {
+        "status": "belum_ada_data",
+        "label": "Belum ada data suhu",
+        "cocok": true,
+        "saran": null
+      }
+    },
+    {
+      "nama": "suhu sekarang belum tersedia",
+      "fungsi": "kecocokanSuhu",
+      "masukan": {
+        "suhu": null,
+        "rentang": {
+          "suhu_ideal_min": 20.0,
+          "suhu_ideal_maks": 28.0,
+          "suhu_batas_min": 15.0,
+          "suhu_batas_maks": 34.0,
+          "saran_suhu_tinggi": "Pasang paranet",
+          "saran_suhu_rendah": "Gunakan mulsa"
+        }
+      },
+      "keluaran": {
+        "status": "belum_ada_data",
+        "label": "Belum ada data suhu",
+        "cocok": true,
+        "saran": null
+      }
+    }
+  ]
+}

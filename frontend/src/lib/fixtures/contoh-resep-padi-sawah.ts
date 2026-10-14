@@ -20,6 +20,12 @@ export const CONTOH_RESEP_PADI_SAWAH: ResepTanam = {
   alasanPanenJelek: 'serangan wereng atau kekurangan air',
   hasilPerSatuan: 0.55,
   umurPanenHari: 110,
+  suhuIdealMin: 22,
+  suhuIdealMaks: 32,
+  suhuBatasMin: 18,
+  suhuBatasMaks: 38,
+  saranSuhuTinggi: 'Jaga ketinggian genangan air sawah untuk meredam panas',
+  saranSuhuRendah: 'Kurangi air genangan di malam hari',
   standarKualitas: ['Gabah kering panen, bersih dari jerami', 'Kadar hampa rendah'],
   input: [
     {

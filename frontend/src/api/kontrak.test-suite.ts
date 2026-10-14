@@ -1755,5 +1755,37 @@ export function ujiKontrak(nama: string, siapkan: PenyiapLingkungan): void {
         );
       });
     });
+
+    // ------------------------------------------------------------ fitur tambahan (F-04, F-05, F-06)
+    describe('fitur tambahan: AI dan cuaca', () => {
+      beforeEach(() => masuk('petani-arif'));
+
+      it('persetujuan AI (setuju_ai_pada)', async () => {
+        const res = await K.akun.setujuAi();
+        expect(res.setuju_ai_pada).toBeTruthy();
+      });
+
+      it('deteksi penyakit: deteksi dan riwayat', async () => {
+        await K.akun.setujuAi();
+        const hasil = await K.deteksi.deteksi({ foto_base64: JPEG_1PX });
+        expect(hasil.hasil.dugaan.length).toBeGreaterThan(0);
+        const riwayat = await K.deteksi.riwayat();
+        expect(riwayat.length).toBeGreaterThan(0);
+      });
+
+      it('chatbot tani muda: tanya dan riwayat', async () => {
+        await K.akun.setujuAi();
+        const balasan = await K.chatbot.tanya('Bagaimana cara mengatasi hama kutu daun?');
+        expect(balasan.jawaban).toBeDefined();
+        const riwayat = await K.chatbot.riwayat();
+        expect(riwayat.length).toBeGreaterThan(0);
+      });
+
+      it('cuaca desa', async () => {
+        const cuaca = await K.cuaca.ambil();
+        expect(cuaca.suhu_sekarang).toBeDefined();
+        expect(cuaca.desa).toBeDefined();
+      });
+    });
   });
 }

@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use App\Domain\AI\DriverOpenAI;
+use App\Domain\AI\DriverTiruan;
+use App\Domain\AI\PenyediaAI;
 use App\Domain\Otp\PengirimOtp;
 use App\Domain\Otp\PengirimOtpLog;
 use App\Domain\Pembayaran\PembayaranTiruan;
@@ -40,6 +43,16 @@ class AppServiceProvider extends ServiceProvider
 
             return $driver === 'tiruan' ? new PembayaranTiruan
                 : throw new RuntimeException("PEMBAYARAN_DRIVER tidak dikenal: {$driver}");
+        });
+
+        // Penyedia AI (PRD Tambahan F-00, F-04, F-05)
+        $this->app->bind(PenyediaAI::class, function () {
+            $driver = config('ai.driver', 'tiruan');
+            if ($driver === 'openai' && ! empty(config('ai.api_key'))) {
+                return new DriverOpenAI;
+            }
+
+            return new DriverTiruan;
         });
     }
 

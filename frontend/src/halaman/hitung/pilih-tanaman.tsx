@@ -5,6 +5,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
+  useCuaca,
   useDaftarResep,
   useKomoditas,
   useKonfigurasi,
@@ -21,6 +22,7 @@ import { LabelKecil } from '../../komponen/label-kecil';
 import { GrupRadio, PilPilihan } from '../../komponen/pilihan';
 import { kelasTombol, Tombol } from '../../komponen/tombol';
 import { angkaJarak } from '../../lib/jarak';
+import { kecocokanSuhu } from '../../lib/suhu';
 import { teksHitung as t } from '../../teks/hitung';
 import { teksUmum } from '../../teks/umum';
 import { GambarKomoditas } from './gambar';
@@ -35,10 +37,12 @@ function BarisKomoditas({
   k,
   dipilih,
   onPilih,
+  infoSuhu,
 }: {
   k: Komoditas;
   dipilih: boolean;
   onPilih: () => void;
+  infoSuhu?: { cocok: boolean; label: string } | null;
 }) {
   const segera = k.status_resep === 'segera_hadir';
   return (
@@ -56,11 +60,16 @@ function BarisKomoditas({
         <span className="text-keterangan text-teks-pendukung">
           {t.panenSekitar(k.umur_panen_hari)} · {t.pesananSekitar(k.jumlah_pesanan_sekitar)}
         </span>
-        {k.jumlah_pesanan_sekitar || segera ? (
+        {k.jumlah_pesanan_sekitar || segera || infoSuhu ? (
           <span className="flex flex-wrap gap-2">
             {k.jumlah_pesanan_sekitar ? (
               <LabelKecil nada="hijau" ikon="pesanan">
                 {t.adaPesanan}
+              </LabelKecil>
+            ) : null}
+            {infoSuhu ? (
+              <LabelKecil nada={infoSuhu.cocok ? 'hijau' : 'segera'}>
+                {infoSuhu.cocok ? 'Suhu cocok' : 'Kurang cocok'}
               </LabelKecil>
             ) : null}
             {segera ? <LabelKecil nada="segera">{t.segeraHadir}</LabelKecil> : null}
@@ -107,6 +116,8 @@ export function HalamanPilihTanaman() {
   const komoditasQ = useKomoditas();
   const metodeQ = useMetode();
   const resepQ = useDaftarResep(pilihan.komoditas ? { komoditas_id: pilihan.komoditas } : {});
+  const semuaResepQ = useDaftarResep({});
+  const cuacaQ = useCuaca();
   const pesananQ = usePesananSekitar({});
   const konfigurasiQ = useKonfigurasi();
 
@@ -121,6 +132,19 @@ export function HalamanPilihTanaman() {
     semua.find((k) => k.id === pilihan.komoditas && k.status_resep === 'tersedia') ?? null;
   const pesananDipilih = (pesananQ.data?.data ?? []).filter((p) => p.komoditas_id === dipilih?.id);
   const resepDipilih = (resepQ.data ?? []).filter((r) => r.komoditas_id === dipilih?.id);
+
+  const kecocokanMap: Record<string, { cocok: boolean; label: string }> = {};
+  if (cuacaQ.data && semuaResepQ.data) {
+    const suhu = cuacaQ.data.suhu_sekarang;
+    for (const k of semua) {
+      const r = semuaResepQ.data.find((item) => item.komoditas_id === k.id);
+      if (r) {
+        const c = kecocokanSuhu(suhu, r);
+        kecocokanMap[k.id] = { cocok: c.cocok, label: c.label };
+      }
+    }
+  }
+
   const lanjut = dipilih
     ? alamatLangkah('metode', { ...pilihan, komoditas: dipilih.id, metode: null })
     : null;
@@ -189,6 +213,14 @@ export function HalamanPilihTanaman() {
           </li>
         ))}
       </ul>
+      {kecocokanMap[dipilih.id] && cuacaQ.data ? (
+        <div className="mt-3 flex flex-col gap-0.5 border-t border-garis pt-2 text-keterangan">
+          <dt className="text-keterangan text-teks-pendukung">Suhu Desa Saat Ini</dt>
+          <dd className="m-0 font-medium text-teks">
+            {cuacaQ.data.suhu_sekarang}°C · {kecocokanMap[dipilih.id]?.label}
+          </dd>
+        </div>
+      ) : null}
       <p className="mb-0 mt-3 text-keterangan text-teks-pendukung">{t.catatanPanel}</p>
     </Kartu>
   ) : null;
@@ -272,6 +304,7 @@ export function HalamanPilihTanaman() {
                     key={k.id}
                     k={k}
                     dipilih={dipilih?.id === k.id}
+                    infoSuhu={kecocokanMap[k.id] ?? null}
                     onPilih={() =>
                       k.status_resep === 'tersedia'
                         ? ubahPilihan({ komoditas: k.id, metode: null })

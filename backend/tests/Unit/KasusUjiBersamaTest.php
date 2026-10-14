@@ -9,6 +9,7 @@
  * "belum diport" dan dilewati.
  */
 
+use App\Domain\Hitung\Cuaca;
 use App\Domain\Hitung\Jarak;
 use App\Domain\Hitung\KapasitasLahan;
 use App\Domain\Hitung\Kiriman;
@@ -44,6 +45,7 @@ function adaptorHitung(): array
 
             return ['level' => $h['level'], 'levelBerikutnya' => $h['level_berikutnya'], 'poinKeBerikutnya' => $h['poin_ke_berikutnya']];
         },
+        'kecocokanSuhu' => fn ($m) => Cuaca::kecocokanSuhu($m['suhu'] !== null ? (float) $m['suhu'] : null, $m['rentang']),
     ];
 }
 

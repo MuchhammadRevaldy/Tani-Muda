@@ -296,3 +296,24 @@ export const useSimpanLangganan = () =>
 export const useHapusLangganan = () =>
   m((k, endpoint: string) => k.notifikasi.hapusLangganan(endpoint), []);
 export const useUnggahBerkas = () => m((k, x: T.UnggahBerkasMasukan) => k.berkas.unggah(x), []);
+
+// ---------------------------------------------------------------- ai dan cuaca (F-04, F-05, F-06)
+export const useSetujuAi = () => m((k, _x: void) => k.akun.setujuAi(), ['akun']);
+
+export const useDeteksiTanaman = () =>
+  m(
+    (k, x: { foto_base64: string; catatan?: string; siklus_id?: string; tugas_id?: string }) =>
+      k.deteksi.deteksi(x),
+    ['deteksi'],
+  );
+export const useRiwayatDeteksi = (siklusId?: string, aktif = true) =>
+  q(kk('deteksi', 'riwayat', siklusId ?? null), (k) => k.deteksi.riwayat(siklusId), aktif);
+
+export const useTanyaChatbot = () =>
+  m((k, x: { pesan: string; percakapanId?: string }) => k.chatbot.tanya(x.pesan, x.percakapanId), [
+    'chatbot',
+  ]);
+export const useRiwayatChatbot = (percakapanId?: string, aktif = true) =>
+  q(kk('chatbot', 'riwayat', percakapanId ?? null), (k) => k.chatbot.riwayat(percakapanId), aktif);
+
+export const useCuaca = (aktif = true) => q(kk('cuaca', 'saat-ini'), (k) => k.cuaca.ambil(), aktif);

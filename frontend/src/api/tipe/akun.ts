@@ -22,6 +22,8 @@ export interface Pengguna {
   /** Waktu menyetujui kebijakan privasi (D-30). */
   setuju_privasi_pada: WaktuISO | null;
   versi_privasi: string | null;
+  /** Waktu menyetujui fitur bantuan pintar AI (PRD Tambahan F-04, D-64). */
+  setuju_ai_pada?: WaktuISO | null;
   dibuat_pada: WaktuISO;
 }
 

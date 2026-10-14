@@ -16,6 +16,7 @@ import {
 import { buatKlienBelajar, buatKlienKebun, buatKlienLahan } from './fitur/kebun';
 import { buatKlienKiriman, buatKlienPembeli, buatKlienPesanan } from './fitur/pesanan';
 import { buatKlienReferensi, buatKlienResep } from './fitur/referensi';
+import { buatKlienChatbot, buatKlienCuaca, buatKlienDeteksi } from './fitur/ai-cuaca';
 import { Konteks } from './konteks';
 import { bungkusLatensi, type KendaliGalatBuatan } from './latensi';
 import { PenyimpananTiruan, type PenyimpananKunciNilai } from './penyimpanan';
@@ -63,6 +64,9 @@ export function buatKlienTiruan(opsi: OpsiKlienTiruan): KlienTiruan {
     mentor: buatKlienMentor(k),
     notifikasi: buatKlienNotifikasi(k),
     berkas: buatKlienBerkas(k),
+    deteksi: buatKlienDeteksi(k),
+    chatbot: buatKlienChatbot(k),
+    cuaca: buatKlienCuaca(k),
   };
   const { klien, kendali } = bungkusLatensi(mentah, { latensiMs: opsi.latensiMs ?? [0, 0] });
 

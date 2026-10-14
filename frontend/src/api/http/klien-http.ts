@@ -178,6 +178,7 @@ export function buatKlienHttp(o: OpsiKlienHttp = {}): {
       catatanSaya: () => h.get('/akun/catatan'),
       simpanProfilPembeli: (m) => h.put('/akun/profil-pembeli', m),
       level: () => h.get('/akun/level'),
+      setujuAi: () => h.post('/akun/setuju-ai'),
     },
     wilayah: {
       daftar: (p = {}) => h.halaman(denganKueri('/wilayah', { ...p })),
@@ -287,6 +288,19 @@ export function buatKlienHttp(o: OpsiKlienHttp = {}): {
         f.append('berkas', isi, m.nama);
         return h.minta('POST', '/berkas', f);
       },
+    },
+    deteksi: {
+      deteksi: (m) => h.post('/deteksi', m),
+      riwayat: (siklusId) => h.get('/deteksi', siklusId ? { siklus_id: siklusId } : undefined),
+    },
+    chatbot: {
+      tanya: (pesan, percakapanId) =>
+        h.post('/chatbot', { pesan, ...(percakapanId ? { percakapan_id: percakapanId } : {}) }),
+      riwayat: (percakapanId) =>
+        h.get('/chatbot/riwayat', percakapanId ? { percakapan_id: percakapanId } : undefined),
+    },
+    cuaca: {
+      ambil: () => h.get('/cuaca'),
     },
   };
 

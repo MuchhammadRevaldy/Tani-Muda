@@ -12,6 +12,7 @@ import { AmbilFoto, type FotoKecil } from '../../komponen/ambil-foto';
 import { Dialog } from '../../komponen/dialog';
 import { PesanKolom } from '../../komponen/kolom-isian';
 import { Tombol } from '../../komponen/tombol';
+import { ModalDeteksiTanaman } from '../../komponen/modal-deteksi-tanaman';
 import { kelompokkanMinggu } from '../../lib/jurnal';
 import { teksKebun as t } from '../../teks/kebun';
 import { teksUmum } from '../../teks/umum';
@@ -111,6 +112,7 @@ function Foto({ e }: { e: EntriJurnal }) {
 function Isi({ d }: { d: DataSiklus }) {
   const jurnalQ = useJurnal(d.siklus.id);
   const [tambah, setTambah] = useState(false);
+  const [deteksi, setDeteksi] = useState(false);
   const minggu = kelompokkanMinggu((jurnalQ.data ?? []).map((e) => ({ ...e, hariKe: e.hari_ke })));
   return (
     <>
@@ -163,11 +165,21 @@ function Isi({ d }: { d: DataSiklus }) {
         ))
       )}
       {d.siklus.status !== 'selesai' ? (
-        <Tombol ikon="kamera" penuh onClick={() => setTambah(true)}>
-          {t.tambahFotoBukti}
-        </Tombol>
+        <div className="flex flex-col gap-2">
+          <Tombol ikon="kamera" penuh onClick={() => setTambah(true)}>
+            {t.tambahFotoBukti}
+          </Tombol>
+          <Tombol varian="sekunder" penuh onClick={() => setDeteksi(true)}>
+            Deteksi Gejala Tanaman (AI)
+          </Tombol>
+        </div>
       ) : null}
       <DialogTambah siklusId={d.siklus.id} terbuka={tambah} onTutup={() => setTambah(false)} />
+      <ModalDeteksiTanaman
+        terbuka={deteksi}
+        onTutup={() => setDeteksi(false)}
+        siklusId={d.siklus.id}
+      />
     </>
   );
 }

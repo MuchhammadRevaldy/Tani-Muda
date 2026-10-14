@@ -136,6 +136,12 @@ export interface ResepTanam {
   /** Persen hasil saat panen jelek (mis. 70) dan alasan umumnya, untuk skenario kalkulator (D-38). */
   persenPanenJelek?: number;
   alasanPanenJelek?: string;
+  suhuIdealMin?: number | null;
+  suhuIdealMaks?: number | null;
+  suhuBatasMin?: number | null;
+  suhuBatasMaks?: number | null;
+  saranSuhuTinggi?: string | null;
+  saranSuhuRendah?: string | null;
   input: ResepInput[];
   tugas: ResepTugas[];
 }

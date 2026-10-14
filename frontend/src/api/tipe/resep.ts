@@ -67,6 +67,12 @@ export interface ResepTanam {
   persen_panen_jelek: number | null;
   alasan_panen_jelek: string | null;
   standar_kualitas: string[];
+  suhu_ideal_min?: number | null;
+  suhu_ideal_maks?: number | null;
+  suhu_batas_min?: number | null;
+  suhu_batas_maks?: number | null;
+  saran_suhu_tinggi?: string | null;
+  saran_suhu_rendah?: string | null;
   input: ResepInput[];
   tugas: ResepTugas[];
 }

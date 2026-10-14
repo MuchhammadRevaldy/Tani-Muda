@@ -36,6 +36,7 @@ export type KodeGalatKhususApi =
   | 'AI_TIDAK_TERSEDIA'
   | 'BATAS_AI_TERCAPAI'
   | 'PERSETUJUAN_AI_WAJIB'
+  | 'CUACA_TIDAK_TERSEDIA'
   | 'GALAT_SERVER';
 
 export type KodeGalatApi = KodeGalat | KodeGalatKhususApi;
@@ -66,6 +67,7 @@ const STATUS_KHUSUS: Partial<Record<KodeGalatApi, number>> = {
   AI_TIDAK_TERSEDIA: 503,
   BATAS_AI_TERCAPAI: 429,
   PERSETUJUAN_AI_WAJIB: 403,
+  CUACA_TIDAK_TERSEDIA: 503,
 };
 
 export function statusHttp(kode: KodeGalatApi): number {

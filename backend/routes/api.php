@@ -6,7 +6,10 @@ use App\Http\Controllers\Api\V1\AuthController;
 use App\Http\Controllers\Api\V1\BelajarController;
 use App\Http\Controllers\Api\V1\BelumTersediaController;
 use App\Http\Controllers\Api\V1\BerkasController;
+use App\Http\Controllers\Api\V1\ChatbotController;
+use App\Http\Controllers\Api\V1\CuacaController;
 use App\Http\Controllers\Api\V1\DemoController;
+use App\Http\Controllers\Api\V1\DeteksiController;
 use App\Http\Controllers\Api\V1\KebunController;
 use App\Http\Controllers\Api\V1\KesehatanController;
 use App\Http\Controllers\Api\V1\KirimanController;
@@ -63,6 +66,21 @@ Route::middleware('auth:sanctum')->group(function () use ($endpointBelumTersedia
     Route::put('/akun/nomor-hp', [AkunController::class, 'gantiNomor']);
     Route::get('/akun/catatan', [AkunController::class, 'catatan'])->middleware('peran:petani');
     Route::put('/akun/profil-pembeli', [AkunController::class, 'simpanProfilPembeli'])->middleware('peran:pembeli');
+    Route::post('/akun/setuju-ai', [DeteksiController::class, 'setujuAI']);
+
+    // Deteksi penyakit tanaman dari foto (F-04)
+    Route::middleware('peran:petani')->group(function () {
+        Route::post('/deteksi', [DeteksiController::class, 'deteksi']);
+        Route::get('/deteksi', [DeteksiController::class, 'daftar']);
+        Route::get('/deteksi/{id}', [DeteksiController::class, 'ambil']);
+
+        // Chatbot Tanya Tani Muda (F-05)
+        Route::post('/chatbot', [ChatbotController::class, 'tanya']);
+        Route::get('/chatbot/riwayat', [ChatbotController::class, 'riwayat']);
+
+        // Cuaca dan kecocokan suhu (F-06)
+        Route::get('/cuaca', [CuacaController::class, 'sekarang']);
+    });
 
     // Wilayah dan referensi (3.2)
     Route::get('/wilayah', [WilayahController::class, 'daftar']);
