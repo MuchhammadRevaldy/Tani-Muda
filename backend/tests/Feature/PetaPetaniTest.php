@@ -9,6 +9,8 @@ use App\Models\Pengguna;
 use App\Models\ProfilPembeli;
 use App\Models\Stok;
 use App\Models\Wilayah;
+use Carbon\CarbonImmutable;
+use Database\Seeders\DataContohSeeder;
 use Illuminate\Support\Facades\DB;
 
 function ambilWilayahUji(): Wilayah
@@ -308,4 +310,30 @@ it('mengembalikan 501 jika sakelar FITUR_PETA mati', function () {
         ->getJson('/api/v1/peta/petani')
         ->assertStatus(501)
         ->assertJsonPath('galat.kode', 'BELUM_TERSEDIA');
+});
+
+it('peta pembeli demo Bu Ratna dan Bu Imas menampilkan beberapa titik dalam 10 km dan stok siap jual tidak kosong', function () {
+    DataContohSeeder::isi(CarbonImmutable::now());
+
+    $ratna = Pengguna::find('pembeli-ratna');
+    $resRatna = $this->actingAs($ratna)
+        ->getJson('/api/v1/peta/petani?radius_km=10')
+        ->assertOk()
+        ->json('data');
+
+    expect(count($resRatna))->toBeGreaterThanOrEqual(3);
+    foreach ($resRatna as $p) {
+        expect($p['jarak_km'])->toBeLessThanOrEqual(10.0);
+    }
+
+    $imas = Pengguna::find('pembeli-imas');
+    $resImas = $this->actingAs($imas)
+        ->getJson('/api/v1/peta/petani?radius_km=10')
+        ->assertOk()
+        ->json('data');
+
+    expect(count($resImas))->toBeGreaterThanOrEqual(3);
+
+    $stokTersedia = Stok::where('status', StatusStok::Tersedia->value)->where('sisa_kg', '>', 0)->get();
+    expect($stokTersedia->count())->toBeGreaterThanOrEqual(5);
 });

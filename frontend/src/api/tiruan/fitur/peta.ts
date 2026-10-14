@@ -20,20 +20,37 @@ export function buatKlienPetaTiruan(k: Konteks): KlienPeta {
         (p) => p.peran === 'petani' && p.tampil_di_peta && p.lokasi_kira_lintang != null && p.lokasi_kira_bujur != null,
       );
 
-      return petaniList.map((p) => ({
-        id: p.id,
-        nama: p.nama ?? 'Petani Tani Muda',
-        level: {
-          level: 1,
-          ikon: '🌱',
-        },
-        titik: {
-          lintang: p.lokasi_kira_lintang ?? -6.82,
-          bujur: p.lokasi_kira_bujur ?? 107.62,
-        },
-        jarak_km: 5.0,
-        stok_tersedia: [],
-      }));
+      const stokList =
+        (k.db as unknown as { stok?: { stok?: import('../../tipe').StokRingkas[] } }).stok?.stok ?? [];
+
+      return petaniList.map((p) => {
+        const stokPetani = stokList
+          .filter((s) => s.petani_id === p.id && s.status === 'tersedia' && s.sisa_kg > 0)
+          .map((s) => ({
+            id: s.id,
+            komoditas_id: s.komoditas_id,
+            komoditas_nama: s.komoditas?.nama ?? s.komoditas_id,
+            sisa_kg: s.sisa_kg,
+            harga_per_kg: s.harga_per_kg,
+            tanggal_panen: s.tanggal_panen,
+            foto: s.foto ?? null,
+          }));
+
+        return {
+          id: p.id,
+          nama: p.nama ?? 'Petani Tani Muda',
+          level: {
+            level: 1,
+            ikon: '🌱',
+          },
+          titik: {
+            lintang: p.lokasi_kira_lintang ?? -6.82,
+            bujur: p.lokasi_kira_bujur ?? 107.62,
+          },
+          jarak_km: 3.5,
+          stok_tersedia: stokPetani,
+        };
+      });
     },
   };
 }

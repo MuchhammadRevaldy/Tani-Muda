@@ -53,6 +53,8 @@ it('seeder produksi tanpa resep contoh, pengguna uji, pesanan, dan laporan harga
         ->and(DB::table('pengguna')->count())->toBe(0)
         ->and(DB::table('pesanan')->count())->toBe(0)
         ->and(DB::table('laporan_harga')->count())->toBe(0)
+        ->and(DB::table('stok')->count())->toBe(0)
+        ->and(DB::table('percakapan')->count())->toBe(0)
         ->and(DB::table('komoditas')->count())->toBeGreaterThan(0)
         ->and(DB::table('modul')->count())->toBeGreaterThan(0)
         ->and(DB::table('konfigurasi')->count())->toBeGreaterThan(0);

@@ -38,7 +38,7 @@ import { resepDariDomain, tugasDariDomain } from '../../peta';
 import type * as A from '../../tipe';
 import type { DataContoh, DataKebun, DataPesanan, WilayahContoh } from './jenis-data';
 
-export const VERSI_DATA_CONTOH = 11;
+export const VERSI_DATA_CONTOH = 12;
 /** Hari acuan saat menghitung; semua tanggal ditulis relatif terhadapnya. */
 const HARI_DASAR = '2026-10-05';
 
@@ -59,6 +59,7 @@ const W = {
   cikahuripan: '32.17.01.2005',
   jayagiri: '32.17.01.2008',
   kayuambon: '32.17.01.2002',
+  cibodas: '32.17.01.2009',
   ledeng: '32.73.08.1003',
   batununggal: '32.73.21.1001',
   /** Desa tetangga di luar pilot, tanpa titik tengah (D-56). */
@@ -88,6 +89,7 @@ const WILAYAH: WilayahContoh[] = [
   wilayahLembang(W.cikahuripan, 'Cikahuripan', -6.8168, 107.6042),
   wilayahLembang(W.jayagiri, 'Jayagiri', -6.8102, 107.6178),
   wilayahLembang(W.kayuambon, 'Kayuambon', -6.82, 107.625),
+  wilayahLembang(W.cibodas, 'Cibodas', -6.8254, 107.6866),
   {
     id: W.ledeng,
     desa: 'Ledeng',
@@ -504,12 +506,12 @@ function buatPengguna(): DataContoh['pengguna'] {
         '+6281200000001',
         'Arif Setiawan',
         'petani',
-        W.lembang,
+        W.cikahuripan,
         'aktif',
         false,
         true,
         -6.82,
-        107.62,
+        107.6,
       ),
       pengguna(
         'petani-dewi',
@@ -519,6 +521,57 @@ function buatPengguna(): DataContoh['pengguna'] {
         W.sukajaya,
         'aktif',
         true,
+        true,
+        -6.81,
+        107.6,
+      ),
+      pengguna(
+        'petani-cecep',
+        '+6281200000006',
+        'Cecep Sunandar',
+        'petani',
+        W.jayagiri,
+        'aktif',
+        false,
+        true,
+        -6.81,
+        107.62,
+      ),
+      pengguna(
+        'petani-yogi',
+        '+6281200000005',
+        'Yogi Pratama',
+        'petani',
+        W.gudangkahuripan,
+        'aktif',
+        false,
+        true,
+        -6.83,
+        107.6,
+      ),
+      pengguna(
+        'petani-sari',
+        '+6281200000004',
+        'Sari Wulandari',
+        'petani',
+        W.kayuambon,
+        'aktif',
+        false,
+        true,
+        -6.82,
+        107.63,
+      ),
+      pengguna(
+        'petani-asep',
+        '+6281200000007',
+        'Asep Hendrawan',
+        'petani',
+        W.cibodas,
+        'aktif',
+        false,
+        true,
+        -6.83,
+        107.69,
       ),
       pengguna(
         'petani-budi',
@@ -527,9 +580,11 @@ function buatPengguna(): DataContoh['pengguna'] {
         'petani',
         W.jayagiri,
         'dinonaktifkan_sementara',
+        false,
+        false,
+        null,
+        null,
       ),
-      pengguna('petani-sari', '+6281200000004', 'Sari Wulandari', 'petani', W.kayuambon),
-      pengguna('petani-yogi', '+6281200000005', 'Yogi Pratama', 'petani', W.gudangkahuripan),
       pengguna('pembeli-ratna', '+6281300000001', 'Ratna Kusuma', 'pembeli', W.cikahuripan),
       pengguna('pembeli-imas', '+6281300000002', 'Imas Rohimah', 'pembeli', W.kayuambon),
       pengguna('pembeli-kafe', '+6281300000003', 'Galih Ramadhan', 'pembeli', W.ledeng),
@@ -1529,6 +1584,176 @@ function buatPesanan(): DataPesanan {
   return data;
 }
 
+const fotoSayur = (komoditas: string) => `/gambar/stok/${komoditas}.jpg`;
+
+function buatStok(): DataContoh['stok'] {
+  return {
+    stok: [
+      {
+        id: 'stok-sawi',
+        petani_id: 'petani-arif',
+        komoditas_id: 'sawi',
+        lahan_id: 'lahan-arif-kebun',
+        jumlah_kg: 50,
+        sisa_kg: 50,
+        harga_per_kg: 8000,
+        tanggal_panen: rel(tgl(-1)),
+        foto: fotoSayur('sawi'),
+        status: 'tersedia',
+        dibuat_pada: hw(-2, '08:00'),
+        diperbarui_pada: hw(-2, '08:00'),
+      },
+      {
+        id: 'stok-bayam',
+        petani_id: 'petani-dewi',
+        komoditas_id: 'bayam',
+        lahan_id: null,
+        jumlah_kg: 30,
+        sisa_kg: 30,
+        harga_per_kg: 9000,
+        tanggal_panen: rel(tgl(0)),
+        foto: fotoSayur('bayam'),
+        status: 'tersedia',
+        dibuat_pada: hw(-1, '07:30'),
+        diperbarui_pada: hw(-1, '07:30'),
+      },
+      {
+        id: 'stok-kangkung',
+        petani_id: 'petani-cecep',
+        komoditas_id: 'kangkung',
+        lahan_id: null,
+        jumlah_kg: 40,
+        sisa_kg: 40,
+        harga_per_kg: 6500,
+        tanggal_panen: rel(tgl(-1)),
+        foto: fotoSayur('kangkung'),
+        status: 'tersedia',
+        dibuat_pada: hw(-2, '09:00'),
+        diperbarui_pada: hw(-2, '09:00'),
+      },
+      {
+        id: 'stok-cabai',
+        petani_id: 'petani-yogi',
+        komoditas_id: 'cabai',
+        lahan_id: null,
+        jumlah_kg: 20,
+        sisa_kg: 20,
+        harga_per_kg: 35000,
+        tanggal_panen: rel(tgl(1)),
+        foto: fotoSayur('cabai'),
+        status: 'tersedia',
+        dibuat_pada: hw(-1, '10:00'),
+        diperbarui_pada: hw(-1, '10:00'),
+      },
+      {
+        id: 'stok-tomat',
+        petani_id: 'petani-sari',
+        komoditas_id: 'tomat',
+        lahan_id: null,
+        jumlah_kg: 60,
+        sisa_kg: 60,
+        harga_per_kg: 12000,
+        tanggal_panen: rel(tgl(0)),
+        foto: fotoSayur('tomat'),
+        status: 'tersedia',
+        dibuat_pada: hw(-1, '08:15'),
+        diperbarui_pada: hw(-1, '08:15'),
+      },
+      {
+        id: 'stok-selada',
+        petani_id: 'petani-asep',
+        komoditas_id: 'selada',
+        lahan_id: null,
+        jumlah_kg: 25,
+        sisa_kg: 25,
+        harga_per_kg: 15000,
+        tanggal_panen: rel(tgl(-1)),
+        foto: fotoSayur('selada'),
+        status: 'tersedia',
+        dibuat_pada: hw(-2, '07:00'),
+        diperbarui_pada: hw(-2, '07:00'),
+      },
+    ],
+  };
+}
+
+function buatChat(): DataContoh['chat'] {
+  return {
+    percakapan: [
+      {
+        id: 'percakapan-demo-1',
+        jenis: 'pesanan_stok',
+        rujukan_id: 'stok-sawi',
+        petani_id: 'petani-arif',
+        pembeli_id: 'pembeli-ratna',
+        dibuat_pada: hw(-1, '09:00'),
+        diperbarui_pada: hw(-1, '09:15'),
+      },
+      {
+        id: 'percakapan-demo-2',
+        jenis: 'kontak',
+        rujukan_id: null,
+        petani_id: 'petani-dewi',
+        pembeli_id: 'pembeli-imas',
+        dibuat_pada: hw(0, '07:30'),
+        diperbarui_pada: hw(0, '07:40'),
+      },
+    ],
+    pesan: [
+      {
+        id: 'pesan-demo-1',
+        percakapan_id: 'percakapan-demo-1',
+        pengirim_id: 'pembeli-ratna',
+        isi: 'Halo Pak Arif, stok sawi segarnya masih bisa diantar ke Cikahuripan besok pagi?',
+        dibaca_pada: hw(-1, '09:05'),
+        kunci_idempoten: null,
+        dibuat_pada: hw(-1, '09:00'),
+        diperbarui_pada: hw(-1, '09:00'),
+      },
+      {
+        id: 'pesan-demo-2',
+        percakapan_id: 'percakapan-demo-1',
+        pengirim_id: 'petani-arif',
+        isi: 'Pagi Bu Ratna! Tentu bisa, sawi baru dipanen kemarin sore, segar siap kirim.',
+        dibaca_pada: hw(-1, '09:12'),
+        kunci_idempoten: null,
+        dibuat_pada: hw(-1, '09:10'),
+        diperbarui_pada: hw(-1, '09:10'),
+      },
+      {
+        id: 'pesan-demo-3',
+        percakapan_id: 'percakapan-demo-1',
+        pengirim_id: 'pembeli-ratna',
+        isi: 'Baik pak, saya pesan 10 kg ya lewat aplikasi. Terima kasih banyak!',
+        dibaca_pada: hw(-1, '09:20'),
+        kunci_idempoten: null,
+        dibuat_pada: hw(-1, '09:15'),
+        diperbarui_pada: hw(-1, '09:15'),
+      },
+      {
+        id: 'pesan-demo-4',
+        percakapan_id: 'percakapan-demo-2',
+        pengirim_id: 'pembeli-imas',
+        isi: 'Selamat pagi Bu Dewi, untuk bayam organiknya masih ada stok siap panen?',
+        dibaca_pada: hw(0, '07:35'),
+        kunci_idempoten: null,
+        dibuat_pada: hw(0, '07:30'),
+        diperbarui_pada: hw(0, '07:30'),
+      },
+      {
+        id: 'pesan-demo-5',
+        percakapan_id: 'percakapan-demo-2',
+        pengirim_id: 'petani-dewi',
+        isi: 'Selamat pagi Bu Imas! Masih ada 30 kg baru panen subuh tadi.',
+        dibaca_pada: null,
+        kunci_idempoten: null,
+        dibuat_pada: hw(0, '07:40'),
+        diperbarui_pada: hw(0, '07:40'),
+      },
+    ],
+  };
+}
+
 /** Bangun seluruh data contoh. Deterministik: keluaran sama setiap dipanggil. */
 export function buatDataContoh(): DataContoh {
   return {
@@ -1541,5 +1766,7 @@ export function buatDataContoh(): DataContoh {
     pengguna: buatPengguna(),
     kebun: buatKebun(),
     pesanan: buatPesanan(),
+    stok: buatStok(),
+    chat: buatChat(),
   };
 }

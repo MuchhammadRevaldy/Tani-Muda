@@ -17,7 +17,10 @@ import type { Konteks } from '../konteks';
 export function buatKlienStokTiruan(k: Konteks): KlienStok {
   function pastikanArray(): { stok: StokRingkas[]; pesananStok: PesananStok[] } {
     const dbAny = k.db as unknown as { stok?: StokRingkas[]; pesanan_stok?: PesananStok[] };
-    dbAny.stok ??= [];
+    if (!dbAny.stok) {
+      const sumberStok = (k.db as unknown as { stok?: { stok?: StokRingkas[] } }).stok?.stok;
+      dbAny.stok = sumberStok ? structuredClone(sumberStok) : [];
+    }
     dbAny.pesanan_stok ??= [];
     return { stok: dbAny.stok, pesananStok: dbAny.pesanan_stok };
   }

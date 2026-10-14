@@ -1,0 +1,88 @@
+{
+  "stok": [
+    {
+      "id": "stok-sawi",
+      "petani_id": "petani-arif",
+      "komoditas_id": "sawi",
+      "lahan_id": "lahan-arif-kebun",
+      "jumlah_kg": 50,
+      "sisa_kg": 50,
+      "harga_per_kg": 8000,
+      "tanggal_panen": "H-1",
+      "foto": "/gambar/stok/sawi.jpg",
+      "status": "tersedia",
+      "dibuat_pada": "H-2T08:00",
+      "diperbarui_pada": "H-2T08:00"
+    },
+    {
+      "id": "stok-bayam",
+      "petani_id": "petani-dewi",
+      "komoditas_id": "bayam",
+      "lahan_id": null,
+      "jumlah_kg": 30,
+      "sisa_kg": 30,
+      "harga_per_kg": 9000,
+      "tanggal_panen": "H+0",
+      "foto": "/gambar/stok/bayam.jpg",
+      "status": "tersedia",
+      "dibuat_pada": "H-1T07:30",
+      "diperbarui_pada": "H-1T07:30"
+    },
+    {
+      "id": "stok-kangkung",
+      "petani_id": "petani-cecep",
+      "komoditas_id": "kangkung",
+      "lahan_id": null,
+      "jumlah_kg": 40,
+      "sisa_kg": 40,
+      "harga_per_kg": 6500,
+      "tanggal_panen": "H-1",
+      "foto": "/gambar/stok/kangkung.jpg",
+      "status": "tersedia",
+      "dibuat_pada": "H-2T09:00",
+      "diperbarui_pada": "H-2T09:00"
+    },
+    {
+      "id": "stok-cabai",
+      "petani_id": "petani-yogi",
+      "komoditas_id": "cabai",
+      "lahan_id": null,
+      "jumlah_kg": 20,
+      "sisa_kg": 20,
+      "harga_per_kg": 35000,
+      "tanggal_panen": "H+1",
+      "foto": "/gambar/stok/cabai.jpg",
+      "status": "tersedia",
+      "dibuat_pada": "H-1T10:00",
+      "diperbarui_pada": "H-1T10:00"
+    },
+    {
+      "id": "stok-tomat",
+      "petani_id": "petani-sari",
+      "komoditas_id": "tomat",
+      "lahan_id": null,
+      "jumlah_kg": 60,
+      "sisa_kg": 60,
+      "harga_per_kg": 12000,
+      "tanggal_panen": "H+0",
+      "foto": "/gambar/stok/tomat.jpg",
+      "status": "tersedia",
+      "dibuat_pada": "H-1T08:15",
+      "diperbarui_pada": "H-1T08:15"
+    },
+    {
+      "id": "stok-selada",
+      "petani_id": "petani-asep",
+      "komoditas_id": "selada",
+      "lahan_id": null,
+      "jumlah_kg": 25,
+      "sisa_kg": 25,
+      "harga_per_kg": 15000,
+      "tanggal_panen": "H-1",
+      "foto": "/gambar/stok/selada.jpg",
+      "status": "tersedia",
+      "dibuat_pada": "H-2T07:00",
+      "diperbarui_pada": "H-2T07:00"
+    }
+  ]
+}

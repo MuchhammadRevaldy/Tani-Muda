@@ -49,6 +49,9 @@ class DataContohSeeder extends Seeder
         ['pesanan', 'sengketa', 'sengketa'],
         ['pengguna', 'catatan_petani', 'catatan_petani'],
         ['pesanan', 'permintaan_resep', 'permintaan_resep'],
+        ['stok', 'stok', 'stok'],
+        ['chat', 'percakapan', 'percakapan'],
+        ['chat', 'pesan', 'pesan'],
     ];
 
     /** Tabel referensi yang juga dipakai seeder produksi (tanpa resep contoh dan pengguna uji, D-12). */

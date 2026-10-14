@@ -14,6 +14,8 @@ export interface BerkasDataContoh {
   pengguna: DataContoh['pengguna'];
   kebun: DataContoh['kebun'];
   pesanan: DataContoh['pesanan'];
+  stok: DataContoh['stok'];
+  chat: DataContoh['chat'];
 }
 
 const CATATAN =
@@ -32,6 +34,8 @@ export function pecahDataContoh(d: DataContoh): BerkasDataContoh {
     pengguna: d.pengguna,
     kebun: d.kebun,
     pesanan: d.pesanan,
+    stok: d.stok,
+    chat: d.chat,
   };
 }
 
@@ -46,5 +50,7 @@ export function gabungDataContoh(b: BerkasDataContoh): DataContoh {
     pengguna: b.pengguna,
     kebun: b.kebun,
     pesanan: b.pesanan,
+    stok: b.stok,
+    chat: b.chat,
   };
 }

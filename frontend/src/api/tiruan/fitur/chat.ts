@@ -25,9 +25,17 @@ interface DbPercakapan {
 }
 
 function pastikanDb(k: Konteks): { percakapan: DbPercakapan[]; pesan: Pesan[] } {
-  const dbAny = k.db as unknown as { chat_percakapan?: DbPercakapan[]; chat_pesan?: Pesan[] };
-  dbAny.chat_percakapan ??= [];
-  dbAny.chat_pesan ??= [];
+  const dbAny = k.db as unknown as {
+    chat_percakapan?: DbPercakapan[];
+    chat_pesan?: Pesan[];
+    chat?: { percakapan?: DbPercakapan[]; pesan?: Pesan[] };
+  };
+  if (!dbAny.chat_percakapan) {
+    dbAny.chat_percakapan = dbAny.chat?.percakapan ? structuredClone(dbAny.chat.percakapan) : [];
+  }
+  if (!dbAny.chat_pesan) {
+    dbAny.chat_pesan = dbAny.chat?.pesan ? structuredClone(dbAny.chat.pesan) : [];
+  }
   return { percakapan: dbAny.chat_percakapan, pesan: dbAny.chat_pesan };
 }
 

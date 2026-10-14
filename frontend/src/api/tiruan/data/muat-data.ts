@@ -7,7 +7,9 @@ import pengguna from '@data-contoh/pengguna.json';
 import pesanan from '@data-contoh/pesanan.json';
 import referensi from '@data-contoh/referensi.json';
 import resep from '@data-contoh/resep.json';
+import stok from '@data-contoh/stok.json';
 import wilayah from '@data-contoh/wilayah.json';
+import chat from '@data-contoh/chat.json';
 import { gabungDataContoh, type BerkasDataContoh } from './berkas-data';
 import type { DataContoh } from './jenis-data';
 
@@ -26,5 +28,7 @@ export function muatDataContoh(): DataContoh {
     pengguna,
     kebun,
     pesanan,
+    stok,
+    chat,
   } as unknown as BerkasDataContoh);
 }

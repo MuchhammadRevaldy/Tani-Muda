@@ -60,6 +60,16 @@
     "kode_terverifikasi": true
   },
   {
+    "id": "32.17.01.2009",
+    "desa": "Cibodas",
+    "kecamatan": "Lembang",
+    "kabupaten": "Kabupaten Bandung Barat",
+    "provinsi": "Jawa Barat",
+    "lintang": -6.8254,
+    "bujur": 107.6866,
+    "kode_terverifikasi": true
+  },
+  {
     "id": "32.73.08.1003",
     "desa": "Ledeng",
     "kecamatan": "Cidadap",

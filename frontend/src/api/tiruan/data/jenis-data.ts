@@ -100,6 +100,51 @@ export interface DataPesanan {
   permintaan_resep: PermintaanResep[];
 }
 
+export interface StokContoh {
+  id: string;
+  petani_id: string;
+  komoditas_id: string;
+  lahan_id: string | null;
+  jumlah_kg: number;
+  sisa_kg: number;
+  harga_per_kg: number;
+  tanggal_panen: string;
+  foto: string | null;
+  status: 'tersedia' | 'habis' | 'ditarik';
+  dibuat_pada: string;
+  diperbarui_pada: string;
+}
+
+export interface PercakapanContoh {
+  id: string;
+  jenis: 'alokasi' | 'pesanan_stok' | 'peta' | 'kontak';
+  rujukan_id: string | null;
+  petani_id: string;
+  pembeli_id: string;
+  dibuat_pada: string;
+  diperbarui_pada: string;
+}
+
+export interface PesanContoh {
+  id: string;
+  percakapan_id: string;
+  pengirim_id: string;
+  isi: string;
+  dibaca_pada: string | null;
+  kunci_idempoten: string | null;
+  dibuat_pada: string;
+  diperbarui_pada: string;
+}
+
+export interface DataStok {
+  stok: StokContoh[];
+}
+
+export interface DataChat {
+  percakapan: PercakapanContoh[];
+  pesan: PesanContoh[];
+}
+
 export interface DataContoh {
   /** Naikkan bila bentuk data berubah; data tersimpan versi lama diganti data contoh baru. */
   versi: number;
@@ -111,4 +156,6 @@ export interface DataContoh {
   pengguna: DataPengguna;
   kebun: DataKebun;
   pesanan: DataPesanan;
+  stok: DataStok;
+  chat: DataChat;
 }

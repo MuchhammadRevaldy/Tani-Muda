@@ -1,0 +1,74 @@
+{
+  "percakapan": [
+    {
+      "id": "percakapan-demo-1",
+      "jenis": "pesanan_stok",
+      "rujukan_id": "stok-sawi",
+      "petani_id": "petani-arif",
+      "pembeli_id": "pembeli-ratna",
+      "dibuat_pada": "H-1T09:00",
+      "diperbarui_pada": "H-1T09:15"
+    },
+    {
+      "id": "percakapan-demo-2",
+      "jenis": "kontak",
+      "rujukan_id": null,
+      "petani_id": "petani-dewi",
+      "pembeli_id": "pembeli-imas",
+      "dibuat_pada": "H+0T07:30",
+      "diperbarui_pada": "H+0T07:40"
+    }
+  ],
+  "pesan": [
+    {
+      "id": "pesan-demo-1",
+      "percakapan_id": "percakapan-demo-1",
+      "pengirim_id": "pembeli-ratna",
+      "isi": "Halo Pak Arif, stok sawi segarnya masih bisa diantar ke Cikahuripan besok pagi?",
+      "dibaca_pada": "H-1T09:05",
+      "kunci_idempoten": null,
+      "dibuat_pada": "H-1T09:00",
+      "diperbarui_pada": "H-1T09:00"
+    },
+    {
+      "id": "pesan-demo-2",
+      "percakapan_id": "percakapan-demo-1",
+      "pengirim_id": "petani-arif",
+      "isi": "Pagi Bu Ratna! Tentu bisa, sawi baru dipanen kemarin sore, segar siap kirim.",
+      "dibaca_pada": "H-1T09:12",
+      "kunci_idempoten": null,
+      "dibuat_pada": "H-1T09:10",
+      "diperbarui_pada": "H-1T09:10"
+    },
+    {
+      "id": "pesan-demo-3",
+      "percakapan_id": "percakapan-demo-1",
+      "pengirim_id": "pembeli-ratna",
+      "isi": "Baik pak, saya pesan 10 kg ya lewat aplikasi. Terima kasih banyak!",
+      "dibaca_pada": "H-1T09:20",
+      "kunci_idempoten": null,
+      "dibuat_pada": "H-1T09:15",
+      "diperbarui_pada": "H-1T09:15"
+    },
+    {
+      "id": "pesan-demo-4",
+      "percakapan_id": "percakapan-demo-2",
+      "pengirim_id": "pembeli-imas",
+      "isi": "Selamat pagi Bu Dewi, untuk bayam organiknya masih ada stok siap panen?",
+      "dibaca_pada": "H+0T07:35",
+      "kunci_idempoten": null,
+      "dibuat_pada": "H+0T07:30",
+      "diperbarui_pada": "H+0T07:30"
+    },
+    {
+      "id": "pesan-demo-5",
+      "percakapan_id": "percakapan-demo-2",
+      "pengirim_id": "petani-dewi",
+      "isi": "Selamat pagi Bu Imas! Masih ada 30 kg baru panen subuh tadi.",
+      "dibaca_pada": null,
+      "kunci_idempoten": null,
+      "dibuat_pada": "H+0T07:40",
+      "diperbarui_pada": "H+0T07:40"
+    }
+  ]
+}
