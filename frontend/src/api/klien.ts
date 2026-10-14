@@ -383,6 +383,11 @@ export interface KlienChat {
   lencana(): Promise<import('./tipe').LencanaChat>;
 }
 
+export interface KlienHargaBerita {
+  /** GET /harga-berita?komoditas_id= */
+  daftar(komoditasId?: string): Promise<import('./tipe').HargaBeritaItem[]>;
+}
+
 export interface KlienApi {
   akun: KlienAkun;
   wilayah: KlienWilayah;
@@ -404,6 +409,7 @@ export interface KlienApi {
   stok: KlienStok;
   peta: KlienPeta;
   chat: KlienChat;
+  hargaBerita: KlienHargaBerita;
 }
 
 /**

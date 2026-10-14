@@ -42,6 +42,9 @@ import {
 import { modulTahapBerjalan } from '../lib/belajar';
 import { ringkasKartuSiklus } from '../lib/kartu-siklus';
 import { statusTugas } from '../lib/jadwal-ubah';
+import { KotakSaranHarian } from '../komponen/KotakSaranHarian';
+import { WidgetHargaBerita } from '../komponen/WidgetHargaBerita';
+import { ringkasanHarian } from '../lib/ringkasan-harian';
 import { teksBeranda as t } from '../teks/beranda';
 import { teksBelajar } from '../teks/belajar';
 import { teksKebun } from '../teks/kebun';
@@ -313,6 +316,21 @@ export function HalamanBeranda() {
     (s) => s.resep_contoh && tugasTampil.some((x) => x.siklus_id === s.id),
   );
 
+  const ringkasan = ringkasanHarian(
+    tugasTampil.map((x) => ({
+      id: x.id,
+      judul: x.judul,
+      tanggal: x.tanggal,
+      selesai: x.status === 'selesai',
+      selesai_pada: null,
+      berkas_foto_id: null,
+      fase_tanam: null,
+    })),
+    [],
+    null,
+    hariIni,
+  );
+
   return (
     <>
       {bannerOffline}
@@ -391,6 +409,7 @@ export function HalamanBeranda() {
             contoh={adaContoh}
             bertahap={bertahap}
           />
+          <KotakSaranHarian ringkasan={ringkasan} />
         </div>
 
         <aside
@@ -400,6 +419,13 @@ export function HalamanBeranda() {
           )}
         >
           <KartuCuaca />
+          <WidgetHargaBerita
+            komoditasId={dipilih.komoditas_id}
+            namaKomoditas={
+              komoditasQ.data?.find((k) => k.id === dipilih.komoditas_id)?.nama ??
+              namaSiklus.komoditas(dipilih.komoditas_id)
+            }
+          />
           {tawaran ? (
             <KartuTawaran
               pesanan={tawaran}

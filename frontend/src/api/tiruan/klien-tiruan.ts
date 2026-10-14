@@ -73,6 +73,9 @@ export function buatKlienTiruan(opsi: OpsiKlienTiruan): KlienTiruan {
     stok: buatKlienStokTiruan(k),
     peta: buatKlienPetaTiruan(k),
     chat: buatKlienChatTiruan(k),
+    hargaBerita: {
+      daftar: async () => [],
+    },
   };
   const { klien, kendali } = bungkusLatensi(mentah, { latensiMs: opsi.latensiMs ?? [0, 0] });
 

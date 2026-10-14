@@ -15,9 +15,45 @@ Layar: laptop 1440 px (tampilan desktop), zoom 100%. Dua jendela atau tab: aplik
 | **Backend (utama)** | `npm run demo:backend` | `http://localhost:4174` | Aplikasi tersambung ke Laravel + MariaDB di laptop; juri bisa melihat datanya bertambah di phpMyAdmin. |
 | Tiruan (cadangan) | `npm run demo` | `http://localhost:5173` | Data contoh di peramban, tanpa basis data. Langkah phpMyAdmin dilewati. |
 
-**Versi lomba:** tag `demo-logo` (logo baru D-63 di atas `demo-animasi`; [AG-24]; uji 3/3 dingin dengan `demo:backend`). Jalan mundur berurutan: `demo-animasi` (logo lama), `demo-tema-baru` (tanpa animasi), `demo-aman` (tema lama): `git switch --detach <tag>`, lalu `npm run demo:backend`. Dengan disahkannya PRD tambahan 12 fitur (D-64), **kode dibekukan Sabtu, 17 Oktober 2026 pukul 12.00**; setelah itu hanya perbaikan darurat yang menghentikan demo.
+**Versi lomba:** tag `demo-lomba` (pembekuan final seluruh fitur F-00 s/d F-11; [AG-34]; uji gerbang 27/27 lolos 3 putaran). Jalan mundur berurutan: `demo-logo` (D-63), `demo-animasi` (D-61), `demo-tema-baru` (D-59), `demo-aman` (tema lama): `git switch --detach <tag>`, lalu `npm run demo:backend`.
+**Tanggal Pembekuan Final:** **Sabtu, 17 Oktober 2026 pukul 12.00 WIB**. Setelah titik ini, seluruh kode aplikasi dibekukan dan tim fokus penuh pada simulasi panggung.
 
-**Rencana Segmen Fitur Pintar (~1,5 menit):** Setelah gelombang fitur Tahap 7 stabil, alur 7 menit akan menyelipkan 1 segmen singkat "Fitur pintar" (pilihan 2–3 fitur terkuat: saran memperbanyak untung F-01, level/lencana F-03, deteksi penyakit foto F-04, atau cuaca F-06) tanpa mengubah inti 5 pilar demo. Fitur lainnya cukup disebut lewat slide.
+### Status Sakelar Fitur (Tahap 7 / PRD Tambahan v1.1)
+
+Setiap fitur dilengkapi sakelar mandiri (`VITE_FITUR_<NAMA>` di frontend dan `FITUR_<NAMA>` di backend) serta driver tiruan, sehingga dapat dimatikan secara instan bila ada gangguan jaringan pihak ketiga tanpa merusak alur aplikasi:
+
+| Fitur | Nama Sakelar | Status Demo | Keterangan / Fallback |
+| --- | --- | --- | --- |
+| F-00 | `AI` | Aktif | Penyedia AI lokal / Gemini dengan fallback aturan murni |
+| F-01 | `SARAN_UNTUNG` | Aktif | Saran optimasi margin & metode tanam |
+| F-02 | `TANAMAN_BARU` | Aktif | Rekomendasi varietas dan komoditas potensial |
+| F-03 | `LEVEL` | Aktif | Poin keaktifan petani dan lencana reputasi |
+| F-04 | `DETEKSI` | Aktif | Analisis kesehatan tanaman berbasis foto |
+| F-05 | `CHATBOT` | Aktif | Tanya jawab budidaya dan panduan resep |
+| F-06 | `CUACA` | Aktif | Prakiraan cuaca 3 harian BMKG / tiruan |
+| F-07 | `STOK` | Aktif | Etalase stok panen siap jual & transaksi COD |
+| F-08 | `PETA` | Aktif | Sebaran titik lahan petani aktif (radius 10 km) |
+| F-09 | `CHAT` | Aktif | Obrolan langsung via titik peta & nomor HP kontak |
+| F-10 | `HARGA_BERITA` | Aktif | Pantauan harga pasar komoditas dari media berita terpercaya |
+| F-11 | `SARAN_HARIAN` | Aktif | Rangkuman harian & saran resep setelah tugas selesai |
+
+Bila ingin mematikan salah satu fitur saat latihan: setel `$env:VITE_FITUR_<NAMA>='mati'`.
+
+## Segmen Tambahan: Demo "Fitur Pintar" (~1,5 Menit)
+
+Disajikan setelah langkah 10 (atau terpisah bila juri meminta pendalaman teknologi cerdas):
+
+1. **Peta Petani & Stok Siap Jual (F-07 & F-08) [30 detik]**
+   - **Langkah:** Masuk sebagai Ratna (pembeli) → buka `/pembeli/peta` → tunjukkan sebaran 6 titik petani Lembang dengan koordinat presisi. Buka tab **Stok** (`/pembeli/stok`) → tunjukkan kartu panen sawi segar Arif dan bayam Dewi dengan tombol **Chat** dan **Beli Panen Ini**.
+   - **Kalimat untuk juri:** *"Tani Muda tidak hanya melayani kontrak tanam di muka, tapi juga memetakan stok panen segar di sekitar pembeli. Ibu Ratna bisa melihat langsung kebun terdekat dalam radius 10 km, lengkap dengan harga per kg dan opsi transaksi langsung COD."*
+
+2. **Chat Langsung via Nomor Kontak (F-09) [30 detik]**
+   - **Langkah:** Tekan **Chat dengan nomor HP** (`#tombol-chat-nomor-hp`) → masukkan nomor Arif (`+6281200000001`) → tekan **Buka Chat**. Ketik *"Halo Pak Arif, stok sawi siap kirim?"* → kirim. Beralih ke akun Arif → buka `/chat` → balas pesan tersebut.
+   - **Kalimat untuk juri:** *"Komunikasi adalah kunci rantai pasok pangan. Pembeli dan petani dapat saling berkoordinasi secara instan melalui nomor HP atau langsung dari titik peta, dengan batas laju aman dan privasi terjaga."*
+
+3. **Kotak Saran Tugas Beres & Pantauan Harga Pasar Berita (F-10 & F-11) [30 detik]**
+   - **Langkah:** Masuk sebagai Arif → buka `/beranda` → tunjukkan **Kotak Saran Harian** di bawah daftar tugas (*Tugas Hari Ini Beres! +10 poin*) beserta saran resep untuk tahap tanam sekarang. Kemudian tunjukkan **Widget Harga Berita Hari Ini** di kolom samping (*Rp35.000 / kg - Komoditas Sawi*).
+   - **Kalimat untuk juri:** *"Setelah petani menyelesaikan seluruh tugas hari ini, sistem aturan murni kami memberikan apresiasi poin gamifikasi dan saran resep berikutnya. Di samping itu, petani disajikan kabar harga pasar terkini dari berita nasional sebagai pembanding objektif, tanpa manipulasi dan tanpa tebakan AI."*
 
 **Bila animasi membuat demo tersendat:** matikan sakelarnya lalu jalankan ulang, tanpa mengubah kode: `$env:VITE_ANIMASI='mati'; npm run demo:backend` (sakelar tetapnya di `frontend/scripts/pengaturan-demo.mjs`, D-62).
 
@@ -183,3 +219,17 @@ npm run uji:naskah -- --url http://localhost:4174 --ulang 3 --dingin --catatan u
 ```
 
 Catatan uji tersimpan di `frontend\uji-restart`. Sesudahnya atur ulang data seperti langkah 5 di atas.
+
+**Gerbang Final Versi Lomba `demo-lomba` ([AG-34]), 15 Oktober 2026: 27 dari 27 skenario lolos berturut-turut** (`--skenario semua --ulang 3`):
+Semua 9 skenario:
+1. `naskah` (alur 10 langkah utama)
+2. `daftar-petani`
+3. `daftar-pembeli`
+4. `verifikasi-pembeli`
+5. `akun-pembeli` (menu akun, profil, ubah nama, keluar)
+6. `stok-cod` (tambah stok panen, transaksi COD pembeli, terima & kirim, terima & selesai)
+7. `chat` (obrolan via titik peta)
+8. `chat-nomor` (obrolan via nomor kontak HP petani +6281200000001)
+9. `navigasi-pembeli-hp` (kapsul 4 tab: Pesanan, Stok, Peta, Chat di layar 390px + dropdown akun pembeli: Profil, Riwayat, Keluar)
+
+Seluruhnya hijau 100% pada 3 putaran berturut-turut. Bukti tangkapan layar desktop (1440px) dan mobile (390px) tersedia di `docs/tangkapan/aplikasi/`.

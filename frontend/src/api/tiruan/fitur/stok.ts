@@ -16,13 +16,22 @@ import type { Konteks } from '../konteks';
 
 export function buatKlienStokTiruan(k: Konteks): KlienStok {
   function pastikanArray(): { stok: StokRingkas[]; pesananStok: PesananStok[] } {
-    const dbAny = k.db as unknown as { stok?: StokRingkas[]; pesanan_stok?: PesananStok[] };
-    if (!dbAny.stok) {
-      const sumberStok = (k.db as unknown as { stok?: { stok?: StokRingkas[] } }).stok?.stok;
-      dbAny.stok = sumberStok ? structuredClone(sumberStok) : [];
+    const dbAny = k.db as unknown as {
+      stok_daftar?: StokRingkas[];
+      stok?: { stok?: StokRingkas[] } | StokRingkas[];
+      pesanan_stok?: PesananStok[];
+    };
+    if (!dbAny.stok_daftar) {
+      if (Array.isArray(dbAny.stok)) {
+        dbAny.stok_daftar = dbAny.stok;
+      } else if (dbAny.stok && Array.isArray(dbAny.stok.stok)) {
+        dbAny.stok_daftar = structuredClone(dbAny.stok.stok);
+      } else {
+        dbAny.stok_daftar = [];
+      }
     }
     dbAny.pesanan_stok ??= [];
-    return { stok: dbAny.stok, pesananStok: dbAny.pesanan_stok };
+    return { stok: dbAny.stok_daftar, pesananStok: dbAny.pesanan_stok };
   }
 
   function penggunaAktif(): Pengguna {

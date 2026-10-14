@@ -9,7 +9,7 @@
  *                         [--catatan <folder>] [--layar] [--dingin] [--tampil] [--lebar 390]
  *
  * --skenario  naskah (bawaan), daftar-petani, daftar-pembeli, verifikasi-pembeli, akun-pembeli,
- *             stok-cod, chat, atau semua (berurutan per putaran).
+ *             stok-cod, chat, chat-nomor, navigasi-pembeli-hp, atau semua (berurutan per putaran).
  * --ulang     jalankan N putaran, masing-masing diawali atur ulang (bawaan 1).
  * --catatan   folder diagnosis. Saat langkah gagal: tangkapan layar seluruh halaman, isi DOM,
  *             tombol dan tautan yang terlihat, log konsol, dan waktu setiap permintaan API.
@@ -349,9 +349,12 @@ async function stokCod(page, langkah) {
     await page.waitForURL(/\/beranda/, { timeout: TUNGGU });
     await page.goto(`${URL_DASAR}/stok`);
     await lihat(page, 'Stok Siap Jual');
-    const tombolTambah = tombol(page, /\+ Tambah Stok/);
-    if (await tombolTambah.isVisible().catch(() => false)) await tombolTambah.click();
-    await page.locator('#jumlah-stok').fill('20');
+    const tombolTambah = page.locator('#tombol-buka-form-stok');
+    await tombolTambah.waitFor({ state: 'visible', timeout: TUNGGU });
+    await tombolTambah.click();
+    const inputJumlah = page.locator('#jumlah-stok');
+    await inputJumlah.waitFor({ state: 'visible', timeout: TUNGGU });
+    await inputJumlah.fill('20');
     await page.locator('#harga-stok').fill('12000');
     await klik(page, 'Simpan dan Jual');
     await lihat(page, 'Stok siap jual berhasil ditambahkan');
@@ -427,6 +430,94 @@ async function skenarioChat(page, langkah) {
   });
 }
 
+/** Percakapan via nomor HP petani demo ([AG-34], butir 10). */
+async function chatNomor(page, langkah) {
+  await langkah('0. Atur ulang data demo', () => aturUlang(page));
+  await langkah('1. Pembeli membuka chat lewat nomor HP', async () => {
+    await page.goto(`${URL_DASAR}/akun-demo`);
+    await klik(page, 'Masuk sebagai Ratna');
+    await page.waitForURL(/\/pembeli/, { timeout: TUNGGU });
+    await page.goto(`${URL_DASAR}/pembeli/chat`);
+    await lihat(page, 'Chat & Pesan');
+    const tombolModal = page.locator('#tombol-chat-nomor-hp');
+    await tombolModal.waitFor({ state: 'visible', timeout: TUNGGU });
+    await tombolModal.click();
+    const masukanNomor = page.locator('#masukan-nomor-hp-chat');
+    await masukanNomor.waitFor({ state: 'visible', timeout: TUNGGU });
+    await masukanNomor.fill('+6281200000001');
+    const tombolBuka = page.locator('#tombol-kirim-buka-nomor');
+    await tombolBuka.waitFor({ state: 'visible', timeout: TUNGGU });
+    await tombolBuka.click();
+    await page.waitForURL(/\/pembeli\/chat\?id=/, { timeout: TUNGGU });
+  });
+  await langkah('2. Pembeli mengirim pesan', async () => {
+    await lihat(page, 'Chat & Pesan');
+    const masukanPesan = page.locator('#masukan-pesan-chat');
+    await masukanPesan.waitFor({ state: 'visible', timeout: TUNGGU });
+    await masukanPesan.fill('Halo Pak Arif, apakah ada panen sawi segar hari ini?');
+    await masukanPesan.press('Enter');
+    await lihat(page, 'Halo Pak Arif, apakah ada panen sawi segar hari ini?');
+  });
+  await langkah('3. Petani melihat pesan dan membalas', async () => {
+    await page.goto(`${URL_DASAR}/akun-demo`);
+    await klik(page, 'Masuk sebagai Arif');
+    await page.waitForURL(/\/beranda/, { timeout: TUNGGU });
+    await page.goto(`${URL_DASAR}/chat`);
+    await lihat(page, 'Chat & Pesan');
+    await klik(page, /Ratna Kusuma/);
+    await page.waitForURL(/\/chat\?id=/, { timeout: TUNGGU });
+    await lihat(page, /apakah ada panen sawi segar hari ini\?/);
+    const masukanPesan = page.locator('#masukan-pesan-chat');
+    await masukanPesan.waitFor({ state: 'visible', timeout: TUNGGU });
+    await masukanPesan.fill('Halo Bu Ratna, ada panen sawi baru saja dipetik.');
+    await masukanPesan.press('Enter');
+    await lihat(page, 'Halo Bu Ratna, ada panen sawi baru saja dipetik.');
+  });
+}
+
+/** Navigasi pembeli di HP selebar 390px ([AG-34], butir 10). */
+async function navigasiPembeliHp(page, langkah) {
+  await langkah('0. Atur ukuran layar HP dan data demo', async () => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await aturUlang(page);
+  });
+  await langkah('1. Masuk sebagai pembeli di HP', async () => {
+    await klik(page, 'Masuk sebagai Ratna');
+    await page.waitForURL(/\/pembeli/, { timeout: TUNGGU });
+    const kapsul = page.locator('#navigasi-bawah-pembeli');
+    await kapsul.waitFor({ state: 'visible', timeout: TUNGGU });
+  });
+  await langkah('2. Berpindah antar menu 4 tab', async () => {
+    const tabStok = page.locator('#navigasi-bawah-pembeli a[href="/pembeli/stok"]');
+    await tabStok.click();
+    await page.waitForURL(/\/pembeli\/stok/, { timeout: TUNGGU });
+    await lihat(page, 'Stok Siap Jual di Sekitar Anda');
+
+    const tabPeta = page.locator('#navigasi-bawah-pembeli a[href="/pembeli/peta"]');
+    await tabPeta.click();
+    await page.waitForURL(/\/pembeli\/peta/, { timeout: TUNGGU });
+    await lihat(page, 'Peta Petani Sekitar');
+
+    const tabChat = page.locator('#navigasi-bawah-pembeli a[href="/pembeli/chat"]');
+    await tabChat.click();
+    await page.waitForURL(/\/pembeli\/chat/, { timeout: TUNGGU });
+    await lihat(page, 'Chat & Pesan');
+
+    const tabPesanan = page.locator('#navigasi-bawah-pembeli a[href="/pembeli"]');
+    await tabPesanan.click();
+    await page.waitForURL(/\/pembeli(\/)?$/, { timeout: TUNGGU });
+  });
+  await langkah('3. Buka dropdown akun pembeli', async () => {
+    const tombolMenuAkun = page.locator('#tombol-menu-akun-pembeli');
+    await tombolMenuAkun.waitFor({ state: 'visible', timeout: TUNGGU });
+    await tombolMenuAkun.click();
+    await page.getByRole('menuitem', { name: 'Profil' }).waitFor({ state: 'visible', timeout: TUNGGU });
+    await page.getByRole('menuitem', { name: 'Riwayat' }).waitFor({ state: 'visible', timeout: TUNGGU });
+    await page.getByRole('menuitem', { name: 'Keluar' }).waitFor({ state: 'visible', timeout: TUNGGU });
+    await page.setViewportSize({ width: LEBAR, height: LEBAR === 390 ? 844 : 900 });
+  });
+}
+
 const SKENARIO = {
   naskah,
   'daftar-petani': daftarPetani,
@@ -435,6 +526,8 @@ const SKENARIO = {
   'akun-pembeli': akunPembeli,
   'stok-cod': stokCod,
   chat: skenarioChat,
+  'chat-nomor': chatNomor,
+  'navigasi-pembeli-hp': navigasiPembeliHp,
 };
 const DAFTAR_SKENARIO = PILIH_SKENARIO === 'semua' ? Object.keys(SKENARIO) : [PILIH_SKENARIO];
 for (const s of DAFTAR_SKENARIO)

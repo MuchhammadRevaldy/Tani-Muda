@@ -3,6 +3,7 @@
  * kunciKueri; setiap mutasi membatalkan cache fitur yang datanya berubah.
  */
 import { kunciKueri as kk } from '../../lib/kunci-kueri';
+import { fiturAktif } from '../../lib/fitur';
 import type * as T from '../tipe';
 import { useKueriApi as q, useKueriBanyak as qBanyak, useMutasiApi as m } from './bantu';
 
@@ -373,4 +374,12 @@ export const useTandaiDibaca = () =>
   m((k, id: string) => k.chat.tandaiDibaca(id), [kk('chat', 'lencana'), kk('chat', 'daftar')]);
 export const useLencanaChat = (opsi?: boolean | { enabled?: boolean; refetchInterval?: number }) =>
   q(kk('chat', 'lencana'), (k) => k.chat.lencana(), opsi ?? { refetchInterval: 60_000 });
+
+// ---------------------------------------------------------------- harga berita panen (F-10)
+export const useHargaBerita = (komoditasId?: string, aktif = true) =>
+  q(
+    kk('harga-berita', komoditasId ?? 'semua'),
+    (k) => k.hargaBerita.daftar(komoditasId),
+    aktif && fiturAktif('HARGA_BERITA'),
+  );
 

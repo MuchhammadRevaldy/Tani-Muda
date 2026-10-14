@@ -11,3 +11,4 @@ export * from './cuaca';
 export * from './stok';
 export * from './peta';
 export * from './chat';
+export * from './harga-berita';

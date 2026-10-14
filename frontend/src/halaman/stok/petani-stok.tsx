@@ -134,6 +134,7 @@ export function HalamanStokPetani() {
 
           {tabAktif === 'stok' ? (
             <button
+              id="tombol-buka-form-stok"
               type="button"
               onClick={() => setBukaForm(!bukaForm)}
               className="fokus-cincin inline-flex items-center gap-1.5 rounded-lg bg-daun-tua px-4 py-2 text-isi font-semibold text-putih hover:bg-daun-tua/90 shadow-kartu"

@@ -338,6 +338,10 @@ export function buatKlienHttp(o: OpsiKlienHttp = {}): {
       tandaiDibaca: (id) => h.post(`/percakapan/${id}/dibaca`),
       lencana: () => h.get('/percakapan/lencana'),
     },
+    hargaBerita: {
+      daftar: (komoditasId?: string) =>
+        h.get('/harga-berita', komoditasId ? { komoditas_id: komoditasId } : undefined),
+    },
   };
 
   // Pemilih akun demo, panel kode uji, dan atur ulang lewat endpoint demo lokal (kontrak 3.13).
