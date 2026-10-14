@@ -10,6 +10,7 @@ import type { ProfilPembeli } from '../../api/tipe';
 import { Avatar } from '../../komponen/avatar';
 import { Ikon, type NamaIkon } from '../../komponen/ikon';
 import { Kartu } from '../../komponen/kartu';
+import { KartuLevelLencana, LencanaPeringkatKecil } from '../../komponen/level-lencana';
 import { HeaderHalaman } from '../../komponen/navigasi';
 import { kelasTombol } from '../../komponen/tombol';
 import { tampilNomorHp } from '../../lib/nomor-hp';
@@ -54,6 +55,7 @@ export function HalamanProfilPembeli() {
           {info}
         </p>
       ) : null}
+      <KartuLevelLencana />
       <div className="grid items-start gap-6 lg:grid-cols-2">
         <div className="flex flex-col gap-6">
           <Kartu judul={t.akun} tingkatJudul={2}>
@@ -61,7 +63,10 @@ export function HalamanProfilPembeli() {
               <div className="flex items-center gap-4">
                 <Avatar nama={p.nama ?? ''} foto={p.foto_profil} ukuran={64} />
                 <div className="flex min-w-0 flex-col">
-                  <span className="truncate text-judul-bagian font-semibold">{p.nama}</span>
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className="truncate text-judul-bagian font-semibold">{p.nama}</span>
+                    <LencanaPeringkatKecil />
+                  </div>
                   <span className="text-teks-pendukung tabular-nums">
                     {tampilNomorHp(p.nomor_hp)}
                   </span>

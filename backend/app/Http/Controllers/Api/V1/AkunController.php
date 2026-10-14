@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use App\Domain\Hitung\Level;
 use App\Domain\Otp\LayananOtp;
 use App\Enums\JenisUsaha;
 use App\Enums\Peran;
@@ -10,6 +11,7 @@ use App\Http\Bentuk\BentukAkun;
 use App\Http\Controllers\Controller;
 use App\Http\Galat\GalatApi;
 use App\Http\Respons;
+use App\Models\LencanaPengguna;
 use App\Models\Pengguna;
 use App\Models\ProfilPembeli;
 use App\Models\Wilayah;
@@ -26,6 +28,173 @@ class AkunController extends Controller
     public function ambil(Request $request): JsonResponse
     {
         return Respons::data(BentukAkun::dari($this->pengguna($request)));
+    }
+
+    /** GET /akun/level (PRD Tambahan F-03, D-64) */
+    public function level(Request $request): JsonResponse
+    {
+        if (! config('fitur.level', true)) {
+            throw new GalatApi('BELUM_TERSEDIA');
+        }
+
+        $p = $this->pengguna($request);
+        $peran = $p->peran?->value ?? 'petani';
+
+        // Hitung statistik dari aktivitas nyata pengguna
+        $siklusAktif = DB::table('siklus_tanam')->where('petani_id', $p->id)->whereIn('status', ['draf', 'aktif'])->count();
+        $siklusSelesai = DB::table('siklus_tanam')->where('petani_id', $p->id)->where('status', 'selesai')->count();
+
+        $tugasList = DB::table('tugas')
+            ->join('siklus_tanam', 'tugas.siklus_id', '=', 'siklus_tanam.id')
+            ->where('siklus_tanam.petani_id', $p->id)
+            ->where('tugas.status', 'selesai')
+            ->select('tugas.tanggal', 'tugas.selesai_pada', 'tugas.foto')
+            ->get();
+
+        $tugasTepatWaktu = 0;
+        $tugasTerlambat = 0;
+        $jumlahFoto = 0;
+
+        foreach ($tugasList as $t) {
+            if (! empty($t->foto)) {
+                $jumlahFoto++;
+            }
+            if ($t->selesai_pada !== null) {
+                $tglBatas = date('Y-m-d 23:59:59', strtotime($t->tanggal . ' +1 day'));
+                if ($t->selesai_pada <= $tglBatas) {
+                    $tugasTepatWaktu++;
+                } else {
+                    $tugasTerlambat++;
+                }
+            }
+        }
+
+        $jumlahPengukuran = DB::table('hasil_pengukuran')
+            ->join('siklus_tanam', 'hasil_pengukuran.siklus_id', '=', 'siklus_tanam.id')
+            ->where('siklus_tanam.petani_id', $p->id)
+            ->count();
+
+        $modulSelesai = DB::table('progres_modul')
+            ->where('pengguna_id', $p->id)
+            ->count();
+
+        $kirimanDiterima = DB::table('pengiriman')
+            ->join('alokasi_pesanan', 'pengiriman.alokasi_id', '=', 'alokasi_pesanan.id')
+            ->join('pesanan', 'pengiriman.pesanan_id', '=', 'pesanan.id')
+            ->where('pengiriman.status', 'diterima')
+            ->where(function ($q) use ($p) {
+                $q->where('alokasi_pesanan.petani_id', $p->id)
+                  ->orWhere('pesanan.pembeli_id', $p->id);
+            })->count();
+
+        $ratingStats = DB::table('rating')
+            ->where('penerima_id', $p->id)
+            ->selectRaw('COUNT(*) as total, AVG(nilai) as rata, SUM(CASE WHEN nilai = 5 THEN 1 ELSE 0 END) as bintang_lima')
+            ->first();
+
+        $ratingBintangLima = (int) ($ratingStats->bintang_lima ?? 0);
+        $rataRataRating = $ratingStats && $ratingStats->total > 0 ? (float) $ratingStats->rata : 0.0;
+        $jumlahUlasan = (int) ($ratingStats->total ?? 0);
+
+        $pesananDibayar = DB::table('pesanan')
+            ->where('pembeli_id', $p->id)
+            ->whereIn('status', ['dibayar', 'diproses', 'dikirim', 'selesai'])
+            ->count();
+
+        $pesananSelesai = DB::table('pesanan')
+            ->where('pembeli_id', $p->id)
+            ->where('status', 'selesai')
+            ->count();
+
+        $peristiwa = [
+            'tugas_tepat_waktu' => $tugasTepatWaktu,
+            'tugas_terlambat' => $tugasTerlambat,
+            'foto_bukti' => $jumlahFoto,
+            'pengukuran_ph_ppm' => $jumlahPengukuran,
+            'modul_selesai' => $modulSelesai,
+            'siklus_selesai' => $siklusSelesai,
+            'kiriman_diterima' => $kirimanDiterima,
+            'rating_bintang_lima' => $ratingBintangLima,
+        ];
+
+        $poin = Level::hitungPoin($peristiwa);
+        $hasilLevel = Level::levelDariPoin($poin);
+
+        $statistikLencana = [
+            'siklus_aktif' => $siklusAktif,
+            'siklus_selesai' => $siklusSelesai,
+            'hari_berturut_tepat_waktu' => min(7, $tugasTepatWaktu),
+            'jumlah_foto' => $jumlahFoto,
+            'jumlah_pengukuran' => $jumlahPengukuran,
+            'modul_per_metode_selesai' => $modulSelesai >= 6,
+            'kiriman_diterima_penuh' => $kirimanDiterima,
+            'rata_rata_rating' => $rataRataRating,
+            'jumlah_ulasan' => $jumlahUlasan,
+            'pesanan_dibayar' => $pesananDibayar,
+            'pesanan_selesai' => $pesananSelesai,
+        ];
+
+        $hasilLencana = Level::cekLencana($peran, $statistikLencana);
+
+        // Catat lencana yang baru diraih ke basis data
+        $sekarang = now();
+        $lencanaTercatat = LencanaPengguna::where('pengguna_id', $p->id)->get()->keyBy('kode');
+        $daftarDiraih = [];
+
+        foreach ($hasilLencana['diraih'] as $kode) {
+            $ada = $lencanaTercatat->get($kode);
+            if ($ada === null) {
+                $baru = LencanaPengguna::create([
+                    'id' => (string) str()->uuid(),
+                    'pengguna_id' => $p->id,
+                    'kode' => $kode,
+                    'diraih_pada' => $sekarang,
+                    'dilihat_pada' => null,
+                ]);
+                $daftarDiraih[] = [
+                    'kode' => $kode,
+                    'nama' => self::namaLencana($kode),
+                    'diraih_pada' => $baru->diraih_pada->toIso8601String(),
+                    'baru' => true,
+                ];
+            } else {
+                $daftarDiraih[] = [
+                    'kode' => $kode,
+                    'nama' => self::namaLencana($kode),
+                    'diraih_pada' => $ada->diraih_pada->toIso8601String(),
+                    'baru' => $ada->dilihat_pada === null,
+                ];
+            }
+        }
+
+        return Respons::data([
+            'poin' => $poin,
+            'level' => $hasilLevel['level'],
+            'ikon' => $hasilLevel['ikon'],
+            'level_berikutnya' => $hasilLevel['level_berikutnya'],
+            'ikon_berikutnya' => $hasilLevel['ikon_berikutnya'],
+            'poin_ke_berikutnya' => $hasilLevel['poin_ke_berikutnya'],
+            'persen_kemajuan' => $hasilLevel['persen_kemajuan'],
+            'lencana' => $daftarDiraih,
+            'lencana_terkunci' => $hasilLencana['terkunci'],
+        ]);
+    }
+
+    private static function namaLencana(string $kode): string
+    {
+        return match ($kode) {
+            'tanam-pertama' => 'Tanam pertama',
+            'tepat-waktu-7-hari' => 'Tepat waktu 7 hari',
+            'kebun-terdokumentasi' => 'Kebun terdokumentasi',
+            'pengukur-teliti' => 'Pengukur teliti',
+            'pelajar-rajin' => 'Pelajar rajin',
+            'panen-pertama' => 'Panen pertama',
+            'dipercaya-pembeli' => 'Dipercaya pembeli',
+            'bintang-lima' => 'Bintang lima',
+            'pesanan-pertama' => 'Pesanan pertama',
+            'pembeli-setia' => 'Pembeli setia',
+            default => ucwords(str_replace('-', ' ', $kode)),
+        };
     }
 
     /** PUT /akun/peran: hanya sekali, saat peran masih kosong. Admin tidak bisa dipilih sendiri. */

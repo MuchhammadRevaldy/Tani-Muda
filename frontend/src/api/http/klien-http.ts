@@ -177,6 +177,7 @@ export function buatKlienHttp(o: OpsiKlienHttp = {}): {
       gantiNomorHp: (m) => h.put('/akun/nomor-hp', m),
       catatanSaya: () => h.get('/akun/catatan'),
       simpanProfilPembeli: (m) => h.put('/akun/profil-pembeli', m),
+      level: () => h.get('/akun/level'),
     },
     wilayah: {
       daftar: (p = {}) => h.halaman(denganKueri('/wilayah', { ...p })),

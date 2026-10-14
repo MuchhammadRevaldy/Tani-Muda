@@ -122,3 +122,29 @@ export interface ProfilPembeliMasukan {
 export interface ParamWilayah {
   cari?: string;
 }
+
+export interface LencanaDiraih {
+  kode: string;
+  nama: string;
+  diraih_pada: WaktuISO;
+  baru: boolean;
+}
+
+export interface LencanaTerkunci {
+  kode: string;
+  nama: string;
+  syarat: string;
+  kemajuan: string;
+}
+
+export interface LevelPengguna {
+  poin: number;
+  level: string;
+  ikon: string;
+  level_berikutnya: string | null;
+  ikon_berikutnya: string | null;
+  poin_ke_berikutnya: number;
+  persen_kemajuan: number;
+  lencana: LencanaDiraih[];
+  lencana_terkunci: LencanaTerkunci[];
+}

@@ -1,4 +1,12 @@
 /** Klien tiruan: akun (OTP, peran, profil), wilayah, notifikasi, berkas. */
+import {
+  cekLencana,
+  DAFTAR_LENCANA,
+  hitungPoin,
+  levelDariPoin,
+  type PeristiwaPoin,
+  type StatistikLencana,
+} from '../../../lib/level';
 import { normalisasiNomorHp } from '../../../lib/nomor-hp';
 import { zonaSah, ZONA_BAWAAN } from '../../../lib/zona-waktu';
 import type { KlienAkun, KlienBerkas, KlienNotifikasi, KlienWilayah } from '../../klien';
@@ -177,6 +185,112 @@ export function buatKlienAkun(k: Konteks): KlienAkun {
       else daftar.push(baru);
       k.simpan();
       return k.salin(baru);
+    },
+
+    async level() {
+      const p = k.penggunaMasuk();
+      const peran = (p.peran === 'pembeli' ? 'pembeli' : 'petani') as 'petani' | 'pembeli';
+
+      const siklus = k.db.kebun.siklus.filter((s) => s.petani_id === p.id);
+      const siklusIds = new Set(siklus.map((s) => s.id));
+      const siklusAktif = siklus.filter((s) => s.status === 'rencana' || s.status === 'aktif').length;
+      const siklusSelesai = siklus.filter((s) => s.status === 'selesai').length;
+
+      const tugasSelesai = k.db.kebun.tugas.filter(
+        (t) => siklusIds.has(t.siklus_id) && t.status === 'selesai',
+      );
+      let tugasTepatWaktu = 0;
+      let tugasTerlambat = 0;
+      let jumlahFoto = 0;
+
+      for (const t of tugasSelesai) {
+        if (t.foto) jumlahFoto++;
+        if (t.selesai_pada) {
+          const batas = new Date(t.tanggal + 'T23:59:59Z').getTime() + 86400000;
+          const selesai = new Date(t.selesai_pada).getTime();
+          if (selesai <= batas) {
+            tugasTepatWaktu++;
+          } else {
+            tugasTerlambat++;
+          }
+        }
+      }
+
+      const jumlahPengukuran = (k.db.kebun.hasil_pengukuran ?? []).filter((m) =>
+        siklusIds.has(m.siklus_id),
+      ).length;
+      const progresModul = (k.db.kebun.progres_modul ?? []).filter((m) => m.pengguna_id === p.id);
+      const modulSelesai = progresModul.length;
+
+      const alokasiPetani = k.db.pesanan.alokasi.filter((a) => a.petani_id === p.id);
+      const alokasiIds = new Set(alokasiPetani.map((a) => a.id));
+      const kirimanDiterima = k.db.pesanan.pengiriman.filter(
+        (kirim) =>
+          kirim.status === 'diterima' && (alokasiIds.has(kirim.alokasi_id) || kirim.pesanan_id === p.id),
+      ).length;
+
+      const ulasan = k.db.pesanan.rating.filter((r) => r.penerima_id === p.id);
+      const ratingBintangLima = ulasan.filter((r) => r.nilai === 5).length;
+      const rataRataRating =
+        ulasan.length > 0 ? ulasan.reduce((acc, r) => acc + r.nilai, 0) / ulasan.length : 0;
+      const jumlahUlasan = ulasan.length;
+
+      const pesananSaya = k.db.pesanan.pesanan.filter((pesan) => pesan.pembeli_id === p.id);
+      const pesananDibayar = pesananSaya.filter((pesan) =>
+        ['dibayar', 'diproses', 'dikirim', 'selesai'].includes(pesan.status),
+      ).length;
+      const pesananSelesai = pesananSaya.filter((pesan) => pesan.status === 'selesai').length;
+
+      const peristiwa: PeristiwaPoin = {
+        tugas_tepat_waktu: tugasTepatWaktu,
+        tugas_terlambat: tugasTerlambat,
+        foto_bukti: jumlahFoto,
+        pengukuran_ph_ppm: jumlahPengukuran,
+        modul_selesai: modulSelesai,
+        siklus_selesai: siklusSelesai,
+        kiriman_diterima: kirimanDiterima,
+        rating_bintang_lima: ratingBintangLima,
+      };
+
+      const poin = hitungPoin(peristiwa);
+      const hasilLevel = levelDariPoin(poin);
+
+      const statistikLencana: StatistikLencana = {
+        siklus_aktif: siklusAktif,
+        siklus_selesai: siklusSelesai,
+        hari_berturut_tepat_waktu: Math.min(7, tugasTepatWaktu),
+        jumlah_foto: jumlahFoto,
+        jumlah_pengukuran: jumlahPengukuran,
+        modul_per_metode_selesai: modulSelesai >= 6,
+        kiriman_diterima_penuh: kirimanDiterima,
+        rata_rata_rating: rataRataRating,
+        jumlah_ulasan: jumlahUlasan,
+        pesanan_dibayar: pesananDibayar,
+        pesanan_selesai: pesananSelesai,
+      };
+
+      const hasilLencana = cekLencana(peran, statistikLencana);
+      const lencanaDiraih = hasilLencana.diraih.map((kode) => {
+        const def = DAFTAR_LENCANA.find((d) => d.kode === kode);
+        return {
+          kode,
+          nama: def ? def.nama : kode,
+          diraih_pada: k.sekarangIso(),
+          baru: false,
+        };
+      });
+
+      return {
+        poin,
+        level: hasilLevel.level,
+        ikon: hasilLevel.ikon,
+        level_berikutnya: hasilLevel.levelBerikutnya,
+        ikon_berikutnya: hasilLevel.ikonBerikutnya,
+        poin_ke_berikutnya: hasilLevel.poinKeBerikutnya,
+        persen_kemajuan: hasilLevel.persenKemajuan,
+        lencana: lencanaDiraih,
+        lencana_terkunci: hasilLencana.terkunci,
+      };
     },
   };
 }

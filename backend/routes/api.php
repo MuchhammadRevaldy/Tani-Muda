@@ -56,6 +56,7 @@ Route::middleware('auth:sanctum')->group(function () use ($endpointBelumTersedia
     Route::post('/berkas', [BerkasController::class, 'unggah']);
     Route::post('/auth/keluar', [AuthController::class, 'keluar']);
     Route::get('/akun', [AkunController::class, 'ambil']);
+    Route::get('/akun/level', [AkunController::class, 'level']);
     Route::put('/akun/peran', [AkunController::class, 'pilihPeran']);
     Route::patch('/akun', [AkunController::class, 'ubah']);
     Route::post('/akun/nomor-hp/otp', [AkunController::class, 'otpNomorBaru'])->middleware('throttle:30,1');

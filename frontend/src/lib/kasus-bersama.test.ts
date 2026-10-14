@@ -12,6 +12,7 @@ import type { Hasil } from './hasil';
 import { dalamRadius, jarakKm } from './jarak';
 import { kapasitasLahan, muatSiklusBaru } from './kapasitas-lahan';
 import { konfirmasiKiriman } from './kiriman';
+import { hitungPoin, levelDariPoin } from './level';
 import {
   batasAlokasi,
   cekAmbilSebagian,
@@ -53,6 +54,11 @@ const FUNGSI: Record<string, (m: any) => unknown> = {
   batasAlokasi: (m) => batasAlokasi(m.jumlahPesananKg, m.sudahDiambilKg, m.ambilKg),
   jarakKm: (m) => jarakKm(m.a, m.b),
   dalamRadius: (m) => dalamRadius(m.titik, m.pusat, m.radiusKm),
+  hitungPoin: (m) => hitungPoin(m.peristiwa),
+  levelDariPoin: (m) => {
+    const h = levelDariPoin(m.poin);
+    return { level: h.level, levelBerikutnya: h.levelBerikutnya, poinKeBerikutnya: h.poinKeBerikutnya };
+  },
 };
 /* eslint-enable @typescript-eslint/no-explicit-any */
 

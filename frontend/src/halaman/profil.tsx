@@ -24,6 +24,7 @@ import { cx } from '../komponen/gabung-kelas';
 import { Ikon } from '../komponen/ikon';
 import { Kartu } from '../komponen/kartu';
 import { LabelKecil } from '../komponen/label-kecil';
+import { KartuLevelLencana, LencanaPeringkatKecil } from '../komponen/level-lencana';
 import { kelasTombol } from '../komponen/tombol';
 import { useLayarLebar } from '../komponen/use-layar-lebar';
 import { formatBulan, formatTanggal } from '../lib/format';
@@ -132,7 +133,10 @@ function KartuDiri({ p, wilayah }: { p: Pengguna; wilayah: Wilayah | null }) {
         </span>
       </Link>
       <div className="flex flex-col gap-1">
-        <p className="m-0 text-judul-halaman font-semibold">{p.nama}</p>
+        <div className="flex flex-wrap items-center justify-center gap-2">
+          <p className="m-0 text-judul-halaman font-semibold">{p.nama}</p>
+          <LencanaPeringkatKecil />
+        </div>
         <p className="m-0 text-teks-pendukung">
           {t.petaniDi(namaDesa(wilayah))} ·{' '}
           {t.bergabung(formatBulan(p.dibuat_pada.slice(0, 7), { denganTahun: true }))}
@@ -366,6 +370,7 @@ export function HalamanProfil() {
       <>
         {kepala}
         {pesan}
+        <KartuLevelLencana />
         <KartuDiri p={p} wilayah={wilayah} />
         <KartuCatatan />
         <KartuAkun p={p} />
@@ -379,6 +384,7 @@ export function HalamanProfil() {
     <>
       {kepala}
       {pesan}
+      <KartuLevelLencana />
       <div className="grid grid-cols-3 items-start gap-6">
         <KartuDiri p={p} wilayah={wilayah} />
         <div className="flex flex-col gap-6">

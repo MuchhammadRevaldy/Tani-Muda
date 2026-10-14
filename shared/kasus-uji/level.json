@@ -1,0 +1,78 @@
+{
+  "keterangan": "Level dan poin pengguna: perhitungan poin peristiwa nyata, level dari poin, dan kelayakan lencana (D-64, PRD Tambahan F-03).",
+  "kasus": [
+    {
+      "nama": "hitung poin peristiwa awal",
+      "fungsi": "hitungPoin",
+      "masukan": {
+        "peristiwa": {
+          "tugas_tepat_waktu": 8,
+          "tugas_terlambat": 2,
+          "foto_bukti": 5,
+          "pengukuran_ph_ppm": 2,
+          "modul_selesai": 2,
+          "siklus_selesai": 0,
+          "kiriman_diterima": 0,
+          "rating_bintang_lima": 0
+        }
+      },
+      "keluaran": 116
+    },
+    {
+      "nama": "hitung poin petani berprestasi",
+      "fungsi": "hitungPoin",
+      "masukan": {
+        "peristiwa": {
+          "tugas_tepat_waktu": 80,
+          "tugas_terlambat": 10,
+          "foto_bukti": 50,
+          "pengukuran_ph_ppm": 40,
+          "modul_selesai": 18,
+          "siklus_selesai": 3,
+          "kiriman_diterima": 10,
+          "rating_bintang_lima": 5
+        }
+      },
+      "keluaran": 2120
+    },
+    {
+      "nama": "level dari poin nol - Benih",
+      "fungsi": "levelDariPoin",
+      "masukan": {
+        "poin": 0
+      },
+      "keluaran": {
+        "level": "Benih",
+        "levelBerikutnya": "Tunas",
+        "poinKeBerikutnya": 100
+      },
+      "sebagian": true
+    },
+    {
+      "nama": "level dari poin 116 - Tunas",
+      "fungsi": "levelDariPoin",
+      "masukan": {
+        "poin": 116
+      },
+      "keluaran": {
+        "level": "Tunas",
+        "levelBerikutnya": "Daun",
+        "poinKeBerikutnya": 184
+      },
+      "sebagian": true
+    },
+    {
+      "nama": "level dari poin 2120 - Panen Raya",
+      "fungsi": "levelDariPoin",
+      "masukan": {
+        "poin": 2120
+      },
+      "keluaran": {
+        "level": "Panen Raya",
+        "levelBerikutnya": null,
+        "poinKeBerikutnya": 0
+      },
+      "sebagian": true
+    }
+  ]
+}

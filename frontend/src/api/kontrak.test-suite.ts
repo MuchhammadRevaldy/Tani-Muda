@@ -282,6 +282,14 @@ export function ujiKontrak(nama: string, siapkan: PenyiapLingkungan): void {
         expect(p.status_verifikasi).toBe('menunggu');
         expect((await K.akun.ambil())?.profil_pembeli?.nama_usaha).toBe('Warung Tono');
       });
+      it('level dan lencana pengguna (F-03, D-64)', async () => {
+        await masuk('petani-arif');
+        const hasil = await K.akun.level();
+        expect(hasil).toHaveProperty('poin');
+        expect(hasil).toHaveProperty('level');
+        expect(hasil).toHaveProperty('lencana');
+        expect(hasil.poin).toBeGreaterThanOrEqual(0);
+      });
     });
 
     // ------------------------------------------------------------ wilayah

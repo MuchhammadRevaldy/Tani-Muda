@@ -12,6 +12,8 @@ export { kunciIdempotenBaru } from './bantu';
 export const useAkun = () => q(kk('akun', 'saya'), (k) => k.akun.ambil());
 export const useCatatanSaya = (aktif = true) =>
   q(kk('akun', 'catatan'), (k) => k.akun.catatanSaya(), aktif);
+export const useLevelPengguna = (aktif = true) =>
+  q(kk('akun', 'level'), (k) => k.akun.level(), aktif);
 export const useKirimOtp = () => m((k, x: T.KirimOtpMasukan) => k.akun.kirimOtp(x), []);
 export const useVerifikasiOtp = () =>
   m((k, x: T.VerifikasiOtpMasukan) => k.akun.verifikasiOtp(x), ['akun']);

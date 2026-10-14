@@ -116,6 +116,8 @@ export interface KlienAkun {
   catatanSaya(): Promise<CatatanPetani[]>;
   /** PUT /akun/profil-pembeli */
   simpanProfilPembeli(m: ProfilPembeliMasukan): Promise<ProfilPembeli>;
+  /** GET /akun/level (PRD Tambahan F-03, D-64). */
+  level(): Promise<import('./tipe').LevelPengguna>;
 }
 
 export interface KlienWilayah {
