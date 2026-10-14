@@ -89,6 +89,15 @@ export const CONTOH_KOMODITAS: Komoditas[] = [
     satuanPanen: 'kg',
     umurPanenHari: 75,
   },
+  {
+    id: 'selada',
+    nama: 'Selada keriting',
+    kategori: 'sayuran_daun',
+    jenisLahanCocok: ['kebun', 'pekarangan', 'hidroponik'],
+    satuanPanen: 'kg',
+    umurPanenHari: 35,
+    hargaJualContoh: 12000,
+  },
 ];
 
 export const CONTOH_METODE: MetodeTanam[] = [

@@ -135,14 +135,15 @@ describe('T3.07 resep dan modul', () => {
     expect(data.resep.map(resepKeDomain)).toEqual(expect.arrayContaining(SEMUA_CONTOH_RESEP));
     expect(data.resep).toHaveLength(SEMUA_CONTOH_RESEP.length);
   });
-  it('semua resep draf contoh; bayam dan kangkung bertanda angka dikarang', () => {
+  it('semua resep draf contoh; resep tanpa validasi bertanda angka dikarang (D-34, F-02)', () => {
     for (const r of data.resep) {
       expect(r.status).toBe('draf');
       expect(r.contoh).toBe(true);
     }
-    expect(
-      data.resep.filter((r) => r.asal_angka_contoh === 'dikarang').map((r) => r.komoditas_id),
-    ).toEqual(['bayam', 'kangkung']);
+    const dikarang = data.resep
+      .filter((r) => r.asal_angka_contoh === 'dikarang')
+      .map((r) => r.komoditas_id);
+    expect([...new Set(dikarang)]).toEqual(['bayam', 'kangkung', 'cabai', 'tomat', 'selada']);
   });
   it('kalkulator dengan data resep menghasilkan total fixture (Rp430.000)', () => {
     const r = resepKeDomain(data.resep.find((x) => x.id === 'resep-sawi-bedengan')!);
@@ -157,10 +158,11 @@ describe('T3.07 resep dan modul', () => {
       pastikan(hitungModal(item, { bagiAlat: true, jumlahSiklusPembagian: 10 })).totalModal,
     ).toBe(430000);
   });
-  it('hidroponik hanya sawi (D-05); 6 modul per resep; 3 video contoh 360p ≤ 15 MB (D-29)', () => {
-    expect(
-      data.resep.filter((r) => r.metode_id === 'hidroponik').map((r) => r.komoditas_id),
-    ).toEqual(['sawi']);
+  it('hidroponik untuk sawi dan selada (D-05, F-02); 6 modul per resep; 3 video contoh 360p ≤ 15 MB (D-29)', () => {
+    const hidro = data.resep
+      .filter((r) => r.metode_id === 'hidroponik')
+      .map((r) => r.komoditas_id);
+    expect([...new Set(hidro)]).toEqual(['sawi', 'selada']);
     expect(data.modul).toHaveLength(data.resep.length * 6);
     const video = data.modul.filter((m) => m.video_url);
     expect(video).toHaveLength(3);

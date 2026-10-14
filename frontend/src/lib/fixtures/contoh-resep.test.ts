@@ -24,14 +24,14 @@ describe('fixture CONTOH resep konsisten', () => {
     expect(new Set(r.input.map((i) => i.id)).size).toBe(r.input.length);
     expect(new Set(r.tugas.map((t) => t.id)).size).toBe(r.tugas.length);
   });
-  it('angka bayam dan kangkung ditandai dikarang (D-34)', () => {
+  it('angka resep baru ditandai dikarang (D-34, F-02)', () => {
     const dikarang = SEMUA_CONTOH_RESEP.filter((r) => r.asalAngkaContoh === 'dikarang').map(
       (r) => r.komoditasId,
     );
-    expect(dikarang).toEqual(['bayam', 'kangkung']);
+    expect([...new Set(dikarang)]).toEqual(['bayam', 'kangkung', 'cabai', 'tomat', 'selada']);
   });
-  it('hidroponik hanya untuk sawi (D-05)', () => {
+  it('hidroponik untuk sawi dan selada (D-05, F-02)', () => {
     const hidro = SEMUA_CONTOH_RESEP.filter((r) => r.metodeId === 'hidroponik');
-    expect(hidro.map((r) => r.komoditasId)).toEqual(['sawi']);
+    expect([...new Set(hidro.map((r) => r.komoditasId))]).toEqual(['sawi', 'selada']);
   });
 });

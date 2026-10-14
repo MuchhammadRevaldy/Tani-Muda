@@ -1042,5 +1042,1032 @@
         ]
       }
     ]
+  },
+  {
+    "id": "resep-cabai-bedengan",
+    "komoditas_id": "cabai",
+    "metode_id": "bedengan",
+    "versi": 1,
+    "status": "draf",
+    "contoh": true,
+    "asal_angka_contoh": "dikarang",
+    "validator": null,
+    "tanggal_validasi": null,
+    "hasil_per_satuan": 1.2,
+    "dasar_ukuran": "luas",
+    "umur_panen_hari": 90,
+    "jumlah_pengisian_larutan": null,
+    "persen_panen_jelek": 60,
+    "alasan_panen_jelek": "serangan antraknosa atau lalat buah",
+    "standar_kualitas": [
+      "Buah cabai mulus, tidak busuk atau berlubang",
+      "Tingkat kemerahan minimal 80%",
+      "Tangkai buah masih melekat segar"
+    ],
+    "input": [
+      {
+        "id": "benih",
+        "input_id": "benih-cabai",
+        "nama": "Benih cabai rawit unggul",
+        "grup": "Benih",
+        "dosis": 0.1,
+        "satuan_dosis": "g",
+        "dasar_dosis": "per_m2",
+        "satuan_beli": "bungkus",
+        "isi_satuan_beli": 10,
+        "ukuran_kemasan": 1,
+        "alat_sekali_beli": false,
+        "harga_contoh": 35000,
+        "opsional": false,
+        "keterangan_opsional": null
+      },
+      {
+        "id": "kandang",
+        "input_id": "pupuk-kandang",
+        "nama": "Pupuk kandang matang",
+        "grup": "Pupuk dan pembenah tanah",
+        "dosis": 2,
+        "satuan_dosis": "kg",
+        "dasar_dosis": "per_m2",
+        "satuan_beli": "kg",
+        "isi_satuan_beli": null,
+        "ukuran_kemasan": 1,
+        "alat_sekali_beli": false,
+        "harga_contoh": 600,
+        "opsional": false,
+        "keterangan_opsional": null
+      },
+      {
+        "id": "npk",
+        "input_id": "npk-16",
+        "nama": "NPK 16-16-16",
+        "grup": "Pupuk dan pembenah tanah",
+        "dosis": 40,
+        "satuan_dosis": "g",
+        "dasar_dosis": "per_m2",
+        "satuan_beli": "kg",
+        "isi_satuan_beli": null,
+        "ukuran_kemasan": 1,
+        "alat_sekali_beli": false,
+        "harga_contoh": 15000,
+        "opsional": false,
+        "keterangan_opsional": null
+      },
+      {
+        "id": "ajir",
+        "input_id": null,
+        "nama": "Ajir bambu 1,5 meter",
+        "grup": "Alat sekali beli",
+        "dosis": 2,
+        "satuan_dosis": "batang",
+        "dasar_dosis": "per_m2",
+        "satuan_beli": "batang",
+        "isi_satuan_beli": null,
+        "ukuran_kemasan": 1,
+        "alat_sekali_beli": true,
+        "harga_contoh": 2000,
+        "opsional": false,
+        "keterangan_opsional": null
+      },
+      {
+        "id": "pestisida",
+        "input_id": "pestisida-nabati",
+        "nama": "Pestisida nabati ekstrak mimba",
+        "grup": "Perlindungan tanaman",
+        "dosis": 10,
+        "satuan_dosis": "ml",
+        "dasar_dosis": "per_m2",
+        "satuan_beli": "liter",
+        "isi_satuan_beli": null,
+        "ukuran_kemasan": 1,
+        "alat_sekali_beli": false,
+        "harga_contoh": 35000,
+        "opsional": true,
+        "keterangan_opsional": "Beli jika ada kutu kebul atau hama daun"
+      }
+    ],
+    "tugas": [
+      {
+        "id": "tanam",
+        "tipe": "sekali",
+        "judul": "Tanam bibit cabai",
+        "hst_mulai": 0,
+        "hst_selesai": null,
+        "interval": null,
+        "ukur": null,
+        "boleh_digeser": false,
+        "saran_terlambat": null,
+        "cara_mengerjakan": [
+          "Pilih bibit cabai sehat berumur 25-30 hari (daun 4-5 helai).",
+          "Tanam sore hari dengan jarak tanam 50x60 cm.",
+          "Siram secukupnya di pangkal batang."
+        ]
+      },
+      {
+        "id": "siram",
+        "tipe": "berulang",
+        "judul": "Siram pagi dan sore",
+        "hst_mulai": 1,
+        "hst_selesai": 90,
+        "interval": 1,
+        "ukur": null,
+        "boleh_digeser": true,
+        "saran_terlambat": null,
+        "cara_mengerjakan": [
+          "Siram pelan di pangkal tanaman, jangan menyemprot daun dengan keras.",
+          "Pagi sebelum pukul 08.00 dan sore setelah pukul 16.00.",
+          "Kalau tanah masih basah karena hujan, cukup sekali."
+        ]
+      },
+      {
+        "id": "ajir",
+        "tipe": "sekali",
+        "judul": "Pasang ajir bambu",
+        "hst_mulai": 14,
+        "hst_selesai": null,
+        "interval": null,
+        "ukur": null,
+        "boleh_digeser": true,
+        "saran_terlambat": null,
+        "cara_mengerjakan": [
+          "Tancapkan ajir bambu 1,5 meter sedalam 20 cm di samping tanaman.",
+          "Ikat batang utama secara longgar dengan tali membentuk angka 8."
+        ]
+      },
+      {
+        "id": "rempel",
+        "tipe": "berulang",
+        "judul": "Perempelan tunas air",
+        "hst_mulai": 20,
+        "hst_selesai": 50,
+        "interval": 10,
+        "ukur": null,
+        "boleh_digeser": true,
+        "saran_terlambat": null,
+        "cara_mengerjakan": [
+          "Buang tunas ketiak daun yang tumbuh di bawah cabang utama (cabang Y).",
+          "Lakukan saat pagi hari agar luka cepat kering dan terhindar dari jamur."
+        ]
+      },
+      {
+        "id": "pupuk-susulan",
+        "tipe": "berulang",
+        "judul": "Pupuk susulan NPK",
+        "hst_mulai": 28,
+        "hst_selesai": 70,
+        "interval": 14,
+        "ukur": null,
+        "boleh_digeser": true,
+        "saran_terlambat": null,
+        "cara_mengerjakan": [
+          "Larutkan NPK sesuai dosis di air siraman atau tabur di parit melingkar.",
+          "Jarak tabur 15 cm dari pangkal batang, jangan mengenai daun."
+        ]
+      },
+      {
+        "id": "panen-bertahap",
+        "tipe": "berulang",
+        "judul": "Panen cabai bertahap",
+        "hst_mulai": 75,
+        "hst_selesai": 90,
+        "interval": 5,
+        "ukur": null,
+        "boleh_digeser": true,
+        "saran_terlambat": null,
+        "cara_mengerjakan": [
+          "Petik buah cabai yang warnanya merah rata atau semburat 80% merah.",
+          "Petik beserta tangkainya di pagi hari setelah embun kering.",
+          "Simpan di tempat berventilasi baik, jangan ditumpuk padat."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "resep-cabai-polybag",
+    "komoditas_id": "cabai",
+    "metode_id": "polybag",
+    "versi": 1,
+    "status": "draf",
+    "contoh": true,
+    "asal_angka_contoh": "dikarang",
+    "validator": null,
+    "tanggal_validasi": null,
+    "hasil_per_satuan": 0.6,
+    "dasar_ukuran": "polybag",
+    "umur_panen_hari": 90,
+    "jumlah_pengisian_larutan": null,
+    "persen_panen_jelek": 65,
+    "alasan_panen_jelek": "media tanam terlalu padat atau hama tungau",
+    "standar_kualitas": [
+      "Buah cabai segar berukuran seragam",
+      "Bebas dari busuk ujung buah",
+      "Tangkai utuh hijau"
+    ],
+    "input": [
+      {
+        "id": "benih",
+        "input_id": "benih-cabai",
+        "nama": "Benih cabai rawit unggul",
+        "grup": "Benih",
+        "dosis": 1,
+        "satuan_dosis": "biji",
+        "dasar_dosis": "per_tanaman",
+        "satuan_beli": "bungkus",
+        "isi_satuan_beli": 50,
+        "ukuran_kemasan": 1,
+        "alat_sekali_beli": false,
+        "harga_contoh": 35000,
+        "opsional": false,
+        "keterangan_opsional": null
+      },
+      {
+        "id": "polybag",
+        "input_id": null,
+        "nama": "Polybag 40x40 cm",
+        "grup": "Wadah tanam",
+        "dosis": 1,
+        "satuan_dosis": "lembar",
+        "dasar_dosis": "per_tanaman",
+        "satuan_beli": "lembar",
+        "isi_satuan_beli": null,
+        "ukuran_kemasan": 1,
+        "alat_sekali_beli": false,
+        "harga_contoh": 1500,
+        "opsional": false,
+        "keterangan_opsional": null
+      },
+      {
+        "id": "media",
+        "input_id": null,
+        "nama": "Media tanam siap pakai",
+        "grup": "Pupuk dan pembenah tanah",
+        "dosis": 5,
+        "satuan_dosis": "kg",
+        "dasar_dosis": "per_tanaman",
+        "satuan_beli": "karung",
+        "isi_satuan_beli": 10,
+        "ukuran_kemasan": 1,
+        "alat_sekali_beli": false,
+        "harga_contoh": 20000,
+        "opsional": false,
+        "keterangan_opsional": null
+      },
+      {
+        "id": "ajir",
+        "input_id": null,
+        "nama": "Ajir bambu 1 meter",
+        "grup": "Alat sekali beli",
+        "dosis": 1,
+        "satuan_dosis": "batang",
+        "dasar_dosis": "per_tanaman",
+        "satuan_beli": "batang",
+        "isi_satuan_beli": null,
+        "ukuran_kemasan": 1,
+        "alat_sekali_beli": true,
+        "harga_contoh": 1500,
+        "opsional": false,
+        "keterangan_opsional": null
+      }
+    ],
+    "tugas": [
+      {
+        "id": "tanam",
+        "tipe": "sekali",
+        "judul": "Tanam bibit ke polybag",
+        "hst_mulai": 0,
+        "hst_selesai": null,
+        "interval": null,
+        "ukur": null,
+        "boleh_digeser": false,
+        "saran_terlambat": null,
+        "cara_mengerjakan": [
+          "Isi polybag dengan media tanam hingga 5 cm di bawah bibir polybag.",
+          "Tanam 1 bibit cabai di bagian tengah polybag.",
+          "Siram media hingga lembap."
+        ]
+      },
+      {
+        "id": "siram",
+        "tipe": "berulang",
+        "judul": "Siram pagi dan sore",
+        "hst_mulai": 1,
+        "hst_selesai": 90,
+        "interval": 1,
+        "ukur": null,
+        "boleh_digeser": true,
+        "saran_terlambat": null,
+        "cara_mengerjakan": [
+          "Siram pelan di pangkal tanaman, jangan menyemprot daun dengan keras.",
+          "Pagi sebelum pukul 08.00 dan sore setelah pukul 16.00.",
+          "Kalau tanah masih basah karena hujan, cukup sekali."
+        ]
+      },
+      {
+        "id": "ajir",
+        "tipe": "sekali",
+        "judul": "Pasang ajir bambu",
+        "hst_mulai": 14,
+        "hst_selesai": null,
+        "interval": null,
+        "ukur": null,
+        "boleh_digeser": true,
+        "saran_terlambat": null,
+        "cara_mengerjakan": [
+          "Tancapkan ajir di tepi polybag agar tidak merusak perakaran.",
+          "Ikat batang utama dengan tali secara longgar."
+        ]
+      },
+      {
+        "id": "panen-bertahap",
+        "tipe": "berulang",
+        "judul": "Panen cabai bertahap",
+        "hst_mulai": 75,
+        "hst_selesai": 90,
+        "interval": 5,
+        "ukur": null,
+        "boleh_digeser": true,
+        "saran_terlambat": null,
+        "cara_mengerjakan": [
+          "Petik buah cabai merah segar bersama tangkainya."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "resep-tomat-bedengan",
+    "komoditas_id": "tomat",
+    "metode_id": "bedengan",
+    "versi": 1,
+    "status": "draf",
+    "contoh": true,
+    "asal_angka_contoh": "dikarang",
+    "validator": null,
+    "tanggal_validasi": null,
+    "hasil_per_satuan": 2.5,
+    "dasar_ukuran": "luas",
+    "umur_panen_hari": 75,
+    "jumlah_pengisian_larutan": null,
+    "persen_panen_jelek": 65,
+    "alasan_panen_jelek": "busuk pantat buah karena kekurangan kalsium atau curah hujan tinggi",
+    "standar_kualitas": [
+      "Buah tomat padat, tidak lembek",
+      "Warna oranye kemerahan merata",
+      "Bebas dari bintik hitam atau retak"
+    ],
+    "input": [
+      {
+        "id": "benih",
+        "input_id": "benih-tomat",
+        "nama": "Benih tomat hibrida",
+        "grup": "Benih",
+        "dosis": 0.15,
+        "satuan_dosis": "g",
+        "dasar_dosis": "per_m2",
+        "satuan_beli": "bungkus",
+        "isi_satuan_beli": 10,
+        "ukuran_kemasan": 1,
+        "alat_sekali_beli": false,
+        "harga_contoh": 40000,
+        "opsional": false,
+        "keterangan_opsional": null
+      },
+      {
+        "id": "kandang",
+        "input_id": "pupuk-kandang",
+        "nama": "Pupuk kandang matang",
+        "grup": "Pupuk dan pembenah tanah",
+        "dosis": 2.5,
+        "satuan_dosis": "kg",
+        "dasar_dosis": "per_m2",
+        "satuan_beli": "kg",
+        "isi_satuan_beli": null,
+        "ukuran_kemasan": 1,
+        "alat_sekali_beli": false,
+        "harga_contoh": 600,
+        "opsional": false,
+        "keterangan_opsional": null
+      },
+      {
+        "id": "npk",
+        "input_id": "npk-16",
+        "nama": "NPK 16-16-16",
+        "grup": "Pupuk dan pembenah tanah",
+        "dosis": 50,
+        "satuan_dosis": "g",
+        "dasar_dosis": "per_m2",
+        "satuan_beli": "kg",
+        "isi_satuan_beli": null,
+        "ukuran_kemasan": 1,
+        "alat_sekali_beli": false,
+        "harga_contoh": 15000,
+        "opsional": false,
+        "keterangan_opsional": null
+      },
+      {
+        "id": "ajir",
+        "input_id": null,
+        "nama": "Ajir bambu 1,5 meter",
+        "grup": "Alat sekali beli",
+        "dosis": 2,
+        "satuan_dosis": "batang",
+        "dasar_dosis": "per_m2",
+        "satuan_beli": "batang",
+        "isi_satuan_beli": null,
+        "ukuran_kemasan": 1,
+        "alat_sekali_beli": true,
+        "harga_contoh": 2000,
+        "opsional": false,
+        "keterangan_opsional": null
+      },
+      {
+        "id": "pestisida",
+        "input_id": "pestisida-nabati",
+        "nama": "Pestisida nabati",
+        "grup": "Perlindungan tanaman",
+        "dosis": 10,
+        "satuan_dosis": "ml",
+        "dasar_dosis": "per_m2",
+        "satuan_beli": "liter",
+        "isi_satuan_beli": null,
+        "ukuran_kemasan": 1,
+        "alat_sekali_beli": false,
+        "harga_contoh": 35000,
+        "opsional": true,
+        "keterangan_opsional": "Beli bila ada tanda ulat buah atau jamur daun"
+      }
+    ],
+    "tugas": [
+      {
+        "id": "tanam",
+        "tipe": "sekali",
+        "judul": "Tanam bibit tomat",
+        "hst_mulai": 0,
+        "hst_selesai": null,
+        "interval": null,
+        "ukur": null,
+        "boleh_digeser": false,
+        "saran_terlambat": null,
+        "cara_mengerjakan": [
+          "Tanam bibit tomat berumur 20-25 hari dengan daun 4 helai.",
+          "Jarak tanam 60x60 cm pada bedengan tertutup mulsa.",
+          "Siram pangkal tanaman segera setelah tanam."
+        ]
+      },
+      {
+        "id": "siram",
+        "tipe": "berulang",
+        "judul": "Siram pagi dan sore",
+        "hst_mulai": 1,
+        "hst_selesai": 75,
+        "interval": 1,
+        "ukur": null,
+        "boleh_digeser": true,
+        "saran_terlambat": null,
+        "cara_mengerjakan": [
+          "Siram pelan di pangkal tanaman, jangan menyemprot daun dengan keras.",
+          "Pagi sebelum pukul 08.00 dan sore setelah pukul 16.00.",
+          "Kalau tanah masih basah karena hujan, cukup sekali."
+        ]
+      },
+      {
+        "id": "ajir",
+        "tipe": "sekali",
+        "judul": "Pasang ajir bambu",
+        "hst_mulai": 10,
+        "hst_selesai": null,
+        "interval": null,
+        "ukur": null,
+        "boleh_digeser": true,
+        "saran_terlambat": null,
+        "cara_mengerjakan": [
+          "Tancapkan ajir bambu di dekat batang tomat sedalam 20 cm.",
+          "Ikat batang perlahan dengan tali rafia agar berdiri tegak."
+        ]
+      },
+      {
+        "id": "wiwil",
+        "tipe": "berulang",
+        "judul": "Pemangkasan tunas air (wiwil)",
+        "hst_mulai": 18,
+        "hst_selesai": 50,
+        "interval": 7,
+        "ukur": null,
+        "boleh_digeser": true,
+        "saran_terlambat": null,
+        "cara_mengerjakan": [
+          "Pangkas tunas ketiak daun sebelum berukuran 5 cm.",
+          "Sisakan 1 atau 2 batang utama yang paling kokoh."
+        ]
+      },
+      {
+        "id": "panen-bertahap",
+        "tipe": "berulang",
+        "judul": "Panen tomat bertahap",
+        "hst_mulai": 65,
+        "hst_selesai": 75,
+        "interval": 3,
+        "ukur": null,
+        "boleh_digeser": true,
+        "saran_terlambat": null,
+        "cara_mengerjakan": [
+          "Petik tomat yang mulai semburat oranye kemerahan.",
+          "Putar perlahan tangkai buah tanpa merusak dahan."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "resep-tomat-polybag",
+    "komoditas_id": "tomat",
+    "metode_id": "polybag",
+    "versi": 1,
+    "status": "draf",
+    "contoh": true,
+    "asal_angka_contoh": "dikarang",
+    "validator": null,
+    "tanggal_validasi": null,
+    "hasil_per_satuan": 1.5,
+    "dasar_ukuran": "polybag",
+    "umur_panen_hari": 75,
+    "jumlah_pengisian_larutan": null,
+    "persen_panen_jelek": 70,
+    "alasan_panen_jelek": "kurang air saat pembuahan sehingga buah pecah",
+    "standar_kualitas": [
+      "Buah tomat mulus dan kencang",
+      "Tangkai kelopak hijau segar"
+    ],
+    "input": [
+      {
+        "id": "benih",
+        "input_id": "benih-tomat",
+        "nama": "Benih tomat hibrida",
+        "grup": "Benih",
+        "dosis": 1,
+        "satuan_dosis": "biji",
+        "dasar_dosis": "per_tanaman",
+        "satuan_beli": "bungkus",
+        "isi_satuan_beli": 50,
+        "ukuran_kemasan": 1,
+        "alat_sekali_beli": false,
+        "harga_contoh": 40000,
+        "opsional": false,
+        "keterangan_opsional": null
+      },
+      {
+        "id": "polybag",
+        "input_id": null,
+        "nama": "Polybag 40x40 cm",
+        "grup": "Wadah tanam",
+        "dosis": 1,
+        "satuan_dosis": "lembar",
+        "dasar_dosis": "per_tanaman",
+        "satuan_beli": "lembar",
+        "isi_satuan_beli": null,
+        "ukuran_kemasan": 1,
+        "alat_sekali_beli": false,
+        "harga_contoh": 1500,
+        "opsional": false,
+        "keterangan_opsional": null
+      },
+      {
+        "id": "media",
+        "input_id": null,
+        "nama": "Media tanam siap pakai",
+        "grup": "Pupuk dan pembenah tanah",
+        "dosis": 6,
+        "satuan_dosis": "kg",
+        "dasar_dosis": "per_tanaman",
+        "satuan_beli": "karung",
+        "isi_satuan_beli": 10,
+        "ukuran_kemasan": 1,
+        "alat_sekali_beli": false,
+        "harga_contoh": 20000,
+        "opsional": false,
+        "keterangan_opsional": null
+      },
+      {
+        "id": "ajir",
+        "input_id": null,
+        "nama": "Ajir bambu 1,5 meter",
+        "grup": "Alat sekali beli",
+        "dosis": 1,
+        "satuan_dosis": "batang",
+        "dasar_dosis": "per_tanaman",
+        "satuan_beli": "batang",
+        "isi_satuan_beli": null,
+        "ukuran_kemasan": 1,
+        "alat_sekali_beli": true,
+        "harga_contoh": 2000,
+        "opsional": false,
+        "keterangan_opsional": null
+      }
+    ],
+    "tugas": [
+      {
+        "id": "tanam",
+        "tipe": "sekali",
+        "judul": "Tanam bibit tomat di polybag",
+        "hst_mulai": 0,
+        "hst_selesai": null,
+        "interval": null,
+        "ukur": null,
+        "boleh_digeser": false,
+        "saran_terlambat": null,
+        "cara_mengerjakan": [
+          "Isi polybag dengan media tanam gembur.",
+          "Tanam 1 bibit di tengah polybag."
+        ]
+      },
+      {
+        "id": "siram",
+        "tipe": "berulang",
+        "judul": "Siram pagi dan sore",
+        "hst_mulai": 1,
+        "hst_selesai": 75,
+        "interval": 1,
+        "ukur": null,
+        "boleh_digeser": true,
+        "saran_terlambat": null,
+        "cara_mengerjakan": [
+          "Siram pelan di pangkal tanaman, jangan menyemprot daun dengan keras.",
+          "Pagi sebelum pukul 08.00 dan sore setelah pukul 16.00.",
+          "Kalau tanah masih basah karena hujan, cukup sekali."
+        ]
+      },
+      {
+        "id": "ajir",
+        "tipe": "sekali",
+        "judul": "Pasang ajir bambu",
+        "hst_mulai": 10,
+        "hst_selesai": null,
+        "interval": null,
+        "ukur": null,
+        "boleh_digeser": true,
+        "saran_terlambat": null,
+        "cara_mengerjakan": [
+          "Tancapkan ajir bambu di sisi polybag dan ikat batang tomat."
+        ]
+      },
+      {
+        "id": "panen-bertahap",
+        "tipe": "berulang",
+        "judul": "Panen tomat bertahap",
+        "hst_mulai": 65,
+        "hst_selesai": 75,
+        "interval": 3,
+        "ukur": null,
+        "boleh_digeser": true,
+        "saran_terlambat": null,
+        "cara_mengerjakan": [
+          "Petik tomat semburat oranye kemerahan."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "resep-selada-bedengan",
+    "komoditas_id": "selada",
+    "metode_id": "bedengan",
+    "versi": 1,
+    "status": "draf",
+    "contoh": true,
+    "asal_angka_contoh": "dikarang",
+    "validator": null,
+    "tanggal_validasi": null,
+    "hasil_per_satuan": 1.2,
+    "dasar_ukuran": "luas",
+    "umur_panen_hari": 35,
+    "jumlah_pengisian_larutan": null,
+    "persen_panen_jelek": 70,
+    "alasan_panen_jelek": "panas terik menyebabkan tip burn atau pembusukan daun bawah karena becek",
+    "standar_kualitas": [
+      "Daun keriting hijau segar, renyah",
+      "Tidak ada ujung daun kecokelatan (tip burn)",
+      "Bersih dari percikan tanah"
+    ],
+    "input": [
+      {
+        "id": "benih",
+        "input_id": "benih-selada",
+        "nama": "Benih selada keriting hijau",
+        "grup": "Benih",
+        "dosis": 0.2,
+        "satuan_dosis": "g",
+        "dasar_dosis": "per_m2",
+        "satuan_beli": "bungkus",
+        "isi_satuan_beli": 15,
+        "ukuran_kemasan": 1,
+        "alat_sekali_beli": false,
+        "harga_contoh": 25000,
+        "opsional": false,
+        "keterangan_opsional": null
+      },
+      {
+        "id": "kandang",
+        "input_id": "pupuk-kandang",
+        "nama": "Pupuk kandang halus matang",
+        "grup": "Pupuk dan pembenah tanah",
+        "dosis": 2,
+        "satuan_dosis": "kg",
+        "dasar_dosis": "per_m2",
+        "satuan_beli": "kg",
+        "isi_satuan_beli": null,
+        "ukuran_kemasan": 1,
+        "alat_sekali_beli": false,
+        "harga_contoh": 600,
+        "opsional": false,
+        "keterangan_opsional": null
+      },
+      {
+        "id": "npk",
+        "input_id": "npk-16",
+        "nama": "NPK 16-16-16",
+        "grup": "Pupuk dan pembenah tanah",
+        "dosis": 30,
+        "satuan_dosis": "g",
+        "dasar_dosis": "per_m2",
+        "satuan_beli": "kg",
+        "isi_satuan_beli": null,
+        "ukuran_kemasan": 1,
+        "alat_sekali_beli": false,
+        "harga_contoh": 15000,
+        "opsional": false,
+        "keterangan_opsional": null
+      },
+      {
+        "id": "mulsa",
+        "input_id": null,
+        "nama": "Mulsa plastik perak hitam",
+        "grup": "Bahan pembantu",
+        "dosis": 1.2,
+        "satuan_dosis": "m",
+        "dasar_dosis": "per_m2",
+        "satuan_beli": "meter",
+        "isi_satuan_beli": null,
+        "ukuran_kemasan": 1,
+        "alat_sekali_beli": false,
+        "harga_contoh": 3000,
+        "opsional": false,
+        "keterangan_opsional": null
+      }
+    ],
+    "tugas": [
+      {
+        "id": "tanam",
+        "tipe": "sekali",
+        "judul": "Tanam bibit selada",
+        "hst_mulai": 0,
+        "hst_selesai": null,
+        "interval": null,
+        "ukur": null,
+        "boleh_digeser": false,
+        "saran_terlambat": null,
+        "cara_mengerjakan": [
+          "Tanam bibit selada berumur 10-14 hari dengan daun 3 helai.",
+          "Jarak tanam 20x20 cm di lubang mulsa.",
+          "Lakukan sore hari agar bibit tidak layu tersengat matahari."
+        ]
+      },
+      {
+        "id": "siram",
+        "tipe": "berulang",
+        "judul": "Siram pagi dan sore",
+        "hst_mulai": 1,
+        "hst_selesai": 35,
+        "interval": 1,
+        "ukur": null,
+        "boleh_digeser": true,
+        "saran_terlambat": null,
+        "cara_mengerjakan": [
+          "Siram pelan di pangkal tanaman, jangan menyemprot daun dengan keras.",
+          "Pagi sebelum pukul 08.00 dan sore setelah pukul 16.00.",
+          "Kalau tanah masih basah karena hujan, cukup sekali."
+        ]
+      },
+      {
+        "id": "siangi",
+        "tipe": "berulang",
+        "judul": "Siangi rumput di lubang tanam",
+        "hst_mulai": 14,
+        "hst_selesai": 28,
+        "interval": 7,
+        "ukur": null,
+        "boleh_digeser": true,
+        "saran_terlambat": null,
+        "cara_mengerjakan": [
+          "Cabut rumput sampai ke akarnya, terutama yang tumbuh di sela tanaman.",
+          "Pakai tangan atau kored. Jangan terlalu dalam supaya akar tanaman tidak putus.",
+          "Kumpulkan rumput di luar petak. Bisa dijadikan kompos."
+        ]
+      },
+      {
+        "id": "panen",
+        "tipe": "sekali",
+        "judul": "Panen selada keriting",
+        "hst_mulai": 35,
+        "hst_selesai": null,
+        "interval": null,
+        "ukur": null,
+        "boleh_digeser": false,
+        "saran_terlambat": null,
+        "cara_mengerjakan": [
+          "Panen pagi hari saat daun masih kencang dan segar.",
+          "Potong di pangkal akar atau cabut bersama akarnya bila dijual utuh.",
+          "Bersihkan daun bawah yang menguning."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "resep-selada-hidroponik",
+    "komoditas_id": "selada",
+    "metode_id": "hidroponik",
+    "versi": 1,
+    "status": "draf",
+    "contoh": true,
+    "asal_angka_contoh": "dikarang",
+    "validator": null,
+    "tanggal_validasi": null,
+    "hasil_per_satuan": 0.15,
+    "dasar_ukuran": "lubang",
+    "umur_panen_hari": 35,
+    "jumlah_pengisian_larutan": 2,
+    "persen_panen_jelek": 80,
+    "alasan_panen_jelek": "suhu tandon terlalu panas menyebabkan busuk akar",
+    "standar_kualitas": [
+      "Tajuk selada kompak dan berbobot > 120 gram",
+      "Akar putih bersih, tidak berlendir cokelat",
+      "Rasa renyah tanpa rasa pahit"
+    ],
+    "input": [
+      {
+        "id": "benih",
+        "input_id": "benih-selada",
+        "nama": "Benih selada keriting hidroponik",
+        "grup": "Benih",
+        "dosis": 1,
+        "satuan_dosis": "biji",
+        "dasar_dosis": "per_tanaman",
+        "satuan_beli": "bungkus",
+        "isi_satuan_beli": 500,
+        "ukuran_kemasan": 1,
+        "alat_sekali_beli": false,
+        "harga_contoh": 35000,
+        "opsional": false,
+        "keterangan_opsional": null
+      },
+      {
+        "id": "rockwool",
+        "input_id": null,
+        "nama": "Media semai rockwool",
+        "grup": "Media tanam",
+        "dosis": 0.05,
+        "satuan_dosis": "slab",
+        "dasar_dosis": "per_tanaman",
+        "satuan_beli": "slab",
+        "isi_satuan_beli": null,
+        "ukuran_kemasan": 1,
+        "alat_sekali_beli": false,
+        "harga_contoh": 15000,
+        "opsional": false,
+        "keterangan_opsional": null
+      },
+      {
+        "id": "nutrisi-ab",
+        "input_id": "ab-mix-daun",
+        "nama": "Nutrisi AB mix sayuran daun",
+        "grup": "Nutrisi",
+        "dosis": 5,
+        "satuan_dosis": "ml",
+        "dasar_dosis": "per_liter",
+        "satuan_beli": "paket",
+        "isi_satuan_beli": 1000,
+        "ukuran_kemasan": 1,
+        "alat_sekali_beli": false,
+        "harga_contoh": 45000,
+        "opsional": false,
+        "keterangan_opsional": null
+      },
+      {
+        "id": "netpot",
+        "input_id": null,
+        "nama": "Netpot 5 cm",
+        "grup": "Alat sekali beli",
+        "dosis": 1,
+        "satuan_dosis": "buah",
+        "dasar_dosis": "per_tanaman",
+        "satuan_beli": "buah",
+        "isi_satuan_beli": null,
+        "ukuran_kemasan": 1,
+        "alat_sekali_beli": true,
+        "harga_contoh": 500,
+        "opsional": false,
+        "keterangan_opsional": null
+      },
+      {
+        "id": "listrik",
+        "input_id": null,
+        "nama": "Listrik pompa sirkulasi",
+        "grup": "Listrik",
+        "dosis": 12,
+        "satuan_dosis": "kWh",
+        "dasar_dosis": "per_siklus",
+        "satuan_beli": "kWh",
+        "isi_satuan_beli": null,
+        "ukuran_kemasan": 1,
+        "alat_sekali_beli": false,
+        "harga_contoh": 1500,
+        "opsional": false,
+        "keterangan_opsional": null
+      }
+    ],
+    "tugas": [
+      {
+        "id": "pindah-tanam",
+        "tipe": "sekali",
+        "judul": "Pindah tanam ke netpot",
+        "hst_mulai": 0,
+        "hst_selesai": null,
+        "interval": null,
+        "ukur": null,
+        "boleh_digeser": false,
+        "saran_terlambat": null,
+        "cara_mengerjakan": [
+          "Pilih bibit yang sudah berdaun tiga sampai empat.",
+          "Pindahkan bersama rockwool ke netpot.",
+          "Pastikan ujung akar menyentuh aliran larutan."
+        ]
+      },
+      {
+        "id": "ukur-ph-ppm",
+        "tipe": "ukur",
+        "judul": "Cek pH dan PPM",
+        "hst_mulai": 5,
+        "hst_selesai": 35,
+        "interval": 2,
+        "ukur": [
+          {
+            "nama": "pH",
+            "satuan": "",
+            "batas_bawah": 5.5,
+            "batas_atas": 6.5,
+            "skala_min": 0,
+            "skala_maks": 14,
+            "saran_terlalu_rendah": "Tambahkan pH up sedikit demi sedikit.",
+            "saran_terlalu_tinggi": "Tambahkan pH down sedikit demi sedikit."
+          },
+          {
+            "nama": "PPM",
+            "satuan": "ppm",
+            "batas_bawah": 560,
+            "batas_atas": 840,
+            "skala_min": 0,
+            "skala_maks": null,
+            "saran_terlalu_rendah": "Tambahkan AB mix pekat perlahan.",
+            "saran_terlalu_tinggi": "Tambahkan air bersih ke tandon."
+          }
+        ],
+        "boleh_digeser": true,
+        "saran_terlambat": null,
+        "cara_mengerjakan": [
+          "Ambil sedikit larutan dari tandon ke gelas bersih.",
+          "Celupkan kertas pH universal selama 1–2 detik, tunggu sesuai petunjuk kemasan, lalu cocokkan warna kertas dengan bagan warna pada kemasan. Bila memakai pH meter, celupkan dan tunggu angka stabil.",
+          "Catatan: Kertas lakmus hanya membedakan asam dan basa, tidak cukup untuk rentang 5,5–6,5. Pakai kertas pH universal atau pH meter.",
+          "Isi angkanya di Tani Muda, lalu bilas alat ukur dengan air bersih."
+        ]
+      },
+      {
+        "id": "tambah-air",
+        "tipe": "berulang",
+        "judul": "Tambah air tandon",
+        "hst_mulai": 10,
+        "hst_selesai": 34,
+        "interval": 3,
+        "ukur": null,
+        "boleh_digeser": true,
+        "saran_terlambat": null,
+        "cara_mengerjakan": [
+          "Lihat batas air di tandon.",
+          "Tambahkan air bersih sampai batas semula.",
+          "Ukur ulang pH dan PPM bila airnya banyak berkurang."
+        ]
+      },
+      {
+        "id": "panen",
+        "tipe": "sekali",
+        "judul": "Panen selada hidroponik",
+        "hst_mulai": 35,
+        "hst_selesai": null,
+        "interval": null,
+        "ukur": null,
+        "boleh_digeser": false,
+        "saran_terlambat": null,
+        "cara_mengerjakan": [
+          "Angkat netpot beserta selada dari lubang pipa.",
+          "Gunting akar sekitar 2 cm di bawah netpot atau biarkan utuh jika dijual dengan akar.",
+          "Kemas langsung dalam plastik berpori."
+        ]
+      }
+    ]
   }
 ]

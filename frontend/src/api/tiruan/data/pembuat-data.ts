@@ -178,6 +178,9 @@ const KATEGORI_INPUT: Record<string, A.KategoriInput> = {
   'benih-bayam': 'benih',
   'benih-kangkung': 'benih',
   'benih-padi': 'benih',
+  'benih-cabai': 'benih',
+  'benih-tomat': 'benih',
+  'benih-selada': 'benih',
   'pupuk-kandang': 'organik_padat',
   'organik-padat': 'organik_padat',
   poc: 'organik_cair',
@@ -185,6 +188,7 @@ const KATEGORI_INPUT: Record<string, A.KategoriInput> = {
   'npk-16': 'anorganik_majemuk',
   'npk-15': 'anorganik_majemuk',
   'ab-mix': 'nutrisi_hidroponik',
+  'ab-mix-daun': 'nutrisi_hidroponik',
   'ph-down': 'nutrisi_hidroponik',
   dolomit: 'pembenah_tanah',
   'pestisida-nabati': 'bahan_lain',
@@ -202,6 +206,10 @@ const KANDUNGAN: Record<string, string> = {
 const MEREK: [string, string, string, number, number, number, number][] = [
   ['benih-sawi', 'Benih Daun Lebat', 'bungkus 25 g', 1, 25000, 5, 9],
   ['benih-sawi', 'Benih Tunas Tani', 'bungkus 25 g', 1, 22000, 3, 15],
+  ['benih-cabai', 'Benih Rawit Juara', 'bungkus 10 g', 1, 35000, 3, 10],
+  ['benih-tomat', 'Benih Tomat Super', 'bungkus 10 g', 1, 40000, 3, 10],
+  ['benih-selada', 'Benih Selada Hijau Rimbun', 'bungkus 15 g', 1, 25000, 3, 10],
+  ['ab-mix-daun', 'AB Mix Daun Hijau', 'paket 1 liter', 1, 45000, 3, 10],
   ['pupuk-kandang', 'Kandang Subur', '25 kg', 25, 15000, 5, 5],
   ['pupuk-kandang', 'Organik Lembang', '25 kg', 25, 18000, 3, 9],
   ['pupuk-kandang', 'Tanah Gembur', '20 kg', 20, 12500, 2, 15],
@@ -360,13 +368,7 @@ function buatReferensi(): DataContoh['referensi'] {
 }
 
 // ---------------------------------------------------------------- resep dan modul
-const RESEP_DOMAIN = [
-  CONTOH_RESEP_SAWI_BEDENGAN,
-  CONTOH_RESEP_SAWI_HIDROPONIK,
-  CONTOH_RESEP_PADI_SAWAH,
-  CONTOH_RESEP_BAYAM_BEDENGAN,
-  CONTOH_RESEP_KANGKUNG_BEDENGAN,
-];
+const RESEP_DOMAIN = SEMUA_CONTOH_RESEP;
 const dasarUkuran = (metodeId: string) =>
   (CONTOH_METODE.find((m) => m.id === metodeId) as D.MetodeTanam).dasarUkuran;
 
@@ -383,6 +385,14 @@ const TAHAP_MODUL: Record<string, [string, string, number, (umur: number) => num
     ['perawatan', 'Perawatan', 4, () => 7],
     ['panen', 'Panen', 3, (u) => u - 3],
     ['pascapanen', 'Pascapanen', 3, (u) => u],
+  ],
+  polybag: [
+    ['persiapan-media', 'Persiapan media tanam dan wadah', 3, () => -7],
+    ['semai', 'Semai benih', 3, () => -14],
+    ['tanam', 'Pindah tanam ke polybag', 3, () => 0],
+    ['perawatan', 'Perawatan dan pemupukan berkala', 4, () => 7],
+    ['panen', 'Panen bertahap', 3, (u) => u - 5],
+    ['pascapanen', 'Pascapanen dan sortasi', 3, (u) => u],
   ],
   hidroponik: [
     ['instalasi', 'Merakit instalasi sederhana', 4, () => -7],
