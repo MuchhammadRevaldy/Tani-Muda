@@ -119,6 +119,7 @@ Route::middleware('auth:sanctum')->group(function () use ($endpointBelumTersedia
 
     // Wilayah dan referensi (3.2)
     Route::get('/wilayah', [WilayahController::class, 'daftar']);
+    Route::get('/wilayah/terdekat', [WilayahController::class, 'terdekat']);
     Route::get('/wilayah/{id}', [WilayahController::class, 'ambil']);
     Route::get('/komoditas', [ReferensiController::class, 'komoditas']);
     Route::get('/metode', [ReferensiController::class, 'metode']);

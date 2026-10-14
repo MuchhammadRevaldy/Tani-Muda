@@ -11,6 +11,7 @@ import {
 } from '../../api/kueri';
 import type { PesananStok, StokRingkas } from '../../api/tipe';
 import { cx } from '../../komponen/gabung-kelas';
+import { adaIlustrasiKomoditas, alamatIlustrasiKomoditas } from '../../komponen/ilustrasi';
 import { formatRupiah } from '../../lib/format';
 import { KerangkaPesanan } from '../pesanan/kerangka-pesanan';
 
@@ -277,6 +278,26 @@ export function HalamanStokPetani() {
                     className="flex flex-col justify-between rounded-xl border border-garis bg-putih p-4 shadow-kartu"
                   >
                     <div>
+                      <div className="relative mb-3 flex h-32 w-full items-center justify-center overflow-hidden rounded-lg bg-embun-pagi/60 border border-garis/50">
+                        <img
+                          src={
+                            s.foto ||
+                            (adaIlustrasiKomoditas(s.komoditas_id)
+                              ? alamatIlustrasiKomoditas(s.komoditas_id)
+                              : '/ilustrasi/komoditas/sawi.svg')
+                          }
+                          alt={`Foto ${s.komoditas?.nama ?? s.komoditas_id}`}
+                          className="h-full w-full object-contain p-2"
+                          onError={(e) => {
+                            const cadangan = adaIlustrasiKomoditas(s.komoditas_id)
+                              ? alamatIlustrasiKomoditas(s.komoditas_id)
+                              : '/ilustrasi/komoditas/sawi.svg';
+                            if (!e.currentTarget.src.endsWith(cadangan)) {
+                              e.currentTarget.src = cadangan;
+                            }
+                          }}
+                        />
+                      </div>
                       <div className="flex items-start justify-between gap-2">
                         <div>
                           <h3 className="font-semibold text-judul-bagian text-teks capitalize">

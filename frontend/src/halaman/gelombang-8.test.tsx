@@ -94,7 +94,7 @@ describe('panel admin: cari petani (D-47)', () => {
   it('cari nama menyaring daftar; tanpa hasil memberi keterangan', async () => {
     await buka('/admin/petani', 'admin-tani');
     const tabel = await screen.findByRole('region', { name: 'Petani' });
-    await waitFor(() => expect(within(tabel).getAllByRole('row')).toHaveLength(6));
+    await waitFor(() => expect(within(tabel).getAllByRole('row')).toHaveLength(8));
     await userEvent.type(screen.getByLabelText('Cari nama petani atau desa'), 'budi');
     await waitFor(() =>
       expect(

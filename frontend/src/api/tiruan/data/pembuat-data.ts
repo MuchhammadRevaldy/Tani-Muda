@@ -38,7 +38,7 @@ import { resepDariDomain, tugasDariDomain } from '../../peta';
 import type * as A from '../../tipe';
 import type { DataContoh, DataKebun, DataPesanan, WilayahContoh } from './jenis-data';
 
-export const VERSI_DATA_CONTOH = 12;
+export const VERSI_DATA_CONTOH = 13;
 /** Hari acuan saat menghitung; semua tanggal ditulis relatif terhadapnya. */
 const HARI_DASAR = '2026-10-05';
 
@@ -1584,7 +1584,17 @@ function buatPesanan(): DataPesanan {
   return data;
 }
 
-const fotoSayur = (komoditas: string) => `/gambar/stok/${komoditas}.jpg`;
+const PETA_FOTO_KOMODITAS: Record<string, string> = {
+  sawi: '/ilustrasi/komoditas/sawi.svg',
+  bayam: '/ilustrasi/komoditas/bayam.svg',
+  kangkung: '/ilustrasi/komoditas/kangkung.svg',
+  cabai: '/ilustrasi/komoditas/cabai-rawit.svg',
+  tomat: '/ilustrasi/komoditas/tomat.svg',
+  selada: '/ilustrasi/komoditas/selada.svg',
+};
+
+const fotoSayur = (komoditas: string) =>
+  PETA_FOTO_KOMODITAS[komoditas] ?? `/ilustrasi/komoditas/${komoditas}.svg`;
 
 function buatStok(): DataContoh['stok'] {
   return {

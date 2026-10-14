@@ -303,7 +303,7 @@ export function ujiKontrak(nama: string, siapkan: PenyiapLingkungan): void {
         expect(lembang[0]).toBe('Lembang');
         expect(lembang.length).toBeGreaterThan(3);
         const h = await K.wilayah.daftar({ per_halaman: 3, halaman: 2 });
-        expect(h.meta).toEqual({ halaman: 2, per_halaman: 3, total: 9, halaman_terakhir: 3 });
+        expect(h.meta).toEqual({ halaman: 2, per_halaman: 3, total: 10, halaman_terakhir: 4 });
         expect(h.data).toHaveLength(3);
         expect((await K.wilayah.daftar({ per_halaman: 500 })).meta.per_halaman).toBe(100);
       });
@@ -350,6 +350,11 @@ export function ujiKontrak(nama: string, siapkan: PenyiapLingkungan): void {
           kecamatan: 'Lembang',
         });
         await harapGalat(K.wilayah.ambil('99.99.99.9999'), 'TIDAK_DITEMUKAN', 404);
+      });
+      it('terdekat mencari desa terdekat berdasarkan koordinat', async () => {
+        const dekat = await K.wilayah.terdekat(-6.82, 107.62);
+        expect(dekat.desa).toBe('Lembang');
+        expect(typeof dekat.jarak_km).toBe('number');
       });
     });
 
@@ -1389,7 +1394,7 @@ export function ujiKontrak(nama: string, siapkan: PenyiapLingkungan): void {
         expect(d[0]?.kebun).toEqual([
           expect.objectContaining({
             nama_petani: 'Arif Setiawan',
-            desa: 'Lembang',
+            desa: 'Cikahuripan',
             jumlah_kg: 10,
             hari_ke: 13,
             hari_panen: 28,
@@ -1563,7 +1568,7 @@ export function ujiKontrak(nama: string, siapkan: PenyiapLingkungan): void {
       it('daftar petani untuk admin: cari, paginasi, tanpa nomor HP (D-46, D-47)', async () => {
         const h = await K.admin.daftarPetani();
         const d = h.data;
-        expect(h.meta).toMatchObject({ halaman: 1, total: 5 });
+        expect(h.meta).toMatchObject({ halaman: 1, total: 7 });
         expect(d[0]).toEqual({
           id: 'petani-budi',
           nama: 'Budi Santoso',
@@ -1589,8 +1594,8 @@ export function ujiKontrak(nama: string, siapkan: PenyiapLingkungan): void {
         expect(h2.meta).toMatchObject({
           halaman: 2,
           per_halaman: 2,
-          total: 5,
-          halaman_terakhir: 3,
+          total: 7,
+          halaman_terakhir: 4,
         });
         expect(h2.data[0]!.id).toBe(d[2]!.id);
         await masuk('petani-arif');
@@ -1913,6 +1918,14 @@ export function ujiKontrak(nama: string, siapkan: PenyiapLingkungan): void {
         const percakapanNomor = await K.chat.bukaLewatNomor('+6281200000001');
         expect(percakapanNomor.id).toBeDefined();
         expect(percakapanNomor.jenis).toBe('kontak');
+      });
+    });
+
+    // ------------------------------------------------------------ fitur tambahan (F-10)
+    describe('fitur tambahan: harga berita (F-10)', () => {
+      it('dapat mengambil daftar ringkasan harga berita pasar', async () => {
+        const daftar = await K.hargaBerita.daftar();
+        expect(Array.isArray(daftar)).toBe(true);
       });
     });
   });

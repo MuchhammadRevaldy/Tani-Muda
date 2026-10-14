@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use App\Domain\Hitung\Jarak;
 use App\Http\Controllers\Controller;
 use App\Http\Galat\GalatApi;
 use App\Http\Respons;
@@ -30,6 +31,49 @@ class WilayahController extends Controller
         $hasil = $q->orderBy('desa')->orderBy('id')->paginate($per, ['*'], 'halaman', $halaman);
 
         return Respons::halaman($hasil, self::bentuk(...));
+    }
+
+    /**
+     * GET /wilayah/terdekat?lintang=&bujur=
+     * Cari desa terdekat yang punya titik tengah di tabel wilayah (Haversine, tanpa API luar).
+     */
+    public function terdekat(Request $request): JsonResponse
+    {
+        $request->validate([
+            'lintang' => ['required', 'numeric'],
+            'bujur' => ['required', 'numeric'],
+        ]);
+
+        $lintang = (float) $request->query('lintang');
+        $bujur = (float) $request->query('bujur');
+
+        $daftarWilayah = Wilayah::query()
+            ->whereNotNull('lintang')
+            ->whereNotNull('bujur')
+            ->get();
+
+        if ($daftarWilayah->isEmpty()) {
+            throw new GalatApi('TIDAK_DITEMUKAN');
+        }
+
+        $terdekat = null;
+        $jarakTerkecil = INF;
+
+        foreach ($daftarWilayah as $w) {
+            $jarak = Jarak::jarakKm(
+                ['lintang' => $lintang, 'bujur' => $bujur],
+                ['lintang' => (float) $w->lintang, 'bujur' => (float) $w->bujur]
+            );
+            if ($jarak < $jarakTerkecil) {
+                $jarakTerkecil = $jarak;
+                $terdekat = $w;
+            }
+        }
+
+        $hasil = self::bentuk($terdekat);
+        $hasil['jarak_km'] = round($jarakTerkecil, 2);
+
+        return Respons::data($hasil);
     }
 
     /** GET /wilayah/{id} */

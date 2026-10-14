@@ -10,7 +10,6 @@ import { berandaPeran, useGantiPengguna } from '../api/sesi';
 import type { Peran } from '../api/tipe';
 import { Avatar } from '../komponen/avatar';
 import { Kartu } from '../komponen/kartu';
-import { LabelKecil } from '../komponen/label-kecil';
 import { Logo } from '../komponen/navigasi';
 import { kelasTombol, Tombol } from '../komponen/tombol';
 import { teksPengembangan as t } from '../teks/pengembangan';
@@ -45,7 +44,6 @@ export default function HalamanPilihAkunDemo() {
       <main className="mx-auto flex max-w-konten flex-col gap-6 px-4 pb-12 pt-4 lg:px-10 lg:pt-8">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <Logo />
-          <LabelKecil nada="contoh">{t.penanda}</LabelKecil>
         </div>
         <div className="flex flex-col gap-1">
           <h1 className="m-0 text-judul-halaman font-semibold">{t.judulAkunDemo}</h1>

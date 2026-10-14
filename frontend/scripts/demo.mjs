@@ -12,7 +12,7 @@ const iPort = argumen.indexOf('--port');
 const port = iPort >= 0 ? Number(argumen[iPort + 1]) : undefined;
 
 const { createServer } = await import('vite');
-const server = await createServer({ server: port ? { port, strictPort: true } : {} });
+const server = await createServer({ mode: 'demo', server: port ? { port, strictPort: true } : {} });
 await server.listen();
 console.log('\n  Mode demo: data tiruan, resep contoh tampil. Pemilih akun demo di /akun-demo.\n');
 server.printUrls();

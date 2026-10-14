@@ -61,9 +61,13 @@ export function periksaInvarianPesanan(d: DataPesanan): string[] {
  * - sisa_kg = jumlah_kg - SUM(pesanan aktif yang belum dibatalkan/ditolak)
  */
 export function periksaInvarianStok(
-  stokList: import('../tipe').StokRingkas[] = [],
+  stokInput:
+    | import('../tipe').StokRingkas[]
+    | { stok: import('../tipe').StokRingkas[] }
+    | undefined = [],
   pesananStokList: import('../tipe').PesananStok[] = [],
 ): string[] {
+  const stokList = Array.isArray(stokInput) ? stokInput : (stokInput?.stok ?? []);
   const salah: string[] = [];
   for (const s of stokList) {
     if (s.sisa_kg < 0 || s.sisa_kg > s.jumlah_kg) {

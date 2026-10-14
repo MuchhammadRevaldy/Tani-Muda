@@ -8,6 +8,7 @@ import {
   type StatistikLencana,
 } from '../../../lib/level';
 import { normalisasiNomorHp } from '../../../lib/nomor-hp';
+import { jarakKm } from '../../../lib/jarak';
 import { zonaSah, ZONA_BAWAAN } from '../../../lib/zona-waktu';
 import type { KlienAkun, KlienBerkas, KlienNotifikasi, KlienWilayah } from '../../klien';
 import type { Akun, Pengguna } from '../../tipe';
@@ -335,6 +336,24 @@ export function buatKlienWilayah(k: Konteks): KlienWilayah {
             a.desa.localeCompare(b.desa, 'id'),
         );
       return k.halaman(hasil, p);
+    },
+    async terdekat(lintang: number, bujur: number) {
+      k.penggunaMasuk();
+      const daftar = k.db.wilayah.filter((w) => w.lintang !== null && w.bujur !== null);
+      if (daftar.length === 0) {
+        k.galat('TIDAK_DITEMUKAN');
+      }
+      let terdekat = daftar[0]!;
+      let minJarak = Infinity;
+      for (const w of daftar) {
+        const j = jarakKm({ lintang, bujur }, { lintang: w.lintang!, bujur: w.bujur! });
+        if (j < minJarak) {
+          minJarak = j;
+          terdekat = w;
+        }
+      }
+      const hasil = k.wilayahKeluar(terdekat);
+      return { ...hasil, jarak_km: Math.round(minJarak * 100) / 100 };
     },
     async ambil(id) {
       k.penggunaMasuk();

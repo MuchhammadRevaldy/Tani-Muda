@@ -112,6 +112,19 @@ async function aturUlang(page) {
   await lihat(page, 'Data demo sudah dikembalikan');
 }
 
+/** Periksa setiap gambar di halaman berhasil dimuat tanpa gambar rusak (AG-35). */
+async function periksaSemuaGambarUtuh(page) {
+  const rusak = await page.evaluate(() => {
+    const gambar = Array.from(document.querySelectorAll('img'));
+    return gambar
+      .filter((img) => !img.complete || img.naturalWidth === 0)
+      .map((img) => img.src || img.getAttribute('src') || '<tanpa-src>');
+  });
+  if (rusak.length > 0) {
+    throw new Error(`Ditemukan ${rusak.length} gambar gagal dimuat (rusak): ${rusak.join(', ')}`);
+  }
+}
+
 // ---------------------------------------------------------------- skenario
 
 /** docs/naskah-demo.md, 10 langkah. */
@@ -497,6 +510,10 @@ async function navigasiPembeliHp(page, langkah) {
     await tabPeta.click();
     await page.waitForURL(/\/pembeli\/peta/, { timeout: TUNGGU });
     await lihat(page, 'Peta Petani Sekitar');
+    await page.locator('#kartu-lokasi-pembeli').waitFor({ state: 'visible', timeout: TUNGGU });
+    await lihat(page, /Lokasimu sekarang: Desa /);
+    await lihat(page, /Sumber lokasi:/);
+    await page.locator('#tombol-perbarui-lokasi').waitFor({ state: 'visible', timeout: TUNGGU });
 
     const tabChat = page.locator('#navigasi-bawah-pembeli a[href="/pembeli/chat"]');
     await tabChat.click();
@@ -514,6 +531,40 @@ async function navigasiPembeliHp(page, langkah) {
     await page.getByRole('menuitem', { name: 'Profil' }).waitFor({ state: 'visible', timeout: TUNGGU });
     await page.getByRole('menuitem', { name: 'Riwayat' }).waitFor({ state: 'visible', timeout: TUNGGU });
     await page.getByRole('menuitem', { name: 'Keluar' }).waitFor({ state: 'visible', timeout: TUNGGU });
+  });
+  await langkah('4. Chatbot di 390px (buka, ketik halo, ketuk contoh pertanyaan, tutup)', async () => {
+    const tombolChatbot = page.locator('#tombol-buka-chatbot');
+    const adaChatbot = await tombolChatbot.isVisible().catch(() => false);
+    if (!adaChatbot) {
+      await page.setViewportSize({ width: LEBAR, height: LEBAR === 390 ? 844 : 900 });
+      return;
+    }
+    await tombolChatbot.click();
+
+    const panel = page.locator('#panel-chatbot');
+    await panel.waitFor({ state: 'visible', timeout: TUNGGU });
+
+    const centang = panel.locator('input[type="checkbox"]');
+    if (await centang.isVisible()) {
+      await centang.check();
+      await klik(page, 'Saya Setuju & Mulai Tanya');
+    }
+
+    const input = page.locator('#input-chatbot');
+    await input.waitFor({ state: 'visible', timeout: TUNGGU });
+    await input.fill('halo');
+    await page.locator('#tombol-kirim-chatbot').click();
+    await lihat(page, /Halo! Senang bisa menyapa Anda/);
+
+    await klik(page, /Kapan pupuk pertama sawi\?/);
+    await lihat(page, /Kapan pupuk pertama sawi\?/);
+    await page.waitForTimeout(600);
+
+    const tombolTutup = page.locator('#tombol-tutup-chatbot');
+    await tombolTutup.waitFor({ state: 'visible', timeout: TUNGGU });
+    await tombolTutup.click();
+    await panel.waitFor({ state: 'hidden', timeout: TUNGGU });
+
     await page.setViewportSize({ width: LEBAR, height: LEBAR === 390 ? 844 : 900 });
   });
 }
@@ -616,6 +667,7 @@ async function jalankan(browser, nama, putaran) {
     const mulai = Date.now();
     try {
       await kerja();
+      await periksaSemuaGambarUtuh(page);
     } catch (e) {
       const dasar = FOLDER ? join(FOLDER, `${nama}-${putaran}-gagal-${nomor}`) : null;
       if (dasar) {

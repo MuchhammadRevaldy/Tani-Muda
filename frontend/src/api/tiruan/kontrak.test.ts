@@ -18,10 +18,13 @@ ujiKontrak('klien tiruan', async ({ tampilkanResepContoh }) => {
     kodeOtp: async (nomor) => t.kontrol.kodeUji(nomor),
     majukanJam: (ms) => (sekarang += ms),
     periksaInvarian: async () => {
-      const dbAny = t.konteks.db as unknown as { stok?: import('../tipe').StokRingkas[]; pesanan_stok?: import('../tipe').PesananStok[] };
+      const dbAny = t.konteks.db as unknown as {
+        stok?: import('../tipe').StokRingkas[] | { stok: import('../tipe').StokRingkas[] };
+        pesanan_stok?: import('../tipe').PesananStok[];
+      };
       return [
         ...periksaInvarianPesanan(t.konteks.db.pesanan),
-        ...periksaInvarianStok(dbAny.stok ?? [], dbAny.pesanan_stok ?? []),
+        ...periksaInvarianStok(dbAny.stok, dbAny.pesanan_stok ?? []),
       ];
     },
   };

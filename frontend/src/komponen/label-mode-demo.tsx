@@ -15,10 +15,11 @@ export default function LabelModeDemo() {
   }, []);
   return (
     <a
+      id="label-mode-demo"
       href="/akun-demo"
       aria-label={t.labelAria}
       title={t.labelAria}
-      className="label-mode-demo fokus-cincin fixed bottom-3 right-3 z-50 inline-flex min-h-sentuh items-center gap-2 rounded-full border-1.5 border-matahari bg-matahari-lembut px-4 font-semibold text-matahari-teks no-underline lg:bottom-4 lg:right-4"
+      className="label-mode-demo fokus-cincin fixed right-4 z-40 inline-flex min-h-sentuh items-center gap-2 rounded-full border-1.5 border-matahari bg-matahari-lembut px-4 font-semibold text-matahari-teks no-underline lg:right-6"
     >
       <span className="h-2.5 w-2.5 rounded-full bg-matahari" aria-hidden="true" />
       {t.label}

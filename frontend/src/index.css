@@ -55,16 +55,28 @@
   }
 }
 
-/* Build demo (D-48, D-49): label "Mode demo" melayang di pojok kanan bawah. Konten dan kaki halaman
-   diberi ruang kosong setinggi label supaya label tidak menutupi apa pun di akhir halaman, dan di HP
-   label naik ke atas navigasi bawah bila halaman memilikinya. */
+/* Build demo (D-48, D-49, AG-35): label "Mode demo" bertumpuk rapi di atas tombol chatbot di pojok kanan bawah.
+   Konten dan kaki halaman diberi ruang kosong setinggi tumpukan tombol supaya tidak menutupi tombol utama halaman atau navigasi kapsul. */
 html.ada-label-demo main,
 html.ada-label-demo footer {
-  padding-bottom: theme('spacing.24');
+  padding-bottom: 144px;
 }
 @media (max-width: 1023px) {
+  html.ada-label-demo:has([data-nav-bawah]) main,
+  html.ada-label-demo:has([data-nav-bawah]) footer {
+    padding-bottom: 208px;
+  }
   html.ada-label-demo:has([data-nav-bawah]) .label-mode-demo {
-    bottom: theme('spacing.26');
+    bottom: 154px;
+  }
+  html.ada-label-demo:not(:has([data-nav-bawah])) .label-mode-demo {
+    bottom: 84px;
+  }
+}
+@media (min-width: 1024px) {
+  .label-mode-demo {
+    bottom: 90px;
+    right: 24px;
   }
 }
 

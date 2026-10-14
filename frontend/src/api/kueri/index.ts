@@ -32,6 +32,12 @@ export const useWilayah = (p: T.ParamWilayah & T.ParamHalaman = {}) =>
   q(kk('wilayah', 'daftar', { ...p }), (k) => k.wilayah.daftar(p));
 export const useWilayahSatu = (id: string | null) =>
   q(kk('wilayah', 'satu', id), (k) => k.wilayah.ambil(id as string), !!id);
+export const useWilayahTerdekat = (lintang: number | null, bujur: number | null) =>
+  q(
+    kk('wilayah', 'terdekat', lintang, bujur),
+    (k) => k.wilayah.terdekat(lintang as number, bujur as number),
+    lintang != null && bujur != null,
+  );
 
 // ---------------------------------------------------------------- referensi dan resep
 export const useKonfigurasi = () =>

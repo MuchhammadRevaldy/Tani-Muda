@@ -337,3 +337,19 @@ it('peta pembeli demo Bu Ratna dan Bu Imas menampilkan beberapa titik dalam 10 k
     $stokTersedia = Stok::where('status', StatusStok::Tersedia->value)->where('sisa_kg', '>', 0)->get();
     expect($stokTersedia->count())->toBeGreaterThanOrEqual(5);
 });
+
+it('endpoint /wilayah/terdekat mencari desa terdekat berdasarkan koordinat', function () {
+    DataContohSeeder::isi(CarbonImmutable::now());
+    $pembeli = Pengguna::find('pembeli-ratna');
+
+    // Koordinat dekat Desa Lembang (-6.8186, 107.6198)
+    $res = $this->actingAs($pembeli)
+        ->getJson('/api/v1/wilayah/terdekat?lintang=-6.82&bujur=107.62')
+        ->assertOk()
+        ->json('data');
+
+    expect($res)->toHaveKey('desa');
+    expect($res)->toHaveKey('kecamatan');
+    expect($res)->toHaveKey('jarak_km');
+    expect($res['desa'])->toBe('Lembang');
+});

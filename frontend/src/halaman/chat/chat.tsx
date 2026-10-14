@@ -204,7 +204,7 @@ export function HalamanChat() {
       </div>
 
       {daftar.length === 0 ? (
-        <Kartu judul="Belum Ada Pesan" tingkatJudul={3}>
+        <Kartu judul="Belum ada pesan" tingkatJudul={3}>
           <div className="flex flex-col items-center gap-3 py-6 text-center">
             <div className="flex h-12 w-12 items-center justify-center rounded-full bg-daun-lembut text-daun-tua">
               <Ikon nama="chat" ukuran={24} />
@@ -407,7 +407,7 @@ export function HalamanChat() {
       <Dialog
         terbuka={dialogNomorBuka}
         onTutup={() => setDialogNomorBuka(false)}
-        judul="Mulai Chat lewat Nomor HP"
+        judul="Mulai chat lewat nomor HP"
         keterangan="Masukkan nomor HP lawan bicara untuk memulai atau melanjutkan obrolan langsung."
       >
         <form onSubmit={(e) => void tanganiMulaiChatNomor(e)} className="flex flex-col gap-4">

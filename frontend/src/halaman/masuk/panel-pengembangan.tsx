@@ -4,7 +4,6 @@
  */
 import { Link } from 'react-router-dom';
 import { useKontrolPengembangan } from '../../api/penyedia-klien';
-import { LabelKecil } from '../../komponen/label-kecil';
 import { teksPengembangan as t } from '../../teks/pengembangan';
 
 export default function PanelPengembangan({ nomorHp }: { nomorHp: string | null }) {
@@ -16,9 +15,6 @@ export default function PanelPengembangan({ nomorHp }: { nomorHp: string | null 
       aria-label={t.penanda}
       className="flex flex-col gap-2 rounded-md border-1.5 border-dashed border-garis-kuat bg-putih p-4"
     >
-      <LabelKecil nada="contoh" className="self-start">
-        {t.penanda}
-      </LabelKecil>
       {kode ? (
         <div className="flex flex-col gap-0.5">
           <p className="m-0 text-judul-bagian font-semibold tabular-nums">{t.kodeUji(kode)}</p>

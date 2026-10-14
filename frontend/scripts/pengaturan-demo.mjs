@@ -9,22 +9,37 @@
  */
 export const ANIMASI_DEMO = process.env.VITE_ANIMASI ?? 'nyala';
 
-/**
- * Sakelar fitur Tahap 7 (D-64): untuk semua demo, bawaan 'nyala' kecuali ditimpa via VITE_FITUR_*.
- */
+import { existsSync, readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
+
+function bacaEnvFile() {
+  const p = resolve('.env');
+  if (!existsSync(p)) return {};
+  const baris = readFileSync(p, 'utf8').split('\n');
+  const env = {};
+  for (const b of baris) {
+    const m = b.match(/^\s*([A-Za-z0-9_]+)\s*=\s*(.*)?\s*$/);
+    if (m && m[1]) {
+      env[m[1]] = (m[2] ?? '').trim().replace(/^['"]|['"]$/g, '');
+    }
+  }
+  return env;
+}
+const envLokal = bacaEnvFile();
+
 export const FITUR_DEMO = {
-  VITE_FITUR_AI: process.env.VITE_FITUR_AI ?? 'nyala',
-  VITE_FITUR_SARAN_UNTUNG: process.env.VITE_FITUR_SARAN_UNTUNG ?? 'nyala',
-  VITE_FITUR_TANAMAN_BARU: process.env.VITE_FITUR_TANAMAN_BARU ?? 'nyala',
-  VITE_FITUR_LEVEL: process.env.VITE_FITUR_LEVEL ?? 'nyala',
-  VITE_FITUR_DETEKSI: process.env.VITE_FITUR_DETEKSI ?? 'nyala',
-  VITE_FITUR_CHATBOT: process.env.VITE_FITUR_CHATBOT ?? 'nyala',
-  VITE_FITUR_CUACA: process.env.VITE_FITUR_CUACA ?? 'nyala',
-  VITE_FITUR_STOK: process.env.VITE_FITUR_STOK ?? 'nyala',
-  VITE_FITUR_PETA: process.env.VITE_FITUR_PETA ?? 'nyala',
-  VITE_FITUR_CHAT: process.env.VITE_FITUR_CHAT ?? 'nyala',
-  VITE_FITUR_HARGA_BERITA: process.env.VITE_FITUR_HARGA_BERITA ?? 'nyala',
-  VITE_FITUR_SARAN_HARIAN: process.env.VITE_FITUR_SARAN_HARIAN ?? 'nyala',
+  VITE_FITUR_AI: process.env.VITE_FITUR_AI ?? envLokal.VITE_FITUR_AI ?? 'nyala',
+  VITE_FITUR_SARAN_UNTUNG: process.env.VITE_FITUR_SARAN_UNTUNG ?? envLokal.VITE_FITUR_SARAN_UNTUNG ?? 'nyala',
+  VITE_FITUR_TANAMAN_BARU: process.env.VITE_FITUR_TANAMAN_BARU ?? envLokal.VITE_FITUR_TANAMAN_BARU ?? 'nyala',
+  VITE_FITUR_LEVEL: process.env.VITE_FITUR_LEVEL ?? envLokal.VITE_FITUR_LEVEL ?? 'nyala',
+  VITE_FITUR_DETEKSI: process.env.VITE_FITUR_DETEKSI ?? envLokal.VITE_FITUR_DETEKSI ?? 'nyala',
+  VITE_FITUR_CHATBOT: process.env.VITE_FITUR_CHATBOT ?? envLokal.VITE_FITUR_CHATBOT ?? 'nyala',
+  VITE_FITUR_CUACA: process.env.VITE_FITUR_CUACA ?? envLokal.VITE_FITUR_CUACA ?? 'nyala',
+  VITE_FITUR_STOK: process.env.VITE_FITUR_STOK ?? envLokal.VITE_FITUR_STOK ?? 'nyala',
+  VITE_FITUR_PETA: process.env.VITE_FITUR_PETA ?? envLokal.VITE_FITUR_PETA ?? 'nyala',
+  VITE_FITUR_CHAT: process.env.VITE_FITUR_CHAT ?? envLokal.VITE_FITUR_CHAT ?? 'nyala',
+  VITE_FITUR_HARGA_BERITA: process.env.VITE_FITUR_HARGA_BERITA ?? envLokal.VITE_FITUR_HARGA_BERITA ?? 'nyala',
+  VITE_FITUR_SARAN_HARIAN: process.env.VITE_FITUR_SARAN_HARIAN ?? envLokal.VITE_FITUR_SARAN_HARIAN ?? 'nyala',
 };
 
 export const PENGATURAN_DEMO = {

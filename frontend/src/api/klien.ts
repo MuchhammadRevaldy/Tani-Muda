@@ -127,6 +127,8 @@ export interface KlienAkun {
 export interface KlienWilayah {
   /** GET /wilayah */
   daftar(p?: ParamWilayah & ParamHalaman): Promise<Halaman<Wilayah>>;
+  /** GET /wilayah/terdekat?lintang=&bujur= */
+  terdekat(lintang: number, bujur: number): Promise<Wilayah & { jarak_km?: number }>;
   /** GET /wilayah/{id} */
   ambil(id: string): Promise<Wilayah>;
 }

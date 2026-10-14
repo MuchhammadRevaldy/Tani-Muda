@@ -378,9 +378,9 @@ describe('IlustrasiKomoditas (D-59)', () => {
     expect(container.querySelector('img')).toBeNull();
     expect(container.querySelector('svg')).not.toBeNull();
   });
-  it('11 ilustrasi, semuanya ada berkasnya di public/', async () => {
+  it('12 ilustrasi, semuanya ada berkasnya di public/', async () => {
     const { existsSync } = await import('node:fs');
-    expect(daftarIlustrasiKomoditas).toHaveLength(11);
+    expect(daftarIlustrasiKomoditas).toHaveLength(12);
     for (const n of daftarIlustrasiKomoditas)
       expect(existsSync(`public${alamatIlustrasiKomoditas(n)}`), n).toBe(true);
   });

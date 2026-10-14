@@ -183,6 +183,8 @@ export function buatKlienHttp(o: OpsiKlienHttp = {}): {
     },
     wilayah: {
       daftar: (p = {}) => h.halaman(denganKueri('/wilayah', { ...p })),
+      terdekat: (lintang, bujur) =>
+        h.get(denganKueri('/wilayah/terdekat', { lintang, bujur })),
       ambil: (id) => h.get(`/wilayah/${e(id)}`),
     },
     referensi: {

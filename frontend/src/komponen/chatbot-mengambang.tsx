@@ -1,16 +1,33 @@
 /**
- * Komponen Chatbot "Tanya Tani Muda" (PRD Tambahan F-05).
+ * Komponen Chatbot "Tanya Tani Muda" (PRD Tambahan F-05, AG-35).
+ * - Sapaan dijawab ramah tanpa panggil AI + 3 contoh pertanyaan.
+ * - Keadaan kosong menampilkan 3 contoh pertanyaan yang sama.
+ * - Jawaban "Belum ada di panduan" disertai tombol "Tanya penyuluh" ke WhatsApp admin.
+ * - Di HP (< 768px): lembar layar penuh dari bawah dengan tombol tutup 48px dan input menempel di bawah.
+ * - Desktop: panel mengambang di kanan bawah.
  */
 import { useEffect, useRef, useState } from 'react';
 import { adalahGalatApi } from '../api/galat';
-import { useAkun, useRiwayatChatbot, useSetujuAi, useTanyaChatbot } from '../api/kueri';
+import { useAkun, useKonfigurasi, useRiwayatChatbot, useSetujuAi, useTanyaChatbot } from '../api/kueri';
 import type { PesanObrolanBot } from '../api/tipe';
+import { fiturAktif } from '../lib/fitur';
 import { Banner } from './banner';
 import { Ikon } from './ikon';
 import { Tombol } from './tombol';
 
+const POLA_SAPAAN =
+  /^(halo|hai|hei|hi|hello|selamat\s+(pagi|siang|sore|malam)|assalamu['a]?laikum|pagi|siang|sore|malam)[\s!,.]*$/i;
+
+const CONTOH_PERTANYAAN = [
+  'Kapan pupuk pertama sawi?',
+  'Kenapa daun sawi berlubang?',
+  'Berapa pH yang baik untuk hidroponik?',
+];
+
 export function ChatbotMengambang() {
+  const aktif = fiturAktif('CHATBOT') && fiturAktif('AI');
   const { data: akun } = useAkun();
+  const { data: konfigurasi } = useKonfigurasi();
   const mutasiSetuju = useSetujuAi();
   const mutasiTanya = useTanyaChatbot();
   const kueriRiwayat = useRiwayatChatbot(undefined, Boolean(akun?.pengguna.id));
@@ -21,9 +38,11 @@ export function ChatbotMengambang() {
   const [galat, setGalat] = useState<string | null>(null);
   const [centangPersetujuan, setCentangPersetujuan] = useState(false);
   const akhirObrolanRef = useRef<HTMLDivElement>(null);
+  const idPesanRef = useRef(1);
 
   const sudahSetuju = Boolean(akun?.pengguna.setuju_ai_pada);
   const daftarPesan = [...(kueriRiwayat.data ?? []), ...pesanLokal];
+  const noWa = (konfigurasi?.kontak_admin?.whatsapp ?? '+62 812-0000-0099').replace(/\D/g, '');
 
   useEffect(() => {
     if (terbuka) {
@@ -40,34 +59,47 @@ export function ChatbotMengambang() {
     }
   }
 
-  async function kirimPertanyaan(e?: React.FormEvent) {
-    if (e) e.preventDefault();
-    const teks = pesan.trim();
+  async function kirimPertanyaan(teksManual?: string) {
+    const teks = (teksManual ?? pesan).trim();
     if (!teks || mutasiTanya.isPending) return;
 
     setGalat(null);
     setPesan('');
 
     const pesanPengguna: PesanObrolanBot = {
-      id: `lokal-${Date.now()}`,
+      id: `lokal-user-${idPesanRef.current++}`,
       percakapan_bot_id: 'aktif',
       peran: 'user',
       isi: teks,
       sumber: null,
-      dibuat_pada: new Date().toISOString(),
+      dibuat_pada: 'H0T12:00',
     };
+
+    // Sapaan ramah tanpa memanggil AI (AG-35)
+    if (POLA_SAPAAN.test(teks)) {
+      const balasanSapaan: PesanObrolanBot = {
+        id: `bot-sapaan-${idPesanRef.current++}`,
+        percakapan_bot_id: 'aktif',
+        peran: 'assistant',
+        isi: 'Halo! Senang bisa menyapa Anda. Saya asisten Tanya Tani Muda, siap menjawab pertanyaan seputar budidaya tanaman dan panduan pertanian. Berikut beberapa hal yang sering ditanyakan:',
+        sumber: null,
+        dibuat_pada: 'H0T12:00',
+      };
+      setPesanLokal((prev) => [...prev, pesanPengguna, balasanSapaan]);
+      return;
+    }
 
     setPesanLokal((prev) => [...prev, pesanPengguna]);
 
     try {
       const res = await mutasiTanya.mutateAsync({ pesan: teks });
       const pesanBot: PesanObrolanBot = {
-        id: `bot-${Date.now()}`,
+        id: `bot-${idPesanRef.current++}`,
         percakapan_bot_id: res.percakapan_id,
         peran: 'assistant',
         isi: res.jawaban,
         sumber: res.sumber,
-        dibuat_pada: new Date().toISOString(),
+        dibuat_pada: 'H0T12:00',
       };
       setPesanLokal((prev) => [...prev, pesanBot]);
     } catch (err) {
@@ -79,11 +111,16 @@ export function ChatbotMengambang() {
     }
   }
 
+  if (!aktif) {
+    return null;
+  }
+
   return (
     <>
       {/* Tombol Mengambang (FAB) */}
-      <div className="fixed bottom-20 right-4 z-40 lg:bottom-6 lg:right-6">
+      <div className="fixed bottom-22 right-4 z-40 lg:bottom-6 lg:right-6 [html:not(:has([data-nav-bawah]))_&]:bottom-4">
         <button
+          id="tombol-buka-chatbot"
           type="button"
           onClick={() => setTerbuka(!terbuka)}
           aria-label={terbuka ? 'Tutup Tanya Tani Muda' : 'Buka Tanya Tani Muda'}
@@ -108,26 +145,33 @@ export function ChatbotMengambang() {
         </button>
       </div>
 
-      {/* Jendela Obrolan */}
+      {/* Jendela Obrolan (Lembar penuh layar di HP, panel mengambang di desktop) */}
       {terbuka && (
-        <div className="fixed bottom-36 right-4 z-40 flex h-tab-siklus w-panel max-w-dialog flex-col overflow-hidden rounded-2xl border border-garis bg-putih shadow-kartu lg:bottom-22 lg:right-6">
+        <div
+          id="panel-chatbot"
+          role="dialog"
+          aria-label="Panel Tanya Tani Muda"
+          className="fixed inset-0 z-50 flex flex-col bg-putih md:inset-auto md:bottom-22 md:right-6 md:h-tab-siklus md:w-panel md:max-w-dialog md:rounded-2xl md:border md:border-garis md:shadow-kartu"
+        >
           {/* Header */}
-          <div className="flex items-center justify-between border-b border-garis bg-daun-tua px-4 py-3 text-putih">
-            <div className="flex items-center gap-2">
-              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-daun-lembut text-daun-tua">
-                <Ikon nama="kebun" ukuran={18} />
+          <div className="flex min-h-14 items-center justify-between border-b border-garis bg-daun-tua px-4 py-3 text-putih">
+            <div className="flex items-center gap-2.5">
+              <div className="flex h-9 w-9 items-center justify-center rounded-full bg-daun-lembut text-daun-tua">
+                <Ikon nama="kebun" ukuran={20} />
               </div>
               <div>
-                <h3 className="m-0 text-isi font-semibold leading-tight">Tanya Tani Muda</h3>
+                <h2 className="m-0 text-isi font-semibold leading-tight text-putih">Tanya Tani Muda</h2>
                 <p className="m-0 text-keterangan text-teks-redup">Asisten Budidaya & Pengetahuan</p>
               </div>
             </div>
             <button
+              id="tombol-tutup-chatbot"
               type="button"
               onClick={() => setTerbuka(false)}
-              className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full text-putih hover:bg-daun-tekan"
+              aria-label="Tutup Tanya Tani Muda"
+              className="flex h-12 w-12 min-h-sentuh min-w-sentuh cursor-pointer items-center justify-center rounded-full text-putih hover:bg-daun-tekan focus:outline-none"
             >
-              <Ikon nama="silang" ukuran={18} />
+              <Ikon nama="silang" ukuran={20} />
             </button>
           </div>
 
@@ -166,49 +210,112 @@ export function ChatbotMengambang() {
             ) : (
               <>
                 {daftarPesan.length === 0 && (
-                  <div className="my-auto flex flex-col items-center gap-2 text-center text-teks-pendukung">
+                  <div className="my-auto flex flex-col items-center gap-3 text-center text-teks-pendukung">
                     <Ikon nama="info" ukuran={32} />
-                    <p className="m-0 text-isi font-medium text-teks">
-                      Halo Petani Muda! Ada yang bisa kami bantu?
-                    </p>
-                    <p className="m-0 text-keterangan">
-                      Tanyakan tentang hama sawi, takaran nutrisi hidroponik, atau modul perawatan.
-                    </p>
+                    <div>
+                      <p className="m-0 text-isi font-semibold text-teks">
+                        Halo Petani Muda! Ada yang bisa kami bantu?
+                      </p>
+                      <p className="m-0 mt-0.5 text-keterangan">
+                        Pilih contoh pertanyaan di bawah atau ketik pertanyaanmu sendiri:
+                      </p>
+                    </div>
+                    <div className="mt-2 flex flex-col gap-2 w-full text-left">
+                      {CONTOH_PERTANYAAN.map((tanya, idx) => (
+                        <button
+                          key={idx}
+                          type="button"
+                          onClick={() => void kirimPertanyaan(tanya)}
+                          className="fokus-cincin rounded-lg border border-daun/30 bg-daun-lembut/70 p-2.5 text-keterangan font-medium text-daun-tua hover:bg-daun-lembut transition-colors"
+                        >
+                          💡 {tanya}
+                        </button>
+                      ))}
+                    </div>
                   </div>
                 )}
 
-                {daftarPesan.map((p) => (
-                  <div
-                    key={p.id}
-                    className={`flex flex-col ${p.peran === 'user' ? 'items-end' : 'items-start'}`}
-                  >
-                    <div
-                      className={`max-w-panel rounded-2xl px-4 py-2.5 text-isi ${
-                        p.peran === 'user'
-                          ? 'bg-daun-tua text-putih'
-                          : 'border border-garis bg-embun-pagi text-teks'
-                      }`}
-                    >
-                      <p className="m-0 whitespace-pre-wrap leading-relaxed">{p.isi}</p>
+                {daftarPesan.map((p, idx) => {
+                  const adalahSapaanBot =
+                    p.peran === 'assistant' &&
+                    p.isi.includes('Berikut beberapa hal yang sering ditanyakan');
+                  const perluTombolPenyuluh =
+                    p.peran === 'assistant' &&
+                    (p.isi.toLowerCase().includes('belum ada') ||
+                      p.isi.toLowerCase().includes('tanya penyuluh'));
 
-                      {p.sumber && p.sumber.length > 0 && (
-                        <div className="mt-2 border-t border-garis pt-2 text-keterangan">
-                          <p className="m-0 font-medium text-teks-pendukung">Sumber Rujukan:</p>
-                          {p.sumber.map((s, idx) => (
-                            <div key={idx} className="mt-1 rounded border border-garis bg-putih p-2 text-keterangan text-teks">
-                              <span className="font-semibold">{s.judul}</span>
-                              {s.potongan && (
-                                <p className="m-0 mt-0.5 line-clamp-2 italic text-teks-pendukung">
-                                  "{s.potongan}"
-                                </p>
-                              )}
-                            </div>
-                          ))}
-                        </div>
-                      )}
+                  return (
+                    <div
+                      key={p.id}
+                      className={`flex flex-col ${p.peran === 'user' ? 'items-end' : 'items-start'}`}
+                    >
+                      <div
+                        className={`max-w-panel rounded-2xl px-4 py-2.5 text-isi ${
+                          p.peran === 'user'
+                            ? 'bg-daun-tua text-putih'
+                            : 'border border-garis bg-embun-pagi text-teks'
+                        }`}
+                      >
+                        <p className="m-0 whitespace-pre-wrap leading-relaxed">{p.isi}</p>
+
+                        {/* 3 contoh pertanyaan jika bot membalas sapaan */}
+                        {adalahSapaanBot && (
+                          <div className="mt-3 flex flex-col gap-1.5 border-t border-garis/60 pt-2.5">
+                            {CONTOH_PERTANYAAN.map((tanya, tIdx) => (
+                              <button
+                                key={tIdx}
+                                type="button"
+                                onClick={() => void kirimPertanyaan(tanya)}
+                                className="fokus-cincin rounded-md border border-daun/40 bg-putih p-2 text-left text-keterangan font-medium text-daun-tua hover:bg-daun-lembut transition-colors"
+                              >
+                                💡 {tanya}
+                              </button>
+                            ))}
+                          </div>
+                        )}
+
+                        {/* Tombol Tanya Penyuluh (WhatsApp) */}
+                        {perluTombolPenyuluh && (
+                          <div className="mt-3 border-t border-garis/60 pt-2">
+                            <a
+                              href={`https://wa.me/${noWa}?text=${encodeURIComponent(
+                                `Halo Penyuluh Tani Muda, saya ingin berkonsultasi seputar pertanian: "${
+                                  daftarPesan
+                                    .slice(0, idx)
+                                    .findLast((x) => x.peran === 'user')?.isi ?? 'panduan budidaya'
+                                }"`,
+                              )}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="fokus-cincin inline-flex items-center gap-1.5 rounded-lg bg-daun px-3 py-1.5 text-keterangan font-semibold text-putih shadow-kartu hover:bg-daun-tua transition-colors"
+                            >
+                              <span>💬 Tanya penyuluh</span>
+                            </a>
+                          </div>
+                        )}
+
+                        {p.sumber && p.sumber.length > 0 && (
+                          <div className="mt-2 border-t border-garis pt-2 text-keterangan">
+                            <p className="m-0 font-medium text-teks-pendukung">Sumber Rujukan:</p>
+                            {p.sumber.map((s, sIdx) => (
+                              <div
+                                key={sIdx}
+                                className="mt-1 rounded border border-garis bg-putih p-2 text-keterangan text-teks"
+                              >
+                                <span className="font-semibold">{s.judul}</span>
+                                {s.potongan && (
+                                  <p className="m-0 mt-0.5 line-clamp-2 italic text-teks-pendukung">
+                                    "{s.potongan}"
+                                  </p>
+                                )}
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  );
+                })}
 
                 {mutasiTanya.isPending && (
                   <div className="flex items-start">
@@ -223,23 +330,31 @@ export function ChatbotMengambang() {
             )}
           </div>
 
-          {/* Form Kirim */}
+          {/* Form Kirim (Menempel di bawah di atas keyboard) */}
           {sudahSetuju && (
-            <form onSubmit={kirimPertanyaan} className="flex items-center gap-2 border-t border-garis bg-putih p-3">
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                void kirimPertanyaan();
+              }}
+              className="sticky bottom-0 flex items-center gap-2 border-t border-garis bg-putih p-3 shadow-kartu"
+            >
               <input
+                id="input-chatbot"
                 type="text"
                 value={pesan}
                 onChange={(e) => setPesan(e.target.value)}
                 placeholder="Tanyakan sesuatu seputar tanaman..."
-                className="flex-1 rounded-full border border-garis bg-embun-pagi px-4 py-2 text-isi text-teks placeholder:text-teks-pendukung focus:border-daun-tua focus:bg-putih focus:outline-none"
+                className="flex-1 rounded-full border border-garis bg-embun-pagi px-4 py-2.5 text-isi text-teks placeholder:text-teks-pendukung focus:border-daun-tua focus:bg-putih focus:outline-none"
               />
               <button
+                id="tombol-kirim-chatbot"
                 type="submit"
                 disabled={!pesan.trim() || mutasiTanya.isPending}
                 aria-label="Kirim pesan"
-                className="flex h-10 w-10 flex-none cursor-pointer items-center justify-center rounded-full bg-daun-tua text-putih transition duration-cepat ease-keluar hover:-translate-y-px active:translate-y-px disabled:cursor-not-allowed disabled:bg-garis disabled:text-teks-pendukung"
+                className="flex h-11 w-11 flex-none cursor-pointer items-center justify-center rounded-full bg-daun-tua text-putih transition duration-cepat ease-keluar hover:-translate-y-px active:translate-y-px disabled:cursor-not-allowed disabled:bg-garis disabled:text-teks-pendukung"
               >
-                <Ikon nama="panah-kanan" ukuran={16} />
+                <Ikon nama="panah-kanan" ukuran={18} />
               </button>
             </form>
           )}

@@ -72,6 +72,7 @@ const KOMODITAS = {
   kangkung: { berkas: 'kangkung', alt: 'Ilustrasi kangkung' },
   cabai: { berkas: 'cabai-rawit', alt: 'Ilustrasi cabai rawit' },
   tomat: { berkas: 'tomat', alt: 'Ilustrasi tomat' },
+  selada: { berkas: 'selada', alt: 'Ilustrasi selada' },
   mentimun: { berkas: 'mentimun', alt: 'Ilustrasi mentimun' },
   terong: { berkas: 'terong', alt: 'Ilustrasi terong' },
   padi: { berkas: 'padi', alt: 'Ilustrasi padi' },

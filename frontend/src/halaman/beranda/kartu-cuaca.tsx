@@ -4,13 +4,19 @@
 import { useCuaca } from '../../api/kueri';
 import { Ikon } from '../../komponen/ikon';
 import { Kartu } from '../../komponen/kartu';
+import { fiturAktif } from '../../lib/fitur';
 
 export function KartuCuaca() {
+  const aktif = fiturAktif('CUACA');
   const { data, isPending, isError } = useCuaca();
+
+  if (!aktif) {
+    return null;
+  }
 
   if (isPending) {
     return (
-      <Kartu judul="Cuaca & Suhu Hari Ini">
+      <Kartu judul="Cuaca dan suhu hari ini">
         <div className="flex animate-pulse items-center gap-4 py-2">
           <div className="h-10 w-10 rounded-full bg-garis" />
           <div className="flex flex-1 flex-col gap-2">
@@ -24,7 +30,7 @@ export function KartuCuaca() {
 
   if (isError || !data) {
     return (
-      <Kartu judul="Cuaca & Suhu Hari Ini">
+      <Kartu judul="Cuaca dan suhu hari ini">
         <div className="flex items-start gap-2.5 py-1 text-keterangan text-teks-pendukung">
           <Ikon nama="info" ukuran={18} className="mt-0.5 flex-none" />
           <p className="m-0">
@@ -36,7 +42,7 @@ export function KartuCuaca() {
   }
 
   return (
-    <Kartu judul="Cuaca & Suhu Desa" keterangan={data.desa}>
+    <Kartu judul="Cuaca dan suhu desa" keterangan={data.desa}>
       <div className="flex flex-col gap-3">
         <div className="flex items-center justify-between border-b border-garis pb-3">
           <div className="flex items-center gap-3">

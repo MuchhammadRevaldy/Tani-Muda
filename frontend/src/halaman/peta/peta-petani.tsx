@@ -9,10 +9,11 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import { usePetaPetani, useWilayahSatu } from '../../api/kueri';
+import { usePetaPetani, useWilayahSatu, useWilayahTerdekat } from '../../api/kueri';
 import { useSesi } from '../../api/sesi';
 import type { PetaniPeta } from '../../api/tipe';
 import { Avatar } from '../../komponen/avatar';
+import { Ikon } from '../../komponen/ikon';
 import { Kartu } from '../../komponen/kartu';
 import { kelasTombol, Tombol } from '../../komponen/tombol';
 import { formatRupiah } from '../../lib/format';
@@ -43,14 +44,71 @@ export function HalamanPetaPetani() {
   const [tampilan, setTampilan] = useState<'peta' | 'daftar'>('peta');
   const [petaniTerpilih, setPetaniTerpilih] = useState<PetaniPeta | null>(null);
 
+  const [lokasiGps, setLokasiGps] = useState<{
+    lintang: number;
+    bujur: number;
+    waktu: string;
+  } | null>(null);
+  const [pesanIzinDitolak, setPesanIzinDitolak] = useState<string | null>(null);
+  const [sedangMencariGps, setSedangMencariGps] = useState(false);
+
   const pembeli = akun?.pengguna;
   const profilPembeli = akun?.profil_pembeli;
   const terverifikasi = profilPembeli?.status_verifikasi === 'terverifikasi';
 
   const wilayahQ = useWilayahSatu(profilPembeli?.wilayah_id ?? null);
-  const titikPusat = wilayahQ.data?.lintang != null && wilayahQ.data?.bujur != null
+  const wilayahTerdekatQ = useWilayahTerdekat(
+    lokasiGps ? lokasiGps.lintang : null,
+    lokasiGps ? lokasiGps.bujur : null,
+  );
+
+  const titikPusat = lokasiGps
+    ? { lintang: lokasiGps.lintang, bujur: lokasiGps.bujur }
+    : wilayahQ.data?.lintang != null && wilayahQ.data?.bujur != null
     ? { lintang: wilayahQ.data.lintang, bujur: wilayahQ.data.bujur }
     : { lintang: -6.8186, bujur: 107.6171 }; // Titik default pilot Lembang
+
+  const namaDesa =
+    (lokasiGps ? wilayahTerdekatQ.data?.desa : null) ??
+    wilayahQ.data?.desa ??
+    'Lembang';
+  const namaKecamatan =
+    (lokasiGps ? wilayahTerdekatQ.data?.kecamatan : null) ??
+    wilayahQ.data?.kecamatan ??
+    'Lembang';
+  const sumberLokasi = lokasiGps
+    ? `dari GPS perangkat, pukul ${lokasiGps.waktu}`
+    : 'dari alamat usaha';
+
+  function mintaLokasiGps() {
+    if (typeof navigator === 'undefined' || !navigator.geolocation) {
+      setPesanIzinDitolak(
+        'Izinkan lokasi untuk melihat petani terdekat, atau kami pakai alamat usaha Anda.',
+      );
+      return;
+    }
+    setSedangMencariGps(true);
+    setPesanIzinDitolak(null);
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        setSedangMencariGps(false);
+        // Koordinat dibulatkan 2 desimal (~1 km) sebelum dikirim
+        const lat = Math.round(pos.coords.latitude * 100) / 100;
+        const lng = Math.round(pos.coords.longitude * 100) / 100;
+        const now = new Date();
+        const jam = `${String(now.getHours()).padStart(2, '0')}.${String(now.getMinutes()).padStart(2, '0')}`;
+        setLokasiGps({ lintang: lat, bujur: lng, waktu: jam });
+        setPesanIzinDitolak(null);
+      },
+      () => {
+        setSedangMencariGps(false);
+        setPesanIzinDitolak(
+          'Izinkan lokasi untuk melihat petani terdekat, atau kami pakai alamat usaha Anda.',
+        );
+      },
+      { enableHighAccuracy: true, timeout: 10000 },
+    );
+  }
 
   const petaQ = usePetaPetani(
     {
@@ -101,7 +159,9 @@ export function HalamanPetaPetani() {
     // Marker pembeli di pusat
     L.marker([titikPusat.lintang, titikPusat.bujur], { icon: ikonPembeli })
       .addTo(map)
-      .bindPopup(`<b>Lokasi Usaha Anda</b><br>${profilPembeli?.nama_usaha ?? 'Pembeli'}`);
+      .bindPopup(
+        `<b>Lokasimu sekarang</b><br/>Desa ${namaDesa}, Kec. ${namaKecamatan}<br/><span style="opacity:0.8;">(${sumberLokasi})</span>`,
+      );
 
     // Marker petani-petani sekitar
     for (const p of daftarPetani) {
@@ -127,7 +187,17 @@ export function HalamanPetaPetani() {
       map.remove();
       petaInstanceRef.current = null;
     };
-  }, [tampilan, terverifikasi, titikPusat.lintang, titikPusat.bujur, radiusKm, daftarPetani, profilPembeli?.nama_usaha]);
+  }, [
+    tampilan,
+    terverifikasi,
+    titikPusat.lintang,
+    titikPusat.bujur,
+    radiusKm,
+    daftarPetani,
+    namaDesa,
+    namaKecamatan,
+    sumberLokasi,
+  ]);
 
   // Bila pembeli belum terverifikasi, tampilkan kartu penolakan / syarat sesuai PRD F-08
   if (!terverifikasi) {
@@ -140,7 +210,7 @@ export function HalamanPetaPetani() {
           </p>
         </div>
 
-        <Kartu judul="Verifikasi Dibutuhkan" tingkatJudul={2}>
+        <Kartu judul="Verifikasi dibutuhkan" tingkatJudul={2}>
           <div className="flex flex-col gap-4">
             <p className="m-0 text-isi text-teks">
               Sesuai aturan pelindungan privasi dan keamanan petani mitra (UU No. 27 Tahun 2022 & D-64),
@@ -229,6 +299,44 @@ export function HalamanPetaPetani() {
         </div>
       </div>
 
+      {/* Kartu Lokasimu sekarang (F-08, AG-35) */}
+      <div
+        id="kartu-lokasi-pembeli"
+        className="rounded-xl border border-garis bg-putih p-4 shadow-kartu"
+      >
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex items-start gap-3">
+            <span className="text-judul-bagian" aria-hidden="true">
+              📍
+            </span>
+            <div>
+              <h2 className="text-isi font-bold text-teks">
+                Lokasimu sekarang: Desa {namaDesa}, Kec. {namaKecamatan}
+              </h2>
+              <p className="mt-0.5 text-keterangan text-teks-pendukung">
+                Sumber lokasi:{' '}
+                <span className="font-medium text-teks">{sumberLokasi}</span>
+              </p>
+            </div>
+          </div>
+          <button
+            id="tombol-perbarui-lokasi"
+            type="button"
+            onClick={mintaLokasiGps}
+            disabled={sedangMencariGps}
+            className="fokus-cincin inline-flex items-center justify-center gap-1.5 rounded-lg border border-garis bg-embun-pagi px-3.5 py-2 text-keterangan font-semibold text-daun-tua hover:bg-daun-lembut transition-colors disabled:opacity-50"
+          >
+            <Ikon nama="putar" ukuran={16} />
+            <span>{sedangMencariGps ? 'Mencari lokasi…' : 'Perbarui lokasi'}</span>
+          </button>
+        </div>
+        {pesanIzinDitolak ? (
+          <div className="mt-3 rounded-lg border border-tanah/30 bg-tanah-lembut/40 px-3 py-2 text-keterangan text-tanah-tua">
+            {pesanIzinDitolak}
+          </div>
+        ) : null}
+      </div>
+
       {petaQ.isPending ? (
         <div className="flex min-h-64 items-center justify-center rounded-xl border border-garis bg-putih p-8 text-teks-pendukung">
           Memuat titik petani di radius {radiusKm} km...
@@ -245,7 +353,7 @@ export function HalamanPetaPetani() {
               className="h-96 w-full z-0"
             />
             <div className="border-t border-garis bg-putih p-3 text-keterangan text-teks-pendukung">
-              Penanda hijau: Petani mitra (~1 km). Penanda cokelat: Lokasi usahamu.
+              Penanda hijau: Petani mitra (~1 km). Penanda cokelat: Lokasimu sekarang.
             </div>
           </div>
 
@@ -313,7 +421,7 @@ export function HalamanPetaPetani() {
                 </div>
               </Kartu>
             ) : (
-              <Kartu judul="Pilih Petani" tingkatJudul={2}>
+              <Kartu judul="Pilih petani" tingkatJudul={2}>
                 <p className="m-0 text-keterangan text-teks-pendukung">
                   Klik penanda petani di peta untuk melihat level petani dan stok hasil panen yang siap dijual.
                 </p>

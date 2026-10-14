@@ -1,4 +1,5 @@
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
+import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
 import { pastikan } from '../../../lib/hasil';
@@ -263,5 +264,31 @@ describe('T3.08 pengguna uji, lahan, siklus, pesanan', () => {
     expect(urut.at(-1)?.[0]).toBe('pesanan-lestari-kangkung');
     expect(jarakKm(pusat, wil('32.73.21.1001'))).toBeGreaterThan(data.konfigurasi.radius_km);
     expect(jarakKm(pusat, wil('32.73.21.1001'))).toBeLessThan(data.konfigurasi.radius_maks_km);
+  });
+});
+
+describe('jalur gambar dan berkas data contoh ada di public', () => {
+  const publicDir = fileURLToPath(new URL('../../../../public', import.meta.url));
+
+  function kumpulkanJalurBerkas(x: unknown, hasil = new Set<string>()): Set<string> {
+    if (typeof x === 'string') {
+      if (x.startsWith('/') && /\.(svg|png|jpg|jpeg|webp|mp4|webm|ico|pdf)$/i.test(x)) {
+        hasil.add(x);
+      }
+    } else if (Array.isArray(x)) {
+      x.forEach((item) => kumpulkanJalurBerkas(item, hasil));
+    } else if (x && typeof x === 'object') {
+      for (const val of Object.values(x)) {
+        kumpulkanJalurBerkas(val, hasil);
+      }
+    }
+    return hasil;
+  }
+
+  it('setiap jalur gambar dan berkas di shared/data-contoh/ benar-benar ada di frontend/public/', () => {
+    const jalur = [...kumpulkanJalurBerkas(data)];
+    expect(jalur.length).toBeGreaterThan(5);
+    const hilang = jalur.filter((j) => !existsSync(join(publicDir, j.replace(/^\//, ''))));
+    expect(hilang).toEqual([]);
   });
 });

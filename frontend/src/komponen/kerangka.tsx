@@ -103,11 +103,13 @@ export function KerangkaPembeli({
         {children}
       </main>
       <div
+        data-nav-bawah
         data-nav-bawah-pembeli
         className="sticky bottom-0 z-10 px-3 pb-[calc(theme(spacing.4)+env(safe-area-inset-bottom,0px))] lg:hidden"
       >
         <NavigasiBawahPembeli lencanaChat={lencanaChat} />
       </div>
+      <ChatbotMengambang />
     </div>
   );
 }
