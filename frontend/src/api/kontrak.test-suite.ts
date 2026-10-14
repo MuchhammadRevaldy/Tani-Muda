@@ -360,7 +360,8 @@ export function ujiKontrak(nama: string, siapkan: PenyiapLingkungan): void {
         const k = await K.referensi.komoditas();
         const sawi = k.find((x) => x.id === 'sawi')!;
         expect(sawi).toMatchObject({ status_resep: 'tersedia', jumlah_pesanan_sekitar: 1 });
-        expect(k.find((x) => x.id === 'cabai')?.status_resep).toBe('segera_hadir');
+        expect(k.find((x) => x.id === 'cabai')?.status_resep).toBe('tersedia');
+        expect(k.find((x) => x.id === 'pakcoy')?.status_resep).toBe('segera_hadir');
         expect(k.find((x) => x.id === 'kangkung')?.jumlah_pesanan_sekitar).toBe(0);
         expect((await K.referensi.komoditas({ jenis_lahan: 'sawah' })).map((x) => x.id)).toEqual([
           'padi',
@@ -465,7 +466,8 @@ export function ujiKontrak(nama: string, siapkan: PenyiapLingkungan): void {
           satuan_panen: 'kg',
           status_resep: 'tersedia',
         });
-        expect(c.komoditas.find((x) => x.id === 'cabai')?.status_resep).toBe('segera_hadir');
+        expect(c.komoditas.find((x) => x.id === 'cabai')?.status_resep).toBe('tersedia');
+        expect(c.komoditas.find((x) => x.id === 'pakcoy')?.status_resep).toBe('segera_hadir');
         // Hanya pasangan contoh halaman depan, bukan seluruh resep.
         expect(c.contoh.map((x) => `${x.komoditas_id}/${x.metode_id}`).sort()).toEqual([
           'bayam/bedengan',
@@ -1429,7 +1431,7 @@ export function ujiKontrak(nama: string, siapkan: PenyiapLingkungan): void {
           K.pembeli.buatPesanan({
             jenis: 'rutin',
             ...dasar,
-            komoditas_id: 'cabai',
+            komoditas_id: 'pakcoy',
             durasi_hari: 28,
           }),
           'VALIDASI',
@@ -1619,7 +1621,7 @@ export function ujiKontrak(nama: string, siapkan: PenyiapLingkungan): void {
       beforeEach(() => masuk('mentor-rahmat'));
       it('simpan resep menjadi versi baru, validasi; siklus lama tetap versi lama (P0-04)', async () => {
         const semua = await K.mentor.daftarResep();
-        expect(semua).toHaveLength(5);
+        expect(semua).toHaveLength(11);
         const lama = semua.find((r) => r.id === 'resep-sawi-bedengan')!;
         const {
           id: _i,
@@ -1693,7 +1695,7 @@ export function ujiKontrak(nama: string, siapkan: PenyiapLingkungan): void {
           'tugas',
           'umur_panen_hari',
         ]);
-        expect((await K.mentor.daftarResep()).length).toBe(5);
+        expect((await K.mentor.daftarResep()).length).toBe(11);
       });
       it('ringkasan permintaan resep terbanyak', async () => {
         expect((await K.mentor.ringkasanPermintaan())[0]).toEqual({

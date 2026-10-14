@@ -83,7 +83,7 @@ describe('buat pesanan (T4.23, T4.24)', () => {
   it('rutin: hanya komoditas berresep, ringkasan biaya dari pesanan-nilai, lalu ke bayar', async () => {
     const { router } = await buka('/pembeli/pesanan/baru', 'pembeli-ratna');
     const komoditas = await screen.findByRole('radiogroup', { name: 'Pilih komoditas' });
-    expect(within(komoditas).queryByRole('radio', { name: /Cabai/ })).not.toBeInTheDocument();
+    expect(within(komoditas).queryByRole('radio', { name: /Pakcoy/ })).not.toBeInTheDocument();
     await userEvent.click(within(komoditas).getByRole('radio', { name: 'Sawi hijau' }));
     await userEvent.type(screen.getByLabelText('Jumlah per kiriman'), '10');
     // Seminggu sekali, 3 bulan = 12 kiriman; harga contoh sawi Rp5.000: 10 × 12 × 5.000.

@@ -34,26 +34,28 @@ describe('Hitung langkah 1 (T4.02, T4.03)', () => {
     await userEvent.click(screen.getByRole('button', { name: 'Sawah' }));
     expect(screen.getByRole('radio', { name: 'Pilih Padi sawah' })).toBeInTheDocument();
     expect(screen.queryByRole('radio', { name: 'Pilih Sawi hijau' })).not.toBeInTheDocument();
-    await userEvent.type(screen.getByPlaceholderText('Cari tanaman'), 'selada');
+    await userEvent.type(screen.getByPlaceholderText('Cari tanaman'), 'wortel');
     expect(screen.getByText('Tanaman ini belum ada di daftar')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Minta tanaman baru' })).toBeInTheDocument();
   });
 
   it('komoditas tanpa resep membuka Segera hadir; minta resep tercatat sekali', async () => {
-    const { t } = await buka('/hitung/tanaman');
-    // Cabai sudah pernah diminta Arif di data contoh: langsung tampil tercatat.
-    await userEvent.click(await screen.findByRole('button', { name: 'Cabai rawit, segera hadir' }));
+    const { t } = await buka('/hitung/tanaman', async (tiruan) => {
+      await tiruan.klien.resep.minta({ komoditas_id: 'pakcoy' });
+    });
+    // Pakcoy sudah pernah diminta Arif: langsung tampil tercatat.
+    await userEvent.click(await screen.findByRole('button', { name: 'Pakcoy, segera hadir' }));
     expect(await screen.findByText('Permintaanmu tercatat.')).toBeInTheDocument();
     await userEvent.click(screen.getByRole('button', { name: 'Pilih tanaman lain' }));
-    await userEvent.click(screen.getByRole('button', { name: 'Tomat, segera hadir' }));
+    await userEvent.click(screen.getByRole('button', { name: 'Jagung manis, segera hadir' }));
     const dialog = await screen.findByRole('dialog');
     await userEvent.click(within(dialog).getByRole('button', { name: 'Minta resep ini' }));
     expect(await within(dialog).findByText('Permintaanmu tercatat.')).toBeInTheDocument();
     await userEvent.click(within(dialog).getByRole('button', { name: 'Pilih tanaman lain' }));
-    await userEvent.click(screen.getByRole('button', { name: 'Tomat, segera hadir' }));
+    await userEvent.click(screen.getByRole('button', { name: 'Jagung manis, segera hadir' }));
     expect(await screen.findByText('Permintaanmu tercatat.')).toBeInTheDocument();
     const minta = await t.klien.resep.permintaanSaya();
-    expect(minta.filter((p) => p.komoditas_id === 'tomat')).toHaveLength(1);
+    expect(minta.filter((p) => p.komoditas_id === 'jagung')).toHaveLength(1);
   });
 
   it('memilih sawi mengaktifkan tombol lanjut ke langkah 2', async () => {

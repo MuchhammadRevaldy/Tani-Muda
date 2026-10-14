@@ -206,10 +206,6 @@ const KANDUNGAN: Record<string, string> = {
 const MEREK: [string, string, string, number, number, number, number][] = [
   ['benih-sawi', 'Benih Daun Lebat', 'bungkus 25 g', 1, 25000, 5, 9],
   ['benih-sawi', 'Benih Tunas Tani', 'bungkus 25 g', 1, 22000, 3, 15],
-  ['benih-cabai', 'Benih Rawit Juara', 'bungkus 10 g', 1, 35000, 3, 10],
-  ['benih-tomat', 'Benih Tomat Super', 'bungkus 10 g', 1, 40000, 3, 10],
-  ['benih-selada', 'Benih Selada Hijau Rimbun', 'bungkus 15 g', 1, 25000, 3, 10],
-  ['ab-mix-daun', 'AB Mix Daun Hijau', 'paket 1 liter', 1, 45000, 3, 10],
   ['pupuk-kandang', 'Kandang Subur', '25 kg', 25, 15000, 5, 5],
   ['pupuk-kandang', 'Organik Lembang', '25 kg', 25, 18000, 3, 9],
   ['pupuk-kandang', 'Tanah Gembur', '20 kg', 20, 12500, 2, 15],
@@ -242,6 +238,10 @@ const MEREK: [string, string, string, number, number, number, number][] = [
   ['netpot', 'Netpot Kuat', '200 buah', 200, 65000, 2, 12],
   ['benih-padi', 'Benih Padi Unggul Tani', '5 kg', 5, 75000, 5, 6],
   ['benih-padi', 'Benih Padi Sari', '5 kg', 5, 70000, 4, 11],
+  ['benih-cabai', 'Benih Rawit Juara', 'bungkus 10 g', 1, 35000, 3, 10],
+  ['benih-tomat', 'Benih Tomat Super', 'bungkus 10 g', 1, 40000, 3, 10],
+  ['benih-selada', 'Benih Selada Hijau Rimbun', 'bungkus 15 g', 1, 25000, 3, 10],
+  ['ab-mix-daun', 'AB Mix Daun Hijau', 'paket 1 liter', 1, 45000, 3, 10],
 ];
 
 const PELAPOR = ['petani-arif', 'petani-dewi', 'petani-budi', 'petani-sari', 'petani-yogi'];

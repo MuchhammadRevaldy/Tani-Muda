@@ -111,7 +111,7 @@ describe('panel mentor (T4.38, T4.39)', () => {
   it('daftar resep per tanaman dan cara tanam; permintaan terbanyak di atas', async () => {
     await buka('/mentor', 'mentor-rahmat');
     const tabel = await screen.findByRole('region', { name: 'Resep tanam' });
-    await waitFor(() => expect(within(tabel).getAllByRole('row')).toHaveLength(6));
+    await waitFor(() => expect(within(tabel).getAllByRole('row')).toHaveLength(12));
     expect(within(tabel).getByText('Sawi hijau · Bedengan')).toBeInTheDocument();
     // Resep contoh tidak bisa langsung divalidasi.
     expect(within(tabel).queryByRole('button', { name: /^Tandai resep/ })).not.toBeInTheDocument();
@@ -181,7 +181,7 @@ describe('panel mentor (T4.38, T4.39)', () => {
     expect(await screen.findByRole('alert')).toHaveTextContent(
       'Tugas dan jadwal, 3: Hari di resep tidak masuk akal',
     );
-    expect((await t.klien.mentor.daftarResep()).length).toBe(5);
+    expect((await t.klien.mentor.daftarResep()).length).toBe(11);
   });
 
   it('resep baru: tanaman dan cara tanam wajib dipilih', async () => {
