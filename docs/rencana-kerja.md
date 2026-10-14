@@ -1468,8 +1468,8 @@ Dikelompokkan per gelombang harian:
 ---
 
 ### [x] T7.00 Fondasi AI (`PenyediaAI`)
-- **Tujuan:** Gerbang tunggal AI backend mendukung OpenAI (`openai`) dengan custom Base URL (`AI_BASE_URL` bawaan Dattio AI `https://bandelbanget.xyz/v1`), model teks (`AI_MODEL_TEKS` bawaan `glm-5.2`), vision, embedding, JSON terstruktur, dan driver `tiruan` (offline fallback). Dilengkapi tabel `log_ai`, batas harian 30 panggilan, batas waktu 30s, dan persetujuan privasi AI `pengguna.setuju_ai_pada`.
-- **Berkas:** `backend/app/Domain/AI/PenyediaAI.php`, `backend/app/Infrastructure/AI/DriverOpenAI.php`, `backend/app/Infrastructure/AI/DriverTiruan.php`, `backend/config/ai.php`, migrasi `log_ai` dan `pengguna.setuju_ai_pada`, seeder data contoh AI di `shared/data-contoh/ai/`, tes Pest.
+- **Tujuan:** Gerbang tunggal AI backend mendukung OpenAI (`openai`) dengan Base URL fleksibel (`AI_BASE_URL` bawaan `https://api.openai.com/v1` atau penyedia kompatibel OpenAI lainnya), nama model teks (`AI_MODEL_TEKS`), vision, embedding, JSON terstruktur, dan driver `tiruan` (offline fallback). Dilengkapi tabel `log_ai`, batas harian 30 panggilan, batas waktu 30s, dan persetujuan privasi AI `pengguna.setuju_ai_pada`.
+- **Berkas:** `backend/app/Domain/AI/PenyediaAI.php`, `backend/app/Domain/AI/DriverOpenAI.php`, `backend/app/Domain/AI/DriverTiruan.php`, `backend/config/ai.php`, migrasi `log_ai` dan `pengguna.setuju_ai_pada`, seeder data contoh AI di `shared/data-contoh/ai/`, tes Pest.
 - **PRD:** PRD Tambahan F-00, D-64.
 - **Selesai bila:** Tes Pest untuk driver openai & tiruan lulus, batas harian ditegakkan, kuota/galat penyedia menghasilkan 503 rapi tanpa bocor kunci API.
 - **Prasyarat:** Tahap 5 selesai.

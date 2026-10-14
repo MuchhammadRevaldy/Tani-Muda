@@ -33,16 +33,23 @@ it('driver tiruan mengembalikan respons berlabel tanpa internet', function () {
 
 it('driver openai melempar galat bila kunci API kosong', function () {
     config(['ai.api_key' => '']);
-    $driver = new DriverOpenAI();
+    $driver = new DriverOpenAI(modelTeks: 'model-teks-contoh');
+
+    $driver->teks([['role' => 'user', 'content' => 'Halo']]);
+})->throws(GalatApi::class);
+
+it('driver openai melempar galat bila nama model kosong', function () {
+    config(['ai.api_key' => 'sk-test-ai', 'ai.model_teks' => null]);
+    $driver = new DriverOpenAI(apiKey: 'sk-test-ai', modelTeks: null);
 
     $driver->teks([['role' => 'user', 'content' => 'Halo']]);
 })->throws(GalatApi::class);
 
 it('driver openai memanggil chat completions dengan format OpenAI yang benar', function () {
     Http::fake([
-        'https://bandelbanget.xyz/v1/chat/completions' => Http::response([
+        'https://ai.contoh.test/v1/chat/completions' => Http::response([
             'choices' => [
-                ['message' => ['content' => 'Jawaban dari model Dattio AI.']],
+                ['message' => ['content' => 'Jawaban dari model AI contoh.']],
             ],
             'usage' => [
                 'prompt_tokens' => 12,
@@ -52,21 +59,21 @@ it('driver openai memanggil chat completions dengan format OpenAI yang benar', f
     ]);
 
     $driver = new DriverOpenAI(
-        apiKey: 'sk-test-dattio',
-        baseUrl: 'https://bandelbanget.xyz/v1',
-        modelTeks: 'glm-5.2',
+        apiKey: 'sk-test-ai',
+        baseUrl: 'https://ai.contoh.test/v1',
+        modelTeks: 'model-teks-contoh',
     );
 
     $jawaban = $driver->teks([['role' => 'user', 'content' => 'Cek tanaman']]);
 
-    expect($jawaban->konten)->toBe('Jawaban dari model Dattio AI.')
+    expect($jawaban->konten)->toBe('Jawaban dari model AI contoh.')
         ->and($jawaban->tokenMasuk)->toBe(12)
         ->and($jawaban->tokenKeluar)->toBe(20)
         ->and($jawaban->tiruan)->toBeFalse();
 
     Http::assertSent(function ($request) {
-        return $request->hasHeader('Authorization', 'Bearer sk-test-dattio')
-            && $request['model'] === 'glm-5.2'
+        return $request->hasHeader('Authorization', 'Bearer sk-test-ai')
+            && $request['model'] === 'model-teks-contoh'
             && $request['messages'][0]['content'] === 'Cek tanaman';
     });
 });

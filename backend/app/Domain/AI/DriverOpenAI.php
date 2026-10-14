@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Http;
 use Throwable;
 
 /**
- * Driver OpenAI & OpenAI-compatible (Dattio AI via bandelbanget.xyz) (F-00, D-64).
+ * Driver OpenAI & OpenAI-compatible provider (F-00, D-64).
  */
 class DriverOpenAI implements PenyediaAI
 {
@@ -31,15 +31,42 @@ class DriverOpenAI implements PenyediaAI
 
     private function ambilBaseUrl(): string
     {
-        $url = $this->baseUrl ?? config('ai.base_url', 'https://bandelbanget.xyz/v1');
+        $url = $this->baseUrl ?? config('ai.base_url', 'https://api.openai.com/v1');
         return rtrim((string) $url, '/');
+    }
+
+    private function ambilModelTeks(?string $opsi = null): string
+    {
+        $model = $opsi ?? $this->modelTeks ?? config('ai.model_teks');
+        if (empty($model)) {
+            throw new GalatApi('AI_TIDAK_TERSEDIA', 'Nama model AI teks belum dikonfigurasi di .env.');
+        }
+        return (string) $model;
+    }
+
+    private function ambilModelGambar(?string $opsi = null): string
+    {
+        $model = $opsi ?? $this->modelGambar ?? config('ai.model_gambar');
+        if (empty($model)) {
+            throw new GalatApi('AI_TIDAK_TERSEDIA', 'Nama model AI gambar belum dikonfigurasi di .env.');
+        }
+        return (string) $model;
+    }
+
+    private function ambilModelEmbedding(): string
+    {
+        $model = $this->modelEmbedding ?? config('ai.model_embedding');
+        if (empty($model)) {
+            throw new GalatApi('AI_TIDAK_TERSEDIA', 'Nama model AI embedding belum dikonfigurasi di .env.');
+        }
+        return (string) $model;
     }
 
     public function teks(array $pesan, array $opsi = []): JawabanAI
     {
         $apiKey = $this->ambilApiKey();
         $baseUrl = $this->ambilBaseUrl();
-        $model = $opsi['model'] ?? $this->modelTeks ?? config('ai.model_teks', 'glm-5.2');
+        $model = $this->ambilModelTeks($opsi['model'] ?? null);
 
         try {
             $response = Http::withHeaders([
@@ -79,7 +106,7 @@ class DriverOpenAI implements PenyediaAI
     {
         $apiKey = $this->ambilApiKey();
         $baseUrl = $this->ambilBaseUrl();
-        $model = $opsi['model'] ?? $this->modelGambar ?? config('ai.model_gambar', 'glm-5.2');
+        $model = $this->ambilModelGambar($opsi['model'] ?? null);
 
         if (!file_exists($jalurBerkas)) {
             throw new GalatApi('AI_TIDAK_TERSEDIA', 'Berkas gambar tidak ditemukan.');
@@ -148,7 +175,7 @@ class DriverOpenAI implements PenyediaAI
     {
         $apiKey = $this->ambilApiKey();
         $baseUrl = $this->ambilBaseUrl();
-        $model = $this->modelEmbedding ?? config('ai.model_embedding', 'text-embedding-3-small');
+        $model = $this->ambilModelEmbedding();
 
         try {
             $response = Http::withHeaders([
