@@ -107,6 +107,7 @@ Route::middleware('auth:sanctum')->group(function () use ($endpointBelumTersedia
     // Chat petani dan pembeli (F-09, D-64)
     Route::get('/percakapan', [ChatController::class, 'daftar']);
     Route::post('/percakapan', [ChatController::class, 'bukaAtauAmbil']);
+    Route::post('/percakapan/nomor', [ChatController::class, 'bukaLewatNomor'])->middleware('throttle:10,60');
     Route::get('/percakapan/lencana', [ChatController::class, 'lencana']);
     Route::get('/percakapan/{id}/pesan', [ChatController::class, 'pesan']);
     Route::post('/percakapan/{id}/pesan', [ChatController::class, 'kirimPesan'])->middleware('throttle:60,1');

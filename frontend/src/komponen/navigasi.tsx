@@ -458,12 +458,12 @@ export function HeaderHalaman({
   );
 }
 
-export type MenuPembeli = 'aktif' | 'riwayat' | 'pembayaran';
+export type MenuPembeli = 'pesanan' | 'stok' | 'peta' | 'chat';
 
-/** Butir menu akun pembeli ([AG-23]). */
+/** Butir menu akun pembeli ([AG-23], [AG-34]): Profil, Riwayat, Keluar. */
 const BUTIR_PEMBELI: ButirMenuAkun[] = [
   { label: teksNavigasi.profil, ke: '/pembeli/profil' },
-  { label: teksNavigasi.dataUsaha, ke: '/pembeli/daftar' },
+  { label: teksNavigasi.riwayat, ke: '/pembeli/riwayat' },
 ];
 
 /** Tombol akun pembeli di kanan atas header: avatar, nama usaha, panah; membuka menu akun. */
@@ -482,6 +482,7 @@ function TombolAkunPembeli({
     <div className="relative ml-auto lg:order-last lg:ml-0">
       <button
         ref={refTombol}
+        id="tombol-menu-akun-pembeli"
         type="button"
         aria-haspopup="menu"
         aria-expanded={terbuka}
@@ -509,9 +510,69 @@ function TombolAkunPembeli({
   );
 }
 
+export const MENU_PEMBELI_NAV: { id: MenuPembeli; label: string; ikon: NamaIkon; ke: string }[] = [
+  { id: 'pesanan', label: 'Pesanan', ikon: 'pesanan', ke: '/pembeli' },
+  { id: 'stok', label: 'Stok', ikon: 'panen', ke: '/pembeli/stok' },
+  { id: 'peta', label: 'Peta', ikon: 'peta', ke: '/pembeli/peta' },
+  { id: 'chat', label: 'Chat', ikon: 'chat', ke: '/pembeli/chat' },
+];
+
 /**
- * Header pembeli: logo "untuk pembeli", 3 menu, dan tombol akun (nama usaha) yang membuka menu
- * Profil, Data usaha, Keluar. Di HP menu digulir dan tombol akun tetap terlihat.
+ * Navigasi bawah HP pembeli mengambang ([AG-34]): 4 menu (Pesanan, Stok, Peta, Chat),
+ * gaya sama persis dengan NavigasiBawah petani.
+ */
+export function NavigasiBawahPembeli({
+  lencanaChat = 0,
+  className,
+}: {
+  lencanaChat?: number;
+  className?: string;
+}) {
+  const { pathname } = useLocation();
+  return (
+    <nav
+      id="navigasi-bawah-pembeli"
+      aria-label="Navigasi bawah pembeli"
+      className={cx('grid grid-cols-4 gap-1 rounded-nav bg-putih p-2 shadow-kartu', className)}
+    >
+      {MENU_PEMBELI_NAV.map((m) => {
+        const aktif =
+          m.ke === '/pembeli'
+            ? /^\/pembeli(\/(pesanan|kiriman)(\/|$)|\/?$)/.test(pathname)
+            : pathname.startsWith(m.ke);
+        const n = m.id === 'chat' && lencanaChat > 0 ? lencanaChat : undefined;
+        return (
+          <Link
+            key={m.id}
+            to={m.ke}
+            aria-current={aktif ? 'page' : undefined}
+            className={cx(
+              'fokus-cincin group flex min-h-nav-item flex-col items-center justify-center gap-0.5 rounded-sheet py-1 text-nav no-underline',
+              aktif
+                ? 'bg-daun-lembut font-semibold text-daun-tua hover:text-daun-tua'
+                : 'font-medium text-teks-pendukung hover:text-teks',
+            )}
+          >
+            <span className="relative grid h-7 w-nav-ikon place-items-center">
+              <Ikon nama={m.ikon} tebal={aktif ? 1.9 : 1.7} />
+              {n ? (
+                <span className="absolute -top-1.5 left-8 h-6 min-w-6 rounded-full border-2 border-putih bg-tanah px-1 text-center text-nav font-semibold text-putih">
+                  {teksLencana(n)}
+                </span>
+              ) : null}
+            </span>
+            <span>{m.label}</span>
+          </Link>
+        );
+      })}
+    </nav>
+  );
+}
+
+/**
+ * Header pembeli: logo "untuk pembeli" dan tombol akun.
+ * Di desktop (>= 1024px) deretan tab menu tampil (Pesanan aktif, Stok siap jual, Peta petani, Chat, Pembayaran).
+ * Di HP deretan tab menu dihilangkan (cukup logo & tombol akun) dan digantikan oleh NavigasiBawahPembeli ([AG-34]).
  */
 export function HeaderPembeli({
   namaUsaha,
@@ -533,12 +594,11 @@ export function HeaderPembeli({
     { label: 'Stok siap jual', ke: '/pembeli/stok' },
     { label: 'Peta petani', ke: '/pembeli/peta' },
     { label: 'Chat', ke: '/pembeli/chat', lencana: chatN },
-    { label: teksNavigasi.riwayat, ke: '/pembeli/riwayat' },
     { label: teksNavigasi.pembayaran, ke: '/pembeli/pembayaran' },
   ];
   return (
     <header className="border-b border-garis bg-putih">
-      <div className="mx-auto flex min-h-16 max-w-pembeli flex-wrap items-center gap-x-8 gap-y-2 px-4 py-2 lg:px-6">
+      <div className="mx-auto flex min-h-16 max-w-pembeli flex-wrap items-center justify-between gap-x-8 gap-y-2 px-4 py-2 lg:px-6">
         <span className="flex items-center gap-2 text-judul-bagian font-semibold text-daun-tua">
           <TandaMerek ukuran={30} />
           <span>{teksNavigasi.namaAplikasi}</span>
@@ -549,10 +609,9 @@ export function HeaderPembeli({
         <TombolAkunPembeli namaUsaha={namaUsaha} foto={foto} onKeluar={onKeluar} />
         <nav
           aria-label={teksNavigasi.menuPembeli}
-          className="flex w-full gap-1 overflow-x-auto lg:w-auto lg:flex-1"
+          className="hidden w-full gap-1 overflow-x-auto lg:flex lg:w-auto lg:flex-1"
         >
           {menu.map((m) => {
-            // Menu aktif dihitung sendiri (termasuk halaman di bawahnya), lalu ditandai aria-current.
             const aktif = m.aktif ?? (m.akhir ? pathname === m.ke : pathname.startsWith(m.ke));
             return (
               <Link

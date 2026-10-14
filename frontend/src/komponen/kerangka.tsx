@@ -3,6 +3,7 @@ import { cx } from './gabung-kelas';
 import {
   HeaderPembeli,
   NavigasiBawah,
+  NavigasiBawahPembeli,
   Sidebar,
   type Akun,
   type Lencana,
@@ -88,7 +89,7 @@ export function KerangkaPembeli({
   children: ReactNode;
 }) {
   return (
-    <div className="min-h-layar bg-embun-pagi text-teks">
+    <div className="flex min-h-layar flex-col bg-embun-pagi text-teks">
       <HeaderPembeli
         namaUsaha={namaUsaha}
         foto={foto}
@@ -97,10 +98,16 @@ export function KerangkaPembeli({
       />
       <main
         key={kunciHalaman}
-        className="mx-auto flex max-w-pembeli animate-masuk-halaman flex-col gap-6 px-4 pb-12 pt-6 lg:px-6"
+        className="mx-auto flex w-full max-w-pembeli flex-1 animate-masuk-halaman flex-col gap-6 px-4 pb-6 pt-6 lg:px-6 lg:pb-12"
       >
         {children}
       </main>
+      <div
+        data-nav-bawah-pembeli
+        className="sticky bottom-0 z-10 px-3 pb-[calc(theme(spacing.4)+env(safe-area-inset-bottom,0px))] lg:hidden"
+      >
+        <NavigasiBawahPembeli lencanaChat={lencanaChat} />
+      </div>
     </div>
   );
 }

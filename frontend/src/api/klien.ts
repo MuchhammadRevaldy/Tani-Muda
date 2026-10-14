@@ -371,6 +371,8 @@ export interface KlienChat {
   daftar(): Promise<import('./tipe').Percakapan[]>;
   /** POST /percakapan */
   buka(m: import('./tipe').PermintaanBukaPercakapan): Promise<import('./tipe').PercakapanBukaHasil>;
+  /** POST /percakapan/nomor */
+  bukaLewatNomor(nomor_hp: string): Promise<import('./tipe').PercakapanBukaHasil>;
   /** GET /percakapan/{id}/pesan?setelah= */
   pesan(id: string, setelah?: string): Promise<import('./tipe').Pesan[]>;
   /** POST /percakapan/{id}/pesan */

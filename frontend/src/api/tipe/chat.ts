@@ -3,7 +3,7 @@
  */
 import type { Peran } from './akun';
 
-export type JenisPercakapan = 'alokasi' | 'pesanan_stok' | 'peta';
+export type JenisPercakapan = 'alokasi' | 'pesanan_stok' | 'peta' | 'kontak';
 
 export interface LawanBicara {
   id: string;
@@ -51,6 +51,10 @@ export interface PermintaanBukaPercakapan {
   lawan_bicara_id?: string;
   jenis?: JenisPercakapan;
   rujukan_id?: string | null;
+}
+
+export interface PermintaanBukaPercakapanNomor {
+  nomor_hp: string;
 }
 
 export interface PermintaanKirimPesan {

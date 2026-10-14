@@ -352,6 +352,8 @@ export const useDaftarPercakapan = (opsi?: boolean | { enabled?: boolean; refetc
   q(kk('chat', 'daftar'), (k) => k.chat.daftar(), opsi);
 export const useBukaPercakapan = () =>
   m((k, x: T.PermintaanBukaPercakapan) => k.chat.buka(x), ['chat']);
+export const useBukaPercakapanNomor = () =>
+  m((k, x: { nomor_hp: string }) => k.chat.bukaLewatNomor(x.nomor_hp), ['chat']);
 export const usePesanPercakapan = (
   id: string | null,
   setelah?: string,

@@ -526,7 +526,7 @@ Tidak ada kolom kata sandi atau nama pengguna (D-04).
 | `percakapan` (`Percakapan`) | Tipe | Keterangan |
 | --- | --- | --- |
 | `id` | string | |
-| `jenis` | `alokasi` \| `pesanan_stok` \| `peta` | |
+| `jenis` | `alokasi` \| `pesanan_stok` \| `peta` \| `kontak` | |
 | `rujukan_id` | string \| null | id alokasi / pesanan stok / petani |
 | `petani_id` | string | |
 | `pembeli_id` | string | |

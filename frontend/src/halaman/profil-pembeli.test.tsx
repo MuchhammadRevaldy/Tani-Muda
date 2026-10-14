@@ -25,7 +25,7 @@ async function buka(url: string) {
 afterEach(() => document.documentElement.classList.remove('tanpa-animasi'));
 
 describe('menu akun pembeli', () => {
-  it('Profil, Data usaha, Keluar; Esc menutup dan fokus kembali ke tombol', async () => {
+  it('Profil, Riwayat, Keluar; Esc menutup dan fokus kembali ke tombol', async () => {
     await buka('/pembeli');
     const tombol = await screen.findByRole('button', { name: 'Menu akun Katering Bu Ratna' });
     expect(tombol).toHaveAttribute('aria-haspopup', 'menu');
@@ -36,14 +36,14 @@ describe('menu akun pembeli', () => {
       within(menu)
         .getAllByRole('menuitem')
         .map((m) => m.textContent),
-    ).toEqual(['Profil', 'Data usaha', 'Keluar']);
+    ).toEqual(['Profil', 'Riwayat', 'Keluar']);
     expect(within(menu).getByRole('menuitem', { name: 'Profil' })).toHaveAttribute(
       'href',
       '/pembeli/profil',
     );
-    expect(within(menu).getByRole('menuitem', { name: 'Data usaha' })).toHaveAttribute(
+    expect(within(menu).getByRole('menuitem', { name: 'Riwayat' })).toHaveAttribute(
       'href',
-      '/pembeli/daftar',
+      '/pembeli/riwayat',
     );
     await userEvent.keyboard('{Escape}');
     expect(screen.queryByRole('menu')).toBeNull();

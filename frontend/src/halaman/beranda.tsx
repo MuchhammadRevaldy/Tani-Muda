@@ -9,6 +9,7 @@ import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import {
   useDaftarSiklus,
   useKomoditas,
+  useLencanaChat,
   useModul,
   usePesananSekitar,
   useRiwayatPengukuran,
@@ -63,12 +64,14 @@ function Kepala({
   waktu,
   tanggal,
   desa,
+  lencanaChat = 0,
   tombolBaru = true,
 }: {
   nama: string;
   waktu: WaktuSalam;
   tanggal: string;
   desa: string | null;
+  lencanaChat?: number;
   tombolBaru?: boolean;
 }) {
   return (
@@ -77,13 +80,31 @@ function Kepala({
         <p className="m-0 text-keterangan text-teks-pendukung">{t.tanggalDesa(tanggal, desa)}</p>
         <h1 className="m-0 text-judul-halaman font-semibold">{t.salam(waktu, nama)}</h1>
       </div>
-      <Link
-        to="/profil"
-        aria-label={t.bukaProfil}
-        className="fokus-cincin grid h-sentuh w-sentuh flex-none place-items-center rounded-full lg:hidden"
-      >
-        <Avatar nama={nama} ukuran={44} className="border-2 border-putih shadow-garis" />
-      </Link>
+      <div className="flex items-center gap-2 lg:hidden">
+        <Link
+          to="/chat"
+          id="tombol-chat-petani-hp"
+          aria-label="Chat"
+          className="fokus-cincin relative grid h-sentuh w-sentuh flex-none place-items-center rounded-full border border-garis bg-putih text-daun-tua shadow-garis"
+        >
+          <Ikon nama="chat" ukuran={20} />
+          {lencanaChat > 0 ? (
+            <span
+              aria-hidden="true"
+              className="absolute -top-1 -right-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-tanah px-1 text-keterangan font-bold text-putih"
+            >
+              {lencanaChat > 99 ? '99+' : lencanaChat}
+            </span>
+          ) : null}
+        </Link>
+        <Link
+          to="/profil"
+          aria-label={t.bukaProfil}
+          className="fokus-cincin grid h-sentuh w-sentuh flex-none place-items-center rounded-full"
+        >
+          <Avatar nama={nama} ukuran={44} className="border-2 border-putih shadow-garis" />
+        </Link>
+      </div>
       {tombolBaru ? (
         <Link to="/hitung/tanaman" className={kelasTombol('sekunder') + ' hidden lg:inline-flex'}>
           {t.buatSiklusBaru}
@@ -199,7 +220,11 @@ export function HalamanBeranda() {
       <Ikon nama="panah-kanan" className="panah-geser" ukuran={20} />
     </Link>
   ) : null;
-  const kepala = <Kepala nama={nama} waktu={waktu} tanggal={hariIni} desa={desa} />;
+  const chatQ = useLencanaChat({ refetchInterval: 60_000 });
+  const nChat = chatQ.data?.belum_dibaca ?? 0;
+  const kepala = (
+    <Kepala nama={nama} waktu={waktu} tanggal={hariIni} desa={desa} lencanaChat={nChat} />
+  );
   const bannerOffline = daring ? null : <Banner jenis="offline">{t.offlineIsi}</Banner>;
 
   const memuatAwal = siklusQ.isPending || tugasQ.isPending || (unit.length > 0 && !dipilih);

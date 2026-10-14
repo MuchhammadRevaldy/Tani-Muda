@@ -1909,6 +1909,10 @@ export function ujiKontrak(nama: string, siapkan: PenyiapLingkungan): void {
 
         const lencana = await K.chat.lencana();
         expect(typeof lencana.belum_dibaca).toBe('number');
+
+        const percakapanNomor = await K.chat.bukaLewatNomor('+6281200000001');
+        expect(percakapanNomor.id).toBeDefined();
+        expect(percakapanNomor.jenis).toBe('kontak');
       });
     });
   });

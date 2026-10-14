@@ -2,6 +2,7 @@
  * Klien tiruan untuk F-09: Chat Petani & Pembeli.
  * Menyimpan data percakapan dan pesan di konteks db tiruan.
  */
+import { normalisasiNomorHp } from '../../../lib/nomor-hp';
 import { GalatApi } from '../../galat';
 import type {
   LencanaChat,
@@ -18,7 +19,7 @@ interface DbPercakapan {
   id: string;
   petani_id: string;
   pembeli_id: string;
-  jenis: 'alokasi' | 'pesanan_stok' | 'peta';
+  jenis: 'alokasi' | 'pesanan_stok' | 'peta' | 'kontak';
   rujukan_id: string | null;
   dibuat_pada: string;
 }
@@ -102,6 +103,64 @@ export function buatKlienChatTiruan(k: Konteks): KlienChat {
           nama: lawan?.nama ?? (u.peran === 'petani' ? 'Pembeli' : 'Petani'),
           peran: lawan?.peran ?? (u.peran === 'petani' ? 'pembeli' : 'petani'),
           foto_profil: lawan?.foto_profil ?? null,
+        },
+        dibuat_pada: p.dibuat_pada,
+      };
+    },
+
+    async bukaLewatNomor(nomor_hp: string): Promise<PercakapanBukaHasil> {
+      const u = k.penggunaMasuk();
+      const norm = normalisasiNomorHp(nomor_hp);
+      if (!norm.ok) {
+        throw new GalatApi('VALIDASI', 'Nomor ini belum bisa dihubungi lewat Tani Muda');
+      }
+
+      const nomorNormal = norm.nilai;
+      const lawan = k.db.pengguna.pengguna.find((p) => p.nomor_hp === nomorNormal);
+      if (!lawan || lawan.id === u.id) {
+        throw new GalatApi('VALIDASI', 'Nomor ini belum bisa dihubungi lewat Tani Muda');
+      }
+
+      let petaniId: string;
+      let pembeliId: string;
+      if (u.peran === 'petani' && lawan.peran === 'pembeli') {
+        petaniId = u.id;
+        pembeliId = lawan.id;
+      } else if (u.peran === 'pembeli' && lawan.peran === 'petani') {
+        pembeliId = u.id;
+        petaniId = lawan.id;
+      } else {
+        throw new GalatApi('VALIDASI', 'Nomor ini belum bisa dihubungi lewat Tani Muda');
+      }
+
+      const { percakapan } = pastikanDb(k);
+      let p = percakapan.find(
+        (x) => x.petani_id === petaniId && x.pembeli_id === pembeliId && x.jenis === 'kontak',
+      );
+
+      if (!p) {
+        k.db.urut += 1;
+        p = {
+          id: `percakapan-${k.db.urut}`,
+          petani_id: petaniId,
+          pembeli_id: pembeliId,
+          jenis: 'kontak',
+          rujukan_id: null,
+          dibuat_pada: k.sekarangIso(),
+        };
+        percakapan.unshift(p);
+        k.simpan();
+      }
+
+      return {
+        id: p.id,
+        jenis: p.jenis,
+        rujukan_id: p.rujukan_id,
+        lawan_bicara: {
+          id: lawan.id,
+          nama: lawan.nama ?? (u.peran === 'petani' ? 'Pembeli' : 'Petani'),
+          peran: lawan.peran ?? (u.peran === 'petani' ? 'pembeli' : 'petani'),
+          foto_profil: lawan.foto_profil ?? null,
         },
         dibuat_pada: p.dibuat_pada,
       };

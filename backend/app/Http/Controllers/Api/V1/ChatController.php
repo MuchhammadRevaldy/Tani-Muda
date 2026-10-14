@@ -13,6 +13,7 @@ use App\Models\Percakapan;
 use App\Models\Pesan;
 use App\Models\Pesanan;
 use App\Models\PesananStok;
+use App\Support\NomorHp;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -144,6 +145,77 @@ class ChatController extends Controller
                 'pembeli_id' => $pembeliId,
                 'jenis' => $jenis,
                 'rujukan_id' => $rujukanId,
+            ]);
+            $percakapan->save();
+        }
+
+        return Respons::data([
+            'id' => $percakapan->id,
+            'jenis' => $percakapan->jenis->value,
+            'rujukan_id' => $percakapan->rujukan_id,
+            'lawan_bicara' => [
+                'id' => $lawan->id,
+                'nama' => $lawan->nama ?? 'Pengguna Tani Muda',
+                'peran' => $lawan->peran->value,
+                'foto_profil' => $lawan->foto_profil,
+            ],
+            'dibuat_pada' => $percakapan->dibuat_pada->toISOString(),
+        ]);
+    }
+
+    /**
+     * POST /percakapan/nomor
+     * Buka percakapan baru atau lanjutkan percakapan jenis kontak lewat nomor HP.
+     */
+    public function bukaLewatNomor(Request $request): JsonResponse
+    {
+        $this->pastikanFiturAktif();
+        $user = $this->pengguna($request);
+
+        $nomorMentah = (string) $request->input('nomor_hp');
+        $nomorNormal = NomorHp::normalisasi($nomorMentah);
+
+        if (! $nomorNormal) {
+            throw new GalatApi('VALIDASI', 'Nomor ini belum bisa dihubungi lewat Tani Muda', rincian: ['nomor_hp' => ['Nomor ini belum bisa dihubungi lewat Tani Muda']]);
+        }
+
+        $lawan = Pengguna::where('nomor_hp', $nomorNormal)->first();
+        if (! $lawan) {
+            throw new GalatApi('VALIDASI', 'Nomor ini belum bisa dihubungi lewat Tani Muda', rincian: ['nomor_hp' => ['Nomor ini belum bisa dihubungi lewat Tani Muda']]);
+        }
+
+        // Tidak bisa chat dengan diri sendiri
+        if ($user->id === $lawan->id) {
+            throw new GalatApi('VALIDASI', 'Nomor ini belum bisa dihubungi lewat Tani Muda', rincian: ['nomor_hp' => ['Nomor ini belum bisa dihubungi lewat Tani Muda']]);
+        }
+
+        // Pasangan peran harus petani <-> pembeli
+        $petaniId = null;
+        $pembeliId = null;
+
+        if ($user->peran === Peran::Petani && $lawan->peran === Peran::Pembeli) {
+            $petaniId = $user->id;
+            $pembeliId = $lawan->id;
+        } elseif ($user->peran === Peran::Pembeli && $lawan->peran === Peran::Petani) {
+            $pembeliId = $user->id;
+            $petaniId = $lawan->id;
+        } else {
+            throw new GalatApi('VALIDASI', 'Nomor ini belum bisa dihubungi lewat Tani Muda', rincian: ['nomor_hp' => ['Nomor ini belum bisa dihubungi lewat Tani Muda']]);
+        }
+
+        $percakapan = Percakapan::query()
+            ->where('petani_id', $petaniId)
+            ->where('pembeli_id', $pembeliId)
+            ->where('jenis', JenisPercakapan::Kontak->value)
+            ->first();
+
+        if (! $percakapan) {
+            $percakapan = new Percakapan;
+            $percakapan->forceFill([
+                'petani_id' => $petaniId,
+                'pembeli_id' => $pembeliId,
+                'jenis' => JenisPercakapan::Kontak,
+                'rujukan_id' => null,
             ]);
             $percakapan->save();
         }

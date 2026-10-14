@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import {
   useBatalkanPesananStok,
   useBeliStok,
@@ -9,6 +10,7 @@ import {
 } from '../../api/kueri';
 import type { MetodeBayarStok, PesananStok, StokRingkas } from '../../api/tipe';
 import { cx } from '../../komponen/gabung-kelas';
+import { Ikon } from '../../komponen/ikon';
 import { formatRupiah } from '../../lib/format';
 
 export function HalamanStokPembeli() {
@@ -209,7 +211,15 @@ export function HalamanStokPembeli() {
                     </div>
                   </div>
 
-                  <div className="border-t border-garis pt-3">
+                  <div className="flex gap-2 border-t border-garis pt-3">
+                    <Link
+                      to={`/chat?tujuan=${encodeURIComponent(s.petani_id)}&jenis=stok&rujukan=${encodeURIComponent(s.id)}`}
+                      className="fokus-cincin inline-flex items-center justify-center gap-1 rounded-lg border border-daun px-3 py-2 text-center text-keterangan font-semibold text-daun-tua hover:bg-daun-lembut"
+                      aria-label={`Chat petani ${s.nama_petani ?? 'Petani'}`}
+                    >
+                      <Ikon nama="chat" ukuran={16} />
+                      <span>Chat petani</span>
+                    </Link>
                     <button
                       type="button"
                       onClick={() => {
@@ -217,7 +227,7 @@ export function HalamanStokPembeli() {
                         setJumlahKg(String(Math.min(5, s.sisa_kg)));
                         setGalatBeli('');
                       }}
-                      className="fokus-cincin w-full rounded-lg bg-daun py-2.5 text-center text-isi font-semibold text-putih hover:bg-daun/90 shadow-kartu"
+                      className="fokus-cincin flex-1 rounded-lg bg-daun py-2 text-center text-isi font-semibold text-putih hover:bg-daun/90 shadow-kartu"
                     >
                       Beli Panen Ini
                     </button>
@@ -464,22 +474,31 @@ export function HalamanStokPembeli() {
                 </div>
               </div>
 
-              <div className="flex justify-end gap-2 pt-2 border-t border-garis">
-                <button
-                  type="button"
-                  onClick={() => setStokDipilih(null)}
-                  className="rounded-lg border border-garis px-4 py-2 text-isi font-medium text-teks hover:bg-embun-pagi"
+              <div className="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-garis">
+                <Link
+                  to={`/chat?tujuan=${encodeURIComponent(stokDipilih.petani_id)}&jenis=stok&rujukan=${encodeURIComponent(stokDipilih.id)}`}
+                  className="inline-flex items-center gap-1.5 text-isi font-semibold text-daun-tua hover:underline"
                 >
-                  Batal
-                </button>
-                <button
-                  id="tombol-pasang-pesanan"
-                  type="submit"
-                  disabled={beliStok.isPending}
-                  className="rounded-lg bg-daun px-5 py-2 text-isi font-bold text-putih hover:bg-daun/90 shadow-kartu disabled:opacity-50"
-                >
-                  {beliStok.isPending ? 'Memproses...' : 'Pasang Pesanan Sekarang'}
-                </button>
+                  <Ikon nama="chat" ukuran={18} />
+                  <span>Chat petani pemilik stok</span>
+                </Link>
+                <div className="flex gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setStokDipilih(null)}
+                    className="rounded-lg border border-garis px-4 py-2 text-isi font-medium text-teks hover:bg-embun-pagi"
+                  >
+                    Batal
+                  </button>
+                  <button
+                    id="tombol-pasang-pesanan"
+                    type="submit"
+                    disabled={beliStok.isPending}
+                    className="rounded-lg bg-daun px-5 py-2 text-isi font-bold text-putih hover:bg-daun/90 shadow-kartu disabled:opacity-50"
+                  >
+                    {beliStok.isPending ? 'Memproses...' : 'Pasang Pesanan Sekarang'}
+                  </button>
+                </div>
               </div>
             </form>
           </div>

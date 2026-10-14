@@ -6,6 +6,7 @@ use App\Enums\StatusAkun;
 use App\Models\Pengguna;
 use App\Models\Percakapan;
 use App\Models\Pesan;
+use Illuminate\Database\QueryException;
 
 beforeEach(function () {
     config(['fitur.chat' => true]);
@@ -214,4 +215,117 @@ it('mengembalikan 501 jika sakelar FITUR_CHAT mati', function () {
         ->getJson('/api/v1/percakapan')
         ->assertStatus(501)
         ->assertJsonPath('galat.kode', 'BELUM_TERSEDIA');
+});
+
+it('pembeli dan petani dapat memulai atau melanjutkan chat lewat nomor HP (jenis kontak)', function () {
+    $petani = Pengguna::create([
+        'nomor_hp' => '+6281299990201',
+        'nama' => 'Petani Kontak 1',
+        'peran' => Peran::Petani,
+        'status_akun' => StatusAkun::Aktif,
+    ]);
+
+    $pembeli = Pengguna::create([
+        'nomor_hp' => '+6281299990202',
+        'nama' => 'Pembeli Kontak 1',
+        'peran' => Peran::Pembeli,
+        'status_akun' => StatusAkun::Aktif,
+    ]);
+
+    // 1. Pembeli membuka chat lewat nomor petani dalam format lokal dengan strip
+    $res = $this->actingAs($pembeli)
+        ->postJson('/api/v1/percakapan/nomor', ['nomor_hp' => '0812-9999-0201'])
+        ->assertOk()
+        ->json('data');
+
+    expect($res['jenis'])->toBe('kontak')
+        ->and($res['rujukan_id'])->toBeNull()
+        ->and($res['lawan_bicara']['nama'])->toBe('Petani Kontak 1')
+        ->and($res['lawan_bicara']['peran'])->toBe('petani')
+        ->and(array_key_exists('nomor_hp', $res['lawan_bicara']))->toBeFalse();
+
+    $percakapanId = $res['id'];
+
+    // 2. Petani membuka chat lewat nomor pembeli -> melanjutkan percakapan yang sama
+    $res2 = $this->actingAs($petani)
+        ->postJson('/api/v1/percakapan/nomor', ['nomor_hp' => '+6281299990202'])
+        ->assertOk()
+        ->json('data');
+
+    expect($res2['id'])->toBe($percakapanId)
+        ->and($res2['lawan_bicara']['nama'])->toBe('Pembeli Kontak 1')
+        ->and(array_key_exists('nomor_hp', $res2['lawan_bicara']))->toBeFalse();
+});
+
+it('chat nomor ditolak dengan pesan seragam bila nomor tidak terdaftar, peran sama, atau diri sendiri', function () {
+    $petani1 = Pengguna::create([
+        'nomor_hp' => '+6281299990211',
+        'nama' => 'Petani Satu',
+        'peran' => Peran::Petani,
+        'status_akun' => StatusAkun::Aktif,
+    ]);
+
+    $petani2 = Pengguna::create([
+        'nomor_hp' => '+6281299990212',
+        'nama' => 'Petani Dua',
+        'peran' => Peran::Petani,
+        'status_akun' => StatusAkun::Aktif,
+    ]);
+
+    // A. Nomor tidak terdaftar
+    $this->actingAs($petani1)
+        ->postJson('/api/v1/percakapan/nomor', ['nomor_hp' => '0812-0000-9999'])
+        ->assertStatus(422)
+        ->assertJsonPath('galat.pesan', 'Nomor ini belum bisa dihubungi lewat Tani Muda');
+
+    // B. Peran sama (petani ke petani)
+    $this->actingAs($petani1)
+        ->postJson('/api/v1/percakapan/nomor', ['nomor_hp' => '0812-9999-0212'])
+        ->assertStatus(422)
+        ->assertJsonPath('galat.pesan', 'Nomor ini belum bisa dihubungi lewat Tani Muda');
+
+    // C. Diri sendiri
+    $this->actingAs($petani1)
+        ->postJson('/api/v1/percakapan/nomor', ['nomor_hp' => '0812-9999-0211'])
+        ->assertStatus(422)
+        ->assertJsonPath('galat.pesan', 'Nomor ini belum bisa dihubungi lewat Tani Muda');
+});
+
+it('chat nomor menegakkan batas laju 10 percobaan per jam (429)', function () {
+    $pembeli = Pengguna::create([
+        'nomor_hp' => '+6281299990220',
+        'nama' => 'Pembeli Laju',
+        'peran' => Peran::Pembeli,
+        'status_akun' => StatusAkun::Aktif,
+    ]);
+
+    // 10 permintaan pertama (gagal validasi nomor tidak terdaftar) mengembalikan 422
+    for ($i = 0; $i < 10; $i++) {
+        $this->actingAs($pembeli)
+            ->postJson('/api/v1/percakapan/nomor', ['nomor_hp' => "0812-0000-000{$i}"])
+            ->assertStatus(422);
+    }
+
+    // Permintaan ke-11 terkena throttle 429
+    $this->actingAs($pembeli)
+        ->postJson('/api/v1/percakapan/nomor', ['nomor_hp' => '0812-0000-0010'])
+        ->assertStatus(429);
+});
+
+it('pengguna.nomor_hp tetap unik di basis data dan terlindungi', function () {
+    Pengguna::create([
+        'nomor_hp' => '+6281299990230',
+        'nama' => 'Akun Unik 1',
+        'peran' => Peran::Petani,
+        'status_akun' => StatusAkun::Aktif,
+    ]);
+
+    expect(function () {
+        Pengguna::create([
+            'nomor_hp' => '+6281299990230',
+            'nama' => 'Akun Duplikat',
+            'peran' => Peran::Pembeli,
+            'status_akun' => StatusAkun::Aktif,
+        ]);
+    })->toThrow(QueryException::class);
 });

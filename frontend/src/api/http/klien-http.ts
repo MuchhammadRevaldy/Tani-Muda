@@ -332,6 +332,7 @@ export function buatKlienHttp(o: OpsiKlienHttp = {}): {
     chat: {
       daftar: () => h.get('/percakapan'),
       buka: (m) => h.post('/percakapan', m),
+      bukaLewatNomor: (nomor_hp) => h.post('/percakapan/nomor', { nomor_hp }),
       pesan: (id, setelah) => h.get(`/percakapan/${id}/pesan`, setelah ? { setelah } : undefined),
       kirim: (id, m) => h.post(`/percakapan/${id}/pesan`, m),
       tandaiDibaca: (id) => h.post(`/percakapan/${id}/dibaca`),

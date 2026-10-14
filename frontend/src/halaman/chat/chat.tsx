@@ -7,6 +7,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import {
   useBukaPercakapan,
+  useBukaPercakapanNomor,
   useDaftarPercakapan,
   useKirimPesan,
   usePesanPercakapan,
@@ -15,10 +16,12 @@ import {
 import { useSesi } from '../../api/sesi';
 import type { JenisPercakapan, Percakapan } from '../../api/tipe';
 import { Avatar } from '../../komponen/avatar';
+import { Dialog } from '../../komponen/dialog';
 import { Ikon } from '../../komponen/ikon';
 import { Kartu } from '../../komponen/kartu';
 import { Tombol } from '../../komponen/tombol';
 import { useLayarLebar } from '../../komponen/use-layar-lebar';
+import { normalisasiNomorHp } from '../../lib/nomor-hp';
 import { Memuat } from '../memuat';
 
 function labelKonteks(jenis: JenisPercakapan): string {
@@ -29,6 +32,8 @@ function labelKonteks(jenis: JenisPercakapan): string {
       return 'Stok Siap Jual';
     case 'peta':
       return 'Peta Petani';
+    case 'kontak':
+      return 'Kontak Langsung';
     default:
       return 'Umum';
   }
@@ -57,10 +62,14 @@ export function HalamanChat() {
 
   const percakapanDipilih = idDariUrl;
   const [teksPesan, setTeksPesan] = useState('');
+  const [dialogNomorBuka, setDialogNomorBuka] = useState(false);
+  const [nomorHpInput, setNomorHpInput] = useState('');
+  const [galatNomorHp, setGalatNomorHp] = useState('');
   const sudahBukaRef = useRef(false);
 
   const daftarQ = useDaftarPercakapan({ refetchInterval: 5000 });
   const bukaMutasi = useBukaPercakapan();
+  const bukaNomorMutasi = useBukaPercakapanNomor();
   const kirimMutasi = useKirimPesan();
   const tandaiDibacaMutasi = useTandaiDibaca();
 
@@ -144,6 +153,25 @@ export function HalamanChat() {
     }
   }
 
+  async function tanganiMulaiChatNomor(e: React.FormEvent) {
+    e.preventDefault();
+    setGalatNomorHp('');
+    const norm = normalisasiNomorHp(nomorHpInput);
+    if (!norm.ok) {
+      setGalatNomorHp('Nomor ini belum bisa dihubungi lewat Tani Muda');
+      return;
+    }
+    try {
+      const res = await bukaNomorMutasi.mutateAsync({ nomor_hp: norm.nilai });
+      setDialogNomorBuka(false);
+      void daftarQ.refetch();
+      navigate(`${location.pathname}?id=${encodeURIComponent(res.id)}`, { replace: true });
+    } catch (err) {
+      const pesanGalat = err instanceof Error ? err.message : 'Nomor ini belum bisa dihubungi lewat Tani Muda';
+      setGalatNomorHp(pesanGalat);
+    }
+  }
+
   function pilihPercakapan(p: Percakapan) {
     navigate(`${location.pathname}?id=${encodeURIComponent(p.id)}`);
   }
@@ -155,9 +183,24 @@ export function HalamanChat() {
   // Tampilan Daftar Percakapan
   const panelDaftar = (
     <div className="flex flex-col gap-2">
-      <div className="flex items-center justify-between pb-2">
-        <h2 className="m-0 text-judul-bagian font-semibold text-teks">Percakapan</h2>
-        <span className="text-keterangan text-teks-pendukung">{daftar.length} kontak</span>
+      <div className="flex flex-wrap items-center justify-between gap-2 border-b border-garis pb-2">
+        <div>
+          <h2 className="m-0 text-judul-bagian font-semibold text-teks">Percakapan</h2>
+          <span className="text-keterangan text-teks-pendukung">{daftar.length} kontak</span>
+        </div>
+        <button
+          id="tombol-chat-nomor-hp"
+          type="button"
+          onClick={() => {
+            setDialogNomorBuka(true);
+            setNomorHpInput('');
+            setGalatNomorHp('');
+          }}
+          className="fokus-cincin inline-flex items-center gap-1.5 rounded-lg border border-daun bg-putih px-3 py-1.5 text-isi font-semibold text-daun-tua hover:bg-daun-lembut shadow-garis"
+        >
+          <Ikon nama="tambah" ukuran={16} />
+          <span>Chat dengan nomor HP</span>
+        </button>
       </div>
 
       {daftar.length === 0 ? (
@@ -360,6 +403,53 @@ export function HalamanChat() {
       ) : (
         panelDaftar
       )}
+
+      <Dialog
+        terbuka={dialogNomorBuka}
+        onTutup={() => setDialogNomorBuka(false)}
+        judul="Mulai Chat lewat Nomor HP"
+        keterangan="Masukkan nomor HP lawan bicara untuk memulai atau melanjutkan obrolan langsung."
+      >
+        <form onSubmit={(e) => void tanganiMulaiChatNomor(e)} className="flex flex-col gap-4">
+          <div className="flex flex-col gap-1.5">
+            <label htmlFor="masukan-nomor-hp-chat" className="text-isi font-semibold text-teks">
+              Nomor HP
+            </label>
+            <input
+              id="masukan-nomor-hp-chat"
+              type="tel"
+              value={nomorHpInput}
+              onChange={(e) => setNomorHpInput(e.target.value)}
+              placeholder="Contoh: 081234567890"
+              autoFocus
+              className="fokus-cincin rounded-xl border border-garis bg-putih px-3.5 py-2.5 text-isi text-teks outline-none placeholder:text-teks-pendukung"
+            />
+            {galatNomorHp ? (
+              <p role="alert" className="m-0 text-keterangan font-medium text-merah">
+                {galatNomorHp}
+              </p>
+            ) : null}
+          </div>
+
+          <div className="flex items-center justify-end gap-2 pt-2">
+            <Tombol
+              type="button"
+              varian="sekunder"
+              onClick={() => setDialogNomorBuka(false)}
+            >
+              Batal
+            </Tombol>
+            <Tombol
+              id="tombol-kirim-buka-nomor"
+              type="submit"
+              varian="utama"
+              disabled={!nomorHpInput.trim() || bukaNomorMutasi.isPending}
+            >
+              {bukaNomorMutasi.isPending ? 'Mencari...' : 'Buka Chat'}
+            </Tombol>
+          </div>
+        </form>
+      </Dialog>
     </div>
   );
 }
