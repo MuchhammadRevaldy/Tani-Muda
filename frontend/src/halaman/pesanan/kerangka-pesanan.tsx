@@ -32,12 +32,13 @@ function TabPesanan({ className }: { className?: string }) {
     <nav
       aria-label={t.tabLabel}
       className={cx(
-        'grid grid-cols-2 gap-1 rounded-lg border border-garis bg-putih p-1',
+        'grid grid-cols-3 gap-1 rounded-lg border border-garis bg-putih p-1',
         className,
       )}
     >
       {tab('/pesanan', t.tabSekitar)}
       {tab('/pesanan/kiriman', t.tabKiriman)}
+      {tab('/pesanan/stok', 'Stok siap jual')}
     </nav>
   );
 }

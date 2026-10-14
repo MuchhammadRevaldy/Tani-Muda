@@ -334,6 +334,31 @@ export interface KlienCuaca {
   ambil(): Promise<import('./tipe').DataCuaca>;
 }
 
+export interface KlienStok {
+  /** GET /stok */
+  daftar(): Promise<import('./tipe').StokRingkas[]>;
+  /** POST /stok */
+  buat(m: import('./tipe').PayloadBuatStok): Promise<import('./tipe').StokRingkas>;
+  /** PATCH /stok/{id} */
+  ubah(id: string, m: import('./tipe').PayloadUbahStok): Promise<import('./tipe').StokRingkas>;
+  /** GET /stok/sekitar */
+  sekitar(komoditas?: string, radiusKm?: number): Promise<import('./tipe').StokRingkas[]>;
+  /** POST /stok/{id}/beli */
+  beli(id: string, m: import('./tipe').PayloadBeliStok): Promise<import('./tipe').PesananStok>;
+  /** GET /pesanan-stok/saya */
+  pesananSaya(): Promise<import('./tipe').PesananStok[]>;
+  /** POST /pesanan-stok/{id}/terima */
+  terimaPesanan(id: string): Promise<import('./tipe').PesananStok>;
+  /** POST /pesanan-stok/{id}/tolak */
+  tolakPesanan(id: string, alasan?: string): Promise<import('./tipe').PesananStok>;
+  /** POST /pesanan-stok/{id}/dikirim */
+  kirimPesanan(id: string): Promise<import('./tipe').PesananStok>;
+  /** POST /pesanan-stok/{id}/selesai */
+  selesaiPesanan(id: string): Promise<import('./tipe').PesananStok>;
+  /** POST /pesanan-stok/{id}/batalkan */
+  batalkanPesanan(id: string, alasan?: string): Promise<import('./tipe').PesananStok>;
+}
+
 export interface KlienApi {
   akun: KlienAkun;
   wilayah: KlienWilayah;
@@ -352,6 +377,7 @@ export interface KlienApi {
   deteksi: KlienDeteksi;
   chatbot: KlienChatbot;
   cuaca: KlienCuaca;
+  stok: KlienStok;
 }
 
 /**

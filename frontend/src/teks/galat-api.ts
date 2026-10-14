@@ -36,6 +36,7 @@ export const teksGalatKhususApi: Record<KodeGalatKhususApi, string> = {
   BATAS_AI_TERCAPAI: 'Batas pemakaian fitur pintar harianmu sudah tercapai. Coba lagi besok',
   PERSETUJUAN_AI_WAJIB: 'Centang persetujuan pemakaian fitur pintar dulu',
   CUACA_TIDAK_TERSEDIA: 'Data perkiraan cuaca belum bisa dimuat. Coba lagi nanti',
+  STOK_TIDAK_CUKUP: 'Sisa stok tidak mencukupi',
   GALAT_SERVER: 'Ada yang tidak beres di server. Coba lagi sebentar lagi',
 };
 

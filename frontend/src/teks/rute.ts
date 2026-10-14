@@ -50,6 +50,8 @@ export const judulRute = {
   mentor: 'Resep tanam',
   permintaanResep: 'Permintaan resep',
   editorResep: 'Editor resep',
+  stokSaya: 'Stok siap jual',
+  stokSekitar: 'Stok siap jual sekitar',
 } as const;
 
 export type KunciRute = keyof typeof judulRute;

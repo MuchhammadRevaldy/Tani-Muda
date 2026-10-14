@@ -317,3 +317,26 @@ export const useRiwayatChatbot = (percakapanId?: string, aktif = true) =>
   q(kk('chatbot', 'riwayat', percakapanId ?? null), (k) => k.chatbot.riwayat(percakapanId), aktif);
 
 export const useCuaca = (aktif = true) => q(kk('cuaca', 'saat-ini'), (k) => k.cuaca.ambil(), aktif);
+
+// ---------------------------------------------------------------- stok siap jual + COD (F-07)
+export const useStokSaya = () => q(kk('stok', 'saya'), (k) => k.stok.daftar());
+export const useTambahStok = () =>
+  m((k, x: T.PayloadBuatStok) => k.stok.buat(x), ['stok']);
+export const useUbahStok = () =>
+  m((k, x: { id: string } & T.PayloadUbahStok) => k.stok.ubah(x.id, x), ['stok']);
+export const useStokSekitar = (komoditas?: string, radiusKm = 15, aktif = true) =>
+  q(kk('stok', 'sekitar', komoditas ?? null, radiusKm), (k) => k.stok.sekitar(komoditas, radiusKm), aktif);
+export const useBeliStok = () =>
+  m((k, x: { id: string } & T.PayloadBeliStok) => k.stok.beli(x.id, x), ['stok', 'pesanan-stok']);
+export const usePesananStokSaya = () =>
+  q(kk('pesanan-stok', 'saya'), (k) => k.stok.pesananSaya());
+export const useTerimaPesananStok = () =>
+  m((k, id: string) => k.stok.terimaPesanan(id), ['pesanan-stok', 'stok']);
+export const useTolakPesananStok = () =>
+  m((k, x: { id: string; alasan?: string }) => k.stok.tolakPesanan(x.id, x.alasan), ['pesanan-stok', 'stok']);
+export const useKirimPesananStok = () =>
+  m((k, id: string) => k.stok.kirimPesanan(id), ['pesanan-stok', 'stok']);
+export const useSelesaiPesananStok = () =>
+  m((k, id: string) => k.stok.selesaiPesanan(id), ['pesanan-stok', 'stok']);
+export const useBatalkanPesananStok = () =>
+  m((k, x: { id: string; alasan?: string }) => k.stok.batalkanPesanan(x.id, x.alasan), ['pesanan-stok', 'stok']);

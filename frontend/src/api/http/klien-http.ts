@@ -302,6 +302,23 @@ export function buatKlienHttp(o: OpsiKlienHttp = {}): {
     cuaca: {
       ambil: () => h.get('/cuaca'),
     },
+    stok: {
+      daftar: () => h.get('/stok'),
+      buat: (m) => h.post('/stok', m),
+      ubah: (id, m) => h.patch(`/stok/${id}`, m),
+      sekitar: (komoditas, radiusKm) =>
+        h.get('/stok/sekitar', {
+          ...(komoditas ? { komoditas } : {}),
+          ...(radiusKm ? { radius_km: radiusKm } : {}),
+        }),
+      beli: (id, m) => h.post(`/stok/${id}/beli`, m),
+      pesananSaya: () => h.get('/pesanan-stok/saya'),
+      terimaPesanan: (id) => h.post(`/pesanan-stok/${id}/terima`),
+      tolakPesanan: (id, alasan) => h.post(`/pesanan-stok/${id}/tolak`, { alasan }),
+      kirimPesanan: (id) => h.post(`/pesanan-stok/${id}/dikirim`),
+      selesaiPesanan: (id) => h.post(`/pesanan-stok/${id}/selesai`),
+      batalkanPesanan: (id, alasan) => h.post(`/pesanan-stok/${id}/batalkan`, { alasan }),
+    },
   };
 
   // Pemilih akun demo, panel kode uji, dan atur ulang lewat endpoint demo lokal (kontrak 3.13).

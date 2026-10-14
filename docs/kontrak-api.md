@@ -447,7 +447,9 @@ Tidak ada kolom kata sandi atau nama pengguna (D-04).
 
 | `pembayaran` (`Pembayaran`) | Tipe | Keterangan |
 | --- | --- | --- |
-| `id`, `pesanan_id`, `referensi` | string | referensi tiruan diawali `TIRUAN-` |
+| `id`, `referensi` | string | referensi tiruan diawali `TIRUAN-` |
+| `pesanan_id`† | string \| null | tepat satu dari `pesanan_id` / `pesanan_stok_id` terisi |
+| `pesanan_stok_id`† | string \| null | rujukan pesanan stok siap jual (F-07) |
 | `pengiriman_id` | string \| null | |
 | `jenis` | `uang_muka` \| `biaya_layanan` \| `kiriman` \| `pencairan`† \| `pengembalian`† \| `kompensasi`† | |
 | `nominal` | rupiah | |
@@ -459,12 +461,14 @@ Tidak ada kolom kata sandi atau nama pengguna (D-04).
 
 ### 2.11 Rating, sengketa
 
-| `rating` (`Rating`) | Tipe |
-| --- | --- |
-| `id`, `pengiriman_id`, `pemberi_id`, `penerima_id` | string |
-| `nilai` | bilangan bulat 1–5 |
-| `komentar` | string \| null |
-| `dibuat_pada` | waktu |
+| `rating` (`Rating`) | Tipe | Keterangan |
+| --- | --- | --- |
+| `id`, `pemberi_id`, `penerima_id` | string | |
+| `pengiriman_id`† | string \| null | tepat satu dari `pengiriman_id` / `pesanan_stok_id` terisi |
+| `pesanan_stok_id`† | string \| null | rating untuk pesanan stok siap jual (F-07) |
+| `nilai` | bilangan bulat 1–5 | |
+| `komentar` | string \| null | |
+| `dibuat_pada` | waktu | |
 
 `RingkasanRating` = `{ pengguna_id, rata_rata (satu desimal) | null, jumlah }`.
 
@@ -485,6 +489,32 @@ Tidak ada kolom kata sandi atau nama pengguna (D-04).
 - **`langganan_notifikasi`** (`LanggananPush`) = `{ endpoint, keys: { p256dh, auth } }`.
 - **`Berkas`** = `{ id, url, jenis, ukuran_byte }`. `url` di backend adalah URL bertanda tangan berumur 10 menit.
 - **`kelompok_tani`** (`id`, `nama`, `wilayah_id`, `ketua_id`) dan **`anggota_kelompok_tani`** (`kelompok_id`, `petani_id`, `bergabung_pada`): tabel dibuat di Tahap 5, **belum ada endpoint** sampai P1 (D-06).
+
+### 2.13 Stok siap jual dan pesanan stok (F-07)†
+
+| `stok` (`Stok`) | Tipe | Keterangan |
+| --- | --- | --- |
+| `id`, `petani_id`, `komoditas_id` | string | |
+| `lahan_id` | string \| null | lahan asal panen (opsional) |
+| `jumlah_kg`, `sisa_kg` | desimal | `0 <= sisa_kg <= jumlah_kg` |
+| `harga_per_kg` | rupiah | harga per kg > 0 |
+| `tanggal_panen` | tanggal | |
+| `foto` | string \| null | foto produk siap jual |
+| `status` | `tersedia` \| `habis` \| `ditarik` | |
+| `dibuat_pada` | waktu | |
+
+| `pesanan_stok` (`PesananStok`) | Tipe | Keterangan |
+| --- | --- | --- |
+| `id`, `pembeli_id`, `stok_id`, `petani_id` | string | |
+| `jumlah_kg` | desimal | jumlah beli > 0 |
+| `harga_per_kg` | rupiah | harga saat beli |
+| `nilai` | rupiah | total nilai = `jumlah_kg * harga_per_kg` |
+| `metode_bayar` | `cod` \| `bayar_di_aplikasi` | |
+| `alamat_antar` | string | alamat pengiriman pembeli |
+| `status` | `menunggu` \| `diterima` \| `dikirim` \| `selesai` \| `dibatalkan` \| `ditolak` | |
+| `waktu_menunggu`, `waktu_diterima`, `waktu_dikirim`, `waktu_selesai`, `waktu_dibatalkan`, `waktu_ditolak` | waktu \| null | riwayat waktu status |
+| `alasan_batal` | string \| null | |
+| `dibuat_pada` | waktu | |
 
 ---
 
@@ -662,6 +692,17 @@ Rute ini **hanya didaftarkan saat `APP_ENV=local`**; di lingkungan lain jawabann
 | `POST /chatbot` | semua masuk | `{ pesan, percakapan_id? }` → `JawabanChatbot` | `PERSETUJUAN_AI_WAJIB`, `AI_TIDAK_TERSEDIA` (503) | `chatbot.tanya` |
 | `GET /chatbot/riwayat?percakapan_id=` | semua masuk | → `PesanObrolanBot[]` | | `chatbot.riwayat` |
 | `GET /cuaca` | petani | → `DataCuaca` | `CUACA_TIDAK_TERSEDIA` (503) | `cuaca.ambil` |
+| `GET /stok` | P | → `Stok[]` stok milik petani | | `stok.daftar` |
+| `POST /stok` | P | `BuatStokMasukan` → `Stok` | `VALIDASI` | `stok.buat` |
+| `PATCH /stok/{id}` | P (pemilik) | `UbahStokMasukan` → `Stok` | `VALIDASI`, `TIDAK_DITEMUKAN` | `stok.ubah` |
+| `GET /stok/sekitar?komoditas=&radius_km=` | B | → `StokSekitar[]` stok tersedia terdekat | | `stok.sekitar` |
+| `POST /stok/{id}/beli` | B (terverifikasi) | `BeliStokMasukan` → `PesananStok` | `BELUM_TERVERIFIKASI`, `STOK_TIDAK_CUKUP` (409) | `stok.beli` |
+| `POST /pesanan-stok/{id}/terima` | P (pemilik stok) | → `PesananStok` | `STATUS_TIDAK_SESUAI` | `stok.terimaPesanan` |
+| `POST /pesanan-stok/{id}/tolak` | P (pemilik stok) | `{ alasan? }` → `PesananStok`; sisa_kg dikembalikan | `STATUS_TIDAK_SESUAI` | `stok.tolakPesanan` |
+| `POST /pesanan-stok/{id}/dikirim` | P (pemilik stok) | → `PesananStok` | `STATUS_TIDAK_SESUAI` | `stok.kirimPesanan` |
+| `POST /pesanan-stok/{id}/selesai` | B (pembeli) | → `PesananStok` | `STATUS_TIDAK_SESUAI` | `stok.selesaiPesanan` |
+| `POST /pesanan-stok/{id}/batalkan` | B (pembeli) | `{ alasan? }` → `PesananStok`; sisa_kg dikembalikan | `STATUS_TIDAK_SESUAI` | `stok.batalkanPesanan` |
+| `GET /pesanan-stok/saya` | P, B | → `PesananStok[]` | | `stok.pesananSaya` |
 
 ---
 
@@ -708,6 +749,7 @@ Rute ini **hanya didaftarkan saat `APP_ENV=local`**; di lingkungan lain jawabann
 | F-04 Deteksi Penyakit | `POST /akun/setuju-ai`, `POST /deteksi`, `GET /deteksi` |
 | F-05 Chatbot Tanya Tani Muda | `POST /akun/setuju-ai`, `POST /chatbot`, `GET /chatbot/riwayat` |
 | F-06 Cuaca dan Kecocokan Suhu | `GET /cuaca` |
+| F-07 Stok Siap Jual + COD | `GET`/`POST /stok`, `PATCH /stok/{id}`, `GET /stok/sekitar`, `POST /stok/{id}/beli`, `POST /pesanan-stok/{id}/terima`, `POST /pesanan-stok/{id}/tolak`, `POST /pesanan-stok/{id}/dikirim`, `POST /pesanan-stok/{id}/selesai`, `POST /pesanan-stok/{id}/batalkan`, `GET /pesanan-stok/saya` |
 
 ---
 
@@ -715,6 +757,7 @@ Rute ini **hanya didaftarkan saat `APP_ENV=local`**; di lingkungan lain jawabann
 
 | Tanggal | Perubahan |
 | --- | --- |
+| 2026-10-14 | [AG-31] Gelombang Jumat: F-07 marketplace stok siap jual + COD (tabel `stok`, `pesanan_stok`, relasi pembayaran & rating, bagian 2.13 dan 3.14). |
 | 2026-10-14 | [AG-30] Gelombang Kamis: F-04 deteksi penyakit foto, F-05 chatbot "Tanya Tani Muda", F-06 cuaca & kecocokan suhu tanaman (bagian 3.14). |
 | 2026-10-12 | D-58: urutan `GET /wilayah?cari=` mendahulukan nama desa yang cocok di dalam kelompok tersedia/belum tersedia. |
 | 2026-10-12 | D-56/D-57: `wilayah.lintang`/`bujur` boleh null dan `tersedia_pilot` (dihitung server); galat `422 WILAYAH_BELUM_TERSEDIA` di pilih peran dan ubah profil (petani), lahan, dan buat pesanan; `GET /wilayah` mendahulukan desa yang tersedia di pilot; endpoint demo lokal (bagian 3.13). |

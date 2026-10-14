@@ -16,8 +16,10 @@ use App\Http\Controllers\Api\V1\KirimanController;
 use App\Http\Controllers\Api\V1\LahanController;
 use App\Http\Controllers\Api\V1\PembeliController;
 use App\Http\Controllers\Api\V1\PesananController;
+use App\Http\Controllers\Api\V1\PesananStokController;
 use App\Http\Controllers\Api\V1\ReferensiController;
 use App\Http\Controllers\Api\V1\ResepController;
+use App\Http\Controllers\Api\V1\StokController;
 use App\Http\Controllers\Api\V1\WilayahController;
 use Illuminate\Support\Facades\Route;
 
@@ -74,13 +76,27 @@ Route::middleware('auth:sanctum')->group(function () use ($endpointBelumTersedia
         Route::get('/deteksi', [DeteksiController::class, 'daftar']);
         Route::get('/deteksi/{id}', [DeteksiController::class, 'ambil']);
 
-        // Chatbot Tanya Tani Muda (F-05)
-        Route::post('/chatbot', [ChatbotController::class, 'tanya']);
-        Route::get('/chatbot/riwayat', [ChatbotController::class, 'riwayat']);
-
         // Cuaca dan kecocokan suhu (F-06)
         Route::get('/cuaca', [CuacaController::class, 'sekarang']);
     });
+
+    // Chatbot Tanya Tani Muda (F-05)
+    Route::post('/chatbot', [ChatbotController::class, 'tanya']);
+    Route::get('/chatbot/riwayat', [ChatbotController::class, 'riwayat']);
+
+    // Marketplace stok siap jual + COD (F-07)
+    Route::get('/stok', [StokController::class, 'daftar']);
+    Route::post('/stok', [StokController::class, 'buat']);
+    Route::patch('/stok/{id}', [StokController::class, 'ubah']);
+    Route::get('/stok/sekitar', [StokController::class, 'sekitar']);
+    Route::post('/stok/{id}/beli', [StokController::class, 'beli']);
+
+    Route::get('/pesanan-stok/saya', [PesananStokController::class, 'saya']);
+    Route::post('/pesanan-stok/{id}/terima', [PesananStokController::class, 'terima']);
+    Route::post('/pesanan-stok/{id}/tolak', [PesananStokController::class, 'tolak']);
+    Route::post('/pesanan-stok/{id}/dikirim', [PesananStokController::class, 'dikirim']);
+    Route::post('/pesanan-stok/{id}/selesai', [PesananStokController::class, 'selesai']);
+    Route::post('/pesanan-stok/{id}/batalkan', [PesananStokController::class, 'batalkan']);
 
     // Wilayah dan referensi (3.2)
     Route::get('/wilayah', [WilayahController::class, 'daftar']);

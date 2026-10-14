@@ -54,3 +54,29 @@ export function periksaInvarianPesanan(d: DataPesanan): string[] {
   }
   return salah;
 }
+
+/**
+ * Invarian F-07 Stok siap jual:
+ * - 0 <= sisa_kg <= jumlah_kg
+ * - sisa_kg = jumlah_kg - SUM(pesanan aktif yang belum dibatalkan/ditolak)
+ */
+export function periksaInvarianStok(
+  stokList: import('../tipe').StokRingkas[] = [],
+  pesananStokList: import('../tipe').PesananStok[] = [],
+): string[] {
+  const salah: string[] = [];
+  for (const s of stokList) {
+    if (s.sisa_kg < 0 || s.sisa_kg > s.jumlah_kg) {
+      salah.push(`${s.id}: sisa_kg ${s.sisa_kg} di luar rentang [0, ${s.jumlah_kg}]`);
+    }
+    const terpesan = pesananStokList
+      .filter((p) => p.stok_id === s.id && p.status !== 'dibatalkan' && p.status !== 'ditolak')
+      .reduce((sum, p) => sum + p.jumlah_kg, 0);
+    const seharusnya = bulat2(s.jumlah_kg - terpesan);
+    if (bulat2(s.sisa_kg) !== seharusnya) {
+      salah.push(`${s.id}: sisa_kg ${s.sisa_kg}, seharusnya ${seharusnya}`);
+    }
+  }
+  return salah;
+}
+

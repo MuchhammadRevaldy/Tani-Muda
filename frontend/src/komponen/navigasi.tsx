@@ -500,6 +500,7 @@ export function HeaderPembeli({
   const bagianAktif = /^\/pembeli(\/(pesanan|kiriman)(\/|$)|\/?$)/.test(pathname);
   const menu: { label: string; ke: string; akhir?: boolean; aktif?: boolean }[] = [
     { label: teksNavigasi.pesananAktif, ke: '/pembeli', akhir: true, aktif: bagianAktif },
+    { label: 'Stok siap jual', ke: '/pembeli/stok' },
     { label: teksNavigasi.riwayat, ke: '/pembeli/riwayat' },
     { label: teksNavigasi.pembayaran, ke: '/pembeli/pembayaran' },
   ];

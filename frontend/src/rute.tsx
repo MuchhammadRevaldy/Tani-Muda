@@ -157,6 +157,12 @@ const HalamanKirimanSaya = lazy(() =>
 const HalamanPesananSekitar = lazy(() =>
   import('./halaman/pesanan/sekitar').then((m) => ({ default: m.HalamanPesananSekitar })),
 );
+const HalamanStokPetani = lazy(() =>
+  import('./halaman/stok/petani-stok').then((m) => ({ default: m.HalamanStokPetani })),
+);
+const HalamanStokPembeli = lazy(() =>
+  import('./halaman/stok/pembeli-stok').then((m) => ({ default: m.HalamanStokPembeli })),
+);
 
 /**
  * Pemilih akun demo hanya ada di mode pengembangan dan build demo (D-36, D-48). Di build produksi
@@ -335,11 +341,14 @@ export const daftarRute: RouteObject[] = [
         path: '/pesanan/:id/kesepakatan',
         element: halamanPetani('kesepakatan', <HalamanKesepakatan />, { menuAktif: 'pesanan' }),
       },
+      { path: '/stok', element: halamanPetani('stokSaya', <HalamanStokPetani />, { menuAktif: 'pesanan' }) },
+      { path: '/pesanan/stok', element: halamanPetani('stokSaya', <HalamanStokPetani />, { menuAktif: 'pesanan' }) },
       { path: '/profil', element: halamanPetani('profil', <HalamanProfil />) },
       { path: '/profil/ubah', element: halamanPetani('ubahProfil', <HalamanUbahProfil />) },
       { path: '/profil/notifikasi', element: halamanPetani('notifikasi', <HalamanNotifikasi />) },
       { path: '/lahan', element: halamanPetani('lahan', <HalamanLahanSaya />) },
       { path: '/pembeli', element: pembeli('dasborPembeli', <HalamanDasborPembeli />) },
+      { path: '/pembeli/stok', element: pembeli('stokSekitar', <HalamanStokPembeli />) },
       { path: '/pembeli/daftar', element: pembeli('daftarPembeli', <HalamanDaftarPembeli />) },
       { path: '/pembeli/riwayat', element: pembeli('riwayat', <HalamanRiwayat />) },
       { path: '/pembeli/pembayaran', element: pembeli('pembayaran', <HalamanPembayaran />) },

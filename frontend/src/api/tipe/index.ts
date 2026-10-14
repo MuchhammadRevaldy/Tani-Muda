@@ -8,3 +8,4 @@ export * from './resep';
 export * from './umum';
 export * from './ai';
 export * from './cuaca';
+export * from './stok';

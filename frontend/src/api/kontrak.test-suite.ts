@@ -1787,5 +1787,83 @@ export function ujiKontrak(nama: string, siapkan: PenyiapLingkungan): void {
         expect(cuaca.desa).toBeDefined();
       });
     });
+
+    // ------------------------------------------------------------ fitur tambahan (F-07)
+    describe('fitur tambahan: stok siap jual + COD (F-07)', () => {
+      it('alur lengkap stok: petani buat dan ubah stok, pembeli cari, pesan COD dan bayar aplikasi', async () => {
+        // 1. Petani buat stok
+        await masuk('petani-arif');
+        const stok1 = await K.stok.buat({
+          komoditas_id: 'sawi',
+          jumlah_kg: 50,
+          harga_per_kg: 10000,
+          tanggal_panen: '2026-10-15',
+          catatan: 'Segar baru panen',
+        });
+        expect(stok1.sisa_kg).toBe(50);
+        expect(stok1.status).toBe('tersedia');
+
+        // Petani lihat daftar stok
+        const daftarStok = await K.stok.daftar();
+        expect(daftarStok.some((s) => s.id === stok1.id)).toBe(true);
+
+        // Petani ubah harga stok
+        const ubahStok = await K.stok.ubah(stok1.id, { harga_per_kg: 11000 });
+        expect(ubahStok.harga_per_kg).toBe(11000);
+
+        // 2. Pembeli cari stok sekitar
+        await masuk('pembeli-ratna');
+        const sekitar = await K.stok.sekitar('sawi', 15);
+        expect(sekitar.length).toBeGreaterThan(0);
+
+        // 3. Pembeli beli dengan COD
+        const pesananCod = await K.stok.beli(stok1.id, {
+          jumlah_kg: 10,
+          metode_bayar: 'cod',
+          alamat_antar: 'Jl. Merdeka No. 12',
+        });
+        expect(pesananCod.status).toBe('menunggu');
+        expect(pesananCod.metode_bayar).toBe('cod');
+
+        // Pembeli lihat pesanan saya
+        const pesananPembeli = await K.stok.pesananSaya();
+        expect(pesananPembeli.some((p) => p.id === pesananCod.id)).toBe(true);
+
+        // Petani lihat pesanan saya dan terima lalu kirim
+        await masuk('petani-arif');
+        const pesananPetani = await K.stok.pesananSaya();
+        expect(pesananPetani.some((p) => p.id === pesananCod.id)).toBe(true);
+
+        const terima = await K.stok.terimaPesanan(pesananCod.id);
+        expect(terima.status).toBe('diterima');
+
+        const kirim = await K.stok.kirimPesanan(pesananCod.id);
+        expect(kirim.status).toBe('dikirim');
+
+        // Pembeli menyelesaikan pesanan
+        await masuk('pembeli-ratna');
+        const selesai = await K.stok.selesaiPesanan(pesananCod.id);
+        expect(selesai.status).toBe('selesai');
+
+        // 4. Pembeli beli pesanan kedua lalu batalkan
+        const pesananBatal = await K.stok.beli(stok1.id, {
+          jumlah_kg: 5,
+          metode_bayar: 'cod',
+          alamat_antar: 'Alamat batal',
+        });
+        const batal = await K.stok.batalkanPesanan(pesananBatal.id, 'Berubah pikiran');
+        expect(batal.status).toBe('dibatalkan');
+
+        // 5. Pembeli beli pesanan ketiga lalu petani tolak
+        const pesananTolak = await K.stok.beli(stok1.id, {
+          jumlah_kg: 5,
+          metode_bayar: 'cod',
+          alamat_antar: 'Alamat tolak',
+        });
+        await masuk('petani-arif');
+        const tolak = await K.stok.tolakPesanan(pesananTolak.id, 'Stok rusak');
+        expect(tolak.status).toBe('ditolak');
+      });
+    });
   });
 }

@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\DB;
  * - siklus menahan lahan dan versi resepnya (P0-04; DELETE /lahan ditolak bila masih dipakai);
  * - CASCADE hanya untuk anak yang tidak bermakna tanpa induknya.
  */
-const TABEL_TRANSAKSI = ['pesanan', 'alokasi_pesanan', 'pengiriman', 'pembayaran', 'rating', 'sengketa'];
+const TABEL_TRANSAKSI = ['pesanan', 'alokasi_pesanan', 'pengiriman', 'pembayaran', 'rating', 'sengketa', 'stok', 'pesanan_stok'];
 
 /** Anak yang boleh ikut terhapus bersama induknya: tabel.kolom. */
 const BOLEH_CASCADE = [

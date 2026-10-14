@@ -11,7 +11,8 @@ use Illuminate\Support\Carbon;
  * Tabel `pembayaran` (kontrak-api.md bagian 2).
  *
  * @property string $id
- * @property string $pesanan_id
+ * @property string|null $pesanan_id
+ * @property string|null $pesanan_stok_id
  * @property string|null $pengiriman_id
  * @property JenisPembayaran $jenis
  * @property int $nominal
@@ -40,6 +41,12 @@ class Pembayaran extends Model
     public function pesanan(): BelongsTo
     {
         return $this->belongsTo(Pesanan::class, 'pesanan_id');
+    }
+
+    /** @return BelongsTo<PesananStok, $this> */
+    public function pesananStok(): BelongsTo
+    {
+        return $this->belongsTo(PesananStok::class, 'pesanan_stok_id');
     }
 
     /** @return BelongsTo<Pengiriman, $this> */
