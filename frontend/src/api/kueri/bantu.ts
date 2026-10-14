@@ -45,14 +45,20 @@ export function useKueriBanyak<P, T>(
 /** Mutasi yang membatalkan cache fitur-fitur terkait setelah berhasil. */
 export function useMutasiApi<M, T>(
   jalankan: (k: KlienApi, m: M) => Promise<T>,
-  batalkan: string[],
+  batalkan: (string | readonly unknown[])[],
 ) {
   const klien = useKlienApi();
   const qc = useQueryClient();
   return useMutation<T, GalatApi, M>({
     mutationFn: (m) => jalankan(klien, m),
     onSuccess: async () => {
-      await Promise.all(batalkan.map((f) => qc.invalidateQueries({ queryKey: awalanKunci(f) })));
+      await Promise.all(
+        batalkan.map((f) =>
+          qc.invalidateQueries({
+            queryKey: typeof f === 'string' ? awalanKunci(f) : (f as readonly unknown[]),
+          }),
+        ),
+      );
     },
   });
 }

@@ -149,7 +149,7 @@ it('pembelian dengan bayar di aplikasi membuat baris pembayaran ditahan dan cair
     expect($bayar->status->value)->toBe('cair');
 });
 
-it('dua pembelian serentak membuktikan stok tidak pernah minus dengan penguncian baris', function () {
+it('dua pembelian berurutan membuktikan stok tidak pernah minus dan menolak kelebihan beli', function () {
     masuk('petani-arif');
     $stokRes = $this->postJson('/api/v1/stok', [
         'komoditas_id' => 'sawi',

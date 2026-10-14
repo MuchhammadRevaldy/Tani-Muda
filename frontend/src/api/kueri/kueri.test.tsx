@@ -11,7 +11,8 @@ import {
   useSumberData,
 } from '../penyedia-klien';
 import { siapkanKlien } from '../sumber';
-import { useKomoditas, useMintaResep } from './index';
+import { kunciKueri as kk } from '../../lib/kunci-kueri';
+import { useKomoditas, useMintaResep, useTandaiDibaca } from './index';
 
 const KOMODITAS = [{ id: 'sawi', nama: 'Sawi hijau', status_resep: 'tersedia' }];
 
@@ -77,6 +78,40 @@ describe('hook kueri dengan klien yang disuntikkan', () => {
     );
     expect(await screen.findByRole('alert')).toHaveTextContent('Masuk dulu dengan nomor HP');
     expect(klien.referensi.komoditas).toHaveBeenCalledTimes(1);
+  });
+
+  it('useTandaiDibaca membatalkan lencana dan daftar percakapan saja tanpa membatalkan pesan', async () => {
+    const tandaiFn = vi.fn().mockResolvedValue({ status: 'ok', jumlah_dibaca: 1 });
+    const klien = {
+      chat: { tandaiDibaca: tandaiFn },
+    } as unknown as KlienApi;
+    const qc = buatQueryClient();
+    const spy = vi.spyOn(qc, 'invalidateQueries');
+
+    function TombolTandai() {
+      const mutasi = useTandaiDibaca();
+      return (
+        <button type="button" onClick={() => mutasi.mutate('p1')}>
+          Tandai {mutasi.isSuccess ? 'sukses' : ''}
+        </button>
+      );
+    }
+
+    render(
+      <PenyediaKlienApi klien={klien} queryClient={qc}>
+        <TombolTandai />
+      </PenyediaKlienApi>,
+    );
+
+    await userEvent.click(screen.getByRole('button', { name: 'Tandai' }));
+    expect(await screen.findByRole('button', { name: 'Tandai sukses' })).toBeInTheDocument();
+    expect(tandaiFn).toHaveBeenCalledWith('p1');
+
+    // Membatalkan lencana dan daftar saja
+    expect(spy).toHaveBeenCalledWith({ queryKey: kk('chat', 'lencana') });
+    expect(spy).toHaveBeenCalledWith({ queryKey: kk('chat', 'daftar') });
+    // Tidak membatalkan awalan 'chat' global yang akan membatalkan kueri pesan
+    expect(spy).not.toHaveBeenCalledWith({ queryKey: ['chat'] });
   });
 
   it('hook di luar penyedia memberi galat yang jelas', () => {

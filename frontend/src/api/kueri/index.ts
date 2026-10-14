@@ -368,7 +368,7 @@ export const usePesanPercakapan = (
 export const useKirimPesan = () =>
   m((k, x: { id: string } & T.PermintaanKirimPesan) => k.chat.kirim(x.id, x), ['chat']);
 export const useTandaiDibaca = () =>
-  m((k, id: string) => k.chat.tandaiDibaca(id), []);
+  m((k, id: string) => k.chat.tandaiDibaca(id), [kk('chat', 'lencana'), kk('chat', 'daftar')]);
 export const useLencanaChat = (opsi?: boolean | { enabled?: boolean; refetchInterval?: number }) =>
   q(kk('chat', 'lencana'), (k) => k.chat.lencana(), opsi ?? { refetchInterval: 60_000 });
 
