@@ -92,6 +92,8 @@ export const CONTOH_RESEP_SAWI_BEDENGAN: ResepTanam = {
       ukuranKemasan: 1,
       alatSekaliBeli: false,
       hargaContoh: 40000,
+      opsional: true,
+      keteranganOpsional: 'Bila ada modal lebih; lewati untuk hemat modal awal',
     },
     {
       id: 'pestisida',
@@ -105,6 +107,8 @@ export const CONTOH_RESEP_SAWI_BEDENGAN: ResepTanam = {
       ukuranKemasan: 1,
       alatSekaliBeli: false,
       hargaContoh: 35000,
+      opsional: true,
+      keteranganOpsional: 'Beli jika ada gejala serangan hama; lewati bila pencegahan cukup',
     },
     {
       id: 'mulsa',

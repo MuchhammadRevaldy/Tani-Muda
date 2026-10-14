@@ -20,6 +20,8 @@ export interface ResepInput {
   ukuran_kemasan: number;
   alat_sekali_beli: boolean;
   harga_contoh: Rupiah | null;
+  opsional?: boolean;
+  keterangan_opsional?: string | null;
 }
 
 export interface BesaranUkur {

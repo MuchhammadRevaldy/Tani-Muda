@@ -38,6 +38,8 @@ export function resepKeDomain(r: A.ResepTanam): D.ResepTanam {
       ukuranKemasan: i.ukuran_kemasan,
       alatSekaliBeli: i.alat_sekali_beli,
       hargaContoh: i.harga_contoh,
+      ...(i.opsional ? { opsional: true } : {}),
+      ...(i.keterangan_opsional ? { keteranganOpsional: i.keterangan_opsional } : {}),
     })),
     tugas: r.tugas.map(resepTugasKeDomain),
   };
@@ -157,6 +159,8 @@ export function resepDariDomain(r: D.ResepTanam, dasarUkuran: A.DasarUkuran): A.
       ukuran_kemasan: i.ukuranKemasan,
       alat_sekali_beli: i.alatSekaliBeli,
       harga_contoh: i.hargaContoh,
+      opsional: i.opsional ?? false,
+      keterangan_opsional: i.keteranganOpsional ?? null,
     })),
     tugas: r.tugas.map((t) => ({
       id: t.id,

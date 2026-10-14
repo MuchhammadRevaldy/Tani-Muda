@@ -45,7 +45,8 @@ export const CONTOH_CARA: Record<string, string[]> = {
   ],
   'Cek pH dan PPM': [
     'Ambil sedikit larutan dari tandon ke gelas bersih.',
-    'Celupkan alat ukur pH dan PPM, tunggu sampai angkanya diam.',
+    'Celupkan kertas pH universal selama 1–2 detik, tunggu sesuai petunjuk kemasan, lalu cocokkan warna kertas dengan bagan warna pada kemasan. Bila memakai pH meter, celupkan dan tunggu angka stabil.',
+    'Catatan: Kertas lakmus hanya membedakan asam dan basa, tidak cukup untuk rentang 5,5–6,5. Pakai kertas pH universal atau pH meter.',
     'Isi angkanya di Tani Muda, lalu bilas alat ukur dengan air bersih.',
   ],
   'Ganti larutan nutrisi': [

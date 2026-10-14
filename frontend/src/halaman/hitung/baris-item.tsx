@@ -110,16 +110,20 @@ export function BarisItem({
   const [terbuka, setTerbuka] = useState(terbukaAwal);
   const nama = item.nama || t.itemBaru;
   const subsidiAktif = harga.sumber === 'subsidi';
-  const subtotalTampil =
-    subtotal === null ? (
-      <span className="inline-flex items-center gap-1.5 whitespace-nowrap font-medium text-tomat-teks">
-        <Ikon nama="peringatan" ukuran={18} />
-        {t.hargaBelum}
-      </span>
-    ) : (
-      <Uang nilai={subtotal} />
-    );
-  const tombolMerek = onPilihMerek ? (
+  const dilewati = item.disertakan === false;
+  const subtotalTampil = dilewati ? (
+    <span className="inline-flex items-center gap-1.5 whitespace-nowrap text-keterangan text-teks-pendukung line-through">
+      Dilewati (Rp 0)
+    </span>
+  ) : subtotal === null ? (
+    <span className="inline-flex items-center gap-1.5 whitespace-nowrap font-medium text-tomat-teks">
+      <Ikon nama="peringatan" ukuran={18} />
+      {t.hargaBelum}
+    </span>
+  ) : (
+    <Uang nilai={subtotal} />
+  );
+  const tombolMerek = onPilihMerek && !dilewati ? (
     <button type="button" onClick={onPilihMerek} className={tautanAksi}>
       <Ikon nama="label" ukuran={20} />
       {item.merek ? t.gantiMerek : t.pilihMerek}
@@ -131,20 +135,33 @@ export function BarisItem({
       {t.hapusItem(item.nama)}
     </button>
   ) : null;
+  const tombolOpsional = item.opsional ? (
+    <button
+      type="button"
+      onClick={() => onUbah({ disertakan: dilewati ? true : false })}
+      className={cx(
+        'fokus-cincin inline-flex min-h-sentuh items-center gap-1.5 rounded-ikon border-0 bg-transparent px-2 text-keterangan font-medium',
+        dilewati ? 'text-daun-tua' : 'text-teks-pendukung hover:text-teks',
+      )}
+    >
+      <Ikon nama={dilewati ? 'centang' : 'silang'} ukuran={16} />
+      {dilewati ? 'Sertakan dalam modal' : 'Lewati item ini'}
+    </button>
+  ) : null;
   const isianHarga = (
     <InputRupiah
       label={lebar ? t.hargaItem(nama) : t.hargaPer(item.satuan)}
       labelTersembunyi={lebar}
       tanpaTerbilang
       nilai={harga.harga}
-      disabled={subsidiAktif}
+      disabled={subsidiAktif || dilewati}
       onUbah={(v) => onUbah({ hargaIsiSendiri: v, merek: null })}
     />
   );
 
   if (lebar) {
     return (
-      <div className="grid grid-cols-12 items-start gap-3 py-4 [&+&]:border-t [&+&]:border-garis">
+      <div className={cx("grid grid-cols-12 items-start gap-3 py-4 [&+&]:border-t [&+&]:border-garis", dilewati && "opacity-60")}>
         <div className="col-span-4 flex min-w-0 flex-col gap-1">
           {item.asal === 'tambahan' ? (
             <KolomIsian
@@ -155,15 +172,30 @@ export function BarisItem({
               onChange={(e) => onUbah({ nama: e.target.value })}
             />
           ) : (
-            <span className="font-semibold">
+            <span className={cx("font-semibold", dilewati && "line-through")}>
               {t.namaJumlah(item.nama, angkaJumlah(item.jumlah), item.satuan)}
             </span>
           )}
+          {item.opsional ? (
+            <div className="flex flex-wrap items-center gap-1.5">
+              <LabelKecil nada="garis" className="text-keterangan">
+                Opsional
+              </LabelKecil>
+              {item.keteranganOpsional ? (
+                <span className="text-keterangan text-teks-pendukung italic">
+                  {item.keteranganOpsional}
+                </span>
+              ) : null}
+            </div>
+          ) : null}
           <span className="text-keterangan text-teks-pendukung">
             {teksSumber(item, harga, jumlahLaporan)}
           </span>
-          {harga.layakSubsidi ? <PilihanSubsidi item={item} onUbah={onUbah} /> : null}
-          {tombolHapus}
+          {harga.layakSubsidi && !dilewati ? <PilihanSubsidi item={item} onUbah={onUbah} /> : null}
+          <div className="flex flex-wrap gap-x-2">
+            {tombolOpsional}
+            {tombolHapus}
+          </div>
         </div>
         <div className="col-span-3">
           <IsianJumlah item={item} onUbah={onUbah} ringkas />
@@ -180,22 +212,35 @@ export function BarisItem({
   }
 
   return (
-    <div className="flex flex-col gap-1 px-4 py-4 [&+&]:border-t [&+&]:border-garis">
+    <div className={cx("flex flex-col gap-1 px-4 py-4 [&+&]:border-t [&+&]:border-garis", dilewati && "opacity-60")}>
       <div className="flex items-start justify-between gap-3">
-        <span className="font-semibold">
+        <span className={cx("font-semibold", dilewati && "line-through")}>
           {t.namaJumlah(nama, angkaJumlah(item.jumlah), item.satuan)}
         </span>
         <span className="flex-none">{subtotalTampil}</span>
       </div>
+      {item.opsional ? (
+        <div className="flex flex-wrap items-center gap-1.5">
+          <LabelKecil nada="garis" className="text-keterangan">
+            Opsional
+          </LabelKecil>
+          {item.keteranganOpsional ? (
+            <span className="text-keterangan text-teks-pendukung italic">
+              {item.keteranganOpsional}
+            </span>
+          ) : null}
+        </div>
+      ) : null}
       <span className="text-keterangan text-teks-pendukung">
         {teksSumber(item, harga, jumlahLaporan)}
       </span>
-      {harga.layakSubsidi ? (
+      {harga.layakSubsidi && !dilewati ? (
         <LabelKecil nada="garis" className="self-start">
           {subsidiAktif ? t.subsidi : t.nonsubsidi}
         </LabelKecil>
       ) : null}
       <div className="flex flex-wrap gap-x-4">
+        {tombolOpsional}
         {tombolMerek}
         <button
           type="button"
@@ -216,7 +261,7 @@ export function BarisItem({
           />
           <IsianJumlah item={item} onUbah={onUbah} />
           {isianHarga}
-          {harga.layakSubsidi ? (
+          {harga.layakSubsidi && !dilewati ? (
             <div className="flex flex-col gap-2">
               <span className="font-medium">{t.jenisPupuk}</span>
               <PilihanSubsidi item={item} onUbah={onUbah} />

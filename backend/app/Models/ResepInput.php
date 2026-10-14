@@ -46,6 +46,8 @@ class ResepInput extends Model
             'ukuran_kemasan' => 'float',
             'alat_sekali_beli' => 'boolean',
             'harga_contoh' => 'integer',
+            'opsional' => 'boolean',
+            'keterangan_opsional' => 'string',
         ];
     }
 

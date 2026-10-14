@@ -10,6 +10,8 @@ import { Kartu } from '../../komponen/kartu';
 import { LabelKecil } from '../../komponen/label-kecil';
 import { Uang } from '../../komponen/uang';
 import { formatRupiah } from '../../lib/format';
+import { fiturAktif } from '../../lib/fitur';
+import { saranUntung } from '../../lib/saran-untung';
 import { teksHitung as t } from '../../teks/hitung';
 import { teksUmum } from '../../teks/umum';
 import { angkaJumlah } from './baris-item';
@@ -145,6 +147,50 @@ export function KartuRingkasan({ r }: { r: Rencana }) {
         {m && !m.lengkap ? (
           <Banner jenis="peringatan">{t.belumLengkap(m.itemTanpaHarga.length)}</Banner>
         ) : null}
+        {(() => {
+          if (!fiturAktif('SARAN_UNTUNG') || !ring) {
+            return null;
+          }
+          const itemBiaya = r.items.map((it) => {
+            const h = r.harga.get(it.id);
+            const sub = h?.harga !== null && h?.harga !== undefined ? h.harga * it.jumlah : 0;
+            return {
+              id: it.id,
+              nama: it.nama,
+              grup: it.grup,
+              subtotal: sub,
+              opsional: it.opsional,
+            };
+          });
+          const daftar = saranUntung(ring, {
+            itemBiaya,
+            umurPanenHari: r.resepApi?.umur_panen_hari ?? 28,
+          });
+          if (daftar.length === 0) return null;
+          return (
+            <div className="flex flex-col gap-2 rounded-lg border border-padi-tua/30 bg-padi-muda/30 p-3">
+              <div className="flex items-center gap-1.5 font-semibold text-padi-tua">
+                <Ikon nama="bintang" ukuran={18} />
+                <span>Saran Memperbanyak Untung</span>
+              </div>
+              <ul className="m-0 flex flex-col gap-2 p-0 list-none">
+                {daftar.map((saran, idx) => (
+                  <li key={idx} className="flex flex-col gap-1 border-t border-padi-tua/10 pt-2 text-isi">
+                    <div className="flex items-start justify-between gap-2">
+                      <span className="font-medium text-teks">{saran.judul}</span>
+                      {saran.dampakRupiah > 0 ? (
+                        <span className="shrink-0 rounded bg-daun-lembut px-1.5 py-0.5 text-keterangan font-semibold text-daun-tua">
+                          +{formatRupiah(saran.dampakRupiah)}
+                        </span>
+                      ) : null}
+                    </div>
+                    <p className="m-0 text-keterangan text-teks-pendukung">{saran.deskripsi}</p>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          );
+        })()}
       </div>
     </Kartu>
   );

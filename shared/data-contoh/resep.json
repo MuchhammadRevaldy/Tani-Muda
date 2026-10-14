@@ -33,7 +33,9 @@
         "isi_satuan_beli": 25,
         "ukuran_kemasan": 1,
         "alat_sekali_beli": false,
-        "harga_contoh": 25000
+        "harga_contoh": 25000,
+        "opsional": false,
+        "keterangan_opsional": null
       },
       {
         "id": "kandang",
@@ -47,7 +49,9 @@
         "isi_satuan_beli": null,
         "ukuran_kemasan": 1,
         "alat_sekali_beli": false,
-        "harga_contoh": 600
+        "harga_contoh": 600,
+        "opsional": false,
+        "keterangan_opsional": null
       },
       {
         "id": "dolomit",
@@ -61,7 +65,9 @@
         "isi_satuan_beli": null,
         "ukuran_kemasan": 1,
         "alat_sekali_beli": false,
-        "harga_contoh": 1500
+        "harga_contoh": 1500,
+        "opsional": false,
+        "keterangan_opsional": null
       },
       {
         "id": "npk",
@@ -75,7 +81,9 @@
         "isi_satuan_beli": null,
         "ukuran_kemasan": 1,
         "alat_sekali_beli": false,
-        "harga_contoh": 15000
+        "harga_contoh": 15000,
+        "opsional": false,
+        "keterangan_opsional": null
       },
       {
         "id": "poc",
@@ -89,7 +97,9 @@
         "isi_satuan_beli": null,
         "ukuran_kemasan": 1,
         "alat_sekali_beli": false,
-        "harga_contoh": 40000
+        "harga_contoh": 40000,
+        "opsional": true,
+        "keterangan_opsional": "Bila ada modal lebih; lewati untuk hemat modal awal"
       },
       {
         "id": "pestisida",
@@ -103,7 +113,9 @@
         "isi_satuan_beli": null,
         "ukuran_kemasan": 1,
         "alat_sekali_beli": false,
-        "harga_contoh": 35000
+        "harga_contoh": 35000,
+        "opsional": true,
+        "keterangan_opsional": "Beli jika ada gejala serangan hama; lewati bila pencegahan cukup"
       },
       {
         "id": "mulsa",
@@ -117,7 +129,9 @@
         "isi_satuan_beli": null,
         "ukuran_kemasan": 1,
         "alat_sekali_beli": false,
-        "harga_contoh": 750
+        "harga_contoh": 750,
+        "opsional": false,
+        "keterangan_opsional": null
       },
       {
         "id": "tenaga",
@@ -131,7 +145,9 @@
         "isi_satuan_beli": null,
         "ukuran_kemasan": 1,
         "alat_sekali_beli": false,
-        "harga_contoh": 60000
+        "harga_contoh": 60000,
+        "opsional": false,
+        "keterangan_opsional": null
       }
     ],
     "tugas": [
@@ -282,7 +298,9 @@
         "isi_satuan_beli": 10,
         "ukuran_kemasan": 1,
         "alat_sekali_beli": false,
-        "harga_contoh": 15000
+        "harga_contoh": 15000,
+        "opsional": false,
+        "keterangan_opsional": null
       },
       {
         "id": "rockwool",
@@ -296,7 +314,9 @@
         "isi_satuan_beli": null,
         "ukuran_kemasan": 1,
         "alat_sekali_beli": false,
-        "harga_contoh": 35000
+        "harga_contoh": 35000,
+        "opsional": false,
+        "keterangan_opsional": null
       },
       {
         "id": "netpot",
@@ -310,7 +330,9 @@
         "isi_satuan_beli": null,
         "ukuran_kemasan": 1,
         "alat_sekali_beli": false,
-        "harga_contoh": 300
+        "harga_contoh": 300,
+        "opsional": false,
+        "keterangan_opsional": null
       },
       {
         "id": "abmix",
@@ -324,7 +346,9 @@
         "isi_satuan_beli": null,
         "ukuran_kemasan": 1,
         "alat_sekali_beli": false,
-        "harga_contoh": 45000
+        "harga_contoh": 45000,
+        "opsional": false,
+        "keterangan_opsional": null
       },
       {
         "id": "phdown",
@@ -338,7 +362,9 @@
         "isi_satuan_beli": null,
         "ukuran_kemasan": 1,
         "alat_sekali_beli": false,
-        "harga_contoh": 250
+        "harga_contoh": 250,
+        "opsional": false,
+        "keterangan_opsional": null
       },
       {
         "id": "listrik",
@@ -352,7 +378,9 @@
         "isi_satuan_beli": null,
         "ukuran_kemasan": 1,
         "alat_sekali_beli": false,
-        "harga_contoh": 1500
+        "harga_contoh": 1500,
+        "opsional": false,
+        "keterangan_opsional": null
       },
       {
         "id": "pipa",
@@ -366,7 +394,9 @@
         "isi_satuan_beli": null,
         "ukuran_kemasan": 1,
         "alat_sekali_beli": true,
-        "harga_contoh": 600000
+        "harga_contoh": 600000,
+        "opsional": false,
+        "keterangan_opsional": null
       },
       {
         "id": "pompa",
@@ -380,7 +410,9 @@
         "isi_satuan_beli": null,
         "ukuran_kemasan": 1,
         "alat_sekali_beli": true,
-        "harga_contoh": 150000
+        "harga_contoh": 150000,
+        "opsional": false,
+        "keterangan_opsional": null
       },
       {
         "id": "tandon",
@@ -394,7 +426,9 @@
         "isi_satuan_beli": null,
         "ukuran_kemasan": 1,
         "alat_sekali_beli": true,
-        "harga_contoh": 250000
+        "harga_contoh": 250000,
+        "opsional": false,
+        "keterangan_opsional": null
       },
       {
         "id": "rangka",
@@ -408,7 +442,9 @@
         "isi_satuan_beli": null,
         "ukuran_kemasan": 1,
         "alat_sekali_beli": true,
-        "harga_contoh": 500000
+        "harga_contoh": 500000,
+        "opsional": false,
+        "keterangan_opsional": null
       }
     ],
     "tugas": [
@@ -461,7 +497,8 @@
         "saran_terlambat": null,
         "cara_mengerjakan": [
           "Ambil sedikit larutan dari tandon ke gelas bersih.",
-          "Celupkan alat ukur pH dan PPM, tunggu sampai angkanya diam.",
+          "Celupkan kertas pH universal selama 1–2 detik, tunggu sesuai petunjuk kemasan, lalu cocokkan warna kertas dengan bagan warna pada kemasan. Bila memakai pH meter, celupkan dan tunggu angka stabil.",
+          "Catatan: Kertas lakmus hanya membedakan asam dan basa, tidak cukup untuk rentang 5,5–6,5. Pakai kertas pH universal atau pH meter.",
           "Isi angkanya di Tani Muda, lalu bilas alat ukur dengan air bersih."
         ]
       },
@@ -532,7 +569,9 @@
         "isi_satuan_beli": null,
         "ukuran_kemasan": 1,
         "alat_sekali_beli": false,
-        "harga_contoh": 15000
+        "harga_contoh": 15000,
+        "opsional": false,
+        "keterangan_opsional": null
       },
       {
         "id": "urea",
@@ -546,7 +585,9 @@
         "isi_satuan_beli": null,
         "ukuran_kemasan": 1,
         "alat_sekali_beli": false,
-        "harga_contoh": 9000
+        "harga_contoh": 9000,
+        "opsional": false,
+        "keterangan_opsional": null
       },
       {
         "id": "npk",
@@ -560,7 +601,9 @@
         "isi_satuan_beli": null,
         "ukuran_kemasan": 1,
         "alat_sekali_beli": false,
-        "harga_contoh": 12000
+        "harga_contoh": 12000,
+        "opsional": false,
+        "keterangan_opsional": null
       },
       {
         "id": "organik",
@@ -574,7 +617,9 @@
         "isi_satuan_beli": null,
         "ukuran_kemasan": 1,
         "alat_sekali_beli": false,
-        "harga_contoh": 1000
+        "harga_contoh": 1000,
+        "opsional": false,
+        "keterangan_opsional": null
       },
       {
         "id": "hama",
@@ -588,7 +633,9 @@
         "isi_satuan_beli": null,
         "ukuran_kemasan": 1,
         "alat_sekali_beli": false,
-        "harga_contoh": 150000
+        "harga_contoh": 150000,
+        "opsional": false,
+        "keterangan_opsional": null
       },
       {
         "id": "traktor",
@@ -602,7 +649,9 @@
         "isi_satuan_beli": null,
         "ukuran_kemasan": 1,
         "alat_sekali_beli": false,
-        "harga_contoh": 180000
+        "harga_contoh": 180000,
+        "opsional": false,
+        "keterangan_opsional": null
       },
       {
         "id": "tanam",
@@ -616,7 +665,9 @@
         "isi_satuan_beli": null,
         "ukuran_kemasan": 1,
         "alat_sekali_beli": false,
-        "harga_contoh": 100000
+        "harga_contoh": 100000,
+        "opsional": false,
+        "keterangan_opsional": null
       },
       {
         "id": "panen",
@@ -630,7 +681,9 @@
         "isi_satuan_beli": null,
         "ukuran_kemasan": 1,
         "alat_sekali_beli": false,
-        "harga_contoh": 100000
+        "harga_contoh": 100000,
+        "opsional": false,
+        "keterangan_opsional": null
       }
     ],
     "tugas": [
@@ -733,7 +786,9 @@
         "isi_satuan_beli": 20,
         "ukuran_kemasan": 1,
         "alat_sekali_beli": false,
-        "harga_contoh": 20000
+        "harga_contoh": 20000,
+        "opsional": false,
+        "keterangan_opsional": null
       },
       {
         "id": "kandang",
@@ -747,7 +802,9 @@
         "isi_satuan_beli": null,
         "ukuran_kemasan": 1,
         "alat_sekali_beli": false,
-        "harga_contoh": 600
+        "harga_contoh": 600,
+        "opsional": false,
+        "keterangan_opsional": null
       },
       {
         "id": "npk",
@@ -761,7 +818,9 @@
         "isi_satuan_beli": null,
         "ukuran_kemasan": 1,
         "alat_sekali_beli": false,
-        "harga_contoh": 15000
+        "harga_contoh": 15000,
+        "opsional": false,
+        "keterangan_opsional": null
       },
       {
         "id": "tenaga",
@@ -775,7 +834,9 @@
         "isi_satuan_beli": null,
         "ukuran_kemasan": 1,
         "alat_sekali_beli": false,
-        "harga_contoh": 50000
+        "harga_contoh": 50000,
+        "opsional": false,
+        "keterangan_opsional": null
       }
     ],
     "tugas": [
@@ -878,7 +939,9 @@
         "isi_satuan_beli": null,
         "ukuran_kemasan": 0.5,
         "alat_sekali_beli": false,
-        "harga_contoh": 40000
+        "harga_contoh": 40000,
+        "opsional": false,
+        "keterangan_opsional": null
       },
       {
         "id": "kandang",
@@ -892,7 +955,9 @@
         "isi_satuan_beli": null,
         "ukuran_kemasan": 1,
         "alat_sekali_beli": false,
-        "harga_contoh": 600
+        "harga_contoh": 600,
+        "opsional": false,
+        "keterangan_opsional": null
       },
       {
         "id": "npk",
@@ -906,7 +971,9 @@
         "isi_satuan_beli": null,
         "ukuran_kemasan": 1,
         "alat_sekali_beli": false,
-        "harga_contoh": 15000
+        "harga_contoh": 15000,
+        "opsional": false,
+        "keterangan_opsional": null
       },
       {
         "id": "tenaga",
@@ -920,7 +987,9 @@
         "isi_satuan_beli": null,
         "ukuran_kemasan": 1,
         "alat_sekali_beli": false,
-        "harga_contoh": 50000
+        "harga_contoh": 50000,
+        "opsional": false,
+        "keterangan_opsional": null
       }
     ],
     "tugas": [

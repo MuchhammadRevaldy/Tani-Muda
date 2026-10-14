@@ -129,6 +129,8 @@ export interface KebutuhanItem extends Kebutuhan {
   grup: string;
   alatSekaliBeli: boolean;
   hargaContoh: number | null;
+  opsional?: boolean;
+  keteranganOpsional?: string | null;
 }
 
 /** Kebutuhan semua input resep. Ukuran divalidasi dulu dengan kode galat per metode. */
@@ -150,6 +152,8 @@ export function hitungKebutuhanResep(
       grup: input.grup,
       alatSekaliBeli: input.alatSekaliBeli,
       hargaContoh: input.hargaContoh,
+      opsional: input.opsional ?? false,
+      keteranganOpsional: input.keteranganOpsional ?? null,
     });
   }
   return berhasil(hasil);

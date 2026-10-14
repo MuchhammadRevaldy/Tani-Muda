@@ -74,6 +74,8 @@ export interface ResepInput {
   alatSekaliBeli: boolean;
   /** Harga contoh per satuan beli dari resep (CONTOH, bukan rekomendasi). */
   hargaContoh: number | null;
+  opsional?: boolean;
+  keteranganOpsional?: string | null;
 }
 
 export type TipeTugas = 'sekali' | 'berulang' | 'ukur';

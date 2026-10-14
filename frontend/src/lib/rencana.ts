@@ -37,6 +37,11 @@ export interface ItemRencana {
   merek: MerekDipilih | null;
   /** Pilihan Subsidi/Nonsubsidi untuk item yang layak subsidi. Bawaan: nonsubsidi. */
   pilihSubsidi: boolean;
+  /** Penanda item opsional (F-01) */
+  opsional?: boolean;
+  keteranganOpsional?: string | null;
+  /** Apakah item ini disertakan dalam kalkulasi modal. Bawaan: true. */
+  disertakan?: boolean;
 }
 
 export interface HargaItem {
@@ -70,6 +75,9 @@ export function itemDariKebutuhan(
       hargaIsiSendiri: null,
       merek: null,
       pilihSubsidi: opsi.terdaftarKelompokTani ?? false,
+      opsional: k.opsional ?? input?.opsional ?? false,
+      keteranganOpsional: k.keteranganOpsional ?? input?.keteranganOpsional ?? null,
+      disertakan: true,
     };
   });
 }
@@ -115,15 +123,16 @@ export function hargaItemRencana(
   );
 }
 
-/** Ringkasan modal rencana dengan harga efektif tiap item. */
+/** Ringkasan modal rencana dengan harga efektif tiap item. Item opsional yang dilewati tidak dihitung. */
 export function ringkasRencana(
   items: ItemRencana[],
   harga: Map<string, HargaItem>,
   bagiAlat: boolean,
   jumlahSiklusPembagian = SIKLUS_PEMBAGIAN_ALAT,
 ): Hasil<RingkasanModal> {
+  const itemAktif = items.filter((it) => it.disertakan !== false);
   return hitungModal(
-    items.map((it) => ({
+    itemAktif.map((it) => ({
       id: it.id,
       grup: it.grup,
       jumlah: it.jumlah,
@@ -152,15 +161,16 @@ export interface BarisRencana {
   alat_sekali_beli: boolean;
 }
 
-/** Pemetaan rencana → baris `rencana_item`. Item tambahan tanpa nama ditolak. */
+/** Pemetaan rencana → baris `rencana_item`. Item tambahan tanpa nama ditolak. Item yang tidak disertakan diabaikan. */
 export function keBarisRencana(
   items: ItemRencana[],
   harga: Map<string, HargaItem>,
 ): Hasil<BarisRencana[]> {
-  if (items.some((it) => !it.nama.trim())) return gagal('NAMA_ITEM_KOSONG');
-  if (items.some((it) => it.jumlah < 0)) return gagal('JUMLAH_NEGATIF');
+  const itemAktif = items.filter((it) => it.disertakan !== false);
+  if (itemAktif.some((it) => !it.nama.trim())) return gagal('NAMA_ITEM_KOSONG');
+  if (itemAktif.some((it) => it.jumlah < 0)) return gagal('JUMLAH_NEGATIF');
   return berhasil(
-    items.map((it) => ({
+    itemAktif.map((it) => ({
       resep_input_id: it.resepInputId,
       input_id: it.inputId,
       merek_id: it.merek?.id ?? null,
