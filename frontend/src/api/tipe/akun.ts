@@ -24,6 +24,12 @@ export interface Pengguna {
   versi_privasi: string | null;
   /** Waktu menyetujui fitur bantuan pintar AI (PRD Tambahan F-04, D-64). */
   setuju_ai_pada?: WaktuISO | null;
+  /** Sakelar tampil di peta pembeli (PRD Tambahan F-08, D-64). */
+  tampil_di_peta?: boolean;
+  /** Koordinat perkiraan 2 desimal (~1 km) untuk privasi (D-64). */
+  lokasi_kira_lintang?: number | null;
+  lokasi_kira_bujur?: number | null;
+  lokasi_diperbarui_pada?: WaktuISO | null;
   dibuat_pada: WaktuISO;
 }
 

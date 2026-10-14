@@ -1,6 +1,6 @@
 /** Tabel kasus fungsi uang, kapasitas, dan jarak ada di shared/kasus-uji/*.json (T5.02). */
 import { describe, expect, it } from 'vitest';
-import { angkaJarak, jarakKm, urutkanTerdekat } from './jarak';
+import { angkaJarak, bulatkanLokasi, jarakKm, urutkanTerdekat } from './jarak';
 
 const BANDUNG = { lintang: -6.9175, bujur: 107.6191 };
 const JAKARTA = { lintang: -6.2088, bujur: 106.8456 };
@@ -41,3 +41,12 @@ describe('angkaJarak', () => {
     expect(angkaJarak(km)).toBe(teks);
   });
 });
+
+describe('bulatkanLokasi (D-64, F-08)', () => {
+  it('membulatkan koordinat ke 2 desimal (~1 km)', () => {
+    expect(bulatkanLokasi(-6.818612)).toBe(-6.82);
+    expect(bulatkanLokasi(107.617145)).toBe(107.62);
+    expect(bulatkanLokasi(0.1234)).toBe(0.12);
+  });
+});
+

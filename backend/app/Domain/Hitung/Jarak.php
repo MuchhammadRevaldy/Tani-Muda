@@ -46,4 +46,12 @@ final class Jarak
 
         return ['lintang' => (float) $wilayah->lintang, 'bujur' => (float) $wilayah->bujur];
     }
+
+    /**
+     * Pembulatan derajat koordinat ke 2 desimal (~1 km) untuk privasi (D-64, F-08).
+     */
+    public static function bulatkanLokasi(float $derajat): float
+    {
+        return round($derajat, 2);
+    }
 }

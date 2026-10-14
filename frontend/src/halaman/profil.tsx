@@ -5,7 +5,7 @@
  * Tanpa kata sandi, nama pengguna, dan kartu kelompok tani (D-04, D-06).
  * Desktop: kartu profil di kiri, Akun + Pengingat dan Kebun + Bantuan di dua kolom.
  */
-import type { ReactNode } from 'react';
+import { useState, type ReactNode } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import {
   useCatatanSaya,
@@ -14,11 +14,13 @@ import {
   useKomoditas,
   useLahan,
   usePengingat,
+  usePerbaruiLokasi,
   useRingkasanRating,
   useWilayahSatu,
 } from '../api/kueri';
 import { useKeluarSesi, useSesi } from '../api/sesi';
 import type { Pengguna, Wilayah } from '../api/tipe';
+import { bulatkanLokasi } from '../lib/jarak';
 import { Avatar } from '../komponen/avatar';
 import { cx } from '../komponen/gabung-kelas';
 import { Ikon } from '../komponen/ikon';
@@ -183,6 +185,96 @@ function KartuAkun({ p }: { p: Pengguna }) {
         akhir
       />
     </KartuDaftar>
+  );
+}
+
+function KartuPetaPetani({ p }: { p: Pengguna }) {
+  const mutasi = usePerbaruiLokasi();
+  const [pesanGalat, setPesanGalat] = useState<string | null>(null);
+  const [sedangMinta, setSedangMinta] = useState(false);
+
+  const aktif = Boolean(p.tampil_di_peta);
+
+  const tanganiUbahSakelar = async (aktifBaru: boolean) => {
+    setPesanGalat(null);
+    if (!aktifBaru) {
+      try {
+        await mutasi.mutateAsync({ tampil_di_peta: false });
+      } catch {
+        setPesanGalat('Gagal menyimpan pengaturan.');
+      }
+      return;
+    }
+
+    if (!navigator.geolocation) {
+      setPesanGalat('Peramban tidak mendukung fitur lokasi GPS.');
+      return;
+    }
+
+    setSedangMinta(true);
+    navigator.geolocation.getCurrentPosition(
+      async (pos) => {
+        try {
+          const lintang = bulatkanLokasi(pos.coords.latitude);
+          const bujur = bulatkanLokasi(pos.coords.longitude);
+          await mutasi.mutateAsync({
+            tampil_di_peta: true,
+            lintang,
+            bujur,
+          });
+        } catch {
+          setPesanGalat('Gagal menyimpan lokasi ke server.');
+        } finally {
+          setSedangMinta(false);
+        }
+      },
+      (err) => {
+        setSedangMinta(false);
+        if (err.code === err.PERMISSION_DENIED) {
+          setPesanGalat('Izin lokasi ditolak di peramban.');
+        } else {
+          setPesanGalat('Gagal membaca sinyal GPS.');
+        }
+      },
+      { timeout: 10000, enableHighAccuracy: false },
+    );
+  };
+
+  return (
+    <Kartu
+      judul="Peta pembeli"
+      keterangan="Izinkan pembeli terverifikasi di sekitar melihat perkiraan lokasi kebunmu (~1 km) dan stok siap jualmu."
+      tingkatJudul={2}
+    >
+      <div className="flex flex-col gap-3">
+        <label className="flex cursor-pointer items-start gap-3">
+          <input
+            type="checkbox"
+            checked={aktif}
+            disabled={sedangMinta || mutasi.isPending}
+            onChange={(e) => tanganiUbahSakelar(e.target.checked)}
+            className="h-5 w-5 rounded border-garis text-daun"
+          />
+          <div className="flex flex-col">
+            <span className="font-medium text-teks">Tampilkan saya di peta pembeli</span>
+            <span className="text-keterangan text-teks-pendukung">
+              Bawaan mati. Titik persis dan nomor HP tidak pernah dibagikan ke peta.
+            </span>
+          </div>
+        </label>
+        {sedangMinta ? (
+          <p className="m-0 text-keterangan text-tanah">Membaca lokasi GPS perangkat...</p>
+        ) : null}
+        {pesanGalat ? (
+          <p className="m-0 text-keterangan text-tomat">{pesanGalat}</p>
+        ) : null}
+        {aktif && p.lokasi_kira_lintang != null ? (
+          <p className="m-0 text-keterangan text-daun">
+            Perkiraan lokasi aktif ({p.lokasi_kira_lintang}, {p.lokasi_kira_bujur}).
+          </p>
+        ) : null}
+      </div>
+    </Kartu>
   );
 }
 
@@ -374,6 +466,7 @@ export function HalamanProfil() {
         <KartuDiri p={p} wilayah={wilayah} />
         <KartuCatatan />
         <KartuAkun p={p} />
+        <KartuPetaPetani p={p} />
         <KartuKebun p={p} wilayah={wilayah} />
         <KartuPengingat />
         <KartuBantuan />
@@ -389,6 +482,7 @@ export function HalamanProfil() {
         <KartuDiri p={p} wilayah={wilayah} />
         <div className="flex flex-col gap-6">
           <KartuAkun p={p} />
+          <KartuPetaPetani p={p} />
           <KartuPengingat />
           <TombolKeluar />
         </div>

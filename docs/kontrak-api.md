@@ -136,6 +136,11 @@ Kolom bertanda † adalah tambahan di luar Model Data PRD; dasar keputusannya di
 | `terdaftar_kelompok_tani`† | boolean | petani menyatakan terdaftar di kelompok tani; bawaan pilihan subsidi di kalkulator (D-38) |
 | `setuju_privasi_pada`† | waktu \| null | D-30 |
 | `versi_privasi`† | string \| null | D-30 |
+| `setuju_ai_pada`† | waktu \| null | F-00 |
+| `tampil_di_peta`† | boolean | D-64, F-08, bawaan false |
+| `lokasi_kira_lintang`† | desimal \| null | D-64, F-08, pembulatan server 2 desimal |
+| `lokasi_kira_bujur`† | desimal \| null | D-64, F-08, pembulatan server 2 desimal |
+| `lokasi_diperbarui_pada`† | waktu \| null | D-64, F-08 |
 | `dibuat_pada` | waktu | |
 
 Tidak ada kolom kata sandi atau nama pengguna (D-04).
@@ -750,6 +755,7 @@ Rute ini **hanya didaftarkan saat `APP_ENV=local`**; di lingkungan lain jawabann
 | F-05 Chatbot Tanya Tani Muda | `POST /akun/setuju-ai`, `POST /chatbot`, `GET /chatbot/riwayat` |
 | F-06 Cuaca dan Kecocokan Suhu | `GET /cuaca` |
 | F-07 Stok Siap Jual + COD | `GET`/`POST /stok`, `PATCH /stok/{id}`, `GET /stok/sekitar`, `POST /stok/{id}/beli`, `POST /pesanan-stok/{id}/terima`, `POST /pesanan-stok/{id}/tolak`, `POST /pesanan-stok/{id}/dikirim`, `POST /pesanan-stok/{id}/selesai`, `POST /pesanan-stok/{id}/batalkan`, `GET /pesanan-stok/saya` |
+| F-08 Peta Petani | `PUT /akun/lokasi`, `GET /peta/petani` |
 
 ---
 

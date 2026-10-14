@@ -120,6 +120,8 @@ export interface KlienAkun {
   level(): Promise<import('./tipe').LevelPengguna>;
   /** POST /akun/setuju-ai (PRD Tambahan F-04, D-64). */
   setujuAi(): Promise<{ setuju_ai_pada: string }>;
+  /** PUT /akun/lokasi (PRD Tambahan F-08, D-64). */
+  perbaruiLokasi(m: import('./tipe').PermintaanPerbaruiLokasi): Promise<Akun>;
 }
 
 export interface KlienWilayah {
@@ -359,6 +361,11 @@ export interface KlienStok {
   batalkanPesanan(id: string, alasan?: string): Promise<import('./tipe').PesananStok>;
 }
 
+export interface KlienPeta {
+  /** GET /peta/petani?lintang=&bujur=&radius_km=10|15 (PRD Tambahan F-08, D-64). */
+  petaniSekitar(params?: import('./tipe').ParameterPetaPetani): Promise<import('./tipe').PetaniPeta[]>;
+}
+
 export interface KlienApi {
   akun: KlienAkun;
   wilayah: KlienWilayah;
@@ -378,6 +385,7 @@ export interface KlienApi {
   chatbot: KlienChatbot;
   cuaca: KlienCuaca;
   stok: KlienStok;
+  peta: KlienPeta;
 }
 
 /**

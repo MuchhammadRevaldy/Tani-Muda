@@ -12,6 +12,7 @@ import { zonaSah, ZONA_BAWAAN } from '../../../lib/zona-waktu';
 import type { KlienAkun, KlienBerkas, KlienNotifikasi, KlienWilayah } from '../../klien';
 import type { Akun, Pengguna } from '../../tipe';
 import type { Konteks } from '../konteks';
+import { perbaruiLokasiTiruan } from './peta';
 
 /** Batas ukuran foto setelah dikecilkan di HP (arsitektur-backend.md bagian 13). */
 export const BATAS_FOTO_BYTE = 2 * 1024 * 1024;
@@ -299,6 +300,10 @@ export function buatKlienAkun(k: Konteks): KlienAkun {
       p.setuju_ai_pada = sekarang;
       k.simpan();
       return { setuju_ai_pada: sekarang };
+    },
+
+    perbaruiLokasi(m) {
+      return perbaruiLokasiTiruan(k, m);
     },
   };
 }

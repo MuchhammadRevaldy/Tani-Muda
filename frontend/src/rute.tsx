@@ -163,6 +163,9 @@ const HalamanStokPetani = lazy(() =>
 const HalamanStokPembeli = lazy(() =>
   import('./halaman/stok/pembeli-stok').then((m) => ({ default: m.HalamanStokPembeli })),
 );
+const HalamanPetaPetani = lazy(() =>
+  import('./halaman/peta/peta-petani').then((m) => ({ default: m.HalamanPetaPetani })),
+);
 
 /**
  * Pemilih akun demo hanya ada di mode pengembangan dan build demo (D-36, D-48). Di build produksi
@@ -349,6 +352,7 @@ export const daftarRute: RouteObject[] = [
       { path: '/lahan', element: halamanPetani('lahan', <HalamanLahanSaya />) },
       { path: '/pembeli', element: pembeli('dasborPembeli', <HalamanDasborPembeli />) },
       { path: '/pembeli/stok', element: pembeli('stokSekitar', <HalamanStokPembeli />) },
+      { path: '/pembeli/peta', element: pembeli('petaPetani', <HalamanPetaPetani />) },
       { path: '/pembeli/daftar', element: pembeli('daftarPembeli', <HalamanDaftarPembeli />) },
       { path: '/pembeli/riwayat', element: pembeli('riwayat', <HalamanRiwayat />) },
       { path: '/pembeli/pembayaran', element: pembeli('pembayaran', <HalamanPembayaran />) },

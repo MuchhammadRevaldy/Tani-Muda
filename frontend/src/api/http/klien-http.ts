@@ -179,6 +179,7 @@ export function buatKlienHttp(o: OpsiKlienHttp = {}): {
       simpanProfilPembeli: (m) => h.put('/akun/profil-pembeli', m),
       level: () => h.get('/akun/level'),
       setujuAi: () => h.post('/akun/setuju-ai'),
+      perbaruiLokasi: (m) => h.put('/akun/lokasi', m),
     },
     wilayah: {
       daftar: (p = {}) => h.halaman(denganKueri('/wilayah', { ...p })),
@@ -318,6 +319,15 @@ export function buatKlienHttp(o: OpsiKlienHttp = {}): {
       kirimPesanan: (id) => h.post(`/pesanan-stok/${id}/dikirim`),
       selesaiPesanan: (id) => h.post(`/pesanan-stok/${id}/selesai`),
       batalkanPesanan: (id, alasan) => h.post(`/pesanan-stok/${id}/batalkan`, { alasan }),
+    },
+    peta: {
+      petaniSekitar: (params) => {
+        const q: Record<string, string | number> = {};
+        if (params?.lintang !== undefined) q.lintang = params.lintang;
+        if (params?.bujur !== undefined) q.bujur = params.bujur;
+        if (params?.radius_km !== undefined) q.radius_km = params.radius_km;
+        return h.get('/peta/petani', q);
+      },
     },
   };
 

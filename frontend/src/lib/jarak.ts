@@ -53,3 +53,9 @@ export function urutkanTerdekat<T>(
 export function angkaJarak(km: number): string {
   return km < 10 ? formatDesimal(km, 1) : titikRibuan(Math.round(km));
 }
+
+/** Pembulatan derajat koordinat ke 2 desimal (~1 km) untuk privasi (D-64, F-08). */
+export function bulatkanLokasi(derajat: number): number {
+  return Math.round(derajat * 100) / 100;
+}
+

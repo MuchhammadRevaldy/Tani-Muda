@@ -340,3 +340,10 @@ export const useSelesaiPesananStok = () =>
   m((k, id: string) => k.stok.selesaiPesanan(id), ['pesanan-stok', 'stok']);
 export const useBatalkanPesananStok = () =>
   m((k, x: { id: string; alasan?: string }) => k.stok.batalkanPesanan(x.id, x.alasan), ['pesanan-stok', 'stok']);
+
+// ---------------------------------------------------------------- peta petani sekitar pembeli (F-08)
+export const usePetaPetani = (params?: T.ParameterPetaPetani, aktif = true) =>
+  q(kk('peta', 'petani', params?.radius_km ?? 10, params?.lintang ?? null, params?.bujur ?? null), (k) => k.peta.petaniSekitar(params), aktif);
+export const usePerbaruiLokasi = () =>
+  m((k, x: T.PermintaanPerbaruiLokasi) => k.akun.perbaruiLokasi(x), ['akun', 'peta']);
+

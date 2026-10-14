@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use App\Domain\Hitung\Jarak;
 use App\Domain\Hitung\Level;
 use App\Domain\Otp\LayananOtp;
 use App\Enums\JenisUsaha;
@@ -368,5 +369,37 @@ class AkunController extends Controller
     public static function wilayahTersedia(mixed $id): bool
     {
         return is_string($id) && Wilayah::whereKey($id)->whereNotNull('lintang')->whereNotNull('bujur')->exists();
+    }
+
+    /** PUT /akun/lokasi (PRD Tambahan F-08, D-64) */
+    public function perbaruiLokasi(Request $request): JsonResponse
+    {
+        if (! config('fitur.peta', true)) {
+            throw new GalatApi('BELUM_TERSEDIA');
+        }
+
+        $p = $this->pengguna($request);
+
+        if ($request->has('tampil_di_peta')) {
+            $p->tampil_di_peta = (bool) $request->input('tampil_di_peta');
+        }
+
+        if ($request->has('lintang') && $request->has('bujur') && $request->input('lintang') !== null && $request->input('bujur') !== null) {
+            $lintang = (float) $request->input('lintang');
+            $bujur = (float) $request->input('bujur');
+
+            if ($lintang < -90 || $lintang > 90 || $bujur < -180 || $bujur > 180) {
+                throw GalatApi::validasi(['lokasi' => 'VALIDASI']);
+            }
+
+            // Pembulatan server 2 desimal (~1 km) untuk privasi; koordinat persis tidak pernah disimpan
+            $p->lokasi_kira_lintang = Jarak::bulatkanLokasi($lintang);
+            $p->lokasi_kira_bujur = Jarak::bulatkanLokasi($bujur);
+            $p->lokasi_diperbarui_pada = now();
+        }
+
+        $p->save();
+
+        return Respons::data(BentukAkun::dari($p));
     }
 }

@@ -17,6 +17,7 @@ use App\Http\Controllers\Api\V1\LahanController;
 use App\Http\Controllers\Api\V1\PembeliController;
 use App\Http\Controllers\Api\V1\PesananController;
 use App\Http\Controllers\Api\V1\PesananStokController;
+use App\Http\Controllers\Api\V1\PetaController;
 use App\Http\Controllers\Api\V1\ReferensiController;
 use App\Http\Controllers\Api\V1\ResepController;
 use App\Http\Controllers\Api\V1\StokController;
@@ -68,6 +69,7 @@ Route::middleware('auth:sanctum')->group(function () use ($endpointBelumTersedia
     Route::put('/akun/nomor-hp', [AkunController::class, 'gantiNomor']);
     Route::get('/akun/catatan', [AkunController::class, 'catatan'])->middleware('peran:petani');
     Route::put('/akun/profil-pembeli', [AkunController::class, 'simpanProfilPembeli'])->middleware('peran:pembeli');
+    Route::put('/akun/lokasi', [AkunController::class, 'perbaruiLokasi']);
     Route::post('/akun/setuju-ai', [DeteksiController::class, 'setujuAI']);
 
     // Deteksi penyakit tanaman dari foto (F-04)
@@ -97,6 +99,9 @@ Route::middleware('auth:sanctum')->group(function () use ($endpointBelumTersedia
     Route::post('/pesanan-stok/{id}/dikirim', [PesananStokController::class, 'dikirim']);
     Route::post('/pesanan-stok/{id}/selesai', [PesananStokController::class, 'selesai']);
     Route::post('/pesanan-stok/{id}/batalkan', [PesananStokController::class, 'batalkan']);
+
+    // Peta petani sekitar pembeli (F-08, D-64)
+    Route::get('/peta/petani', [PetaController::class, 'petaniSekitar']);
 
     // Wilayah dan referensi (3.2)
     Route::get('/wilayah', [WilayahController::class, 'daftar']);

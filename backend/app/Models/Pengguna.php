@@ -64,6 +64,10 @@ class Pengguna extends Authenticatable
             'terdaftar_kelompok_tani' => 'boolean',
             'setuju_privasi_pada' => 'datetime',
             'setuju_ai_pada' => 'datetime',
+            'tampil_di_peta' => 'boolean',
+            'lokasi_kira_lintang' => 'float',
+            'lokasi_kira_bujur' => 'float',
+            'lokasi_diperbarui_pada' => 'datetime',
         ];
     }
 
@@ -129,5 +133,11 @@ class Pengguna extends Authenticatable
     public function permintaanResep(): HasMany
     {
         return $this->hasMany(PermintaanResep::class, 'pengguna_id');
+    }
+
+    /** @return HasMany<Stok, $this> */
+    public function stok(): HasMany
+    {
+        return $this->hasMany(Stok::class, 'petani_id');
     }
 }
