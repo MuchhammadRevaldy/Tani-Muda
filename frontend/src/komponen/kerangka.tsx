@@ -18,6 +18,7 @@ import { ChatbotMengambang } from './chatbot-mengambang';
 export function KerangkaPetani({
   akun,
   lencana,
+  lencanaChat,
   children,
   tanpaNav,
   onKeluar,
@@ -30,6 +31,7 @@ export function KerangkaPetani({
   kunciHalaman?: string;
   menuAktif?: MenuPetani;
   lencana?: Lencana;
+  lencanaChat?: number;
   children: ReactNode;
   /** Halaman alur (Hitung) tidak memakai navigasi bawah di HP, sama dengan desain. */
   tanpaNav?: boolean;
@@ -41,6 +43,7 @@ export function KerangkaPetani({
       <Sidebar
         akun={akun}
         lencana={lencana}
+        lencanaChat={lencanaChat}
         onKeluar={onKeluar}
         menuAktif={menuAktif}
         className="sticky top-0 hidden h-screen lg:flex"
@@ -72,19 +75,26 @@ export function KerangkaPetani({
 export function KerangkaPembeli({
   namaUsaha,
   foto,
+  lencanaChat,
   onKeluar,
   kunciHalaman,
   children,
 }: {
   namaUsaha: string;
   foto?: string | null;
+  lencanaChat?: number;
   onKeluar?: () => void;
   kunciHalaman?: string;
   children: ReactNode;
 }) {
   return (
     <div className="min-h-layar bg-embun-pagi text-teks">
-      <HeaderPembeli namaUsaha={namaUsaha} foto={foto} onKeluar={onKeluar} />
+      <HeaderPembeli
+        namaUsaha={namaUsaha}
+        foto={foto}
+        lencanaChat={lencanaChat}
+        onKeluar={onKeluar}
+      />
       <main
         key={kunciHalaman}
         className="mx-auto flex max-w-pembeli animate-masuk-halaman flex-col gap-6 px-4 pb-12 pt-6 lg:px-6"

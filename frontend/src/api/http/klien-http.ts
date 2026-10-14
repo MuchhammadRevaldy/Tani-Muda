@@ -329,6 +329,14 @@ export function buatKlienHttp(o: OpsiKlienHttp = {}): {
         return h.get('/peta/petani', q);
       },
     },
+    chat: {
+      daftar: () => h.get('/percakapan'),
+      buka: (m) => h.post('/percakapan', m),
+      pesan: (id, setelah) => h.get(`/percakapan/${id}/pesan`, setelah ? { setelah } : undefined),
+      kirim: (id, m) => h.post(`/percakapan/${id}/pesan`, m),
+      tandaiDibaca: (id) => h.post(`/percakapan/${id}/dibaca`),
+      lencana: () => h.get('/percakapan/lencana'),
+    },
   };
 
   // Pemilih akun demo, panel kode uji, dan atur ulang lewat endpoint demo lokal (kontrak 3.13).

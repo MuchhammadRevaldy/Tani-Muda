@@ -21,6 +21,7 @@ const BOLEH_CASCADE = [
     'rencana_item.siklus_id', 'tugas.siklus_id', 'hasil_pengukuran.tugas_id', 'hasil_pengukuran.siklus_id',
     'jurnal.siklus_id', 'pengaturan_pengingat.siklus_id', 'log_notifikasi.pengguna_id', 'kunci_idempoten.pengguna_id',
     'lencana_pengguna.pengguna_id', 'pengetahuan_potongan.sumber_id', 'obrolan_bot.pengguna_id',
+    'pesan.percakapan_id',
 ];
 
 /** @return list<object{tabel: string, kolom: string, induk: string, aturan: string}> */

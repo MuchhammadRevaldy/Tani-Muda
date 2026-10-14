@@ -53,6 +53,7 @@ export const judulRute = {
   stokSaya: 'Stok siap jual',
   stokSekitar: 'Stok siap jual sekitar',
   petaPetani: 'Peta petani sekitar',
+  chat: 'Chat',
 } as const;
 
 export type KunciRute = keyof typeof judulRute;

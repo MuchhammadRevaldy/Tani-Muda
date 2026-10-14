@@ -347,3 +347,28 @@ export const usePetaPetani = (params?: T.ParameterPetaPetani, aktif = true) =>
 export const usePerbaruiLokasi = () =>
   m((k, x: T.PermintaanPerbaruiLokasi) => k.akun.perbaruiLokasi(x), ['akun', 'peta']);
 
+// ---------------------------------------------------------------- chat petani & pembeli (F-09)
+export const useDaftarPercakapan = (opsi?: boolean | { enabled?: boolean; refetchInterval?: number }) =>
+  q(kk('chat', 'daftar'), (k) => k.chat.daftar(), opsi);
+export const useBukaPercakapan = () =>
+  m((k, x: T.PermintaanBukaPercakapan) => k.chat.buka(x), ['chat']);
+export const usePesanPercakapan = (
+  id: string | null,
+  setelah?: string,
+  opsi?: boolean | { enabled?: boolean; refetchInterval?: number },
+) => {
+  const aktif = typeof opsi === 'boolean' ? opsi : (opsi?.enabled ?? true);
+  const refetch = typeof opsi === 'object' ? opsi.refetchInterval : undefined;
+  return q(
+    kk('chat', 'pesan', id, setelah ?? null),
+    (k) => k.chat.pesan(id as string, setelah),
+    { enabled: Boolean(id) && aktif, refetchInterval: refetch },
+  );
+};
+export const useKirimPesan = () =>
+  m((k, x: { id: string } & T.PermintaanKirimPesan) => k.chat.kirim(x.id, x), ['chat']);
+export const useTandaiDibaca = () =>
+  m((k, id: string) => k.chat.tandaiDibaca(id), ['chat']);
+export const useLencanaChat = (opsi?: boolean | { enabled?: boolean; refetchInterval?: number }) =>
+  q(kk('chat', 'lencana'), (k) => k.chat.lencana(), opsi ?? { refetchInterval: 60_000 });
+

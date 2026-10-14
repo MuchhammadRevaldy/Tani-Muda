@@ -1,0 +1,63 @@
+/**
+ * Tipe data untuk F-09: Chat petani dan pembeli (D-64).
+ */
+import type { Peran } from './akun';
+
+export type JenisPercakapan = 'alokasi' | 'pesanan_stok' | 'peta';
+
+export interface LawanBicara {
+  id: string;
+  nama: string;
+  peran?: Peran | string;
+  foto_profil?: string | null;
+}
+
+export interface PesanRingkas {
+  id: string;
+  isi: string;
+  pengirim_id: string;
+  dibaca_pada?: string | null;
+  dibuat_pada: string;
+}
+
+export interface Percakapan {
+  id: string;
+  jenis: JenisPercakapan;
+  rujukan_id?: string | null;
+  lawan_bicara: LawanBicara;
+  pesan_terakhir?: PesanRingkas | null;
+  jumlah_belum_dibaca: number;
+  dibuat_pada: string;
+}
+
+export interface PercakapanBukaHasil {
+  id: string;
+  jenis: JenisPercakapan;
+  rujukan_id?: string | null;
+  lawan_bicara: LawanBicara;
+  dibuat_pada: string;
+}
+
+export interface Pesan {
+  id: string;
+  percakapan_id: string;
+  pengirim_id: string;
+  isi: string;
+  dibaca_pada?: string | null;
+  dibuat_pada: string;
+}
+
+export interface PermintaanBukaPercakapan {
+  lawan_bicara_id?: string;
+  jenis?: JenisPercakapan;
+  rujukan_id?: string | null;
+}
+
+export interface PermintaanKirimPesan {
+  isi: string;
+  kunci_idempoten?: string;
+}
+
+export interface LencanaChat {
+  belum_dibaca: number;
+}

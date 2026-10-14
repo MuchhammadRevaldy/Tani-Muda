@@ -521,6 +521,25 @@ Tidak ada kolom kata sandi atau nama pengguna (D-04).
 | `alasan_batal` | string \| null | |
 | `dibuat_pada` | waktu | |
 
+### 2.14 Percakapan dan pesan (F-09)†
+
+| `percakapan` (`Percakapan`) | Tipe | Keterangan |
+| --- | --- | --- |
+| `id` | string | |
+| `jenis` | `alokasi` \| `pesanan_stok` \| `peta` | |
+| `rujukan_id` | string \| null | id alokasi / pesanan stok / petani |
+| `petani_id` | string | |
+| `pembeli_id` | string | |
+| `dibuat_pada` | waktu | |
+
+| `pesan` (`Pesan`) | Tipe | Keterangan |
+| --- | --- | --- |
+| `id`, `percakapan_id`, `pengirim_id` | string | |
+| `isi` | string | 1–1.000 karakter |
+| `dibaca_pada` | waktu \| null | |
+| `kunci_idempoten` | string \| null | |
+| `dibuat_pada` | waktu | |
+
 ---
 
 ## 3. Endpoint per fitur
@@ -756,6 +775,7 @@ Rute ini **hanya didaftarkan saat `APP_ENV=local`**; di lingkungan lain jawabann
 | F-06 Cuaca dan Kecocokan Suhu | `GET /cuaca` |
 | F-07 Stok Siap Jual + COD | `GET`/`POST /stok`, `PATCH /stok/{id}`, `GET /stok/sekitar`, `POST /stok/{id}/beli`, `POST /pesanan-stok/{id}/terima`, `POST /pesanan-stok/{id}/tolak`, `POST /pesanan-stok/{id}/dikirim`, `POST /pesanan-stok/{id}/selesai`, `POST /pesanan-stok/{id}/batalkan`, `GET /pesanan-stok/saya` |
 | F-08 Peta Petani | `PUT /akun/lokasi`, `GET /peta/petani` |
+| F-09 Chat Petani dan Pembeli | `GET /percakapan`, `POST /percakapan`, `GET /percakapan/{id}/pesan`, `POST /percakapan/{id}/pesan`, `POST /percakapan/{id}/dibaca`, `GET /percakapan/lencana` |
 
 ---
 

@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\V1\BelajarController;
 use App\Http\Controllers\Api\V1\BelumTersediaController;
 use App\Http\Controllers\Api\V1\BerkasController;
 use App\Http\Controllers\Api\V1\ChatbotController;
+use App\Http\Controllers\Api\V1\ChatController;
 use App\Http\Controllers\Api\V1\CuacaController;
 use App\Http\Controllers\Api\V1\DemoController;
 use App\Http\Controllers\Api\V1\DeteksiController;
@@ -102,6 +103,14 @@ Route::middleware('auth:sanctum')->group(function () use ($endpointBelumTersedia
 
     // Peta petani sekitar pembeli (F-08, D-64)
     Route::get('/peta/petani', [PetaController::class, 'petaniSekitar']);
+
+    // Chat petani dan pembeli (F-09, D-64)
+    Route::get('/percakapan', [ChatController::class, 'daftar']);
+    Route::post('/percakapan', [ChatController::class, 'bukaAtauAmbil']);
+    Route::get('/percakapan/lencana', [ChatController::class, 'lencana']);
+    Route::get('/percakapan/{id}/pesan', [ChatController::class, 'pesan']);
+    Route::post('/percakapan/{id}/pesan', [ChatController::class, 'kirimPesan'])->middleware('throttle:60,1');
+    Route::post('/percakapan/{id}/dibaca', [ChatController::class, 'tandaiDibaca']);
 
     // Wilayah dan referensi (3.2)
     Route::get('/wilayah', [WilayahController::class, 'daftar']);

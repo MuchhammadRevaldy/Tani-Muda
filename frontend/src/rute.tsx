@@ -3,6 +3,7 @@ import { createBrowserRouter, Outlet, type RouteObject } from 'react-router-dom'
 import type { MenuPetani } from './komponen/navigasi';
 import { KerangkaPembeliSesi, KerangkaPetaniSesi } from './komponen/kerangka-sesi';
 import { PenjagaRute, PenjagaTamu, PenjagaTanpaPeran } from './komponen/penjaga-rute';
+import { useSesi } from './api/sesi';
 import { Galat } from './halaman/galat';
 import { TidakDitemukan } from './halaman/tidak-ditemukan';
 import { PenyediaRencana } from './halaman/hitung/konteks-rencana';
@@ -166,6 +167,9 @@ const HalamanStokPembeli = lazy(() =>
 const HalamanPetaPetani = lazy(() =>
   import('./halaman/peta/peta-petani').then((m) => ({ default: m.HalamanPetaPetani })),
 );
+const HalamanChat = lazy(() =>
+  import('./halaman/chat/chat').then((m) => ({ default: m.HalamanChat })),
+);
 
 /**
  * Pemilih akun demo hanya ada di mode pengembangan dan build demo (D-36, D-48). Di build produksi
@@ -223,6 +227,29 @@ const panel = (kunci: KunciRute, peran: 'admin' | 'mentor', isi: ReactNode): Rea
     {isi}
   </PenjagaRute>
 );
+
+function RuteChat() {
+  const { akun } = useSesi();
+  const peran = akun?.pengguna.peran;
+  if (peran === 'pembeli') {
+    return (
+      <KerangkaPembeliSesi>
+        <JudulDokumen kunci="chat" />
+        <Suspense fallback={<Memuat />}>
+          <HalamanChat />
+        </Suspense>
+      </KerangkaPembeliSesi>
+    );
+  }
+  return (
+    <KerangkaPetaniSesi menuAktif="pesanan">
+      <JudulDokumen kunci="chat" />
+      <Suspense fallback={<Memuat />}>
+        <HalamanChat />
+      </Suspense>
+    </KerangkaPetaniSesi>
+  );
+}
 
 /** Daftar rute. Rute sama dengan tabel di docs/ringkasan-desain.md bagian 3. */
 export const daftarRute: RouteObject[] = [
@@ -346,6 +373,14 @@ export const daftarRute: RouteObject[] = [
       },
       { path: '/stok', element: halamanPetani('stokSaya', <HalamanStokPetani />, { menuAktif: 'pesanan' }) },
       { path: '/pesanan/stok', element: halamanPetani('stokSaya', <HalamanStokPetani />, { menuAktif: 'pesanan' }) },
+      {
+        path: '/chat',
+        element: (
+          <PenjagaRute peran={['petani', 'pembeli']}>
+            <RuteChat />
+          </PenjagaRute>
+        ),
+      },
       { path: '/profil', element: halamanPetani('profil', <HalamanProfil />) },
       { path: '/profil/ubah', element: halamanPetani('ubahProfil', <HalamanUbahProfil />) },
       { path: '/profil/notifikasi', element: halamanPetani('notifikasi', <HalamanNotifikasi />) },
@@ -353,6 +388,7 @@ export const daftarRute: RouteObject[] = [
       { path: '/pembeli', element: pembeli('dasborPembeli', <HalamanDasborPembeli />) },
       { path: '/pembeli/stok', element: pembeli('stokSekitar', <HalamanStokPembeli />) },
       { path: '/pembeli/peta', element: pembeli('petaPetani', <HalamanPetaPetani />) },
+      { path: '/pembeli/chat', element: pembeli('chat', <HalamanChat />) },
       { path: '/pembeli/daftar', element: pembeli('daftarPembeli', <HalamanDaftarPembeli />) },
       { path: '/pembeli/riwayat', element: pembeli('riwayat', <HalamanRiwayat />) },
       { path: '/pembeli/pembayaran', element: pembeli('pembayaran', <HalamanPembayaran />) },

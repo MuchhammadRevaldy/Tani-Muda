@@ -5,7 +5,7 @@
  */
 import { useEffect, type ReactNode } from 'react';
 import { NavLink } from 'react-router-dom';
-import { useKomoditas } from '../../api/kueri';
+import { useKomoditas, useLencanaChat } from '../../api/kueri';
 import { usePesananDilihat } from '../../api/pesanan-dilihat';
 import type { Komoditas } from '../../api/tipe';
 import { cx } from '../../komponen/gabung-kelas';
@@ -14,31 +14,39 @@ import { useLayarLebar } from '../../komponen/use-layar-lebar';
 import { teksPesanan as t } from '../../teks/pesanan';
 
 function TabPesanan({ className }: { className?: string }) {
-  const tab = (ke: string, label: string) => (
+  const chatQ = useLencanaChat({ refetchInterval: 60_000 });
+  const nChat = chatQ.data?.belum_dibaca ?? 0;
+  const tab = (ke: string, label: string, lencana?: number) => (
     <NavLink
       to={ke}
       end
       className={({ isActive }) =>
         cx(
-          'fokus-cincin flex min-h-sentuh items-center justify-center rounded-md px-4 text-center no-underline',
+          'fokus-cincin flex min-h-sentuh items-center justify-center gap-1.5 rounded-md px-3 text-center no-underline',
           isActive ? 'bg-daun-lembut font-semibold text-daun-tua' : 'font-medium text-teks',
         )
       }
     >
-      {label}
+      <span>{label}</span>
+      {lencana ? (
+        <span className="flex h-5 min-w-5 items-center justify-center rounded-full bg-tanah px-1 text-keterangan font-bold text-putih">
+          {lencana > 99 ? '99+' : lencana}
+        </span>
+      ) : null}
     </NavLink>
   );
   return (
     <nav
       aria-label={t.tabLabel}
       className={cx(
-        'grid grid-cols-3 gap-1 rounded-lg border border-garis bg-putih p-1',
+        'grid grid-cols-2 md:grid-cols-4 gap-1 rounded-lg border border-garis bg-putih p-1',
         className,
       )}
     >
       {tab('/pesanan', t.tabSekitar)}
       {tab('/pesanan/kiriman', t.tabKiriman)}
       {tab('/pesanan/stok', 'Stok siap jual')}
+      {tab('/chat', 'Chat', nChat)}
     </nav>
   );
 }

@@ -16,4 +16,5 @@ export const teksNavigasi = {
   pesananAktif: 'Pesanan aktif',
   riwayat: 'Riwayat',
   pembayaran: 'Pembayaran',
+  chat: 'Chat',
 } as const;

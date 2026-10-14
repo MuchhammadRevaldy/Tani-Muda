@@ -5,13 +5,25 @@ import type { GalatApi } from '../galat';
 import type { KlienApi } from '../klien';
 import { useKlienApi } from '../penyedia-klien';
 
+export interface OpsiKueriApi {
+  enabled?: boolean;
+  refetchInterval?: number | false;
+}
+
 export function useKueriApi<T>(
   kunci: readonly unknown[],
   ambil: (k: KlienApi) => Promise<T>,
-  aktif = true,
+  opsi: boolean | OpsiKueriApi = true,
 ) {
   const klien = useKlienApi();
-  return useQuery<T, GalatApi>({ queryKey: kunci, queryFn: () => ambil(klien), enabled: aktif });
+  const aktif = typeof opsi === 'boolean' ? opsi : (opsi?.enabled ?? true);
+  const refetchInterval = typeof opsi === 'object' ? opsi.refetchInterval : undefined;
+  return useQuery<T, GalatApi>({
+    queryKey: kunci,
+    queryFn: () => ambil(klien),
+    enabled: aktif,
+    refetchInterval,
+  });
 }
 
 /** Satu kueri per parameter; hasil digabung: `data` baru ada bila semuanya selesai. */

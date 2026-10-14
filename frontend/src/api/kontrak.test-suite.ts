@@ -1865,5 +1865,51 @@ export function ujiKontrak(nama: string, siapkan: PenyiapLingkungan): void {
         expect(tolak.status).toBe('ditolak');
       });
     });
+
+    // ------------------------------------------------------------ fitur tambahan (F-08)
+    describe('fitur tambahan: peta petani (F-08)', () => {
+      it('petani perbarui lokasi dan pembeli cari petani sekitar', async () => {
+        await masuk('petani-arif');
+        const akun = await K.akun.perbaruiLokasi({
+          tampil_di_peta: true,
+          lintang: -6.82,
+          bujur: 107.62,
+        });
+        expect(akun.pengguna.tampil_di_peta).toBe(true);
+
+        await masuk('pembeli-ratna');
+        const sekitar = await K.peta.petaniSekitar({ radius_km: 15 });
+        expect(Array.isArray(sekitar)).toBe(true);
+      });
+    });
+
+    // ------------------------------------------------------------ fitur tambahan (F-09)
+    describe('fitur tambahan: chat petani dan pembeli (F-09)', () => {
+      it('pembeli buka percakapan, kirim pesan, lihat riwayat, baca, dan lencana', async () => {
+        await masuk('pembeli-ratna');
+        const percakapan = await K.chat.buka({
+          lawan_bicara_id: 'petani-arif',
+          jenis: 'peta',
+        });
+        expect(percakapan.id).toBeDefined();
+
+        const pesan = await K.chat.kirim(percakapan.id, {
+          isi: 'Halo petani arif, stok sawi masih ada?',
+        });
+        expect(pesan.isi).toBe('Halo petani arif, stok sawi masih ada?');
+
+        const daftarPesan = await K.chat.pesan(percakapan.id);
+        expect(daftarPesan.length).toBeGreaterThan(0);
+
+        const daftarChat = await K.chat.daftar();
+        expect(Array.isArray(daftarChat)).toBe(true);
+
+        const dibaca = await K.chat.tandaiDibaca(percakapan.id);
+        expect(dibaca.status).toBe('ok');
+
+        const lencana = await K.chat.lencana();
+        expect(typeof lencana.belum_dibaca).toBe('number');
+      });
+    });
   });
 }

@@ -10,3 +10,4 @@ export * from './ai';
 export * from './cuaca';
 export * from './stok';
 export * from './peta';
+export * from './chat';

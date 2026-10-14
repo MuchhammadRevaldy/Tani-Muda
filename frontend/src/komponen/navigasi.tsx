@@ -276,6 +276,7 @@ function MenuAkun({
 export function Sidebar({
   akun,
   lencana = {},
+  lencanaChat = 0,
   menuTerbukaAwal = false,
   onKeluar,
   menuAktif,
@@ -283,6 +284,7 @@ export function Sidebar({
 }: {
   akun: Akun;
   lencana?: Lencana;
+  lencanaChat?: number;
   /** Menu yang ditandai aktif walau alamatnya lain (mis. alur Hitung di bawah Kebun). */
   menuAktif?: MenuPetani;
   /** Untuk halaman /komponen dan tangkapan layar (papan 10 desktop). */
@@ -296,6 +298,7 @@ export function Sidebar({
   const terpotong = useTerpotong([refNama, refKet], akun.nama + akun.keterangan);
   const refTombol = useRef<HTMLButtonElement>(null);
   const idLengkap = useId();
+  const chatN = lencanaChat;
   return (
     <aside
       aria-label={teksNavigasi.menu}
@@ -339,6 +342,30 @@ export function Sidebar({
           );
         })}
       </nav>
+      <div className="flex flex-col gap-1 border-t border-garis pt-3">
+        <NavLink
+          to="/chat"
+          className={({ isActive }) =>
+            cx(
+              'fokus-cincin flex min-h-sentuh items-center gap-3 rounded-full px-4 no-underline',
+              isActive
+                ? 'bg-daun-lembut font-semibold text-daun-tua hover:text-daun-tua'
+                : 'font-medium text-teks-pendukung hover:bg-embun-pagi hover:text-teks',
+            )
+          }
+        >
+          <Ikon nama="chat" />
+          <span className="flex-1">Chat</span>
+          {chatN > 0 ? (
+            <span
+              aria-hidden="true"
+              className="h-6 min-w-6 rounded-full bg-tanah px-1.5 text-center text-isi font-semibold text-putih"
+            >
+              {teksLencana(chatN)}
+            </span>
+          ) : null}
+        </NavLink>
+      </div>
       <div className="flex-1" />
       {terbuka ? (
         <MenuAkun
@@ -489,19 +516,23 @@ function TombolAkunPembeli({
 export function HeaderPembeli({
   namaUsaha,
   foto,
+  lencanaChat = 0,
   onKeluar,
 }: {
   namaUsaha: string;
   foto?: string | null;
+  lencanaChat?: number;
   onKeluar?: () => void;
 }) {
   const { pathname } = useLocation();
+  const chatN = lencanaChat;
   // Buat pesanan, bayar, dan periksa kiriman adalah bagian dari "Pesanan aktif" (papan 37, 38).
   const bagianAktif = /^\/pembeli(\/(pesanan|kiriman)(\/|$)|\/?$)/.test(pathname);
-  const menu: { label: string; ke: string; akhir?: boolean; aktif?: boolean }[] = [
+  const menu: { label: string; ke: string; akhir?: boolean; aktif?: boolean; lencana?: number }[] = [
     { label: teksNavigasi.pesananAktif, ke: '/pembeli', akhir: true, aktif: bagianAktif },
     { label: 'Stok siap jual', ke: '/pembeli/stok' },
     { label: 'Peta petani', ke: '/pembeli/peta' },
+    { label: 'Chat', ke: '/pembeli/chat', lencana: chatN },
     { label: teksNavigasi.riwayat, ke: '/pembeli/riwayat' },
     { label: teksNavigasi.pembayaran, ke: '/pembeli/pembayaran' },
   ];
@@ -529,13 +560,21 @@ export function HeaderPembeli({
                 to={m.ke}
                 aria-current={aktif ? 'page' : undefined}
                 className={cx(
-                  'fokus-cincin inline-flex min-h-sentuh flex-none items-center rounded-full px-4 no-underline',
+                  'fokus-cincin inline-flex min-h-sentuh flex-none items-center gap-1.5 rounded-full px-4 no-underline',
                   aktif
                     ? 'bg-daun-lembut font-semibold text-daun-tua hover:text-daun-tua'
                     : 'font-medium text-teks hover:bg-embun-pagi hover:text-teks',
                 )}
               >
-                {m.label}
+                <span>{m.label}</span>
+                {m.lencana ? (
+                  <span
+                    aria-hidden="true"
+                    className="flex h-5 min-w-5 items-center justify-center rounded-full bg-tanah px-1 text-keterangan font-bold text-putih"
+                  >
+                    {m.lencana > 99 ? '99+' : m.lencana}
+                  </span>
+                ) : null}
               </Link>
             );
           })}

@@ -7,7 +7,7 @@
  * Desktop: ringkasan dan aturan di kiri, uang, pernyataan, dan tombol di panel kanan.
  */
 import { useState, type ReactNode } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { adalahGalatApi } from '../../api/galat';
 import {
   useKirimanSaya,
@@ -21,7 +21,6 @@ import { useHariIni } from '../../api/sesi';
 import type { AlokasiPesanan, Konfigurasi, PesananUntukPetani } from '../../api/tipe';
 import { Banner } from '../../komponen/banner';
 import { ChipStatus } from '../../komponen/chip-status';
-import { Dialog } from '../../komponen/dialog';
 import { Ikon } from '../../komponen/ikon';
 import { Kartu } from '../../komponen/kartu';
 import { PesanKolom } from '../../komponen/kolom-isian';
@@ -34,7 +33,7 @@ import { jadwalKirimPesanan, kirimanTerkejar, type JadwalKirim } from '../../lib
 import { teksPesanan as t, teksJumlahPesanan, teksLamaSingkat } from '../../teks/pesanan';
 import { teksUmum } from '../../teks/umum';
 import { Memuat } from '../memuat';
-import { tautanWhatsApp, useKomoditasPeta } from './kerangka-pesanan';
+import { useKomoditasPeta } from './kerangka-pesanan';
 import { KartuSaranPetak } from './saran-petak';
 import { DialogUbahJumlah } from './ubah-jumlah';
 
@@ -76,9 +75,9 @@ function Isi({
   const resepQ = useResep(siklusQ.data?.resep_id ?? null);
   const kirimanQ = useKirimanSaya();
   const setujui = useSetujuiKesepakatan();
+  const navigate = useNavigate();
   const [centang, setCentang] = useState(false);
   const [galat, setGalat] = useState<string | null>(null);
-  const [tanya, setTanya] = useState(false);
   const [ubahJumlah, setUbahJumlah] = useState(false);
 
   const menunggu = a.status === 'menunggu_kesepakatan';
@@ -116,7 +115,6 @@ function Isi({
         ? t.pernyataanRutin(a.jumlah_kg, namaKecil, namaHari(awal.tanggal))
         : t.pernyataanTiap(a.jumlah_kg, namaKecil, p.frekuensi_hari)
       : t.pernyataanSekali(a.jumlah_kg, namaKecil);
-  const wa = tautanWhatsApp(konfigurasi.kontak_admin.whatsapp);
 
   async function setuju() {
     setGalat(null);
@@ -298,22 +296,15 @@ function Isi({
       <Tombol penuh disabled={setujui.isPending} onClick={() => void setuju()}>
         {setujui.isPending ? t.menyetujui : t.setuju}
       </Tombol>
-      <Tombol varian="sekunder" penuh onClick={() => setTanya(true)}>
+      <Tombol
+        varian="sekunder"
+        penuh
+        onClick={() => {
+          navigate(`/chat?jenis=alokasi&rujukan=${encodeURIComponent(a.id)}`);
+        }}
+      >
         {t.tanyaPembeli}
       </Tombol>
-      <Dialog terbuka={tanya} onTutup={() => setTanya(false)} judul={t.tanyaJudul}>
-        <div className="flex flex-col gap-4">
-          <p className="m-0">{t.tanyaIsi(konfigurasi.kontak_admin.jam_layanan)}</p>
-          {wa ? (
-            <a href={wa} target="_blank" rel="noreferrer" className={kelasTombol('utama', true)}>
-              {t.hubungiAdmin}
-            </a>
-          ) : null}
-          <Tombol varian="sekunder" penuh onClick={() => setTanya(false)}>
-            {teksUmum.tutup}
-          </Tombol>
-        </div>
-      </Dialog>
     </div>
   ) : null;
 

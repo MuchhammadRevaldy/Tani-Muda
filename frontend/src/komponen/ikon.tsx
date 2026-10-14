@@ -57,6 +57,7 @@ const IKON = {
   info: '<circle cx="12" cy="12" r="8.2"/><path d="M12 11v5"/><path d="M12 8h.01"/>',
   hapus:
     '<path d="M4.5 7h15"/><path d="M9.5 7V4.8h5V7"/><path d="M6.5 7l.9 12.2c.1.7.6 1.3 1.3 1.3h6.6c.7 0 1.2-.6 1.3-1.3L17.5 7"/>',
+  chat: '<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>',
 } as const;
 
 export type NamaIkon = keyof typeof IKON;

@@ -366,6 +366,21 @@ export interface KlienPeta {
   petaniSekitar(params?: import('./tipe').ParameterPetaPetani): Promise<import('./tipe').PetaniPeta[]>;
 }
 
+export interface KlienChat {
+  /** GET /percakapan */
+  daftar(): Promise<import('./tipe').Percakapan[]>;
+  /** POST /percakapan */
+  buka(m: import('./tipe').PermintaanBukaPercakapan): Promise<import('./tipe').PercakapanBukaHasil>;
+  /** GET /percakapan/{id}/pesan?setelah= */
+  pesan(id: string, setelah?: string): Promise<import('./tipe').Pesan[]>;
+  /** POST /percakapan/{id}/pesan */
+  kirim(id: string, m: import('./tipe').PermintaanKirimPesan): Promise<import('./tipe').Pesan>;
+  /** POST /percakapan/{id}/dibaca */
+  tandaiDibaca(id: string): Promise<{ status: string; jumlah_dibaca: number }>;
+  /** GET /percakapan/lencana */
+  lencana(): Promise<import('./tipe').LencanaChat>;
+}
+
 export interface KlienApi {
   akun: KlienAkun;
   wilayah: KlienWilayah;
@@ -386,6 +401,7 @@ export interface KlienApi {
   cuaca: KlienCuaca;
   stok: KlienStok;
   peta: KlienPeta;
+  chat: KlienChat;
 }
 
 /**

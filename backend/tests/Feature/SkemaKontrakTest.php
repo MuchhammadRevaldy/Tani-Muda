@@ -110,6 +110,7 @@ const ENUM_KONTRAK = [
     'stok.status' => Enums\StatusStok::class,
     'pesanan_stok.metode_bayar' => Enums\MetodeBayarStok::class,
     'pesanan_stok.status' => Enums\StatusPesananStok::class,
+    'percakapan.jenis' => Enums\JenisPercakapan::class,
 ];
 
 it('pembaca kontrak menemukan semua tabel data bagian 2', function () {
@@ -119,7 +120,7 @@ it('pembaca kontrak menemukan semua tabel data bagian 2', function () {
         'kelayakan_subsidi', 'promo', 'resep_tanam', 'resep_input', 'resep_tugas', 'permintaan_resep',
         'lahan', 'siklus_tanam', 'rencana_item', 'tugas', 'hasil_pengukuran', 'pengeluaran', 'jurnal',
         'pengaturan_pengingat', 'modul', 'pesanan', 'alokasi_pesanan', 'pengiriman', 'pembayaran',
-        'rating', 'sengketa', 'stok', 'pesanan_stok',
+        'rating', 'sengketa', 'stok', 'pesanan_stok', 'percakapan', 'pesan',
     ]);
 });
 

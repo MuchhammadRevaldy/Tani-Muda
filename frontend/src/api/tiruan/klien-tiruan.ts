@@ -19,6 +19,7 @@ import { buatKlienReferensi, buatKlienResep } from './fitur/referensi';
 import { buatKlienChatbot, buatKlienCuaca, buatKlienDeteksi } from './fitur/ai-cuaca';
 import { buatKlienStokTiruan } from './fitur/stok';
 import { buatKlienPetaTiruan } from './fitur/peta';
+import { buatKlienChatTiruan } from './fitur/chat';
 import { Konteks } from './konteks';
 import { bungkusLatensi, type KendaliGalatBuatan } from './latensi';
 import { PenyimpananTiruan, type PenyimpananKunciNilai } from './penyimpanan';
@@ -71,6 +72,7 @@ export function buatKlienTiruan(opsi: OpsiKlienTiruan): KlienTiruan {
     cuaca: buatKlienCuaca(k),
     stok: buatKlienStokTiruan(k),
     peta: buatKlienPetaTiruan(k),
+    chat: buatKlienChatTiruan(k),
   };
   const { klien, kendali } = bungkusLatensi(mentah, { latensiMs: opsi.latensiMs ?? [0, 0] });
 
