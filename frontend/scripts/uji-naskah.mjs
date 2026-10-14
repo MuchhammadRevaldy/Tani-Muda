@@ -9,7 +9,7 @@
  *                         [--catatan <folder>] [--layar] [--dingin] [--tampil] [--lebar 390]
  *
  * --skenario  naskah (bawaan), daftar-petani, daftar-pembeli, verifikasi-pembeli, akun-pembeli,
- *             atau semua (berurutan per putaran).
+ *             stok-cod, chat, atau semua (berurutan per putaran).
  * --ulang     jalankan N putaran, masing-masing diawali atur ulang (bawaan 1).
  * --catatan   folder diagnosis. Saat langkah gagal: tangkapan layar seluruh halaman, isi DOM,
  *             tombol dan tautan yang terlihat, log konsol, dan waktu setiap permintaan API.
@@ -340,12 +340,101 @@ async function akunPembeli(page, langkah) {
   });
 }
 
+/** Transaksi stok siap jual dan bayar di tempat (COD) sampai selesai ([AG-31], F-07). */
+async function stokCod(page, langkah) {
+  await langkah('0. Atur ulang data demo', () => aturUlang(page));
+  await langkah('1. Petani menambah stok siap jual', async () => {
+    await page.goto(`${URL_DASAR}/akun-demo`);
+    await klik(page, 'Masuk sebagai Arif');
+    await page.waitForURL(/\/beranda/, { timeout: TUNGGU });
+    await page.goto(`${URL_DASAR}/stok`);
+    await lihat(page, 'Stok Siap Jual');
+    const tombolTambah = tombol(page, /\+ Tambah Stok/);
+    if (await tombolTambah.isVisible().catch(() => false)) await tombolTambah.click();
+    await page.locator('#jumlah-stok').fill('20');
+    await page.locator('#harga-stok').fill('12000');
+    await klik(page, 'Simpan dan Jual');
+    await lihat(page, 'Stok siap jual berhasil ditambahkan');
+  });
+  await langkah('2. Pembeli membeli stok dengan COD', async () => {
+    await page.goto(`${URL_DASAR}/akun-demo`);
+    await klik(page, 'Masuk sebagai Ratna');
+    await page.waitForURL(/\/pembeli/, { timeout: TUNGGU });
+    await page.goto(`${URL_DASAR}/pembeli/stok`);
+    await lihat(page, 'Stok Siap Jual di Sekitar Anda');
+    await klik(page, 'Beli Panen Ini');
+    await page.locator('#beli-kg').fill('5');
+    await page.locator('#beli-alamat').fill('Jl. Cikahuripan No. 12, Lembang');
+    const tombolPesan = page.locator('#tombol-pasang-pesanan');
+    await tombolPesan.waitFor({ state: 'visible', timeout: TUNGGU });
+    await tombolPesan.click({ timeout: TUNGGU });
+    await lihat(page, /Pesanan COD berhasil dibuat/);
+  });
+  await langkah('3. Petani menerima dan mengirim pesanan', async () => {
+    await page.goto(`${URL_DASAR}/akun-demo`);
+    await klik(page, 'Masuk sebagai Arif');
+    await page.goto(`${URL_DASAR}/stok`);
+    await klik(page, /Pesanan Masuk/);
+    await klik(page, 'Terima');
+    await klik(page, 'Tandai Dikirim');
+    await lihat(page, /Menunggu konfirmasi penerimaan oleh pembeli/);
+  });
+  await langkah('4. Pembeli konfirmasi terima dan selesai', async () => {
+    await page.goto(`${URL_DASAR}/akun-demo`);
+    await klik(page, 'Masuk sebagai Ratna');
+    await page.goto(`${URL_DASAR}/pembeli/stok`);
+    await klik(page, /Pesanan Saya/);
+    await klik(page, 'Konfirmasi Diterima dan Selesai');
+    await lihat(page, /Transaksi Selesai/);
+  });
+}
+
+/** Percakapan petani dan pembeli diawali dari titik peta ([AG-31], F-08, F-09). */
+async function skenarioChat(page, langkah) {
+  await langkah('0. Atur ulang data demo', () => aturUlang(page));
+  await langkah('1. Pembeli membuka chat dari titik peta sekitar', async () => {
+    await page.goto(`${URL_DASAR}/akun-demo`);
+    await klik(page, 'Masuk sebagai Ratna');
+    await page.waitForURL(/\/pembeli/, { timeout: TUNGGU });
+    await page.goto(`${URL_DASAR}/pembeli/peta`);
+    await lihat(page, 'Peta Petani Sekitar');
+    await klik(page, /^Daftar/);
+    await klik(page, 'Tanya lewat Chat');
+    await page.waitForURL(/\/chat\?tujuan=/, { timeout: TUNGGU });
+  });
+  await langkah('2. Pembeli mengirim pesan pertama', async () => {
+    await lihat(page, 'Chat & Pesan');
+    const masukan = page.locator('#masukan-pesan-chat');
+    await masukan.waitFor({ state: 'visible', timeout: TUNGGU });
+    await masukan.fill('Halo Pak Arif, apakah stok sayur bisa diantar hari ini?');
+    await masukan.press('Enter');
+    await lihat(page, 'Halo Pak Arif, apakah stok sayur bisa diantar hari ini?');
+  });
+  await langkah('3. Petani membuka percakapan dan membalas', async () => {
+    await page.goto(`${URL_DASAR}/akun-demo`);
+    await klik(page, 'Masuk sebagai Arif');
+    await page.waitForURL(/\/beranda/, { timeout: TUNGGU });
+    await page.goto(`${URL_DASAR}/chat`);
+    await lihat(page, 'Chat & Pesan');
+    await klik(page, /Ratna Kusuma/);
+    await page.waitForURL(/\/chat\?id=/, { timeout: TUNGGU });
+    await lihat(page, /apakah stok sayur bisa diantar hari ini\?/);
+    const masukan = page.locator('#masukan-pesan-chat');
+    await masukan.waitFor({ state: 'visible', timeout: TUNGGU });
+    await masukan.fill('Halo Bu Ratna, bisa sekali, siap kami siapkan sekarang.');
+    await masukan.press('Enter');
+    await lihat(page, 'Halo Bu Ratna, bisa sekali, siap kami siapkan sekarang.');
+  });
+}
+
 const SKENARIO = {
   naskah,
   'daftar-petani': daftarPetani,
   'daftar-pembeli': daftarPembeli,
   'verifikasi-pembeli': verifikasiPembeli,
   'akun-pembeli': akunPembeli,
+  'stok-cod': stokCod,
+  chat: skenarioChat,
 };
 const DAFTAR_SKENARIO = PILIH_SKENARIO === 'semua' ? Object.keys(SKENARIO) : [PILIH_SKENARIO];
 for (const s of DAFTAR_SKENARIO)

@@ -354,7 +354,7 @@ export function HalamanStokPembeli() {
               </button>
             </div>
 
-            <form onSubmit={handleKirimPesanan} className="mt-4 flex flex-col gap-4">
+            <form id="form-beli-stok" noValidate onSubmit={handleKirimPesanan} className="mt-4 flex flex-col gap-4">
               {galatBeli ? (
                 <div className="rounded-lg bg-tomat/10 p-3 text-isi text-tomat border border-tomat/30">
                   {galatBeli}
@@ -369,7 +369,7 @@ export function HalamanStokPembeli() {
                   <input
                     id="beli-kg"
                     type="number"
-                    step="0.5"
+                    step="any"
                     min="0.1"
                     max={stokDipilih.sisa_kg}
                     value={jumlahKg}
@@ -473,6 +473,7 @@ export function HalamanStokPembeli() {
                   Batal
                 </button>
                 <button
+                  id="tombol-pasang-pesanan"
                   type="submit"
                   disabled={beliStok.isPending}
                   className="rounded-lg bg-daun px-5 py-2 text-isi font-bold text-putih hover:bg-daun/90 shadow-kartu disabled:opacity-50"

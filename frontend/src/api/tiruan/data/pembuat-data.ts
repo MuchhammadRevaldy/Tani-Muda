@@ -454,6 +454,9 @@ function pengguna(
   wilayah_id: string,
   status_akun: A.StatusAkun = 'aktif',
   terdaftar_kelompok_tani = false,
+  tampil_di_peta = false,
+  lokasi_kira_lintang: number | null = null,
+  lokasi_kira_bujur: number | null = null,
 ): A.Pengguna {
   return {
     id,
@@ -465,6 +468,9 @@ function pengguna(
     status_akun,
     zona_waktu: 'Asia/Jakarta',
     terdaftar_kelompok_tani,
+    tampil_di_peta,
+    lokasi_kira_lintang,
+    lokasi_kira_bujur,
     setuju_privasi_pada: hw(-60, '08:00'),
     versi_privasi: KONFIGURASI.versi_privasi,
     dibuat_pada: hw(-60, '08:00'),
@@ -493,7 +499,18 @@ function profil(
 function buatPengguna(): DataContoh['pengguna'] {
   return {
     pengguna: [
-      pengguna('petani-arif', '+6281200000001', 'Arif Setiawan', 'petani', W.lembang),
+      pengguna(
+        'petani-arif',
+        '+6281200000001',
+        'Arif Setiawan',
+        'petani',
+        W.lembang,
+        'aktif',
+        false,
+        true,
+        -6.82,
+        107.62,
+      ),
       pengguna(
         'petani-dewi',
         '+6281200000002',

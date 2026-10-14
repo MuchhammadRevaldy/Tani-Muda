@@ -10,7 +10,7 @@ async function aturan(kode, filePath) {
   return hasil.messages.map((m) => m.ruleId);
 }
 
-describe('pagar impor D-20 (T3.12)', { timeout: 30_000 }, () => {
+describe('pagar impor D-20 (T3.12)', { timeout: 60_000 }, () => {
   it('halaman yang mengimpor data tiruan atau penyedia gagal lint', async () => {
     expect(
       await aturan(

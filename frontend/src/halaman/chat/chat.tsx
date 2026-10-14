@@ -75,16 +75,28 @@ export function HalamanChat() {
           rujukan_id: rujukanParam ?? null,
         })
         .then((res) => {
+          void daftarQ.refetch();
           navigate(`${location.pathname}?id=${encodeURIComponent(res.id)}`, { replace: true });
         })
         .catch(() => {
           // Bila gagal membuka, biarkan daftar tampil
         });
     }
-  }, [tujuanParam, rujukanParam, jenisParam, bukaMutasi, navigate, location.pathname]);
+  }, [tujuanParam, rujukanParam, jenisParam, bukaMutasi, navigate, location.pathname, daftarQ]);
 
   const daftar = daftarQ.data ?? [];
-  const percakapanAktif = daftar.find((p) => p.id === percakapanDipilih) ?? null;
+  const percakapanAktif =
+    daftar.find((p) => p.id === percakapanDipilih) ??
+    (bukaMutasi.data && bukaMutasi.data.id === percakapanDipilih
+      ? {
+          id: bukaMutasi.data.id,
+          jenis: bukaMutasi.data.jenis,
+          rujukan_id: bukaMutasi.data.rujukan_id,
+          lawan_bicara: bukaMutasi.data.lawan_bicara,
+          jumlah_belum_dibaca: 0,
+          dibuat_pada: bukaMutasi.data.dibuat_pada,
+        }
+      : null);
 
   // Polling pesan untuk percakapan aktif setiap 5 detik
   const pesanQ = usePesanPercakapan(percakapanDipilih, undefined, {
@@ -96,13 +108,15 @@ export function HalamanChat() {
   const refPesanBawah = useRef<HTMLDivElement>(null);
 
   // Tandai dibaca saat pesan dimuat
+  const ditandaiRef = useRef<string | null>(null);
   useEffect(() => {
     if (percakapanDipilih && daftarPesan.length > 0) {
       const adaBelumDibaca = daftarPesan.some(
         (p) => p.pengirim_id !== akun?.pengguna.id && !p.dibaca_pada,
       );
-      if (adaBelumDibaca) {
-        void tandaiDibacaMutasi.mutateAsync(percakapanDipilih);
+      if (adaBelumDibaca && ditandaiRef.current !== percakapanDipilih) {
+        ditandaiRef.current = percakapanDipilih;
+        tandaiDibacaMutasi.mutate(percakapanDipilih);
       }
     }
   }, [percakapanDipilih, daftarPesan, akun?.pengguna.id, tandaiDibacaMutasi]);
@@ -306,6 +320,7 @@ export function HalamanChat() {
           className="fokus-cincin flex-1 rounded-xl border border-garis bg-embun-pagi px-4 py-2.5 text-isi text-teks outline-none placeholder:text-teks-pendukung"
         />
         <Tombol
+          id="tombol-kirim-pesan"
           type="submit"
           varian="utama"
           disabled={!teksPesan.trim() || kirimMutasi.isPending}
