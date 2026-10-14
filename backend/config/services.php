@@ -24,6 +24,13 @@ return [
         'driver' => env('PEMBAYARAN_DRIVER', 'tiruan'),
     ],
 
+    // Penyedia berita harga panen: `tiruan`, `gnews`, atau `google` (F-10).
+    'berita' => [
+        'driver' => env('BERITA_DRIVER', 'tiruan'),
+        'key' => env('BERITA_API_KEY', ''),
+        'cx' => env('GOOGLE_SEARCH_CX', ''),
+    ],
+
     'postmark' => [
         'key' => env('POSTMARK_API_KEY'),
     ],

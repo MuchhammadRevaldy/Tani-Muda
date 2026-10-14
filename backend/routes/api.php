@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\V1\ChatController;
 use App\Http\Controllers\Api\V1\CuacaController;
 use App\Http\Controllers\Api\V1\DemoController;
 use App\Http\Controllers\Api\V1\DeteksiController;
+use App\Http\Controllers\Api\V1\HargaBeritaController;
 use App\Http\Controllers\Api\V1\KebunController;
 use App\Http\Controllers\Api\V1\KesehatanController;
 use App\Http\Controllers\Api\V1\KirimanController;
@@ -112,6 +113,9 @@ Route::middleware('auth:sanctum')->group(function () use ($endpointBelumTersedia
     Route::get('/percakapan/{id}/pesan', [ChatController::class, 'pesan']);
     Route::post('/percakapan/{id}/pesan', [ChatController::class, 'kirimPesan'])->middleware('throttle:60,1');
     Route::post('/percakapan/{id}/dibaca', [ChatController::class, 'tandaiDibaca']);
+
+    // Harga berita (F-10)
+    Route::get('/harga-berita', [HargaBeritaController::class, 'daftar']);
 
     // Wilayah dan referensi (3.2)
     Route::get('/wilayah', [WilayahController::class, 'daftar']);

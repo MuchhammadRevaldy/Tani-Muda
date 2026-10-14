@@ -540,6 +540,23 @@ Tidak ada kolom kata sandi atau nama pengguna (D-04).
 | `kunci_idempoten` | string \| null | |
 | `dibuat_pada` | waktu | |
 
+### 2.15 Harga berita (F-10)†
+
+| `harga_berita` (`HargaBerita`) | Tipe | Keterangan |
+| --- | --- | --- |
+| `id` | string | |
+| `komoditas_id` | string | |
+| `kabupaten` | string | |
+| `harga` | uang | |
+| `satuan` | string | |
+| `jenis_harga` | `pasar` \| `eceran` \| `petani` | |
+| `lokasi` | string | |
+| `tanggal_berita` | tanggal | |
+| `judul` | string | |
+| `media` | string | |
+| `url` | string | |
+| `dibuat_pada` | waktu | |
+
 ---
 
 ## 3. Endpoint per fitur
@@ -727,6 +744,7 @@ Rute ini **hanya didaftarkan saat `APP_ENV=local`**; di lingkungan lain jawabann
 | `POST /pesanan-stok/{id}/selesai` | B (pembeli) | → `PesananStok` | `STATUS_TIDAK_SESUAI` | `stok.selesaiPesanan` |
 | `POST /pesanan-stok/{id}/batalkan` | B (pembeli) | `{ alasan? }` → `PesananStok`; sisa_kg dikembalikan | `STATUS_TIDAK_SESUAI` | `stok.batalkanPesanan` |
 | `GET /pesanan-stok/saya` | P, B | → `PesananStok[]` | | `stok.pesananSaya` |
+| `GET /harga-berita?komoditas_id=` | semua | → `{ label, keterangan, data: HargaBerita[] }` | `VALIDASI` | `referensi.hargaBerita` |
 
 ---
 
