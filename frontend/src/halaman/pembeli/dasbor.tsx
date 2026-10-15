@@ -21,6 +21,7 @@ import { gayaBertahap, useBertahap } from '../../komponen/bertahap';
 import { Avatar } from '../../komponen/avatar';
 import { ChipStatus } from '../../komponen/chip-status';
 import { Dialog } from '../../komponen/dialog';
+import { Ikon } from '../../komponen/ikon';
 import { Kartu } from '../../komponen/kartu';
 import { PesanKolom } from '../../komponen/kolom-isian';
 import { PenggarisUmurTanam } from '../../komponen/penggaris-umur-tanam';
@@ -315,6 +316,13 @@ export function HalamanDasborPembeli() {
         <div className="flex flex-col gap-3">
           <Uang nilai={totalDitahan} label={t.uangMukaDitahan} besar />
           <Uang nilai={sudahCair} label={t.sudahCair} besar />
+          <Link
+            to="/pembeli/pembayaran"
+            className="fokus-cincin -mb-1 inline-flex items-center gap-1.5 self-start pt-1 text-keterangan font-semibold text-daun-tua hover:underline"
+          >
+            <span>Buka riwayat pembayaran</span>
+            <Ikon nama="panah-kanan" ukuran={14} />
+          </Link>
         </div>
       }
     >

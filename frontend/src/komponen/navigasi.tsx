@@ -463,6 +463,7 @@ export type MenuPembeli = 'pesanan' | 'stok' | 'peta' | 'chat';
 /** Butir menu akun pembeli ([AG-23], [AG-34]): Profil, Riwayat, Keluar. */
 const BUTIR_PEMBELI: ButirMenuAkun[] = [
   { label: teksNavigasi.profil, ke: '/pembeli/profil' },
+  { label: teksNavigasi.pembayaran, ke: '/pembeli/pembayaran' },
   { label: teksNavigasi.riwayat, ke: '/pembeli/riwayat' },
 ];
 
