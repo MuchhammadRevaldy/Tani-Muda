@@ -167,7 +167,9 @@ class LayananHargaBerita
                     ];
                 }
 
-                return $hasil;
+                if (! empty($hasil)) {
+                    return $hasil;
+                }
             }
         } elseif ($driver === 'google' && ! empty($apiKey)) {
             $cx = (string) config('services.berita.cx', '');
@@ -194,7 +196,9 @@ class LayananHargaBerita
                     ];
                 }
 
-                return $hasil;
+                if (! empty($hasil)) {
+                    return $hasil;
+                }
             }
         }
 

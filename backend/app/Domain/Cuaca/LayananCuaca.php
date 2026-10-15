@@ -124,7 +124,7 @@ class LayananCuaca
             'timezone' => 'auto',
         ];
 
-        if (! empty($apiKey)) {
+        if (! empty($apiKey) && ! in_array($apiKey, ['kunci_api_openmeteo_anda', 'kunci_api_anda', 'null'], true)) {
             $query['apikey'] = $apiKey;
         }
 

@@ -253,7 +253,7 @@ export function HalamanChat() {
             setGalatNomorHp('');
             setStatusKirimPermintaan('');
           }}
-          className="fokus-cincin inline-flex items-center gap-1.5 rounded-lg border border-daun bg-putih px-3 py-1.5 text-isi font-semibold text-daun-tua hover:bg-daun-lembut shadow-garis"
+          className="fokus-cincin inline-flex items-center gap-1.5 rounded-full border border-daun-tua bg-putih px-4 py-2 text-isi font-semibold text-daun-tua hover:bg-daun-lembut shadow-kartu transition-all"
         >
           <Ikon nama="tambah" ukuran={16} />
           <span>Tambah kontak / nomor HP</span>
@@ -262,7 +262,7 @@ export function HalamanChat() {
 
       {/* Bagian Permintaan Kontak Masuk (Jika Ada) */}
       {permintaanMasuk.length > 0 ? (
-        <div className="flex flex-col gap-2 rounded-xl border border-daun/40 bg-daun-lembut/50 p-3 shadow-garis">
+        <div className="flex flex-col gap-2 rounded-2xl border border-daun-tua/40 bg-daun-lembut/60 p-3.5 shadow-kartu">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <span className="flex h-6 w-6 items-center justify-center rounded-full bg-daun-tua text-putih">
@@ -275,11 +275,11 @@ export function HalamanChat() {
             <span className="text-keterangan font-medium text-daun-tua">Perlu respon</span>
           </div>
 
-          <div className="flex flex-col gap-2 pt-1">
+          <div className="flex flex-col gap-2.5 pt-1">
             {permintaanMasuk.map((item) => (
               <div
                 key={item.id}
-                className="flex flex-col gap-2 rounded-lg border border-garis bg-putih p-3 shadow-kartu"
+                className="flex flex-col gap-2 rounded-2xl border border-garis bg-putih p-3.5 shadow-kartu"
               >
                 <div className="flex items-start justify-between gap-2">
                   <div className="flex items-center gap-2.5">
@@ -299,7 +299,7 @@ export function HalamanChat() {
                 </div>
 
                 {item.pesan ? (
-                  <p className="m-0 rounded-md bg-embun-pagi px-2.5 py-1.5 text-keterangan italic text-teks">
+                  <p className="m-0 rounded-xl bg-embun-pagi px-3 py-2 text-keterangan italic text-teks">
                     "{item.pesan}"
                   </p>
                 ) : null}
@@ -309,7 +309,7 @@ export function HalamanChat() {
                     type="button"
                     disabled={tolakPermintaanMutasi.isPending}
                     onClick={() => void tanganiTolakPermintaan(item.id)}
-                    className="fokus-cincin inline-flex items-center gap-1 rounded-lg border border-garis bg-putih px-3 py-1 text-keterangan font-semibold text-teks-pendukung hover:bg-embun-pagi"
+                    className="fokus-cincin inline-flex items-center gap-1 rounded-full border border-garis bg-putih px-3.5 py-1.5 text-keterangan font-semibold text-teks-pendukung hover:bg-embun-pagi transition-colors"
                   >
                     <Ikon nama="silang" ukuran={14} />
                     <span>Tolak</span>
@@ -318,7 +318,7 @@ export function HalamanChat() {
                     type="button"
                     disabled={terimaPermintaanMutasi.isPending}
                     onClick={() => void tanganiTerimaPermintaan(item.id)}
-                    className="fokus-cincin inline-flex items-center gap-1 rounded-lg bg-daun-tua px-3 py-1 text-keterangan font-semibold text-putih hover:bg-daun-tekan shadow-kartu"
+                    className="fokus-cincin inline-flex items-center gap-1 rounded-full bg-daun-tua px-3.5 py-1.5 text-keterangan font-semibold text-putih hover:bg-daun-tekan shadow-kartu transition-colors"
                   >
                     <Ikon nama="centang" ukuran={14} />
                     <span>Terima</span>
@@ -332,7 +332,7 @@ export function HalamanChat() {
 
       {/* Indikator Permintaan Terkirim yang Sedang Menunggu */}
       {permintaanKeluarMenunggu.length > 0 ? (
-        <div className="flex items-center gap-2 rounded-lg border border-garis bg-putih px-3 py-2 text-keterangan text-teks-pendukung shadow-kartu">
+        <div className="flex items-center gap-2 rounded-2xl border border-garis bg-putih px-4 py-2.5 text-keterangan text-teks-pendukung shadow-kartu">
           <span className="text-oranye">
             <Ikon nama="jam" ukuran={15} />
           </span>
@@ -355,7 +355,7 @@ export function HalamanChat() {
           </div>
         </Kartu>
       ) : (
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2.5">
           {daftar.map((p) => {
             const aktif = p.id === percakapanDipilih;
             return (
@@ -363,7 +363,7 @@ export function HalamanChat() {
                 key={p.id}
                 type="button"
                 onClick={() => pilihPercakapan(p)}
-                className={`fokus-cincin flex w-full cursor-pointer items-start gap-3 rounded-xl border p-3 text-left transition ${
+                className={`fokus-cincin flex w-full cursor-pointer items-start gap-3 rounded-2xl border p-3.5 text-left transition ${
                   aktif
                     ? 'border-daun-tua bg-daun-lembut shadow-kartu'
                     : 'border-garis bg-putih hover:bg-embun-pagi'
@@ -410,7 +410,7 @@ export function HalamanChat() {
 
   // Tampilan Ruang Obrolan
   const panelObrolan = percakapanAktif ? (
-    <div className="flex h-panel flex-col overflow-hidden rounded-2xl border border-garis bg-putih shadow-kartu">
+    <div className="flex h-panel flex-col overflow-hidden rounded-3xl border border-garis bg-putih shadow-kartu">
       {/* Header Obrolan */}
       <div className="flex items-center justify-between border-b border-garis bg-putih px-4 py-3">
         <div className="flex items-center gap-3">
@@ -459,10 +459,10 @@ export function HalamanChat() {
                 className={`flex flex-col ${saya ? 'items-end' : 'items-start'}`}
               >
                 <div
-                  className={`max-w-md rounded-2xl px-4 py-2.5 text-isi leading-relaxed shadow-garis ${
+                  className={`max-w-md rounded-2xl px-4 py-2.5 text-isi leading-relaxed shadow-kartu ${
                     saya
-                      ? 'bg-daun-tua text-putih'
-                      : 'border border-garis bg-putih text-teks'
+                      ? 'rounded-br-xs bg-daun-tua text-putih'
+                      : 'rounded-bl-xs border border-garis bg-putih text-teks'
                   }`}
                 >
                   <p className="m-0 whitespace-pre-wrap break-words">{pesan.isi}</p>
@@ -498,7 +498,7 @@ export function HalamanChat() {
           onChange={(e) => setTeksPesan(e.target.value)}
           placeholder="Tulis pesan Anda..."
           maxLength={1000}
-          className="fokus-cincin flex-1 rounded-xl border border-garis bg-embun-pagi px-4 py-2.5 text-isi text-teks outline-none placeholder:text-teks-pendukung"
+          className="fokus-cincin flex-1 rounded-full border border-garis bg-embun-pagi px-5 py-2.5 text-isi text-teks outline-none placeholder:text-teks-pendukung focus:border-daun-tua focus:bg-putih"
         />
         <Tombol
           id="tombol-kirim-pesan"
@@ -511,7 +511,7 @@ export function HalamanChat() {
       </form>
     </div>
   ) : (
-    <div className="flex h-panel flex-col items-center justify-center rounded-2xl border border-garis bg-putih p-6 text-center text-teks-pendukung shadow-kartu">
+    <div className="flex h-panel flex-col items-center justify-center rounded-3xl border border-garis bg-putih p-6 text-center text-teks-pendukung shadow-kartu">
       <div className="flex h-14 w-14 items-center justify-center rounded-full bg-daun-lembut text-daun-tua">
         <Ikon nama="chat" ukuran={28} />
       </div>
