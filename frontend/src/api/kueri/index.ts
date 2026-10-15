@@ -361,6 +361,14 @@ export const useBukaPercakapan = () =>
   m((k, x: T.PermintaanBukaPercakapan) => k.chat.buka(x), ['chat']);
 export const useBukaPercakapanNomor = () =>
   m((k, x: { nomor_hp: string }) => k.chat.bukaLewatNomor(x.nomor_hp), ['chat']);
+export const useDaftarPermintaanKontak = (opsi?: boolean | { enabled?: boolean; refetchInterval?: number }) =>
+  q(kk('chat', 'permintaan'), (k) => k.chat.daftarPermintaan(), opsi);
+export const useKirimPermintaanKontak = () =>
+  m((k, x: T.PermintaanKirimKontak) => k.chat.kirimPermintaan(x), ['chat']);
+export const useTerimaPermintaanKontak = () =>
+  m((k, id: string) => k.chat.terimaPermintaan(id), ['chat']);
+export const useTolakPermintaanKontak = () =>
+  m((k, id: string) => k.chat.tolakPermintaan(id), ['chat']);
 export const usePesanPercakapan = (
   id: string | null,
   setelah?: string,

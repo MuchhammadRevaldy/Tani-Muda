@@ -7,11 +7,14 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import {
   useBukaPercakapan,
-  useBukaPercakapanNomor,
   useDaftarPercakapan,
+  useDaftarPermintaanKontak,
   useKirimPesan,
+  useKirimPermintaanKontak,
   usePesanPercakapan,
   useTandaiDibaca,
+  useTerimaPermintaanKontak,
+  useTolakPermintaanKontak,
 } from '../../api/kueri';
 import { useSesi } from '../../api/sesi';
 import type { JenisPercakapan, Percakapan } from '../../api/tipe';
@@ -64,12 +67,17 @@ export function HalamanChat() {
   const [teksPesan, setTeksPesan] = useState('');
   const [dialogNomorBuka, setDialogNomorBuka] = useState(false);
   const [nomorHpInput, setNomorHpInput] = useState('');
+  const [pesanPerkenalanInput, setPesanPerkenalanInput] = useState('');
   const [galatNomorHp, setGalatNomorHp] = useState('');
+  const [statusKirimPermintaan, setStatusKirimPermintaan] = useState('');
   const sudahBukaRef = useRef(false);
 
   const daftarQ = useDaftarPercakapan({ refetchInterval: 5000 });
+  const permintaanQ = useDaftarPermintaanKontak({ refetchInterval: 5000 });
   const bukaMutasi = useBukaPercakapan();
-  const bukaNomorMutasi = useBukaPercakapanNomor();
+  const kirimPermintaanMutasi = useKirimPermintaanKontak();
+  const terimaPermintaanMutasi = useTerimaPermintaanKontak();
+  const tolakPermintaanMutasi = useTolakPermintaanKontak();
   const kirimMutasi = useKirimPesan();
   const tandaiDibacaMutasi = useTandaiDibaca();
 
@@ -156,19 +164,61 @@ export function HalamanChat() {
   async function tanganiMulaiChatNomor(e: React.FormEvent) {
     e.preventDefault();
     setGalatNomorHp('');
+    setStatusKirimPermintaan('');
     const norm = normalisasiNomorHp(nomorHpInput);
     if (!norm.ok) {
       setGalatNomorHp('Nomor ini belum bisa dihubungi lewat Tani Muda');
       return;
     }
     try {
-      const res = await bukaNomorMutasi.mutateAsync({ nomor_hp: norm.nilai });
-      setDialogNomorBuka(false);
-      void daftarQ.refetch();
-      navigate(`${location.pathname}?id=${encodeURIComponent(res.id)}`, { replace: true });
+      const res = await kirimPermintaanMutasi.mutateAsync({
+        nomor_hp: norm.nilai,
+        pesan: pesanPerkenalanInput.trim() || undefined,
+      });
+
+      if (res.percakapan_id || res.status === 'sudah_terhubung' || res.status === 'diterima') {
+        const idBuka = res.percakapan_id ?? res.id;
+        setDialogNomorBuka(false);
+        void daftarQ.refetch();
+        void permintaanQ.refetch();
+        if (idBuka) {
+          navigate(`${location.pathname}?id=${encodeURIComponent(idBuka)}`, { replace: true });
+        }
+      } else {
+        setStatusKirimPermintaan(
+          res.pesan || 'Permintaan kontak berhasil dikirim. Obrolan akan aktif setelah diterima.',
+        );
+        void permintaanQ.refetch();
+        setTimeout(() => {
+          setDialogNomorBuka(false);
+          setStatusKirimPermintaan('');
+        }, 1800);
+      }
     } catch (err) {
       const pesanGalat = err instanceof Error ? err.message : 'Nomor ini belum bisa dihubungi lewat Tani Muda';
       setGalatNomorHp(pesanGalat);
+    }
+  }
+
+  async function tanganiTerimaPermintaan(id: string) {
+    try {
+      const res = await terimaPermintaanMutasi.mutateAsync(id);
+      void daftarQ.refetch();
+      void permintaanQ.refetch();
+      if (res?.id) {
+        navigate(`${location.pathname}?id=${encodeURIComponent(res.id)}`);
+      }
+    } catch {
+      // Abaikan bila ada galat jaringan
+    }
+  }
+
+  async function tanganiTolakPermintaan(id: string) {
+    try {
+      await tolakPermintaanMutasi.mutateAsync(id);
+      void permintaanQ.refetch();
+    } catch {
+      // Abaikan bila ada galat jaringan
     }
   }
 
@@ -180,9 +230,14 @@ export function HalamanChat() {
     return <Memuat />;
   }
 
+  const permintaanMasuk = permintaanQ.data?.masuk ?? [];
+  const permintaanKeluarMenunggu = (permintaanQ.data?.keluar ?? []).filter(
+    (x) => x.status === 'menunggu',
+  );
+
   // Tampilan Daftar Percakapan
   const panelDaftar = (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-3">
       <div className="flex flex-wrap items-center justify-between gap-2 border-b border-garis pb-2">
         <div>
           <h2 className="m-0 text-judul-bagian font-semibold text-teks">Percakapan</h2>
@@ -194,16 +249,100 @@ export function HalamanChat() {
           onClick={() => {
             setDialogNomorBuka(true);
             setNomorHpInput('');
+            setPesanPerkenalanInput('');
             setGalatNomorHp('');
+            setStatusKirimPermintaan('');
           }}
           className="fokus-cincin inline-flex items-center gap-1.5 rounded-lg border border-daun bg-putih px-3 py-1.5 text-isi font-semibold text-daun-tua hover:bg-daun-lembut shadow-garis"
         >
           <Ikon nama="tambah" ukuran={16} />
-          <span>Chat dengan nomor HP</span>
+          <span>Tambah kontak / nomor HP</span>
         </button>
       </div>
 
-      {daftar.length === 0 ? (
+      {/* Bagian Permintaan Kontak Masuk (Jika Ada) */}
+      {permintaanMasuk.length > 0 ? (
+        <div className="flex flex-col gap-2 rounded-xl border border-daun/40 bg-daun-lembut/50 p-3 shadow-garis">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <span className="flex h-6 w-6 items-center justify-center rounded-full bg-daun-tua text-putih">
+                <Ikon nama="lonceng" ukuran={14} />
+              </span>
+              <span className="text-isi font-semibold text-daun-tua">
+                Permintaan Kontak Masuk ({permintaanMasuk.length})
+              </span>
+            </div>
+            <span className="text-keterangan font-medium text-daun-tua">Perlu respon</span>
+          </div>
+
+          <div className="flex flex-col gap-2 pt-1">
+            {permintaanMasuk.map((item) => (
+              <div
+                key={item.id}
+                className="flex flex-col gap-2 rounded-lg border border-garis bg-putih p-3 shadow-sm"
+              >
+                <div className="flex items-start justify-between gap-2">
+                  <div className="flex items-center gap-2.5">
+                    <Avatar nama={item.pemohon?.nama ?? 'Pemohon'} ukuran={40} />
+                    <div>
+                      <p className="m-0 font-semibold text-teks text-isi">
+                        {item.pemohon?.nama ?? 'Pengguna Tani Muda'}
+                      </p>
+                      <span className="capitalize text-keterangan text-teks-pendukung">
+                        · {item.pemohon?.peran ?? 'Pengguna'}
+                      </span>
+                    </div>
+                  </div>
+                  <span className="text-keterangan text-teks-pendukung flex-none">
+                    {formatWaktuPesan(item.dibuat_pada)}
+                  </span>
+                </div>
+
+                {item.pesan ? (
+                  <p className="m-0 rounded-md bg-embun-pagi px-2.5 py-1.5 text-keterangan italic text-teks">
+                    "{item.pesan}"
+                  </p>
+                ) : null}
+
+                <div className="flex items-center justify-end gap-2 pt-1">
+                  <button
+                    type="button"
+                    disabled={tolakPermintaanMutasi.isPending}
+                    onClick={() => void tanganiTolakPermintaan(item.id)}
+                    className="fokus-cincin inline-flex items-center gap-1 rounded-lg border border-garis bg-putih px-3 py-1 text-keterangan font-semibold text-teks-pendukung hover:bg-abu-1 hover:text-merah"
+                  >
+                    <Ikon nama="silang" ukuran={14} />
+                    <span>Tolak</span>
+                  </button>
+                  <button
+                    type="button"
+                    disabled={terimaPermintaanMutasi.isPending}
+                    onClick={() => void tanganiTerimaPermintaan(item.id)}
+                    className="fokus-cincin inline-flex items-center gap-1 rounded-lg bg-daun-tua px-3 py-1 text-keterangan font-semibold text-putih hover:bg-daun shadow-sm"
+                  >
+                    <Ikon nama="centang" ukuran={14} />
+                    <span>Terima</span>
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      ) : null}
+
+      {/* Indikator Permintaan Terkirim yang Sedang Menunggu */}
+      {permintaanKeluarMenunggu.length > 0 ? (
+        <div className="flex items-center gap-2 rounded-lg border border-garis bg-putih px-3 py-2 text-keterangan text-teks-pendukung shadow-sm">
+          <span className="text-oranye">
+            <Ikon nama="jam" ukuran={15} />
+          </span>
+          <span>
+            {permintaanKeluarMenunggu.length} permintaan kontak terkirim sedang menunggu respon penerima.
+          </span>
+        </div>
+      ) : null}
+
+      {daftar.length === 0 && permintaanMasuk.length === 0 ? (
         <Kartu judul="Belum ada pesan" tingkatJudul={3}>
           <div className="flex flex-col items-center gap-3 py-6 text-center">
             <div className="flex h-12 w-12 items-center justify-center rounded-full bg-daun-lembut text-daun-tua">
@@ -211,8 +350,7 @@ export function HalamanChat() {
             </div>
             <p className="m-0 font-medium text-teks">Belum ada obrolan aktif</p>
             <p className="m-0 max-w-sm text-keterangan text-teks-pendukung">
-              Mulai percakapan dengan petani lewat peta sekitar, atau hubungi pembeli lewat rincian
-              kesepakatan pesanan.
+              Mulai percakapan dengan petani lewat peta sekitar, atau tambahkan kontak lewat nomor HP untuk mengirim permintaan obrolan.
             </p>
           </div>
         </Kartu>
@@ -407,20 +545,29 @@ export function HalamanChat() {
       <Dialog
         terbuka={dialogNomorBuka}
         onTutup={() => setDialogNomorBuka(false)}
-        judul="Mulai chat lewat nomor HP"
-        keterangan="Masukkan nomor HP lawan bicara untuk memulai atau melanjutkan obrolan langsung."
+        judul="Tambah Kontak / Chat Nomor HP"
+        keterangan="Kirim permintaan kontak ke pengguna lewat nomor HP. Lawan bicara akan menerima notifikasi dan tombol untuk menyetujui permintaan Anda."
       >
         <form onSubmit={(e) => void tanganiMulaiChatNomor(e)} className="flex flex-col gap-4">
+          {statusKirimPermintaan ? (
+            <div className="flex items-center gap-2 rounded-xl border border-daun/40 bg-daun-lembut p-3 text-isi text-daun-tua">
+              <span className="flex-none">
+                <Ikon nama="centang" ukuran={18} />
+              </span>
+              <span>{statusKirimPermintaan}</span>
+            </div>
+          ) : null}
+
           <div className="flex flex-col gap-1.5">
             <label htmlFor="masukan-nomor-hp-chat" className="text-isi font-semibold text-teks">
-              Nomor HP
+              Nomor HP Lawan Bicara
             </label>
             <input
               id="masukan-nomor-hp-chat"
               type="tel"
               value={nomorHpInput}
               onChange={(e) => setNomorHpInput(e.target.value)}
-              placeholder="Contoh: 081234567890"
+              placeholder="Contoh: 0812-3456-7890"
               autoFocus
               className="fokus-cincin rounded-xl border border-garis bg-putih px-3.5 py-2.5 text-isi text-teks outline-none placeholder:text-teks-pendukung"
             />
@@ -429,6 +576,20 @@ export function HalamanChat() {
                 {galatNomorHp}
               </p>
             ) : null}
+          </div>
+
+          <div className="flex flex-col gap-1.5">
+            <label htmlFor="masukan-pesan-pengantar" className="text-isi font-semibold text-teks">
+              Pesan Perkenalan <span className="font-normal text-teks-pendukung">(opsional)</span>
+            </label>
+            <textarea
+              id="masukan-pesan-pengantar"
+              rows={2}
+              value={pesanPerkenalanInput}
+              onChange={(e) => setPesanPerkenalanInput(e.target.value)}
+              placeholder="Contoh: Halo, saya tertarik berdiskusi mengenai ketersediaan komoditas Anda..."
+              className="fokus-cincin rounded-xl border border-garis bg-putih px-3.5 py-2 text-isi text-teks outline-none placeholder:text-teks-pendukung resize-none"
+            />
           </div>
 
           <div className="flex items-center justify-end gap-2 pt-2">
@@ -443,9 +604,9 @@ export function HalamanChat() {
               id="tombol-kirim-buka-nomor"
               type="submit"
               varian="utama"
-              disabled={!nomorHpInput.trim() || bukaNomorMutasi.isPending}
+              disabled={!nomorHpInput.trim() || kirimPermintaanMutasi.isPending}
             >
-              {bukaNomorMutasi.isPending ? 'Mencari...' : 'Buka Chat'}
+              {kirimPermintaanMutasi.isPending ? 'Mengirim...' : 'Kirim Permintaan'}
             </Tombol>
           </div>
         </form>

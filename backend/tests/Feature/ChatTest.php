@@ -329,3 +329,130 @@ it('pengguna.nomor_hp tetap unik di basis data dan terlindungi', function () {
         ]);
     })->toThrow(QueryException::class);
 });
+
+it('alur permintaan kontak: kirim permintaan, notifikasi/lencana, terima, dan mulai percakapan', function () {
+    $petani = Pengguna::create([
+        'nomor_hp' => '+6281299990301',
+        'nama' => 'Petani Target',
+        'peran' => Peran::Petani,
+        'status_akun' => StatusAkun::Aktif,
+    ]);
+
+    $pembeli = Pengguna::create([
+        'nomor_hp' => '+6281299990302',
+        'nama' => 'Pembeli Pemohon',
+        'peran' => Peran::Pembeli,
+        'status_akun' => StatusAkun::Aktif,
+    ]);
+
+    // 1. Pembeli mengirim permintaan kontak dengan pesan pengantar
+    $resKirim = $this->actingAs($pembeli)
+        ->postJson('/api/v1/percakapan/permintaan', [
+            'nomor_hp' => '0812-9999-0301',
+            'pesan' => 'Halo Pak Tani, saya butuh pasokan bayam organik rutin tiap minggu.',
+        ])
+        ->assertOk()
+        ->json('data');
+
+    expect($resKirim['status'])->toBe('menunggu')
+        ->and($resKirim['id'])->toBeString()
+        ->and($resKirim['target']['nama'])->toBe('Petani Target');
+
+    $permintaanId = $resKirim['id'];
+
+    // 2. Petani melihat lencana bertambah (permintaan_masuk = 1)
+    $this->actingAs($petani)
+        ->getJson('/api/v1/percakapan/lencana')
+        ->assertOk()
+        ->assertJsonPath('data.permintaan_masuk', 1)
+        ->assertJsonPath('data.total', 1);
+
+    // 3. Petani melihat daftar permintaan kontak masuk
+    $resDaftar = $this->actingAs($petani)
+        ->getJson('/api/v1/percakapan/permintaan')
+        ->assertOk()
+        ->json('data');
+
+    expect($resDaftar['masuk'])->toHaveCount(1)
+        ->and($resDaftar['masuk'][0]['id'])->toBe($permintaanId)
+        ->and($resDaftar['masuk'][0]['pemohon']['nama'])->toBe('Pembeli Pemohon')
+        ->and($resDaftar['masuk'][0]['pesan'])->toBe('Halo Pak Tani, saya butuh pasokan bayam organik rutin tiap minggu.');
+
+    // 4. Petani menerima permintaan kontak
+    $resTerima = $this->actingAs($petani)
+        ->postJson("/api/v1/percakapan/permintaan/{$permintaanId}/terima")
+        ->assertOk()
+        ->json('data');
+
+    expect($resTerima['jenis'])->toBe('kontak')
+        ->and($resTerima['lawan_bicara']['nama'])->toBe('Pembeli Pemohon');
+
+    $percakapanId = $resTerima['id'];
+
+    // 5. Pesan pengantar otomatis tersimpan sebagai pesan pertama di percakapan
+    $resPesan = $this->actingAs($petani)
+        ->getJson("/api/v1/percakapan/{$percakapanId}/pesan")
+        ->assertOk()
+        ->json('data');
+
+    expect($resPesan)->toHaveCount(1)
+        ->and($resPesan[0]['pengirim_id'])->toBe($pembeli->id)
+        ->and($resPesan[0]['isi'])->toBe('Halo Pak Tani, saya butuh pasokan bayam organik rutin tiap minggu.');
+
+    // 6. Lencana permintaan masuk sekarang 0
+    $this->actingAs($petani)
+        ->getJson('/api/v1/percakapan/lencana')
+        ->assertOk()
+        ->assertJsonPath('data.permintaan_masuk', 0);
+});
+
+it('alur permintaan kontak dapat ditolak oleh penerima', function () {
+    $petani = Pengguna::create([
+        'nomor_hp' => '+6281299990311',
+        'nama' => 'Petani Penolak',
+        'peran' => Peran::Petani,
+        'status_akun' => StatusAkun::Aktif,
+    ]);
+
+    $pembeli = Pengguna::create([
+        'nomor_hp' => '+6281299990312',
+        'nama' => 'Pembeli Ditolak',
+        'peran' => Peran::Pembeli,
+        'status_akun' => StatusAkun::Aktif,
+    ]);
+
+    $resKirim = $this->actingAs($pembeli)
+        ->postJson('/api/v1/percakapan/permintaan', [
+            'nomor_hp' => '+6281299990311',
+        ])
+        ->assertOk()
+        ->json('data');
+
+    $permintaanId = $resKirim['id'];
+
+    // Orang lain mencoba tolak -> 404
+    $orangLain = Pengguna::create([
+        'nomor_hp' => '+6281299990313',
+        'nama' => 'Pengguna Iseng',
+        'peran' => Peran::Petani,
+        'status_akun' => StatusAkun::Aktif,
+    ]);
+
+    $this->actingAs($orangLain)
+        ->postJson("/api/v1/percakapan/permintaan/{$permintaanId}/tolak")
+        ->assertStatus(404);
+
+    // Penerima yang sah menolak
+    $this->actingAs($petani)
+        ->postJson("/api/v1/percakapan/permintaan/{$permintaanId}/tolak")
+        ->assertOk()
+        ->assertJsonPath('data.status', 'ok');
+
+    // Permintaan masuk petani kembali kosong
+    $resDaftar = $this->actingAs($petani)
+        ->getJson('/api/v1/percakapan/permintaan')
+        ->assertOk()
+        ->json('data');
+
+    expect($resDaftar['masuk'])->toHaveCount(0);
+});

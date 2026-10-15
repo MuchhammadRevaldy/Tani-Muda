@@ -113,13 +113,22 @@ class LayananCuaca
      */
     protected function panggilOpenMeteo(float $lintang, float $bujur): array
     {
-        $respons = Http::timeout(5)->get('https://api.open-meteo.com/v1/forecast', [
+        $baseUrl = config('services.openmeteo.base_url', 'https://api.open-meteo.com/v1/forecast');
+        $apiKey = config('services.openmeteo.api_key');
+
+        $query = [
             'latitude' => $lintang,
             'longitude' => $bujur,
             'current' => 'temperature_2m',
             'daily' => 'temperature_2m_max,temperature_2m_min',
             'timezone' => 'auto',
-        ]);
+        ];
+
+        if (! empty($apiKey)) {
+            $query['apikey'] = $apiKey;
+        }
+
+        $respons = Http::timeout(5)->get($baseUrl, $query);
 
         if (! $respons->successful()) {
             throw new \RuntimeException('Gagal mengambil data Open-Meteo: status '.$respons->status());

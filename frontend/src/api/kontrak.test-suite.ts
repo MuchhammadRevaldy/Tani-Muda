@@ -1918,6 +1918,26 @@ export function ujiKontrak(nama: string, siapkan: PenyiapLingkungan): void {
         const percakapanNomor = await K.chat.bukaLewatNomor('+6281200000001');
         expect(percakapanNomor.id).toBeDefined();
         expect(percakapanNomor.jenis).toBe('kontak');
+
+        const reqKirim = await K.chat.kirimPermintaan({ nomor_hp: '+6281200000001', pesan: 'Halo, saya ingin bermitra.' });
+        expect(reqKirim.status).toBeDefined();
+
+        const daftarPermintaan = await K.chat.daftarPermintaan();
+        expect(Array.isArray(daftarPermintaan.masuk)).toBe(true);
+        expect(Array.isArray(daftarPermintaan.keluar)).toBe(true);
+
+        if (reqKirim.id) {
+          try {
+            await K.chat.terimaPermintaan(reqKirim.id);
+          } catch {
+            // Menguji ketersediaan metode
+          }
+          try {
+            await K.chat.tolakPermintaan(reqKirim.id);
+          } catch {
+            // Menguji ketersediaan metode
+          }
+        }
       });
     });
 

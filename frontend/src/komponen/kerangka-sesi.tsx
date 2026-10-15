@@ -32,7 +32,7 @@ export function KerangkaPetaniSesi({
   const p = akun?.pengguna;
   const baru = useLencanaPesanan(p?.peran === 'petani');
   const chatQ = useLencanaChat({ refetchInterval: 60_000 });
-  const nChat = chatQ.data?.belum_dibaca ?? 0;
+  const nChat = (chatQ.data?.total ?? chatQ.data?.belum_dibaca) ?? 0;
   return (
     <KerangkaPetani
       akun={{ nama: p?.nama ?? '', keterangan: keteranganAkun(p?.peran ?? null, desa) }}
@@ -54,7 +54,7 @@ export function KerangkaPembeliSesi({ children }: { children: ReactNode }) {
   const { keluar } = useKeluarSesi();
   const navigate = useNavigate();
   const chatQ = useLencanaChat({ refetchInterval: 60_000 });
-  const nChat = chatQ.data?.belum_dibaca ?? 0;
+  const nChat = (chatQ.data?.total ?? chatQ.data?.belum_dibaca) ?? 0;
   return (
     <KerangkaPembeli
       namaUsaha={akun?.profil_pembeli?.nama_usaha ?? akun?.pengguna.nama ?? ''}

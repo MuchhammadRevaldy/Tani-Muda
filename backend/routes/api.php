@@ -109,6 +109,10 @@ Route::middleware('auth:sanctum')->group(function () use ($endpointBelumTersedia
     Route::get('/percakapan', [ChatController::class, 'daftar']);
     Route::post('/percakapan', [ChatController::class, 'bukaAtauAmbil']);
     Route::post('/percakapan/nomor', [ChatController::class, 'bukaLewatNomor'])->middleware('throttle:10,60');
+    Route::get('/percakapan/permintaan', [ChatController::class, 'daftarPermintaan']);
+    Route::post('/percakapan/permintaan', [ChatController::class, 'kirimPermintaan'])->middleware('throttle:10,60');
+    Route::post('/percakapan/permintaan/{id}/terima', [ChatController::class, 'terimaPermintaan']);
+    Route::post('/percakapan/permintaan/{id}/tolak', [ChatController::class, 'tolakPermintaan']);
     Route::get('/percakapan/lencana', [ChatController::class, 'lencana']);
     Route::get('/percakapan/{id}/pesan', [ChatController::class, 'pesan']);
     Route::post('/percakapan/{id}/pesan', [ChatController::class, 'kirimPesan'])->middleware('throttle:60,1');

@@ -8,7 +8,7 @@ export type JenisPercakapan = 'alokasi' | 'pesanan_stok' | 'peta' | 'kontak';
 export interface LawanBicara {
   id: string;
   nama: string;
-  peran?: Peran | string;
+  peran?: Peran | string | null;
   foto_profil?: string | null;
 }
 
@@ -64,4 +64,38 @@ export interface PermintaanKirimPesan {
 
 export interface LencanaChat {
   belum_dibaca: number;
+  permintaan_masuk?: number;
+  total?: number;
 }
+
+export type StatusPermintaanKontak = 'menunggu' | 'diterima' | 'ditolak';
+
+export interface PermintaanKontakItem {
+  id: string;
+  pemohon?: LawanBicara;
+  target?: LawanBicara;
+  nomor_hp?: string;
+  pesan?: string | null;
+  status: StatusPermintaanKontak;
+  dibuat_pada: string;
+}
+
+export interface DaftarPermintaanKontakHasil {
+  masuk: PermintaanKontakItem[];
+  keluar: PermintaanKontakItem[];
+}
+
+export interface PermintaanKirimKontak {
+  nomor_hp: string;
+  pesan?: string;
+}
+
+export interface HasilKirimPermintaanKontak {
+  status: 'menunggu' | 'diterima' | 'sudah_terhubung';
+  id?: string;
+  percakapan_id?: string;
+  pesan: string;
+  target?: LawanBicara;
+  dibuat_pada?: string;
+}
+

@@ -375,6 +375,14 @@ export interface KlienChat {
   buka(m: import('./tipe').PermintaanBukaPercakapan): Promise<import('./tipe').PercakapanBukaHasil>;
   /** POST /percakapan/nomor */
   bukaLewatNomor(nomor_hp: string): Promise<import('./tipe').PercakapanBukaHasil>;
+  /** GET /percakapan/permintaan */
+  daftarPermintaan(): Promise<import('./tipe').DaftarPermintaanKontakHasil>;
+  /** POST /percakapan/permintaan */
+  kirimPermintaan(m: import('./tipe').PermintaanKirimKontak): Promise<import('./tipe').HasilKirimPermintaanKontak>;
+  /** POST /percakapan/permintaan/{id}/terima */
+  terimaPermintaan(id: string): Promise<import('./tipe').PercakapanBukaHasil>;
+  /** POST /percakapan/permintaan/{id}/tolak */
+  tolakPermintaan(id: string): Promise<{ status: string }>;
   /** GET /percakapan/{id}/pesan?setelah= */
   pesan(id: string, setelah?: string): Promise<import('./tipe').Pesan[]>;
   /** POST /percakapan/{id}/pesan */

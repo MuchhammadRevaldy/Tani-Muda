@@ -31,6 +31,12 @@ return [
         'cx' => env('GOOGLE_SEARCH_CX', ''),
     ],
 
+    // Penyedia cuaca Open-Meteo (F-06): publik gratis tanpa kunci, atau komersial via OPEN_METEO_API_KEY.
+    'openmeteo' => [
+        'base_url' => env('OPEN_METEO_BASE_URL', 'https://api.open-meteo.com/v1/forecast'),
+        'api_key' => env('OPEN_METEO_API_KEY', ''),
+    ],
+
     'postmark' => [
         'key' => env('POSTMARK_API_KEY'),
     ],
