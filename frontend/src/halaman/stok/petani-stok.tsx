@@ -100,16 +100,16 @@ export function HalamanStokPetani() {
         ) : null}
 
         {/* Tab Sub-menu Petani */}
-        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-garis pb-2">
-          <div className="flex gap-2">
+        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-garis pb-3">
+          <div className="flex flex-wrap items-center gap-2">
             <button
               type="button"
               onClick={() => setTabAktif('stok')}
               className={cx(
-                'fokus-cincin rounded-lg px-4 py-2 font-medium text-isi transition-colors',
+                'fokus-cincin rounded-full px-5 py-2 font-semibold text-isi transition-all duration-200',
                 tabAktif === 'stok'
-                  ? 'bg-daun text-putih shadow-kartu'
-                  : 'bg-putih text-teks-pendukung border border-garis hover:bg-embun-pagi'
+                  ? 'bg-daun-tua text-putih shadow-kartu'
+                  : 'bg-putih text-teks-pendukung border border-garis hover:bg-embun-pagi hover:text-teks'
               )}
             >
               Stok Saya ({daftarStok.length})
@@ -118,10 +118,10 @@ export function HalamanStokPetani() {
               type="button"
               onClick={() => setTabAktif('pesanan')}
               className={cx(
-                'fokus-cincin relative rounded-lg px-4 py-2 font-medium text-isi transition-colors',
+                'fokus-cincin relative rounded-full px-5 py-2 font-semibold text-isi transition-all duration-200',
                 tabAktif === 'pesanan'
-                  ? 'bg-daun text-putih shadow-kartu'
-                  : 'bg-putih text-teks-pendukung border border-garis hover:bg-embun-pagi'
+                  ? 'bg-daun-tua text-putih shadow-kartu'
+                  : 'bg-putih text-teks-pendukung border border-garis hover:bg-embun-pagi hover:text-teks'
               )}
             >
               Pesanan Masuk ({daftarPesanan.length})
@@ -245,7 +245,7 @@ export function HalamanStokPetani() {
               <button
                 type="submit"
                 disabled={tambahStok.isPending}
-                className="rounded-lg bg-daun px-5 py-2 text-isi font-semibold text-putih hover:bg-daun/90 disabled:opacity-50"
+                className="rounded-lg bg-daun-tua px-5 py-2 text-isi font-semibold text-putih hover:bg-daun-tekan shadow-kartu disabled:opacity-50"
               >
                 {tambahStok.isPending ? 'Menyimpan...' : 'Simpan dan Jual'}
               </button>
@@ -265,7 +265,7 @@ export function HalamanStokPetani() {
                 <button
                   type="button"
                   onClick={() => setBukaForm(true)}
-                  className="mt-4 inline-flex items-center gap-1.5 rounded-lg bg-daun px-4 py-2 text-isi font-semibold text-putih hover:bg-daun/90"
+                  className="mt-4 inline-flex items-center gap-1.5 rounded-lg bg-daun-tua px-4 py-2 text-isi font-semibold text-putih hover:bg-daun-tekan shadow-kartu"
                 >
                   + Tambah Stok Sekarang
                 </button>
@@ -434,7 +434,7 @@ export function HalamanStokPetani() {
                             type="button"
                             onClick={() => terimaPesanan.mutate(p.id)}
                             disabled={terimaPesanan.isPending}
-                            className="rounded-lg bg-daun px-4 py-2 text-isi font-semibold text-putih hover:bg-daun/90 shadow-kartu"
+                            className="rounded-lg bg-daun-tua px-4 py-2 text-isi font-semibold text-putih hover:bg-daun-tekan shadow-kartu"
                           >
                             Terima
                           </button>

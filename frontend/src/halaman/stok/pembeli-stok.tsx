@@ -13,6 +13,7 @@ import { cx } from '../../komponen/gabung-kelas';
 import { Ikon } from '../../komponen/ikon';
 import { adaIlustrasiKomoditas, alamatIlustrasiKomoditas } from '../../komponen/ilustrasi';
 import { formatRupiah } from '../../lib/format';
+import { DropdownPilihan } from '../../komponen/dropdown-pilihan';
 
 export function HalamanStokPembeli() {
   const [tabAktif, setTabAktif] = useState<'katalog' | 'pesanan'>('katalog');
@@ -97,16 +98,16 @@ export function HalamanStokPembeli() {
       ) : null}
 
       {/* Tab Navigasi */}
-      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-garis pb-2">
-        <div className="flex gap-2">
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-garis pb-3">
+        <div className="flex flex-wrap items-center gap-2">
           <button
             type="button"
             onClick={() => setTabAktif('katalog')}
             className={cx(
-              'fokus-cincin rounded-lg px-4 py-2 text-isi font-medium transition-colors',
+              'fokus-cincin rounded-full px-5 py-2 text-isi font-semibold transition-all duration-200',
               tabAktif === 'katalog'
-                ? 'bg-daun text-putih shadow-kartu'
-                : 'bg-putih text-teks-pendukung border border-garis hover:bg-embun-pagi'
+                ? 'bg-daun-tua text-putih shadow-kartu'
+                : 'bg-putih text-teks-pendukung border border-garis hover:bg-embun-pagi hover:text-teks'
             )}
           >
             Katalog Panen ({daftarStok.length})
@@ -115,10 +116,10 @@ export function HalamanStokPembeli() {
             type="button"
             onClick={() => setTabAktif('pesanan')}
             className={cx(
-              'fokus-cincin relative rounded-lg px-4 py-2 text-isi font-medium transition-colors',
+              'fokus-cincin relative rounded-full px-5 py-2 text-isi font-semibold transition-all duration-200',
               tabAktif === 'pesanan'
-                ? 'bg-daun text-putih shadow-kartu'
-                : 'bg-putih text-teks-pendukung border border-garis hover:bg-embun-pagi'
+                ? 'bg-daun-tua text-putih shadow-kartu'
+                : 'bg-putih text-teks-pendukung border border-garis hover:bg-embun-pagi hover:text-teks'
             )}
           >
             Pesanan Saya ({daftarPesanan.length})
@@ -131,30 +132,26 @@ export function HalamanStokPembeli() {
         </div>
 
         {tabAktif === 'katalog' ? (
-          <div className="flex flex-wrap items-center gap-2">
-            <select
-              aria-label="Pilih komoditas"
-              value={komoditasPilihan}
-              onChange={(e) => setKomoditasPilihan(e.target.value)}
-              className="rounded-lg border border-garis bg-putih px-3 py-2 text-isi text-teks"
-            >
-              <option value="">Semua Komoditas</option>
-              {kueriKomoditas.data?.map((k) => (
-                <option key={k.id} value={k.id}>
-                  {k.nama}
-                </option>
-              ))}
-            </select>
+          <div className="flex flex-wrap items-center gap-2.5">
+            <DropdownPilihan
+              ariaLabel="Pilih komoditas"
+              nilaiTerpilih={komoditasPilihan}
+              onChange={(val) => setKomoditasPilihan(String(val))}
+              opsi={[
+                { nilai: '', label: 'Semua Komoditas' },
+                ...(kueriKomoditas.data?.map((k) => ({ nilai: k.id, label: k.nama })) ?? []),
+              ]}
+            />
 
-            <select
-              aria-label="Radius jarak"
-              value={radiusKm}
-              onChange={(e) => setRadiusKm(Number(e.target.value))}
-              className="rounded-lg border border-garis bg-putih px-3 py-2 text-isi text-teks"
-            >
-              <option value={10}>Radius 10 km</option>
-              <option value={15}>Radius 15 km</option>
-            </select>
+            <DropdownPilihan
+              ariaLabel="Radius jarak"
+              nilaiTerpilih={radiusKm}
+              onChange={(val) => setRadiusKm(Number(val))}
+              opsi={[
+                { nilai: 10, label: 'Radius 10 km' },
+                { nilai: 15, label: 'Radius 15 km' },
+              ]}
+            />
           </div>
         ) : null}
       </div>
@@ -235,7 +232,7 @@ export function HalamanStokPembeli() {
                   <div className="flex gap-2 border-t border-garis pt-3">
                     <Link
                       to={`/chat?tujuan=${encodeURIComponent(s.petani_id)}&jenis=stok&rujukan=${encodeURIComponent(s.id)}`}
-                      className="fokus-cincin inline-flex items-center justify-center gap-1 rounded-lg border border-daun px-3 py-2 text-center text-keterangan font-semibold text-daun-tua hover:bg-daun-lembut"
+                      className="fokus-cincin inline-flex items-center justify-center gap-1 rounded-lg border border-daun-tua px-3 py-2 text-center text-keterangan font-semibold text-daun-tua hover:bg-daun-lembut"
                       aria-label={`Chat petani ${s.nama_petani ?? 'Petani'}`}
                     >
                       <Ikon nama="chat" ukuran={16} />
@@ -248,7 +245,7 @@ export function HalamanStokPembeli() {
                         setJumlahKg(String(Math.min(5, s.sisa_kg)));
                         setGalatBeli('');
                       }}
-                      className="fokus-cincin flex-1 rounded-lg bg-daun py-2 text-center text-isi font-semibold text-putih hover:bg-daun/90 shadow-kartu"
+                      className="fokus-cincin flex-1 rounded-lg bg-daun-tua py-2 text-center text-isi font-semibold text-putih hover:bg-daun-tekan shadow-kartu"
                     >
                       Beli Panen Ini
                     </button>
@@ -344,14 +341,14 @@ export function HalamanStokPembeli() {
                         type="button"
                         onClick={() => selesaiPesanan.mutate(p.id)}
                         disabled={selesaiPesanan.isPending}
-                        className="rounded-lg bg-daun px-4 py-2 text-isi font-bold text-putih hover:bg-daun/90 shadow-kartu"
+                        className="rounded-lg bg-daun-tua px-4 py-2 text-isi font-bold text-putih hover:bg-daun-tekan shadow-kartu"
                       >
                         Konfirmasi Diterima dan Selesai
                       </button>
                     ) : null}
 
                     {p.status === 'selesai' ? (
-                      <span className="text-isi font-semibold text-daun-tua bg-daun-lembut px-3 py-1.5 rounded-lg border border-daun">
+                      <span className="text-isi font-semibold text-daun-tua bg-daun-lembut px-3 py-1.5 rounded-lg border border-daun-tua">
                         ✓ Transaksi Selesai
                       </span>
                     ) : null}
@@ -515,7 +512,7 @@ export function HalamanStokPembeli() {
                     id="tombol-pasang-pesanan"
                     type="submit"
                     disabled={beliStok.isPending}
-                    className="rounded-lg bg-daun px-5 py-2 text-isi font-bold text-putih hover:bg-daun/90 shadow-kartu disabled:opacity-50"
+                    className="rounded-lg bg-daun-tua px-5 py-2 text-isi font-bold text-putih hover:bg-daun-tekan shadow-kartu disabled:opacity-50"
                   >
                     {beliStok.isPending ? 'Memproses...' : 'Pasang Pesanan Sekarang'}
                   </button>

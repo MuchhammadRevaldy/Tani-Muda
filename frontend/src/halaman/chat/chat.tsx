@@ -279,7 +279,7 @@ export function HalamanChat() {
             {permintaanMasuk.map((item) => (
               <div
                 key={item.id}
-                className="flex flex-col gap-2 rounded-lg border border-garis bg-putih p-3 shadow-sm"
+                className="flex flex-col gap-2 rounded-lg border border-garis bg-putih p-3 shadow-kartu"
               >
                 <div className="flex items-start justify-between gap-2">
                   <div className="flex items-center gap-2.5">
@@ -309,7 +309,7 @@ export function HalamanChat() {
                     type="button"
                     disabled={tolakPermintaanMutasi.isPending}
                     onClick={() => void tanganiTolakPermintaan(item.id)}
-                    className="fokus-cincin inline-flex items-center gap-1 rounded-lg border border-garis bg-putih px-3 py-1 text-keterangan font-semibold text-teks-pendukung hover:bg-abu-1 hover:text-merah"
+                    className="fokus-cincin inline-flex items-center gap-1 rounded-lg border border-garis bg-putih px-3 py-1 text-keterangan font-semibold text-teks-pendukung hover:bg-embun-pagi"
                   >
                     <Ikon nama="silang" ukuran={14} />
                     <span>Tolak</span>
@@ -318,7 +318,7 @@ export function HalamanChat() {
                     type="button"
                     disabled={terimaPermintaanMutasi.isPending}
                     onClick={() => void tanganiTerimaPermintaan(item.id)}
-                    className="fokus-cincin inline-flex items-center gap-1 rounded-lg bg-daun-tua px-3 py-1 text-keterangan font-semibold text-putih hover:bg-daun shadow-sm"
+                    className="fokus-cincin inline-flex items-center gap-1 rounded-lg bg-daun-tua px-3 py-1 text-keterangan font-semibold text-putih hover:bg-daun-tekan shadow-kartu"
                   >
                     <Ikon nama="centang" ukuran={14} />
                     <span>Terima</span>
@@ -332,7 +332,7 @@ export function HalamanChat() {
 
       {/* Indikator Permintaan Terkirim yang Sedang Menunggu */}
       {permintaanKeluarMenunggu.length > 0 ? (
-        <div className="flex items-center gap-2 rounded-lg border border-garis bg-putih px-3 py-2 text-keterangan text-teks-pendukung shadow-sm">
+        <div className="flex items-center gap-2 rounded-lg border border-garis bg-putih px-3 py-2 text-keterangan text-teks-pendukung shadow-kartu">
           <span className="text-oranye">
             <Ikon nama="jam" ukuran={15} />
           </span>

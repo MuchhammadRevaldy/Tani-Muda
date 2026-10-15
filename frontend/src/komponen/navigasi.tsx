@@ -179,12 +179,13 @@ function useTerpotong(daftar: RefObject<HTMLElement | null>[], isi: string) {
 export interface ButirMenuAkun {
   label: string;
   ke: string;
+  ikon?: NamaIkon;
 }
 
 /** Butir menu akun petani (sidebar). */
 const BUTIR_PETANI: ButirMenuAkun[] = [
-  { label: teksNavigasi.profil, ke: '/profil' },
-  { label: teksNavigasi.pengaturanNotifikasi, ke: '/profil/notifikasi' },
+  { label: teksNavigasi.profil, ke: '/profil', ikon: 'kebun' },
+  { label: teksNavigasi.pengaturanNotifikasi, ke: '/profil/notifikasi', ikon: 'lonceng' },
 ];
 
 /**
@@ -227,33 +228,43 @@ function MenuAkun({
       document.removeEventListener('mousedown', klikLuar);
     };
   }, [onTutup]);
-  const item =
-    'fokus-cincin flex min-h-sentuh items-center rounded-sm px-3 font-medium text-teks no-underline hover:bg-embun-pagi hover:text-teks';
+
   return (
     <div
       ref={ref}
       role="menu"
       aria-label={teksKomponen.nav.menuAkun}
       className={cx(
-        'absolute z-20 flex flex-col rounded-lg bg-putih p-1.5 shadow-kartu',
+        'absolute z-30 flex flex-col rounded-2xl border border-garis bg-putih p-2 shadow-kartu-angkat',
         className,
       )}
     >
       {akunLengkap ? (
         <>
           <div className="flex flex-col break-words px-3 py-2">
-            <span className="font-semibold">{akunLengkap.nama}</span>
+            <span className="font-semibold text-teks">{akunLengkap.nama}</span>
             <span className="text-keterangan text-teks-pendukung">{akunLengkap.keterangan}</span>
           </div>
           <div className="mx-1.5 my-1 h-px bg-garis" />
         </>
       ) : null}
       {butir.map((b) => (
-        <Link key={b.ke} role="menuitem" to={b.ke} className={item} onClick={() => onTutup()}>
-          {b.label}
+        <Link
+          key={b.ke}
+          role="menuitem"
+          to={b.ke}
+          className="fokus-cincin flex min-h-sentuh items-center gap-3 rounded-xl px-3 py-2 font-medium text-isi text-teks no-underline transition-colors hover:bg-embun-pagi hover:text-daun-tua"
+          onClick={() => onTutup()}
+        >
+          {b.ikon ? (
+            <span className="flex h-7 w-7 flex-none items-center justify-center rounded-lg bg-embun-pagi text-teks-pendukung">
+              <Ikon nama={b.ikon} ukuran={18} />
+            </span>
+          ) : null}
+          <span>{b.label}</span>
         </Link>
       ))}
-      <div className="mx-1.5 my-1 h-px bg-garis" />
+      <div className="mx-1.5 my-1.5 h-px bg-garis" />
       <button
         role="menuitem"
         type="button"
@@ -261,12 +272,12 @@ function MenuAkun({
           onTutup();
           onKeluar?.();
         }}
-        className={cx(
-          item,
-          'cursor-pointer border-0 bg-transparent text-left text-isi font-semibold text-tomat-teks hover:text-tomat-teks',
-        )}
+        className="fokus-cincin flex min-h-sentuh cursor-pointer items-center gap-3 rounded-xl border-0 bg-transparent px-3 py-2 text-left text-isi font-semibold text-tomat-teks transition-colors hover:bg-tomat-lembut"
       >
-        {teksNavigasi.keluar}
+        <span className="flex h-7 w-7 flex-none items-center justify-center rounded-lg bg-tomat-lembut text-tomat-teks">
+          <Ikon nama="silang" ukuran={18} />
+        </span>
+        <span>{teksNavigasi.keluar}</span>
       </button>
     </div>
   );
@@ -460,11 +471,11 @@ export function HeaderHalaman({
 
 export type MenuPembeli = 'pesanan' | 'stok' | 'peta' | 'chat';
 
-/** Butir menu akun pembeli ([AG-23], [AG-34]): Profil, Riwayat, Keluar. */
+/** Butir menu akun pembeli ([AG-23], [AG-34]): Profil, Pembayaran, Riwayat, Keluar. */
 const BUTIR_PEMBELI: ButirMenuAkun[] = [
-  { label: teksNavigasi.profil, ke: '/pembeli/profil' },
-  { label: teksNavigasi.pembayaran, ke: '/pembeli/pembayaran' },
-  { label: teksNavigasi.riwayat, ke: '/pembeli/riwayat' },
+  { label: teksNavigasi.profil, ke: '/pembeli/profil', ikon: 'kebun' },
+  { label: teksNavigasi.pembayaran, ke: '/pembeli/pembayaran', ikon: 'uang' },
+  { label: teksNavigasi.riwayat, ke: '/pembeli/riwayat', ikon: 'jam' },
 ];
 
 /** Tombol akun pembeli di kanan atas header: avatar, nama usaha, panah; membuka menu akun. */

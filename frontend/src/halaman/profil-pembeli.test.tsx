@@ -36,10 +36,14 @@ describe('menu akun pembeli', () => {
       within(menu)
         .getAllByRole('menuitem')
         .map((m) => m.textContent),
-    ).toEqual(['Profil', 'Riwayat', 'Keluar']);
+    ).toEqual(['Profil', 'Pembayaran', 'Riwayat', 'Keluar']);
     expect(within(menu).getByRole('menuitem', { name: 'Profil' })).toHaveAttribute(
       'href',
       '/pembeli/profil',
+    );
+    expect(within(menu).getByRole('menuitem', { name: 'Pembayaran' })).toHaveAttribute(
+      'href',
+      '/pembeli/pembayaran',
     );
     expect(within(menu).getByRole('menuitem', { name: 'Riwayat' })).toHaveAttribute(
       'href',

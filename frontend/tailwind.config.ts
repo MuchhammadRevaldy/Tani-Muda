@@ -18,6 +18,7 @@ export const warna = {
   'limau-terang': '#95D23B',
   'limau-tekan': '#76B52A',
   // Limau tua: peran teks, garis pilihan, dan ikon aktif (6,4:1 di atas putih).
+  daun: '#3D6B0E',
   'daun-tua': '#3D6B0E',
   'daun-tekan': '#2F540A',
   'daun-lembut': '#EEF8DF',
