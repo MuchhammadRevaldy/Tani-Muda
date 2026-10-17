@@ -9,16 +9,14 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import { adalahGalatApi } from '../../api/galat';
 import { useKomoditas, useMetode, useResepMentor, useSimpanResep } from '../../api/kueri';
 import type { DasarDosis, ResepTanam, TipeTugas } from '../../api/tipe';
-import { cx } from '../../komponen/gabung-kelas';
 import { Ikon } from '../../komponen/ikon';
 import { Kartu } from '../../komponen/kartu';
 import {
   KolomIsian,
   KolomTeks,
-  kelasBingkai,
-  kelasInput,
   PesanKolom,
 } from '../../komponen/kolom-isian';
+import { PilihanDropdown } from '../../komponen/pilihan-dropdown';
 import { Kepala, Sel, Tabel } from '../../komponen/tabel';
 import { Tombol } from '../../komponen/tombol';
 import type { MasalahResep } from '../../lib/validasi-resep';
@@ -62,26 +60,19 @@ function Pilih<T extends string>({
 }) {
   const id = `pilih-${label.replace(/\W+/g, '-').toLowerCase()}`;
   return (
-    <div className="flex flex-col gap-2">
-      <label htmlFor={id} className={cx('font-medium', labelTersembunyi && 'sr-saja')}>
-        {label}
-      </label>
-      <div className={kelasBingkai(!!galat)}>
-        <select
-          id={id}
-          value={nilai}
-          onChange={(e) => onUbah(e.target.value as T)}
-          className={`${kelasInput} cursor-pointer`}
-        >
-          {opsi.map((o) => (
-            <option key={o.nilai} value={o.nilai}>
-              {o.label}
-            </option>
-          ))}
-        </select>
-      </div>
-      {galat ? <PesanKolom id={id} galat={galat} /> : null}
-    </div>
+    <PilihanDropdown<T>
+      id={id}
+      label={label}
+      labelTersembunyi={labelTersembunyi}
+      nilai={nilai}
+      onChange={onUbah}
+      galat={galat}
+      pilihan={opsi.map((o) => ({
+        nilai: o.nilai,
+        label: o.label,
+        komoditasId: o.nilai,
+      }))}
+    />
   );
 }
 

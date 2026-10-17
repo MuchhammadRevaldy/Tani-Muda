@@ -9,8 +9,9 @@ import { useUbahTanggalTanam } from '../../api/kueri';
 import { resepKeDomain, tugasKeDomain } from '../../api/peta';
 import { useHariIni } from '../../api/sesi';
 import { Kartu } from '../../komponen/kartu';
-import { KolomIsian, PesanKolom } from '../../komponen/kolom-isian';
+import { PesanKolom } from '../../komponen/kolom-isian';
 import { LabelKecil } from '../../komponen/label-kecil';
+import { PilihTanggal } from '../../komponen/pilih-tanggal';
 import { Tombol } from '../../komponen/tombol';
 import { buatJadwal } from '../../lib/jadwal-buat';
 import { ubahTanggalTanam } from '../../lib/jadwal-ubah';
@@ -69,11 +70,10 @@ function Isi({ d }: { d: DataSiklus }) {
           </LabelKecil>
         ) : null}
         {s.tanggal_tanam ? <p className="m-0">{t.tanggalSekarang(s.tanggal_tanam)}</p> : null}
-        <KolomIsian
+        <PilihTanggal
           label={t.tanggalBaru}
-          type="date"
-          value={tanggal}
-          onChange={(e) => setTanggal(e.target.value)}
+          nilai={tanggal}
+          onChange={setTanggal}
           bantuan={t.tanggalBantuan}
         />
         <div className="flex flex-col gap-2 rounded-md bg-embun-pagi p-3">

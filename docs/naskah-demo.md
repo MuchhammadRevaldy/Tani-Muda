@@ -234,3 +234,8 @@ Semua 9 skenario:
 9. `navigasi-pembeli-hp` (kapsul 4 tab: Pesanan, Stok, Peta, Chat di layar 390px + dropdown akun pembeli: Profil, Riwayat, Keluar)
 
 Seluruhnya hijau 100% pada 3 putaran berturut-turut. Bukti tangkapan layar desktop (1440px) dan mobile (390px) tersedia di `docs/tangkapan/aplikasi/`.
+
+**Pembaruan Dropdown & Kalender `demo-lomba` ([AG-39], D-66), 18 Oktober 2026: 27 dari 27 skenario lolos berturut-turut** (`--skenario semua --ulang 3`):
+- Seluruh elemen `<select>` dan `<input type="date">` bawaan diganti dengan komponen headless yang sudah teruji aksesibilitasnya (`@headlessui/react` Listbox dengan pencarian & lembar bawah HP, serta `react-day-picker` dengan lokal Indonesia dan navigasi keyboard).
+- Anggaran ukuran bundel terjaga ketat di bawah 200 kB gzip (`/` 160,8 kB gzip, `/beranda` 177,2 kB gzip; kalender dimuat secara lazy dalam chunk terpisah 22,3 kB gzip).
+- Seluruh pengujian komponen unit (`dropdown-kalender.test.tsx`), pengujian kontrak backend (434/434 lolos), dan seluruh 9 skenario uji naskah (27/27) lolos 100% pada 3 putaran berturut-turut.

@@ -719,11 +719,21 @@ Ditetapkan 14 Oktober 2026 oleh pemilik produk (disahkan lewat `docs/prd-fitur-t
 - Periode perbaikan akhir difokuskan pada: pemulihan dan penyeleksian stash pemilik produk, perbaikan tampilan dan UI/UX, penggantian ikon uang dan penambahan ikon pin, eliminasi emoji sebagai ikon (diganti komponen `Ikon`), standarisasi format jarak dan kepatuhan kapitalisasi kalimat biasa (D-09), serta pengujian ketat gerbang demo.
 - Berdampak ke: `docs/naskah-demo.md`, `docs/aturan-proyek.md`, `frontend/`, `backend/`.
 
+## D-66. Desain Dropdown dan Kalender Headless ([AG-39])
+- Daftar pilihan dan kalender bawaan peramban tidak bisa diberi gaya seragam dengan tema Tani Muda. Membuat sendiri dari nol berisiko masalah navigasi keyboard dan pembaca layar (a11y).
+- Memakai pustaka headless kecil yang sudah teruji aksesibilitasnya: **Headless UI** (`@headlessui/react`, Listbox/Combobox) untuk pilihan dropdown dan **`react-day-picker`** dengan lokal Indonesia (`date-fns/locale`) untuk kalender pemilih tanggal.
+- Versi tetap di `package.json` tanpa rentang dinamis.
+- Komponen `PilihanDropdown` menggantikan semua elemen `<select>`: pemicu selaras dengan `KolomIsian` (tinggi kontrol 52–56 px, sudut membulat, cincin fokus), panel daftar bersudut membulat dengan bayangan bernama (`shadow-kartu`), tinggi butir minimal 48 px, butir terpilih bertanda centang dan latar limau lembut, pencarian otomatis bila lebih dari 8 opsi, ilustrasi kecil untuk komoditas, dan tampil sebagai lembar bawah di layar HP.
+- Komponen `PilihTanggal` menggantikan semua elemen `<input type="date">`: masukan menampilkan format tanggal Indonesia melalui `format.ts`, kalender berbahasa Indonesia (Senin sebagai awal minggu), penanda hari ini, pil limau untuk tanggal terpilih, tombol aksi "Hari ini" dan "Hapus", batasan tanggal minimum/maksimum sesuai konteks, dan tampil sebagai lembar bawah di layar HP.
+- Target ukuran bundel tetap di bawah 200 kB gzip untuk halaman utama.
+- Berdampak ke: `frontend/src/komponen/`, seluruh formulir yang memakai `<select>` dan `<input type="date">`, `docs/naskah-demo.md`.
+
 ---
 
 ## Riwayat
 | Tanggal | Perubahan |
 | --- | --- |
+| 2026-10-18 | D-66 ([AG-39]): Desain dropdown dan kalender headless (Headless UI dan react-day-picker dengan lokal Indonesia), a11y keyboard penuh, lembar bawah HP |
 | 2026-10-18 | D-65 ([AG-37]): Lomba diundur ke Selasa 20 Okt 2026; batas pembekuan kode akhir Senin 19 Okt 18.00 WIB; pemulihan stash, ikon pin & uang, format jarak, aturan emoji & kapitalisasi kalimat |
 | 2026-10-14 | D-64 ([AG-28]): PRD tambahan 12 fitur v1.1 disahkan; pembekuan kode Sabtu 17 Okt 12.00; sakelar per fitur; tag harian; privasi peta & batas AI |
 | 2026-10-04 | D-01 sampai D-11 ditetapkan |

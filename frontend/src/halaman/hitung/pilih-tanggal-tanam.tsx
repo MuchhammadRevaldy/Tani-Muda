@@ -13,8 +13,9 @@ import { useHariIni } from '../../api/sesi';
 import { Banner } from '../../komponen/banner';
 import { cx } from '../../komponen/gabung-kelas';
 import { Kartu } from '../../komponen/kartu';
-import { KolomIsian, PesanKolom } from '../../komponen/kolom-isian';
+import { PesanKolom } from '../../komponen/kolom-isian';
 import { LabelKecil } from '../../komponen/label-kecil';
+import { PilihTanggal } from '../../komponen/pilih-tanggal';
 import { GrupRadio, KartuPilihan, PilPilihan } from '../../komponen/pilihan';
 import { kelasTombol, Tombol } from '../../komponen/tombol';
 import { buatJadwal } from '../../lib/jadwal-buat';
@@ -197,11 +198,10 @@ export function HalamanPilihTanggalTanam() {
             className="grid-cols-3"
           />
           {kapan === 'tanggal' ? (
-            <KolomIsian
+            <PilihTanggal
               label={t.tanggalTanam}
-              type="date"
-              value={tanggal}
-              onChange={(e) => setTanggal(e.target.value)}
+              nilai={tanggal}
+              onChange={setTanggal}
               bantuan={t.tanggalBantuan}
             />
           ) : null}

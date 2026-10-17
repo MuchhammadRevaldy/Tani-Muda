@@ -23,7 +23,8 @@ import type { Komoditas, Konfigurasi, PesananDenganKebun, ProfilPembeli } from '
 import { Ikon } from '../../komponen/ikon';
 import { InputRupiah } from '../../komponen/input-rupiah';
 import { Kartu } from '../../komponen/kartu';
-import { KolomIsian, kelasBingkai, kelasInput, PesanKolom } from '../../komponen/kolom-isian';
+import { KolomIsian, PesanKolom } from '../../komponen/kolom-isian';
+import { PilihanDropdown } from '../../komponen/pilihan-dropdown';
 import { GrupRadio, KartuPilihan } from '../../komponen/pilihan';
 import { Tombol } from '../../komponen/tombol';
 import { Uang } from '../../komponen/uang';
@@ -262,46 +263,28 @@ function Formulir({
             galat={galat.jumlah}
           />
           {jenis === 'rutin' ? (
-            <div className="flex flex-col gap-2">
-              <label htmlFor="hari-kirim" className="font-medium">
-                {t.hariKirim}
-              </label>
-              <div className={kelasBingkai(false)}>
-                <select
-                  id="hari-kirim"
-                  value={hariKirim}
-                  onChange={(e) => setHariKirim(Number(e.target.value))}
-                  className={`${kelasInput} cursor-pointer`}
-                >
-                  {HARI.map((h, i) => (
-                    <option key={h} value={i}>
-                      {h}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            </div>
+            <PilihanDropdown
+              id="hari-kirim"
+              label={t.hariKirim}
+              nilai={String(hariKirim)}
+              onChange={(v) => setHariKirim(Number(v))}
+              pilihan={HARI.map((h, i) => ({
+                nilai: String(i),
+                label: h,
+              }))}
+            />
           ) : (
-            <div className="flex flex-col gap-2">
-              <label htmlFor="bulan-panen" className="font-medium">
-                {t.bulanPanen}
-              </label>
-              <div className={kelasBingkai(false)}>
-                <select
-                  id="bulan-panen"
-                  value={bulanPanen ?? ''}
-                  onChange={(e) => setBulan(e.target.value)}
-                  className={`${kelasInput} cursor-pointer`}
-                >
-                  {bulanPilihan.map((b) => (
-                    <option key={b} value={b}>
-                      {formatBulan(b, { denganTahun: true })}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              <p className="m-0 text-keterangan text-teks-pendukung">{t.bulanPanenKet}</p>
-            </div>
+            <PilihanDropdown
+              id="bulan-panen"
+              label={t.bulanPanen}
+              nilai={bulanPanen ?? ''}
+              onChange={setBulan}
+              bantuan={t.bulanPanenKet}
+              pilihan={bulanPilihan.map((b) => ({
+                nilai: b,
+                label: formatBulan(b, { denganTahun: true }),
+              }))}
+            />
           )}
         </div>
         <KolomIsian

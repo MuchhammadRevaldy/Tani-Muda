@@ -21,6 +21,14 @@ const waktu = process.env.UJI_WAKTU ?? WAKTU_UJI;
 
 configure({ asyncUtilTimeout: 5000 });
 
+if (typeof globalThis.ResizeObserver === 'undefined') {
+  globalThis.ResizeObserver = class ResizeObserver {
+    observe() {}
+    unobserve() {}
+    disconnect() {}
+  };
+}
+
 beforeEach(() => {
   vi.useFakeTimers({ toFake: ['Date'], now: new Date(waktu), shouldAdvanceTime: true });
   localStorage.clear();

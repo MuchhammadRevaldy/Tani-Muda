@@ -29,6 +29,8 @@ const IKON = {
   lonceng: '<path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15z"/><path d="M10 20.5a2 2 0 0 0 4 0"/>',
   'panah-kanan': '<path d="M9.5 5.8 15.7 12l-6.2 6.2"/>',
   'panah-kiri': '<path d="M14.5 5.8 8.3 12l6.2 6.2"/>',
+  'panah-bawah': '<path d="M5.8 9.5 12 15.7l6.2-6.2"/>',
+  'panah-atas': '<path d="M5.8 14.5 12 8.3l6.2 6.2"/>',
   // Ikon tipe tugas (P0-12): tertanam di halaman desain, diekstrak ke design/extracted/ikon-sebaris/.
   kalender:
     '<rect x="3.5" y="5" width="17" height="15" rx="3"/><path d="M3.5 10h17M8 3v4M16 3v4"/>',

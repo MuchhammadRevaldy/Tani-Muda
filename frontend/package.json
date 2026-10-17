@@ -25,10 +25,13 @@
     "pasang-video": "node scripts/pasang-video.mjs"
   },
   "dependencies": {
+    "@headlessui/react": "2.2.10",
     "@tanstack/react-query": "5.104.1",
     "@types/leaflet": "^1.9.22",
+    "date-fns": "4.1.0",
     "leaflet": "^1.9.4",
     "react": "19.3.0",
+    "react-day-picker": "10.0.2",
     "react-dom": "19.3.0",
     "react-router-dom": "7.18.4"
   },

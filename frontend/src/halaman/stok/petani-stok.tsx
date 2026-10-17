@@ -16,7 +16,10 @@ import { AmbilFoto, type FotoKecil } from '../../komponen/ambil-foto';
 import { cx } from '../../komponen/gabung-kelas';
 import { GambarStok } from '../../komponen/gambar-stok';
 import { Ikon } from '../../komponen/ikon';
+import { PilihTanggal } from '../../komponen/pilih-tanggal';
+import { PilihanDropdown } from '../../komponen/pilihan-dropdown';
 import { formatRupiah } from '../../lib/format';
+import { tambahHari } from '../../lib/tanggal';
 import { KerangkaPesanan } from '../pesanan/kerangka-pesanan';
 
 export function HalamanStokPetani() {
@@ -218,37 +221,27 @@ export function HalamanStokPetani() {
           >
             <h2 className="text-judul-bagian font-semibold text-teks">Tambah stok siap jual</h2>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-              <div>
-                <label htmlFor="komoditas-stok" className="block text-keterangan font-medium text-teks-pendukung mb-1">
-                  Komoditas
-                </label>
-                <select
-                  id="komoditas-stok"
-                  value={komoditasId}
-                  onChange={(e) => setKomoditasId(e.target.value)}
-                  className="w-full rounded-lg border border-garis bg-putih p-2.5 text-isi text-teks focus:border-daun focus:ring-1 focus:ring-daun"
-                >
-                  {kueriKomoditas.data?.map((k) => (
-                    <option key={k.id} value={k.id}>
-                      {k.nama}
-                    </option>
-                  ))}
-                </select>
-              </div>
+              <PilihanDropdown
+                id="komoditas-stok"
+                label="Komoditas"
+                nilai={komoditasId}
+                onChange={setKomoditasId}
+                pilihan={
+                  kueriKomoditas.data?.map((k) => ({
+                    nilai: k.id,
+                    label: k.nama,
+                    komoditasId: k.id,
+                  })) ?? []
+                }
+              />
 
-              <div>
-                <label htmlFor="panen-stok" className="block text-keterangan font-medium text-teks-pendukung mb-1">
-                  Tanggal Panen
-                </label>
-                <input
-                  id="panen-stok"
-                  type="date"
-                  value={tanggalPanen}
-                  onChange={(e) => setTanggalPanen(e.target.value)}
-                  className="w-full rounded-lg border border-garis bg-putih p-2.5 text-isi text-teks focus:border-daun focus:ring-1 focus:ring-daun"
-                  required
-                />
-              </div>
+              <PilihTanggal
+                id="panen-stok"
+                label="Tanggal Panen"
+                nilai={tanggalPanen}
+                onChange={setTanggalPanen}
+                max={tambahHari(new Date().toISOString().slice(0, 10), 30)}
+              />
 
               <div>
                 <label htmlFor="jumlah-stok" className="block text-keterangan font-medium text-teks-pendukung mb-1">
@@ -500,21 +493,17 @@ export function HalamanStokPetani() {
                       />
                     </div>
 
-                    <div>
-                      <label htmlFor="ubah-status-stok" className="block text-keterangan font-medium text-teks-pendukung mb-1.5">
-                        Status stok
-                      </label>
-                      <select
+                      <PilihanDropdown<StatusStok>
                         id="ubah-status-stok"
-                        value={statusUbah}
-                        onChange={(e) => setStatusUbah(e.target.value as StatusStok)}
-                        className="w-full rounded-xl border border-garis bg-putih px-4 py-2.5 text-isi text-teks focus:border-daun focus:ring-1 focus:ring-daun outline-none"
-                      >
-                        <option value="tersedia">Tersedia untuk dijual</option>
-                        <option value="habis">Habis terjual</option>
-                        <option value="ditarik">Ditarik dari pasar (sementara)</option>
-                      </select>
-                    </div>
+                        label="Status stok"
+                        nilai={statusUbah}
+                        onChange={setStatusUbah}
+                        pilihan={[
+                          { nilai: 'tersedia', label: 'Tersedia untuk dijual' },
+                          { nilai: 'habis', label: 'Habis terjual' },
+                          { nilai: 'ditarik', label: 'Ditarik dari pasar (sementara)' },
+                        ]}
+                      />
 
                     <div>
                       <span className="block text-keterangan font-medium text-teks-pendukung mb-1.5">

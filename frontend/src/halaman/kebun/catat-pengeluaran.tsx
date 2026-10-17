@@ -10,7 +10,9 @@ import type { RencanaItem } from '../../api/tipe';
 import { AmbilFoto, type FotoKecil } from '../../komponen/ambil-foto';
 import { Dialog } from '../../komponen/dialog';
 import { InputRupiah } from '../../komponen/input-rupiah';
-import { kelasBingkai, kelasInput, KolomIsian, PesanKolom } from '../../komponen/kolom-isian';
+import { KolomIsian, PesanKolom } from '../../komponen/kolom-isian';
+import { PilihTanggal } from '../../komponen/pilih-tanggal';
+import { PilihanDropdown } from '../../komponen/pilihan-dropdown';
 import { Tombol } from '../../komponen/tombol';
 import { teksKebun as t } from '../../teks/kebun';
 import { teksUmum } from '../../teks/umum';
@@ -73,26 +75,16 @@ export function DialogCatatPengeluaran({
   return (
     <Dialog terbuka={terbuka} onTutup={onTutup} judul={t.judulCatat}>
       <div className="flex flex-col gap-4">
-        <div className="flex flex-col gap-2">
-          <label htmlFor="item-pengeluaran" className="font-medium">
-            {t.itemRencana}
-          </label>
-          <div className={kelasBingkai(false)}>
-            <select
-              id="item-pengeluaran"
-              value={itemId}
-              onChange={(e) => setItemId(e.target.value)}
-              className={`${kelasInput} cursor-pointer`}
-            >
-              {item.map((i) => (
-                <option key={i.id} value={i.id}>
-                  {i.nama}
-                </option>
-              ))}
-              <option value={LAIN}>{t.diLuarRencana}</option>
-            </select>
-          </div>
-        </div>
+        <PilihanDropdown
+          id="item-pengeluaran"
+          label={t.itemRencana}
+          nilai={itemId}
+          onChange={setItemId}
+          pilihan={[
+            ...item.map((i) => ({ nilai: i.id, label: i.nama })),
+            { nilai: LAIN, label: t.diLuarRencana },
+          ]}
+        />
         {itemId === LAIN ? (
           <KolomIsian
             label={t.namaPengeluaran}
@@ -101,11 +93,10 @@ export function DialogCatatPengeluaran({
           />
         ) : null}
         <InputRupiah label={t.nominal} nilai={nominal} onUbah={setNominal} />
-        <KolomIsian
+        <PilihTanggal
           label={t.tanggal}
-          type="date"
-          value={tanggal}
-          onChange={(e) => setTanggal(e.target.value)}
+          nilai={tanggal}
+          onChange={setTanggal}
         />
         <div className="flex flex-col gap-2">
           <span className="font-medium">{t.fotoNota}</span>
