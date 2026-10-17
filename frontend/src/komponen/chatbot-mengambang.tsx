@@ -118,7 +118,10 @@ export function ChatbotMengambang() {
   return (
     <>
       {/* Tombol Mengambang (FAB) */}
-      <div className="fixed bottom-22 right-4 z-40 lg:bottom-6 lg:right-6 [html:not(:has([data-nav-bawah]))_&]:bottom-4">
+      <div
+        data-chatbot-mengambang
+        className="fixed bottom-22 right-4 z-40 lg:bottom-6 lg:right-6 [html:not(:has([data-nav-bawah]))_&]:bottom-4"
+      >
         <button
           id="tombol-buka-chatbot"
           type="button"
@@ -151,10 +154,14 @@ export function ChatbotMengambang() {
           id="panel-chatbot"
           role="dialog"
           aria-label="Panel Tanya Tani Muda"
-          className="fixed inset-x-3 bottom-3 top-16 z-50 flex flex-col overflow-hidden rounded-3xl border border-garis bg-putih shadow-kartu-angkat md:inset-auto md:bottom-22 md:right-6 md:h-tab-siklus md:w-panel md:max-w-dialog md:rounded-3xl"
+          style={{ borderRadius: '24px' }}
+          className="fixed inset-x-3 bottom-3 top-16 z-50 flex flex-col overflow-hidden rounded-3xl border border-garis bg-putih shadow-kartu-angkat animate-masuk-halaman md:inset-auto md:bottom-22 md:right-6 md:h-tab-siklus md:w-panel md:max-w-dialog md:rounded-3xl"
         >
           {/* Header */}
-          <div className="flex min-h-14 items-center justify-between border-b border-garis bg-daun-tua px-4 py-3 text-putih">
+          <div
+            style={{ borderTopLeftRadius: '24px', borderTopRightRadius: '24px' }}
+            className="flex min-h-14 items-center justify-between rounded-t-3xl border-b border-garis bg-daun-tua px-4 py-3 text-putih"
+          >
             <div className="flex items-center gap-2.5">
               <div className="flex h-9 w-9 items-center justify-center rounded-full bg-daun-lembut text-daun-tua">
                 <Ikon nama="kebun" ukuran={20} />
@@ -184,7 +191,10 @@ export function ChatbotMengambang() {
             )}
 
             {!sudahSetuju ? (
-              <div className="flex flex-col gap-3 rounded-2xl border border-garis bg-daun-lembut p-4">
+              <div
+                style={{ borderRadius: '18px' }}
+                className="flex flex-col gap-3 rounded-2xl border border-garis bg-daun-lembut p-4"
+              >
                 <p className="m-0 font-medium text-daun-tua">Persetujuan Fitur Pintar AI</p>
                 <p className="m-0 text-keterangan text-teks-pendukung">
                   Chatbot “Tanya Tani Muda” menjawab pertanyaan seputar modul budidaya dan resep
@@ -226,6 +236,7 @@ export function ChatbotMengambang() {
                           key={idx}
                           type="button"
                           onClick={() => void kirimPertanyaan(tanya)}
+                          style={{ borderRadius: '16px' }}
                           className="fokus-cincin rounded-xl border border-garis bg-daun-lembut/80 p-2.5 text-keterangan font-medium text-daun-tua hover:bg-daun-lembut transition-colors"
                         >
                           💡 {tanya}
@@ -247,13 +258,19 @@ export function ChatbotMengambang() {
                   return (
                     <div
                       key={p.id}
-                      className={`flex flex-col ${p.peran === 'user' ? 'items-end' : 'items-start'}`}
+                      className={`flex flex-col animate-masuk-halaman ${p.peran === 'user' ? 'items-end' : 'items-start'}`}
                     >
                       <div
+                        style={{
+                          borderRadius: '18px',
+                          ...(p.peran === 'user'
+                            ? { borderBottomRightRadius: '6px' }
+                            : { borderBottomLeftRadius: '6px' }),
+                        }}
                         className={`max-w-panel rounded-2xl px-4 py-2.5 text-isi shadow-kartu ${
                           p.peran === 'user'
-                            ? 'rounded-br-xs bg-daun-tua text-putih'
-                            : 'rounded-bl-xs border border-garis bg-embun-pagi text-teks'
+                            ? 'rounded-br-md bg-daun-tua text-putih'
+                            : 'rounded-bl-md border border-garis bg-embun-pagi text-teks'
                         }`}
                       >
                         <p className="m-0 whitespace-pre-wrap leading-relaxed">{p.isi}</p>
@@ -337,7 +354,7 @@ export function ChatbotMengambang() {
                 e.preventDefault();
                 void kirimPertanyaan();
               }}
-              className="sticky bottom-0 flex items-center gap-2 border-t border-garis bg-putih p-3 shadow-kartu"
+              className="sticky bottom-0 flex items-center gap-2 rounded-b-3xl border-t border-garis bg-putih p-3 shadow-kartu"
             >
               <input
                 id="input-chatbot"

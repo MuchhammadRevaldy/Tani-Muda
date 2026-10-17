@@ -37,7 +37,7 @@ it('endpoint yang belum dikerjakan menjawab 501 BELUM_TERSEDIA dengan pesan vers
     DataContohSeeder::isi(CarbonImmutable::now());
     $this->postJson('/api/v1/demo/masuk', ['pengguna_id' => 'petani-arif'])->assertOk();
     app('auth')->forgetGuards();
-    foreach ([['postJson', '/api/v1/laporan-harga'], ['postJson', '/api/v1/admin/sengketa/x/putuskan'], ['postJson', '/api/v1/siklus/x/akhiri']] as [$cara, $jalur]) {
+    foreach ([['postJson', '/api/v1/laporan-harga'], ['postJson', '/api/v1/admin/sengketa/x/putuskan'], ['postJson', '/api/v1/notifikasi/langganan']] as [$cara, $jalur]) {
         $this->{$cara}($jalur)
             ->assertStatus(501)
             ->assertJsonPath('galat.kode', 'BELUM_TERSEDIA')

@@ -250,9 +250,9 @@ export function HalamanPetaPetani() {
             <button
               type="button"
               onClick={() => setRadiusKm(10)}
-              className={`rounded-md px-3 py-1.5 font-medium ${
+              className={`rounded-md px-3 py-1.5 font-medium transition-all duration-sedang ease-keluar ${
                 radiusKm === 10
-                  ? 'bg-daun text-putih'
+                  ? 'bg-daun text-putih shadow-kartu'
                   : 'text-teks hover:bg-embun-pagi'
               }`}
             >
@@ -261,9 +261,9 @@ export function HalamanPetaPetani() {
             <button
               type="button"
               onClick={() => setRadiusKm(15)}
-              className={`rounded-md px-3 py-1.5 font-medium ${
+              className={`rounded-md px-3 py-1.5 font-medium transition-all duration-sedang ease-keluar ${
                 radiusKm === 15
-                  ? 'bg-daun text-putih'
+                  ? 'bg-daun text-putih shadow-kartu'
                   : 'text-teks hover:bg-embun-pagi'
               }`}
             >
@@ -276,9 +276,9 @@ export function HalamanPetaPetani() {
             <button
               type="button"
               onClick={() => setTampilan('peta')}
-              className={`rounded-md px-3 py-1.5 font-medium ${
+              className={`rounded-md px-3 py-1.5 font-medium transition-all duration-sedang ease-keluar ${
                 tampilan === 'peta'
-                  ? 'bg-tanah text-putih'
+                  ? 'bg-tanah text-putih shadow-kartu'
                   : 'text-teks hover:bg-embun-pagi'
               }`}
             >
@@ -287,9 +287,9 @@ export function HalamanPetaPetani() {
             <button
               type="button"
               onClick={() => setTampilan('daftar')}
-              className={`rounded-md px-3 py-1.5 font-medium ${
+              className={`rounded-md px-3 py-1.5 font-medium transition-all duration-sedang ease-keluar ${
                 tampilan === 'daftar'
-                  ? 'bg-tanah text-putih'
+                  ? 'bg-tanah text-putih shadow-kartu'
                   : 'text-teks hover:bg-embun-pagi'
               }`}
             >
@@ -345,7 +345,7 @@ export function HalamanPetaPetani() {
 
       {/* Tampilan Peta */}
       {tampilan === 'peta' ? (
-        <div className="flex flex-col gap-6 lg:flex-row">
+        <div className="flex flex-col gap-6 lg:flex-row animate-masuk-halaman">
           <div className="relative min-h-96 flex-1 overflow-hidden rounded-2xl border border-garis bg-putih">
             <div
               id="wadah-leaflet"
@@ -360,8 +360,9 @@ export function HalamanPetaPetani() {
           {/* Panel detail petani terpilih */}
           <div className="w-full lg:w-80">
             {petaniTerpilih ? (
-              <Kartu judul={petaniTerpilih.nama} tingkatJudul={2}>
-                <div className="flex flex-col gap-4">
+              <div key={petaniTerpilih.id} className="animate-masuk-halaman">
+                <Kartu judul={petaniTerpilih.nama} tingkatJudul={2}>
+                  <div className="flex flex-col gap-4">
                   <div className="flex items-center gap-3">
                     <Avatar nama={petaniTerpilih.nama} ukuran={44} />
                     <div className="flex flex-col">
@@ -420,6 +421,7 @@ export function HalamanPetaPetani() {
                   </div>
                 </div>
               </Kartu>
+              </div>
             ) : (
               <Kartu judul="Pilih petani" tingkatJudul={2}>
                 <p className="m-0 text-keterangan text-teks-pendukung">
@@ -431,7 +433,7 @@ export function HalamanPetaPetani() {
         </div>
       ) : (
         /* Tampilan Daftar */
-        <div className="flex flex-col gap-4">
+        <div key={`daftar-${radiusKm}`} className="flex flex-col gap-4 animate-masuk-halaman">
           {daftarPetani.length === 0 ? (
             <Kartu judul="Tidak ada petani" tingkatJudul={2}>
               <p className="m-0 text-teks-pendukung">
@@ -441,7 +443,8 @@ export function HalamanPetaPetani() {
           ) : (
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
               {daftarPetani.map((p) => (
-                <Kartu key={p.id} judul={p.nama} tingkatJudul={2}>
+                <div key={p.id} className="animate-masuk-halaman">
+                  <Kartu judul={p.nama} tingkatJudul={2}>
                   <div className="flex flex-col gap-3">
                     <div className="flex items-center gap-3">
                       <Avatar nama={p.nama} ukuran={40} />
@@ -476,8 +479,9 @@ export function HalamanPetaPetani() {
                     </div>
                   </div>
                 </Kartu>
-              ))}
-            </div>
+              </div>
+            ))}
+          </div>
           )}
         </div>
       )}

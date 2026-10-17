@@ -86,7 +86,7 @@ export function ModalDeteksiTanaman({ terbuka, onTutup, siklusId, tugasId }: Pro
         )}
 
         {!sudahSetuju ? (
-          <div className="flex flex-col gap-3 rounded-lg border border-garis bg-daun-lembut p-4">
+          <div className="flex flex-col gap-3 rounded-2xl border border-garis bg-daun-lembut p-4">
             <div className="flex items-start gap-2.5">
               <Ikon nama="info" ukuran={20} className="mt-0.5 text-daun-tua" />
               <div className="flex flex-col gap-1 text-isi">
@@ -130,11 +130,11 @@ export function ModalDeteksiTanaman({ terbuka, onTutup, siklusId, tugasId }: Pro
               </LabelKecil>
             )}
 
-            <div className="rounded-lg border border-garis bg-putih p-4">
+            <div className="rounded-2xl border border-garis bg-putih p-4">
               <p className="m-0 text-keterangan font-medium text-teks-pendukung">Dugaan Masalah:</p>
               <div className="mt-2 flex flex-col gap-2">
                 {hasil.hasil.dugaan.map((d, idx) => (
-                  <div key={idx} className="rounded-md border border-garis bg-embun-pagi p-3">
+                  <div key={idx} className="rounded-xl border border-garis bg-embun-pagi p-3">
                     <div className="flex items-center justify-between gap-2">
                       <span className="font-semibold text-teks">{d.nama}</span>
                       <span
@@ -216,7 +216,7 @@ export function ModalDeteksiTanaman({ terbuka, onTutup, siklusId, tugasId }: Pro
                 <img
                   src={foto.dataUrl}
                   alt="Tanaman"
-                  className="aspect-foto w-full rounded-md border border-garis object-cover"
+                  className="aspect-foto w-full rounded-2xl border border-garis object-cover"
                 />
                 <button
                   type="button"

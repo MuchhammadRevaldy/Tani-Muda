@@ -80,6 +80,17 @@ html.ada-label-demo footer {
   }
 }
 
+/* Mode chat fullscreen di mobile: sembunyikan navigasi bawah, tombol chatbot, dan label demo */
+html.chat-mobile-terbuka [data-nav-bawah],
+html.chat-mobile-terbuka [data-chatbot-mengambang],
+html.chat-mobile-terbuka #tombol-buka-chatbot,
+html.chat-mobile-terbuka .label-mode-demo {
+  display: none !important;
+}
+html.chat-mobile-terbuka {
+  overflow: hidden;
+}
+
 /* ---------- Gerak (D-61) ---------- */
 
 /* Muncul saat digulir (halaman depan): hanya bila JavaScript dan IntersectionObserver jalan

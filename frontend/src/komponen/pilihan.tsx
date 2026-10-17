@@ -48,13 +48,13 @@ export function PilPilihan<T extends string>({
               : 'border-1.5 border-garis-kuat bg-putih font-medium text-teks',
           ),
           segmen: cx(
-            'w-full rounded-ikon px-1.5 py-1 leading-5',
+            'w-full rounded-xl px-2 py-1 leading-5',
             aktif
               ? 'border-2 border-daun-tua bg-putih font-semibold text-daun-tua'
               : 'border-0 bg-transparent font-medium text-teks',
           ),
           kotak: cx(
-            'w-full rounded-md px-3',
+            'w-full rounded-xl px-3',
             aktif
               ? 'border-2 border-daun-tua bg-daun-lembut font-semibold text-daun-tua'
               : 'border-1.5 border-garis-kuat bg-putih font-medium text-teks',
@@ -67,7 +67,7 @@ export function PilPilihan<T extends string>({
             aria-pressed={aktif}
             onClick={() => onPilih(o.nilai)}
             className={cx(
-              'fokus-cincin inline-flex min-h-sentuh cursor-pointer items-center justify-center gap-1.5 text-isi',
+              'fokus-cincin inline-flex min-h-sentuh cursor-pointer items-center justify-center gap-1.5 text-isi transition-all duration-sedang ease-keluar',
               kelas,
             )}
           >
@@ -137,8 +137,9 @@ export function KartuPilihan({
 }) {
   return (
     <div
+      style={{ borderRadius: '18px' }}
       className={cx(
-        'relative min-h-sentuh rounded-lg border',
+        'relative min-h-sentuh rounded-2xl border',
         !(segera || nonaktif) && 'kartu-interaktif',
         dipilih
           ? 'border-daun-tua bg-daun-lembut'
@@ -156,12 +157,14 @@ export function KartuPilihan({
         aria-label={labelAksesibel}
         disabled={nonaktif}
         onClick={onPilih}
-        className="fokus-cincin absolute inset-0 m-0 h-full w-full cursor-pointer rounded-lg border-0 bg-transparent p-0 disabled:cursor-not-allowed"
+        style={{ borderRadius: '18px' }}
+        className="fokus-cincin absolute inset-0 m-0 h-full w-full cursor-pointer rounded-2xl border-0 bg-transparent p-0 disabled:cursor-not-allowed"
       />
       {dipilih ? (
         <span
           aria-hidden="true"
-          className="pointer-events-none absolute -inset-px rounded-lg border-2 border-daun-tua"
+          style={{ borderRadius: '18px' }}
+          className="pointer-events-none absolute -inset-px rounded-2xl border-2 border-daun-tua"
         />
       ) : null}
     </div>

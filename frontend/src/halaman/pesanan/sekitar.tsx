@@ -373,9 +373,9 @@ export function HalamanPesananSekitar() {
         />
         {!lebar && ket ? <p className="m-0 text-keterangan text-teks-pendukung">{ket}</p> : null}
         {!tampil.length ? (
-          <p className="m-0 text-teks-pendukung">{t.ketFilterKosong}</p>
+          <p className="m-0 text-teks-pendukung animate-masuk-halaman">{t.ketFilterKosong}</p>
         ) : lebar ? (
-          <div className="flex items-start gap-6">
+          <div key={`sekitar-${filter}`} className="flex items-start gap-6 animate-masuk-halaman">
             <div className="min-w-0 flex-1">{daftar}</div>
             <aside className="sticky top-6 flex w-panel flex-none flex-col gap-4">
               {pusat ? (
@@ -402,7 +402,9 @@ export function HalamanPesananSekitar() {
             </aside>
           </div>
         ) : (
-          daftar
+          <div key={`sekitar-${filter}`} className="animate-masuk-halaman">
+            {daftar}
+          </div>
         )}
       </>
     );

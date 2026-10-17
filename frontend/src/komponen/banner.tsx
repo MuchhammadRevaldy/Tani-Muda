@@ -12,19 +12,19 @@ const BANNER: Record<
   peringatan: {
     ikon: 'lonceng',
     peran: 'status',
-    kelas: 'rounded-lg border-matahari bg-matahari-lembut text-teks',
+    kelas: 'rounded-2xl border-matahari bg-matahari-lembut text-teks',
     kelasIkon: 'text-matahari-teks',
   },
   bahaya: {
     ikon: 'peringatan',
     peran: 'alert',
-    kelas: 'rounded-lg border-tomat bg-tomat-lembut text-teks',
+    kelas: 'rounded-2xl border-tomat bg-tomat-lembut text-teks',
     kelasIkon: 'text-tomat-teks',
   },
   offline: {
     ikon: 'offline',
     peran: 'status',
-    kelas: 'rounded-lg border-teks bg-teks text-putih',
+    kelas: 'rounded-2xl border-teks bg-teks text-putih',
     kelasIkon: '',
   },
 };

@@ -40,6 +40,7 @@ export const teksKomponenGaleri = {
     limau: { nama: 'Limau', guna: 'Tombol utama, centang selesai, progres. Bukan untuk teks' },
     'limau-terang': { nama: 'Limau terang', guna: 'Awal gradasi tombol utama' },
     'limau-tekan': { nama: 'Limau ditekan', guna: 'Akhir gradasi, tombol utama saat ditekan' },
+    daun: { nama: 'Limau tua (daun)', guna: 'Teks dan ikon menu aktif, tautan, garis pilihan' },
     'daun-tua': { nama: 'Limau tua', guna: 'Teks dan ikon menu aktif, tautan, garis pilihan' },
     'daun-tekan': { nama: 'Limau tua ditekan', guna: 'Tautan saat ditekan' },
     'daun-lembut': { nama: 'Limau lembut', guna: 'Chip selesai, menu aktif, kartu tawaran' },

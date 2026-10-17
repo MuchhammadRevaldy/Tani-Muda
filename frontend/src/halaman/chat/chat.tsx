@@ -4,6 +4,7 @@
  * Polling setiap 5 detik saat obrolan terbuka.
  */
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import {
   useBukaPercakapan,
@@ -19,6 +20,7 @@ import {
 import { useSesi } from '../../api/sesi';
 import type { JenisPercakapan, Percakapan } from '../../api/tipe';
 import { Avatar } from '../../komponen/avatar';
+import { cx } from '../../komponen/gabung-kelas';
 import { Dialog } from '../../komponen/dialog';
 import { Ikon } from '../../komponen/ikon';
 import { Kartu } from '../../komponen/kartu';
@@ -100,6 +102,19 @@ export function HalamanChat() {
         });
     }
   }, [tujuanParam, rujukanParam, jenisParam, bukaMutasi, navigate, location.pathname, daftarQ]);
+
+  // Mode mobile fullscreen: sembunyikan navigasi bawah dan chatbot
+  useEffect(() => {
+    const chatMobileTerbuka = !lebar && Boolean(percakapanDipilih);
+    if (chatMobileTerbuka) {
+      document.documentElement.classList.add('chat-mobile-terbuka');
+    } else {
+      document.documentElement.classList.remove('chat-mobile-terbuka');
+    }
+    return () => {
+      document.documentElement.classList.remove('chat-mobile-terbuka');
+    };
+  }, [lebar, percakapanDipilih]);
 
   const daftar = daftarQ.data ?? [];
   const percakapanAktif =
@@ -363,7 +378,7 @@ export function HalamanChat() {
                 key={p.id}
                 type="button"
                 onClick={() => pilihPercakapan(p)}
-                className={`fokus-cincin flex w-full cursor-pointer items-start gap-3 rounded-2xl border p-3.5 text-left transition ${
+                className={`fokus-cincin flex w-full cursor-pointer items-start gap-3 rounded-2xl border p-3.5 text-left transition-all duration-sedang ease-keluar ${
                   aktif
                     ? 'border-daun-tua bg-daun-lembut shadow-kartu'
                     : 'border-garis bg-putih hover:bg-embun-pagi'
@@ -410,23 +425,37 @@ export function HalamanChat() {
 
   // Tampilan Ruang Obrolan
   const panelObrolan = percakapanAktif ? (
-    <div className="flex h-panel flex-col overflow-hidden rounded-3xl border border-garis bg-putih shadow-kartu">
+    <div
+      style={lebar ? { borderRadius: '24px', minHeight: '560px', height: '65vh' } : undefined}
+      className={cx(
+        'flex flex-col overflow-hidden bg-putih animate-masuk-halaman',
+        lebar
+          ? 'rounded-3xl border border-garis shadow-kartu'
+          : 'h-full w-full',
+      )}
+    >
       {/* Header Obrolan */}
-      <div className="flex items-center justify-between border-b border-garis bg-putih px-4 py-3">
+      <div
+        style={lebar ? { borderTopLeftRadius: '24px', borderTopRightRadius: '24px' } : undefined}
+        className={cx(
+          'flex items-center justify-between border-b border-garis bg-putih px-4 py-3',
+          lebar && 'rounded-t-3xl',
+        )}
+      >
         <div className="flex items-center gap-3">
           {!lebar ? (
             <button
               type="button"
               onClick={() => navigate(location.pathname)}
               aria-label="Kembali ke daftar percakapan"
-              className="flex h-9 w-9 items-center justify-center rounded-full text-teks-pendukung hover:bg-embun-pagi hover:text-teks"
+              className="flex h-10 w-10 items-center justify-center rounded-full text-teks-pendukung hover:bg-embun-pagi hover:text-teks transition-colors"
             >
-              <Ikon nama="panah-kiri" ukuran={20} />
+              <Ikon nama="panah-kiri" ukuran={22} />
             </button>
           ) : null}
           <Avatar nama={percakapanAktif.lawan_bicara.nama} ukuran={40} />
           <div className="flex flex-col">
-            <span className="font-semibold text-teks">
+            <span className="font-semibold text-teks text-isi">
               {percakapanAktif.lawan_bicara.nama}
             </span>
             <div className="flex items-center gap-1.5 text-keterangan text-teks-pendukung">
@@ -456,13 +485,19 @@ export function HalamanChat() {
             return (
               <div
                 key={pesan.id}
-                className={`flex flex-col ${saya ? 'items-end' : 'items-start'}`}
+                className={`flex flex-col animate-masuk-halaman ${saya ? 'items-end' : 'items-start'}`}
               >
                 <div
+                  style={{
+                    borderRadius: '18px',
+                    ...(saya
+                      ? { borderBottomRightRadius: '6px' }
+                      : { borderBottomLeftRadius: '6px' }),
+                  }}
                   className={`max-w-md rounded-2xl px-4 py-2.5 text-isi leading-relaxed shadow-kartu ${
                     saya
-                      ? 'rounded-br-xs bg-daun-tua text-putih'
-                      : 'rounded-bl-xs border border-garis bg-putih text-teks'
+                      ? 'rounded-br-md bg-daun-tua text-putih'
+                      : 'rounded-bl-md border border-garis bg-putih text-teks'
                   }`}
                 >
                   <p className="m-0 whitespace-pre-wrap break-words">{pesan.isi}</p>
@@ -489,7 +524,11 @@ export function HalamanChat() {
       {/* Formulir Kirim Pesan */}
       <form
         onSubmit={(e) => void tanganiKirim(e)}
-        className="flex items-center gap-2 border-t border-garis bg-putih p-3"
+        style={lebar ? { borderBottomLeftRadius: '24px', borderBottomRightRadius: '24px' } : undefined}
+        className={cx(
+          'flex items-center gap-2 border-t border-garis bg-putih p-3',
+          lebar && 'rounded-b-3xl',
+        )}
       >
         <input
           type="text"
@@ -511,7 +550,10 @@ export function HalamanChat() {
       </form>
     </div>
   ) : (
-    <div className="flex h-panel flex-col items-center justify-center rounded-3xl border border-garis bg-putih p-6 text-center text-teks-pendukung shadow-kartu">
+    <div
+      style={{ borderRadius: '24px', minHeight: '560px', height: '65vh' }}
+      className="flex flex-col items-center justify-center rounded-3xl border border-garis bg-putih p-6 text-center text-teks-pendukung shadow-kartu animate-masuk-halaman"
+    >
       <div className="flex h-14 w-14 items-center justify-center rounded-full bg-daun-lembut text-daun-tua">
         <Ikon nama="chat" ukuran={28} />
       </div>
@@ -521,6 +563,16 @@ export function HalamanChat() {
       </p>
     </div>
   );
+
+  // Tampilan full screen langsung di mobile saat percakapan dipilih (teleport ke body via portal)
+  if (!lebar && percakapanDipilih) {
+    return createPortal(
+      <div className="fixed inset-0 z-50 flex h-dvh w-full flex-col bg-putih">
+        {panelObrolan}
+      </div>,
+      document.body,
+    );
+  }
 
   return (
     <div className="flex flex-col gap-4">
@@ -536,8 +588,6 @@ export function HalamanChat() {
           <div className="col-span-5">{panelDaftar}</div>
           <div className="col-span-7">{panelObrolan}</div>
         </div>
-      ) : percakapanDipilih ? (
-        panelObrolan
       ) : (
         panelDaftar
       )}

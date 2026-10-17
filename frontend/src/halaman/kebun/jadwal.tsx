@@ -137,65 +137,67 @@ function IsiJadwal({ d }: { d: DataSiklus }) {
         ]}
       />
       {gagal ? <Banner jenis="bahaya">{teksBeranda.gagalCentang}</Banner> : null}
-      {tersaring.kosongKarena ? (
-        <p className="m-0 rounded-lg border border-garis bg-putih p-4 text-teks-pendukung">
-          {t.kosongTipe(t.namaTipe[filter as TipeTugas])}
-        </p>
-      ) : kelompok.length === 0 ? (
-        <p className="m-0 rounded-lg border border-garis bg-putih p-4 text-teks-pendukung">
-          {t.kosongSemua}
-        </p>
-      ) : (
-        kelompok.map((k) => (
-          <div key={k.kunci} className="flex flex-col gap-2">
-            <h3 className="m-0 text-isi font-semibold">
-              {judulKelompok(k.kunci, k.tugas, hariIni, besok)}
-            </h3>
-            <div className="overflow-hidden rounded-lg border border-garis bg-putih">
-              {k.tugas.map((dt) => {
-                const x = perId.get(dt.id) as Tugas;
-                const st = statusTugas(x, hariIni);
-                const selesai = x.status === 'selesai' || sedang.has(x.id);
-                const ukur = x.tipe === 'ukur';
-                const keterangan =
-                  x.tipe === 'sekali'
-                    ? x.status === 'selesai'
-                      ? t.hariKeTanggal(x.hst, x.tanggal)
-                      : teksBeranda.hariKe(x.hst)
-                    : teksFrekuensi(x.interval ?? 1);
-                const waktu =
-                  st.jenis === 'terlambat' || st.jenis === 'hari-ini' || st.jenis === 'besok'
-                    ? st.jenis
-                    : undefined;
-                return (
-                  <BarisTugas
-                    key={x.id}
-                    judul={x.judul}
-                    tipe={x.tipe}
-                    keterangan={keterangan}
-                    waktu={waktu}
-                    teksWaktu={st.jenis === 'terlambat' ? teksStatusWaktu(st) : undefined}
-                    selesai={selesai}
-                    onCentang={(jadi) => {
-                      if (ukur) navigate(`${href(x.id)}/ukur`);
-                      else if (jadi && x.status !== 'selesai') void centang(x.id);
-                    }}
-                    href={href(x.id)}
-                    hrefUkur={
-                      ukur && (waktu === 'terlambat' || waktu === 'hari-ini')
-                        ? `${href(x.id)}/ukur`
-                        : undefined
-                    }
-                    jumlahFoto={x.foto ? 1 : 0}
-                    onKamera={() => navigate(href(x.id))}
-                    tanpaKamera={ukur || st.jenis === 'nanti'}
-                  />
-                );
-              })}
+      <div key={`jadwal-${filter}`} className="flex flex-col gap-4 animate-masuk-halaman">
+        {tersaring.kosongKarena ? (
+          <p className="m-0 rounded-lg border border-garis bg-putih p-4 text-teks-pendukung">
+            {t.kosongTipe(t.namaTipe[filter as TipeTugas])}
+          </p>
+        ) : kelompok.length === 0 ? (
+          <p className="m-0 rounded-lg border border-garis bg-putih p-4 text-teks-pendukung">
+            {t.kosongSemua}
+          </p>
+        ) : (
+          kelompok.map((k) => (
+            <div key={k.kunci} className="flex flex-col gap-2">
+              <h3 className="m-0 text-isi font-semibold">
+                {judulKelompok(k.kunci, k.tugas, hariIni, besok)}
+              </h3>
+              <div className="overflow-hidden rounded-lg border border-garis bg-putih">
+                {k.tugas.map((dt) => {
+                  const x = perId.get(dt.id) as Tugas;
+                  const st = statusTugas(x, hariIni);
+                  const selesai = x.status === 'selesai' || sedang.has(x.id);
+                  const ukur = x.tipe === 'ukur';
+                  const keterangan =
+                    x.tipe === 'sekali'
+                      ? x.status === 'selesai'
+                        ? t.hariKeTanggal(x.hst, x.tanggal)
+                        : teksBeranda.hariKe(x.hst)
+                      : teksFrekuensi(x.interval ?? 1);
+                  const waktu =
+                    st.jenis === 'terlambat' || st.jenis === 'hari-ini' || st.jenis === 'besok'
+                      ? st.jenis
+                      : undefined;
+                  return (
+                    <BarisTugas
+                      key={x.id}
+                      judul={x.judul}
+                      tipe={x.tipe}
+                      keterangan={keterangan}
+                      waktu={waktu}
+                      teksWaktu={st.jenis === 'terlambat' ? teksStatusWaktu(st) : undefined}
+                      selesai={selesai}
+                      onCentang={(jadi) => {
+                        if (ukur) navigate(`${href(x.id)}/ukur`);
+                        else if (jadi && x.status !== 'selesai') void centang(x.id);
+                      }}
+                      href={href(x.id)}
+                      hrefUkur={
+                        ukur && (waktu === 'terlambat' || waktu === 'hari-ini')
+                          ? `${href(x.id)}/ukur`
+                          : undefined
+                      }
+                      jumlahFoto={x.foto ? 1 : 0}
+                      onKamera={() => navigate(href(x.id))}
+                      tanpaKamera={ukur || st.jenis === 'nanti'}
+                    />
+                  );
+                })}
+              </div>
             </div>
-          </div>
-        ))
-      )}
+          ))
+        )}
+      </div>
       {s.status === 'aktif' ? (
         <div className="flex flex-wrap gap-3 pt-2">
           <Link

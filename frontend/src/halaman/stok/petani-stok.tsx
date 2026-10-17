@@ -106,7 +106,7 @@ export function HalamanStokPetani() {
               type="button"
               onClick={() => setTabAktif('stok')}
               className={cx(
-                'fokus-cincin rounded-full px-5 py-2 font-semibold text-isi transition-all duration-200',
+                'fokus-cincin rounded-full px-5 py-2 font-semibold text-isi transition-all duration-sedang ease-keluar',
                 tabAktif === 'stok'
                   ? 'bg-daun-tua text-putih shadow-kartu'
                   : 'bg-putih text-teks-pendukung border border-garis hover:bg-embun-pagi hover:text-teks'
@@ -118,7 +118,7 @@ export function HalamanStokPetani() {
               type="button"
               onClick={() => setTabAktif('pesanan')}
               className={cx(
-                'fokus-cincin relative rounded-full px-5 py-2 font-semibold text-isi transition-all duration-200',
+                'fokus-cincin relative rounded-full px-5 py-2 font-semibold text-isi transition-all duration-sedang ease-keluar',
                 tabAktif === 'pesanan'
                   ? 'bg-daun-tua text-putih shadow-kartu'
                   : 'bg-putih text-teks-pendukung border border-garis hover:bg-embun-pagi hover:text-teks'
@@ -255,7 +255,7 @@ export function HalamanStokPetani() {
 
         {/* Konten Tab Stok Saya */}
         {tabAktif === 'stok' ? (
-          <div className="flex flex-col gap-4">
+          <div key="stok" className="flex flex-col gap-4 animate-masuk-halaman">
             {daftarStok.length === 0 ? (
               <div className="rounded-xl border border-dashed border-garis bg-putih p-8 text-center">
                 <p className="text-isi font-medium text-teks">Belum ada stok siap jual yang kamu daftarkan.</p>
@@ -366,7 +366,7 @@ export function HalamanStokPetani() {
 
         {/* Konten Tab Pesanan Masuk */}
         {tabAktif === 'pesanan' ? (
-          <div className="flex flex-col gap-4">
+          <div key="pesanan" className="flex flex-col gap-4 animate-masuk-halaman">
             {daftarPesanan.length === 0 ? (
               <div className="rounded-xl border border-dashed border-garis bg-putih p-8 text-center">
                 <p className="text-isi font-medium text-teks">Belum ada pesanan masuk untuk stok siap jual.</p>

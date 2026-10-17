@@ -31,7 +31,6 @@ use Illuminate\Support\Facades\Route;
 /** Endpoint kontrak yang belum ada di backend ([AG-19]); lihat bagian bawah berkas. */
 $endpointBelumTersedia = [
     ['POST', '/laporan-harga'],
-    ['POST', '/siklus/{id}/akhiri'],
     ['POST', '/notifikasi/langganan'],
     ['DELETE', '/notifikasi/langganan'],
     ['GET', '/admin/sengketa'],
@@ -157,6 +156,7 @@ Route::middleware('auth:sanctum')->group(function () use ($endpointBelumTersedia
         Route::post('/siklus', [KebunController::class, 'buatSiklus']);
         Route::get('/siklus/{id}', [KebunController::class, 'ambilSiklus']);
         Route::patch('/siklus/{id}/tanggal-tanam', [KebunController::class, 'ubahTanggalTanam']);
+        Route::post('/siklus/{id}/akhiri', [KebunController::class, 'akhiriSiklus']);
         Route::get('/siklus/{id}/tugas', [KebunController::class, 'daftarTugas']);
         Route::get('/siklus/{id}/pengukuran', [KebunController::class, 'riwayatPengukuran']);
         Route::get('/siklus/{id}/pengeluaran', [KebunController::class, 'daftarPengeluaran']);

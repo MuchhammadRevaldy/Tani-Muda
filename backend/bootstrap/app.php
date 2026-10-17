@@ -16,6 +16,7 @@ return Application::configure(basePath: dirname(__DIR__))
         commands: __DIR__.'/../routes/console.php',
     )
     ->withMiddleware(function (Middleware $middleware): void {
+        $middleware->redirectGuestsTo(fn () => null);
         // Sanctum mode SPA: permintaan dari SANCTUM_STATEFUL_DOMAINS memakai cookie sesi (D-21).
         $middleware->statefulApi();
         $middleware->alias(['peran' => PastikanPeran::class]);

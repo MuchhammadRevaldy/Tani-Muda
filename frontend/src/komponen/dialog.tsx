@@ -77,7 +77,7 @@ export function Dialog({
 
   if (!terbuka) return null;
   return createPortal(
-    <div className="fixed inset-0 z-50 flex items-end justify-center lg:items-center lg:p-6">
+    <div className="fixed inset-0 z-50 flex items-end justify-center lg:items-center lg:p-6 animate-masuk-halaman">
       <div className="absolute inset-0 bg-tirai" aria-hidden="true" onClick={onTutup} />
       <section
         ref={panel}
@@ -86,9 +86,9 @@ export function Dialog({
         aria-labelledby={idJudul}
         tabIndex={-1}
         className={cx(
-          'relative flex max-h-full w-full flex-col gap-4 overflow-y-auto bg-putih outline-none',
-          'rounded-t-sheet px-4 pb-6 pt-2',
-          'lg:w-dialog lg:max-w-full lg:rounded-lg lg:p-6',
+          'relative flex max-h-full w-full flex-col gap-4 overflow-y-auto bg-putih outline-none animate-masuk-halaman',
+          'rounded-t-3xl px-4 pb-6 pt-2',
+          'lg:w-dialog lg:max-w-full lg:rounded-3xl lg:p-6',
           className,
         )}
       >

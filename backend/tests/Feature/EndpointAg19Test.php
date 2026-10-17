@@ -75,3 +75,21 @@ it('POST tunda: geser tugas sejenis, tolak di luar 1–3 hari dan tugas yang tid
         ->assertStatus(422)->assertJsonPath('galat.kode', 'TIDAK_BOLEH_DIGESER');
     $this->postJson('/api/v1/tugas/tidak-ada/tunda', ['hari' => 1])->assertStatus(404);
 });
+
+it('POST akhiri: aktif menjadi selesai, simpan pendapatan nyata, dan hitung untung', function () {
+    $this->postJson('/api/v1/siklus/siklus-arif-sawi/akhiri', ['pendapatan_nyata' => 700000])
+        ->assertOk()
+        ->assertJsonPath('data.siklus.status', 'selesai')
+        ->assertJsonPath('data.siklus.pendapatan_nyata', 700000)
+        ->assertJsonPath('data.untung_sebenarnya', 483000)
+        ->assertJsonPath('data.untung_rencana', 320000);
+
+    // Sudah selesai tidak boleh diakhiri lagi
+    $this->postJson('/api/v1/siklus/siklus-arif-sawi/akhiri', ['pendapatan_nyata' => 100000])
+        ->assertStatus(409)
+        ->assertJsonPath('galat.kode', 'STATUS_TIDAK_SESUAI');
+
+    // Nilai negatif ditolak
+    $this->postJson('/api/v1/siklus/siklus-arif-hidro/akhiri', ['pendapatan_nyata' => -1000])
+        ->assertStatus(422);
+});

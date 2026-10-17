@@ -179,6 +179,38 @@ class KebunController extends Controller
         return Respons::data(LayananKebun::detail($s->refresh(), $p));
     }
 
+    /** POST /siklus/{id}/akhiri: aktif → selesai (P0-18). */
+    public function akhiriSiklus(Request $request, string $id): JsonResponse
+    {
+        $p = $this->petani($request);
+        $s = $this->siklus($p, $id);
+        if ($s->status !== StatusSiklus::Aktif) {
+            throw new GalatApi('STATUS_TIDAK_SESUAI');
+        }
+        $pendapatan = $request->input('pendapatan_nyata');
+        if (! (is_numeric($pendapatan) && $pendapatan >= 0)) {
+            throw GalatApi::validasi(['pendapatan_nyata' => 'HARGA_NEGATIF'], kode: 'HARGA_NEGATIF');
+        }
+        $pendapatan = (int) $pendapatan;
+
+        $detail = LayananKebun::detail($s, $p);
+        $pendapatanRencana = Angka::rupiah($s->perkiraan_panen_kg * $s->harga_jual);
+        $untungRencana = $pendapatanRencana - $detail['modal']['total_modal'];
+
+        $s->forceFill([
+            'status' => StatusSiklus::Selesai,
+            'pendapatan_nyata' => $pendapatan,
+        ])->save();
+
+        $detailBaru = LayananKebun::detail($s->refresh(), $p);
+
+        return Respons::data([
+            'siklus' => $detailBaru,
+            'untung_sebenarnya' => $pendapatan - $detail['modal']['sudah_keluar'],
+            'untung_rencana' => $untungRencana,
+        ]);
+    }
+
     /** GET /siklus/{id}/tugas */
     public function daftarTugas(Request $request, string $id): JsonResponse
     {

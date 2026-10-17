@@ -63,26 +63,26 @@ const bayangan = {
  * mati di prefers-reduced-motion (src/index.css). Setiap animasi berakhir di `transform: none`
  * supaya pembungkus konten tidak menjadi blok penampung bagi dialog `position: fixed`.
  */
-const kurvaKeluar = 'cubic-bezier(.2,.8,.2,1)';
+const kurvaKeluar = 'cubic-bezier(.16, 1, .3, 1)';
 const gerak = {
-  durasi: { cepat: '150ms', sedang: '200ms', lambat: '250ms', bertahap: '300ms', muncul: '400ms' },
+  durasi: { cepat: '300ms', sedang: '500ms', lambat: '700ms', bertahap: '600ms', muncul: '800ms' },
   kurva: { keluar: kurvaKeluar },
-  jeda: { bertahap: '50ms' },
+  jeda: { bertahap: '90ms' },
   keyframes: {
     'masuk-halaman': {
-      from: { opacity: '0', transform: 'translateY(8px)' },
+      from: { opacity: '0', transform: 'translateY(12px)' },
       to: { opacity: '1', transform: 'none' },
     },
     'muncul-bertahap': {
-      from: { opacity: '0', transform: 'translateY(8px)' },
+      from: { opacity: '0', transform: 'translateY(12px)' },
       to: { opacity: '1', transform: 'none' },
     },
     denyut: { '0%, 100%': { opacity: '1' }, '50%': { opacity: '.55' } },
   },
   animasi: {
-    'masuk-halaman': `masuk-halaman 200ms ${kurvaKeluar} both`,
-    'muncul-bertahap': `muncul-bertahap 300ms ${kurvaKeluar} both`,
-    denyut: 'denyut 1.6s ease-in-out infinite',
+    'masuk-halaman': `masuk-halaman 600ms ${kurvaKeluar} both`,
+    'muncul-bertahap': `muncul-bertahap 700ms ${kurvaKeluar} both`,
+    denyut: 'denyut 2.4s ease-in-out infinite',
   },
 };
 
@@ -205,13 +205,16 @@ const config: Config = {
     spacing: skala,
     borderRadius: {
       none: '0',
-      xs: '2px',
-      sm: '8px',
-      ikon: '10px',
-      md: '12px',
-      tab: '14px',
-      lg: '16px',
-      sheet: '20px',
+      xs: '6px',
+      sm: '10px',
+      ikon: '12px',
+      md: '16px',
+      tab: '18px',
+      lg: '20px',
+      xl: '20px',
+      '2xl': '24px',
+      '3xl': '32px',
+      sheet: '24px',
       kartu: '24px',
       nav: '28px', // navigasi bawah mengambang (papan Beranda HP)
       'kartu-besar': '32px',

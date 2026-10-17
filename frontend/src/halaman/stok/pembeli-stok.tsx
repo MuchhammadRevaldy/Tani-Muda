@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { createPortal } from 'react-dom';
 import { Link } from 'react-router-dom';
 import {
   useBatalkanPesananStok,
@@ -104,7 +105,7 @@ export function HalamanStokPembeli() {
             type="button"
             onClick={() => setTabAktif('katalog')}
             className={cx(
-              'fokus-cincin rounded-full px-5 py-2 text-isi font-semibold transition-all duration-200',
+              'fokus-cincin rounded-full px-5 py-2 text-isi font-semibold transition-all duration-sedang ease-keluar',
               tabAktif === 'katalog'
                 ? 'bg-daun-tua text-putih shadow-kartu'
                 : 'bg-putih text-teks-pendukung border border-garis hover:bg-embun-pagi hover:text-teks'
@@ -116,7 +117,7 @@ export function HalamanStokPembeli() {
             type="button"
             onClick={() => setTabAktif('pesanan')}
             className={cx(
-              'fokus-cincin relative rounded-full px-5 py-2 text-isi font-semibold transition-all duration-200',
+              'fokus-cincin relative rounded-full px-5 py-2 text-isi font-semibold transition-all duration-sedang ease-keluar',
               tabAktif === 'pesanan'
                 ? 'bg-daun-tua text-putih shadow-kartu'
                 : 'bg-putih text-teks-pendukung border border-garis hover:bg-embun-pagi hover:text-teks'
@@ -158,7 +159,7 @@ export function HalamanStokPembeli() {
 
       {/* Konten Tab Katalog */}
       {tabAktif === 'katalog' ? (
-        <div className="flex flex-col gap-4">
+        <div key={`katalog-${komoditasPilihan}-${radiusKm}`} className="flex flex-col gap-4 animate-masuk-halaman">
           {daftarStok.length === 0 ? (
             <div className="rounded-xl border border-dashed border-garis bg-putih p-10 text-center">
               <span className="text-judul-halaman">🌱</span>
@@ -172,10 +173,14 @@ export function HalamanStokPembeli() {
               {daftarStok.map((s) => (
                 <div
                   key={s.id}
-                  className="flex flex-col justify-between rounded-xl border border-garis bg-putih p-5 shadow-kartu"
+                  style={{ borderRadius: '24px' }}
+                  className="flex flex-col justify-between overflow-hidden rounded-3xl border border-garis bg-putih p-5 shadow-kartu"
                 >
                   <div>
-                    <div className="relative mb-3 flex h-36 w-full items-center justify-center overflow-hidden rounded-lg bg-embun-pagi/60 border border-garis/50">
+                    <div
+                      style={{ borderRadius: '18px' }}
+                      className="relative mb-3 flex h-36 w-full items-center justify-center overflow-hidden rounded-2xl bg-embun-pagi/60 border border-garis/50"
+                    >
                       <img
                         src={
                           s.foto ||
@@ -215,7 +220,10 @@ export function HalamanStokPembeli() {
                       ) : null}
                     </div>
 
-                    <div className="my-4 flex items-baseline justify-between rounded-lg bg-embun-pagi p-3">
+                    <div
+                      style={{ borderRadius: '16px' }}
+                      className="my-4 flex items-baseline justify-between rounded-2xl bg-embun-pagi p-3.5"
+                    >
                       <div>
                         <span className="text-keterangan text-teks-pendukung block">Sisa Stok Siap Antar</span>
                         <span className="text-judul-bagian font-bold text-daun-tua">{s.sisa_kg} kg</span>
@@ -232,7 +240,7 @@ export function HalamanStokPembeli() {
                   <div className="flex gap-2 border-t border-garis pt-3">
                     <Link
                       to={`/chat?tujuan=${encodeURIComponent(s.petani_id)}&jenis=stok&rujukan=${encodeURIComponent(s.id)}`}
-                      className="fokus-cincin inline-flex items-center justify-center gap-1 rounded-lg border border-daun-tua px-3 py-2 text-center text-keterangan font-semibold text-daun-tua hover:bg-daun-lembut"
+                      className="fokus-cincin inline-flex items-center justify-center gap-1.5 rounded-full border border-daun-tua px-3.5 py-2 text-center text-keterangan font-semibold text-daun-tua hover:bg-daun-lembut transition-colors"
                       aria-label={`Chat petani ${s.nama_petani ?? 'Petani'}`}
                     >
                       <Ikon nama="chat" ukuran={16} />
@@ -245,7 +253,7 @@ export function HalamanStokPembeli() {
                         setJumlahKg(String(Math.min(5, s.sisa_kg)));
                         setGalatBeli('');
                       }}
-                      className="fokus-cincin flex-1 rounded-lg bg-daun-tua py-2 text-center text-isi font-semibold text-putih hover:bg-daun-tekan shadow-kartu"
+                      className="fokus-cincin flex-1 rounded-full bg-daun-tua py-2.5 text-center text-isi font-semibold text-putih hover:bg-daun-tekan shadow-kartu transition-colors"
                     >
                       Beli Panen Ini
                     </button>
@@ -259,7 +267,7 @@ export function HalamanStokPembeli() {
 
       {/* Konten Tab Pesanan Saya */}
       {tabAktif === 'pesanan' ? (
-        <div className="flex flex-col gap-4">
+        <div key="pesanan" className="flex flex-col gap-4 animate-masuk-halaman">
           {daftarPesanan.length === 0 ? (
             <div className="rounded-xl border border-dashed border-garis bg-putih p-10 text-center">
               <span className="text-judul-halaman">🛒</span>
@@ -273,7 +281,8 @@ export function HalamanStokPembeli() {
               {daftarPesanan.map((p) => (
                 <div
                   key={p.id}
-                  className="flex flex-col justify-between rounded-xl border border-garis bg-putih p-4 shadow-kartu md:flex-row md:items-center gap-4"
+                  style={{ borderRadius: '20px' }}
+                  className="flex flex-col justify-between rounded-2xl border border-garis bg-putih p-4 shadow-kartu md:flex-row md:items-center gap-4"
                 >
                   <div className="flex-1">
                     <div className="flex flex-wrap items-center gap-2">
@@ -330,7 +339,7 @@ export function HalamanStokPembeli() {
                           if (alasan) batalkanPesanan.mutate({ id: p.id, alasan });
                         }}
                         disabled={batalkanPesanan.isPending}
-                        className="rounded-lg border border-tomat/30 bg-tomat/10 px-4 py-2 text-isi font-medium text-tomat hover:bg-tomat/20"
+                        className="rounded-full border border-tomat/30 bg-tomat/10 px-4 py-2 text-isi font-medium text-tomat hover:bg-tomat/20 transition-colors"
                       >
                         Batalkan Pesanan
                       </button>
@@ -341,14 +350,14 @@ export function HalamanStokPembeli() {
                         type="button"
                         onClick={() => selesaiPesanan.mutate(p.id)}
                         disabled={selesaiPesanan.isPending}
-                        className="rounded-lg bg-daun-tua px-4 py-2 text-isi font-bold text-putih hover:bg-daun-tekan shadow-kartu"
+                        className="rounded-full bg-daun-tua px-5 py-2 text-isi font-bold text-putih hover:bg-daun-tekan shadow-kartu transition-colors"
                       >
                         Konfirmasi Diterima dan Selesai
                       </button>
                     ) : null}
 
                     {p.status === 'selesai' ? (
-                      <span className="text-isi font-semibold text-daun-tua bg-daun-lembut px-3 py-1.5 rounded-lg border border-daun-tua">
+                      <span className="text-isi font-semibold text-daun-tua bg-daun-lembut px-3.5 py-1.5 rounded-full border border-daun-tua">
                         ✓ Transaksi Selesai
                       </span>
                     ) : null}
@@ -361,167 +370,184 @@ export function HalamanStokPembeli() {
       ) : null}
 
       {/* Modal Dialog Pembelian */}
-      {stokDipilih ? (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-teks/50 p-4">
-          <div className="w-full max-w-lg rounded-2xl bg-putih p-6 shadow-kartu">
-            <div className="flex items-start justify-between border-b border-garis pb-3">
-              <div>
-                <h3 className="text-judul-bagian font-bold text-teks capitalize">
-                  Beli {stokDipilih.komoditas?.nama ?? stokDipilih.komoditas_id}
-                </h3>
-                <p className="text-keterangan text-teks-pendukung mt-0.5">
-                  Dari {stokDipilih.nama_petani ?? 'Petani'} (Tersisa {stokDipilih.sisa_kg} kg)
-                </p>
-              </div>
-              <button
-                type="button"
-                onClick={() => setStokDipilih(null)}
-                className="rounded-full p-2 text-teks-pendukung hover:bg-embun-pagi"
+      {stokDipilih
+        ? createPortal(
+            <div className="fixed inset-0 z-50 flex items-center justify-center bg-teks/50 p-4 animate-masuk-halaman">
+              <div
+                style={{ borderRadius: '28px', maxWidth: '480px' }}
+                className="w-full max-w-dialog overflow-hidden rounded-3xl bg-putih p-6 shadow-kartu-angkat animate-masuk-halaman"
               >
-                ✕
-              </button>
-            </div>
-
-            <form id="form-beli-stok" noValidate onSubmit={handleKirimPesanan} className="mt-4 flex flex-col gap-4">
-              {galatBeli ? (
-                <div className="rounded-lg bg-tomat/10 p-3 text-isi text-tomat border border-tomat/30">
-                  {galatBeli}
-                </div>
-              ) : null}
-
-              <div>
-                <label htmlFor="beli-kg" className="block text-keterangan font-medium text-teks-pendukung mb-1">
-                  Jumlah yang Ingin Dibeli (kg)
-                </label>
-                <div className="relative">
-                  <input
-                    id="beli-kg"
-                    type="number"
-                    step="any"
-                    min="0.1"
-                    max={stokDipilih.sisa_kg}
-                    value={jumlahKg}
-                    onChange={(e) => setJumlahKg(e.target.value)}
-                    className="w-full rounded-lg border border-garis bg-putih p-2.5 text-isi text-teks focus:border-daun focus:ring-1 focus:ring-daun"
-                    required
-                  />
-                  <span className="absolute right-3 top-2.5 text-isi font-medium text-teks-pendukung">
-                    kg
-                  </span>
-                </div>
-              </div>
-
-              <div>
-                <span className="block text-keterangan font-medium text-teks-pendukung mb-1">
-                  Metode Pembayaran
-                </span>
-                <div className="grid grid-cols-2 gap-2">
-                  <label
-                    className={cx(
-                      'flex cursor-pointer flex-col rounded-xl border p-3 transition-colors',
-                      metodeBayar === 'cod'
-                        ? 'border-daun bg-daun-lembut'
-                        : 'border-garis bg-putih hover:bg-embun-pagi'
-                    )}
-                  >
-                    <div className="flex items-center gap-2">
-                      <input
-                        type="radio"
-                        name="metode_bayar"
-                        value="cod"
-                        checked={metodeBayar === 'cod'}
-                        onChange={() => setMetodeBayar('cod')}
-                        className="text-daun focus:ring-daun"
-                      />
-                      <span className="font-semibold text-isi text-teks">COD</span>
-                    </div>
-                    <span className="mt-1 text-keterangan text-teks-pendukung">
-                      Bayar tunai di tempat saat barang sampai
-                    </span>
-                  </label>
-
-                  <label
-                    className={cx(
-                      'flex cursor-pointer flex-col rounded-xl border p-3 transition-colors',
-                      metodeBayar === 'bayar_di_aplikasi'
-                        ? 'border-daun bg-daun-lembut'
-                        : 'border-garis bg-putih hover:bg-embun-pagi'
-                    )}
-                  >
-                    <div className="flex items-center gap-2">
-                      <input
-                        type="radio"
-                        name="metode_bayar"
-                        value="bayar_di_aplikasi"
-                        checked={metodeBayar === 'bayar_di_aplikasi'}
-                        onChange={() => setMetodeBayar('bayar_di_aplikasi')}
-                        className="text-daun focus:ring-daun"
-                      />
-                      <span className="font-semibold text-isi text-teks">Aplikasi</span>
-                    </div>
-                    <span className="mt-1 text-keterangan text-teks-pendukung">
-                      Saldo ditahan aman sampai panen diterima
-                    </span>
-                  </label>
-                </div>
-              </div>
-
-              <div>
-                <label htmlFor="beli-alamat" className="block text-keterangan font-medium text-teks-pendukung mb-1">
-                  Alamat Pengantaran
-                </label>
-                <textarea
-                  id="beli-alamat"
-                  rows={2}
-                  value={alamatAntar}
-                  onChange={(e) => setAlamatAntar(e.target.value)}
-                  className="w-full rounded-lg border border-garis bg-putih p-2.5 text-isi text-teks focus:border-daun focus:ring-1 focus:ring-daun"
-                  required
-                />
-              </div>
-
-              {/* Rincian Total */}
-              <div className="rounded-xl bg-embun-pagi p-4 border border-garis">
-                <div className="flex items-baseline justify-between text-isi">
-                  <span className="text-teks-pendukung">
-                    Total Biaya ({parseFloat(jumlahKg) || 0} kg × {formatRupiah(stokDipilih.harga_per_kg)}):
-                  </span>
-                  <span className="text-judul-bagian font-bold text-daun-tua">
-                    {formatRupiah(((parseFloat(jumlahKg) || 0) * stokDipilih.harga_per_kg))}
-                  </span>
-                </div>
-              </div>
-
-              <div className="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-garis">
-                <Link
-                  to={`/chat?tujuan=${encodeURIComponent(stokDipilih.petani_id)}&jenis=stok&rujukan=${encodeURIComponent(stokDipilih.id)}`}
-                  className="inline-flex items-center gap-1.5 text-isi font-semibold text-daun-tua hover:underline"
-                >
-                  <Ikon nama="chat" ukuran={18} />
-                  <span>Chat petani pemilik stok</span>
-                </Link>
-                <div className="flex gap-2">
+                <div className="flex items-start justify-between border-b border-garis pb-3">
+                  <div>
+                    <h3 className="text-judul-bagian font-bold text-teks capitalize">
+                      Beli {stokDipilih.komoditas?.nama ?? stokDipilih.komoditas_id}
+                    </h3>
+                    <p className="text-keterangan text-teks-pendukung mt-0.5">
+                      Dari {stokDipilih.nama_petani ?? 'Petani'} (Tersisa {stokDipilih.sisa_kg} kg)
+                    </p>
+                  </div>
                   <button
                     type="button"
                     onClick={() => setStokDipilih(null)}
-                    className="rounded-lg border border-garis px-4 py-2 text-isi font-medium text-teks hover:bg-embun-pagi"
+                    aria-label="Tutup modal"
+                    className="flex h-9 w-9 items-center justify-center rounded-full text-teks-pendukung hover:bg-embun-pagi hover:text-teks transition-colors"
                   >
-                    Batal
-                  </button>
-                  <button
-                    id="tombol-pasang-pesanan"
-                    type="submit"
-                    disabled={beliStok.isPending}
-                    className="rounded-lg bg-daun-tua px-5 py-2 text-isi font-bold text-putih hover:bg-daun-tekan shadow-kartu disabled:opacity-50"
-                  >
-                    {beliStok.isPending ? 'Memproses...' : 'Pasang Pesanan Sekarang'}
+                    <Ikon nama="silang" ukuran={20} />
                   </button>
                 </div>
+
+                <form id="form-beli-stok" noValidate onSubmit={handleKirimPesanan} className="mt-4 flex flex-col gap-4">
+                  {galatBeli ? (
+                    <div
+                      style={{ borderRadius: '16px' }}
+                      className="rounded-2xl bg-tomat/10 p-3.5 text-isi text-tomat border border-tomat/30"
+                    >
+                      {galatBeli}
+                    </div>
+                  ) : null}
+
+                  <div>
+                    <label htmlFor="beli-kg" className="block text-keterangan font-medium text-teks-pendukung mb-1.5">
+                      Jumlah yang Ingin Dibeli (kg)
+                    </label>
+                    <div className="relative">
+                      <input
+                        id="beli-kg"
+                        type="number"
+                        step="any"
+                        min="0.1"
+                        max={stokDipilih.sisa_kg}
+                        value={jumlahKg}
+                        onChange={(e) => setJumlahKg(e.target.value)}
+                        style={{ borderRadius: '16px' }}
+                        className="w-full rounded-2xl border border-garis bg-putih px-4 py-2.5 text-isi text-teks focus:border-daun focus:ring-1 focus:ring-daun outline-none"
+                        required
+                      />
+                      <span className="absolute right-4 top-2.5 text-isi font-medium text-teks-pendukung">
+                        kg
+                      </span>
+                    </div>
+                  </div>
+
+                  <div>
+                    <span className="block text-keterangan font-medium text-teks-pendukung mb-1.5">
+                      Metode Pembayaran
+                    </span>
+                    <div className="grid grid-cols-2 gap-3">
+                      <label
+                        style={{ borderRadius: '18px' }}
+                        className={cx(
+                          'flex cursor-pointer flex-col rounded-2xl border p-3.5 transition-all',
+                          metodeBayar === 'cod'
+                            ? 'border-daun-tua bg-daun-lembut text-daun-tua ring-1 ring-daun-tua'
+                            : 'border-garis bg-putih hover:bg-embun-pagi'
+                        )}
+                      >
+                        <div className="flex items-center gap-2">
+                          <input
+                            type="radio"
+                            name="metode_bayar"
+                            value="cod"
+                            checked={metodeBayar === 'cod'}
+                            onChange={() => setMetodeBayar('cod')}
+                            className="h-4 w-4 text-daun-tua accent-daun-tua focus:ring-daun-tua"
+                          />
+                          <span className="font-semibold text-isi text-teks">COD</span>
+                        </div>
+                        <span className="mt-1.5 text-keterangan text-teks-pendukung leading-snug">
+                          Bayar tunai di tempat saat barang sampai
+                        </span>
+                      </label>
+
+                      <label
+                        style={{ borderRadius: '18px' }}
+                        className={cx(
+                          'flex cursor-pointer flex-col rounded-2xl border p-3.5 transition-all',
+                          metodeBayar === 'bayar_di_aplikasi'
+                            ? 'border-daun-tua bg-daun-lembut text-daun-tua ring-1 ring-daun-tua'
+                            : 'border-garis bg-putih hover:bg-embun-pagi'
+                        )}
+                      >
+                        <div className="flex items-center gap-2">
+                          <input
+                            type="radio"
+                            name="metode_bayar"
+                            value="bayar_di_aplikasi"
+                            checked={metodeBayar === 'bayar_di_aplikasi'}
+                            onChange={() => setMetodeBayar('bayar_di_aplikasi')}
+                            className="h-4 w-4 text-daun-tua accent-daun-tua focus:ring-daun-tua"
+                          />
+                          <span className="font-semibold text-isi text-teks">Aplikasi</span>
+                        </div>
+                        <span className="mt-1.5 text-keterangan text-teks-pendukung leading-snug">
+                          Saldo ditahan aman sampai panen diterima
+                        </span>
+                      </label>
+                    </div>
+                  </div>
+
+                  <div>
+                    <label htmlFor="beli-alamat" className="block text-keterangan font-medium text-teks-pendukung mb-1.5">
+                      Alamat Pengantaran
+                    </label>
+                    <textarea
+                      id="beli-alamat"
+                      rows={2}
+                      value={alamatAntar}
+                      onChange={(e) => setAlamatAntar(e.target.value)}
+                      style={{ borderRadius: '16px' }}
+                      className="w-full rounded-2xl border border-garis bg-putih p-3 text-isi text-teks focus:border-daun focus:ring-1 focus:ring-daun outline-none resize-none"
+                      required
+                    />
+                  </div>
+
+                  {/* Rincian Total */}
+                  <div
+                    style={{ borderRadius: '18px' }}
+                    className="rounded-2xl bg-embun-pagi p-4 border border-garis"
+                  >
+                    <div className="flex items-baseline justify-between text-isi">
+                      <span className="text-teks-pendukung">
+                        Total Biaya ({parseFloat(jumlahKg) || 0} kg × {formatRupiah(stokDipilih.harga_per_kg)}):
+                      </span>
+                      <span className="text-judul-bagian font-bold text-daun-tua">
+                        {formatRupiah(((parseFloat(jumlahKg) || 0) * stokDipilih.harga_per_kg))}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-garis">
+                    <Link
+                      to={`/chat?tujuan=${encodeURIComponent(stokDipilih.petani_id)}&jenis=stok&rujukan=${encodeURIComponent(stokDipilih.id)}`}
+                      className="inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-isi font-semibold text-daun-tua hover:bg-daun-lembut transition-colors"
+                    >
+                      <Ikon nama="chat" ukuran={18} />
+                      <span>Chat petani pemilik stok</span>
+                    </Link>
+                    <div className="flex gap-2">
+                      <button
+                        type="button"
+                        onClick={() => setStokDipilih(null)}
+                        className="rounded-full border border-garis px-5 py-2 text-isi font-medium text-teks hover:bg-embun-pagi transition-colors"
+                      >
+                        Batal
+                      </button>
+                      <button
+                        id="tombol-pasang-pesanan"
+                        type="submit"
+                        disabled={beliStok.isPending}
+                        className="rounded-full bg-daun-tua px-6 py-2 text-isi font-bold text-putih hover:bg-daun-tekan shadow-kartu disabled:opacity-50 transition-colors"
+                      >
+                        {beliStok.isPending ? 'Memproses...' : 'Pasang Pesanan Sekarang'}
+                      </button>
+                    </div>
+                  </div>
+                </form>
               </div>
-            </form>
-          </div>
-        </div>
-      ) : null}
+            </div>,
+            document.body,
+          )
+        : null}
     </div>
   );
 }

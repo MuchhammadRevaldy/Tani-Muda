@@ -224,13 +224,15 @@ function Formulir({
       await ubah.mutateAsync(m);
       navigate(kembali, { state: { info: t.tersimpan } });
     } catch (e) {
-      if (adalahGalatApi(e))
+      if (adalahGalatApi(e)) {
         setGalat({
           nama: e.rincian.nama?.[0],
           desa: e.rincian.wilayah_id?.[0],
           umum: Object.keys(e.rincian).length ? undefined : e.message,
         });
-      else setGalat({ umum: t.gagalFoto });
+      } else {
+        setGalat({ umum: (e as Error)?.message || 'Gagal menyimpan profil. Pastikan server aktif.' });
+      }
     }
   }
 

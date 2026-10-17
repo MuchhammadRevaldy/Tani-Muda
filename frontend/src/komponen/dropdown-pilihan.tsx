@@ -98,6 +98,7 @@ export function DropdownPilihan<T extends string | number>({
         <div
           role="listbox"
           aria-label={ariaLabel || label}
+          style={{ borderRadius: '18px' }}
           className={cx(
             'absolute left-0 z-30 mt-2 min-w-full w-max max-h-60 overflow-y-auto rounded-2xl border border-garis bg-putih p-1.5 shadow-kartu-angkat',
             lebarMenu
