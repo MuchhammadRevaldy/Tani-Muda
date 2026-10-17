@@ -15,6 +15,7 @@ import type { PetaniPeta } from '../../api/tipe';
 import { Avatar } from '../../komponen/avatar';
 import { Ikon } from '../../komponen/ikon';
 import { Kartu } from '../../komponen/kartu';
+import { Tombol, kelasTombol } from '../../komponen/tombol';
 import { formatJarak, formatRupiah } from '../../lib/format';
 
 // Perbaiki ikon penanda bawaan Leaflet untuk bundler Vite

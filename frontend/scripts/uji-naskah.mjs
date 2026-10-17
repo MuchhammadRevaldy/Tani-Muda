@@ -399,6 +399,7 @@ async function stokCod(page, langkah) {
   await langkah('3. Petani menerima dan mengirim pesanan', async () => {
     await page.goto(`${URL_DASAR}/akun-demo`);
     await klik(page, 'Masuk sebagai Arif');
+    await page.waitForURL(/\/beranda/, { timeout: TUNGGU });
     await page.goto(`${URL_DASAR}/stok`);
     await klik(page, /Pesanan masuk/i);
     await klik(page, 'Terima');
@@ -408,10 +409,11 @@ async function stokCod(page, langkah) {
   await langkah('4. Pembeli konfirmasi terima dan selesai', async () => {
     await page.goto(`${URL_DASAR}/akun-demo`);
     await klik(page, 'Masuk sebagai Ratna');
+    await page.waitForURL(/\/pembeli/, { timeout: TUNGGU });
     await page.goto(`${URL_DASAR}/pembeli/stok`);
-    await klik(page, /Pesanan Saya/);
-    await klik(page, 'Konfirmasi Diterima dan Selesai');
-    await lihat(page, /Transaksi Selesai/);
+    await klik(page, /Pesanan Saya/i);
+    await klik(page, /Konfirmasi diterima dan selesai/i);
+    await lihat(page, /Transaksi selesai/i);
   });
 }
 

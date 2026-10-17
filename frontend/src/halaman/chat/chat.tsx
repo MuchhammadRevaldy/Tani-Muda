@@ -8,6 +8,7 @@ import { createPortal } from 'react-dom';
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import {
   useBukaPercakapan,
+  useBukaPercakapanNomor,
   useDaftarPercakapan,
   useDaftarPermintaanKontak,
   useKirimPesan,
@@ -77,6 +78,7 @@ export function HalamanChat() {
   const daftarQ = useDaftarPercakapan({ refetchInterval: 5000 });
   const permintaanQ = useDaftarPermintaanKontak({ refetchInterval: 5000 });
   const bukaMutasi = useBukaPercakapan();
+  const bukaNomorMutasi = useBukaPercakapanNomor();
   const kirimPermintaanMutasi = useKirimPermintaanKontak();
   const terimaPermintaanMutasi = useTerimaPermintaanKontak();
   const tolakPermintaanMutasi = useTolakPermintaanKontak();
@@ -186,6 +188,20 @@ export function HalamanChat() {
       return;
     }
     try {
+      // Coba buka langsung via nomor HP
+      try {
+        const resLangsung = await bukaNomorMutasi.mutateAsync({ nomor_hp: norm.nilai });
+        if (resLangsung?.id) {
+          setDialogNomorBuka(false);
+          void daftarQ.refetch();
+          void permintaanQ.refetch();
+          navigate(`${location.pathname}?id=${encodeURIComponent(resLangsung.id)}`, { replace: true });
+          return;
+        }
+      } catch {
+        // Lanjutkan kirim permintaan jika belum bisa dibuka langsung
+      }
+
       const res = await kirimPermintaanMutasi.mutateAsync({
         nomor_hp: norm.nilai,
         pesan: pesanPerkenalanInput.trim() || undefined,
