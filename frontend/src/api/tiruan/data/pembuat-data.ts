@@ -38,7 +38,7 @@ import { resepDariDomain, tugasDariDomain } from '../../peta';
 import type * as A from '../../tipe';
 import type { DataContoh, DataKebun, DataPesanan, WilayahContoh } from './jenis-data';
 
-export const VERSI_DATA_CONTOH = 13;
+export const VERSI_DATA_CONTOH = 14;
 /** Hari acuan saat menghitung; semua tanggal ditulis relatif terhadapnya. */
 const HARI_DASAR = '2026-10-05';
 
@@ -1584,18 +1584,6 @@ function buatPesanan(): DataPesanan {
   return data;
 }
 
-const PETA_FOTO_KOMODITAS: Record<string, string> = {
-  sawi: '/ilustrasi/komoditas/sawi.svg',
-  bayam: '/ilustrasi/komoditas/bayam.svg',
-  kangkung: '/ilustrasi/komoditas/kangkung.svg',
-  cabai: '/ilustrasi/komoditas/cabai-rawit.svg',
-  tomat: '/ilustrasi/komoditas/tomat.svg',
-  selada: '/ilustrasi/komoditas/selada.svg',
-};
-
-const fotoSayur = (komoditas: string) =>
-  PETA_FOTO_KOMODITAS[komoditas] ?? `/ilustrasi/komoditas/${komoditas}.svg`;
-
 function buatStok(): DataContoh['stok'] {
   return {
     stok: [
@@ -1608,7 +1596,7 @@ function buatStok(): DataContoh['stok'] {
         sisa_kg: 50,
         harga_per_kg: 8000,
         tanggal_panen: rel(tgl(-1)),
-        foto: fotoSayur('sawi'),
+        foto: '/contoh/foto/sawi-daun-hari-10.svg',
         status: 'tersedia',
         dibuat_pada: hw(-2, '08:00'),
         diperbarui_pada: hw(-2, '08:00'),
@@ -1622,7 +1610,7 @@ function buatStok(): DataContoh['stok'] {
         sisa_kg: 30,
         harga_per_kg: 9000,
         tanggal_panen: rel(tgl(0)),
-        foto: fotoSayur('bayam'),
+        foto: '/contoh/foto/contoh-foto-panen.svg',
         status: 'tersedia',
         dibuat_pada: hw(-1, '07:30'),
         diperbarui_pada: hw(-1, '07:30'),
@@ -1636,7 +1624,7 @@ function buatStok(): DataContoh['stok'] {
         sisa_kg: 40,
         harga_per_kg: 6500,
         tanggal_panen: rel(tgl(-1)),
-        foto: fotoSayur('kangkung'),
+        foto: null,
         status: 'tersedia',
         dibuat_pada: hw(-2, '09:00'),
         diperbarui_pada: hw(-2, '09:00'),
@@ -1650,7 +1638,7 @@ function buatStok(): DataContoh['stok'] {
         sisa_kg: 20,
         harga_per_kg: 35000,
         tanggal_panen: rel(tgl(1)),
-        foto: fotoSayur('cabai'),
+        foto: null,
         status: 'tersedia',
         dibuat_pada: hw(-1, '10:00'),
         diperbarui_pada: hw(-1, '10:00'),
@@ -1664,7 +1652,7 @@ function buatStok(): DataContoh['stok'] {
         sisa_kg: 60,
         harga_per_kg: 12000,
         tanggal_panen: rel(tgl(0)),
-        foto: fotoSayur('tomat'),
+        foto: '/contoh/foto/bayam-kiriman-1.svg',
         status: 'tersedia',
         dibuat_pada: hw(-1, '08:15'),
         diperbarui_pada: hw(-1, '08:15'),
@@ -1678,7 +1666,7 @@ function buatStok(): DataContoh['stok'] {
         sisa_kg: 25,
         harga_per_kg: 15000,
         tanggal_panen: rel(tgl(-1)),
-        foto: fotoSayur('selada'),
+        foto: null,
         status: 'tersedia',
         dibuat_pada: hw(-2, '07:00'),
         diperbarui_pada: hw(-2, '07:00'),

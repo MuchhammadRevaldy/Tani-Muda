@@ -88,6 +88,11 @@ export const adaIlustrasiKomoditas = (id: string): id is NamaIlustrasiKomoditas 
 /** Alamat berkas ilustrasi komoditas, mis. untuk kartu siklus dan halaman depan. */
 export const alamatIlustrasiKomoditas = (nama: NamaIlustrasiKomoditas) =>
   `/ilustrasi/komoditas/${KOMODITAS[nama].berkas}.svg`;
+/** Alamat berkas foto bawaan komoditas asli (format WebP 800px). */
+export const alamatFotoKomoditas = (nama: string) => {
+  const berkas = adaIlustrasiKomoditas(nama) ? KOMODITAS[nama].berkas : nama;
+  return `/foto/komoditas/${berkas}.webp`;
+};
 export const daftarIlustrasiMetode = Object.keys(METODE) as NamaIlustrasiMetode[];
 
 function Kotak({

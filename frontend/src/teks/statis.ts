@@ -100,6 +100,13 @@ export const teksStatis = {
           'Resep yang berlabel CONTOH masih menunggu validasi penyuluh pertanian.',
         ],
       },
+      {
+        judul: 'Atribusi foto komoditas',
+        butir: [
+          'Foto komoditas hasil panen berasal dari Unsplash dengan lisensi bebas pakai.',
+          'Daftar fotografer, tautan foto, dan ketentuan lisensi dicatat pada dokumentasi sumber foto proyek (docs/sumber-foto.md).',
+        ],
+      },
     ] satisfies Bagian[],
   },
 

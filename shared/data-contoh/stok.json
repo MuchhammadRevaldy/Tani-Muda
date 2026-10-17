@@ -9,7 +9,7 @@
       "sisa_kg": 50,
       "harga_per_kg": 8000,
       "tanggal_panen": "H-1",
-      "foto": "/ilustrasi/komoditas/sawi.svg",
+      "foto": "/contoh/foto/sawi-daun-hari-10.svg",
       "status": "tersedia",
       "dibuat_pada": "H-2T08:00",
       "diperbarui_pada": "H-2T08:00"
@@ -23,7 +23,7 @@
       "sisa_kg": 30,
       "harga_per_kg": 9000,
       "tanggal_panen": "H+0",
-      "foto": "/ilustrasi/komoditas/bayam.svg",
+      "foto": "/contoh/foto/contoh-foto-panen.svg",
       "status": "tersedia",
       "dibuat_pada": "H-1T07:30",
       "diperbarui_pada": "H-1T07:30"
@@ -37,7 +37,7 @@
       "sisa_kg": 40,
       "harga_per_kg": 6500,
       "tanggal_panen": "H-1",
-      "foto": "/ilustrasi/komoditas/kangkung.svg",
+      "foto": null,
       "status": "tersedia",
       "dibuat_pada": "H-2T09:00",
       "diperbarui_pada": "H-2T09:00"
@@ -51,7 +51,7 @@
       "sisa_kg": 20,
       "harga_per_kg": 35000,
       "tanggal_panen": "H+1",
-      "foto": "/ilustrasi/komoditas/cabai-rawit.svg",
+      "foto": null,
       "status": "tersedia",
       "dibuat_pada": "H-1T10:00",
       "diperbarui_pada": "H-1T10:00"
@@ -65,7 +65,7 @@
       "sisa_kg": 60,
       "harga_per_kg": 12000,
       "tanggal_panen": "H+0",
-      "foto": "/ilustrasi/komoditas/tomat.svg",
+      "foto": "/contoh/foto/bayam-kiriman-1.svg",
       "status": "tersedia",
       "dibuat_pada": "H-1T08:15",
       "diperbarui_pada": "H-1T08:15"
@@ -79,7 +79,7 @@
       "sisa_kg": 25,
       "harga_per_kg": 15000,
       "tanggal_panen": "H-1",
-      "foto": "/ilustrasi/komoditas/selada.svg",
+      "foto": null,
       "status": "tersedia",
       "dibuat_pada": "H-2T07:00",
       "diperbarui_pada": "H-2T07:00"

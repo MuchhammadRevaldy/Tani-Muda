@@ -8,7 +8,9 @@ use App\Models\Stok;
 use Carbon\CarbonImmutable;
 use Database\Seeders\DataContohSeeder;
 use Illuminate\Database\QueryException;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 beforeEach(function () {
     DataContohSeeder::isi(CarbonImmutable::now());
@@ -302,3 +304,53 @@ it('tes hak akses silang: pemilik 200, peran salah 403, pengguna lain 403/404, t
     masuk('petani-budi');
     $this->patchJson("/api/v1/stok/{$stokId}", ['harga_per_kg' => 15000])->assertStatus(403);
 });
+
+it('petani dapat mengunggah foto stok dan menolak jenis berkas/ukuran yang salah', function () {
+    Storage::fake('local');
+    masuk('petani-arif');
+
+    // 1. Jenis berkas salah (misal PDF) ditolak
+    $pdf = UploadedFile::fake()->create('dokumen.pdf', 100, 'application/pdf');
+    $this->post('/api/v1/berkas', ['berkas' => $pdf], ['Accept' => 'application/json'])
+        ->assertStatus(422)
+        ->assertJsonStructure(['galat' => ['rincian' => ['jenis']]]);
+
+    // 2. Ukuran berkas melebihi batas 2 MB ditolak
+    $besar = UploadedFile::fake()->image('besar.jpg')->size(2049);
+    $this->post('/api/v1/berkas', ['berkas' => $besar], ['Accept' => 'application/json'])
+        ->assertStatus(422)
+        ->assertJsonStructure(['galat' => ['rincian' => ['isi']]]);
+
+    // 3. Unggah foto yang valid (JPEG)
+    $foto = UploadedFile::fake()->image('panen-sawi.jpg', 600, 400);
+    $unggahRes = $this->post('/api/v1/berkas', ['berkas' => $foto], ['Accept' => 'application/json'])
+        ->assertOk()
+        ->json('data');
+
+    expect($unggahRes)->toHaveKeys(['id', 'url', 'jenis']);
+    $urlFoto = $unggahRes['url'];
+
+    // 4. Petani membuat stok dengan foto tersebut
+    $stokRes = $this->postJson('/api/v1/stok', [
+        'komoditas_id' => 'sawi',
+        'jumlah_kg' => 15,
+        'harga_per_kg' => 9000,
+        'tanggal_panen' => now()->toDateString(),
+        'foto' => $urlFoto,
+    ])->assertCreated();
+
+    $stokId = $stokRes->json('data.id');
+    $fotoHasil = $stokRes->json('data.foto');
+    expect($fotoHasil)->toStartWith('/api/v1/berkas/');
+
+    // 5. Di database disimpan sebagai berkas:{id}
+    $stokDb = DB::table('stok')->where('id', $stokId)->first();
+    expect($stokDb->foto)->toBe("berkas:{$unggahRes['id']}");
+
+    // 6. Mengubah foto stok (atau menghapus foto)
+    $ubahRes = $this->patchJson("/api/v1/stok/{$stokId}", [
+        'foto' => null,
+    ])->assertOk();
+    expect($ubahRes->json('data.foto'))->toBeNull();
+});
+

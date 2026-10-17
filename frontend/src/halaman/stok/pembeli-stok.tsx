@@ -12,7 +12,7 @@ import {
 import type { MetodeBayarStok, PesananStok, StokRingkas } from '../../api/tipe';
 import { cx } from '../../komponen/gabung-kelas';
 import { Ikon } from '../../komponen/ikon';
-import { adaIlustrasiKomoditas, alamatIlustrasiKomoditas } from '../../komponen/ilustrasi';
+import { GambarStok } from '../../komponen/gambar-stok';
 import { formatJarak, formatRupiah } from '../../lib/format';
 import { DropdownPilihan } from '../../komponen/dropdown-pilihan';
 
@@ -179,29 +179,13 @@ export function HalamanStokPembeli() {
                   className="flex flex-col justify-between overflow-hidden rounded-3xl border border-garis bg-putih p-5 shadow-kartu"
                 >
                   <div>
-                    <div
-                      style={{ borderRadius: '18px' }}
-                      className="relative mb-3 flex h-36 w-full items-center justify-center overflow-hidden rounded-2xl bg-embun-pagi/60 border border-garis/50"
-                    >
-                      <img
-                        src={
-                          s.foto ||
-                          (adaIlustrasiKomoditas(s.komoditas_id)
-                            ? alamatIlustrasiKomoditas(s.komoditas_id)
-                            : '/ilustrasi/komoditas/sawi.svg')
-                        }
-                        alt={`Foto ${s.komoditas?.nama ?? s.komoditas_id}`}
-                        className="h-full w-full object-contain p-2 transition-transform duration-200 hover:scale-105"
-                        onError={(e) => {
-                          const cadangan = adaIlustrasiKomoditas(s.komoditas_id)
-                            ? alamatIlustrasiKomoditas(s.komoditas_id)
-                            : '/ilustrasi/komoditas/sawi.svg';
-                          if (!e.currentTarget.src.endsWith(cadangan)) {
-                            e.currentTarget.src = cadangan;
-                          }
-                        }}
-                      />
-                    </div>
+                    <GambarStok
+                      foto={s.foto}
+                      komoditasId={s.komoditas_id}
+                      namaKomoditas={s.komoditas?.nama}
+                      wadahStyle={{ borderRadius: '18px' }}
+                      className="hover:scale-105"
+                    />
                     <div className="flex items-start justify-between gap-2">
                       <div>
                         <h3 className="text-judul-bagian font-bold text-teks capitalize">

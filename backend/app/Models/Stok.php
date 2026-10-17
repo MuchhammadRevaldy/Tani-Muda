@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Casts\FotoBerkas;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
@@ -33,6 +34,7 @@ class Stok extends Model
             'sisa_kg' => 'float',
             'harga_per_kg' => 'integer',
             'tanggal_panen' => 'date:Y-m-d',
+            'foto' => FotoBerkas::class,
         ];
     }
 

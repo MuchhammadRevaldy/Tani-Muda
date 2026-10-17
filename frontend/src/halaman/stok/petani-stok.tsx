@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { createPortal } from 'react-dom';
 import {
   useKomoditas,
   useKirimPesananStok,
@@ -8,11 +9,13 @@ import {
   useTerimaPesananStok,
   useTolakPesananStok,
   useUbahStok,
+  useUnggahBerkas,
 } from '../../api/kueri';
-import type { PesananStok, StokRingkas } from '../../api/tipe';
+import type { PesananStok, StatusStok, StokRingkas } from '../../api/tipe';
+import { AmbilFoto, type FotoKecil } from '../../komponen/ambil-foto';
 import { cx } from '../../komponen/gabung-kelas';
+import { GambarStok } from '../../komponen/gambar-stok';
 import { Ikon } from '../../komponen/ikon';
-import { adaIlustrasiKomoditas, alamatIlustrasiKomoditas } from '../../komponen/ilustrasi';
 import { formatRupiah } from '../../lib/format';
 import { KerangkaPesanan } from '../pesanan/kerangka-pesanan';
 
@@ -26,7 +29,15 @@ export function HalamanStokPetani() {
   const [hargaPerKg, setHargaPerKg] = useState('12000');
   const [tanggalPanen, setTanggalPanen] = useState(new Date().toISOString().slice(0, 10));
   const [catatan, setCatatan] = useState('');
+  const [fotoTambah, setFotoTambah] = useState<FotoKecil | null>(null);
   const [pesanSukses, setPesanSukses] = useState('');
+
+  // Form ubah stok
+  const [stokSedangDiubah, setStokSedangDiubah] = useState<StokRingkas | null>(null);
+  const [hargaUbah, setHargaUbah] = useState('');
+  const [statusUbah, setStatusUbah] = useState<StatusStok>('tersedia');
+  const [fotoUbah, setFotoUbah] = useState<FotoKecil | null>(null);
+  const [fotoUbahDihapus, setFotoUbahDihapus] = useState(false);
 
   // Kueri
   const kueriStok = useStokSaya();
@@ -35,6 +46,7 @@ export function HalamanStokPetani() {
 
   const tambahStok = useTambahStok();
   const ubahStok = useUbahStok();
+  const unggahBerkas = useUnggahBerkas();
   const terimaPesanan = useTerimaPesananStok();
   const tolakPesanan = useTolakPesananStok();
   const kirimPesanan = useKirimPesananStok();
@@ -48,16 +60,66 @@ export function HalamanStokPetani() {
     const h = parseInt(hargaPerKg, 10);
     if (isNaN(j) || j <= 0 || isNaN(h) || h <= 0) return;
 
+    let fotoUrl: string | null = null;
+    if (fotoTambah) {
+      const unggahan = await unggahBerkas.mutateAsync({
+        nama: fotoTambah.nama,
+        jenis: fotoTambah.jenis,
+        isi: fotoTambah.dataUrl,
+      });
+      fotoUrl = unggahan.url;
+    }
+
     await tambahStok.mutateAsync({
       komoditas_id: komoditasId,
       jumlah_kg: j,
       harga_per_kg: h,
       tanggal_panen: tanggalPanen,
       catatan: catatan.trim() || undefined,
+      foto: fotoUrl,
     });
 
     setBukaForm(false);
+    setFotoTambah(null);
     setPesanSukses('Stok siap jual berhasil ditambahkan');
+    setTimeout(() => setPesanSukses(''), 4000);
+  }
+
+  function bukaUbahStok(s: StokRingkas) {
+    setStokSedangDiubah(s);
+    setHargaUbah(String(s.harga_per_kg));
+    setStatusUbah(s.status);
+    setFotoUbah(null);
+    setFotoUbahDihapus(false);
+  }
+
+  async function handleSimpanUbahStok(e: React.FormEvent) {
+    e.preventDefault();
+    if (!stokSedangDiubah) return;
+    const h = parseInt(hargaUbah, 10);
+    if (isNaN(h) || h <= 0) return;
+
+    let fotoUrl: string | null | undefined = undefined;
+    if (fotoUbah) {
+      const unggahan = await unggahBerkas.mutateAsync({
+        nama: fotoUbah.nama,
+        jenis: fotoUbah.jenis,
+        isi: fotoUbah.dataUrl,
+      });
+      fotoUrl = unggahan.url;
+    } else if (fotoUbahDihapus) {
+      fotoUrl = null;
+    }
+
+    await ubahStok.mutateAsync({
+      id: stokSedangDiubah.id,
+      harga_per_kg: h,
+      status: statusUbah,
+      foto: fotoUrl,
+    });
+
+    setStokSedangDiubah(null);
+    setPesanSukses('Stok siap jual berhasil diperbarui');
     setTimeout(() => setPesanSukses(''), 4000);
   }
 
@@ -237,20 +299,54 @@ export function HalamanStokPetani() {
               />
             </div>
 
+            <div>
+              <span className="block text-keterangan font-medium text-teks-pendukung mb-1.5">
+                Foto hasil panen (opsional)
+              </span>
+              {fotoTambah ? (
+                <div className="relative mb-2 flex h-40 w-full max-w-xs items-center justify-center overflow-hidden rounded-xl border border-garis bg-embun-pagi">
+                  <img
+                    src={fotoTambah.dataUrl}
+                    alt="Pratinjau foto stok"
+                    className="h-full w-full object-cover"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setFotoTambah(null)}
+                    className="absolute right-2 top-2 inline-flex items-center gap-1 rounded-full bg-tomat px-2.5 py-1 text-keterangan font-semibold text-putih hover:bg-tomat/90 focus:outline-none"
+                    aria-label="Hapus foto"
+                  >
+                    <Ikon nama="silang" ukuran={14} />
+                    <span>Hapus foto</span>
+                  </button>
+                </div>
+              ) : (
+                <AmbilFoto
+                  label="Tambah foto hasil panen"
+                  labelMemuat="Mengecilkan foto..."
+                  onFoto={setFotoTambah}
+                  className="max-w-xs"
+                />
+              )}
+            </div>
+
             <div className="flex justify-end gap-2 pt-2">
               <button
                 type="button"
-                onClick={() => setBukaForm(false)}
+                onClick={() => {
+                  setBukaForm(false);
+                  setFotoTambah(null);
+                }}
                 className="rounded-lg border border-garis px-4 py-2 text-isi font-medium text-teks hover:bg-embun-pagi"
               >
                 Batal
               </button>
               <button
                 type="submit"
-                disabled={tambahStok.isPending}
+                disabled={tambahStok.isPending || unggahBerkas.isPending}
                 className="rounded-lg bg-daun-tua px-5 py-2 text-isi font-semibold text-putih hover:bg-daun-tekan shadow-kartu disabled:opacity-50"
               >
-                {tambahStok.isPending ? 'Menyimpan...' : 'Simpan dan jual'}
+                {tambahStok.isPending || unggahBerkas.isPending ? 'Menyimpan...' : 'Simpan dan jual'}
               </button>
             </div>
           </form>
@@ -281,26 +377,12 @@ export function HalamanStokPetani() {
                     className="flex flex-col justify-between rounded-xl border border-garis bg-putih p-4 shadow-kartu"
                   >
                     <div>
-                      <div className="relative mb-3 flex h-32 w-full items-center justify-center overflow-hidden rounded-lg bg-embun-pagi/60 border border-garis/50">
-                        <img
-                          src={
-                            s.foto ||
-                            (adaIlustrasiKomoditas(s.komoditas_id)
-                              ? alamatIlustrasiKomoditas(s.komoditas_id)
-                              : '/ilustrasi/komoditas/sawi.svg')
-                          }
-                          alt={`Foto ${s.komoditas?.nama ?? s.komoditas_id}`}
-                          className="h-full w-full object-contain p-2"
-                          onError={(e) => {
-                            const cadangan = adaIlustrasiKomoditas(s.komoditas_id)
-                              ? alamatIlustrasiKomoditas(s.komoditas_id)
-                              : '/ilustrasi/komoditas/sawi.svg';
-                            if (!e.currentTarget.src.endsWith(cadangan)) {
-                              e.currentTarget.src = cadangan;
-                            }
-                          }}
-                        />
-                      </div>
+                      <GambarStok
+                        foto={s.foto}
+                        komoditasId={s.komoditas_id}
+                        namaKomoditas={s.komoditas?.nama}
+                        wadahClassName="mb-3 h-32 w-full rounded-lg"
+                      />
                       <div className="flex items-start justify-between gap-2">
                         <div>
                           <h3 className="font-semibold text-judul-bagian text-teks capitalize">
@@ -342,6 +424,13 @@ export function HalamanStokPetani() {
                     </div>
 
                     <div className="flex items-center justify-end gap-2 border-t border-garis pt-3">
+                      <button
+                        type="button"
+                        onClick={() => bukaUbahStok(s)}
+                        className="rounded-lg border border-garis px-3 py-1.5 text-keterangan font-medium text-teks hover:bg-embun-pagi"
+                      >
+                        Ubah
+                      </button>
                       {s.status === 'tersedia' ? (
                         <button
                           type="button"
@@ -366,6 +455,142 @@ export function HalamanStokPetani() {
             )}
           </div>
         ) : null}
+
+        {/* Modal Dialog Ubah Stok */}
+        {stokSedangDiubah
+          ? createPortal(
+              <div className="fixed inset-0 z-50 flex items-center justify-center bg-teks/50 p-4 animate-masuk-halaman">
+                <div
+                  style={{ borderRadius: '24px', maxWidth: '480px' }}
+                  className="w-full max-w-dialog overflow-hidden rounded-3xl bg-putih p-6 shadow-kartu-angkat animate-masuk-halaman"
+                >
+                  <div className="flex items-start justify-between border-b border-garis pb-3">
+                    <div>
+                      <h3 className="text-judul-bagian font-bold text-teks capitalize">
+                        Ubah Stok {stokSedangDiubah.komoditas?.nama ?? stokSedangDiubah.komoditas_id}
+                      </h3>
+                      <p className="text-keterangan text-teks-pendukung mt-0.5">
+                        Tersedia {stokSedangDiubah.sisa_kg} kg dari {stokSedangDiubah.jumlah_kg} kg
+                      </p>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setStokSedangDiubah(null)}
+                      aria-label="Tutup modal"
+                      className="flex h-9 w-9 items-center justify-center rounded-full text-teks-pendukung hover:bg-embun-pagi hover:text-teks transition-colors"
+                    >
+                      <Ikon nama="silang" ukuran={20} />
+                    </button>
+                  </div>
+
+                  <form onSubmit={handleSimpanUbahStok} className="mt-4 flex flex-col gap-4">
+                    <div>
+                      <label htmlFor="ubah-harga-stok" className="block text-keterangan font-medium text-teks-pendukung mb-1.5">
+                        Harga per kg (Rp)
+                      </label>
+                      <input
+                        id="ubah-harga-stok"
+                        type="number"
+                        step="500"
+                        min="500"
+                        value={hargaUbah}
+                        onChange={(e) => setHargaUbah(e.target.value)}
+                        className="w-full rounded-xl border border-garis bg-putih px-4 py-2.5 text-isi text-teks focus:border-daun focus:ring-1 focus:ring-daun outline-none"
+                        required
+                      />
+                    </div>
+
+                    <div>
+                      <label htmlFor="ubah-status-stok" className="block text-keterangan font-medium text-teks-pendukung mb-1.5">
+                        Status stok
+                      </label>
+                      <select
+                        id="ubah-status-stok"
+                        value={statusUbah}
+                        onChange={(e) => setStatusUbah(e.target.value as StatusStok)}
+                        className="w-full rounded-xl border border-garis bg-putih px-4 py-2.5 text-isi text-teks focus:border-daun focus:ring-1 focus:ring-daun outline-none"
+                      >
+                        <option value="tersedia">Tersedia untuk dijual</option>
+                        <option value="habis">Habis terjual</option>
+                        <option value="ditarik">Ditarik dari pasar (sementara)</option>
+                      </select>
+                    </div>
+
+                    <div>
+                      <span className="block text-keterangan font-medium text-teks-pendukung mb-1.5">
+                        Foto hasil panen
+                      </span>
+                      {fotoUbah ? (
+                        <div className="relative mb-2 flex h-40 w-full items-center justify-center overflow-hidden rounded-xl border border-garis bg-embun-pagi">
+                          <img
+                            src={fotoUbah.dataUrl}
+                            alt="Pratinjau foto baru"
+                            className="h-full w-full object-cover"
+                          />
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setFotoUbah(null);
+                              setFotoUbahDihapus(true);
+                            }}
+                            className="absolute right-2 top-2 inline-flex items-center gap-1 rounded-full bg-tomat px-2.5 py-1 text-keterangan font-semibold text-putih hover:bg-tomat/90"
+                            aria-label="Hapus foto"
+                          >
+                            <Ikon nama="silang" ukuran={14} />
+                            <span>Hapus foto</span>
+                          </button>
+                        </div>
+                      ) : stokSedangDiubah.foto && !fotoUbahDihapus ? (
+                        <div className="relative mb-2 flex h-40 w-full items-center justify-center overflow-hidden rounded-xl border border-garis bg-embun-pagi">
+                          <img
+                            src={stokSedangDiubah.foto}
+                            alt="Foto stok saat ini"
+                            className="h-full w-full object-cover"
+                          />
+                          <button
+                            type="button"
+                            onClick={() => setFotoUbahDihapus(true)}
+                            className="absolute right-2 top-2 inline-flex items-center gap-1 rounded-full bg-tomat px-2.5 py-1 text-keterangan font-semibold text-putih hover:bg-tomat/90"
+                            aria-label="Hapus foto"
+                          >
+                            <Ikon nama="silang" ukuran={14} />
+                            <span>Hapus foto</span>
+                          </button>
+                        </div>
+                      ) : (
+                        <AmbilFoto
+                          label="Tambah / unggah foto stok"
+                          labelMemuat="Mengecilkan foto..."
+                          onFoto={(f) => {
+                            setFotoUbah(f);
+                            setFotoUbahDihapus(false);
+                          }}
+                        />
+                      )}
+                    </div>
+
+                    <div className="flex justify-end gap-2 pt-2 border-t border-garis">
+                      <button
+                        type="button"
+                        onClick={() => setStokSedangDiubah(null)}
+                        className="rounded-xl border border-garis px-4 py-2.5 text-isi font-medium text-teks hover:bg-embun-pagi"
+                      >
+                        Batal
+                      </button>
+                      <button
+                        type="submit"
+                        disabled={ubahStok.isPending || unggahBerkas.isPending}
+                        className="rounded-xl bg-daun-tua px-5 py-2.5 text-isi font-semibold text-putih hover:bg-daun-tekan shadow-kartu disabled:opacity-50"
+                      >
+                        {ubahStok.isPending || unggahBerkas.isPending ? 'Menyimpan...' : 'Simpan perubahan'}
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </div>,
+              document.body,
+            )
+          : null}
 
         {/* Konten Tab Pesanan Masuk */}
         {tabAktif === 'pesanan' ? (
