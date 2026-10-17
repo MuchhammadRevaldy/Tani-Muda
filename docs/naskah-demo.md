@@ -16,7 +16,8 @@ Layar: laptop 1440 px (tampilan desktop), zoom 100%. Dua jendela atau tab: aplik
 | Tiruan (cadangan) | `npm run demo` | `http://localhost:5173` | Data contoh di peramban, tanpa basis data. Langkah phpMyAdmin dilewati. |
 
 **Versi lomba:** tag `demo-lomba` (pembekuan final seluruh fitur F-00 s/d F-11; [AG-34]; uji gerbang 27/27 lolos 3 putaran). Jalan mundur berurutan: `demo-logo` (D-63), `demo-animasi` (D-61), `demo-tema-baru` (D-59), `demo-aman` (tema lama): `git switch --detach <tag>`, lalu `npm run demo:backend`.
-**Tanggal Pembekuan Final:** **Sabtu, 17 Oktober 2026 pukul 12.00 WIB**. Setelah titik ini, seluruh kode aplikasi dibekukan dan tim fokus penuh pada simulasi panggung.
+**Jadwal Lomba:** **Selasa, 20 Oktober 2026** (diundur sesuai D-65).
+**Tanggal Pembekuan Final:** **Senin, 19 Oktober 2026 pukul 18.00 WIB**. Setelah titik ini, seluruh kode aplikasi dibekukan dan tim fokus penuh pada simulasi panggung.
 
 ### Status Sakelar Fitur (Tahap 7 / PRD Tambahan v1.1)
 

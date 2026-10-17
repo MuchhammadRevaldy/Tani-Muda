@@ -713,11 +713,18 @@ Ditetapkan 14 Oktober 2026 oleh pemilik produk (disahkan lewat `docs/prd-fitur-t
 - **Di luar cakupan:** Monstera dan tanaman hias lainnya (tidak cocok dengan model per kg dan siklus panen pangan).
 - Berdampak ke: `docs/prd-fitur-tambahan.md`, `docs/rencana-kerja.md`, `docs/aturan-proyek.md`, `README.md`, `backend/`, `frontend/`.
 
+## D-65. Pengunduran Jadwal Lomba dan Pembekuan Kode Akhir
+- Jadwal perlombaan diundur ke **Selasa, 20 Oktober 2026**.
+- Batas pembekuan kode final (*code freeze*) ditetapkan pada **Senin, 19 Oktober 2026 pukul 18.00 WIB**.
+- Periode perbaikan akhir difokuskan pada: pemulihan dan penyeleksian stash pemilik produk, perbaikan tampilan dan UI/UX, penggantian ikon uang dan penambahan ikon pin, eliminasi emoji sebagai ikon (diganti komponen `Ikon`), standarisasi format jarak dan kepatuhan kapitalisasi kalimat biasa (D-09), serta pengujian ketat gerbang demo.
+- Berdampak ke: `docs/naskah-demo.md`, `docs/aturan-proyek.md`, `frontend/`, `backend/`.
+
 ---
 
 ## Riwayat
 | Tanggal | Perubahan |
 | --- | --- |
+| 2026-10-18 | D-65 ([AG-37]): Lomba diundur ke Selasa 20 Okt 2026; batas pembekuan kode akhir Senin 19 Okt 18.00 WIB; pemulihan stash, ikon pin & uang, format jarak, aturan emoji & kapitalisasi kalimat |
 | 2026-10-14 | D-64 ([AG-28]): PRD tambahan 12 fitur v1.1 disahkan; pembekuan kode Sabtu 17 Okt 12.00; sakelar per fitur; tag harian; privasi peta & batas AI |
 | 2026-10-04 | D-01 sampai D-11 ditetapkan |
 | 2026-10-05 | D-12 sampai D-18 ditetapkan. Butir turunan di D-03, D-06, dan D-11 dikonfirmasi dan dirujuk ke keputusan baru. Jalur tangkapan layar di D-07 diganti mengikuti D-18 |
