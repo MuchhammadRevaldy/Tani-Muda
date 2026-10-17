@@ -241,9 +241,10 @@ export function ChatbotMengambang() {
                           type="button"
                           onClick={() => void kirimPertanyaan(tanya)}
                           style={{ borderRadius: '16px' }}
-                          className="fokus-cincin rounded-xl border border-garis bg-daun-lembut/80 p-2.5 text-keterangan font-medium text-daun-tua hover:bg-daun-lembut transition-colors"
+                          className="fokus-cincin inline-flex items-center gap-1.5 rounded-xl border border-garis bg-daun-lembut/80 p-2.5 text-keterangan font-medium text-daun-tua hover:bg-daun-lembut transition-colors"
                         >
-                          💡 {tanya}
+                          <Ikon nama="info" ukuran={16} />
+                          <span>{tanya}</span>
                         </button>
                       ))}
                     </div>
@@ -287,9 +288,10 @@ export function ChatbotMengambang() {
                                 key={tIdx}
                                 type="button"
                                 onClick={() => void kirimPertanyaan(tanya)}
-                                className="fokus-cincin rounded-xl border border-garis bg-putih p-2 text-left text-keterangan font-medium text-daun-tua hover:bg-daun-lembut transition-colors"
+                                className="fokus-cincin inline-flex items-center gap-1.5 rounded-xl border border-garis bg-putih p-2 text-left text-keterangan font-medium text-daun-tua hover:bg-daun-lembut transition-colors"
                               >
-                                💡 {tanya}
+                                <Ikon nama="info" ukuran={16} />
+                                <span>{tanya}</span>
                               </button>
                             ))}
                           </div>
@@ -310,7 +312,8 @@ export function ChatbotMengambang() {
                               rel="noopener noreferrer"
                               className="fokus-cincin inline-flex items-center gap-1.5 rounded-full bg-daun-tua px-4 py-2 text-keterangan font-semibold text-putih shadow-kartu hover:bg-daun-tekan transition-all"
                             >
-                              <span>💬 Tanya penyuluh</span>
+                              <Ikon nama="chat" ukuran={16} />
+                              <span>Tanya penyuluh</span>
                             </a>
                           </div>
                         )}

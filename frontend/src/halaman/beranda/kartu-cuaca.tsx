@@ -47,7 +47,10 @@ export function KartuCuaca() {
         <div className="flex items-center justify-between border-b border-garis pb-3">
           <div className="flex items-center gap-3">
             <div className="flex h-11 w-11 items-center justify-center rounded-lg bg-matahari-lembut text-matahari-teks">
-              <span className="text-judul-bagian">🌤️</span>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41" />
+                <circle cx="12" cy="12" r="4" />
+              </svg>
             </div>
             <div>
               <div className="flex items-baseline gap-2">
