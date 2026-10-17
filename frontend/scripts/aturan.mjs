@@ -75,6 +75,11 @@ export const ATURAN_POLA = [
     pesan: 'Frontend hanya boleh membaca import.meta.env.VITE_* dan variabel bawaan Vite',
     pola: /import\.meta\.env\.(?!VITE_|MODE\b|DEV\b|PROD\b|SSR\b|BASE_URL\b)\w+/,
   },
+  {
+    kode: 'EMOJI',
+    pesan: 'Emoji dilarang sebagai ikon atau teks statis. Gunakan komponen Ikon (D-09, AG-37)',
+    pola: /[\p{Extended_Pictographic}\u{1F300}-\u{1F9FF}]/u,
+  },
 ];
 
 /**
@@ -126,7 +131,7 @@ export function teksJsx(kode) {
 }
 
 /** Periksa satu potong teks tampilan terhadap kata terlarang dan huruf kapital semua. */
-export function cekTeksTampil(isi, daftar) {
+export function cekTeksTampil(isi, daftar, periksaHurufKapital = false) {
   const salah = [];
   for (const k of daftar.kata) {
     if (new RegExp(`(^|[^\\p{L}])${k}([^\\p{L}]|$)`, 'iu').test(isi))
@@ -138,6 +143,15 @@ export function cekTeksTampil(isi, daftar) {
   }
   // Huruf kapital semua: minimal dua kata berhuruf semua kapital berurutan (mis. "SIMPAN RENCANA").
   if (/\b\p{Lu}{2,}\b[\s,.:]+\b\p{Lu}{2,}\b/u.test(isi)) salah.push('huruf kapital semua');
+
+  // Pola Huruf Kapital Tiap Kata di src/teks/ (D-09, AG-37)
+  if (periksaHurufKapital) {
+    const bersih = isi.replace(/\b(?:Tani Muda|Pesan Sebelum Tanam|Katering Bu Ratna|Bu Ratna)\b/gu, '');
+    if (/\b\p{Lu}\p{Ll}+\b(?:\s+\b\p{Lu}\p{Ll}+\b){2,}/u.test(bersih)) {
+      salah.push('pola Huruf Kapital Tiap Kata dilarang (D-09); gunakan kalimat biasa');
+    }
+  }
+
   return salah;
 }
 
@@ -162,6 +176,9 @@ export function periksaBerkas(jalur, isi, daftar) {
   const barisBarisan = kode.split('\n');
   barisBarisan.forEach((baris, i) => {
     for (const a of ATURAN_POLA) {
+      if (a.kode === 'EMOJI' && (jalur.startsWith('src/api/tiruan/') || jalur.includes('/data/'))) {
+        continue;
+      }
       if (a.pola.test(baris))
         pelanggaran.push({ jalur, baris: i + 1, kode: a.kode, pesan: a.pesan });
     }
@@ -175,10 +192,11 @@ export function periksaBerkas(jalur, isi, daftar) {
     kataPersis: daftar.kataPersis.filter((k) => !boleh.has(k)),
   };
   const potong = [];
-  if (jalur.startsWith('src/teks/')) potong.push(...stringLiteral(kode));
+  const hanyaTeks = jalur.startsWith('src/teks/');
+  if (hanyaTeks) potong.push(...stringLiteral(kode));
   if (jalur.endsWith('.tsx')) potong.push(...teksJsx(kode));
   for (const p of potong) {
-    for (const s of cekTeksTampil(p.isi, daftarBerkas)) {
+    for (const s of cekTeksTampil(p.isi, daftarBerkas, hanyaTeks)) {
       pelanggaran.push({
         jalur,
         baris: nomorBaris(kode, p.indeks),

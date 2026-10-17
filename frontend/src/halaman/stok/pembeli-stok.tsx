@@ -13,7 +13,7 @@ import type { MetodeBayarStok, PesananStok, StokRingkas } from '../../api/tipe';
 import { cx } from '../../komponen/gabung-kelas';
 import { Ikon } from '../../komponen/ikon';
 import { adaIlustrasiKomoditas, alamatIlustrasiKomoditas } from '../../komponen/ilustrasi';
-import { formatRupiah } from '../../lib/format';
+import { formatJarak, formatRupiah } from '../../lib/format';
 import { DropdownPilihan } from '../../komponen/dropdown-pilihan';
 
 export function HalamanStokPembeli() {
@@ -162,7 +162,9 @@ export function HalamanStokPembeli() {
         <div key={`katalog-${komoditasPilihan}-${radiusKm}`} className="flex flex-col gap-4 animate-masuk-halaman">
           {daftarStok.length === 0 ? (
             <div className="rounded-xl border border-dashed border-garis bg-putih p-10 text-center">
-              <span className="text-judul-halaman">🌱</span>
+              <div className="flex h-12 w-12 mx-auto items-center justify-center rounded-full bg-daun-lembut text-daun-tua">
+                <Ikon nama="kebun" ukuran={24} />
+              </div>
               <p className="mt-2 text-isi font-semibold text-teks">Belum ada stok siap jual di sekitar Anda.</p>
               <p className="text-keterangan text-teks-pendukung">
                 Coba perluas radius pencarian atau pilih komoditas lain.
@@ -214,8 +216,9 @@ export function HalamanStokPembeli() {
                       </div>
 
                       {s.jarak_km != null ? (
-                        <span className="inline-flex items-center gap-1 rounded-full bg-daun-lembut px-2.5 py-1 text-keterangan font-semibold text-daun-tua">
-                          📍 {s.jarak_km} km
+                        <span className="inline-flex items-center gap-1 rounded-full bg-daun-lembut px-2.5 py-1 text-keterangan font-semibold text-daun-tua whitespace-nowrap">
+                          <Ikon nama="pin" ukuran={14} />
+                          <span>{formatJarak(s.jarak_km)}</span>
                         </span>
                       ) : null}
                     </div>
@@ -225,7 +228,7 @@ export function HalamanStokPembeli() {
                       className="my-4 flex items-baseline justify-between rounded-2xl bg-embun-pagi p-3.5"
                     >
                       <div>
-                        <span className="text-keterangan text-teks-pendukung block">Sisa Stok Siap Antar</span>
+                        <span className="text-keterangan text-teks-pendukung block">Sisa stok siap antar</span>
                         <span className="text-judul-bagian font-bold text-daun-tua">{s.sisa_kg} kg</span>
                       </div>
                       <div className="text-right">
@@ -255,7 +258,7 @@ export function HalamanStokPembeli() {
                       }}
                       className="fokus-cincin flex-1 rounded-full bg-daun-tua py-2.5 text-center text-isi font-semibold text-putih hover:bg-daun-tekan shadow-kartu transition-colors"
                     >
-                      Beli Panen Ini
+                      Beli panen ini
                     </button>
                   </div>
                 </div>
@@ -270,7 +273,9 @@ export function HalamanStokPembeli() {
         <div key="pesanan" className="flex flex-col gap-4 animate-masuk-halaman">
           {daftarPesanan.length === 0 ? (
             <div className="rounded-xl border border-dashed border-garis bg-putih p-10 text-center">
-              <span className="text-judul-halaman">🛒</span>
+              <div className="flex h-12 w-12 mx-auto items-center justify-center rounded-full bg-daun-lembut text-daun-tua">
+                <Ikon nama="pesanan" ukuran={24} />
+              </div>
               <p className="mt-2 text-isi font-semibold text-teks">Belum ada pesanan stok siap jual.</p>
               <p className="text-keterangan text-teks-pendukung">
                 Silakan jelajahi katalog panen untuk memesan hasil panen segar langsung dari petani.
@@ -296,7 +301,7 @@ export function HalamanStokPembeli() {
                             : 'bg-daun-lembut text-daun-tua border border-daun/30'
                         )}
                       >
-                        {p.metode_bayar === 'cod' ? 'COD (Bayar di Tempat)' : 'Bayar di Aplikasi'}
+                        {p.metode_bayar === 'cod' ? 'COD (bayar di tempat)' : 'Bayar di aplikasi'}
                       </span>
                       <span
                         className={cx(
@@ -341,7 +346,7 @@ export function HalamanStokPembeli() {
                         disabled={batalkanPesanan.isPending}
                         className="rounded-full border border-tomat/30 bg-tomat/10 px-4 py-2 text-isi font-medium text-tomat hover:bg-tomat/20 transition-colors"
                       >
-                        Batalkan Pesanan
+                        Batalkan pesanan
                       </button>
                     ) : null}
 
@@ -352,13 +357,14 @@ export function HalamanStokPembeli() {
                         disabled={selesaiPesanan.isPending}
                         className="rounded-full bg-daun-tua px-5 py-2 text-isi font-bold text-putih hover:bg-daun-tekan shadow-kartu transition-colors"
                       >
-                        Konfirmasi Diterima dan Selesai
+                        Konfirmasi diterima dan selesai
                       </button>
                     ) : null}
 
                     {p.status === 'selesai' ? (
-                      <span className="text-isi font-semibold text-daun-tua bg-daun-lembut px-3.5 py-1.5 rounded-full border border-daun-tua">
-                        ✓ Transaksi Selesai
+                      <span className="inline-flex items-center gap-1.5 text-isi font-semibold text-daun-tua bg-daun-lembut px-3.5 py-1.5 rounded-full border border-daun-tua">
+                        <Ikon nama="centang" ukuran={16} />
+                        <span>Transaksi selesai</span>
                       </span>
                     ) : null}
                   </div>
@@ -408,7 +414,7 @@ export function HalamanStokPembeli() {
 
                   <div>
                     <label htmlFor="beli-kg" className="block text-keterangan font-medium text-teks-pendukung mb-1.5">
-                      Jumlah yang Ingin Dibeli (kg)
+                      Jumlah yang ingin dibeli (kg)
                     </label>
                     <div className="relative">
                       <input
@@ -431,7 +437,7 @@ export function HalamanStokPembeli() {
 
                   <div>
                     <span className="block text-keterangan font-medium text-teks-pendukung mb-1.5">
-                      Metode Pembayaran
+                      Metode pembayaran
                     </span>
                     <div className="grid grid-cols-2 gap-3">
                       <label
@@ -488,7 +494,7 @@ export function HalamanStokPembeli() {
 
                   <div>
                     <label htmlFor="beli-alamat" className="block text-keterangan font-medium text-teks-pendukung mb-1.5">
-                      Alamat Pengantaran
+                      Alamat pengantaran
                     </label>
                     <textarea
                       id="beli-alamat"
@@ -538,7 +544,7 @@ export function HalamanStokPembeli() {
                         disabled={beliStok.isPending}
                         className="rounded-full bg-daun-tua px-6 py-2 text-isi font-bold text-putih hover:bg-daun-tekan shadow-kartu disabled:opacity-50 transition-colors"
                       >
-                        {beliStok.isPending ? 'Memproses...' : 'Pasang Pesanan Sekarang'}
+                        {beliStok.isPending ? 'Memproses...' : 'Pasang pesanan sekarang'}
                       </button>
                     </div>
                   </div>

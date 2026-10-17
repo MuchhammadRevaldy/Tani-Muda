@@ -5,6 +5,7 @@ import {
   formatDesimal,
   formatHitungMundur,
   formatJam,
+  formatJarak,
   formatKisaran,
   formatRupiah,
   formatTanggal,
@@ -121,6 +122,20 @@ describe('terbilang', () => {
   });
   it('sama dengan pustaka desain untuk 30 nilai uji', () => {
     for (const n of NILAI_UJI) expect(terbilang(n)).toBe(desain.terbilang(n));
+  });
+});
+
+describe('formatJarak', () => {
+  it('formatJarak: koma desimal dan kurang dari 1 km', () => {
+    expect(formatJarak(0)).toBe('kurang dari 1 km');
+    expect(formatJarak(0.6)).toBe('kurang dari 1 km');
+    expect(formatJarak(0.99)).toBe('kurang dari 1 km');
+    expect(formatJarak(1)).toBe('1 km');
+    expect(formatJarak(1.8)).toBe('1,8 km');
+    expect(formatJarak(9.5)).toBe('9,5 km');
+    expect(formatJarak(12.3)).toBe('12 km');
+    expect(formatJarak(null)).toBe('');
+    expect(formatJarak(undefined)).toBe('');
   });
 });
 

@@ -136,6 +136,18 @@ describe('aturan bahasa', () => {
   it('huruf kapital semua ditolak', () => {
     expect(cekTeksTampil('SIMPAN RENCANA', daftar)).toContain('huruf kapital semua');
   });
+  it('huruf kapital tiap kata di teks ditolak', () => {
+    expect(
+      cekTeksTampil('Tambah Stok Siap Jual', daftar, true),
+    ).toContain('pola Huruf Kapital Tiap Kata dilarang (D-09); gunakan kalimat biasa');
+    expect(
+      cekTeksTampil('Pesan Sebelum Tanam di Tani Muda', daftar, true),
+    ).toEqual([]);
+  });
+  it('menolak emoji sebagai ikon atau teks', () => {
+    expect(kode('src/halaman/A.tsx', '<span>📍</span>')).toContain('EMOJI');
+    expect(kode('src/api/tiruan/data.ts', 'const x = "🌱";')).not.toContain('EMOJI');
+  });
 });
 
 describe('pembantu', () => {

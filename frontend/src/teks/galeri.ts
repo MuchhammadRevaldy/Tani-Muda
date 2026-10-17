@@ -16,7 +16,7 @@ export const teksKomponenGaleri = {
     kartu: 'Kartu',
     chip: 'Chip status dan label',
     banner: 'Banner',
-    penggaris: 'Penggaris Umur Tanam',
+    penggaris: 'Penggaris umur tanam',
     penggarisKet:
       'Elemen khas Tani Muda. Garis dari hari ke-0 (tanam) sampai hari panen. Bagian yang sudah dilalui limau, penanda gelap untuk hari ini, dan pin di atas garis untuk setiap jadwal. Muncul di beranda petani, di detail siklus, dan di dasbor pembeli.',
     ikon: 'Ikon',

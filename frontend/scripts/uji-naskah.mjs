@@ -379,7 +379,7 @@ async function stokCod(page, langkah) {
     await inputJumlah.waitFor({ state: 'visible', timeout: TUNGGU });
     await inputJumlah.fill('20');
     await page.locator('#harga-stok').fill('12000');
-    await klik(page, 'Simpan dan Jual');
+    await klik(page, /Simpan dan jual/i);
     await lihat(page, 'Stok siap jual berhasil ditambahkan');
   });
   await langkah('2. Pembeli membeli stok dengan COD', async () => {
@@ -388,7 +388,7 @@ async function stokCod(page, langkah) {
     await page.waitForURL(/\/pembeli/, { timeout: TUNGGU });
     await page.goto(`${URL_DASAR}/pembeli/stok`);
     await lihat(page, 'Stok Siap Jual di Sekitar Anda');
-    await klik(page, 'Beli Panen Ini');
+    await klik(page, /Beli panen ini/i);
     await page.locator('#beli-kg').fill('5');
     await page.locator('#beli-alamat').fill('Jl. Cikahuripan No. 12, Lembang');
     const tombolPesan = page.locator('#tombol-pasang-pesanan');
@@ -400,9 +400,9 @@ async function stokCod(page, langkah) {
     await page.goto(`${URL_DASAR}/akun-demo`);
     await klik(page, 'Masuk sebagai Arif');
     await page.goto(`${URL_DASAR}/stok`);
-    await klik(page, /Pesanan Masuk/);
+    await klik(page, /Pesanan masuk/i);
     await klik(page, 'Terima');
-    await klik(page, 'Tandai Dikirim');
+    await klik(page, /Tandai dikirim/i);
     await lihat(page, /Menunggu konfirmasi penerimaan oleh pembeli/);
   });
   await langkah('4. Pembeli konfirmasi terima dan selesai', async () => {

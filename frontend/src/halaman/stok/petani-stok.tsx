@@ -11,6 +11,7 @@ import {
 } from '../../api/kueri';
 import type { PesananStok, StokRingkas } from '../../api/tipe';
 import { cx } from '../../komponen/gabung-kelas';
+import { Ikon } from '../../komponen/ikon';
 import { adaIlustrasiKomoditas, alamatIlustrasiKomoditas } from '../../komponen/ilustrasi';
 import { formatRupiah } from '../../lib/format';
 import { KerangkaPesanan } from '../pesanan/kerangka-pesanan';
@@ -83,9 +84,11 @@ export function HalamanStokPetani() {
         {/* Banner informasi pemisah konsep */}
         <div className="rounded-xl border border-daun/30 bg-daun-lembut p-4 text-isi text-daun-tua shadow-kartu">
           <div className="flex items-start gap-3">
-            <span className="text-judul-bagian">📦</span>
+            <div className="flex h-9 w-9 items-center justify-center rounded-full bg-daun/20 text-daun-tua">
+              <Ikon nama="panen" ukuran={20} />
+            </div>
             <div>
-              <p className="font-semibold text-isi">Stok Siap Jual (Bukan Pesan Sebelum Tanam)</p>
+              <p className="font-semibold text-isi">Stok siap jual (bukan pesan sebelum tanam)</p>
               <p className="mt-0.5 text-keterangan text-teks-pendukung">
                 Bagian ini khusus untuk hasil panen yang sudah ada atau siap panen sekarang. Pembeli dapat langsung memesan dengan metode Bayar di Tempat (COD) atau Bayar di Aplikasi.
               </p>
@@ -112,7 +115,7 @@ export function HalamanStokPetani() {
                   : 'bg-putih text-teks-pendukung border border-garis hover:bg-embun-pagi hover:text-teks'
               )}
             >
-              Stok Saya ({daftarStok.length})
+              Stok saya ({daftarStok.length})
             </button>
             <button
               type="button"
@@ -124,7 +127,7 @@ export function HalamanStokPetani() {
                   : 'bg-putih text-teks-pendukung border border-garis hover:bg-embun-pagi hover:text-teks'
               )}
             >
-              Pesanan Masuk ({daftarPesanan.length})
+              Pesanan masuk ({daftarPesanan.length})
               {pesananMenunggu.length > 0 ? (
                 <span className="ml-2 inline-flex h-6 min-w-6 items-center justify-center rounded-full bg-tanah px-1.5 text-keterangan font-semibold text-putih">
                   {pesananMenunggu.length}
@@ -140,7 +143,7 @@ export function HalamanStokPetani() {
               onClick={() => setBukaForm(!bukaForm)}
               className="fokus-cincin inline-flex items-center gap-1.5 rounded-lg bg-daun-tua px-4 py-2 text-isi font-semibold text-putih hover:bg-daun-tua/90 shadow-kartu"
             >
-              <span>{bukaForm ? 'Batal' : '+ Tambah Stok Siap Jual'}</span>
+              <span>{bukaForm ? 'Batal' : '+ Tambah stok siap jual'}</span>
             </button>
           ) : null}
         </div>
@@ -151,7 +154,7 @@ export function HalamanStokPetani() {
             onSubmit={handleSimpanStok}
             className="flex flex-col gap-4 rounded-xl border border-garis bg-putih p-5 shadow-kartu"
           >
-            <h2 className="text-judul-bagian font-semibold text-teks">Tambah Stok Siap Jual</h2>
+            <h2 className="text-judul-bagian font-semibold text-teks">Tambah stok siap jual</h2>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
               <div>
                 <label htmlFor="komoditas-stok" className="block text-keterangan font-medium text-teks-pendukung mb-1">
@@ -222,7 +225,7 @@ export function HalamanStokPetani() {
 
             <div>
               <label htmlFor="catatan-stok" className="block text-keterangan font-medium text-teks-pendukung mb-1">
-                Catatan Kualitas atau Kemasan (opsional)
+                Catatan kualitas atau kemasan (opsional)
               </label>
               <textarea
                 id="catatan-stok"
@@ -247,7 +250,7 @@ export function HalamanStokPetani() {
                 disabled={tambahStok.isPending}
                 className="rounded-lg bg-daun-tua px-5 py-2 text-isi font-semibold text-putih hover:bg-daun-tekan shadow-kartu disabled:opacity-50"
               >
-                {tambahStok.isPending ? 'Menyimpan...' : 'Simpan dan Jual'}
+                {tambahStok.isPending ? 'Menyimpan...' : 'Simpan dan jual'}
               </button>
             </div>
           </form>
@@ -267,7 +270,7 @@ export function HalamanStokPetani() {
                   onClick={() => setBukaForm(true)}
                   className="mt-4 inline-flex items-center gap-1.5 rounded-lg bg-daun-tua px-4 py-2 text-isi font-semibold text-putih hover:bg-daun-tekan shadow-kartu"
                 >
-                  + Tambah Stok Sekarang
+                  + Tambah stok sekarang
                 </button>
               </div>
             ) : (
@@ -323,7 +326,7 @@ export function HalamanStokPetani() {
 
                       <div className="my-3 flex items-baseline justify-between rounded-lg bg-embun-pagi p-3">
                         <div>
-                          <span className="text-keterangan text-teks-pendukung block">Sisa Stok</span>
+                          <span className="text-keterangan text-teks-pendukung block">Sisa stok</span>
                           <span className="text-judul-bagian font-bold text-daun-tua">
                             {s.sisa_kg} <span className="text-keterangan font-normal">/ {s.jumlah_kg} kg</span>
                           </span>
@@ -345,7 +348,7 @@ export function HalamanStokPetani() {
                           onClick={() => handleTarikStok(s.id)}
                           className="rounded-lg border border-tomat/30 bg-tomat/10 px-3 py-1.5 text-keterangan font-medium text-tomat hover:bg-tomat/20"
                         >
-                          Tarik dari Pasar
+                          Tarik dari pasar
                         </button>
                       ) : s.status === 'ditarik' ? (
                         <button
@@ -353,7 +356,7 @@ export function HalamanStokPetani() {
                           onClick={() => handleAktifkanStok(s.id)}
                           className="rounded-lg bg-daun-lembut px-3 py-1.5 text-keterangan font-medium text-daun-tua hover:bg-daun-lembut/80"
                         >
-                          Aktifkan Kembali
+                          Aktifkan kembali
                         </button>
                       ) : null}
                     </div>
@@ -393,7 +396,7 @@ export function HalamanStokPetani() {
                               : 'bg-daun-lembut text-daun-tua border border-daun/30'
                           )}
                         >
-                          {p.metode_bayar === 'cod' ? 'COD (Bayar di Tempat)' : 'Bayar di Aplikasi'}
+                          {p.metode_bayar === 'cod' ? 'COD (bayar di tempat)' : 'Bayar di aplikasi'}
                         </span>
                         <span
                           className={cx(
@@ -459,7 +462,7 @@ export function HalamanStokPetani() {
                           disabled={kirimPesanan.isPending}
                           className="rounded-lg bg-daun-tua px-4 py-2 text-isi font-semibold text-putih hover:bg-daun-tua/90 shadow-kartu"
                         >
-                          Tandai Dikirim
+                          Tandai dikirim
                         </button>
                       ) : null}
 

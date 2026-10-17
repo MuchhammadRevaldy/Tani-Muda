@@ -15,9 +15,7 @@ import type { PetaniPeta } from '../../api/tipe';
 import { Avatar } from '../../komponen/avatar';
 import { Ikon } from '../../komponen/ikon';
 import { Kartu } from '../../komponen/kartu';
-import { kelasTombol, Tombol } from '../../komponen/tombol';
-import { formatRupiah } from '../../lib/format';
-import { angkaJarak } from '../../lib/jarak';
+import { formatJarak, formatRupiah } from '../../lib/format';
 
 // Perbaiki ikon penanda bawaan Leaflet untuk bundler Vite
 const ikonPetaniSvg = `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="36" height="36" fill="%232c6e49"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>`;
@@ -306,8 +304,8 @@ export function HalamanPetaPetani() {
       >
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-start gap-3">
-            <span className="text-judul-bagian" aria-hidden="true">
-              📍
+            <span className="text-daun-tua mt-0.5" aria-hidden="true">
+              <Ikon nama="pin" ukuran={20} />
             </span>
             <div>
               <h2 className="text-isi font-bold text-teks">
@@ -367,14 +365,14 @@ export function HalamanPetaPetani() {
                     <Avatar nama={petaniTerpilih.nama} ukuran={44} />
                     <div className="flex flex-col">
                       <span className="font-semibold text-teks">{petaniTerpilih.nama}</span>
-                      <span className="text-keterangan text-teks-pendukung">
-                        {petaniTerpilih.level.ikon} Level {petaniTerpilih.level.level} • Jarak ~{angkaJarak(petaniTerpilih.jarak_km)} km
+                      <span className="text-keterangan text-teks-pendukung whitespace-nowrap">
+                        {petaniTerpilih.level.ikon} Level {petaniTerpilih.level.level} • Jarak {petaniTerpilih.jarak_km < 1 ? formatJarak(petaniTerpilih.jarak_km) : `~${formatJarak(petaniTerpilih.jarak_km)}`}
                       </span>
                     </div>
                   </div>
 
                   <div>
-                    <h3 className="m-0 mb-2 font-medium text-teks">Stok Siap Jual</h3>
+                    <h3 className="m-0 mb-2 font-medium text-teks">Stok siap jual</h3>
                     {petaniTerpilih.stok_tersedia.length > 0 ? (
                       <div className="flex flex-col gap-2">
                         {petaniTerpilih.stok_tersedia.map((s) => (
@@ -450,8 +448,8 @@ export function HalamanPetaPetani() {
                       <Avatar nama={p.nama} ukuran={40} />
                       <div className="flex flex-col">
                         <span className="font-semibold text-teks">{p.nama}</span>
-                        <span className="text-keterangan text-teks-pendukung">
-                          {p.level.ikon} Level {p.level.level} • ~{angkaJarak(p.jarak_km)} km
+                        <span className="text-keterangan text-teks-pendukung whitespace-nowrap">
+                          {p.level.ikon} Level {p.level.level} • {p.jarak_km < 1 ? formatJarak(p.jarak_km) : `~${formatJarak(p.jarak_km)}`}
                         </span>
                       </div>
                     </div>

@@ -76,6 +76,18 @@ export function formatDesimal(n: number, digit = 1, tetap = false): string {
 }
 
 /**
+ * Jarak untuk tampilan (D-09, AG-37):
+ * - Di bawah 1 km: "kurang dari 1 km" (bukan "0 km")
+ * - 1 km atau lebih: koma desimal, mis. "1,8 km"
+ */
+export function formatJarak(km: number | null | undefined): string {
+  if (km === null || km === undefined || Number.isNaN(km)) return '';
+  if (km < 1) return 'kurang dari 1 km';
+  const angka = km < 10 ? formatDesimal(km, 1) : titikRibuan(Math.round(km));
+  return `${angka} km`;
+}
+
+/**
  * Baca angka ketikan pengguna Indonesia: "1.250,5" → 1250.5; "6,2" → 6.2; " 100 " → 100.
  * Kosong atau tidak valid → null (bukan 0, supaya "belum diisi" bisa dibedakan dari nol).
  */
