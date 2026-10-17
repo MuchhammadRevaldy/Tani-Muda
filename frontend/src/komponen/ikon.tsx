@@ -20,7 +20,8 @@ const IKON = {
     '<rect x="5" y="10.5" width="14" height="10" rx="2"/><path d="M8.2 10.5V8a3.8 3.8 0 0 1 7.6 0v2.5"/><path d="M12 14.4v2.4"/>',
   'jam-pasir':
     '<path d="M6.5 3.5h11"/><path d="M6.5 20.5h11"/><path d="M8 3.5v2.2c0 2.3 4 4 4 6.3s-4 4-4 6.3v2.2"/><path d="M16 3.5v2.2c0 2.3-4 4-4 6.3s4 4 4 6.3v2.2"/>',
-  uang: '<rect x="3" y="6" width="18" height="12" rx="3"/><circle cx="12" cy="12" r="2.5"/><path d="M6.5 9.5v5M17.5 9.5v5"/>',
+  uang:
+    '<ellipse cx="9" cy="6.5" rx="6" ry="2.5"/><path d="M3 6.5v4c0 1.4 2.7 2.5 6 2.5s6-1.1 6-2.5v-4"/><path d="M3 10.5v4c0 1.4 2.7 2.5 6 2.5"/><ellipse cx="15" cy="14.5" rx="6" ry="2.5"/><path d="M9 14.5v3c0 1.4 2.7 2.5 6 2.5s6-1.1 6-2.5v-3"/>',
   offline:
     '<path d="M3.5 3.5l17 17"/><path d="M9.4 6.4a5.6 5.6 0 0 1 8 3.6 4.1 4.1 0 0 1 2.5 6.6"/><path d="M16.6 18.3H7.2a4.3 4.3 0 0 1-.9-8.5"/>',
   panen:
