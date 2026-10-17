@@ -59,12 +59,16 @@
    Konten dan kaki halaman diberi ruang kosong setinggi tumpukan tombol supaya tidak menutupi tombol utama halaman atau navigasi kapsul. */
 html.ada-label-demo main,
 html.ada-label-demo footer {
-  padding-bottom: 144px;
+  padding-bottom: 160px !important;
 }
 @media (max-width: 1023px) {
   html.ada-label-demo:has([data-nav-bawah]) main,
   html.ada-label-demo:has([data-nav-bawah]) footer {
-    padding-bottom: 208px;
+    padding-bottom: 220px !important;
+  }
+  html.ada-label-demo:not(:has([data-nav-bawah])) main,
+  html.ada-label-demo:not(:has([data-nav-bawah])) footer {
+    padding-bottom: 160px !important;
   }
   html.ada-label-demo:has([data-nav-bawah]) .label-mode-demo {
     bottom: 154px;

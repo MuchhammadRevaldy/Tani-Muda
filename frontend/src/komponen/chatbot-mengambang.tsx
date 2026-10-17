@@ -46,8 +46,14 @@ export function ChatbotMengambang() {
 
   useEffect(() => {
     if (terbuka) {
+      document.documentElement.classList.add('chat-mobile-terbuka');
       akhirObrolanRef.current?.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      document.documentElement.classList.remove('chat-mobile-terbuka');
     }
+    return () => {
+      document.documentElement.classList.remove('chat-mobile-terbuka');
+    };
   }, [daftarPesan.length, terbuka]);
 
   async function setujuiFitur() {
@@ -148,22 +154,20 @@ export function ChatbotMengambang() {
         </button>
       </div>
 
-      {/* Jendela Obrolan (Panel rounded-3xl elegan di HP dan desktop) */}
+      {/* Jendela Obrolan (Panel layar penuh di HP, panel melayang di desktop) */}
       {terbuka && (
         <div
           id="panel-chatbot"
           role="dialog"
           aria-label="Panel Tanya Tani Muda"
-          style={{ borderRadius: '24px' }}
-          className="fixed inset-x-3 bottom-3 top-16 z-50 flex flex-col overflow-hidden rounded-3xl border border-garis bg-putih shadow-kartu-angkat animate-masuk-halaman md:inset-auto md:bottom-22 md:right-6 md:h-tab-siklus md:w-panel md:max-w-dialog md:rounded-3xl"
+          className="fixed inset-0 z-50 flex flex-col overflow-hidden bg-putih shadow-kartu-angkat animate-masuk-halaman md:inset-auto md:bottom-22 md:right-6 md:h-tab-siklus md:w-panel md:max-w-dialog md:rounded-3xl md:border md:border-garis"
         >
           {/* Header */}
           <div
-            style={{ borderTopLeftRadius: '24px', borderTopRightRadius: '24px' }}
-            className="flex min-h-14 items-center justify-between rounded-t-3xl border-b border-garis bg-daun-tua px-4 py-3 text-putih"
+            className="flex min-h-14 items-center justify-between border-b border-garis bg-daun-tua px-4 py-3 text-putih md:rounded-t-3xl"
           >
             <div className="flex items-center gap-2.5">
-              <div className="flex h-9 w-9 items-center justify-center rounded-full bg-daun-lembut text-daun-tua">
+               <div className="flex h-9 w-9 items-center justify-center rounded-full bg-daun-lembut text-daun-tua">
                 <Ikon nama="kebun" ukuran={20} />
               </div>
               <div>
@@ -176,7 +180,7 @@ export function ChatbotMengambang() {
               type="button"
               onClick={() => setTerbuka(false)}
               aria-label="Tutup Tanya Tani Muda"
-              className="flex h-10 w-10 min-h-sentuh min-w-sentuh cursor-pointer items-center justify-center rounded-full text-putih hover:bg-daun-tekan focus:outline-none transition-colors"
+              className="flex h-12 w-12 min-h-sentuh min-w-sentuh cursor-pointer items-center justify-center rounded-full text-putih hover:bg-daun-tekan focus:outline-none transition-colors"
             >
               <Ikon nama="silang" ukuran={20} />
             </button>
@@ -354,7 +358,7 @@ export function ChatbotMengambang() {
                 e.preventDefault();
                 void kirimPertanyaan();
               }}
-              className="sticky bottom-0 flex items-center gap-2 rounded-b-3xl border-t border-garis bg-putih p-3 shadow-kartu"
+              className="sticky bottom-0 flex items-center gap-2 border-t border-garis bg-putih p-3 shadow-kartu md:rounded-b-3xl"
             >
               <input
                 id="input-chatbot"

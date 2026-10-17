@@ -114,8 +114,18 @@ async function aturUlang(page) {
 
 /** Periksa setiap gambar di halaman berhasil dimuat tanpa gambar rusak (AG-35). */
 async function periksaSemuaGambarUtuh(page) {
-  const rusak = await page.evaluate(() => {
+  const rusak = await page.evaluate(async () => {
     const gambar = Array.from(document.querySelectorAll('img'));
+    await Promise.all(
+      gambar.map((img) => {
+        if (img.complete) return;
+        return new Promise((resolve) => {
+          img.addEventListener('load', () => resolve(), { once: true });
+          img.addEventListener('error', () => resolve(), { once: true });
+          setTimeout(resolve, 3000);
+        });
+      }),
+    );
     return gambar
       .filter((img) => !img.complete || img.naturalWidth === 0)
       .map((img) => img.src || img.getAttribute('src') || '<tanpa-src>');
