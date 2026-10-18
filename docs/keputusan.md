@@ -739,11 +739,19 @@ Ditetapkan 14 Oktober 2026 oleh pemilik produk (disahkan lewat `docs/prd-fitur-t
 - **Migrasi Data Demo:** Memindahkan data contoh demo dari Lembang (Jawa Barat) ke **Kabupaten Klaten, Jawa Tengah**. Semua pengguna demo, lahan, pesanan, stok, peta, dan percakapan memakai desa-desa di Klaten dengan kode resmi Kepmendagri 2025 (`33.10.xx.xxxx`). Komoditas unggulan disesuaikan dengan Klaten (Padi Beras Delanggu / sayuran lokal). Seluruh teks yang menyebut "Lembang" atau "Bandung Barat" dihapus dari `frontend/src`, `shared/data-contoh`, dan `docs/naskah-demo.md`.
 - Berdampak ke: `backend/database/migrations/`, `backend/app/Models/`, `backend/app/Http/Controllers/Api/V1/WilayahController.php`, `frontend/src/komponen/pilih-wilayah.tsx`, `frontend/src/api/tiruan/`, `shared/data-contoh/`, `docs/naskah-demo.md`.
 
+## D-68. Satu PRD terkini
+Ditetapkan pemilik produk 18 Oktober 2026.
+- PRD v1 (`docs/prd-tani-muda.md`), PRD tambahan v1.1 (`docs/prd-fitur-tambahan.md`), dan keputusan D-01 sampai D-67 dirangkum dalam satu dokumen: **`docs/prd-terkini.md`**, lengkap dengan status setiap fitur di kode per 18 Oktober 2026.
+- `docs/prd-terkini.md` menjadi acuan produk. Kedua PRD lama tidak diubah (aturan proyek 7.8) dan menjadi arsip.
+- Keputusan baru tetap ditulis di sini dengan nomor berikutnya, lalu `prd-terkini.md` diperbarui pada hari yang sama.
+- Temuan saat merangkum: akses tanpa sinyal (P0-29) **belum** dibuat karena belum ada service worker. Klaim "bisa dipakai tanpa sinyal" tidak boleh dipakai di demo, slide, atau video sampai fitur itu ada.
+
 ---
 
 ## Riwayat
 | Tanggal | Perubahan |
 | --- | --- |
+| 2026-10-18 | D-68 ditetapkan: PRD dirangkum menjadi satu di `docs/prd-terkini.md`; dua PRD lama menjadi arsip |
 | 2026-10-18 | D-67 ([AG-41]): Wilayah Jawa Tengah (provinsi 33), pemilihan bertingkat kabupaten → kecamatan → desa (PilihWilayah), titik tengah 576 kecamatan Nominatim OSM, migrasi data demo ke Kabupaten Klaten |
 | 2026-10-18 | D-66 ([AG-39]): Desain dropdown dan kalender headless (Headless UI dan react-day-picker dengan lokal Indonesia), a11y keyboard penuh, lembar bawah HP |
 | 2026-10-18 | D-65 ([AG-37]): Lomba diundur ke Selasa 20 Okt 2026; batas pembekuan kode akhir Senin 19 Okt 18.00 WIB; pemulihan stash, ikon pin & uang, format jarak, aturan emoji & kapitalisasi kalimat |
