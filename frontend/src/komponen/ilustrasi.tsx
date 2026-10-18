@@ -7,7 +7,7 @@
  *   Warna lewat kelas token: aktif = latar daun-lembut + garis daun-tua; segera hadir = latar
  *   embun-pagi + garis garis-kuat. Bagian isi putih memakai fill-putih.
  */
-import type { ReactNode } from 'react';
+import { useState, type ReactNode } from 'react';
 import { Ikon } from './ikon';
 
 const P = ({ d, isi }: { d: string; isi?: boolean }) => (
@@ -149,6 +149,7 @@ export function IlustrasiKomoditas({
   alt?: string;
   className?: string;
 }) {
+  const [fotoGagal, setFotoGagal] = useState(false);
   const kelas = ['block flex-none', segera && 'opacity-60 grayscale', className]
     .filter(Boolean)
     .join(' ');
@@ -167,14 +168,20 @@ export function IlustrasiKomoditas({
       </span>
     );
   }
+  // Gunakan foto asli (.webp) sebagai sumber utama, fallback ke SVG vector jika gagal
+  const srcFoto = alamatFotoKomoditas(nama);
+  const srcSvg = alamatIlustrasiKomoditas(nama);
   return (
     <img
-      src={alamatIlustrasiKomoditas(nama)}
+      src={fotoGagal ? srcSvg : srcFoto}
       alt={alt ?? KOMODITAS[nama].alt}
       width={ukuran}
       height={ukuran}
       decoding="async"
-      className={kelas}
+      className={[kelas, !fotoGagal && 'rounded-lg object-cover'].filter(Boolean).join(' ')}
+      onError={() => {
+        if (!fotoGagal) setFotoGagal(true);
+      }}
     />
   );
 }

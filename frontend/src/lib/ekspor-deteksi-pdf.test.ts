@@ -24,8 +24,6 @@ describe('ekspor-deteksi-pdf', () => {
         perlu_penyuluh: true,
         catatan: 'Observasi berkala.',
       },
-      model: 'glm-5.3-flash',
-      dibuat_pada: '2026-10-19T01:40:00.000Z',
     };
 
     const bytes = buatPdfDeteksiBytes(contoh, 'daun berlubang');

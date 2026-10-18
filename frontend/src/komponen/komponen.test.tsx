@@ -361,11 +361,11 @@ describe('PenggarisUmurTanam', () => {
 });
 
 describe('IlustrasiKomoditas (D-59)', () => {
-  it('memuat SVG 3D lewat <img> dengan alt', () => {
+  it('memuat foto asli lewat <img> dengan alt', () => {
     render(<IlustrasiKomoditas nama="cabai" />);
     const g = screen.getByRole('img', { name: 'Ilustrasi cabai rawit' });
     expect(g.tagName).toBe('IMG');
-    expect(g).toHaveAttribute('src', '/ilustrasi/komoditas/cabai-rawit.svg');
+    expect(g).toHaveAttribute('src', '/foto/komoditas/cabai-rawit.webp');
   });
   it('alt kosong menjadikannya hiasan; segera hadir tampil redup', () => {
     const { container } = render(<IlustrasiKomoditas nama="padi" alt="" segera />);
@@ -383,5 +383,10 @@ describe('IlustrasiKomoditas (D-59)', () => {
     expect(daftarIlustrasiKomoditas).toHaveLength(12);
     for (const n of daftarIlustrasiKomoditas)
       expect(existsSync(`public${alamatIlustrasiKomoditas(n)}`), n).toBe(true);
+  });
+  it('12 foto komoditas (.webp), semuanya ada berkasnya di public/', async () => {
+    const { existsSync } = await import('node:fs');
+    for (const n of daftarIlustrasiKomoditas)
+      expect(existsSync(`public/foto/komoditas/${n === 'cabai' ? 'cabai-rawit' : n === 'jagung' ? 'jagung-manis' : n === 'kedelai' ? 'kedelai' : n}.webp`), n).toBe(true);
   });
 });
