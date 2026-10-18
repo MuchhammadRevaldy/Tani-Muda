@@ -1,0 +1,303 @@
+{
+  "suara": "id-ID-ArdiNeural",
+  "awalNarasiDetik": 0.5,
+  "ekorDetik": 0.8,
+  "fps": 30,
+  "adegan": [
+    {
+      "id": "01",
+      "judul": "Pembuka",
+      "minimumDetik": 12,
+      "sumber": "edge-tts:id-ID-ArdiNeural",
+      "durasiDetik": 10.083,
+      "kata": 17,
+      "kataPerMenit": 101,
+      "md5": "5a965e86ccfa8c7e5571a9a591413402",
+      "kalimat": [
+        {
+          "teks": "Bertani itu bisa untung.",
+          "mulai": 0,
+          "selesai": 1.49
+        },
+        {
+          "teks": "Asal tahu apa yang ditanam, berapa modalnya, dan siapa pembelinya.",
+          "mulai": 2.778,
+          "selesai": 7.204
+        },
+        {
+          "teks": "Inilah Tani Muda.",
+          "mulai": 8.754,
+          "selesai": 10.042
+        }
+      ]
+    },
+    {
+      "id": "02",
+      "judul": "Data",
+      "minimumDetik": 15,
+      "sumber": "edge-tts:id-ID-ArdiNeural",
+      "durasiDetik": 14.237,
+      "kata": 25,
+      "kataPerMenit": 105,
+      "md5": "8ba352c7c82c5be6636343669259ff62",
+      "kalimat": [
+        {
+          "teks": "Menurut Sensus Pertanian 2023, petani berumur 19 sampai 39 tahun cuma 21,93 persen.",
+          "mulai": 0,
+          "selesai": 8.247
+        },
+        {
+          "teks": "Sekitar satu dari lima.",
+          "mulai": 8.747,
+          "selesai": 10.357
+        },
+        {
+          "teks": "Padahal, bonus demografi ada di tangan anak muda.",
+          "mulai": 10.801,
+          "selesai": 14.198
+        }
+      ]
+    },
+    {
+      "id": "03",
+      "judul": "Masalah",
+      "minimumDetik": 18,
+      "sumber": "edge-tts:id-ID-ArdiNeural",
+      "durasiDetik": 16.744,
+      "kata": 33,
+      "kataPerMenit": 118,
+      "md5": "4f4415775b0f32256eb2f94637bba786",
+      "kalimat": [
+        {
+          "teks": "Kenapa anak muda ragu bertani?",
+          "mulai": 0,
+          "selesai": 1.678
+        },
+        {
+          "teks": "Harga jatuh pas panen raya.",
+          "mulai": 2.978,
+          "selesai": 4.694
+        },
+        {
+          "teks": "Hama datang, tapi tidak tahu cara menanganinya.",
+          "mulai": 5.846,
+          "selesai": 8.771
+        },
+        {
+          "teks": "Hasil panen lewat banyak tangan sebelum sampai ke pembeli.",
+          "mulai": 9.926,
+          "selesai": 12.854
+        },
+        {
+          "teks": "Dan sering, panennya belum ada yang beli.",
+          "mulai": 14.204,
+          "selesai": 16.7
+        }
+      ]
+    },
+    {
+      "id": "04",
+      "judul": "Solusi",
+      "minimumDetik": 13,
+      "sumber": "edge-tts:id-ID-ArdiNeural",
+      "durasiDetik": 9.012,
+      "kata": 15,
+      "kataPerMenit": 100,
+      "md5": "db6a16882a07fe09a7421444a8912b12",
+      "kalimat": [
+        {
+          "teks": "Tani Muda menemani dalam satu siklus.",
+          "mulai": 0,
+          "selesai": 2.181
+        },
+        {
+          "teks": "Belajar caranya, hitung modalnya, rawat tanamannya, lalu jual hasilnya.",
+          "mulai": 3.547,
+          "selesai": 8.968
+        }
+      ]
+    },
+    {
+      "id": "05",
+      "judul": "Hitung",
+      "minimumDetik": 22,
+      "sumber": "edge-tts:id-ID-ArdiNeural",
+      "durasiDetik": 18.521,
+      "kata": 35,
+      "kataPerMenit": 113,
+      "md5": "8bd1a0854d56761046534bf1dc525024",
+      "kalimat": [
+        {
+          "teks": "Pilih tanaman yang cocok di daerahmu.",
+          "mulai": 0,
+          "selesai": 1.995
+        },
+        {
+          "teks": "Masukkan luas lahan, dan Tani Muda menghitung modal, perkiraan untung, dan titik impasnya.",
+          "mulai": 3.372,
+          "selesai": 9.396
+        },
+        {
+          "teks": "Kalau rencananya berpotensi rugi, ada saran supaya untungnya naik.",
+          "mulai": 10.726,
+          "selesai": 14.596
+        },
+        {
+          "teks": "Jadi kamu tahu hitungannya sebelum mulai menanam.",
+          "mulai": 15.929,
+          "selesai": 18.485
+        }
+      ]
+    },
+    {
+      "id": "06",
+      "judul": "Rawat",
+      "minimumDetik": 19,
+      "sumber": "edge-tts:id-ID-ArdiNeural",
+      "durasiDetik": 14.576,
+      "kata": 30,
+      "kataPerMenit": 123,
+      "md5": "88d6bdb46020e2c13e023ab33ff069a2",
+      "kalimat": [
+        {
+          "teks": "Setelah menanam, Beranda menunjukkan umur tanaman hari ini dan tugas yang perlu dikerjakan.",
+          "mulai": 0,
+          "selesai": 5.115
+        },
+        {
+          "teks": "Tandai yang sudah selesai.",
+          "mulai": 6.47,
+          "selesai": 8.011
+        },
+        {
+          "teks": "Cek pH air pakai kertas pH, masukkan angkanya, dan dapat saran yang jelas.",
+          "mulai": 9.418,
+          "selesai": 14.528
+        }
+      ]
+    },
+    {
+      "id": "07",
+      "judul": "Jual",
+      "minimumDetik": 27,
+      "sumber": "edge-tts:id-ID-ArdiNeural",
+      "durasiDetik": 22.622,
+      "kata": 38,
+      "kataPerMenit": 101,
+      "md5": "c8b2500fe096cf9f494025537d3d1ff3",
+      "kalimat": [
+        {
+          "teks": "Bagian terpentingnya: pembeli memesan sebelum panen, dan membayar uang muka.",
+          "mulai": 0,
+          "selesai": 4.855
+        },
+        {
+          "teks": "Uangnya ditahan dulu dengan aman.",
+          "mulai": 6.252,
+          "selesai": 8.13
+        },
+        {
+          "teks": "Petani mengambil pesanan itu, merawat tanamannya, lalu mengirim hasil panen.",
+          "mulai": 9.458,
+          "selesai": 14.248
+        },
+        {
+          "teks": "Begitu pembeli mengonfirmasi kiriman, dana cair ke petani.",
+          "mulai": 15.573,
+          "selesai": 19.177
+        },
+        {
+          "teks": "Tanam dengan pembeli yang pasti.",
+          "mulai": 20.827,
+          "selesai": 22.593
+        }
+      ]
+    },
+    {
+      "id": "08",
+      "judul": "Fitur pintar",
+      "minimumDetik": 22,
+      "sumber": "edge-tts:id-ID-ArdiNeural",
+      "durasiDetik": 20.741,
+      "kata": 46,
+      "kataPerMenit": 133,
+      "md5": "cc9b9ecdcb87f149540ab6b271868032",
+      "kalimat": [
+        {
+          "teks": "Ada juga bantuan sehari-hari.",
+          "mulai": 0,
+          "selesai": 1.8
+        },
+        {
+          "teks": "Foto daun yang sakit untuk melihat dugaan penyakitnya, lalu tanyakan ke penyuluh.",
+          "mulai": 2.51,
+          "selesai": 6.867
+        },
+        {
+          "teks": "Tanya soal budidaya ke asisten, dan ngobrol langsung dengan pembeli.",
+          "mulai": 7.574,
+          "selesai": 11.278
+        },
+        {
+          "teks": "Lihat prakiraan cuaca di kebunmu.",
+          "mulai": 11.845,
+          "selesai": 13.834
+        },
+        {
+          "teks": "Temukan petani lain di sekitarmu, tanpa membuka lokasi persis.",
+          "mulai": 14.398,
+          "selesai": 18.18
+        },
+        {
+          "teks": "Dan tawarkan stok yang siap jual.",
+          "mulai": 18.758,
+          "selesai": 20.699
+        }
+      ]
+    },
+    {
+      "id": "09",
+      "judul": "Bertahan",
+      "minimumDetik": 13,
+      "sumber": "edge-tts:id-ID-ArdiNeural",
+      "durasiDetik": 10.109,
+      "kata": 20,
+      "kataPerMenit": 119,
+      "md5": "2fbd02a1197a94d68c65764e3ee0955f",
+      "kalimat": [
+        {
+          "teks": "Makin rajin merawat, levelmu naik, dari Benih sampai Panen Raya.",
+          "mulai": 0,
+          "selesai": 4.258
+        },
+        {
+          "teks": "Setiap pencapaian dapat lencana, dari tanam pertama sampai pembeli setia.",
+          "mulai": 5.658,
+          "selesai": 10.068
+        }
+      ]
+    },
+    {
+      "id": "10",
+      "judul": "Penutup",
+      "minimumDetik": 9,
+      "sumber": "edge-tts:id-ID-ArdiNeural",
+      "durasiDetik": 7.732,
+      "kata": 11,
+      "kataPerMenit": 85,
+      "md5": "b6e5c8e65135b6c90aa9a53a252c5671",
+      "kalimat": [
+        {
+          "teks": "Tani Muda.",
+          "mulai": 0,
+          "selesai": 0.922
+        },
+        {
+          "teks": "Aplikasi kepemudaan menyongsong bonus demografi, menuju Generasi Emas 2045.",
+          "mulai": 1.558,
+          "selesai": 7.7
+        }
+      ]
+    }
+  ]
+}

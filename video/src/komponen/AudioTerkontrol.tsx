@@ -1,60 +1,74 @@
 import React from 'react';
-import { Audio, Sequence, interpolate, staticFile, useCurrentFrame } from 'remotion';
-import { ADEGAN_CONFIG, DURASI_FRAME_TOTAL } from '../konfigurasi';
+import { Audio, Sequence, getStaticFiles, interpolate, staticFile, useVideoConfig } from 'remotion';
+import type { Linimasa } from '../linimasa';
 
-export const AudioTerkontrol: React.FC = () => {
-  const frame = useCurrentFrame();
+const VOLUME_MUSIK = 0.35;
+// Saat narasi berbunyi musik turun ke sekitar 30% dari volume normalnya (kira-kira -10 dB).
+const VOLUME_MUSIK_SAAT_NARASI = 0.1;
+const TRANSISI_DUCK_DETIK = 0.35;
 
-  // Daftar scene dengan narasi
-  const adeganList = Object.values(ADEGAN_CONFIG);
+function adaBerkas(nama: string): boolean {
+  try {
+    return getStaticFiles().some((f) => f.name === nama);
+  } catch {
+    return true;
+  }
+}
 
-  // Cek apakah ada narasi yang sedang aktif di frame saat ini
-  const sedangBicara = adeganList.some((a) => {
-    // Berikan jeda 0.5 detik awal dan 0.5 detik akhir per adegan
-    const mulaiBicara = a.mulaiFrame + 15;
-    const selesaiBicara = a.mulaiFrame + a.durasiFrame - 15;
-    return frame >= mulaiBicara && frame <= selesaiBicara;
-  });
+/**
+ * Narasi per adegan + musik latar. Musik turun halus hanya saat
+ * kalimat narasi sedang berbunyi, lalu naik lagi di jeda antaradegan.
+ */
+export const AudioTerkontrol: React.FC<{ linimasa: Linimasa }> = ({ linimasa }) => {
+  const { fps } = useVideoConfig();
+  // Rentang bicara dalam detik absolut video.
+  const rentang = linimasa.adegan.flatMap((a) =>
+    a.kalimat.length
+      ? [{
+          mulai: (a.mulaiFrame + a.awalNarasiFrame) / fps + a.kalimat[0].mulai,
+          selesai: (a.mulaiFrame + a.awalNarasiFrame) / fps + a.kalimat[a.kalimat.length - 1].selesai,
+        }]
+      : [],
+  );
+  const totalDetik = linimasa.totalFrame / fps;
 
-  // Volume musik: 0.38 normal, turun ke 0.20 saat narasi aktif (ducking)
-  let volumeMusik = sedangBicara ? 0.20 : 0.38;
-
-  // Fade-in 2 detik pertama (0 - 60 frame)
-  if (frame < 60) {
-    volumeMusik = interpolate(frame, [0, 60], [0, volumeMusik], {
+  const volumeMusik = (frame: number) => {
+    const t = frame / fps;
+    // Jarak ke rentang bicara terdekat (0 bila sedang bicara).
+    const jarak = Math.min(
+      ...rentang.map((r) => (t < r.mulai ? r.mulai - t : t > r.selesai ? t - r.selesai : 0)),
+    );
+    const duck = interpolate(jarak, [0, TRANSISI_DUCK_DETIK], [VOLUME_MUSIK_SAAT_NARASI, VOLUME_MUSIK], {
+      extrapolateLeft: 'clamp',
       extrapolateRight: 'clamp',
     });
-  }
-
-  // Fade-out 3 detik terakhir (DURASI_FRAME_TOTAL - 90 hingga akhir)
-  if (frame > DURASI_FRAME_TOTAL - 90) {
-    volumeMusik = interpolate(
-      frame,
-      [DURASI_FRAME_TOTAL - 90, DURASI_FRAME_TOTAL],
-      [volumeMusik, 0],
-      {
-        extrapolateLeft: 'clamp',
-        extrapolateRight: 'clamp',
-      },
-    );
-  }
+    const pudar = interpolate(t, [0, 2, totalDetik - 3, totalDetik], [0, 1, 1, 0], {
+      extrapolateLeft: 'clamp',
+      extrapolateRight: 'clamp',
+    });
+    return duck * pudar;
+  };
 
   return (
     <>
-      {/* 10 Berkas Narasi Terpisah per Adegan (01.mp3 ... 10.mp3) */}
-      {adeganList.map((a) => (
-        <Sequence
-          key={a.id}
-          from={a.mulaiFrame}
-          durationInFrames={a.durasiFrame}
-          name={`Narasi ${a.id}`}
-        >
-          <Audio src={staticFile(`audio/narasi/${a.id}.mp3`)} volume={1.0} />
-        </Sequence>
-      ))}
+      {linimasa.adegan.map((a) =>
+        adaBerkas(`audio/narasi/${a.id}.mp3`) ? (
+          <Sequence
+            key={a.id}
+            from={a.mulaiFrame + a.awalNarasiFrame}
+            durationInFrames={a.durasiFrame - a.awalNarasiFrame}
+            name={`Narasi ${a.id}`}
+            layout="none"
+          >
+            <Audio src={staticFile(`audio/narasi/${a.id}.mp3`)} />
+          </Sequence>
+        ) : null,
+      )}
 
-      {/* Musik Latar Akustik Bebas Royalti dengan Ducking Otomatis ke 20% */}
-      <Audio src={staticFile('audio/musik.mp3')} volume={volumeMusik} />
+      {/* Video tetap bisa dirender bila musik.mp3 dihapus. */}
+      {adaBerkas('audio/musik.mp3') && (
+        <Audio src={staticFile('audio/musik.mp3')} volume={volumeMusik} />
+      )}
     </>
   );
 };

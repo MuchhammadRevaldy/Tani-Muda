@@ -1,7 +1,6 @@
 import React from 'react';
 import { interpolate, spring, useCurrentFrame, useVideoConfig } from 'remotion';
-import { IkonBukuTerbuka, IkonKalkulator, IkonGembor, IkonKeranjang } from '../ikon';
-import { SubtitelVideo } from '../komponen/SubtitelVideo';
+import { IkonBelajar, IkonKalkulator, IkonGembor, IkonPanen } from '../ikon';
 import { TOKEN_WARNA } from '../konfigurasi';
 
 export const Adegan04Solusi: React.FC = () => {
@@ -13,10 +12,10 @@ export const Adegan04Solusi: React.FC = () => {
 
   // 4 Pilar
   const pilarList = [
-    { nama: 'Belajar', sub: 'Resep Teruji', Komp: IkonBukuTerbuka, x: 960, y: 250, delay: 20 },
-    { nama: 'Hitung', sub: 'Modal & BEP', Komp: IkonKalkulator, x: 1380, y: 530, delay: 40 },
-    { nama: 'Rawat', sub: 'SOP Harian', Komp: IkonGembor, x: 960, y: 810, delay: 60 },
-    { nama: 'Jual', sub: 'Kontrak Pasti', Komp: IkonKeranjang, x: 540, y: 530, delay: 80 },
+    { nama: 'Belajar', sub: 'Cara tanam', Komp: IkonBelajar, x: 960, y: 250, delay: 20 },
+    { nama: 'Hitung', sub: 'Modal dan untung', Komp: IkonKalkulator, x: 1380, y: 530, delay: 40 },
+    { nama: 'Rawat', sub: 'Tugas harian', Komp: IkonGembor, x: 960, y: 810, delay: 60 },
+    { nama: 'Jual', sub: 'Pembeli pasti', Komp: IkonPanen, x: 540, y: 530, delay: 80 },
   ];
 
   return (
@@ -152,7 +151,7 @@ export const Adegan04Solusi: React.FC = () => {
             }}
           >
             <div style={{ marginBottom: 6 }}>
-              <Komp size={56} strokeWidth={4} />
+              <Komp size={56} strokeWidth={4.5} />
             </div>
             <div style={{ fontSize: 22, fontWeight: 900, color: TOKEN_WARNA.daunTua }}>
               {p.nama}
@@ -164,8 +163,6 @@ export const Adegan04Solusi: React.FC = () => {
         );
       })}
 
-      {/* Subtitel Terbakar */}
-      <SubtitelVideo teks="Siklus empat pilar terpadu: Belajar, Hitung, Rawat, dan Jual panen pasti." />
     </div>
   );
 };

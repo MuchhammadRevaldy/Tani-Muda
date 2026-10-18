@@ -1,8 +1,7 @@
 import React from 'react';
 import { interpolate, spring, useCurrentFrame, useVideoConfig } from 'remotion';
 import { BingkaiPerangkatDatar } from '../komponen/BingkaiPerangkatDatar';
-import { IkonKoin, IkonKalkulator } from '../ikon';
-import { SubtitelVideo } from '../komponen/SubtitelVideo';
+import { IkonUang, IkonKalkulator } from '../ikon';
 import { TOKEN_WARNA } from '../konfigurasi';
 
 export const Adegan05Hitung: React.FC = () => {
@@ -68,7 +67,7 @@ export const Adegan05Hitung: React.FC = () => {
         }}
       >
         <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
-          <IkonKalkulator size={36} strokeWidth={4} />
+          <IkonKalkulator size={36} strokeWidth={4.5} />
           <span style={{ fontSize: 16, fontWeight: 800, color: TOKEN_WARNA.daunTerang, letterSpacing: '2px', textTransform: 'uppercase' }}>
             Pilar 02 · Hitung
           </span>
@@ -137,7 +136,7 @@ export const Adegan05Hitung: React.FC = () => {
             boxShadow: '0 12px 28px rgba(27,67,50,0.08)',
           }}
         >
-          <IkonKoin size={64} strokeWidth={4} />
+          <IkonUang size={64} strokeWidth={4.5} />
           <div>
             <div style={{ fontSize: 14, fontWeight: 700, color: TOKEN_WARNA.emas }}>
               RINCIAN MODAL
@@ -179,8 +178,6 @@ export const Adegan05Hitung: React.FC = () => {
         </div>
       </div>
 
-      {/* Subtitel Terbakar */}
-      <SubtitelVideo teks="Menghitung kebutuhan modal bibit, nutrisi, dan titik impas secara transparan." />
     </div>
   );
 };

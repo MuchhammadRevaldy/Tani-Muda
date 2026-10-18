@@ -1,7 +1,6 @@
 import React from 'react';
 import { interpolate, spring, useCurrentFrame, useVideoConfig } from 'remotion';
-import { IkonBenihTunas } from '../ikon';
-import { SubtitelVideo } from '../komponen/SubtitelVideo';
+import { IkonKebun } from '../ikon';
 import { TOKEN_WARNA } from '../konfigurasi';
 
 export const Adegan01Pembuka: React.FC = () => {
@@ -73,7 +72,7 @@ export const Adegan01Pembuka: React.FC = () => {
           transform: `translateY(${(1 - jatuhBenih) * -240}px)`,
         }}
       >
-        <IkonBenihTunas size={180} strokeWidth={4} progress={tumbuhTunas} />
+        <IkonKebun size={180} strokeWidth={4.5} progress={tumbuhTunas} />
       </div>
 
       {/* Teks Judul Utama: Huruf Masuk Satu Per Satu */}
@@ -149,8 +148,6 @@ export const Adegan01Pembuka: React.FC = () => {
         })}
       </div>
 
-      {/* Subtitel Terbakar di Bawah Tanpa Kotak */}
-      <SubtitelVideo teks="Selamat datang di Tani Muda: Tanam dengan pembeli yang pasti." />
     </div>
   );
 };

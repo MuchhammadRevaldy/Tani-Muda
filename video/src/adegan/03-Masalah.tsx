@@ -1,16 +1,19 @@
 import React from 'react';
 import { interpolate, spring, useCurrentFrame, useVideoConfig } from 'remotion';
-import { IkonGrafikTurun, IkonKeranjang, IkonDaunUlat, IkonRantai, IkonKoin, IkonTruk } from '../ikon';
-import { SubtitelVideo } from '../komponen/SubtitelVideo';
+import { IkonGrafikTurun, IkonPanen, IkonDaunUlat, IkonRantai, IkonUang, IkonTruk } from '../ikon';
 import { TOKEN_WARNA } from '../konfigurasi';
+import { useAwalKalimat } from '../komponen/WaktuNarasi';
 
 export const Adegan03Masalah: React.FC = () => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
-  // 4 Shot @ 135 frame (4.5 detik per shot)
-  const shotAktif = frame < 135 ? 'a' : frame < 270 ? 'b' : frame < 405 ? 'c' : 'd';
-  const frameShot = frame % 135;
+  // 4 shot; shot b, c, d mulai tepat saat kalimat hama, rantai, dan pembeli diucapkan [AG-44].
+  const awal = useAwalKalimat('03');
+  const awalShot = [0, awal[2] ?? 135, awal[3] ?? 270, awal[4] ?? 405];
+  const indeksShot = awalShot.filter((f) => frame >= f).length - 1;
+  const shotAktif = (['a', 'b', 'c', 'd'] as const)[indeksShot];
+  const frameShot = frame - awalShot[indeksShot];
 
   const spShot = spring({
     frame: frameShot,
@@ -44,9 +47,9 @@ export const Adegan03Masalah: React.FC = () => {
           }}
         >
           <div style={{ display: 'flex', alignItems: 'center', gap: 40, marginBottom: 40 }}>
-            <IkonKeranjang size={140} strokeWidth={4} />
+            <IkonPanen size={140} strokeWidth={4.5} />
             <div style={{ fontSize: 44, color: TOKEN_WARNA.tomat, fontWeight: 900 }}>→</div>
-            <IkonGrafikTurun size={180} strokeWidth={4} />
+            <IkonGrafikTurun size={180} strokeWidth={4.5} />
           </div>
 
           <div style={{ display: 'flex', gap: 14 }}>
@@ -63,7 +66,6 @@ export const Adegan03Masalah: React.FC = () => {
               </span>
             ))}
           </div>
-          <SubtitelVideo teks="Ketidakpastian harga yang sering anjlok saat pasokan melimpah." />
         </div>
       )}
 
@@ -78,11 +80,11 @@ export const Adegan03Masalah: React.FC = () => {
           }}
         >
           <div style={{ marginBottom: 40 }}>
-            <IkonDaunUlat size={220} strokeWidth={4} />
+            <IkonDaunUlat size={220} strokeWidth={4.5} />
           </div>
 
           <div style={{ display: 'flex', gap: 14 }}>
-            {['Gagal', 'panen', 'akibat', 'salah', 'takaran'].map((w, i) => (
+            {['Hama', 'datang,', 'tak', 'tahu', 'caranya'].map((w, i) => (
               <span
                 key={i}
                 style={{
@@ -95,7 +97,6 @@ export const Adegan03Masalah: React.FC = () => {
               </span>
             ))}
           </div>
-          <SubtitelVideo teks="Takaran pupuk yang sulit ditebak dan terlambat mendeteksi hama." />
         </div>
       )}
 
@@ -118,19 +119,19 @@ export const Adegan03Masalah: React.FC = () => {
               position: 'relative',
             }}
           >
-            <IkonRantai size={180} strokeWidth={4} />
+            <IkonRantai size={180} strokeWidth={4.5} />
             {/* Koin berjalan dan menyusut */}
             <div
               style={{
                 transform: `translateX(${interpolate(frameShot, [10, 110], [-100, 100], { extrapolateRight: 'clamp' })}px) scale(${interpolate(frameShot, [10, 110], [1.2, 0.4], { extrapolateRight: 'clamp' })})`,
               }}
             >
-              <IkonKoin size={90} strokeWidth={4} />
+              <IkonUang size={90} strokeWidth={4.5} />
             </div>
           </div>
 
           <div style={{ display: 'flex', gap: 14 }}>
-            {['Rantai', 'tengkulak', 'memotong', 'laba', 'petani'].map((w, i) => (
+            {['Lewat', 'banyak', 'tangan', 'perantara'].map((w, i) => (
               <span
                 key={i}
                 style={{
@@ -143,7 +144,6 @@ export const Adegan03Masalah: React.FC = () => {
               </span>
             ))}
           </div>
-          <SubtitelVideo teks="Jeratan perantara panjang yang menggerus keuntungan petani muda." />
         </div>
       )}
 
@@ -165,14 +165,14 @@ export const Adegan03Masalah: React.FC = () => {
               marginBottom: 40,
             }}
           >
-            <IkonTruk size={180} strokeWidth={4} />
+            <IkonTruk size={180} strokeWidth={4.5} />
             <div style={{ fontSize: 72, fontWeight: 900, color: TOKEN_WARNA.tomat }}>
               ?
             </div>
           </div>
 
           <div style={{ display: 'flex', gap: 14 }}>
-            {['Pasar', 'panen', 'tidak', 'menentu'].map((w, i) => (
+            {['Panen', 'belum', 'ada', 'pembeli'].map((w, i) => (
               <span
                 key={i}
                 style={{
@@ -185,7 +185,6 @@ export const Adegan03Masalah: React.FC = () => {
               </span>
             ))}
           </div>
-          <SubtitelVideo teks="Menanam tanpa kepastian siapa yang akan membeli hasil panen." />
         </div>
       )}
     </div>

@@ -1,6 +1,5 @@
 import React from 'react';
 import { interpolate, spring, staticFile, useCurrentFrame, useVideoConfig } from 'remotion';
-import { SubtitelVideo } from '../komponen/SubtitelVideo';
 import { TOKEN_WARNA } from '../konfigurasi';
 
 export const Adegan10Penutup: React.FC = () => {
@@ -108,8 +107,6 @@ export const Adegan10Penutup: React.FC = () => {
         </div>
       </div>
 
-      {/* Subtitel Terbakar */}
-      <SubtitelVideo teks="Saya Sandy dari Kabupaten Klaten, Jawa Tengah — mari bersama bangun kedaulatan pangan Nusantara!" />
     </div>
   );
 };

@@ -1,8 +1,7 @@
 import React from 'react';
 import { interpolate, spring, useCurrentFrame, useVideoConfig } from 'remotion';
 import { BingkaiPerangkatDatar } from '../komponen/BingkaiPerangkatDatar';
-import { IkonGembor } from '../ikon';
-import { SubtitelVideo } from '../komponen/SubtitelVideo';
+import { IkonCentang, IkonGembor } from '../ikon';
 import { TOKEN_WARNA } from '../konfigurasi';
 
 export const Adegan06Rawat: React.FC = () => {
@@ -56,7 +55,7 @@ export const Adegan06Rawat: React.FC = () => {
         }}
       >
         <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
-          <IkonGembor size={36} strokeWidth={4} />
+          <IkonGembor size={36} strokeWidth={4.5} />
           <span style={{ fontSize: 16, fontWeight: 800, color: TOKEN_WARNA.daunTerang, letterSpacing: '2px', textTransform: 'uppercase' }}>
             Pilar 03 · Rawat
           </span>
@@ -150,13 +149,14 @@ export const Adegan06Rawat: React.FC = () => {
 
           <div>
             <div style={{ fontSize: 13, fontWeight: 700, color: TOKEN_WARNA.teksPudar }}>
-              SENSOR pH AIR
+              CEK pH AIR · KERTAS pH
             </div>
             <div style={{ fontSize: 32, fontWeight: 900, color: TOKEN_WARNA.daunTua }}>
-              6.2 pH · Ideal
+              pH 6,2 · sesuai
             </div>
-            <div style={{ fontSize: 13, color: TOKEN_WARNA.daunTerang, fontWeight: 700 }}>
-              ✓ Takaran nutrisi tepat
+            <div style={{ fontSize: 13, color: TOKEN_WARNA.daunTerang, fontWeight: 700, display: 'flex', alignItems: 'center', gap: 6 }}>
+              <IkonCentang size={18} warnaUtama={TOKEN_WARNA.daunTerang} />
+              Masih dalam kisaran aman
             </div>
           </div>
         </div>
@@ -200,8 +200,6 @@ export const Adegan06Rawat: React.FC = () => {
         </div>
       </div>
 
-      {/* Subtitel Terbakar */}
-      <SubtitelVideo teks="Beranda memandu dengan penggaris umur tanaman dan tugas harian terjadwal." />
     </div>
   );
 };

@@ -1,7 +1,6 @@
 import React from 'react';
 import { interpolate, spring, useCurrentFrame, useVideoConfig } from 'remotion';
 import { IkonPetaniMuda } from '../ikon';
-import { SubtitelVideo } from '../komponen/SubtitelVideo';
 import { TOKEN_WARNA } from '../konfigurasi';
 
 export const Adegan02Data: React.FC = () => {
@@ -34,7 +33,7 @@ export const Adegan02Data: React.FC = () => {
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'space-between',
-        padding: '60px 80px',
+        padding: '60px 80px 150px',
         boxSizing: 'border-box',
         fontFamily: "'Outfit', sans-serif",
         overflow: 'hidden',
@@ -61,7 +60,7 @@ export const Adegan02Data: React.FC = () => {
             letterSpacing: '-2px',
           }}
         >
-          {nilaiAngka.toFixed(2)}%
+          {nilaiAngka.toFixed(2).replace('.', ',')}%
         </div>
 
         {/* Teks Kinetik (Maks 6 Kata) */}
@@ -167,8 +166,6 @@ export const Adegan02Data: React.FC = () => {
         Sensus Pertanian 2023, BPS
       </div>
 
-      {/* Subtitel Terbakar */}
-      <SubtitelVideo teks="Hanya 21,93 persen pemuda Indonesia yang bekerja di sektor pertanian." />
     </div>
   );
 };

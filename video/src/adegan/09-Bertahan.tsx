@@ -1,7 +1,7 @@
 import React from 'react';
 import { interpolate, spring, staticFile, useCurrentFrame, useVideoConfig } from 'remotion';
-import { SubtitelVideo } from '../komponen/SubtitelVideo';
 import { TOKEN_WARNA } from '../konfigurasi';
+import { useAwalKalimat } from '../komponen/WaktuNarasi';
 
 const LENCANA_LEVEL = [
   { nama: 'Benih', file: 'lencana/level-benih.svg', delay: 15 },
@@ -11,9 +11,17 @@ const LENCANA_LEVEL = [
   { nama: 'Panen Raya', file: 'lencana/level-panen-raya.svg', delay: 95 },
 ];
 
+const LENCANA_PENCAPAIAN = [
+  { nama: 'Tanam pertama', file: 'lencana/tanam-pertama.svg' },
+  { nama: 'Panen pertama', file: 'lencana/panen-pertama.svg' },
+  { nama: 'Pengukur teliti', file: 'lencana/pengukur-teliti.svg' },
+  { nama: 'Pembeli setia', file: 'lencana/pembeli-setia.svg' },
+];
+
 export const Adegan09Bertahan: React.FC = () => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
+  const awalPencapaian = useAwalKalimat('09')[1] ?? 180;
 
   return (
     <div
@@ -120,7 +128,7 @@ export const Adegan09Bertahan: React.FC = () => {
               {/* Lencana SVG Resmi */}
               <div
                 style={{
-                  transform: `scale(${sp}) translateY(${(1 - sp) * 80}px)`,
+                  transform: `scale(${sp}) translateY(${(1 - sp) * 80 + Math.sin((frame + idx * 11) / 15) * 5}px)`,
                   width: 140,
                   height: 140,
                   display: 'flex',
@@ -156,21 +164,18 @@ export const Adegan09Bertahan: React.FC = () => {
         })}
       </div>
 
-      {/* Keterangan Mode Luring / Offline di Bawah Tanpa Kotak */}
-      <div
-        style={{
-          position: 'absolute',
-          bottom: 140,
-          fontSize: 20,
-          fontWeight: 600,
-          color: TOKEN_WARNA.teksPudar,
-        }}
-      >
-        Aplikasi tetap berjalan luring tanpa sinyal internet di tengah kebun
+      {/* Lencana pencapaian muncul saat kalimat kedua diucapkan [AG-44] */}
+      <div style={{ position: 'absolute', bottom: 170, display: 'flex', gap: 34, alignItems: 'center' }}>
+        {LENCANA_PENCAPAIAN.map((item, i) => {
+          const sp = spring({ frame: frame - (awalPencapaian + i * 7), fps, config: { damping: 11, stiffness: 130 } });
+          return (
+            <div key={item.file} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', opacity: sp, transform: `translateY(${(1 - sp) * 40 + Math.sin((frame + i * 9) / 16) * 4}px)` }}>
+              <img src={staticFile(item.file)} alt={item.nama} style={{ width: 92, height: 92 }} />
+              <div style={{ marginTop: 6, fontSize: 22, fontWeight: 700, color: TOKEN_WARNA.tanah }}>{item.nama}</div>
+            </div>
+          );
+        })}
       </div>
-
-      {/* Subtitel Terbakar */}
-      <SubtitelVideo teks="Apresiasi nyata lewat poin level bertingkat dan keandalan sistem tanpa sinyal internet." />
     </div>
   );
 };

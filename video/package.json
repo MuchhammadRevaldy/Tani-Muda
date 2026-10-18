@@ -5,11 +5,15 @@
   "type": "module",
   "scripts": {
     "start": "remotion preview src/index.ts",
-    "render": "node scripts/render-teaser.mjs",
-    "pratinjau": "node scripts/render-teaser.mjs --pratinjau",
+    "siapkan-tts": "python -m venv .venv-tts && .venv-tts\\Scripts\\python -m pip install edge-tts==7.2.3 imageio-ffmpeg==0.6.0",
+    "narasi": "node scripts/buat-narasi.mjs",
+    "musik": "node scripts/buat-musik.mjs",
+    "cek": "node scripts/cek-ikon-aplikasi.mjs && node scripts/cek-durasi.mjs",
     "cek-durasi": "node scripts/cek-durasi.mjs",
-    "buat-audio": "node scripts/buat-audio.mjs",
-    "papan-gaya": "node scripts/buat-papan-gaya.mjs"
+    "pratinjau-ikon": "remotion still src/index.ts PratinjauIkon keluaran/pratinjau-ikon.png",
+    "papan-gaya": "node scripts/buat-papan-gaya.mjs",
+    "pratinjau": "node scripts/render-teaser.mjs --pratinjau",
+    "render": "node scripts/render-teaser.mjs"
   },
   "dependencies": {
     "@remotion/cli": "4.0.536",

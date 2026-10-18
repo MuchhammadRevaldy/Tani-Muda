@@ -1,93 +1,80 @@
-# Proyek Video Teaser Tani Muda (Remotion) [AG-43]
+# Video teaser Tani Muda (Remotion)
 
-Direktori ini berisi kode sumber proyek video teaser motion graphic penuh berdurasi **02:50 (170,0 detik / 5.100 frame pada 30 fps)**, dirancang menggunakan [Remotion](https://www.remotion.dev/) dan memadukan rekaman aplikasi asli Tani Muda dengan grafis gerak presisi, 100% ikon SVG buatan sendiri, dan narasi pengisi suara bertahap.
+Teaser motion graphic 1920×1080, 30 fps, H.264, paling lama 3:00 (pedoman lomba butir 12.b.4).
+Durasi saat ini sekitar 2:50; angka pastinya dicetak oleh `npm run cek`.
+Proyek ini terpisah dari `frontend/` dan tidak ikut bundel aplikasi.
 
-Durasi video **secara mutlak di bawah 3 menit (180 detik)** sesuai ketentuan perlombaan.
+Riwayat: AG-42 (versi pertama, ditolak), AG-43 (ulang sebagai motion graphic),
+AG-44 (narasi suara, durasi mengikuti suara, ikon aplikasi dipakai ulang).
 
----
-
-## 1. Panduan Visual & Anti-Slop
-
-Proyek ini menerapkan standar estetika ketat:
-- **Tanpa Emoji:** 0% emoji dalam bentuk apa pun.
-- **Tanpa Pustaka Ikon Bawaan:** Tidak menggunakan Lucide, Heroicons, Material, atau font ikon luar.
-- **Tanpa Kaca Gelap / Neon:** Latar belakang krem terang hangat (`#faf8f5`) berbasis token Tani Muda (`daun-tua` #1b4332, `daun-terang` #52b788, `tanah` #6c584c, `emas` #d4a373).
-- **Tanpa Badge Kapsul / Chip Pil:** Teks informatif disajikan bersih dan proporsional.
-- **Tipografi Kinetik:** Kata dan baris masuk bertahap dengan animasi spring, ukuran besar, maksimal 6 kata per layar.
-- **Subtitel Dibakar:** Teks putih dengan tepi kontras gelap (`#1b4332`), tanpa kotak latar.
-- **Sumber Data Sensus:** Dicantumkan sebagai teks kecil biasa di pojok kanan bawah tanpa kotak (`Sensus Pertanian 2023, BPS`).
-- **Tanpa Aset AI Generatif:** Tidak menggunakan gambar atau video buatan AI (Midjourney, DALL-E, Sora). Seluruh aset berupa kode SVG lokal dan rekaman peramban nyata.
-
----
-
-## 2. Koleksi 17 Ikon SVG Buatan Sendiri (`video/src/ikon/`)
-
-Seluruh ikon digambar sendiri di atas grid 64×64 px, ketebalan garis 4 px, ujung membulat (`round`), 2 warna token, dan path terpisah agar dapat dianimasikan bertahap (`evolvePath`):
-
-| # | Nama Ikon | ID / Berkas | Peran dalam Narasi |
-|---|---|---|---|
-| 01 | Benih & Tunas | `IkonBenihTunas` | Titik awal siklus tanam, germinasi dari tanah |
-| 02 | Buku Terbuka | `IkonBukuTerbuka` | Pilar 01: Belajar modul dan resep budidaya teruji |
-| 03 | Kalkulator | `IkonKalkulator` | Pilar 02: Hitung modal transparan dan titik impas BEP |
-| 04 | Gembor Penyiram | `IkonGembor` | Pilar 03: Rawat harian, penyiraman, dan nutrisi |
-| 05 | Keranjang Panen | `IkonKeranjang` | Pilar 04: Panen segar dan kepastian jual |
-| 06 | Timbangan Hasil | `IkonTimbangan` | Penimbangan adil dan transparansi volume panen |
-| 07 | Grafik Harga Jatuh | `IkonGrafikTurun` | Masalah: Harga anjlok saat pasokan panen melimpah |
-| 08 | Daun & Hama Ulat | `IkonDaunUlat` | Masalah: Risiko gagal panen akibat salah takaran |
-| 09 | Rantai Tengkulak | `IkonRantai` | Masalah: Rantai perantara panjang pemotong laba |
-| 10 | Truk Pengiriman | `IkonTruk` | Masalah: Distribusi panen berhenti di persimpangan |
-| 11 | Kamera Tanaman | `IkonKameraDaun` | Fitur: Deteksi cepat gejala daun berlabel dugaan |
-| 12 | Gelembung Chat | `IkonGelembungChat` | Fitur: Chatbot penyuluh 24 jam dan pesan petani |
-| 13 | Cuaca Terpadu | `IkonCuaca` | Fitur: Prakiraan cuaca desa adaptif BMKG 3 hari |
-| 14 | Kotak Stok | `IkonKotakStok` | Fitur: Pasar stok panen siap jual sekitar dan COD |
-| 15 | Petani Muda | `IkonPetaniMuda` | Data: Hamparan 100 petani generasi penerus 2045 |
-| 16 | Koin Emas | `IkonKoin` | Transaksi: Uang muka komitmen dan dana tertahan |
-| 17 | Pin Bertunas | `IkonPinBertunas` | Peta: Lokasi kebun dibulatkan demi privasi petani |
-
-Pratinjau seluruh ikon dapat dilihat pada: `video/keluaran/pratinjau-ikon.png`.
-
----
-
-## 3. Struktur 10 Adegan Storyboard (Total: 170 Detik)
-
-| No | Rentang Waktu | Durasi | Nama Adegan | Gerakan Wajib |
-|---|---|---|---|---|
-| 01 | 0:00 – 0:12 | 12 dtk (360 frame) | `Pembuka` | Garis tanah tergambar → benih jatuh memantul → tunas tumbuh → merakit logo Tani Muda → huruf masuk bertahap → slogan kinetik. |
-| 02 | 0:12 – 0:27 | 15 dtk (450 frame) | `Data Sensus` | Hamparan 100 sosok petani muncul bergelombang, 22 sosok berubah hijau cerah, angka berhitung ke 21,93%, sumber sensus BPS. |
-| 03 | 0:27 – 0:45 | 18 dtk (540 frame) | `Masalah` | 4 shot: (a) grafik anjlok saat panen; (b) ulat memakan daun berlubang; (c) koin menyusut di rantai tengkulak; (d) truk terhenti di persimpangan. |
-| 04 | 0:45 – 0:58 | 13 dtk (390 frame) | `Solusi` | Lingkaran siklus orbit tergambar, 4 ikon pilar (Belajar, Hitung, Rawat, Jual) masuk berurutan, titik cahaya beredar di lintasan. |
-| 05 | 0:58 – 1:20 | 22 dtk (660 frame) | `Hitung Modal & BEP` | Rekaman asli di bingkai HP masuk dari bawah, zoom ke angka modal, angka terangkat menjadi koin Rp 185.000, garis BEP memotong grafik. |
-| 06 | 1:20 – 1:39 | 19 dtk (570 frame) | `Rawat Tanaman Presisi` | Rekaman Beranda, penggaris umur tanaman, jarum pengukur busur pH air bergerak ke 6.2, centang tugas harian tergambar. |
-| 07 | 1:39 – 2:06 | 27 dtk (810 frame) | `Jual Panen Pasti` | Layar terbagi dua (Pembeli & Petani), koin uang muka terbang melengkung ke kotak dana ditahan bergembok, dana cair setelah konfirmasi panen. |
-| 08 | 2:06 – 2:28 | 22 dtk (660 frame) | `Fitur Pintar` | 5 shot cepat: garis pindai daun berlabel dugaan (tanpa kapsul), animasi titik chat, cuaca hujan/matahari, peta privasi kebun, tumpukan stok. |
-| 09 | 2:28 – 2:41 | 13 dtk (390 frame) | `Bertahan & Gamifikasi` | Lencana capaian bertingkat (Benih hingga Panen Raya) naik berurutan dengan percikan geometris, didukung keandalan offline-first PWA. |
-| 10 | 2:41 – 2:50 | 9 dtk (270 frame) | `Penutup & Identitas` | Logo merakit diri, tema lomba, lokasi **Kabupaten Klaten, Jawa Tengah**, karya peserta **Sandy**. |
-
----
-
-## 4. Audio & Lisensi
-
-- **Narasi Suara:** Diambil dari berkas per adegan `video/audio/narasi/01.mp3` … `10.mp3` (disinkronkan ke `video/public/audio/narasi/`).
-- **Musik Latar:** `video/audio/musik.mp3` (Komposisi Akustik Bebas Royalti, 44.1 kHz Stereo). Otomatis mengecil (ducking) ke volume 0,20 saat narasi berbicara, dan kembali ke 0,38 saat jeda antaradegan.
-- **Efek Suara:** Menggunakan nada sintetis harmonis tanpa efek suara bising pihak ketiga.
-
----
-
-## 5. Perintah Penggunaan
+## Perintah
 
 ```bash
-# 1. Periksa durasi video (< 180 detik)
-npm run cek-durasi
-
-# 2. Render lembar pratinjau ikon ke keluaran/pratinjau-ikon.png
-npm run still-ikon
-
-# 3. Render 10 bingkai papan gaya still ke keluaran/papan-gaya/01..10.png
-npm run papan-gaya
-
-# 4. Render pratinjau resolusi hemat 0.5x (skala 50%)
-npm run pratinjau
-
-# 5. Render video final 1080p Full HD (konkurensi 1)
-npm run render
+npm install
+npm run siapkan-tts     # sekali saja: Edge TTS + ffmpeg lengkap di .venv-tts (Python 3)
+npm run narasi          # buat/ukur narasi, tulis src/data/narasi.json dan naskah-narasi.md
+npm run cek             # ikon aplikasi sinkron, narasi berisi suara, durasi <= 3:00
+npm run start           # Remotion Studio
+npm run pratinjau-ikon  # keluaran/pratinjau-ikon.png
+npm run papan-gaya      # keluaran/papan-gaya/01..10.png
+npm run pratinjau       # keluaran/pratinjau-teaser-0.5x.mp4 (skala 0,5)
+npm run render          # keluaran/teaser-tani-muda.mp4 (konkurensi 1)
 ```
+
+`keluaran/`, `rekaman/`, `.venv-tts/` tidak di-commit.
+
+## Narasi
+
+- Teks narasi hanya ada di `scripts/naskah.mjs`. `naskah-narasi.md` dibuat ulang otomatis dari situ.
+- Urutan sumber suara per adegan:
+  1. **Rekaman manusia**: taruh di `public/audio/narasi/NN.mp3`, lalu `npm run narasi`.
+     Berkas yang tidak dibuat skrip tidak pernah ditimpa (kecuali `-- --timpa`).
+  2. **Edge TTS** (sementara): suara `id-ID-ArdiNeural`. Ganti dengan `npm run narasi -- --suara=id-ID-GadisNeural`.
+     Layanan ini tidak resmi untuk dipakai di luar peramban Edge dan bisa berhenti sewaktu-waktu;
+     berkas yang sudah dibuat tetap tersimpan di repo.
+- Supaya tidak terdengar seperti mesin: suara dibuat per kalimat dengan laju -6% (kalimat kunci -10%),
+  hening di ujung kalimat dipotong, kalimat disambung dengan jeda 0,28–0,45 detik yang bervariasi,
+  lalu high-pass 80 Hz, kompresi ringan, dan normalisasi -16 LUFS.
+  Angka dan "pH" ditulis seperti diucapkan khusus untuk mesin suara (kolom `ucap`).
+- Bila narasi lebih pendek dari animasi adegan, sisa waktunya dibagi ke jeda antarkalimat
+  (paling banyak +1 detik per jeda), supaya kalimat jatuh di gambar yang sesuai.
+- `npm run cek` gagal bila berkas narasi hilang, berupa nada atau hening, atau lebih cepat dari 160 kata/menit.
+
+## Linimasa
+
+- Durasi adegan = maks(panjang animasi adegan, 0,5 dtk + panjang narasi + 0,8 dtk).
+  Rumusnya ada di `src/linimasa.ts` dan `scripts/cek-durasi.mjs` (ubah keduanya bersamaan).
+- Komposisi memakai `calculateMetadata` yang mengukur berkas narasi langsung, jadi rekaman baru
+  yang lebih panjang tidak terpotong.
+- Adegan 3, 7, 8, dan 9 membaca waktu kalimat (`useAwalKalimat`): pergantian shot, koin uang muka,
+  gembok, centang kiriman, dan dana cair terjadi saat kalimatnya diucapkan.
+- Subtitel dibakar dari teks naskah per kalimat: putih, tepi gelap, tanpa kotak, 42 px.
+
+## Ikon
+
+- **Dari aplikasi** (`src/ikon/ikon-aplikasi-data.ts`): uang, pin, panen, kamera, chat, kebun, belajar,
+  kunci, centang, pengukur, peta. Salinan apa adanya dari `frontend/src/komponen/ikon.tsx`;
+  `scripts/cek-ikon-aplikasi.mjs` gagal bila berbeda. Bila ikon aplikasi berubah, salin ulang string-nya.
+- **Buatan video** (`src/ikon/koleksi-ikon.tsx`), karena tidak ada di aplikasi: kalkulator, gembor,
+  timbangan, grafik turun, daun berulat, rantai, truk, cuaca, kotak stok, petani muda.
+  Tebal garisnya disamakan dengan ikon aplikasi (setara 1,7 pada grid 24).
+- Pengukur pH di adegan Rawat tetap gambar khusus karena jarumnya harus bergerak.
+- Lencana dan logo dari `public/lencana/` dan `public/logo/` (salinan aset aplikasi).
+
+## Audio dan lisensi
+
+| Berkas | Asal | Lisensi |
+|---|---|---|
+| `public/audio/narasi/01..10.mp3` | Edge TTS `id-ID-ArdiNeural`, dibuat `scripts/buat-narasi.mjs` | Suara sintetis Microsoft; ganti dengan rekaman sendiri bila pedoman lomba melarang suara buatan AI |
+| `public/audio/musik.mp3` | Disintesis dengan kode, `scripts/buat-musik.mjs` (progresi G-D-Em-C, tanpa sampel pihak ketiga) | Milik sendiri |
+| Huruf Outfit | `public/fonts/` | SIL Open Font License (`OFL-outfit.txt`) |
+
+Musik turun ke sekitar 30% volumenya saat kalimat narasi berbunyi, lalu naik lagi di jeda.
+Bila ingin musik lain, sumber bebas pakai yang disarankan: YouTube Audio Library atau Pixabay Music.
+Catat di sini sebelum dipakai:
+
+| Judul | Pencipta | Sumber (tautan) | Lisensi | Tanggal unduh |
+|---|---|---|---|---|
+| | | | | |
+
+Tanpa efek suara pihak ketiga.

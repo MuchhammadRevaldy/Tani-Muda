@@ -1,69 +1,94 @@
-# Naskah Narasi Video Teaser Tani Muda (3 Menit)
+# Naskah narasi teaser Tani Muda
 
-**Target Durasi:** 02:50 (170 detik / 5.100 frame pada 30 fps)  
-**Batas Maksimal:** < 03:00 (180 detik)  
-**Pengisi Suara / Voiceover:** Bahasa Indonesia natural, ramah, artikulatif, penuh semangat inovasi pemuda tani  
-**Musik Latar:** Akustik hangat & inspiratif dengan teknik ducking dinamis saat narasi aktif  
+Berkas ini dibuat otomatis oleh `npm run narasi` dari `scripts/naskah.mjs`. Ubah teks di sana, bukan di sini.
 
----
+Gaya bicara: santai dan jelas, seperti menjelaskan ke teman. Kalimat pendek, tempo sekitar 120–150 kata per menit,
+beri napas di setiap titik. Untuk merekam sendiri: satu berkas per adegan, simpan sebagai
+`public/audio/narasi/NN.mp3`, lalu jalankan `npm run narasi` (rekaman tidak akan ditimpa).
 
-### Adegan 1: Pembuka (0:00 – 0:12 | 12 detik)
-*Visual: Logo Tani Muda bertumbuh dari kecambah menjadi tunas berdaun segar, latar gradasi hijau daun gelap nan elegan, tipografi Outfit tebal.*  
-> **Narasi:**  
-> "Indonesia adalah negeri agraris yang kaya. Namun, masa depan pangan kita membutuhkan tenaga baru, ide baru, dan semangat generasi muda. Selamat datang di Tani Muda — platform agrikultur presisi yang menghubungkan petani muda dengan pembeli pasti sejak awal tanam."
+## 01. Pembuka (0:00–0:12)
 
----
+Suara: edge-tts:id-ID-ArdiNeural, 10.1 detik, 101 kata/menit
 
-### Adegan 2: Masalah (0:12 – 0:30 | 18 detik)
-*Visual: Angka persentase 21,93% berputar dan membesar (BPS). Empat kartu ketidakpastian muncul bertahap: harga anjlok, salah takaran & hama, jeratan tengkulak, serta ketiadaan pasar. Sorotan bonus demografi dan Generasi Emas 2045.*  
-> **Narasi:**  
-> "Berdasarkan data BPS, hanya 21,93 persen pemuda Indonesia yang mau bertani. Mengapa? Ketidakpastian harga yang sering anjlok, takaran pupuk dan hama yang sulit ditebak, jeratan tengkulak, hingga pasar yang tak menentu menjadi momok utama. Menuju Indonesia Emas 2045, regenerasi petani adalah kunci utama kedaulatan pangan bangsa."
+- (0.5 dtk) Bertani itu bisa untung.
+- (3.3 dtk) Asal tahu apa yang ditanam, berapa modalnya, dan siapa pembelinya.
+- (9.3 dtk) Inilah Tani Muda.
 
----
+## 02. Data (0:12–0:27)
 
-### Adegan 3: Solusi 4 Pilar (0:30 – 0:42 | 12 detik)
-*Visual: Diagram siklus melingkar 4 pilar Tani Muda: Belajar → Hitung → Rawat → Jual dengan garis alur menyala dinamis.*  
-> **Narasi:**  
-> "Tani Muda hadir memutus rantai masalah ini melalui siklus empat pilar terpadu: Belajar resep tani teruji, Hitung simulasi modal dan laba, Rawat tanaman dengan panduan presisi, dan Jual panen langsung dengan kontrak pasti."
+Suara: edge-tts:id-ID-ArdiNeural, 14.2 detik, 105 kata/menit
 
----
+- (0.5 dtk) Menurut Sensus Pertanian 2023, petani berumur 19 sampai 39 tahun cuma 21,93 persen.
+- (9.2 dtk) Sekitar satu dari lima.
+- (11.3 dtk) Padahal, bonus demografi ada di tangan anak muda.
 
-### Adegan 4: Hitung Modal & BEP (0:42 – 1:05 | 23 detik)
-*Visual: Bingkai laptop modern menampilkan rekaman asli aplikasi (`04-hitung.webm`). Arif memilih sawi hijau, memasukkan luas lahan 20 m², melihat rincian modal, BEP (titik impas), dan potensi keuntungan.*  
-> **Narasi:**  
-> "Sebelum mencangkul lahan, petani muda dapat memilih komoditas dan menghitung kebutuhan modal secara transparan. Sistem secara otomatis menyajikan kalkulasi bibit, nutrisi, titik impas atau BEP, serta estimasi laba. Tak ada lagi modal tebak-tebakan tanpa perhitungan bisnis yang matang."
+## 03. Masalah (0:27–0:45)
 
----
+Suara: edge-tts:id-ID-ArdiNeural, 16.7 detik, 118 kata/menit
 
-### Adegan 5: Rawat & Presisi (1:05 – 1:25 | 20 detik)
-*Visual: Bingkai layar menampilkan rekaman asli aplikasi (`05-rawat.webm`). Penggaris umur tanaman hari ke-13, tugas harian diceklis, serta pencatatan sensor pH dan PPM air dengan label rekomendasi nutrisi instan.*  
-> **Narasi:**  
-> "Saat masa tanam berjalan, beranda cerdas memandu petani dengan penggaris umur tanaman dan tugas harian terjadwal. Pencatatan pH dan PPM larutan memberikan rekomendasi instan: apakah nutrisi tanaman kurang, berlebih, atau sudah tepat sesuai fase pertumbuhannya."
+- (0.5 dtk) Kenapa anak muda ragu bertani?
+- (3.5 dtk) Harga jatuh pas panen raya.
+- (6.3 dtk) Hama datang, tapi tidak tahu cara menanganinya.
+- (10.4 dtk) Hasil panen lewat banyak tangan sebelum sampai ke pembeli.
+- (14.7 dtk) Dan sering, panennya belum ada yang beli.
 
----
+## 04. Solusi (0:45–0:58)
 
-### Adegan 6: Jual Pasti & Kemitraan (1:25 – 1:55 | 30 detik)
-*Visual: Bingkai layar menampilkan rekaman transaksi (`06-jual.webm`). Kafe memesan dan membayar uang muka, petani menerima pesanan, kiriman panen dikonfirmasi dengan rating 5 bintang, dan visualisasi transfer dana aman.*  
-> **Narasi:**  
-> "Inilah kunci pembeda Tani Muda: kepastian pasar sejak hari pertama. Pembeli atau mitra kafe memesan dan membayar uang muka di awal. Petani menerima kesepakatan dan mengirim panen berkualitas saat tiba masanya. Dana tersimpan aman, transparansi terjaga, dan ulasan positif membangun reputasi terpercaya bagi petani muda."
+Suara: edge-tts:id-ID-ArdiNeural, 9.0 detik, 100 kata/menit
 
----
+- (0.5 dtk) Tani Muda menemani dalam satu siklus.
+- (4.0 dtk) Belajar caranya, hitung modalnya, rawat tanamannya, lalu jual hasilnya.
 
-### Adegan 7: Fitur Pintar AI & IoT (1:55 – 2:25 | 30 detik)
-*Visual: Tampilan dinamis smartphone menampilkan rekaman asli fitur-fitur pintar: deteksi penyakit AI dengan label Dugaan (`07-deteksi.webm`), chatbot pertanian 24 jam (`07-chatbot.webm`), prakiraan cuaca BMKG 3 hari (`07-cuaca.webm`), peta sebaran petani berprivasi 2 desimal (`07-peta.webm`), serta stok siap jual & chat langsung (`07-stok.webm`, `07-chat.webm`).*  
-> **Narasi:**  
-> "Tani Muda diperkuat teknologi masa depan: asisten kecerdasan buatan untuk deteksi dini gejala penyakit tanaman berlabel dugaan dengan tindakan aman, chatbot cerdas penyuluh pertanian 24 jam, prakiraan cuaca BMKG 3 hari untuk efisiensi siram, serta peta sebaran petani lokal yang tetap menjaga privasi koordinat kebun."
+## 05. Hitung (0:58–1:20)
 
----
+Suara: edge-tts:id-ID-ArdiNeural, 18.5 detik, 113 kata/menit
 
-### Adegan 8: Petani Bertahan & Gamifikasi (2:25 – 2:40 | 15 detik)
-*Visual: Bingkai smartphone menampilkan rekaman profil petani (`08-level.webm`), poin level Petani Teladan, galeri lencana 3D (Bibit Unggul, Panen Raya, dsb.), dan indikator mode offline siap pakai.*  
-> **Narasi:**  
-> "Agar semangat bertani terus berkobar, sistem gamifikasi menghadirkan poin capaian dan lencana 3D yang membanggakan. Terlebih lagi, aplikasi mengusung konsep offline-first, tetap lancar digunakan di tengah kebun dan sawah meski tanpa koneksi internet."
+- (0.5 dtk) Pilih tanaman yang cocok di daerahmu.
+- (3.9 dtk) Masukkan luas lahan, dan Tani Muda menghitung modal, perkiraan untung, dan titik impasnya.
+- (11.2 dtk) Kalau rencananya berpotensi rugi, ada saran supaya untungnya naik.
+- (16.4 dtk) Jadi kamu tahu hitungannya sebelum mulai menanam.
 
----
+## 06. Rawat (1:20–1:39)
 
-### Adegan 9: Penutup & Identitas Peserta (2:40 – 2:55 | 15 detik)
-*Visual: Logo Tani Muda dengan kilau cahaya, tema lomba agrikultur presisi, nama pembuat Sandy dari Kabupaten Klaten, Jawa Tengah, dan ajakan aksi.*  
-> **Narasi:**  
-> "Tani Muda: Tanam dengan Pembeli yang Pasti. Mewujudkan masa depan pertanian Indonesia yang modern, presisi, dan berdaya saing. Saya Sandy dari Kabupaten Klaten, Jawa Tengah — mari bersama kita bangun kedaulatan pangan Nusantara!"
+Suara: edge-tts:id-ID-ArdiNeural, 14.6 detik, 123 kata/menit
+
+- (0.5 dtk) Setelah menanam, Beranda menunjukkan umur tanaman hari ini dan tugas yang perlu dikerjakan.
+- (7.0 dtk) Tandai yang sudah selesai.
+- (9.9 dtk) Cek pH air pakai kertas pH, masukkan angkanya, dan dapat saran yang jelas.
+
+## 07. Jual (1:39–2:06)
+
+Suara: edge-tts:id-ID-ArdiNeural, 22.6 detik, 101 kata/menit
+
+- (0.5 dtk) Bagian terpentingnya: pembeli memesan sebelum panen, dan membayar uang muka.
+- (6.8 dtk) Uangnya ditahan dulu dengan aman.
+- (10.0 dtk) Petani mengambil pesanan itu, merawat tanamannya, lalu mengirim hasil panen.
+- (16.1 dtk) Begitu pembeli mengonfirmasi kiriman, dana cair ke petani.
+- (21.3 dtk) Tanam dengan pembeli yang pasti.
+
+## 08. Fitur pintar (2:06–2:28)
+
+Suara: edge-tts:id-ID-ArdiNeural, 20.7 detik, 133 kata/menit
+
+- (0.5 dtk) Ada juga bantuan sehari-hari.
+- (3.0 dtk) Foto daun yang sakit untuk melihat dugaan penyakitnya, lalu tanyakan ke penyuluh.
+- (8.1 dtk) Tanya soal budidaya ke asisten, dan ngobrol langsung dengan pembeli.
+- (12.3 dtk) Lihat prakiraan cuaca di kebunmu.
+- (14.9 dtk) Temukan petani lain di sekitarmu, tanpa membuka lokasi persis.
+- (19.3 dtk) Dan tawarkan stok yang siap jual.
+
+## 09. Bertahan (2:28–2:41)
+
+Suara: edge-tts:id-ID-ArdiNeural, 10.1 detik, 119 kata/menit
+
+- (0.5 dtk) Makin rajin merawat, levelmu naik, dari Benih sampai Panen Raya.
+- (6.2 dtk) Setiap pencapaian dapat lencana, dari tanam pertama sampai pembeli setia.
+
+## 10. Penutup (2:41–2:50)
+
+Suara: edge-tts:id-ID-ArdiNeural, 7.7 detik, 85 kata/menit
+
+- (0.5 dtk) Tani Muda.
+- (2.1 dtk) Aplikasi kepemudaan menyongsong bonus demografi, menuju Generasi Emas 2045.
+
+Total: 170.7 detik (2:50).

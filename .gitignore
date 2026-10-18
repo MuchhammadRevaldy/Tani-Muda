@@ -37,3 +37,7 @@ video/public/rekaman/
 video/keluaran/
 video/node_modules/
 video/.remotion/
+# AG-44: alat suara (Edge TTS + ffmpeg) dan berkas sementara pembuat narasi
+video/.venv-tts/
+video/.narasi-sementara/
+video/.env

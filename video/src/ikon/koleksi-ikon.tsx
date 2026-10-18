@@ -1,6 +1,11 @@
+/**
+ * Ikon yang digambar khusus untuk video karena tidak ada padanannya di aplikasi.
+ * Ikon yang konsepnya sudah ada di aplikasi (koin, pin, keranjang, kamera, chat,
+ * tunas, belajar, gembok, centang, pH, peta) memakai IkonAplikasi [AG-44].
+ */
 import React from 'react';
 import type { IkonProps } from './tipe';
-import { WARNA_IKON } from './tipe';
+import { TEBAL_GARIS_64, WARNA_IKON } from './tipe';
 import { buatPath } from './util-path';
 
 interface PembungkusSvgProps extends IkonProps {
@@ -26,47 +31,11 @@ const PembungkusSvg: React.FC<PembungkusSvgProps> = ({
   </svg>
 );
 
-// 1. Benih / Tunas
-export const IkonBenihTunas: React.FC<IkonProps> = ({
-  warnaUtama = WARNA_IKON.daunTua,
-  warnaAksen = WARNA_IKON.daunTerang,
-  strokeWidth = 4,
-  progress = 1,
-  ...props
-}) => (
-  <PembungkusSvg {...props}>
-    {buatPath({ d: 'M 12 54 C 24 50 40 50 52 54', warna: WARNA_IKON.tanah, tebal: strokeWidth, progres: progress })}
-    {buatPath({ d: 'M 28 50 C 23 46 23 39 27 35 C 31 31 38 35 36 43 C 35 48 32 50 28 50 Z', warna: WARNA_IKON.emas, tebal: strokeWidth, progres: progress, isi: `${WARNA_IKON.emas}33` })}
-    {buatPath({ d: 'M 32 40 C 31 30 30 22 32 14', warna: warnaAksen, tebal: strokeWidth, progres: progress })}
-    {buatPath({ d: 'M 32 24 C 20 22 14 14 18 8 C 24 6 30 14 32 24 Z', warna: warnaUtama, tebal: strokeWidth, progres: progress, isi: `${warnaUtama}22` })}
-    {buatPath({ d: 'M 32 18 C 44 16 50 8 46 2 C 40 0 34 8 32 18 Z', warna: warnaAksen, tebal: strokeWidth, progres: progress, isi: `${warnaAksen}33` })}
-  </PembungkusSvg>
-);
-
-// 2. Buku Terbuka
-export const IkonBukuTerbuka: React.FC<IkonProps> = ({
-  warnaUtama = WARNA_IKON.daunTua,
-  warnaAksen = WARNA_IKON.daunTerang,
-  strokeWidth = 4,
-  progress = 1,
-  ...props
-}) => (
-  <PembungkusSvg {...props}>
-    {buatPath({ d: 'M 32 16 L 32 52', warna: warnaUtama, tebal: strokeWidth, progres: progress })}
-    {buatPath({ d: 'M 32 18 C 24 12 16 12 8 15 L 8 47 C 16 44 24 44 32 50', warna: warnaUtama, tebal: strokeWidth, progres: progress })}
-    {buatPath({ d: 'M 32 18 C 40 12 48 12 56 15 L 56 47 C 48 44 40 44 32 50', warna: warnaUtama, tebal: strokeWidth, progres: progress })}
-    {buatPath({ d: 'M 14 26 C 20 24 24 25 26 27', warna: warnaAksen, tebal: strokeWidth - 1, progres: progress })}
-    {buatPath({ d: 'M 14 34 C 20 32 24 33 26 35', warna: warnaAksen, tebal: strokeWidth - 1, progres: progress })}
-    {buatPath({ d: 'M 38 27 C 40 25 44 24 50 26', warna: warnaAksen, tebal: strokeWidth - 1, progres: progress })}
-    {buatPath({ d: 'M 38 35 C 40 33 44 32 50 34', warna: warnaAksen, tebal: strokeWidth - 1, progres: progress })}
-  </PembungkusSvg>
-);
-
 // 3. Kalkulator
 export const IkonKalkulator: React.FC<IkonProps> = ({
   warnaUtama = WARNA_IKON.daunTua,
   warnaAksen = WARNA_IKON.daunTerang,
-  strokeWidth = 4,
+  strokeWidth = TEBAL_GARIS_64,
   progress = 1,
   ...props
 }) => (
@@ -88,7 +57,7 @@ export const IkonKalkulator: React.FC<IkonProps> = ({
 export const IkonGembor: React.FC<IkonProps> = ({
   warnaUtama = WARNA_IKON.daunTua,
   warnaAksen = WARNA_IKON.daunTerang,
-  strokeWidth = 4,
+  strokeWidth = TEBAL_GARIS_64,
   progress = 1,
   ...props
 }) => (
@@ -104,29 +73,11 @@ export const IkonGembor: React.FC<IkonProps> = ({
   </PembungkusSvg>
 );
 
-// 5. Keranjang Panen
-export const IkonKeranjang: React.FC<IkonProps> = ({
-  warnaUtama = WARNA_IKON.daunTua,
-  warnaAksen = WARNA_IKON.daunTerang,
-  strokeWidth = 4,
-  progress = 1,
-  ...props
-}) => (
-  <PembungkusSvg {...props}>
-    {buatPath({ d: 'M 18 26 C 18 10 46 10 46 26', warna: warnaAksen, tebal: strokeWidth, progres: progress })}
-    {buatPath({ d: 'M 22 24 C 20 18 28 14 32 20 C 36 14 44 18 42 24', warna: warnaAksen, tebal: strokeWidth, progres: progress, isi: `${warnaAksen}33` })}
-    {buatPath({ d: 'M 10 26 H 54', warna: warnaUtama, tebal: strokeWidth, progres: progress })}
-    {buatPath({ d: 'M 12 26 L 18 52 C 18.5 54.5 21 56 24 56 H 40 C 43 56 45.5 54.5 46 52 L 52 26', warna: warnaUtama, tebal: strokeWidth, progres: progress })}
-    {buatPath({ d: 'M 14 36 H 50', warna: WARNA_IKON.tanah, tebal: strokeWidth - 1, progres: progress })}
-    {buatPath({ d: 'M 16 46 H 48', warna: WARNA_IKON.tanah, tebal: strokeWidth - 1, progres: progress })}
-  </PembungkusSvg>
-);
-
 // 6. Timbangan
 export const IkonTimbangan: React.FC<IkonProps> = ({
   warnaUtama = WARNA_IKON.daunTua,
   warnaAksen = WARNA_IKON.daunTerang,
-  strokeWidth = 4,
+  strokeWidth = TEBAL_GARIS_64,
   progress = 1,
   ...props
 }) => (
@@ -147,7 +98,7 @@ export const IkonTimbangan: React.FC<IkonProps> = ({
 export const IkonGrafikTurun: React.FC<IkonProps> = ({
   warnaUtama = WARNA_IKON.daunTua,
   warnaAksen = WARNA_IKON.tomat,
-  strokeWidth = 4,
+  strokeWidth = TEBAL_GARIS_64,
   progress = 1,
   ...props
 }) => (
@@ -165,7 +116,7 @@ export const IkonGrafikTurun: React.FC<IkonProps> = ({
 export const IkonDaunUlat: React.FC<IkonProps> = ({
   warnaUtama = WARNA_IKON.daunTua,
   warnaAksen = WARNA_IKON.daunTerang,
-  strokeWidth = 4,
+  strokeWidth = TEBAL_GARIS_64,
   progress = 1,
   ...props
 }) => (
@@ -182,7 +133,7 @@ export const IkonDaunUlat: React.FC<IkonProps> = ({
 export const IkonRantai: React.FC<IkonProps> = ({
   warnaUtama = WARNA_IKON.daunTua,
   warnaAksen = WARNA_IKON.tanah,
-  strokeWidth = 4,
+  strokeWidth = TEBAL_GARIS_64,
   progress = 1,
   ...props
 }) => (
@@ -197,7 +148,7 @@ export const IkonRantai: React.FC<IkonProps> = ({
 export const IkonTruk: React.FC<IkonProps> = ({
   warnaUtama = WARNA_IKON.daunTua,
   warnaAksen = WARNA_IKON.daunTerang,
-  strokeWidth = 4,
+  strokeWidth = TEBAL_GARIS_64,
   progress = 1,
   ...props
 }) => (
@@ -211,43 +162,11 @@ export const IkonTruk: React.FC<IkonProps> = ({
   </PembungkusSvg>
 );
 
-// 11. Kamera dengan Daun
-export const IkonKameraDaun: React.FC<IkonProps> = ({
-  warnaUtama = WARNA_IKON.daunTua,
-  warnaAksen = WARNA_IKON.daunTerang,
-  strokeWidth = 4,
-  progress = 1,
-  ...props
-}) => (
-  <PembungkusSvg {...props}>
-    {buatPath({ d: 'M 8 20 H 20 L 24 14 H 40 L 44 20 H 56 C 58 20 60 22 60 24 V 52 C 60 54 58 56 56 56 H 8 C 6 56 4 54 4 52 V 24 C 4 22 6 20 8 20 Z', warna: warnaUtama, tebal: strokeWidth, progres: progress })}
-    {buatPath({ d: 'M 32 26 A 12 12 0 1 0 32.01 26', warna: warnaUtama, tebal: strokeWidth, progres: progress })}
-    {buatPath({ d: 'M 32 44 C 26 40 24 34 27 28 C 32 27 34 33 32 44 Z', warna: warnaAksen, tebal: strokeWidth - 1, progres: progress, isi: `${warnaAksen}33` })}
-    {buatPath({ d: 'M 32 38 C 38 34 40 28 37 24 C 33 23 30 30 32 38 Z', warna: warnaAksen, tebal: strokeWidth - 1, progres: progress, isi: `${warnaAksen}33` })}
-  </PembungkusSvg>
-);
-
-// 12. Gelembung Chat
-export const IkonGelembungChat: React.FC<IkonProps> = ({
-  warnaUtama = WARNA_IKON.daunTua,
-  warnaAksen = WARNA_IKON.daunTerang,
-  strokeWidth = 4,
-  progress = 1,
-  ...props
-}) => (
-  <PembungkusSvg {...props}>
-    {buatPath({ d: 'M 10 14 C 10 9.6 13.6 6 18 6 H 46 C 50.4 6 54 9.6 54 14 V 36 C 54 40.4 50.4 44 46 44 H 24 L 14 54 V 44 H 18 C 13.6 44 10 40.4 10 36 V 14 Z', warna: warnaUtama, tebal: strokeWidth, progres: progress, isi: `${warnaUtama}10` })}
-    {buatPath({ d: 'M 22 25 A 2 2 0 1 0 22.1 25', warna: warnaAksen, tebal: strokeWidth + 2, progres: progress })}
-    {buatPath({ d: 'M 32 25 A 2 2 0 1 0 32.1 25', warna: warnaAksen, tebal: strokeWidth + 2, progres: progress })}
-    {buatPath({ d: 'M 42 25 A 2 2 0 1 0 42.1 25', warna: warnaAksen, tebal: strokeWidth + 2, progres: progress })}
-  </PembungkusSvg>
-);
-
 // 13. Cuaca (Awan, Hujan, Matahari)
 export const IkonCuaca: React.FC<IkonProps> = ({
   warnaUtama = WARNA_IKON.daunTua,
   warnaAksen = WARNA_IKON.emas,
-  strokeWidth = 4,
+  strokeWidth = TEBAL_GARIS_64,
   progress = 1,
   ...props
 }) => (
@@ -267,7 +186,7 @@ export const IkonCuaca: React.FC<IkonProps> = ({
 export const IkonKotakStok: React.FC<IkonProps> = ({
   warnaUtama = WARNA_IKON.daunTua,
   warnaAksen = WARNA_IKON.daunTerang,
-  strokeWidth = 4,
+  strokeWidth = TEBAL_GARIS_64,
   progress = 1,
   ...props
 }) => (
@@ -284,7 +203,7 @@ export const IkonKotakStok: React.FC<IkonProps> = ({
 export const IkonPetaniMuda: React.FC<IkonProps> = ({
   warnaUtama = WARNA_IKON.daunTua,
   warnaAksen = WARNA_IKON.daunTerang,
-  strokeWidth = 4,
+  strokeWidth = TEBAL_GARIS_64,
   progress = 1,
   ...props
 }) => (
@@ -295,37 +214,5 @@ export const IkonPetaniMuda: React.FC<IkonProps> = ({
     {buatPath({ d: 'M 28 34 Q 32 37 36 34', warna: warnaUtama, tebal: strokeWidth - 1, progres: progress })}
     {buatPath({ d: 'M 8 30 L 32 10 L 56 30 L 32 26 Z', warna: WARNA_IKON.tanah, tebal: strokeWidth, progres: progress, isi: `${WARNA_IKON.tanah}44` })}
     {buatPath({ d: 'M 32 10 C 28 6 30 2 34 4 C 36 6 34 10 32 10 Z', warna: warnaAksen, tebal: strokeWidth - 1, progres: progress, isi: warnaAksen })}
-  </PembungkusSvg>
-);
-
-// 16. Koin Emas
-export const IkonKoin: React.FC<IkonProps> = ({
-  warnaUtama = WARNA_IKON.emas,
-  warnaAksen = WARNA_IKON.daunTua,
-  strokeWidth = 4,
-  progress = 1,
-  ...props
-}) => (
-  <PembungkusSvg {...props}>
-    {buatPath({ d: 'M 32 8 A 24 24 0 1 0 32.01 8', warna: warnaUtama, tebal: strokeWidth, progres: progress, isi: `${warnaUtama}25` })}
-    {buatPath({ d: 'M 32 14 A 18 18 0 1 0 32.01 14', warna: warnaUtama, tebal: strokeWidth - 1, progres: progress })}
-    {buatPath({ d: 'M 32 40 C 26 36 24 30 28 24 C 32 22 36 28 32 40 Z', warna: warnaAksen, tebal: strokeWidth - 1, progres: progress, isi: `${warnaAksen}44` })}
-    {buatPath({ d: 'M 32 34 C 38 30 40 24 36 20 C 32 19 28 26 32 34 Z', warna: warnaAksen, tebal: strokeWidth - 1, progres: progress, isi: `${warnaAksen}44` })}
-  </PembungkusSvg>
-);
-
-// 17. Pin Bertunas
-export const IkonPinBertunas: React.FC<IkonProps> = ({
-  warnaUtama = WARNA_IKON.daunTua,
-  warnaAksen = WARNA_IKON.daunTerang,
-  strokeWidth = 4,
-  progress = 1,
-  ...props
-}) => (
-  <PembungkusSvg {...props}>
-    {buatPath({ d: 'M 32 56 C 26 48 16 38 16 26 C 16 16 23.2 8 32 8 C 40.8 8 48 16 48 26 C 48 38 38 48 32 56 Z', warna: warnaUtama, tebal: strokeWidth, progres: progress, isi: `${warnaUtama}15` })}
-    {buatPath({ d: 'M 32 30 C 28 24 24 23 27 18 C 30 17 33 21 32 30 Z', warna: warnaAksen, tebal: strokeWidth - 1, progres: progress, isi: `${warnaAksen}44` })}
-    {buatPath({ d: 'M 32 27 C 36 22 40 21 37 16 C 34 15 31 19 32 27 Z', warna: warnaAksen, tebal: strokeWidth - 1, progres: progress, isi: `${warnaAksen}44` })}
-    {buatPath({ d: 'M 32 30 V 38', warna: warnaUtama, tebal: strokeWidth, progres: progress })}
   </PembungkusSvg>
 );

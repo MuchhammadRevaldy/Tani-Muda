@@ -13,15 +13,16 @@ const folderVideo = join(__dirname, '..');
 const folderKeluaran = join(folderVideo, 'keluaran');
 mkdirSync(folderKeluaran, { recursive: true });
 
-// 1. Jalankan cek durasi terlebih dahulu
-const cek = spawn(process.execPath, [join(__dirname, 'cek-durasi.mjs')], {
+// 1. Pemeriksaan dulu: ikon aplikasi sinkron, narasi berisi suara, durasi <= 3:00.
+const cek = spawn('npm', ['run', 'cek'], {
   stdio: 'inherit',
   cwd: folderVideo,
+  shell: true,
 });
 
 cek.on('exit', (kode) => {
   if (kode !== 0) {
-    console.error('Render dibatalkan karena pemeriksaan durasi gagal.');
+    console.error('Render dibatalkan karena pemeriksaan gagal.');
     process.exit(kode ?? 1);
   }
 
@@ -60,7 +61,7 @@ cek.on('exit', (kode) => {
     const durasi = ((Date.now() - mulai) / 1000).toFixed(1);
     if (kodeRender === 0) {
       console.log(`\n✓ Render video selesai dengan sukses dalam ${durasi} detik.`);
-      console.log(`  Berkas video: ${join(folderKeluaran, 'teaser-tani-muda.mp4')}\n`);
+      console.log(`  Berkas video: ${join(folderVideo, targetFile)}\n`);
     } else {
       console.error(`\n✗ Render video gagal dengan kode keluar ${kodeRender} (${durasi} detik).`);
     }

@@ -3,7 +3,7 @@ import type { CSSProperties } from 'react';
 export interface IkonProps {
   /** Ukuran lebar & tinggi kotak (bawaan 64) */
   size?: number;
-  /** Ketebalan garis stroke (bawaan 4) */
+  /** Ketebalan garis pada grid 64 (bawaan 4,5 = setara 1,7 pada grid 24 seperti ikon aplikasi) */
   strokeWidth?: number;
   /** Warna token primer (bawaan #1b4332 - daun-tua) */
   warnaUtama?: string;
@@ -31,3 +31,6 @@ export const WARNA_IKON = {
   teks: '#1f2937',
   teksPudar: '#6b7280',
 };
+
+/** Tebal garis bawaan pada grid 64, setara 1,7 di grid 24 (ikon aplikasi). */
+export const TEBAL_GARIS_64 = 4.5;

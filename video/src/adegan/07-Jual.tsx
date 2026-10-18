@@ -1,31 +1,44 @@
 import React from 'react';
 import { interpolate, spring, useCurrentFrame, useVideoConfig } from 'remotion';
-import { IkonKeranjang, IkonKoin } from '../ikon';
-import { SubtitelVideo } from '../komponen/SubtitelVideo';
+import { IkonCentang, IkonKunci, IkonPanen, IkonUang } from '../ikon';
 import { TOKEN_WARNA } from '../konfigurasi';
+import { useAwalKalimat } from '../komponen/WaktuNarasi';
 
 export const Adegan07Jual: React.FC = () => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
-  // Koin terbang melengkung ke tengah (frame 20 - 75)
-  const xKoin = interpolate(frame, [20, 75], [420, 960], {
-    extrapolateLeft: 'clamp',
-    extrapolateRight: 'clamp',
-  });
-  const yKoin = interpolate(frame, [20, 48, 75], [520, 360, 520], {
-    extrapolateLeft: 'clamp',
-    extrapolateRight: 'clamp',
-  });
+  // Kejadian mengikuti kalimat narasi [AG-44]:
+  // 0 pesan + uang muka, 1 ditahan, 2 petani ambil & kirim, 3 konfirmasi & cair, 4 slogan.
+  const awal = useAwalKalimat('07');
+  const tibaDiTengah = awal[1] ?? 75;
+  const mulaiTerbang = Math.max(20, tibaDiTengah - 55);
+  const petaniMasuk = awal[2] ?? 120;
+  const mulaiKirim = petaniMasuk + 45;
+  const konfirmasi = awal[3] ?? 200;
+  const mulaiCair = konfirmasi + 30;
+  const tibaDiPetani = mulaiCair + 45;
 
-  // Gembok terkunci saat koin tiba di tengah (frame 75 - 130)
-  const gembokTerkunci = frame >= 75 && frame < 150;
+  const klem = { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' } as const;
 
-  // Koin cair ke petani (frame 150 - 200)
-  const xKoinCair = interpolate(frame, [150, 195], [960, 1500], {
-    extrapolateLeft: 'clamp',
-    extrapolateRight: 'clamp',
-  });
+  // Koin uang muka melengkung dari pembeli ke dana ditahan.
+  const xKoin = interpolate(frame, [mulaiTerbang, tibaDiTengah], [430, 960], klem);
+  const yKoin = interpolate(frame, [mulaiTerbang, (mulaiTerbang + tibaDiTengah) / 2, tibaDiTengah], [520, 330, 520], klem);
+  // Setelah konfirmasi, koin melengkung ke petani.
+  const xKoinCair = interpolate(frame, [mulaiCair, tibaDiPetani], [960, 1330], klem);
+  const yKoinCair = interpolate(frame, [mulaiCair, (mulaiCair + tibaDiPetani) / 2, tibaDiPetani], [520, 300, 590], klem);
+
+  const gembokTerkunci = frame >= tibaDiTengah && frame < mulaiCair;
+  const danaCair = frame >= tibaDiPetani;
+  const pantulGembok = spring({ frame: frame - tibaDiTengah, fps, config: { damping: 9, stiffness: 160 } });
+  const sorotPetani = spring({ frame: frame - petaniMasuk, fps, config: { damping: 14 } });
+
+  // Keranjang panen dikirim dari petani ke pembeli di bawah layar.
+  const xPanen = interpolate(frame, [mulaiKirim, konfirmasi - 10], [1440, 480], klem);
+  const tampakPanen = interpolate(frame, [mulaiKirim, mulaiKirim + 10, konfirmasi, konfirmasi + 25], [0, 1, 1, 0], klem);
+  const gambarCentang = interpolate(frame, [konfirmasi, konfirmasi + 20], [0, 1], klem);
+  // Gerak halus terus-menerus supaya tidak ada bingkai diam.
+  const ayun = Math.sin(frame / 18) * 6;
 
   return (
     <div
@@ -41,159 +54,146 @@ export const Adegan07Jual: React.FC = () => {
         overflow: 'hidden',
       }}
     >
-      {/* Teks Kinetik Atas */}
-      <div
-        style={{
-          position: 'absolute',
-          top: 60,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          gap: 6,
-          zIndex: 30,
-        }}
-      >
-        <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
-          <IkonKeranjang size={40} strokeWidth={4} />
-          <span style={{ fontSize: 16, fontWeight: 800, color: TOKEN_WARNA.daunTerang, letterSpacing: '2px', textTransform: 'uppercase' }}>
-            Pilar 04 · Jual
-          </span>
-        </div>
-        <div style={{ display: 'flex', gap: 14 }}>
-          {['Uang', 'muka', 'aman', 'pembeli', 'pasti'].map((w, i) => (
+      {/* Judul kinetik: kata masuk bergantian */}
+      <div style={{ position: 'absolute', top: 70, display: 'flex', gap: 14, zIndex: 30 }}>
+        {['Uang', 'muka', 'aman,', 'pembeli', 'pasti'].map((w, i) => {
+          const sp = spring({ frame: frame - (6 + i * 6), fps, config: { damping: 14, stiffness: 110 } });
+          return (
             <span
               key={i}
               style={{
-                fontSize: 48,
+                fontSize: 64,
                 fontWeight: 900,
-                color: i >= 3 ? TOKEN_WARNA.daunTerang : TOKEN_WARNA.daunTua,
+                color: i >= 3 ? TOKEN_WARNA.daun : TOKEN_WARNA.daunTua,
+                opacity: sp,
+                transform: `translateY(${(1 - sp) * 26}px)`,
               }}
             >
               {w}
             </span>
-          ))}
-        </div>
+          );
+        })}
       </div>
 
-      {/* Garis Pembagi Layar Halus di Tengah */}
-      <div
-        style={{
-          position: 'absolute',
-          top: 200,
-          bottom: 160,
-          left: 960,
-          width: 2,
-          backgroundColor: '#e5ded2',
-        }}
-      />
+      {/* Garis pembagi layar */}
+      <div style={{ position: 'absolute', top: 220, bottom: 190, left: 960, width: 2, backgroundColor: TOKEN_WARNA.garis }} />
 
-      {/* SISI KIRI: Pembeli (Kafe / Resto) */}
+      {/* Kiri: pembeli */}
       <div
         style={{
           position: 'absolute',
-          left: 180,
-          top: 360,
-          width: 500,
-          backgroundColor: '#ffffff',
-          border: '2px solid #1b4332',
+          left: 160,
+          top: 330 + ayun * 0.4,
+          width: 520,
+          backgroundColor: TOKEN_WARNA.latarPutih,
+          border: `2px solid ${TOKEN_WARNA.daunTua}`,
           borderRadius: 24,
-          padding: '36px',
+          padding: 36,
           boxShadow: '0 12px 28px rgba(27,67,50,0.06)',
           display: 'flex',
           flexDirection: 'column',
-          gap: 12,
+          gap: 10,
         }}
       >
-        <div style={{ fontSize: 14, fontWeight: 800, color: TOKEN_WARNA.emas, letterSpacing: '1.5px' }}>
-          MITRA PEMBELI
+        <div style={{ fontSize: 22, fontWeight: 800, color: TOKEN_WARNA.tanah }}>Pembeli</div>
+        <div style={{ fontSize: 40, fontWeight: 900, color: TOKEN_WARNA.daunTua }}>Katering Bu Ratna</div>
+        <div style={{ fontSize: 26, color: TOKEN_WARNA.teksPudar, lineHeight: 1.35 }}>
+          Pesan 50 kg sawi sebelum panen, bayar uang muka.
         </div>
-        <div style={{ fontSize: 32, fontWeight: 900, color: TOKEN_WARNA.daunTua }}>
-          Katering Bu Ratna
-        </div>
-        <div style={{ fontSize: 18, color: TOKEN_WARNA.teksPudar, lineHeight: 1.4 }}>
-          Pesan 50 kg sawi hijau dan setorkan uang muka komitmen 50% di awal tanam.
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12, height: 44, opacity: gambarCentang }}>
+          <IkonCentang size={44} progress={gambarCentang} warnaUtama={TOKEN_WARNA.daun} />
+          <span style={{ fontSize: 26, fontWeight: 800, color: TOKEN_WARNA.daun }}>Kiriman diterima</span>
         </div>
       </div>
 
-      {/* TENGAH: Dana Ditahan (Escrow Bersama) */}
+      {/* Tengah: dana ditahan */}
       <div
         style={{
           position: 'absolute',
           left: 960,
           top: 520,
-          transform: 'translate(-50%, -50%)',
-          backgroundColor: '#ffffff',
-          border: '3px solid #1b4332',
+          transform: `translate(-50%, -50%) scale(${gembokTerkunci ? 0.9 + pantulGembok * 0.1 : 1})`,
+          backgroundColor: TOKEN_WARNA.latarPutih,
+          border: `3px solid ${gembokTerkunci ? TOKEN_WARNA.daunTua : TOKEN_WARNA.garis}`,
           borderRadius: 24,
-          padding: '24px 32px',
+          padding: '26px 34px',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
+          gap: 8,
           boxShadow: '0 12px 30px rgba(27,67,50,0.1)',
           zIndex: 20,
+          minWidth: 280,
         }}
       >
-        <svg width="44" height="44" viewBox="0 0 44 44" style={{ marginBottom: 6 }}>
-          <rect x="8" y="18" width="28" height="20" rx="4" fill="none" stroke={TOKEN_WARNA.daunTua} strokeWidth="3" />
-          <path
-            d={gembokTerkunci ? 'M 14 18 V 12 C 14 7.6 17.6 4 22 4 C 26.4 4 30 7.6 30 12 V 18' : 'M 14 18 V 12 C 14 7.6 17.6 4 22 4 C 26.4 4 30 7.6 30 12 V 8'}
-            fill="none"
-            stroke={TOKEN_WARNA.daunTerang}
-            strokeWidth="3"
-            strokeLinecap="round"
-          />
-        </svg>
-        <div style={{ fontSize: 12, fontWeight: 800, color: TOKEN_WARNA.emas, letterSpacing: '1px' }}>
-          REKENING BERSAMA
-        </div>
-        <div style={{ fontSize: 18, fontWeight: 900, color: TOKEN_WARNA.daunTua }}>
-          {frame < 150 ? 'Dana Ditahan Aman' : 'Dana Dicairkan ✓'}
+        <IkonKunci
+          size={64}
+          warnaUtama={gembokTerkunci ? TOKEN_WARNA.daunTua : TOKEN_WARNA.teksPudar}
+          warnaAksen={TOKEN_WARNA.daunTerang}
+          style={{ transform: `rotate(${gembokTerkunci ? 0 : -12}deg)` }}
+        />
+        <div style={{ fontSize: 30, fontWeight: 900, color: TOKEN_WARNA.daunTua }}>
+          {frame >= mulaiCair ? 'Dana cair' : gembokTerkunci ? 'Dana ditahan' : 'Uang muka'}
         </div>
       </div>
 
-      {/* SISI KANAN: Petani Muda */}
+      {/* Kanan: petani */}
       <div
         style={{
           position: 'absolute',
-          right: 180,
-          top: 360,
-          width: 500,
-          backgroundColor: '#ffffff',
-          border: '2px solid #1b4332',
+          right: 160,
+          top: 330 - ayun * 0.4,
+          width: 520,
+          backgroundColor: TOKEN_WARNA.latarPutih,
+          border: `2px solid ${TOKEN_WARNA.daunTua}`,
           borderRadius: 24,
-          padding: '36px',
-          boxShadow: '0 12px 28px rgba(27,67,50,0.06)',
+          padding: 36,
+          boxShadow: `0 12px ${28 + sorotPetani * 20}px rgba(27,67,50,${0.06 + sorotPetani * 0.08})`,
+          transform: `scale(${0.96 + sorotPetani * 0.04})`,
+          opacity: 0.55 + sorotPetani * 0.45,
           display: 'flex',
           flexDirection: 'column',
-          gap: 12,
+          gap: 10,
         }}
       >
-        <div style={{ fontSize: 14, fontWeight: 800, color: TOKEN_WARNA.daunTerang, letterSpacing: '1.5px' }}>
-          PETANI PRODUSEN
+        <div style={{ fontSize: 22, fontWeight: 800, color: TOKEN_WARNA.daun }}>Petani</div>
+        <div style={{ fontSize: 40, fontWeight: 900, color: TOKEN_WARNA.daunTua }}>Arif, Klaten</div>
+        <div style={{ fontSize: 26, color: TOKEN_WARNA.teksPudar, lineHeight: 1.35 }}>
+          Ambil pesanan, rawat, lalu kirim hasil panen.
         </div>
-        <div style={{ fontSize: 32, fontWeight: 900, color: TOKEN_WARNA.daunTua }}>
-          Arif Setiawan · Kebun Klaten
-        </div>
-        <div style={{ fontSize: 18, color: TOKEN_WARNA.teksPudar, lineHeight: 1.4 }}>
-          Menerima pesanan pasti, merawat hingga panen segar, dan menerima pelunasan utuh.
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12, height: 44, opacity: danaCair ? 1 : 0 }}>
+          <IkonUang size={44} />
+          <span style={{ fontSize: 26, fontWeight: 800, color: TOKEN_WARNA.daun }}>Dana diterima</span>
         </div>
       </div>
 
-      {/* Koin Bergerak Terbang */}
+      {/* Keranjang panen dikirim ke pembeli */}
       <div
         style={{
           position: 'absolute',
-          left: frame < 150 ? xKoin : xKoinCair,
-          top: frame < 150 ? yKoin : 520,
+          left: xPanen,
+          top: 850 + Math.abs(Math.sin(frame / 5)) * -10,
           transform: 'translate(-50%, -50%)',
+          opacity: tampakPanen,
+          zIndex: 30,
+        }}
+      >
+        <IkonPanen size={84} />
+      </div>
+
+      {/* Koin uang muka */}
+      <div
+        style={{
+          position: 'absolute',
+          left: frame < mulaiCair ? xKoin : xKoinCair,
+          top: frame < mulaiCair ? (frame >= tibaDiTengah ? 385 : yKoin) : yKoinCair,
+          transform: `translate(-50%, -50%) scale(${frame >= tibaDiTengah && frame < mulaiCair ? 0.75 : 1})`,
+          opacity: frame < mulaiTerbang ? 0 : interpolate(frame, [tibaDiPetani - 6, tibaDiPetani], [1, 0], klem),
           zIndex: 40,
         }}
       >
-        <IkonKoin size={64} strokeWidth={4} />
+        <IkonUang size={72} />
       </div>
-
-      {/* Subtitel Terbakar */}
-      <SubtitelVideo teks="Pembeli membayar uang muka di awal, dan dana cair ke petani saat panen terkonfirmasi." />
     </div>
   );
 };
