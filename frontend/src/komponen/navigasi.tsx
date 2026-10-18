@@ -154,7 +154,7 @@ export function Logo({ besar, className }: { besar?: boolean; className?: string
 
 export interface Akun {
   nama: string;
-  /** Peran dan desa, mis. "Petani · Lembang". */
+  /** Peran dan desa, mis. "Petani · Delanggu". */
   keterangan: string;
 }
 

@@ -162,8 +162,42 @@ class DataContohSeeder extends Seeder
      */
     private static function isiWilayah(array $baris): void
     {
-        $baris = array_map(fn ($w) => $w + ['koordinat_perkiraan' => $w['lintang'] !== null], $baris);
-        DB::table('wilayah')->upsert($baris, ['id']);
+        $sekarang = now();
+        $kabupaten = [];
+        $kecamatan = [];
+        $desa = [];
+
+        foreach ($baris as $w) {
+            [$pp, $kk, $cc] = explode('.', $w['id']);
+            $kabId = "{$pp}.{$kk}";
+            $kecId = "{$pp}.{$kk}.{$cc}";
+
+            $kabupaten[$kabId] = [
+                'id' => $kabId,
+                'nama' => $w['kabupaten'],
+                'provinsi_id' => $pp,
+                'dibuat_pada' => $sekarang,
+                'diperbarui_pada' => $sekarang,
+            ];
+
+            $kecamatan[$kecId] = [
+                'id' => $kecId,
+                'nama' => $w['kecamatan'],
+                'kabupaten_id' => $kabId,
+                'dibuat_pada' => $sekarang,
+                'diperbarui_pada' => $sekarang,
+            ];
+
+            $desa[] = $w + [
+                'kabupaten_id' => $kabId,
+                'kecamatan_id' => $kecId,
+                'koordinat_perkiraan' => $w['lintang'] !== null,
+            ];
+        }
+
+        DB::table('wilayah_kabupaten')->upsert(array_values($kabupaten), ['id'], ['nama', 'provinsi_id']);
+        DB::table('wilayah_kecamatan')->upsert(array_values($kecamatan), ['id'], ['nama', 'kabupaten_id']);
+        DB::table('wilayah')->upsert($desa, ['id']);
     }
 
     /** @param  array<string, mixed>  $konfigurasi */

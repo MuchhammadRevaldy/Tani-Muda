@@ -144,8 +144,8 @@ export function buatKlienStokTiruan(k: Konteks): KlienStok {
           hasil.push({
             ...s,
             nama_petani: petani?.nama ?? 'Petani',
-            desa: wilayah?.desa ?? 'Sukamaju',
-            kecamatan: wilayah?.kecamatan ?? 'Lembang',
+            desa: wilayah?.desa ?? 'Bowan',
+            kecamatan: wilayah?.kecamatan ?? 'Delanggu',
             jarak_km: jarak,
           });
         }

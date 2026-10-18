@@ -200,102 +200,102 @@
   ],
   "konversi_satuan": [
     {
-      "wilayah_id": "32.17.01.2003",
+      "wilayah_id": "33.10.16.2013",
       "satuan": "ru",
       "nilai_m2": 14
     },
     {
-      "wilayah_id": "32.17.01.2003",
+      "wilayah_id": "33.10.16.2013",
       "satuan": "bata",
       "nilai_m2": 14
     },
     {
-      "wilayah_id": "32.17.01.2013",
+      "wilayah_id": "33.10.16.2012",
       "satuan": "ru",
       "nilai_m2": 14
     },
     {
-      "wilayah_id": "32.17.01.2013",
+      "wilayah_id": "33.10.16.2012",
       "satuan": "bata",
       "nilai_m2": 14
     },
     {
-      "wilayah_id": "32.17.01.2007",
+      "wilayah_id": "33.10.16.2010",
       "satuan": "ru",
       "nilai_m2": 14
     },
     {
-      "wilayah_id": "32.17.01.2007",
+      "wilayah_id": "33.10.16.2010",
       "satuan": "bata",
       "nilai_m2": 14
     },
     {
-      "wilayah_id": "32.17.01.2005",
+      "wilayah_id": "33.10.16.2005",
       "satuan": "ru",
       "nilai_m2": 14
     },
     {
-      "wilayah_id": "32.17.01.2005",
+      "wilayah_id": "33.10.16.2005",
       "satuan": "bata",
       "nilai_m2": 14
     },
     {
-      "wilayah_id": "32.17.01.2008",
+      "wilayah_id": "33.10.16.2014",
       "satuan": "ru",
       "nilai_m2": 14
     },
     {
-      "wilayah_id": "32.17.01.2008",
+      "wilayah_id": "33.10.16.2014",
       "satuan": "bata",
       "nilai_m2": 14
     },
     {
-      "wilayah_id": "32.17.01.2002",
+      "wilayah_id": "33.10.16.2015",
       "satuan": "ru",
       "nilai_m2": 14
     },
     {
-      "wilayah_id": "32.17.01.2002",
+      "wilayah_id": "33.10.16.2015",
       "satuan": "bata",
       "nilai_m2": 14
     },
     {
-      "wilayah_id": "32.17.01.2009",
+      "wilayah_id": "33.10.16.2016",
       "satuan": "ru",
       "nilai_m2": 14
     },
     {
-      "wilayah_id": "32.17.01.2009",
+      "wilayah_id": "33.10.16.2016",
       "satuan": "bata",
       "nilai_m2": 14
     },
     {
-      "wilayah_id": "32.73.08.1003",
+      "wilayah_id": "33.10.17.2011",
       "satuan": "ru",
       "nilai_m2": 14
     },
     {
-      "wilayah_id": "32.73.08.1003",
+      "wilayah_id": "33.10.17.2011",
       "satuan": "bata",
       "nilai_m2": 14
     },
     {
-      "wilayah_id": "32.73.21.1001",
+      "wilayah_id": "33.10.25.1001",
       "satuan": "ru",
       "nilai_m2": 14
     },
     {
-      "wilayah_id": "32.73.21.1001",
+      "wilayah_id": "33.10.25.1001",
       "satuan": "bata",
       "nilai_m2": 14
     },
     {
-      "wilayah_id": "32.17.02.2004",
+      "wilayah_id": "33.10.01.2012",
       "satuan": "ru",
       "nilai_m2": 14
     },
     {
-      "wilayah_id": "32.17.02.2004",
+      "wilayah_id": "33.10.01.2012",
       "satuan": "bata",
       "nilai_m2": 14
     }
@@ -480,7 +480,7 @@
     {
       "id": "merek-4",
       "input_id": "pupuk-kandang",
-      "nama": "Organik Lembang",
+      "nama": "Organik Klaten",
       "produsen": null,
       "isi_kemasan": 25,
       "teks_kemasan": "25 kg",
@@ -799,7 +799,7 @@
       "merek_id": "merek-1",
       "pelapor_id": "petani-arif",
       "harga_kemasan": 25000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-9"
     },
     {
@@ -807,7 +807,7 @@
       "merek_id": "merek-1",
       "pelapor_id": "petani-dewi",
       "harga_kemasan": 25000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-12"
     },
     {
@@ -815,7 +815,7 @@
       "merek_id": "merek-1",
       "pelapor_id": "petani-budi",
       "harga_kemasan": 25000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-15"
     },
     {
@@ -823,7 +823,7 @@
       "merek_id": "merek-1",
       "pelapor_id": "petani-sari",
       "harga_kemasan": 25000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-18"
     },
     {
@@ -831,7 +831,7 @@
       "merek_id": "merek-1",
       "pelapor_id": "petani-yogi",
       "harga_kemasan": 25000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-21"
     },
     {
@@ -839,7 +839,7 @@
       "merek_id": "merek-2",
       "pelapor_id": "petani-arif",
       "harga_kemasan": 22000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-15"
     },
     {
@@ -847,7 +847,7 @@
       "merek_id": "merek-2",
       "pelapor_id": "petani-dewi",
       "harga_kemasan": 22000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-18"
     },
     {
@@ -855,7 +855,7 @@
       "merek_id": "merek-2",
       "pelapor_id": "petani-budi",
       "harga_kemasan": 22000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-21"
     },
     {
@@ -863,7 +863,7 @@
       "merek_id": "merek-3",
       "pelapor_id": "petani-arif",
       "harga_kemasan": 15000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-5"
     },
     {
@@ -871,7 +871,7 @@
       "merek_id": "merek-3",
       "pelapor_id": "petani-dewi",
       "harga_kemasan": 15000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-8"
     },
     {
@@ -879,7 +879,7 @@
       "merek_id": "merek-3",
       "pelapor_id": "petani-budi",
       "harga_kemasan": 15000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-11"
     },
     {
@@ -887,7 +887,7 @@
       "merek_id": "merek-3",
       "pelapor_id": "petani-sari",
       "harga_kemasan": 15000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-14"
     },
     {
@@ -895,7 +895,7 @@
       "merek_id": "merek-3",
       "pelapor_id": "petani-yogi",
       "harga_kemasan": 15000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-17"
     },
     {
@@ -903,7 +903,7 @@
       "merek_id": "merek-4",
       "pelapor_id": "petani-arif",
       "harga_kemasan": 18000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-9"
     },
     {
@@ -911,7 +911,7 @@
       "merek_id": "merek-4",
       "pelapor_id": "petani-dewi",
       "harga_kemasan": 18000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-12"
     },
     {
@@ -919,7 +919,7 @@
       "merek_id": "merek-4",
       "pelapor_id": "petani-budi",
       "harga_kemasan": 18000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-15"
     },
     {
@@ -927,7 +927,7 @@
       "merek_id": "merek-5",
       "pelapor_id": "petani-arif",
       "harga_kemasan": 12500,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-15"
     },
     {
@@ -935,7 +935,7 @@
       "merek_id": "merek-5",
       "pelapor_id": "petani-dewi",
       "harga_kemasan": 12500,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-18"
     },
     {
@@ -943,7 +943,7 @@
       "merek_id": "merek-6",
       "pelapor_id": "petani-arif",
       "harga_kemasan": 37500,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-10"
     },
     {
@@ -951,7 +951,7 @@
       "merek_id": "merek-6",
       "pelapor_id": "petani-dewi",
       "harga_kemasan": 37500,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-13"
     },
     {
@@ -959,7 +959,7 @@
       "merek_id": "merek-6",
       "pelapor_id": "petani-budi",
       "harga_kemasan": 37500,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-16"
     },
     {
@@ -967,7 +967,7 @@
       "merek_id": "merek-6",
       "pelapor_id": "petani-sari",
       "harga_kemasan": 37500,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-19"
     },
     {
@@ -975,7 +975,7 @@
       "merek_id": "merek-7",
       "pelapor_id": "petani-arif",
       "harga_kemasan": 45000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-21"
     },
     {
@@ -983,7 +983,7 @@
       "merek_id": "merek-7",
       "pelapor_id": "petani-dewi",
       "harga_kemasan": 45000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-24"
     },
     {
@@ -991,7 +991,7 @@
       "merek_id": "merek-8",
       "pelapor_id": "petani-arif",
       "harga_kemasan": 8000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-6"
     },
     {
@@ -999,7 +999,7 @@
       "merek_id": "merek-8",
       "pelapor_id": "petani-dewi",
       "harga_kemasan": 8000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-9"
     },
     {
@@ -1007,7 +1007,7 @@
       "merek_id": "merek-8",
       "pelapor_id": "petani-budi",
       "harga_kemasan": 8000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-12"
     },
     {
@@ -1015,7 +1015,7 @@
       "merek_id": "merek-9",
       "pelapor_id": "petani-arif",
       "harga_kemasan": 380000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-12"
     },
     {
@@ -1023,7 +1023,7 @@
       "merek_id": "merek-9",
       "pelapor_id": "petani-dewi",
       "harga_kemasan": 380000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-15"
     },
     {
@@ -1031,7 +1031,7 @@
       "merek_id": "merek-9",
       "pelapor_id": "petani-budi",
       "harga_kemasan": 380000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-18"
     },
     {
@@ -1039,7 +1039,7 @@
       "merek_id": "merek-9",
       "pelapor_id": "petani-sari",
       "harga_kemasan": 380000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-21"
     },
     {
@@ -1047,7 +1047,7 @@
       "merek_id": "merek-9",
       "pelapor_id": "petani-yogi",
       "harga_kemasan": 380000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-24"
     },
     {
@@ -1055,7 +1055,7 @@
       "merek_id": "merek-10",
       "pelapor_id": "petani-arif",
       "harga_kemasan": 355000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-4"
     },
     {
@@ -1063,7 +1063,7 @@
       "merek_id": "merek-10",
       "pelapor_id": "petani-dewi",
       "harga_kemasan": 355000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-7"
     },
     {
@@ -1071,7 +1071,7 @@
       "merek_id": "merek-10",
       "pelapor_id": "petani-budi",
       "harga_kemasan": 355000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-10"
     },
     {
@@ -1079,7 +1079,7 @@
       "merek_id": "merek-11",
       "pelapor_id": "petani-arif",
       "harga_kemasan": 80000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-20"
     },
     {
@@ -1087,7 +1087,7 @@
       "merek_id": "merek-11",
       "pelapor_id": "petani-dewi",
       "harga_kemasan": 80000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-23"
     },
     {
@@ -1095,7 +1095,7 @@
       "merek_id": "merek-12",
       "pelapor_id": "petani-arif",
       "harga_kemasan": 40000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-8"
     },
     {
@@ -1103,7 +1103,7 @@
       "merek_id": "merek-12",
       "pelapor_id": "petani-dewi",
       "harga_kemasan": 40000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-11"
     },
     {
@@ -1111,7 +1111,7 @@
       "merek_id": "merek-12",
       "pelapor_id": "petani-budi",
       "harga_kemasan": 40000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-14"
     },
     {
@@ -1119,7 +1119,7 @@
       "merek_id": "merek-12",
       "pelapor_id": "petani-sari",
       "harga_kemasan": 40000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-17"
     },
     {
@@ -1127,7 +1127,7 @@
       "merek_id": "merek-12",
       "pelapor_id": "petani-yogi",
       "harga_kemasan": 40000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-20"
     },
     {
@@ -1135,7 +1135,7 @@
       "merek_id": "merek-13",
       "pelapor_id": "petani-arif",
       "harga_kemasan": 35000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-14"
     },
     {
@@ -1143,7 +1143,7 @@
       "merek_id": "merek-13",
       "pelapor_id": "petani-dewi",
       "harga_kemasan": 35000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-17"
     },
     {
@@ -1151,7 +1151,7 @@
       "merek_id": "merek-14",
       "pelapor_id": "petani-arif",
       "harga_kemasan": 95000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-30"
     },
     {
@@ -1159,7 +1159,7 @@
       "merek_id": "merek-15",
       "pelapor_id": "petani-arif",
       "harga_kemasan": 35000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-11"
     },
     {
@@ -1167,7 +1167,7 @@
       "merek_id": "merek-15",
       "pelapor_id": "petani-dewi",
       "harga_kemasan": 35000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-14"
     },
     {
@@ -1175,7 +1175,7 @@
       "merek_id": "merek-15",
       "pelapor_id": "petani-budi",
       "harga_kemasan": 35000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-17"
     },
     {
@@ -1183,7 +1183,7 @@
       "merek_id": "merek-15",
       "pelapor_id": "petani-sari",
       "harga_kemasan": 35000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-20"
     },
     {
@@ -1191,7 +1191,7 @@
       "merek_id": "merek-16",
       "pelapor_id": "petani-arif",
       "harga_kemasan": 30000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-18"
     },
     {
@@ -1199,7 +1199,7 @@
       "merek_id": "merek-16",
       "pelapor_id": "petani-dewi",
       "harga_kemasan": 30000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-21"
     },
     {
@@ -1207,7 +1207,7 @@
       "merek_id": "merek-17",
       "pelapor_id": "petani-arif",
       "harga_kemasan": 375000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-13"
     },
     {
@@ -1215,7 +1215,7 @@
       "merek_id": "merek-17",
       "pelapor_id": "petani-dewi",
       "harga_kemasan": 375000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-16"
     },
     {
@@ -1223,7 +1223,7 @@
       "merek_id": "merek-17",
       "pelapor_id": "petani-budi",
       "harga_kemasan": 375000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-19"
     },
     {
@@ -1231,7 +1231,7 @@
       "merek_id": "merek-17",
       "pelapor_id": "petani-sari",
       "harga_kemasan": 375000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-22"
     },
     {
@@ -1239,7 +1239,7 @@
       "merek_id": "merek-17",
       "pelapor_id": "petani-yogi",
       "harga_kemasan": 375000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-25"
     },
     {
@@ -1247,7 +1247,7 @@
       "merek_id": "merek-18",
       "pelapor_id": "petani-arif",
       "harga_kemasan": 340000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-25"
     },
     {
@@ -1255,7 +1255,7 @@
       "merek_id": "merek-18",
       "pelapor_id": "petani-dewi",
       "harga_kemasan": 340000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-28"
     },
     {
@@ -1263,7 +1263,7 @@
       "merek_id": "merek-19",
       "pelapor_id": "petani-arif",
       "harga_kemasan": 450000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-12"
     },
     {
@@ -1271,7 +1271,7 @@
       "merek_id": "merek-19",
       "pelapor_id": "petani-dewi",
       "harga_kemasan": 450000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-15"
     },
     {
@@ -1279,7 +1279,7 @@
       "merek_id": "merek-19",
       "pelapor_id": "petani-budi",
       "harga_kemasan": 450000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-18"
     },
     {
@@ -1287,7 +1287,7 @@
       "merek_id": "merek-19",
       "pelapor_id": "petani-sari",
       "harga_kemasan": 450000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-21"
     },
     {
@@ -1295,7 +1295,7 @@
       "merek_id": "merek-19",
       "pelapor_id": "petani-yogi",
       "harga_kemasan": 450000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-24"
     },
     {
@@ -1303,7 +1303,7 @@
       "merek_id": "merek-20",
       "pelapor_id": "petani-arif",
       "harga_kemasan": 440000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-8"
     },
     {
@@ -1311,7 +1311,7 @@
       "merek_id": "merek-20",
       "pelapor_id": "petani-dewi",
       "harga_kemasan": 440000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-11"
     },
     {
@@ -1319,7 +1319,7 @@
       "merek_id": "merek-20",
       "pelapor_id": "petani-budi",
       "harga_kemasan": 440000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-14"
     },
     {
@@ -1327,7 +1327,7 @@
       "merek_id": "merek-21",
       "pelapor_id": "petani-arif",
       "harga_kemasan": 600000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-14"
     },
     {
@@ -1335,7 +1335,7 @@
       "merek_id": "merek-21",
       "pelapor_id": "petani-dewi",
       "harga_kemasan": 600000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-17"
     },
     {
@@ -1343,7 +1343,7 @@
       "merek_id": "merek-21",
       "pelapor_id": "petani-budi",
       "harga_kemasan": 600000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-20"
     },
     {
@@ -1351,7 +1351,7 @@
       "merek_id": "merek-21",
       "pelapor_id": "petani-sari",
       "harga_kemasan": 600000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-23"
     },
     {
@@ -1359,7 +1359,7 @@
       "merek_id": "merek-22",
       "pelapor_id": "petani-arif",
       "harga_kemasan": 295000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-9"
     },
     {
@@ -1367,7 +1367,7 @@
       "merek_id": "merek-22",
       "pelapor_id": "petani-dewi",
       "harga_kemasan": 295000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-12"
     },
     {
@@ -1375,7 +1375,7 @@
       "merek_id": "merek-23",
       "pelapor_id": "petani-arif",
       "harga_kemasan": 25000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-7"
     },
     {
@@ -1383,7 +1383,7 @@
       "merek_id": "merek-23",
       "pelapor_id": "petani-dewi",
       "harga_kemasan": 25000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-10"
     },
     {
@@ -1391,7 +1391,7 @@
       "merek_id": "merek-23",
       "pelapor_id": "petani-budi",
       "harga_kemasan": 25000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-13"
     },
     {
@@ -1399,7 +1399,7 @@
       "merek_id": "merek-23",
       "pelapor_id": "petani-sari",
       "harga_kemasan": 25000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-16"
     },
     {
@@ -1407,7 +1407,7 @@
       "merek_id": "merek-23",
       "pelapor_id": "petani-yogi",
       "harga_kemasan": 25000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-19"
     },
     {
@@ -1415,7 +1415,7 @@
       "merek_id": "merek-24",
       "pelapor_id": "petani-arif",
       "harga_kemasan": 45000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-15"
     },
     {
@@ -1423,7 +1423,7 @@
       "merek_id": "merek-24",
       "pelapor_id": "petani-dewi",
       "harga_kemasan": 45000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-18"
     },
     {
@@ -1431,7 +1431,7 @@
       "merek_id": "merek-24",
       "pelapor_id": "petani-budi",
       "harga_kemasan": 45000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-21"
     },
     {
@@ -1439,7 +1439,7 @@
       "merek_id": "merek-25",
       "pelapor_id": "petani-arif",
       "harga_kemasan": 45000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-3"
     },
     {
@@ -1447,7 +1447,7 @@
       "merek_id": "merek-25",
       "pelapor_id": "petani-dewi",
       "harga_kemasan": 45000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-6"
     },
     {
@@ -1455,7 +1455,7 @@
       "merek_id": "merek-25",
       "pelapor_id": "petani-budi",
       "harga_kemasan": 45000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-9"
     },
     {
@@ -1463,7 +1463,7 @@
       "merek_id": "merek-25",
       "pelapor_id": "petani-sari",
       "harga_kemasan": 45000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-12"
     },
     {
@@ -1471,7 +1471,7 @@
       "merek_id": "merek-25",
       "pelapor_id": "petani-yogi",
       "harga_kemasan": 45000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-15"
     },
     {
@@ -1479,7 +1479,7 @@
       "merek_id": "merek-26",
       "pelapor_id": "petani-arif",
       "harga_kemasan": 40000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-10"
     },
     {
@@ -1487,7 +1487,7 @@
       "merek_id": "merek-26",
       "pelapor_id": "petani-dewi",
       "harga_kemasan": 40000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-13"
     },
     {
@@ -1495,7 +1495,7 @@
       "merek_id": "merek-26",
       "pelapor_id": "petani-budi",
       "harga_kemasan": 40000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-16"
     },
     {
@@ -1503,7 +1503,7 @@
       "merek_id": "merek-27",
       "pelapor_id": "petani-arif",
       "harga_kemasan": 25000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-9"
     },
     {
@@ -1511,7 +1511,7 @@
       "merek_id": "merek-27",
       "pelapor_id": "petani-dewi",
       "harga_kemasan": 25000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-12"
     },
     {
@@ -1519,7 +1519,7 @@
       "merek_id": "merek-27",
       "pelapor_id": "petani-budi",
       "harga_kemasan": 25000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-15"
     },
     {
@@ -1527,7 +1527,7 @@
       "merek_id": "merek-27",
       "pelapor_id": "petani-sari",
       "harga_kemasan": 25000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-18"
     },
     {
@@ -1535,7 +1535,7 @@
       "merek_id": "merek-28",
       "pelapor_id": "petani-arif",
       "harga_kemasan": 45000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-17"
     },
     {
@@ -1543,7 +1543,7 @@
       "merek_id": "merek-28",
       "pelapor_id": "petani-dewi",
       "harga_kemasan": 45000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-20"
     },
     {
@@ -1551,7 +1551,7 @@
       "merek_id": "merek-29",
       "pelapor_id": "petani-arif",
       "harga_kemasan": 35000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-9"
     },
     {
@@ -1559,7 +1559,7 @@
       "merek_id": "merek-29",
       "pelapor_id": "petani-dewi",
       "harga_kemasan": 35000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-12"
     },
     {
@@ -1567,7 +1567,7 @@
       "merek_id": "merek-29",
       "pelapor_id": "petani-budi",
       "harga_kemasan": 35000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-15"
     },
     {
@@ -1575,7 +1575,7 @@
       "merek_id": "merek-29",
       "pelapor_id": "petani-sari",
       "harga_kemasan": 35000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-18"
     },
     {
@@ -1583,7 +1583,7 @@
       "merek_id": "merek-30",
       "pelapor_id": "petani-arif",
       "harga_kemasan": 150000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-16"
     },
     {
@@ -1591,7 +1591,7 @@
       "merek_id": "merek-30",
       "pelapor_id": "petani-dewi",
       "harga_kemasan": 150000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-19"
     },
     {
@@ -1599,7 +1599,7 @@
       "merek_id": "merek-31",
       "pelapor_id": "petani-arif",
       "harga_kemasan": 30000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-5"
     },
     {
@@ -1607,7 +1607,7 @@
       "merek_id": "merek-31",
       "pelapor_id": "petani-dewi",
       "harga_kemasan": 30000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-8"
     },
     {
@@ -1615,7 +1615,7 @@
       "merek_id": "merek-31",
       "pelapor_id": "petani-budi",
       "harga_kemasan": 30000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-11"
     },
     {
@@ -1623,7 +1623,7 @@
       "merek_id": "merek-31",
       "pelapor_id": "petani-sari",
       "harga_kemasan": 30000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-14"
     },
     {
@@ -1631,7 +1631,7 @@
       "merek_id": "merek-31",
       "pelapor_id": "petani-yogi",
       "harga_kemasan": 30000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-17"
     },
     {
@@ -1639,7 +1639,7 @@
       "merek_id": "merek-32",
       "pelapor_id": "petani-arif",
       "harga_kemasan": 65000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-12"
     },
     {
@@ -1647,7 +1647,7 @@
       "merek_id": "merek-32",
       "pelapor_id": "petani-dewi",
       "harga_kemasan": 65000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-15"
     },
     {
@@ -1655,7 +1655,7 @@
       "merek_id": "merek-33",
       "pelapor_id": "petani-arif",
       "harga_kemasan": 75000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-6"
     },
     {
@@ -1663,7 +1663,7 @@
       "merek_id": "merek-33",
       "pelapor_id": "petani-dewi",
       "harga_kemasan": 75000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-9"
     },
     {
@@ -1671,7 +1671,7 @@
       "merek_id": "merek-33",
       "pelapor_id": "petani-budi",
       "harga_kemasan": 75000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-12"
     },
     {
@@ -1679,7 +1679,7 @@
       "merek_id": "merek-33",
       "pelapor_id": "petani-sari",
       "harga_kemasan": 75000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-15"
     },
     {
@@ -1687,7 +1687,7 @@
       "merek_id": "merek-33",
       "pelapor_id": "petani-yogi",
       "harga_kemasan": 75000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-18"
     },
     {
@@ -1695,7 +1695,7 @@
       "merek_id": "merek-34",
       "pelapor_id": "petani-arif",
       "harga_kemasan": 70000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-11"
     },
     {
@@ -1703,7 +1703,7 @@
       "merek_id": "merek-34",
       "pelapor_id": "petani-dewi",
       "harga_kemasan": 70000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-14"
     },
     {
@@ -1711,7 +1711,7 @@
       "merek_id": "merek-34",
       "pelapor_id": "petani-budi",
       "harga_kemasan": 70000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-17"
     },
     {
@@ -1719,7 +1719,7 @@
       "merek_id": "merek-34",
       "pelapor_id": "petani-sari",
       "harga_kemasan": 70000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-20"
     },
     {
@@ -1727,7 +1727,7 @@
       "merek_id": "merek-35",
       "pelapor_id": "petani-arif",
       "harga_kemasan": 35000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-10"
     },
     {
@@ -1735,7 +1735,7 @@
       "merek_id": "merek-35",
       "pelapor_id": "petani-dewi",
       "harga_kemasan": 35000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-13"
     },
     {
@@ -1743,7 +1743,7 @@
       "merek_id": "merek-35",
       "pelapor_id": "petani-budi",
       "harga_kemasan": 35000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-16"
     },
     {
@@ -1751,7 +1751,7 @@
       "merek_id": "merek-36",
       "pelapor_id": "petani-arif",
       "harga_kemasan": 40000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-10"
     },
     {
@@ -1759,7 +1759,7 @@
       "merek_id": "merek-36",
       "pelapor_id": "petani-dewi",
       "harga_kemasan": 40000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-13"
     },
     {
@@ -1767,7 +1767,7 @@
       "merek_id": "merek-36",
       "pelapor_id": "petani-budi",
       "harga_kemasan": 40000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-16"
     },
     {
@@ -1775,7 +1775,7 @@
       "merek_id": "merek-37",
       "pelapor_id": "petani-arif",
       "harga_kemasan": 25000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-10"
     },
     {
@@ -1783,7 +1783,7 @@
       "merek_id": "merek-37",
       "pelapor_id": "petani-dewi",
       "harga_kemasan": 25000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-13"
     },
     {
@@ -1791,7 +1791,7 @@
       "merek_id": "merek-37",
       "pelapor_id": "petani-budi",
       "harga_kemasan": 25000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-16"
     },
     {
@@ -1799,7 +1799,7 @@
       "merek_id": "merek-38",
       "pelapor_id": "petani-arif",
       "harga_kemasan": 45000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-10"
     },
     {
@@ -1807,7 +1807,7 @@
       "merek_id": "merek-38",
       "pelapor_id": "petani-dewi",
       "harga_kemasan": 45000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-13"
     },
     {
@@ -1815,7 +1815,7 @@
       "merek_id": "merek-38",
       "pelapor_id": "petani-budi",
       "harga_kemasan": 45000,
-      "kecamatan": "Lembang",
+      "kecamatan": "Delanggu",
       "tanggal": "H-16"
     }
   ],
@@ -1847,34 +1847,34 @@
       "id": "promo-1",
       "pemasang": "Toko Tani Sumber Rezeki",
       "isi": "Pupuk kandang karung 25 kg: beli 4, gratis 1.",
-      "wilayah_id": "32.17.01.2003",
+      "wilayah_id": "33.10.16.2013",
       "jarak_km": 2,
       "berlaku_mulai": "H-5",
       "berlaku_sampai": "H+10"
     },
     {
       "id": "promo-2",
-      "pemasang": "Kios Tani Mekar",
+      "pemasang": "Kios Tani Makmur Delanggu",
       "isi": "Mulsa plastik hitam perak 1 roll, hemat Rp20.000.",
-      "wilayah_id": "32.17.01.2002",
+      "wilayah_id": "33.10.16.2015",
       "jarak_km": 3.5,
       "berlaku_mulai": "H-5",
       "berlaku_sampai": "H+26"
     },
     {
       "id": "promo-3",
-      "pemasang": "Toko Hidro Lembang",
+      "pemasang": "Toko Hidro Klaten",
       "isi": "Paket rockwool dan netpot untuk 200 lubang, hemat 10%.",
-      "wilayah_id": "32.17.01.2007",
+      "wilayah_id": "33.10.16.2014",
       "jarak_km": 5,
       "berlaku_mulai": "H-2",
       "berlaku_sampai": "H+15"
     },
     {
       "id": "promo-4",
-      "pemasang": "Kios Pupuk Resmi Cisarua",
+      "pemasang": "Kios Pupuk Resmi Delanggu",
       "isi": "Pupuk organik granul 40 kg, gratis antar ke sawah.",
-      "wilayah_id": "32.17.01.2008",
+      "wilayah_id": "33.10.16.2010",
       "jarak_km": 6,
       "berlaku_mulai": "H-5",
       "berlaku_sampai": "H+26"

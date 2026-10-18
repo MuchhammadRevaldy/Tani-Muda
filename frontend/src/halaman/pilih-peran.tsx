@@ -4,11 +4,12 @@
  */
 import { useState, type FormEvent } from 'react';
 import { adalahGalatApi } from '../api/galat';
-import { usePilihPeran, useWilayah } from '../api/kueri';
-import type { PilihPeranMasukan, Wilayah } from '../api/tipe';
+import { usePilihPeran } from '../api/kueri';
+import type { PilihPeranMasukan } from '../api/tipe';
 import { Ikon } from '../komponen/ikon';
 import { KolomIsian, PesanKolom } from '../komponen/kolom-isian';
 import { Logo } from '../komponen/navigasi';
+import { PilihWilayah } from '../komponen/pilih-wilayah';
 import { GrupRadio, KartuPilihan } from '../komponen/pilihan';
 import { Tombol } from '../komponen/tombol';
 import { teksMasuk } from '../teks/masuk';
@@ -33,11 +34,8 @@ export function HalamanPilihPeran() {
   const simpan = usePilihPeran();
   const [peran, setPeran] = useState<PeranPilihan | null>(() => bacaPeranAwal());
   const [nama, setNama] = useState('');
-  const [cari, setCari] = useState('');
-  const [desa, setDesa] = useState<Wilayah | null>(null);
-  const desaId = desa?.id ?? null;
+  const [desaId, setDesaId] = useState<string | null>(null);
   const [galat, setGalat] = useState<Galat>({});
-  const wilayah = useWilayah({ cari: cari.trim(), per_halaman: 6 });
 
   async function kirim(e: FormEvent) {
     e.preventDefault();
@@ -65,7 +63,6 @@ export function HalamanPilihPeran() {
     }
   }
 
-  const desaTerpilih = desa;
 
   return (
     <div className="min-h-layar bg-embun-pagi text-teks">
@@ -120,51 +117,16 @@ export function HalamanPilihPeran() {
           />
 
           {peran === 'petani' ? (
-            <div className="flex flex-col gap-3">
-              <KolomIsian
-                label={t.labelDesa}
-                type="search"
-                placeholder={t.cariDesa}
-                value={cari}
-                onChange={(e) => setCari(e.target.value)}
-                galat={galat.desa}
-                bantuan={t.bantuanDesa}
-              />
-              {desaTerpilih ? (
-                <p role="status" className="m-0 font-medium text-daun-tua">
-                  {t.desaDipilih(desaTerpilih.desa)}
-                </p>
-              ) : null}
-              {wilayah.data && wilayah.data.data.length === 0 ? (
-                <p className="m-0 text-teks-pendukung">{t.desaKosong}</p>
-              ) : null}
-              <GrupRadio label={t.pilihanDesa} className="flex flex-col gap-2">
-                {wilayah.data?.data.map((w) => (
-                  <KartuPilihan
-                    key={w.id}
-                    dipilih={desaId === w.id}
-                    nonaktif={!w.tersedia_pilot}
-                    onPilih={() => {
-                      setDesa(w);
-                      setGalat((g) => ({ ...g, desa: undefined }));
-                    }}
-                    labelAksesibel={`${w.desa}, ${t.lokasiDesa(w.kecamatan, w.kabupaten)}${w.tersedia_pilot ? '' : `, ${t.belumTersediaPilot}`}`}
-                  >
-                    <div className="flex flex-col px-4 py-3">
-                      <span className="font-semibold">{w.desa}</span>
-                      <span className="text-keterangan text-teks-pendukung">
-                        {t.lokasiDesa(w.kecamatan, w.kabupaten)}
-                      </span>
-                      {w.tersedia_pilot ? null : (
-                        <span className="text-keterangan text-teks-pendukung">
-                          {t.belumTersediaPilot}
-                        </span>
-                      )}
-                    </div>
-                  </KartuPilihan>
-                ))}
-              </GrupRadio>
-            </div>
+            <PilihWilayah
+              id="pilih-desa-petani"
+              nilai={desaId}
+              onChange={(val) => {
+                setDesaId(val || null);
+                setGalat((g) => ({ ...g, desa: undefined }));
+              }}
+              galat={galat.desa}
+              bantuan={t.bantuanDesa}
+            />
           ) : null}
 
           {galat.umum ? <PesanKolom id="umum" galat={galat.umum} /> : null}

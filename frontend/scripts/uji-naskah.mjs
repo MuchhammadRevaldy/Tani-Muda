@@ -254,12 +254,38 @@ async function masukNomorBaru(page, nomor) {
   await page.getByRole('heading', { name: 'Lengkapi akun' }).waitFor({ timeout: TUNGGU });
 }
 
+async function pilihWilayahKlaten(page, prefix) {
+  const kab = page.locator(`#${prefix}-kabupaten-tombol`);
+  await kab.waitFor({ state: 'visible', timeout: TUNGGU });
+  await kab.click();
+  const inputCari = page.getByPlaceholder(/Cari /i).first();
+  if (await inputCari.isVisible().catch(() => false)) {
+    await inputCari.fill('Klaten');
+  }
+  await page.getByRole('option', { name: /Klaten/i }).first().click();
+
+  const kec = page.locator(`#${prefix}-kecamatan-tombol`);
+  await kec.waitFor({ state: 'visible', timeout: TUNGGU });
+  await kec.click();
+  if (await inputCari.isVisible().catch(() => false)) {
+    await inputCari.fill('Delanggu');
+  }
+  await page.getByRole('option', { name: /Delanggu/i }).first().click();
+
+  const desa = page.locator(`#${prefix}-desa-tombol`);
+  await desa.waitFor({ state: 'visible', timeout: TUNGGU });
+  await desa.click();
+  if (await inputCari.isVisible().catch(() => false)) {
+    await inputCari.fill('Delanggu');
+  }
+  await page.getByRole('option', { name: /Delanggu/i }).first().click();
+}
+
 /** Lengkapi akun sebagai petani di desa pilot (nama dan desa sama dengan naskah demo). */
 async function pilihPeranPetani(page) {
   await klik(page, /^Petani/);
   await page.getByLabel('Nama lengkap').fill('Rina Agustina');
-  await page.getByLabel('Desa lokasi lahan').fill('Jayagiri');
-  await klik(page, /^Jayagiri,/);
+  await pilihWilayahKlaten(page, 'pilih-desa-petani');
   await klik(page, 'Simpan dan lanjut');
   await lihat(page, 'Mulai siklus tanam pertamamu');
 }
@@ -314,9 +340,8 @@ async function daftarPembeli(page, langkah) {
   });
   await langkah('3. Data usaha', async () => {
     await page.getByLabel('Nama usaha').fill('Warung Dina');
-    await page.getByLabel('Alamat tempat usaha').fill('Jl. Raya Lembang 12');
-    await page.getByLabel('Desa tempat usaha').fill('Lembang');
-    await klik(page, /^Lembang,/);
+    await page.getByLabel('Alamat tempat usaha').fill('Jl. Raya Delanggu 12');
+    await pilihWilayahKlaten(page, 'pembeli-wilayah');
     await klik(page, 'Kirim untuk diperiksa');
     await page.getByRole('region', { name: 'Menunggu verifikasi' }).waitFor({ timeout: TUNGGU });
   });

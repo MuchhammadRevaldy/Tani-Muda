@@ -120,7 +120,10 @@ Route::middleware('auth:sanctum')->group(function () use ($endpointBelumTersedia
     // Harga berita (F-10)
     Route::get('/harga-berita', [HargaBeritaController::class, 'daftar']);
 
-    // Wilayah dan referensi (3.2)
+    // Wilayah dan referensi (3.2, D-67)
+    Route::get('/wilayah/kabupaten', [WilayahController::class, 'kabupaten']);
+    Route::get('/wilayah/kecamatan', [WilayahController::class, 'kecamatan']);
+    Route::get('/wilayah/desa', [WilayahController::class, 'desa']);
     Route::get('/wilayah', [WilayahController::class, 'daftar']);
     Route::get('/wilayah/terdekat', [WilayahController::class, 'terdekat']);
     Route::get('/wilayah/{id}', [WilayahController::class, 'ambil']);

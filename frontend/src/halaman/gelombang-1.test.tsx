@@ -2,7 +2,7 @@
  * Tes halaman gelombang 1 (T4.01, T4.09, T4.33, T4.34) terhadap rute aplikasi dan klien tiruan
  * sungguhan dengan penyimpanan memori.
  */
-import { render, screen, waitFor, within } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { createMemoryRouter, RouterProvider } from 'react-router-dom';
 import { describe, expect, it } from 'vitest';
@@ -109,8 +109,17 @@ describe('Masuk (T4.33)', () => {
     await userEvent.click(screen.getByRole('button', { name: 'Simpan dan lanjut' }));
     expect(await screen.findByText('Isi desa lahanmu dulu')).toBeInTheDocument();
 
-    await userEvent.type(screen.getByLabelText('Desa lokasi lahan'), 'Sukajaya');
-    await userEvent.click(await screen.findByRole('radio', { name: /^Sukajaya,/ }));
+    fireEvent.change(screen.getByLabelText('Kabupaten / Kota'), { target: { value: '33.10' } });
+    await waitFor(() => {
+      const selectKec = screen.getByLabelText('Kecamatan') as HTMLSelectElement;
+      expect(selectKec.options.length).toBeGreaterThan(0);
+    });
+    fireEvent.change(screen.getByLabelText('Kecamatan'), { target: { value: '33.10.16' } });
+    await waitFor(() => {
+      const selectDesa = screen.getByLabelText('Desa / Kelurahan') as HTMLSelectElement;
+      expect(selectDesa.options.length).toBeGreaterThan(0);
+    });
+    fireEvent.change(screen.getByLabelText('Desa / Kelurahan'), { target: { value: '33.10.16.2013' } });
     await userEvent.click(screen.getByRole('button', { name: 'Simpan dan lanjut' }));
     expect(await screen.findByText('Mulai siklus tanam pertamamu')).toBeInTheDocument();
     expect(router.state.location.pathname).toBe('/beranda');

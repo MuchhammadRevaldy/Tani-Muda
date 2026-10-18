@@ -65,16 +65,16 @@ export function HalamanPetaPetani() {
     ? { lintang: lokasiGps.lintang, bujur: lokasiGps.bujur }
     : wilayahQ.data?.lintang != null && wilayahQ.data?.bujur != null
     ? { lintang: wilayahQ.data.lintang, bujur: wilayahQ.data.bujur }
-    : { lintang: -6.8186, bujur: 107.6171 }; // Titik default pilot Lembang
+    : { lintang: -7.6194, bujur: 110.6993 }; // Titik default Delanggu, Klaten
 
   const namaDesa =
     (lokasiGps ? wilayahTerdekatQ.data?.desa : null) ??
     wilayahQ.data?.desa ??
-    'Lembang';
+    'Delanggu';
   const namaKecamatan =
     (lokasiGps ? wilayahTerdekatQ.data?.kecamatan : null) ??
     wilayahQ.data?.kecamatan ??
-    'Lembang';
+    'Delanggu';
   const sumberLokasi = lokasiGps
     ? `dari GPS perangkat, pukul ${lokasiGps.waktu}`
     : 'dari alamat usaha';

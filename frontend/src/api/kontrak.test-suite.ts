@@ -170,12 +170,12 @@ export function ujiKontrak(nama: string, siapkan: PenyiapLingkungan): void {
         const a = await K.akun.pilihPeran({
           peran: 'petani',
           nama: 'Siti',
-          wilayah_id: '32.17.01.2013',
+          wilayah_id: '33.10.16.2013',
         });
         expect(a.pengguna).toMatchObject({
           peran: 'petani',
           nama: 'Siti',
-          wilayah_id: '32.17.01.2013',
+          wilayah_id: '33.10.16.2013',
         });
         await harapGalat(
           K.akun.pilihPeran({ peran: 'pembeli', nama: 'Siti' }),
@@ -267,7 +267,7 @@ export function ujiKontrak(nama: string, siapkan: PenyiapLingkungan): void {
             nama_usaha: '',
             jenis_usaha: 'warung',
             alamat: 'x',
-            wilayah_id: '32.17.01.2003',
+            wilayah_id: '33.10.16.2013',
           }),
           'VALIDASI',
           422,
@@ -277,7 +277,7 @@ export function ujiKontrak(nama: string, siapkan: PenyiapLingkungan): void {
           nama_usaha: 'Warung Tono',
           jenis_usaha: 'warung',
           alamat: 'Jl. Contoh 1',
-          wilayah_id: '32.17.01.2003',
+          wilayah_id: '33.10.16.2013',
         });
         expect(p.status_verifikasi).toBe('menunggu');
         expect((await K.akun.ambil())?.profil_pembeli?.nama_usaha).toBe('Warung Tono');
@@ -296,31 +296,31 @@ export function ujiKontrak(nama: string, siapkan: PenyiapLingkungan): void {
     describe('wilayah', () => {
       beforeEach(() => masuk('petani-arif'));
       it('cari dan paginasi', async () => {
-        const r = await K.wilayah.daftar({ cari: 'suka' });
-        expect(r.data.map((w) => w.desa)).toEqual(['Sukajaya']);
+        const r = await K.wilayah.daftar({ cari: 'gatak' });
+        expect(r.data.map((w) => w.desa)).toEqual(['Gatak']);
         // Nama desa yang cocok lebih dulu dari desa yang hanya cocok kecamatannya (D-58).
-        const lembang = (await K.wilayah.daftar({ cari: 'lembang' })).data.map((w) => w.desa);
-        expect(lembang[0]).toBe('Lembang');
-        expect(lembang.length).toBeGreaterThan(3);
+        const delanggu = (await K.wilayah.daftar({ cari: 'delanggu' })).data.map((w) => w.desa);
+        expect(delanggu[0]).toBe('Delanggu');
+        expect(delanggu.length).toBeGreaterThan(3);
         const h = await K.wilayah.daftar({ per_halaman: 3, halaman: 2 });
         expect(h.meta).toEqual({ halaman: 2, per_halaman: 3, total: 10, halaman_terakhir: 4 });
         expect(h.data).toHaveLength(3);
         expect((await K.wilayah.daftar({ per_halaman: 500 })).meta.per_halaman).toBe(100);
       });
-      it('desa tersedia di pilot lebih dulu, lalu urut nama; desa tanpa titik tidak bisa dipilih petani (D-56, D-57)', async () => {
+      it('desa tersedia di pilot lebih dulu, lalu urut nama; desa tanpa titik tidak bisa dipilih petani (D-56, D-57, D-67)', async () => {
         const semua = (await K.wilayah.daftar({ per_halaman: 100 })).data;
         const tersedia = semua.filter((w) => w.tersedia_pilot).map((w) => w.desa);
         expect(tersedia).toEqual([...tersedia].sort((a, b) => a.localeCompare(b, 'id')));
         expect(semua.at(-1)).toMatchObject({
-          desa: 'Cihideung',
+          desa: 'Kokosan',
           tersedia_pilot: false,
           lintang: null,
           bujur: null,
         });
         expect(semua.every((w) => !('kode_terverifikasi' in w))).toBe(true);
-        expect(await K.wilayah.ambil('32.17.01.2003')).toMatchObject({ tersedia_pilot: true });
+        expect(await K.wilayah.ambil('33.10.16.2013')).toMatchObject({ tersedia_pilot: true });
         const g = await harapGalat(
-          K.akun.ubahProfil({ wilayah_id: '32.17.02.2004' }),
+          K.akun.ubahProfil({ wilayah_id: '33.10.01.2012' }),
           'VALIDASI',
           422,
           'wilayah_id',
@@ -328,11 +328,11 @@ export function ujiKontrak(nama: string, siapkan: PenyiapLingkungan): void {
         expect(g.rincian.wilayah_id).toEqual([teksUntukGalat('WILAYAH_BELUM_TERSEDIA')]);
         await harapGalat(
           K.lahan.buat({
-            nama: 'Kebun Cihideung',
+            nama: 'Kebun Kokosan',
             jenis_lahan: 'kebun',
             satuan_asli: 'm2',
             nilai_asli: 20,
-            wilayah_id: '32.17.02.2004',
+            wilayah_id: '33.10.01.2012',
           }),
           'VALIDASI',
           422,
@@ -340,21 +340,34 @@ export function ujiKontrak(nama: string, siapkan: PenyiapLingkungan): void {
         );
         // Pembeli boleh memilih desa tanpa titik sebagai desa profilnya.
         await masuk('pembeli-ratna');
-        expect((await K.akun.ubahProfil({ wilayah_id: '32.17.02.2004' })).pengguna.wilayah_id).toBe(
-          '32.17.02.2004',
+        expect((await K.akun.ubahProfil({ wilayah_id: '33.10.01.2012' })).pengguna.wilayah_id).toBe(
+          '33.10.01.2012',
         );
       });
       it('ambil satu; tidak ada → 404', async () => {
-        expect(await K.wilayah.ambil('32.17.01.2003')).toMatchObject({
-          desa: 'Lembang',
-          kecamatan: 'Lembang',
+        expect(await K.wilayah.ambil('33.10.16.2013')).toMatchObject({
+          desa: 'Delanggu',
+          kecamatan: 'Delanggu',
         });
         await harapGalat(K.wilayah.ambil('99.99.99.9999'), 'TIDAK_DITEMUKAN', 404);
       });
       it('terdekat mencari desa terdekat berdasarkan koordinat', async () => {
-        const dekat = await K.wilayah.terdekat(-6.82, 107.62);
-        expect(dekat.desa).toBe('Lembang');
+        const dekat = await K.wilayah.terdekat(-7.62, 110.7);
+        expect(dekat.desa).toBe('Delanggu');
         expect(typeof dekat.jarak_km).toBe('number');
+      });
+      it('tingkat wilayah berjenjang: kabupaten, kecamatan, desa (D-67, AG-41)', async () => {
+        const kab = await K.wilayah.kabupaten();
+        expect(kab.length).toBeGreaterThan(0);
+        expect(kab.some((k) => k.id === '33.10')).toBe(true);
+
+        const kec = await K.wilayah.kecamatan('33.10');
+        expect(kec.length).toBeGreaterThan(0);
+        expect(kec.some((c) => c.id === '33.10.16')).toBe(true);
+
+        const desa = await K.wilayah.desa('33.10.16', 'del');
+        expect(desa.length).toBeGreaterThan(0);
+        expect(desa[0]?.desa).toBe('Delanggu');
       });
     });
 
@@ -378,8 +391,8 @@ export function ujiKontrak(nama: string, siapkan: PenyiapLingkungan): void {
         expect((await K.referensi.sistemHidroponik()).find((s) => s.id === 'nft')).toMatchObject({
           liter_tandon_per_lubang: 0.5,
         });
-        expect(await K.referensi.konversiSatuan('32.17.01.2003')).toEqual(
-          expect.arrayContaining([{ wilayah_id: '32.17.01.2003', satuan: 'ru', nilai_m2: 14 }]),
+        expect(await K.referensi.konversiSatuan('33.10.16.2013')).toEqual(
+          expect.arrayContaining([{ wilayah_id: '33.10.16.2013', satuan: 'ru', nilai_m2: 14 }]),
         );
         await harapGalat(K.referensi.konversiSatuan('x'), 'TIDAK_DITEMUKAN', 404);
       });
@@ -403,7 +416,7 @@ export function ujiKontrak(nama: string, siapkan: PenyiapLingkungan): void {
         const l = await K.referensi.laporHarga({ merek_id: 'merek-9', harga_kemasan: 370000 });
         expect(l).toMatchObject({
           pelapor_id: 'petani-arif',
-          kecamatan: 'Lembang',
+          kecamatan: 'Delanggu',
           tanggal: '2026-10-05',
         });
         expect((await K.referensi.merek('npk-16'))[0]?.merek.nama).toBe('Daun Lebat');
@@ -553,7 +566,7 @@ export function ujiKontrak(nama: string, siapkan: PenyiapLingkungan): void {
           jenis_lahan: 'pekarangan',
           satuan_asli: 'ru',
           nilai_asli: 5,
-          wilayah_id: '32.17.01.2003',
+          wilayah_id: '33.10.16.2013',
         });
         expect(l).toMatchObject({
           luas_m2: 70,
@@ -572,7 +585,7 @@ export function ujiKontrak(nama: string, siapkan: PenyiapLingkungan): void {
             jenis_lahan: 'hidroponik',
             satuan_asli: 'm2',
             nilai_asli: 5,
-            wilayah_id: '32.17.01.2003',
+            wilayah_id: '33.10.16.2013',
           }),
           'VALIDASI',
           422,
@@ -584,7 +597,7 @@ export function ujiKontrak(nama: string, siapkan: PenyiapLingkungan): void {
             jenis_lahan: 'kebun',
             satuan_asli: 'm2',
             nilai_asli: 0,
-            wilayah_id: '32.17.01.2003',
+            wilayah_id: '33.10.16.2013',
           }),
           'UKURAN_KOSONG',
           422,
@@ -988,7 +1001,7 @@ export function ujiKontrak(nama: string, siapkan: PenyiapLingkungan): void {
           'pesanan-kafe-bayam',
         ]);
         expect(r.data[0]).toMatchObject({
-          desa_antar: 'Cikahuripan',
+          desa_antar: 'Bowan',
           sisa_kg: 5,
           nama_pembeli: 'Katering Bu Ratna',
           uang_muka_diterima: true,
@@ -1013,7 +1026,7 @@ export function ujiKontrak(nama: string, siapkan: PenyiapLingkungan): void {
         ]);
         await harapGalat(K.pesanan.sekitar({ radius_km: 30 }), 'VALIDASI', 422, 'radius_km');
         await harapGalat(K.pesanan.ambil('pesanan-imas-sawi'), 'TIDAK_DITEMUKAN', 404);
-        expect((await K.pesanan.ambil('pesanan-kafe-bayam')).jarak_km).toBeGreaterThan(5);
+        expect((await K.pesanan.ambil('pesanan-kafe-bayam')).jarak_km).toBeGreaterThanOrEqual(4);
       });
       it('petani nonaktif tetap melihat daftar tetapi tidak bisa mengambil (D-13)', async () => {
         await masuk('petani-budi');
@@ -1076,7 +1089,7 @@ export function ujiKontrak(nama: string, siapkan: PenyiapLingkungan): void {
           jenis_lahan: 'kebun',
           satuan_asli: 'm2',
           nilai_asli: 5,
-          wilayah_id: '32.17.01.2003',
+          wilayah_id: '33.10.16.2013',
         });
         await harapGalat(
           K.pesanan.ambilPesanan('pesanan-lestari-kangkung', {
@@ -1157,7 +1170,7 @@ export function ujiKontrak(nama: string, siapkan: PenyiapLingkungan): void {
           jenis_lahan: 'sawah',
           satuan_asli: 'm2',
           nilai_asli: 5000,
-          wilayah_id: '32.17.01.2003',
+          wilayah_id: '33.10.16.2013',
         });
         // Gabah dikirim pertengahan Desember; padi 110 hari baru panen akhir Januari.
         await harapGalat(
@@ -1394,7 +1407,7 @@ export function ujiKontrak(nama: string, siapkan: PenyiapLingkungan): void {
         expect(d[0]?.kebun).toEqual([
           expect.objectContaining({
             nama_petani: 'Arif Setiawan',
-            desa: 'Cikahuripan',
+            desa: 'Bowan',
             jumlah_kg: 10,
             hari_ke: 13,
             hari_panen: 28,
@@ -1413,7 +1426,7 @@ export function ujiKontrak(nama: string, siapkan: PenyiapLingkungan): void {
             perkiraan_bulan_panen: '2027-01',
             harga_per_kg: 6500,
             standar_kualitas: [],
-            wilayah_id: '32.17.01.2003',
+            wilayah_id: '33.10.16.2013',
             alamat_antar: 'x',
           }),
           'BELUM_TERVERIFIKASI',
@@ -1429,7 +1442,7 @@ export function ujiKontrak(nama: string, siapkan: PenyiapLingkungan): void {
           tanggal_mulai: '2026-10-20',
           harga_per_kg: 5000,
           standar_kualitas: ['Segar'],
-          wilayah_id: '32.17.01.2005',
+          wilayah_id: '33.10.16.2005',
           alamat_antar: 'Jl. Contoh 2',
         };
         await harapGalat(
@@ -1706,7 +1719,7 @@ export function ujiKontrak(nama: string, siapkan: PenyiapLingkungan): void {
         expect((await K.mentor.ringkasanPermintaan())[0]).toEqual({
           komoditas_id: 'cabai',
           metode_id: 'bedengan',
-          kecamatan: 'Lembang',
+          kecamatan: 'Delanggu',
           jumlah: 2,
         });
       });

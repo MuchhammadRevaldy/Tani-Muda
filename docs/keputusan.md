@@ -728,11 +728,23 @@ Ditetapkan 14 Oktober 2026 oleh pemilik produk (disahkan lewat `docs/prd-fitur-t
 - Target ukuran bundel tetap di bawah 200 kB gzip untuk halaman utama.
 - Berdampak ke: `frontend/src/komponen/`, seluruh formulir yang memakai `<select>` dan `<input type="date">`, `docs/naskah-demo.md`.
 
+## D-67. Wilayah Jawa Tengah, Pemilihan Bertingkat, dan Titik Tengah ([AG-41])
+- **Konteks Lomba:** Lomba ini adalah Jambore Pemuda Provinsi Jawa Tengah. Pedoman mewajibkan materi berasal dari daerah peserta, yaitu **Kabupaten Klaten, Jawa Tengah** (kode `33.10`).
+- **Tingkat Wilayah Mandiri:** Kabupaten/kota (`PP.KK`) dan kecamatan (`PP.KK.CC`) dijadikan tingkat tersendiri agar dapat dipilih secara bertingkat. Dibuat tabel `wilayah_kabupaten` dan `wilayah_kecamatan` serta kolom `kabupaten_id` dan `kecamatan_id` pada tabel `wilayah` (desa).
+- **Konfigurasi Provinsi Aktif:** Konfigurasi `wilayah_provinsi_aktif = '33'` (Jawa Tengah). Pilihan wilayah di aplikasi hanya menampilkan wilayah Jawa Tengah, namun data provinsi lain tetap tersimpan di basis data.
+- **Titik Tengah Kecamatan Jawa Tengah:** Skrip satu kali (`frontend/scripts/ambil-titik-kecamatan-jateng.mjs`) mengambil titik tengah 576 kecamatan Jawa Tengah dari Nominatim OpenStreetMap dengan User-Agent jelas dan batas laju 1 permintaan/detik. Hasil disimpan di `shared/wilayah/titik-kecamatan-jateng.json` berlisensi ODbL ("© kontributor OpenStreetMap"). Kecamatan yang tidak ditemukan diberi titik tengah kabupatennya. Setiap desa di Jawa Tengah memakai titik tengah kecamatannya dengan `koordinat_perkiraan = true`. Aplikasi dan tes tidak memanggil Nominatim saat berjalan.
+- **Komponen `PilihWilayah`:** Menggunakan `PilihanDropdown` (AG-39) dengan alur tiga langkah: Kabupaten/kota → Kecamatan → Desa/kelurahan. Pilihan di bawahnya otomatis di-reset jika pilihan di atasnya diubah. Desa dapat dicari dengan mengetik. Nilai yang disimpan tetap `wilayah_id` desa. Pada layar HP tampil sebagai lembar bawah.
+- **Endpoint Wilayah:** `GET /wilayah/kabupaten`, `GET /wilayah/kecamatan?kabupaten=`, dan `GET /wilayah/desa?kecamatan=&cari=`.
+- **Penggantian Pemilih Desa:** Seluruh pemilih desa di aplikasi diganti dengan `PilihWilayah` (pilih peran petani, ubah profil, lahan saya, data usaha pembeli, titik antar di buat pesanan). Peta, radius pesanan, dan cuaca terhubung dengan koordinat baru.
+- **Migrasi Data Demo:** Memindahkan data contoh demo dari Lembang (Jawa Barat) ke **Kabupaten Klaten, Jawa Tengah**. Semua pengguna demo, lahan, pesanan, stok, peta, dan percakapan memakai desa-desa di Klaten dengan kode resmi Kepmendagri 2025 (`33.10.xx.xxxx`). Komoditas unggulan disesuaikan dengan Klaten (Padi Beras Delanggu / sayuran lokal). Seluruh teks yang menyebut "Lembang" atau "Bandung Barat" dihapus dari `frontend/src`, `shared/data-contoh`, dan `docs/naskah-demo.md`.
+- Berdampak ke: `backend/database/migrations/`, `backend/app/Models/`, `backend/app/Http/Controllers/Api/V1/WilayahController.php`, `frontend/src/komponen/pilih-wilayah.tsx`, `frontend/src/api/tiruan/`, `shared/data-contoh/`, `docs/naskah-demo.md`.
+
 ---
 
 ## Riwayat
 | Tanggal | Perubahan |
 | --- | --- |
+| 2026-10-18 | D-67 ([AG-41]): Wilayah Jawa Tengah (provinsi 33), pemilihan bertingkat kabupaten → kecamatan → desa (PilihWilayah), titik tengah 576 kecamatan Nominatim OSM, migrasi data demo ke Kabupaten Klaten |
 | 2026-10-18 | D-66 ([AG-39]): Desain dropdown dan kalender headless (Headless UI dan react-day-picker dengan lokal Indonesia), a11y keyboard penuh, lembar bawah HP |
 | 2026-10-18 | D-65 ([AG-37]): Lomba diundur ke Selasa 20 Okt 2026; batas pembekuan kode akhir Senin 19 Okt 18.00 WIB; pemulihan stash, ikon pin & uang, format jarak, aturan emoji & kapitalisasi kalimat |
 | 2026-10-14 | D-64 ([AG-28]): PRD tambahan 12 fitur v1.1 disahkan; pembekuan kode Sabtu 17 Okt 12.00; sakelar per fitur; tag harian; privasi peta & batas AI |

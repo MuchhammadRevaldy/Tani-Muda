@@ -65,6 +65,25 @@ export interface CatatanPetani {
   dibuat_pada: WaktuISO;
 }
 
+export interface WilayahKabupaten {
+  /** Kode wilayah Kemendagri tingkat kabupaten/kota "PP.KK" (D-67). */
+  id: string;
+  nama: string;
+  provinsi_id: string;
+  lintang: number | null;
+  bujur: number | null;
+}
+
+export interface WilayahKecamatan {
+  /** Kode wilayah Kemendagri tingkat kecamatan "PP.KK.CC" (D-67). */
+  id: string;
+  nama: string;
+  kabupaten_id: string;
+  lintang: number | null;
+  bujur: number | null;
+  koordinat_perkiraan?: boolean;
+}
+
 export interface Wilayah {
   /** Kode wilayah Kemendagri "PP.KK.CC.DDDD" (D-27). */
   id: string;
@@ -72,11 +91,14 @@ export interface Wilayah {
   kecamatan: string;
   kabupaten: string;
   provinsi: string;
+  kabupaten_id?: string;
+  kecamatan_id?: string;
   /** Titik tengah desa (perkiraan); null untuk desa di luar pilot (D-56). */
   lintang: number | null;
   bujur: number | null;
   /** Dihitung server: punya titik tengah, jadi bisa dipilih sebagai desa petani, lahan, atau titik antar. */
   tersedia_pilot: boolean;
+  koordinat_perkiraan?: boolean;
 }
 
 // ---- masukan

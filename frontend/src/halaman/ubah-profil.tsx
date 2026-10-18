@@ -14,7 +14,6 @@ import {
   useRingkasanRating,
   useUbahProfil,
   useUnggahBerkas,
-  useWilayah,
   useWilayahSatu,
 } from '../api/kueri';
 import { useSesi } from '../api/sesi';
@@ -25,13 +24,12 @@ import { Ikon } from '../komponen/ikon';
 import { Kartu } from '../komponen/kartu';
 import { KolomIsian, PesanKolom } from '../komponen/kolom-isian';
 import { LabelKecil } from '../komponen/label-kecil';
-import { GrupRadio, KartuPilihan } from '../komponen/pilihan';
+import { PilihWilayah } from '../komponen/pilih-wilayah';
 import { Tombol, kelasTombol } from '../komponen/tombol';
 import { useLayarLebar } from '../komponen/use-layar-lebar';
 import { formatDesimal } from '../lib/format';
 import { tampilNomorHp } from '../lib/nomor-hp';
 import { statistikPetani } from '../lib/profil';
-import { teksPilihPeran } from '../teks/sesi';
 import { teksUbahProfil as t, teksUbahProfilPembeli } from '../teks/profil';
 import { DialogGantiNomor } from './profil/ganti-nomor';
 import { namaDesa } from './profil/nama-desa';
@@ -45,72 +43,6 @@ interface Galat {
 
 /** Foto: tetap, diganti foto baru (belum diunggah), atau dihapus. */
 type UbahFoto = { jenis: 'tetap' } | { jenis: 'baru'; foto: FotoKecil } | { jenis: 'hapus' };
-
-function PilihDesa({
-  desa,
-  onPilih,
-  galat,
-  wajibTersedia,
-}: {
-  desa: Wilayah | null;
-  onPilih: (w: Wilayah) => void;
-  galat?: string;
-  /** Petani hanya boleh memilih desa yang tersedia di pilot (D-56). */
-  wajibTersedia: boolean;
-}) {
-  const [cari, setCari] = useState('');
-  const kata = cari.trim();
-  const wilayah = useWilayah({ cari: kata, per_halaman: 5 });
-  return (
-    <div className="flex flex-col gap-3">
-      <KolomIsian
-        label={t.desa}
-        type="search"
-        placeholder={namaDesa(desa) ?? t.cariDesa}
-        value={cari}
-        onChange={(e) => setCari(e.target.value)}
-        galat={galat}
-        bantuan={t.desaKet}
-      />
-      {desa ? (
-        <p role="status" className="m-0 font-medium text-daun-tua">
-          {t.desaTerpilih(namaDesa(desa) ?? '')}
-        </p>
-      ) : null}
-      {kata && wilayah.data?.data.length === 0 ? (
-        <p className="m-0 text-teks-pendukung">{t.tidakAdaDesa}</p>
-      ) : null}
-      {kata && wilayah.data?.data.length ? (
-        <GrupRadio label={teksPilihPeran.pilihanDesa} className="flex flex-col gap-2">
-          {wilayah.data.data.map((w) => (
-            <KartuPilihan
-              key={w.id}
-              dipilih={desa?.id === w.id}
-              nonaktif={wajibTersedia && !w.tersedia_pilot}
-              onPilih={() => {
-                onPilih(w);
-                setCari('');
-              }}
-              labelAksesibel={`${w.desa}, ${teksPilihPeran.lokasiDesa(w.kecamatan, w.kabupaten)}${w.tersedia_pilot ? '' : `, ${teksPilihPeran.belumTersediaPilot}`}`}
-            >
-              <div className="flex flex-col px-4 py-3">
-                <span className="font-semibold">{w.desa}</span>
-                <span className="text-keterangan text-teks-pendukung">
-                  {teksPilihPeran.lokasiDesa(w.kecamatan, w.kabupaten)}
-                </span>
-                {w.tersedia_pilot ? null : (
-                  <span className="text-keterangan text-teks-pendukung">
-                    {teksPilihPeran.belumTersediaPilot}
-                  </span>
-                )}
-              </div>
-            </KartuPilihan>
-          ))}
-        </GrupRadio>
-      ) : null}
-    </div>
-  );
-}
 
 function Pratinjau({
   p,
@@ -271,7 +203,28 @@ function Formulir({
         onChange={(e) => setNama(e.target.value)}
         galat={galat.nama}
       />
-      {petani ? <PilihDesa desa={desa} onPilih={setDesa} galat={galat.desa} wajibTersedia /> : null}
+      {petani ? (
+        <PilihWilayah
+          id="ubah-profil-desa"
+          nilai={desa?.id ?? null}
+          onChange={(_id, d) =>
+            setDesa(
+              d ??
+                (_id
+                  ? ({
+                      id: _id,
+                      desa: '',
+                      kecamatan: '',
+                      kabupaten: '',
+                      provinsi: '',
+                    } as Wilayah)
+                  : null),
+            )
+          }
+          galat={galat.desa}
+          bantuan={t.desaKet}
+        />
+      ) : null}
       {petani ? (
         <label className="flex min-h-sentuh cursor-pointer items-start gap-3">
           <input

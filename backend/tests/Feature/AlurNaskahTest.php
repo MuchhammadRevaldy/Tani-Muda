@@ -31,11 +31,11 @@ it('referensi dan wilayah: konfigurasi publik, komoditas dengan pesanan di sekit
     $sawi = collect($this->getJson('/api/v1/komoditas')->json('data'))->firstWhere('id', 'sawi');
     expect($sawi)->toMatchArray(['status_resep' => 'tersedia', 'jumlah_pesanan_sekitar' => 1])->not->toHaveKey('dibuat_pada');
     $w = $this->getJson('/api/v1/wilayah?per_halaman=100')->assertOk()->json('data');
-    expect(end($w))->toMatchArray(['desa' => 'Cihideung', 'tersedia_pilot' => false])
+    expect(end($w))->toMatchArray(['desa' => 'Kokosan', 'tersedia_pilot' => false])
         ->and($w[0]['tersedia_pilot'])->toBeTrue();
     // Nama desa yang cocok lebih dulu dari desa yang hanya cocok kecamatannya (D-58).
-    $lembang = array_column($this->getJson('/api/v1/wilayah?cari=lembang')->json('data'), 'desa');
-    expect($lembang[0])->toBe('Lembang')->and(count($lembang))->toBeGreaterThan(3);
+    $delanggu = array_column($this->getJson('/api/v1/wilayah?cari=delanggu')->json('data'), 'desa');
+    expect($delanggu[0])->toBe('Delanggu')->and(count($delanggu))->toBeGreaterThan(3);
     $this->getJson('/api/v1/wilayah?cari=%25')->assertOk()->assertJsonCount(0, 'data');
     $this->getJson('/api/v1/harga-sekitar?input_id=urea')->assertOk()->assertJsonStructure(['data' => ['input_id', 'harga_per_satuan', 'jumlah_laporan']]);
     $this->getJson('/api/v1/resep/resep-sawi-bedengan')->assertOk()->assertJsonPath('data.tugas.0.id', 'siram');
@@ -88,7 +88,7 @@ it('jual: ambil pesanan dan setuju; buat pesanan, bayar gagal lalu berhasil deng
 
     sebagai('pembeli-imas');
     $pesanan = $this->postJson('/api/v1/pembeli/pesanan', ['jenis' => 'rutin', 'komoditas_id' => 'sawi', 'jumlah_per_kiriman_kg' => 10, 'frekuensi_hari' => 7,
-        'durasi_hari' => 84, 'tanggal_mulai' => '2026-11-05', 'harga_per_kg' => 5000, 'standar_kualitas' => [], 'wilayah_id' => '32.17.01.2002', 'alamat_antar' => 'Jl. A'])
+        'durasi_hari' => 84, 'tanggal_mulai' => '2026-11-05', 'harga_per_kg' => 5000, 'standar_kualitas' => [], 'wilayah_id' => '33.10.16.2015', 'alamat_antar' => 'Jl. A'])
         ->assertOk()->json('data');
     expect($pesanan)->toMatchArray(['status' => 'menunggu_pembayaran', 'nilai_pesanan' => 600000, 'uang_muka' => 120000, 'biaya_layanan' => 30000, 'jumlah_kiriman' => 12]);
     $bayar = '/api/v1/pembeli/pesanan/'.$pesanan['id'].'/bayar-uang-muka';

@@ -68,7 +68,7 @@ const JADWAL: JadwalPin[] = [
   { hari: 28, label: 'Panen', status: 'panen' },
 ];
 
-const AKUN = { nama: 'Arif Setiawan', keterangan: 'Petani · Lembang' };
+const AKUN = { nama: 'Arif Setiawan', keterangan: 'Petani · Delanggu' };
 
 function Bagian({
   judul,

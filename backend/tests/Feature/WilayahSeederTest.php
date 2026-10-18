@@ -26,10 +26,21 @@ it('mengimpor semua desa dan kelurahan dengan nama induknya; titik hanya untuk d
         'desa' => 'Ledeng', 'kecamatan' => 'Cidadap', 'kabupaten' => 'Kota Bandung',
     ]);
 
+    expect(DB::table('wilayah_kabupaten')->count())->toBe(514)
+        ->and(DB::table('wilayah_kecamatan')->count())->toBe(7285);
+
     $titik = DB::table('wilayah')->whereNotNull('lintang')->pluck('id');
-    expect($titik)->toHaveCount(18)
+    expect($titik)->toHaveCount(18 + 8563)
         ->and(DB::table('wilayah')->where('id', 'like', '32.17.01.%')->whereNull('lintang')->count())->toBe(0)
+        ->and(DB::table('wilayah')->where('id', 'like', '33.%')->whereNull('lintang')->count())->toBe(0)
         ->and(DB::table('wilayah')->whereNotNull('lintang')->where('koordinat_perkiraan', false)->count())->toBe(0);
+
+    // Desa di Klaten, Jawa Tengah (AG-41): punya koordinat perkiraan dari kecamatan dan kode induk
+    expect((array) DB::table('wilayah')->find('33.10.16.2013'))->toMatchArray([
+        'desa' => 'Delanggu', 'kecamatan' => 'Delanggu', 'kabupaten' => 'Kabupaten Klaten',
+        'provinsi' => 'Jawa Tengah', 'kabupaten_id' => '33.10', 'kecamatan_id' => '33.10.16',
+        'lintang' => '-7.619400', 'bujur' => '110.699300', 'koordinat_perkiraan' => 1,
+    ]);
 
     // Desa di luar pilot: ada, tetapi tanpa titik.
     expect((array) DB::table('wilayah')->find('11.01.01.2001'))->toMatchArray([

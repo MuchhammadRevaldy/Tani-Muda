@@ -342,14 +342,14 @@ it('endpoint /wilayah/terdekat mencari desa terdekat berdasarkan koordinat', fun
     DataContohSeeder::isi(CarbonImmutable::now());
     $pembeli = Pengguna::find('pembeli-ratna');
 
-    // Koordinat dekat Desa Lembang (-6.8186, 107.6198)
+    // Koordinat dekat Desa Bareng, Klaten (-7.705, 110.6018)
     $res = $this->actingAs($pembeli)
-        ->getJson('/api/v1/wilayah/terdekat?lintang=-6.82&bujur=107.62')
+        ->getJson('/api/v1/wilayah/terdekat?lintang=-7.705&bujur=110.6018')
         ->assertOk()
         ->json('data');
 
     expect($res)->toHaveKey('desa');
     expect($res)->toHaveKey('kecamatan');
     expect($res)->toHaveKey('jarak_km');
-    expect($res['desa'])->toBe('Lembang');
+    expect($res['desa'])->toBe('Bareng');
 });

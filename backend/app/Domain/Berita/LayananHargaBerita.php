@@ -204,12 +204,16 @@ class LayananHargaBerita
 
         // Bawaan tiruan: memanggil endpoint atau hasil deterministik
         // Juga mendukung pengujian via Http::fake() bila di-mock URL http://berita-tiruan.test
-        $responsTiruan = Http::get('https://api-berita-pertanian.test/pencarian', [
-            'kueri' => $kueri,
-        ]);
+        try {
+            $responsTiruan = Http::get('https://api-berita-pertanian.test/pencarian', [
+                'kueri' => $kueri,
+            ]);
 
-        if ($responsTiruan->successful()) {
-            return $responsTiruan->json('data', []);
+            if ($responsTiruan->successful()) {
+                return $responsTiruan->json('data', []);
+            }
+        } catch (\Throwable) {
+            // Abaikan jika domain uji tidak dapat dihubungi, lanjut ke data deterministik
         }
 
         // Tiruan bawaan deterministik bila Http::fake tidak aktif

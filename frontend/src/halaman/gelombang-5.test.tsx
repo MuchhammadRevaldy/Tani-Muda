@@ -230,9 +230,20 @@ describe('data usaha pembeli (T4.28)', () => {
     await userEvent.click(await screen.findByRole('button', { name: 'Kirim untuk diperiksa' }));
     expect(screen.getByText('Isi nama usaha dulu')).toBeInTheDocument();
     await userEvent.type(screen.getByLabelText('Nama usaha'), 'Kedai Pagi');
-    await userEvent.type(screen.getByLabelText('Alamat tempat usaha'), 'Jl. Raya Lembang 5');
-    await userEvent.type(screen.getByLabelText('Desa tempat usaha'), 'Lembang');
-    await userEvent.click((await screen.findAllByRole('radio', { name: /^Lembang,/ }))[0]!);
+    await userEvent.type(screen.getByLabelText('Alamat tempat usaha'), 'Jl. Raya Delanggu 5');
+    const tombolKab = document.getElementById('pembeli-wilayah-kabupaten-tombol') as HTMLButtonElement;
+    await userEvent.click(tombolKab);
+    await userEvent.click(await screen.findByRole('option', { name: /kabupaten klaten/i }));
+
+    const tombolKec = document.getElementById('pembeli-wilayah-kecamatan-tombol') as HTMLButtonElement;
+    await waitFor(() => expect(tombolKec).toBeEnabled());
+    await userEvent.click(tombolKec);
+    await userEvent.click(await screen.findByRole('option', { name: /delanggu/i }));
+
+    const tombolDesa = document.getElementById('pembeli-wilayah-desa-tombol') as HTMLButtonElement;
+    await waitFor(() => expect(tombolDesa).toBeEnabled());
+    await userEvent.click(tombolDesa);
+    await userEvent.click(await screen.findByRole('option', { name: /delanggu/i }));
     await userEvent.click(screen.getByRole('button', { name: 'Kirim untuk diperiksa' }));
     await waitFor(() => expect(router.state.location.pathname).toBe('/pembeli'));
     // Tunggu dasbor benar-benar tampil: formulir sebelumnya juga memuat teks status yang sama,

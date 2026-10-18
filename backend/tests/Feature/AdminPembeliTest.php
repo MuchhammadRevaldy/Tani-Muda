@@ -33,7 +33,7 @@ it('admin melihat pembeli menunggu, menolak tanpa alasan ditolak, lalu memverifi
 
     masukSebagaiAdminUji($menunggu);
     $this->postJson('/api/v1/pembeli/pesanan', ['jenis' => 'rutin', 'komoditas_id' => 'sawi', 'jumlah_per_kiriman_kg' => 5, 'frekuensi_hari' => 7,
-        'durasi_hari' => 28, 'tanggal_mulai' => '2026-11-05', 'harga_per_kg' => 5000, 'standar_kualitas' => [], 'wilayah_id' => '32.17.01.2003', 'alamat_antar' => 'Jl. A'])
+        'durasi_hari' => 28, 'tanggal_mulai' => '2026-11-05', 'harga_per_kg' => 5000, 'standar_kualitas' => [], 'wilayah_id' => '33.10.16.2013', 'alamat_antar' => 'Jl. A'])
         ->assertOk();
 });
 

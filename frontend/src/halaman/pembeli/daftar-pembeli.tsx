@@ -10,7 +10,6 @@ import { adalahGalatApi } from '../../api/galat';
 import {
   useSimpanProfilPembeli,
   useUnggahBerkas,
-  useWilayah,
   useWilayahSatu,
 } from '../../api/kueri';
 import { useSesi } from '../../api/sesi';
@@ -19,7 +18,8 @@ import { AmbilFoto, type FotoKecil } from '../../komponen/ambil-foto';
 import { Kartu } from '../../komponen/kartu';
 import { KolomIsian, PesanKolom } from '../../komponen/kolom-isian';
 import { HeaderHalaman } from '../../komponen/navigasi';
-import { GrupRadio, KartuPilihan, PilPilihan } from '../../komponen/pilihan';
+import { PilihWilayah } from '../../komponen/pilih-wilayah';
+import { PilPilihan } from '../../komponen/pilihan';
 import { Tombol } from '../../komponen/tombol';
 import { teksPembeli as t } from '../../teks/pembeli';
 import { teksUmum } from '../../teks/umum';
@@ -46,11 +46,9 @@ export function HalamanDaftarPembeli() {
   const [nama, setNama] = useState(profil?.nama_usaha ?? '');
   const [jenis, setJenis] = useState<JenisUsaha>(profil?.jenis_usaha ?? 'katering');
   const [alamat, setAlamat] = useState(profil?.alamat ?? '');
-  const [cari, setCari] = useState('');
   const [desa, setDesa] = useState<Wilayah | null>(null);
   const [foto, setFoto] = useState<FotoKecil | null>(null);
   const [galat, setGalat] = useState<Galat>({});
-  const wilayah = useWilayah({ cari: cari.trim(), per_halaman: 6 });
   const desaPilih = desa ?? desaAwalQ.data ?? null;
 
   async function kirim(e: FormEvent) {
@@ -114,44 +112,16 @@ export function HalamanDaftarPembeli() {
               onChange={(e) => setAlamat(e.target.value)}
               galat={galat.alamat}
             />
-            <div className="flex flex-col gap-3">
-              <KolomIsian
-                label={t.desaUsaha}
-                type="search"
-                placeholder={t.cariDesa}
-                value={cari}
-                onChange={(e) => setCari(e.target.value)}
-                galat={galat.desa}
-              />
-              {desaPilih ? (
-                <p role="status" className="m-0 font-medium text-daun-tua">
-                  {t.desaDipilih(desaPilih.desa, desaPilih.kecamatan)}
-                </p>
-              ) : null}
-              {cari.trim() && wilayah.data && wilayah.data.data.length === 0 ? (
-                <p className="m-0 text-teks-pendukung">{t.desaTidakAda}</p>
-              ) : null}
-              {cari.trim() ? (
-                <GrupRadio label={t.desaUsaha} className="flex flex-col gap-2">
-                  {wilayah.data?.data.map((w) => (
-                    <KartuPilihan
-                      key={w.id}
-                      dipilih={desaPilih?.id === w.id}
-                      onPilih={() => {
-                        setDesa(w);
-                        setGalat((g) => ({ ...g, desa: undefined }));
-                      }}
-                      labelAksesibel={t.desaDipilih(w.desa, w.kecamatan)}
-                    >
-                      <span className="flex flex-col px-4 py-3">
-                        <span className="font-semibold">{w.desa}</span>
-                        <span className="text-keterangan text-teks-pendukung">{w.kecamatan}</span>
-                      </span>
-                    </KartuPilihan>
-                  ))}
-                </GrupRadio>
-              ) : null}
-            </div>
+            <PilihWilayah
+              id="pembeli-wilayah"
+              labelDesa={t.desaUsaha}
+              nilai={desaPilih?.id ?? null}
+              onChange={(_id, w) => {
+                setDesa(w ?? null);
+                setGalat((g) => ({ ...g, desa: undefined }));
+              }}
+              galat={galat.desa}
+            />
             <div className="flex flex-col gap-2">
               <p className="m-0 flex flex-wrap items-baseline gap-x-2">
                 <span className="font-medium">{t.fotoUsaha}</span>

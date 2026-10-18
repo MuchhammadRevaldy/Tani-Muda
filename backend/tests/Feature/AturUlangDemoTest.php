@@ -34,7 +34,7 @@ it('menghapus pengguna yang mendaftar setelah seeder dan mengosongkan batas laju
     $this->postJson('/api/v1/auth/otp/kirim', ['nomor_hp' => '0857 0000 1001'])->assertOk();
     $kode = Cache::get('otp-log:+6285700001001');
     $this->postJson('/api/v1/auth/otp/verifikasi', ['nomor_hp' => '0857 0000 1001', 'kode' => $kode, 'setuju_privasi' => true])->assertOk();
-    $this->putJson('/api/v1/akun/peran', ['peran' => 'petani', 'nama' => 'Rina', 'wilayah_id' => '32.17.01.2003'])->assertOk();
+    $this->putJson('/api/v1/akun/peran', ['peran' => 'petani', 'nama' => 'Rina', 'wilayah_id' => '33.10.16.2013'])->assertOk();
     $this->postJson('/api/v1/auth/otp/kirim', ['nomor_hp' => '0857 0000 1001'])->assertStatus(429);
     foreach (range(1, 30) as $i) {
         $this->postJson('/api/v1/auth/otp/kirim', ['nomor_hp' => '0857 0000 '.str_pad((string) $i, 4, '0', STR_PAD_LEFT)]);

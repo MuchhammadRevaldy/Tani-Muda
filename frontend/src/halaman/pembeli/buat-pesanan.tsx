@@ -25,6 +25,7 @@ import { InputRupiah } from '../../komponen/input-rupiah';
 import { Kartu } from '../../komponen/kartu';
 import { KolomIsian, PesanKolom } from '../../komponen/kolom-isian';
 import { PilihanDropdown } from '../../komponen/pilihan-dropdown';
+import { PilihWilayah } from '../../komponen/pilih-wilayah';
 import { GrupRadio, KartuPilihan } from '../../komponen/pilihan';
 import { Tombol } from '../../komponen/tombol';
 import { Uang } from '../../komponen/uang';
@@ -126,6 +127,8 @@ function Formulir({
   const [tambahan, setTambahan] = useState<string[]>([]);
   const [alamat, setAlamat] = useState(ulang?.alamat_antar ?? profil.alamat);
   const [patokan, setPatokan] = useState(ulang?.patokan ?? '');
+  const [wilayahId, setWilayahId] = useState(ulang?.wilayah_id ?? profil.wilayah_id);
+  const [desaObj, setDesaObj] = useState<import('../../api/tipe').Wilayah | null>(null);
   const [galat, setGalat] = useState<Record<string, string>>({});
 
   const k = komoditas.find((x) => x.id === komoditasId) ?? null;
@@ -177,7 +180,7 @@ function Formulir({
       komoditas_id: k.id,
       harga_per_kg: hargaPakai,
       standar_kualitas: standar,
-      wilayah_id: profil.wilayah_id,
+      wilayah_id: wilayahId,
       alamat_antar: alamat.trim(),
       patokan: patokan.trim() || null,
       batas_jam_antar: jam || null,
@@ -398,8 +401,17 @@ function Formulir({
             onChange={(e) => setPatokan(e.target.value)}
           />
         </div>
+        <PilihWilayah
+          id="pesanan-titik-wilayah"
+          nilai={wilayahId}
+          onChange={(id, w) => {
+            setWilayahId(id);
+            setDesaObj(w ?? null);
+          }}
+          labelDesa={jenis === 'rutin' ? t.titikAntar : t.titikAmbil}
+        />
         <p className="m-0 text-keterangan text-teks-pendukung">
-          {t.titikKet(desa, konfigurasi.radius_km)}
+          {t.titikKet(desaObj?.desa ?? desa, konfigurasi.radius_km)}
         </p>
       </div>
     </Kartu>

@@ -30,6 +30,20 @@ export const useGantiNomorHp = () =>
 export const useKeluar = () => m((k, _x: void) => k.akun.keluar(), ['akun']);
 export const useWilayah = (p: T.ParamWilayah & T.ParamHalaman = {}) =>
   q(kk('wilayah', 'daftar', { ...p }), (k) => k.wilayah.daftar(p));
+export const useKabupaten = () =>
+  q(kk('wilayah', 'kabupaten'), (k) => k.wilayah.kabupaten());
+export const useKecamatan = (kabupatenId: string | null) =>
+  q(
+    kk('wilayah', 'kecamatan', kabupatenId),
+    (k) => k.wilayah.kecamatan(kabupatenId as string),
+    !!kabupatenId,
+  );
+export const useDesa = (kecamatanId: string | null, cari?: string) =>
+  q(
+    kk('wilayah', 'desa', kecamatanId, cari),
+    (k) => k.wilayah.desa(kecamatanId as string, cari),
+    !!kecamatanId,
+  );
 export const useWilayahSatu = (id: string | null) =>
   q(kk('wilayah', 'satu', id), (k) => k.wilayah.ambil(id as string), !!id);
 export const useWilayahTerdekat = (lintang: number | null, bujur: number | null) =>

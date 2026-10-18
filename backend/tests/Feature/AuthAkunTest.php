@@ -88,16 +88,16 @@ it('pilih peran: sekali saja; petani wajib desa yang tersedia di pilot (D-56); a
     $this->putJson('/api/v1/akun/peran', ['peran' => 'admin', 'nama' => 'X'])->assertStatus(422)->assertJsonStructure(['galat' => ['rincian' => ['peran']]]);
     $this->putJson('/api/v1/akun/peran', ['peran' => 'petani', 'nama' => 'Tani'])
         ->assertStatus(422)->assertJsonPath('galat.rincian.wilayah_id.0', 'Isi desa lahanmu dulu');
-    $this->putJson('/api/v1/akun/peran', ['peran' => 'petani', 'nama' => 'Tani', 'wilayah_id' => '32.17.02.2004'])
+    $this->putJson('/api/v1/akun/peran', ['peran' => 'petani', 'nama' => 'Tani', 'wilayah_id' => '33.10.01.2012'])
         ->assertStatus(422)->assertJsonPath('galat.rincian.wilayah_id.0', 'Desa ini belum tersedia di pilot Tani Muda. Pilih desa lain');
-    $this->putJson('/api/v1/akun/peran', ['peran' => 'petani', 'nama' => ' Tani ', 'wilayah_id' => '32.17.01.2003'])
+    $this->putJson('/api/v1/akun/peran', ['peran' => 'petani', 'nama' => ' Tani ', 'wilayah_id' => '33.10.16.2013'])
         ->assertOk()->assertJsonPath('data.pengguna.nama', 'Tani')->assertJsonPath('data.pengguna.peran', 'petani');
     $this->putJson('/api/v1/akun/peran', ['peran' => 'pembeli', 'nama' => 'X'])->assertStatus(409)->assertJsonPath('galat.kode', 'STATUS_TIDAK_SESUAI');
 });
 
 it('ubah profil, catatan petani, profil pembeli, dan akses peran', function () {
     masukDemo('petani-arif');
-    $this->patchJson('/api/v1/akun', ['wilayah_id' => '32.17.02.2004'])->assertStatus(422);
+    $this->patchJson('/api/v1/akun', ['wilayah_id' => '33.10.01.2012'])->assertStatus(422);
     $this->patchJson('/api/v1/akun', ['zona_waktu' => 'Mars/Olympus'])->assertStatus(422);
     $this->patchJson('/api/v1/akun', ['nama' => 'Arif S.', 'terdaftar_kelompok_tani' => true])
         ->assertOk()->assertJsonPath('data.pengguna.nama', 'Arif S.')->assertJsonPath('data.pengguna.terdaftar_kelompok_tani', true);
@@ -105,9 +105,9 @@ it('ubah profil, catatan petani, profil pembeli, dan akses peran', function () {
     $this->putJson('/api/v1/akun/profil-pembeli', [])->assertStatus(403)->assertJsonPath('galat.kode', 'TIDAK_DIIZINKAN');
 
     masukDemo('pembeli-ratna');
-    $this->patchJson('/api/v1/akun', ['wilayah_id' => '32.17.02.2004'])->assertOk();
+    $this->patchJson('/api/v1/akun', ['wilayah_id' => '33.10.01.2012'])->assertOk();
     $this->getJson('/api/v1/akun/catatan')->assertStatus(403);
-    $this->putJson('/api/v1/akun/profil-pembeli', ['nama_usaha' => 'Katering Baru', 'jenis_usaha' => 'katering', 'alamat' => 'Jl. A', 'wilayah_id' => '32.17.01.2005'])
+    $this->putJson('/api/v1/akun/profil-pembeli', ['nama_usaha' => 'Katering Baru', 'jenis_usaha' => 'katering', 'alamat' => 'Jl. A', 'wilayah_id' => '33.10.16.2013'])
         ->assertOk()->assertJsonPath('data.status_verifikasi', 'terverifikasi')->assertJsonPath('data.nama_usaha', 'Katering Baru');
 });
 

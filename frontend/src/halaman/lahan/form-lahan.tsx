@@ -8,8 +8,8 @@ import { adalahGalatApi } from '../../api/galat';
 import { useBuatLahan, useKonversiSatuan, useUbahLahan } from '../../api/kueri';
 import { useSesi } from '../../api/sesi';
 import type { JenisLahan, Lahan, LahanMasukan } from '../../api/tipe';
-import { useDesaSaya } from '../../komponen/kerangka-sesi';
 import { KolomIsian, PesanKolom } from '../../komponen/kolom-isian';
+import { PilihWilayah } from '../../komponen/pilih-wilayah';
 import { PilPilihan } from '../../komponen/pilihan';
 import { Tombol } from '../../komponen/tombol';
 import { formatDesimal } from '../../lib/format';
@@ -33,8 +33,7 @@ export function FormLahan({
   onBatal?: () => void;
 }) {
   const { akun } = useSesi();
-  const desa = useDesaSaya();
-  const wilayahId = lahan?.wilayah_id ?? akun?.pengguna.wilayah_id ?? '';
+  const [wilayahId, setWilayahId] = useState(lahan?.wilayah_id ?? akun?.pengguna.wilayah_id ?? '');
   const konversiQ = useKonversiSatuan(wilayahId || null);
   const konversi: KonversiLuas = Object.fromEntries(
     (konversiQ.data ?? []).map((k) => [k.satuan, k.nilai_m2]),
@@ -166,11 +165,19 @@ export function FormLahan({
           galat={galat.kapasitas || undefined}
         />
       ) : null}
-      <div className="flex flex-col gap-1">
-        <span className="font-medium">{t.desa}</span>
-        <span>{desa ?? '…'}</span>
-        <span className="text-keterangan text-teks-pendukung">{t.desaKet}</span>
-      </div>
+      <PilihWilayah
+        id="lahan-wilayah"
+        nilai={wilayahId || null}
+        onChange={(id, d) => {
+          setWilayahId(id);
+          if (d && d.lintang !== null && d.bujur !== null && !lintang && !bujur) {
+            setLintang(String(d.lintang));
+            setBujur(String(d.bujur));
+          }
+        }}
+        bantuan={t.desaKet}
+        galat={galat.wilayah}
+      />
       <fieldset className="m-0 flex min-w-0 flex-col gap-3 border-0 p-0">
         <legend className="mb-1 p-0 font-medium">{t.titik}</legend>
         <p className="m-0 text-keterangan text-teks-pendukung">{t.titikKet}</p>

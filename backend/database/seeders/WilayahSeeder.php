@@ -23,50 +23,126 @@ class WilayahSeeder extends Seeder
 
     public function run(): void
     {
-        $titik = self::bacaTitik(base_path('../shared/wilayah/titik-tengah.json'));
-        $nama = ['desa', 'kecamatan', 'kabupaten', 'provinsi', 'kode_terverifikasi'];
+        $titikDesa = self::bacaTitik(base_path('../shared/wilayah/titik-tengah.json'));
+        $jateng = self::bacaTitikKecamatanJateng(base_path('../shared/wilayah/titik-kecamatan-jateng.json'));
+        $titikKabJateng = $jateng['kabupaten'];
+        $titikKecJateng = $jateng['kecamatan'];
+
+        $namaDesa = ['desa', 'kecamatan', 'kabupaten', 'provinsi', 'kabupaten_id', 'kecamatan_id', 'kode_terverifikasi'];
+        $sekarang = now();
 
         // Dibaca per baris dan ditulis per potongan, supaya memori tetap kecil (VPS, laptop 2 GB).
-        DB::transaction(function () use ($titik, $nama) {
+        DB::transaction(function () use ($titikDesa, $titikKabJateng, $titikKecJateng, $namaDesa, $sekarang) {
             $induk = [];
+            $batchKab = [];
+            $batchKec = [];
             $denganTitik = [];
             $tanpaTitik = [];
             $jumlah = 0;
-            foreach (self::bacaDataset(base_path('../shared/wilayah/wilayah.sql')) as $k => $namaWilayah) {
-                if (substr_count($k, '.') < 3) {
-                    $induk[$k] = $namaWilayah;
 
+            foreach (self::bacaDataset(base_path('../shared/wilayah/wilayah.sql')) as $k => $namaWilayah) {
+                $tingkat = substr_count($k, '.');
+
+                if ($tingkat === 0) {
+                    $induk[$k] = $namaWilayah;
                     continue;
                 }
+
+                if ($tingkat === 1) {
+                    $induk[$k] = $namaWilayah;
+                    [$pp] = explode('.', $k);
+                    $kabPoint = $titikKabJateng[$k] ?? null;
+                    $batchKab[] = [
+                        'id' => $k,
+                        'nama' => $namaWilayah,
+                        'provinsi_id' => $pp,
+                        'lintang' => $kabPoint['lintang'] ?? null,
+                        'bujur' => $kabPoint['bujur'] ?? null,
+                        'dibuat_pada' => $sekarang,
+                        'diperbarui_pada' => $sekarang,
+                    ];
+                    if (count($batchKab) >= self::POTONGAN) {
+                        DB::table('wilayah_kabupaten')->upsert($batchKab, ['id'], ['nama', 'provinsi_id', 'lintang', 'bujur']);
+                        $batchKab = [];
+                    }
+                    continue;
+                }
+
+                if ($tingkat === 2) {
+                    $induk[$k] = $namaWilayah;
+                    [$pp, $kk] = explode('.', $k);
+                    $kecPoint = $titikKecJateng[$k] ?? null;
+                    $batchKec[] = [
+                        'id' => $k,
+                        'nama' => $namaWilayah,
+                        'kabupaten_id' => "{$pp}.{$kk}",
+                        'lintang' => $kecPoint['lintang'] ?? null,
+                        'bujur' => $kecPoint['bujur'] ?? null,
+                        'koordinat_perkiraan' => true,
+                        'dibuat_pada' => $sekarang,
+                        'diperbarui_pada' => $sekarang,
+                    ];
+                    if (count($batchKec) >= self::POTONGAN) {
+                        DB::table('wilayah_kecamatan')->upsert($batchKec, ['id'], ['nama', 'kabupaten_id', 'lintang', 'bujur', 'koordinat_perkiraan']);
+                        $batchKec = [];
+                    }
+                    continue;
+                }
+
                 [$pp, $kk, $cc] = explode('.', $k);
+                $kabId = "{$pp}.{$kk}";
+                $kecId = "{$pp}.{$kk}.{$cc}";
+
                 $baris = [
                     'id' => $k,
                     'desa' => $namaWilayah,
-                    'kecamatan' => $induk["{$pp}.{$kk}.{$cc}"] ?? throw new RuntimeException("Induk {$k} belum terbaca"),
-                    'kabupaten' => $induk["{$pp}.{$kk}"] ?? throw new RuntimeException("Induk {$k} belum terbaca"),
+                    'kecamatan' => $induk[$kecId] ?? throw new RuntimeException("Induk {$k} belum terbaca"),
+                    'kabupaten' => $induk[$kabId] ?? throw new RuntimeException("Induk {$k} belum terbaca"),
                     'provinsi' => $induk[$pp] ?? throw new RuntimeException("Induk {$k} belum terbaca"),
+                    'kabupaten_id' => $kabId,
+                    'kecamatan_id' => $kecId,
                     'kode_terverifikasi' => true,
                 ];
                 $jumlah++;
-                if (isset($titik[$k])) {
-                    $denganTitik[] = $baris + $titik[$k] + ['koordinat_perkiraan' => true];
 
-                    continue;
+                if (isset($titikDesa[$k])) {
+                    $denganTitik[] = $baris + $titikDesa[$k] + ['koordinat_perkiraan' => true];
+                } elseif ($pp === '33' && isset($titikKecJateng[$kecId]) && $titikKecJateng[$kecId]['lintang'] !== null) {
+                    // Desa di Jawa Tengah yang belum punya koordinat sendiri memakai titik tengah kecamatannya (AG-41)
+                    $denganTitik[] = $baris + [
+                        'lintang' => $titikKecJateng[$kecId]['lintang'],
+                        'bujur' => $titikKecJateng[$kecId]['bujur'],
+                        'koordinat_perkiraan' => true,
+                    ];
+                } else {
+                    $tanpaTitik[] = $baris;
                 }
-                $tanpaTitik[] = $baris;
+
+                if (count($denganTitik) >= self::POTONGAN) {
+                    DB::table('wilayah')->upsert($denganTitik, ['id'], [...$namaDesa, 'lintang', 'bujur', 'koordinat_perkiraan']);
+                    $denganTitik = [];
+                }
+
                 if (count($tanpaTitik) >= self::POTONGAN) {
-                    DB::table('wilayah')->upsert($tanpaTitik, ['id'], $nama);
+                    DB::table('wilayah')->upsert($tanpaTitik, ['id'], $namaDesa);
                     $tanpaTitik = [];
                 }
             }
+
             if ($jumlah === 0) {
                 throw new RuntimeException('Dataset wilayah kosong.');
             }
+            if ($batchKab !== []) {
+                DB::table('wilayah_kabupaten')->upsert($batchKab, ['id'], ['nama', 'provinsi_id', 'lintang', 'bujur']);
+            }
+            if ($batchKec !== []) {
+                DB::table('wilayah_kecamatan')->upsert($batchKec, ['id'], ['nama', 'kabupaten_id', 'lintang', 'bujur', 'koordinat_perkiraan']);
+            }
             if ($tanpaTitik !== []) {
-                DB::table('wilayah')->upsert($tanpaTitik, ['id'], $nama);
+                DB::table('wilayah')->upsert($tanpaTitik, ['id'], $namaDesa);
             }
             if ($denganTitik !== []) {
-                DB::table('wilayah')->upsert($denganTitik, ['id'], [...$nama, 'lintang', 'bujur', 'koordinat_perkiraan']);
+                DB::table('wilayah')->upsert($denganTitik, ['id'], [...$namaDesa, 'lintang', 'bujur', 'koordinat_perkiraan']);
             }
         });
     }
@@ -108,5 +184,21 @@ class WilayahSeeder extends Seeder
         }
 
         return $hasil;
+    }
+
+    /**
+     * @return array{kabupaten: array<string, mixed>, kecamatan: array<string, mixed>}
+     */
+    public static function bacaTitikKecamatanJateng(string $jalur): array
+    {
+        if (! file_exists($jalur)) {
+            return ['kabupaten' => [], 'kecamatan' => []];
+        }
+        $isi = json_decode((string) file_get_contents($jalur), true, flags: JSON_THROW_ON_ERROR);
+
+        return [
+            'kabupaten' => $isi['kabupaten'] ?? [],
+            'kecamatan' => $isi['kecamatan'] ?? [],
+        ];
     }
 }

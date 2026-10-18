@@ -169,9 +169,17 @@ describe('ubah profil (T4.36)', () => {
     expect(screen.queryByLabelText(/Kata sandi/)).not.toBeInTheDocument();
     await userEvent.clear(nama);
     await userEvent.type(nama, 'Arif Setiawan Putra');
-    await userEvent.type(screen.getByLabelText('Desa atau kelurahan'), 'Sukajaya');
-    await userEvent.click(await screen.findByRole('radio', { name: /^Sukajaya,/ }));
-    expect(screen.getByText(/^Desa terpilih: Sukajaya/)).toBeInTheDocument();
+    fireEvent.change(screen.getByLabelText('Kabupaten / Kota'), { target: { value: '33.10' } });
+    await waitFor(() => {
+      const selectKec = screen.getByLabelText('Kecamatan') as HTMLSelectElement;
+      expect(selectKec.options.length).toBeGreaterThan(0);
+    });
+    fireEvent.change(screen.getByLabelText('Kecamatan'), { target: { value: '33.10.16' } });
+    await waitFor(() => {
+      const selectDesa = screen.getByLabelText('Desa / Kelurahan') as HTMLSelectElement;
+      expect(selectDesa.options.length).toBeGreaterThan(0);
+    });
+    fireEvent.change(screen.getByLabelText('Desa / Kelurahan'), { target: { value: '33.10.16.2015' } });
     await userEvent.click(
       screen.getByRole('checkbox', { name: /Saya terdaftar di kelompok tani/ }),
     );
@@ -184,7 +192,7 @@ describe('ubah profil (T4.36)', () => {
       terdaftar_kelompok_tani: true,
     });
     expect((await t.klien.wilayah.ambil(akun?.pengguna.wilayah_id as string)).desa).toBe(
-      'Sukajaya',
+      'Segaran',
     );
   });
 

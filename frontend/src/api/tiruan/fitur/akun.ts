@@ -314,6 +314,8 @@ export function buatKlienWilayah(k: Konteks): KlienWilayah {
     async daftar(p = {}) {
       k.penggunaMasuk();
       const cari = p.cari?.trim().toLowerCase();
+      // Hanya tampilkan wilayah Jawa Tengah (kode 33) sesuai konfigurasi wilayah_provinsi_aktif
+      const jateng = k.db.wilayah.filter((w) => w.id.startsWith('33.'));
       // Desa yang tersedia di pilot lebih dulu (D-57); di dalamnya desa yang namanya cocok dengan
       // kata cari (sama persis, diawali, memuat) sebelum yang hanya cocok kecamatannya (D-58).
       const cocok = (desa: string) => {
@@ -321,7 +323,7 @@ export function buatKlienWilayah(k: Konteks): KlienWilayah {
         if (!cari) return 0;
         return d === cari ? 0 : d.startsWith(cari) ? 1 : d.includes(cari) ? 2 : 3;
       };
-      const hasil = k.db.wilayah
+      const hasil = jateng
         .filter(
           (w) =>
             !cari ||
@@ -336,6 +338,60 @@ export function buatKlienWilayah(k: Konteks): KlienWilayah {
             a.desa.localeCompare(b.desa, 'id'),
         );
       return k.halaman(hasil, p);
+    },
+    async kabupaten() {
+      k.penggunaMasuk();
+      const petaKab = new Map<string, { id: string; nama: string; provinsi_id: string; lintang: number | null; bujur: number | null }>();
+      for (const w of k.db.wilayah) {
+        if (!w.id.startsWith('33.')) continue;
+        const parts = w.id.split('.');
+        const id = `${parts[0]}.${parts[1]}`;
+        if (!petaKab.has(id)) {
+          petaKab.set(id, {
+            id,
+            nama: w.kabupaten,
+            provinsi_id: parts[0] ?? '33',
+            lintang: w.lintang,
+            bujur: w.bujur,
+          });
+        }
+      }
+      return Array.from(petaKab.values()).sort((a, b) => a.nama.localeCompare(b.nama, 'id'));
+    },
+    async kecamatan(kabupatenId: string) {
+      k.penggunaMasuk();
+      if (!kabupatenId) {
+        k.validasi({ kabupaten: 'VALIDASI' });
+      }
+      const petaKec = new Map<string, { id: string; nama: string; kabupaten_id: string; lintang: number | null; bujur: number | null; koordinat_perkiraan?: boolean }>();
+      for (const w of k.db.wilayah) {
+        if (!w.id.startsWith(`${kabupatenId}.`)) continue;
+        const parts = w.id.split('.');
+        const id = `${parts[0]}.${parts[1]}.${parts[2]}`;
+        if (!petaKec.has(id)) {
+          petaKec.set(id, {
+            id,
+            nama: w.kecamatan,
+            kabupaten_id: kabupatenId,
+            lintang: w.lintang,
+            bujur: w.bujur,
+            koordinat_perkiraan: true,
+          });
+        }
+      }
+      return Array.from(petaKec.values()).sort((a, b) => a.nama.localeCompare(b.nama, 'id'));
+    },
+    async desa(kecamatanId: string, cari?: string) {
+      k.penggunaMasuk();
+      if (!kecamatanId) {
+        k.validasi({ kecamatan: 'VALIDASI' });
+      }
+      const kata = cari?.trim().toLowerCase();
+      return k.db.wilayah
+        .filter((w) => w.id.startsWith(`${kecamatanId}.`))
+        .filter((w) => !kata || w.desa.toLowerCase().includes(kata))
+        .map((w) => k.wilayahKeluar(w))
+        .sort((a, b) => a.desa.localeCompare(b.desa, 'id'));
     },
     async terdekat(lintang: number, bujur: number) {
       k.penggunaMasuk();

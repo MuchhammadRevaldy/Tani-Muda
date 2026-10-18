@@ -287,7 +287,7 @@ describe('Navigasi', () => {
   });
   it('menu akun sidebar', async () => {
     render(
-      denganRouter(<Sidebar akun={{ nama: 'Arif Setiawan', keterangan: 'Petani · Lembang' }} />),
+      denganRouter(<Sidebar akun={{ nama: 'Arif Setiawan', keterangan: 'Petani · Delanggu' }} />),
     );
     await userEvent.click(screen.getByRole('button', { name: 'Buka menu akun' }));
     const menu = screen.getByRole('menu', { name: 'Menu akun' });
@@ -304,7 +304,7 @@ describe('Navigasi', () => {
     const lebarIsi = vi.spyOn(HTMLElement.prototype, 'scrollWidth', 'get').mockReturnValue(300);
     const lebarKotak = vi.spyOn(HTMLElement.prototype, 'clientWidth', 'get').mockReturnValue(120);
     try {
-      const akun = { nama: 'Arif Setiawan Wicaksono', keterangan: 'Petani · Cikahuripan, Lembang' };
+      const akun = { nama: 'Arif Setiawan Wicaksono', keterangan: 'Petani · Bowan, Delanggu' };
       render(denganRouter(<Sidebar akun={akun} />));
       const tombol = screen.getByRole('button', { name: 'Buka menu akun' });
       expect(tombol).toHaveAccessibleDescription(`${akun.nama}${akun.keterangan}`);

@@ -177,6 +177,21 @@ Tidak ada kolom kata sandi atau nama pengguna (D-04).
 | `lintang`, `bujur` | desimal \| null | titik tengah desa (perkiraan); dasar jarak (D-06). Null untuk desa di luar pilot (D-56) |
 | `tersedia_pilot` | boolean | dihitung server: true bila punya titik tengah. Desa yang belum tersedia tidak bisa dipilih sebagai desa petani, desa lahan, atau titik antar (D-56) |
 
+| `wilayah_kabupaten` (`WilayahKabupaten`, D-67) | Tipe | Keterangan |
+| --- | --- | --- |
+| `id` | string | kode Kemendagri tingkat kabupaten/kota "PP.KK" |
+| `nama` | string | nama kabupaten/kota resmi |
+| `provinsi_id` | string | kode provinsi induk "PP" |
+| `lintang`, `bujur` | desimal \| null | titik tengah kabupaten |
+
+| `wilayah_kecamatan` (`WilayahKecamatan`, D-67) | Tipe | Keterangan |
+| --- | --- | --- |
+| `id` | string | kode Kemendagri tingkat kecamatan "PP.KK.CC" |
+| `nama` | string | nama kecamatan resmi |
+| `kabupaten_id` | string | kode kabupaten/kota induk "PP.KK" |
+| `lintang`, `bujur` | desimal \| null | titik tengah kecamatan dari Nominatim OSM (D-67) |
+| `koordinat_perkiraan` | boolean | true bila titik perkiraan |
+
 ### 2.4 Referensi
 
 | `komoditas` (`Komoditas`) | Tipe | Keterangan |
@@ -583,6 +598,9 @@ Peran: P = petani, B = pembeli, M = mentor, A = admin, semua = semua pengguna ma
 | Metode dan jalur | Peran | Masukan → respons | Klien |
 | --- | --- | --- | --- |
 | `GET /wilayah?cari=` (berhalaman) | semua | → `Halaman<Wilayah>`, desa `tersedia_pilot` lebih dulu (D-57); di dalamnya desa yang namanya cocok dengan `cari` (sama persis, diawali, lalu memuat) sebelum desa yang hanya cocok kecamatannya, lalu urut nama desa (D-58); desa yang belum tersedia tetap tampil | `wilayah.daftar` |
+| `GET /wilayah/kabupaten` | semua | → `WilayahKabupaten[]` disaring provinsi aktif `wilayah_provinsi_aktif` (D-67) | `wilayah.kabupaten` |
+| `GET /wilayah/kecamatan?kabupaten=` | semua | `{ kabupaten }` → `WilayahKecamatan[]` dalam kabupaten/kota tersebut (D-67) | `wilayah.kecamatan` |
+| `GET /wilayah/desa?kecamatan=&cari=` | semua | `{ kecamatan, cari? }` → `Wilayah[]` dalam kecamatan tersebut (D-67) | `wilayah.desa` |
 | `GET /wilayah/{id}` | semua | → `Wilayah` | `wilayah.ambil` |
 | `GET /komoditas?jenis_lahan=` | semua | → `Komoditas[]` | `referensi.komoditas` |
 | `GET /metode` | semua | → `MetodeTanam[]` | `referensi.metode` |

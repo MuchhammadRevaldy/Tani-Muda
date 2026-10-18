@@ -19,13 +19,13 @@ beforeEach(function () {
 it('berhasil mengambil harga berita dengan label harga pasar dan tanpa mengisi harga otomatis', function () {
     HargaBerita::create([
         'komoditas_id' => 'cabai',
-        'kabupaten' => 'Kabupaten Bandung Barat',
+        'kabupaten' => $this->pengguna->wilayah?->kabupaten ?? 'Kabupaten Klaten',
         'harga' => 38000,
         'satuan' => 'kg',
         'jenis_harga' => JenisHargaBerita::Pasar,
-        'lokasi' => 'Pasar Panorama Lembang',
+        'lokasi' => 'Pasar Klaten',
         'tanggal_berita' => CarbonImmutable::now()->toDateString(),
-        'judul' => 'Harga Cabai di Lembang Hari Ini',
+        'judul' => 'Harga Cabai Hari Ini',
         'media' => 'Kabar Pasar',
         'url' => 'https://kabar-pasar.test/cabai-1',
     ]);
@@ -53,7 +53,7 @@ it('mengembalikan pesan belum ada kabar harga hari ini bila tidak ada artikel ba
     // Simpan artikel lama lebih dari 3 hari lalu
     HargaBerita::create([
         'komoditas_id' => 'tomat',
-        'kabupaten' => 'Kabupaten Bandung Barat',
+        'kabupaten' => $this->pengguna->wilayah?->kabupaten ?? 'Kabupaten Klaten',
         'harga' => 10000,
         'satuan' => 'kg',
         'jenis_harga' => JenisHargaBerita::Pasar,
@@ -129,7 +129,7 @@ it('menegakkan batasan CHECK pada tabel harga_berita: harga harus positif dan je
         DB::table('harga_berita')->insert([
             'id' => 'hb-negatif',
             'komoditas_id' => 'cabai',
-            'kabupaten' => 'Kabupaten Bandung Barat',
+            'kabupaten' => 'Kabupaten Klaten',
             'harga' => 0,
             'satuan' => 'kg',
             'jenis_harga' => 'pasar',
@@ -148,7 +148,7 @@ it('menegakkan batasan CHECK pada tabel harga_berita: harga harus positif dan je
         DB::table('harga_berita')->insert([
             'id' => 'hb-jenis-salah',
             'komoditas_id' => 'cabai',
-            'kabupaten' => 'Kabupaten Bandung Barat',
+            'kabupaten' => 'Kabupaten Klaten',
             'harga' => 20000,
             'satuan' => 'kg',
             'jenis_harga' => 'grosir_ilegal',

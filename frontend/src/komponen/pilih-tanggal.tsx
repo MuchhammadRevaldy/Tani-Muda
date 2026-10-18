@@ -114,7 +114,6 @@ export function PilihTanggal({
         max={max}
         onChange={(e) => onChange(e.target.value)}
         tabIndex={-1}
-        aria-hidden="true"
         aria-invalid={galat ? true : undefined}
         aria-describedby={adaPesan ? `${idKontrol}-pesan` : undefined}
         className="sr-saja"
@@ -123,13 +122,13 @@ export function PilihTanggal({
 
       <button
         type="button"
+        id={`${idKontrol}-tombol`}
         onClick={() => {
           if (!disabled) setTerbuka((prev) => !prev);
         }}
         disabled={disabled}
         aria-haspopup="dialog"
         aria-expanded={terbuka}
-        aria-labelledby={idLabel}
         aria-invalid={galat ? true : undefined}
         aria-describedby={adaPesan ? `${idKontrol}-pesan` : undefined}
         className={cx(
@@ -140,6 +139,7 @@ export function PilihTanggal({
           disabled ? 'cursor-not-allowed opacity-60' : 'cursor-pointer',
         )}
       >
+        <span className="sr-saja">{label}: </span>
         <span
           className={cx(
             'truncate text-isi',

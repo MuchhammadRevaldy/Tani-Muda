@@ -18,8 +18,8 @@
         "Tidak berlubang lebih dari 3 lubang per daun",
         "Bersih dari tanah"
       ],
-      "wilayah_id": "32.17.01.2005",
-      "alamat_antar": "Dapur Katering Bu Ratna, Jl. Cikahuripan No. 12 (alamat contoh)",
+      "wilayah_id": "33.10.16.2005",
+      "alamat_antar": "Dapur Katering Bu Ratna, Jl. Delanggu–Polanharjo (alamat contoh)",
       "patokan": "Pagar hijau di samping masjid",
       "batas_jam_antar": "07:00",
       "status": "berjalan",
@@ -47,8 +47,8 @@
         "Daun segar, tidak menguning",
         "Diikat per 250 g"
       ],
-      "wilayah_id": "32.17.01.2002",
-      "alamat_antar": "Warung Nasi Bu Imas, Jl. Kayu Ambon (alamat contoh)",
+      "wilayah_id": "33.10.16.2015",
+      "alamat_antar": "Warung Nasi Bu Imas, Jl. Raya Delanggu (alamat contoh)",
       "patokan": null,
       "batas_jam_antar": "09:00",
       "status": "berjalan",
@@ -76,8 +76,8 @@
         "Daun segar, tidak menguning",
         "Diikat per 250 g"
       ],
-      "wilayah_id": "32.73.08.1003",
-      "alamat_antar": "Kafe Daun Pagi, Jl. Ledeng (alamat contoh)",
+      "wilayah_id": "33.10.17.2011",
+      "alamat_antar": "Kafe Daun Pagi, Ponggok, Polanharjo (alamat contoh)",
       "patokan": "Masuk lewat pintu dapur di belakang",
       "batas_jam_antar": "08:00",
       "status": "mencari_petani",
@@ -105,8 +105,8 @@
         "Gabah kering panen, bersih dari jerami",
         "Kadar hampa rendah"
       ],
-      "wilayah_id": "32.17.01.2013",
-      "alamat_antar": "Gudang Koperasi Sumber Rejeki, Sukajaya (alamat contoh)",
+      "wilayah_id": "33.10.16.2013",
+      "alamat_antar": "Gudang Koperasi Tani Makmur, Delanggu (alamat contoh)",
       "patokan": null,
       "batas_jam_antar": null,
       "status": "berjalan",
@@ -134,8 +134,8 @@
         "Batang muda dan renyah",
         "Diikat per 250 g"
       ],
-      "wilayah_id": "32.73.21.1001",
-      "alamat_antar": "Dapur Katering Sehat Lestari, Batununggal (alamat contoh)",
+      "wilayah_id": "33.10.25.1001",
+      "alamat_antar": "Dapur Katering Sehat Lestari, Bareng, Klaten Tengah (alamat contoh)",
       "patokan": null,
       "batas_jam_antar": "06:30",
       "status": "mencari_petani",
@@ -164,8 +164,8 @@
         "Tidak berlubang lebih dari 3 lubang per daun",
         "Bersih dari tanah"
       ],
-      "wilayah_id": "32.17.01.2002",
-      "alamat_antar": "Warung Nasi Bu Imas, Jl. Kayu Ambon (alamat contoh)",
+      "wilayah_id": "33.10.16.2015",
+      "alamat_antar": "Warung Nasi Bu Imas, Jl. Raya Delanggu (alamat contoh)",
       "patokan": null,
       "batas_jam_antar": "09:00",
       "status": "menunggu_pembayaran",
@@ -791,7 +791,7 @@
       "pengguna_id": "petani-arif",
       "komoditas_id": "cabai",
       "metode_id": "bedengan",
-      "wilayah_id": "32.17.01.2003",
+      "wilayah_id": "33.10.16.2005",
       "dibuat_pada": "H-3T20:00"
     },
     {
@@ -799,7 +799,7 @@
       "pengguna_id": "petani-dewi",
       "komoditas_id": "jagung",
       "metode_id": null,
-      "wilayah_id": "32.17.01.2013",
+      "wilayah_id": "33.10.16.2012",
       "dibuat_pada": "H-6T19:30"
     },
     {
@@ -807,7 +807,7 @@
       "pengguna_id": "petani-yogi",
       "komoditas_id": "cabai",
       "metode_id": "bedengan",
-      "wilayah_id": "32.17.01.2007",
+      "wilayah_id": "33.10.16.2014",
       "dibuat_pada": "H-9T19:30"
     }
   ]

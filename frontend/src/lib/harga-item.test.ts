@@ -139,7 +139,7 @@ const lap = (
   hargaKemasan: number,
   tanggal: string,
   pelaporId: string,
-  kecamatan = 'Lembang',
+  kecamatan = 'Delanggu',
 ): LaporanHarga => ({
   id,
   merekId,
@@ -155,12 +155,12 @@ const LAPORAN: LaporanHarga[] = [
   lap('4', 'c', 80000, '2026-09-23', 'p4'),
   lap('5', 'c', 82000, '2026-09-10', 'p4'),
   lap('6', 'c', 79000, '2026-09-23', 'p5'),
-  lap('7', 'a', 300000, '2026-10-04', 'p6', 'Cisarua'),
+  lap('7', 'a', 300000, '2026-10-04', 'p6', 'Polanharjo'),
 ];
 
 describe('urutkanMerek (P0-34)', () => {
   it('menurut laporan terbaru, lalu jumlah pelapor, lalu nama; tanpa laporan di akhir', () => {
-    const r = urutkanMerek(MEREK, LAPORAN, 'Lembang', '2026-10-05');
+    const r = urutkanMerek(MEREK, LAPORAN, 'Delanggu', '2026-10-05');
     // a dan c sama-sama terbaru 23 Sep dengan 2 pelapor → urut nama (Daun Lebat, Sari Tani)
     expect(r.map((m) => m.merek.id)).toEqual(['b', 'a', 'c', 'd']);
     expect(r[0]).toMatchObject({
@@ -179,7 +179,7 @@ describe('urutkanMerek (P0-34)', () => {
   });
   it('tanggal sama → lebih banyak pelapor di depan', () => {
     const tambah = [...LAPORAN, lap('9', 'c', 81000, '2026-09-15', 'p8')];
-    expect(urutkanMerek(MEREK, tambah, 'Lembang', '2026-10-05').map((m) => m.merek.id)).toEqual([
+    expect(urutkanMerek(MEREK, tambah, 'Delanggu', '2026-10-05').map((m) => m.merek.id)).toEqual([
       'b',
       'c',
       'a',
@@ -190,7 +190,7 @@ describe('urutkanMerek (P0-34)', () => {
     const r = urutkanMerek(
       MEREK,
       [...LAPORAN, lap('8', 'd', 1, '2026-10-09', 'p7')],
-      'Lembang',
+      'Delanggu',
       '2026-10-05',
     );
     expect(r.find((m) => m.merek.id === 'a')?.hargaKemasan).toBe(380000);
@@ -199,14 +199,14 @@ describe('urutkanMerek (P0-34)', () => {
   it('promo tidak mengubah urutan (P0-35)', () => {
     const denganPromo = MEREK.map((m) => ({ ...m, adaPromo: m.id === 'd' }));
     expect(
-      urutkanMerek(denganPromo, LAPORAN, 'Lembang', '2026-10-05').map((m) => m.merek.id),
-    ).toEqual(urutkanMerek(MEREK, LAPORAN, 'Lembang', '2026-10-05').map((m) => m.merek.id));
+      urutkanMerek(denganPromo, LAPORAN, 'Delanggu', '2026-10-05').map((m) => m.merek.id),
+    ).toEqual(urutkanMerek(MEREK, LAPORAN, 'Delanggu', '2026-10-05').map((m) => m.merek.id));
   });
   it('nama sama-sama tanpa laporan diurutkan menurut nama', () => {
     const r = urutkanMerek(
       [MEREK[3]!, { ...MEREK[3]!, id: 'e', nama: 'Abadi' }],
       [],
-      'Lembang',
+      'Delanggu',
       '2026-10-05',
     );
     expect(r.map((m) => m.merek.nama)).toEqual(['Abadi', 'Belum Dilaporkan']);
@@ -217,7 +217,7 @@ describe('rataRataSekitar (P1-02)', () => {
   it('rata-rata harga per satuan dalam 30 hari di kecamatan yang sama', () => {
     // a: 15.200, 15.000; b: 14.200; c: 16.000, 16.400, 15.800 → rata 15.433,33 → Rp15.400
     expect(
-      rataRataSekitar(LAPORAN, MEREK, 'Lembang', '2026-10-05', {
+      rataRataSekitar(LAPORAN, MEREK, 'Delanggu', '2026-10-05', {
         rentangHari: 30,
         minimalLaporan: 3,
       }),
@@ -225,13 +225,13 @@ describe('rataRataSekitar (P1-02)', () => {
   });
   it('kurang dari minimal laporan → null', () => {
     expect(
-      rataRataSekitar(LAPORAN, MEREK, 'Cisarua', '2026-10-05', {
+      rataRataSekitar(LAPORAN, MEREK, 'Polanharjo', '2026-10-05', {
         rentangHari: 30,
         minimalLaporan: 3,
       }),
     ).toBeNull();
     expect(
-      rataRataSekitar(LAPORAN, MEREK, 'Lembang', '2026-10-05', {
+      rataRataSekitar(LAPORAN, MEREK, 'Delanggu', '2026-10-05', {
         rentangHari: 2,
         minimalLaporan: 1,
       }),

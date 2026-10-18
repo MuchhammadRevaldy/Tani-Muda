@@ -2,17 +2,20 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 
 /**
- * Tabel `wilayah` (kontrak-api.md bagian 2).
+ * Tabel `wilayah` (kontrak-api.md bagian 2, D-67).
  *
  * @property string $id
  * @property string $desa
  * @property string $kecamatan
  * @property string $kabupaten
  * @property string $provinsi
+ * @property string|null $kabupaten_id
+ * @property string|null $kecamatan_id
  * @property float|null $lintang
  * @property float|null $bujur
  * @property bool $koordinat_perkiraan
@@ -24,6 +27,8 @@ class Wilayah extends Model
 {
     protected $table = 'wilayah';
 
+    protected $guarded = ['dibuat_pada', 'diperbarui_pada'];
+
     protected function casts(): array
     {
         return [
@@ -32,6 +37,18 @@ class Wilayah extends Model
             'koordinat_perkiraan' => 'boolean',
             'kode_terverifikasi' => 'boolean',
         ];
+    }
+
+    /** @return BelongsTo<WilayahKabupaten, $this> */
+    public function dataKabupaten(): BelongsTo
+    {
+        return $this->belongsTo(WilayahKabupaten::class, 'kabupaten_id');
+    }
+
+    /** @return BelongsTo<WilayahKecamatan, $this> */
+    public function dataKecamatan(): BelongsTo
+    {
+        return $this->belongsTo(WilayahKecamatan::class, 'kecamatan_id');
     }
 
     /** @return HasMany<Pengguna, $this> */

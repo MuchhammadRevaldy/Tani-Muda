@@ -93,6 +93,8 @@ import type {
   VerifikasiOtpMasukan,
   VerifikasiPembeliMasukan,
   Wilayah,
+  WilayahKabupaten,
+  WilayahKecamatan,
 } from './tipe';
 
 export interface KlienAkun {
@@ -127,6 +129,12 @@ export interface KlienAkun {
 export interface KlienWilayah {
   /** GET /wilayah */
   daftar(p?: ParamWilayah & ParamHalaman): Promise<Halaman<Wilayah>>;
+  /** GET /wilayah/kabupaten (D-67, AG-41) */
+  kabupaten(): Promise<WilayahKabupaten[]>;
+  /** GET /wilayah/kecamatan?kabupaten= (D-67, AG-41) */
+  kecamatan(kabupatenId: string): Promise<WilayahKecamatan[]>;
+  /** GET /wilayah/desa?kecamatan=&cari= (D-67, AG-41) */
+  desa(kecamatanId: string, cari?: string): Promise<Wilayah[]>;
   /** GET /wilayah/terdekat?lintang=&bujur= */
   terdekat(lintang: number, bujur: number): Promise<Wilayah & { jarak_km?: number }>;
   /** GET /wilayah/{id} */

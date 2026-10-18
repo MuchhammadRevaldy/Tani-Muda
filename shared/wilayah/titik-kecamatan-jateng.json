@@ -1,0 +1,5432 @@
+{
+  "sumber": "Nominatim OpenStreetMap",
+  "tanggal_ambil": "2026-10-17",
+  "lisensi": "ODbL 1.0 (c) kontributor OpenStreetMap",
+  "atribusi": "© kontributor OpenStreetMap",
+  "keterangan": "Titik tengah kecamatan Jawa Tengah (576 kecamatan) dari Nominatim OpenStreetMap. Kecamatan yang tidak ditemukan diisi titik tengah kabupatennya.",
+  "kabupaten": {
+    "33.01": {
+      "nama": "Kabupaten Cilacap",
+      "lintang": -7.4617,
+      "bujur": 108.8046,
+      "osm_id": 9686822
+    },
+    "33.02": {
+      "nama": "Kabupaten Banyumas",
+      "lintang": -7.4551,
+      "bujur": 109.1167,
+      "osm_id": 9686820
+    },
+    "33.03": {
+      "nama": "Kabupaten Purbalingga",
+      "lintang": -7.3273,
+      "bujur": 109.3999,
+      "osm_id": 9686819
+    },
+    "33.04": {
+      "nama": "Kabupaten Banjarnegara",
+      "lintang": -7.3559,
+      "bujur": 109.6601,
+      "osm_id": 9686816
+    },
+    "33.05": {
+      "nama": "Kabupaten Kebumen",
+      "lintang": -7.644,
+      "bujur": 109.6078,
+      "osm_id": 9686815
+    },
+    "33.06": {
+      "nama": "Kabupaten Purworejo",
+      "lintang": -7.7075,
+      "bujur": 109.9665,
+      "osm_id": 9686809
+    },
+    "33.07": {
+      "nama": "Kabupaten Wonosobo",
+      "lintang": -7.3998,
+      "bujur": 109.921,
+      "osm_id": 9686824
+    },
+    "33.08": {
+      "nama": "Kabupaten Magelang",
+      "lintang": -7.5136,
+      "bujur": 110.2145,
+      "osm_id": 9686814
+    },
+    "33.09": {
+      "nama": "Kabupaten Boyolali",
+      "lintang": -7.3872,
+      "bujur": 110.7039,
+      "osm_id": 9687052
+    },
+    "33.10": {
+      "nama": "Kabupaten Klaten",
+      "lintang": -7.6732,
+      "bujur": 110.6285,
+      "osm_id": 9687060
+    },
+    "33.11": {
+      "nama": "Kabupaten Sukoharjo",
+      "lintang": -7.6815,
+      "bujur": 110.87,
+      "osm_id": 9687061
+    },
+    "33.12": {
+      "nama": "Kabupaten Wonogiri",
+      "lintang": -7.9621,
+      "bujur": 110.9576,
+      "osm_id": 9687059
+    },
+    "33.13": {
+      "nama": "Kabupaten Karanganyar",
+      "lintang": -7.6197,
+      "bujur": 111.0698,
+      "osm_id": 9687053
+    },
+    "33.14": {
+      "nama": "Kabupaten Sragen",
+      "lintang": -7.3925,
+      "bujur": 110.953,
+      "osm_id": 6444214
+    },
+    "33.15": {
+      "nama": "Kabupaten Grobogan",
+      "lintang": -7.0965,
+      "bujur": 110.8949,
+      "osm_id": 9687051
+    },
+    "33.16": {
+      "nama": "Kabupaten Blora",
+      "lintang": -7.1106,
+      "bujur": 111.4204,
+      "osm_id": 9687050
+    },
+    "33.17": {
+      "nama": "Kabupaten Rembang",
+      "lintang": -6.7699,
+      "bujur": 111.4557,
+      "osm_id": 9687055
+    },
+    "33.18": {
+      "nama": "Kabupaten Pati",
+      "lintang": -6.7534,
+      "bujur": 111.04,
+      "osm_id": 9687058
+    },
+    "33.19": {
+      "nama": "Kabupaten Kudus",
+      "lintang": -6.7978,
+      "bujur": 110.8679,
+      "osm_id": 9687057
+    },
+    "33.20": {
+      "nama": "Kabupaten Jepara",
+      "lintang": -6.5995,
+      "bujur": 110.7832,
+      "osm_id": 9687056
+    },
+    "33.21": {
+      "nama": "Kabupaten Demak",
+      "lintang": -6.9231,
+      "bujur": 110.6277,
+      "osm_id": 17241173
+    },
+    "33.22": {
+      "nama": "Kabupaten Semarang",
+      "lintang": -7.2877,
+      "bujur": 110.4019,
+      "osm_id": 9686813
+    },
+    "33.23": {
+      "nama": "Kabupaten Temanggung",
+      "lintang": -7.2398,
+      "bujur": 110.1217,
+      "osm_id": 9686823
+    },
+    "33.24": {
+      "nama": "Kabupaten Kendal",
+      "lintang": -7.0191,
+      "bujur": 110.1375,
+      "osm_id": 9686810
+    },
+    "33.25": {
+      "nama": "Kabupaten Batang",
+      "lintang": -6.9105,
+      "bujur": 109.7192,
+      "osm_id": 12397890896
+    },
+    "33.26": {
+      "nama": "Kabupaten Pekalongan",
+      "lintang": -7.0418,
+      "bujur": 109.6199,
+      "osm_id": 9686827
+    },
+    "33.27": {
+      "nama": "Kabupaten Pemalang",
+      "lintang": -7.0111,
+      "bujur": 109.3914,
+      "osm_id": 9686818
+    },
+    "33.28": {
+      "nama": "Kabupaten Tegal",
+      "lintang": -7.0564,
+      "bujur": 109.1316,
+      "osm_id": 9686817
+    },
+    "33.29": {
+      "nama": "Kabupaten Brebes",
+      "lintang": -7.0521,
+      "bujur": 108.8881,
+      "osm_id": 9686821
+    },
+    "33.71": {
+      "nama": "Kota Magelang",
+      "lintang": -7.4771,
+      "bujur": 110.2182,
+      "osm_id": 9686811
+    },
+    "33.72": {
+      "nama": "Kota Surakarta",
+      "lintang": -7.5692,
+      "bujur": 110.8284,
+      "osm_id": 9687063
+    },
+    "33.73": {
+      "nama": "Kota Salatiga",
+      "lintang": -7.3303,
+      "bujur": 110.4995,
+      "osm_id": 9686812
+    },
+    "33.74": {
+      "nama": "Kota Semarang",
+      "lintang": -6.9904,
+      "bujur": 110.4229,
+      "osm_id": 8409116
+    },
+    "33.75": {
+      "nama": "Kota Pekalongan",
+      "lintang": -6.8905,
+      "bujur": 109.6761,
+      "osm_id": 9686826
+    },
+    "33.76": {
+      "nama": "Kota Tegal",
+      "lintang": -6.8674,
+      "bujur": 109.1378,
+      "osm_id": 9686828
+    }
+  },
+  "kecamatan": {
+    "33.01.01": {
+      "nama": "Kedungreja",
+      "kabupaten_id": "33.01",
+      "kabupaten": "Kabupaten Cilacap",
+      "lintang": -7.5169,
+      "bujur": 108.7764,
+      "ditemukan": true,
+      "osm_id": 1308637361
+    },
+    "33.01.02": {
+      "nama": "Kesugihan",
+      "kabupaten_id": "33.01",
+      "kabupaten": "Kabupaten Cilacap",
+      "lintang": -7.6179,
+      "bujur": 109.1208,
+      "ditemukan": true,
+      "osm_id": 10957721906
+    },
+    "33.01.03": {
+      "nama": "Adipala",
+      "kabupaten_id": "33.01",
+      "kabupaten": "Kabupaten Cilacap",
+      "lintang": -7.6495,
+      "bujur": 109.1343,
+      "ditemukan": true,
+      "osm_id": 10230907
+    },
+    "33.01.04": {
+      "nama": "Binangun",
+      "kabupaten_id": "33.01",
+      "kabupaten": "Kabupaten Cilacap",
+      "lintang": -7.6681,
+      "bujur": 109.2668,
+      "ditemukan": true,
+      "osm_id": 10957721909
+    },
+    "33.01.05": {
+      "nama": "Nusawungu",
+      "kabupaten_id": "33.01",
+      "kabupaten": "Kabupaten Cilacap",
+      "lintang": -7.6488,
+      "bujur": 109.3441,
+      "ditemukan": true,
+      "osm_id": 11079861289
+    },
+    "33.01.06": {
+      "nama": "Kroya",
+      "kabupaten_id": "33.01",
+      "kabupaten": "Kabupaten Cilacap",
+      "lintang": -7.6299,
+      "bujur": 109.254,
+      "ditemukan": true,
+      "osm_id": 1240420535
+    },
+    "33.01.07": {
+      "nama": "Maos",
+      "kabupaten_id": "33.01",
+      "kabupaten": "Kabupaten Cilacap",
+      "lintang": -7.619,
+      "bujur": 109.1395,
+      "ditemukan": true,
+      "osm_id": 1091679801
+    },
+    "33.01.08": {
+      "nama": "Jeruklegi",
+      "kabupaten_id": "33.01",
+      "kabupaten": "Kabupaten Cilacap",
+      "lintang": -7.6229,
+      "bujur": 109.0181,
+      "ditemukan": true,
+      "osm_id": 1229991257
+    },
+    "33.01.09": {
+      "nama": "Kawunganten",
+      "kabupaten_id": "33.01",
+      "kabupaten": "Kabupaten Cilacap",
+      "lintang": -7.592,
+      "bujur": 108.9181,
+      "ditemukan": true,
+      "osm_id": 445615858
+    },
+    "33.01.10": {
+      "nama": "Gandrungmangu",
+      "kabupaten_id": "33.01",
+      "kabupaten": "Kabupaten Cilacap",
+      "lintang": -7.5111,
+      "bujur": 108.8431,
+      "ditemukan": true,
+      "osm_id": 11041704823
+    },
+    "33.01.11": {
+      "nama": "Sidareja",
+      "kabupaten_id": "33.01",
+      "kabupaten": "Kabupaten Cilacap",
+      "lintang": -7.4829,
+      "bujur": 108.7919,
+      "ditemukan": true,
+      "osm_id": 683037906
+    },
+    "33.01.12": {
+      "nama": "Karangpucung",
+      "kabupaten_id": "33.01",
+      "kabupaten": "Kabupaten Cilacap",
+      "lintang": -7.3459,
+      "bujur": 108.9526,
+      "ditemukan": true,
+      "osm_id": 10239481
+    },
+    "33.01.13": {
+      "nama": "Cimanggu",
+      "kabupaten_id": "33.01",
+      "kabupaten": "Kabupaten Cilacap",
+      "lintang": -7.3497,
+      "bujur": 108.8373,
+      "ditemukan": true,
+      "osm_id": 11080163888
+    },
+    "33.01.14": {
+      "nama": "Majenang",
+      "kabupaten_id": "33.01",
+      "kabupaten": "Kabupaten Cilacap",
+      "lintang": -7.2793,
+      "bujur": 108.7236,
+      "ditemukan": true,
+      "osm_id": 10239941
+    },
+    "33.01.15": {
+      "nama": "Wanareja",
+      "kabupaten_id": "33.01",
+      "kabupaten": "Kabupaten Cilacap",
+      "lintang": -7.334,
+      "bujur": 108.6865,
+      "ditemukan": true,
+      "osm_id": 14074160851
+    },
+    "33.01.16": {
+      "nama": "Dayeuhluhur",
+      "kabupaten_id": "33.01",
+      "kabupaten": "Kabupaten Cilacap",
+      "lintang": -7.2592,
+      "bujur": 108.6108,
+      "ditemukan": true,
+      "osm_id": 1308721395
+    },
+    "33.01.17": {
+      "nama": "Sampang",
+      "kabupaten_id": "33.01",
+      "kabupaten": "Kabupaten Cilacap",
+      "lintang": -7.566,
+      "bujur": 109.1889,
+      "ditemukan": true,
+      "osm_id": 10957696600
+    },
+    "33.01.18": {
+      "nama": "Cipari",
+      "kabupaten_id": "33.01",
+      "kabupaten": "Kabupaten Cilacap",
+      "lintang": -7.4389,
+      "bujur": 108.7603,
+      "ditemukan": true,
+      "osm_id": 155228935
+    },
+    "33.01.19": {
+      "nama": "Patimuan",
+      "kabupaten_id": "33.01",
+      "kabupaten": "Kabupaten Cilacap",
+      "lintang": -7.589,
+      "bujur": 108.7653,
+      "ditemukan": true,
+      "osm_id": 445615837
+    },
+    "33.01.20": {
+      "nama": "Bantarsari",
+      "kabupaten_id": "33.01",
+      "kabupaten": "Kabupaten Cilacap",
+      "lintang": -7.5513,
+      "bujur": 108.8826,
+      "ditemukan": true,
+      "osm_id": 709832948
+    },
+    "33.01.21": {
+      "nama": "Cilacap Selatan",
+      "kabupaten_id": "33.01",
+      "kabupaten": "Kabupaten Cilacap",
+      "lintang": -7.7142,
+      "bujur": 109.0035,
+      "ditemukan": true,
+      "osm_id": 634195956
+    },
+    "33.01.22": {
+      "nama": "Cilacap Tengah",
+      "kabupaten_id": "33.01",
+      "kabupaten": "Kabupaten Cilacap",
+      "lintang": -7.7272,
+      "bujur": 109.0096,
+      "ditemukan": true,
+      "osm_id": 1308651254
+    },
+    "33.01.23": {
+      "nama": "Cilacap Utara",
+      "kabupaten_id": "33.01",
+      "kabupaten": "Kabupaten Cilacap",
+      "lintang": -7.6845,
+      "bujur": 109.0388,
+      "ditemukan": true,
+      "osm_id": 10191371
+    },
+    "33.01.24": {
+      "nama": "Kampung Laut",
+      "kabupaten_id": "33.01",
+      "kabupaten": "Kabupaten Cilacap",
+      "lintang": -7.6849,
+      "bujur": 108.8291,
+      "ditemukan": true,
+      "osm_id": 10957696603
+    },
+    "33.02.01": {
+      "nama": "Lumbir",
+      "kabupaten_id": "33.02",
+      "kabupaten": "Kabupaten Banyumas",
+      "lintang": -7.447,
+      "bujur": 108.9608,
+      "ditemukan": true,
+      "osm_id": 1308661487
+    },
+    "33.02.02": {
+      "nama": "Wangon",
+      "kabupaten_id": "33.02",
+      "kabupaten": "Kabupaten Banyumas",
+      "lintang": -7.5111,
+      "bujur": 109.0596,
+      "ditemukan": true,
+      "osm_id": 1308653498
+    },
+    "33.02.03": {
+      "nama": "Jatilawang",
+      "kabupaten_id": "33.02",
+      "kabupaten": "Kabupaten Banyumas",
+      "lintang": -7.534,
+      "bujur": 109.1215,
+      "ditemukan": true,
+      "osm_id": 10957696601
+    },
+    "33.02.04": {
+      "nama": "Rawalo",
+      "kabupaten_id": "33.02",
+      "kabupaten": "Kabupaten Banyumas",
+      "lintang": -7.5367,
+      "bujur": 109.1793,
+      "ditemukan": true,
+      "osm_id": 527737543
+    },
+    "33.02.05": {
+      "nama": "Kebasen",
+      "kabupaten_id": "33.02",
+      "kabupaten": "Kabupaten Banyumas",
+      "lintang": -7.5322,
+      "bujur": 109.2041,
+      "ditemukan": true,
+      "osm_id": 1240420688
+    },
+    "33.02.06": {
+      "nama": "Kemranjen",
+      "kabupaten_id": "33.02",
+      "kabupaten": "Kabupaten Banyumas",
+      "lintang": -7.5934,
+      "bujur": 109.3071,
+      "ditemukan": true,
+      "osm_id": 12394291017
+    },
+    "33.02.07": {
+      "nama": "Sumpiuh",
+      "kabupaten_id": "33.02",
+      "kabupaten": "Kabupaten Banyumas",
+      "lintang": -7.6152,
+      "bujur": 109.3611,
+      "ditemukan": true,
+      "osm_id": 7849144087
+    },
+    "33.02.08": {
+      "nama": "Tambak",
+      "kabupaten_id": "33.02",
+      "kabupaten": "Kabupaten Banyumas",
+      "lintang": -7.6132,
+      "bujur": 109.4077,
+      "ditemukan": true,
+      "osm_id": 1258980963
+    },
+    "33.02.09": {
+      "nama": "Somagede",
+      "kabupaten_id": "33.02",
+      "kabupaten": "Kabupaten Banyumas",
+      "lintang": -7.5184,
+      "bujur": 109.3375,
+      "ditemukan": true,
+      "osm_id": 12394268881
+    },
+    "33.02.10": {
+      "nama": "Kalibagor",
+      "kabupaten_id": "33.02",
+      "kabupaten": "Kabupaten Banyumas",
+      "lintang": -7.4744,
+      "bujur": 109.2978,
+      "ditemukan": true,
+      "osm_id": 11084918100
+    },
+    "33.02.11": {
+      "nama": "Banyumas",
+      "kabupaten_id": "33.02",
+      "kabupaten": "Kabupaten Banyumas",
+      "lintang": -7.5143,
+      "bujur": 109.2938,
+      "ditemukan": true,
+      "osm_id": 850964951
+    },
+    "33.02.12": {
+      "nama": "Patikraja",
+      "kabupaten_id": "33.02",
+      "kabupaten": "Kabupaten Banyumas",
+      "lintang": -7.4881,
+      "bujur": 109.2143,
+      "ditemukan": true,
+      "osm_id": 11079738323
+    },
+    "33.02.13": {
+      "nama": "Purwojati",
+      "kabupaten_id": "33.02",
+      "kabupaten": "Kabupaten Banyumas",
+      "lintang": -7.49,
+      "bujur": 109.1189,
+      "ditemukan": true,
+      "osm_id": 10957696597
+    },
+    "33.02.14": {
+      "nama": "Ajibarang",
+      "kabupaten_id": "33.02",
+      "kabupaten": "Kabupaten Banyumas",
+      "lintang": -7.3671,
+      "bujur": 109.072,
+      "ditemukan": true,
+      "osm_id": 9821946112
+    },
+    "33.02.15": {
+      "nama": "Gumelar",
+      "kabupaten_id": "33.02",
+      "kabupaten": "Kabupaten Banyumas",
+      "lintang": -7.3757,
+      "bujur": 108.9802,
+      "ditemukan": true,
+      "osm_id": 10982597814
+    },
+    "33.02.16": {
+      "nama": "Pekuncen",
+      "kabupaten_id": "33.02",
+      "kabupaten": "Kabupaten Banyumas",
+      "lintang": -7.3671,
+      "bujur": 109.072,
+      "ditemukan": true,
+      "osm_id": 9821946112
+    },
+    "33.02.17": {
+      "nama": "Cilongok",
+      "kabupaten_id": "33.02",
+      "kabupaten": "Kabupaten Banyumas",
+      "lintang": -7.4054,
+      "bujur": 109.1412,
+      "ditemukan": true,
+      "osm_id": 10957696595
+    },
+    "33.02.18": {
+      "nama": "Karanglewas",
+      "kabupaten_id": "33.02",
+      "kabupaten": "Kabupaten Banyumas",
+      "lintang": -7.4208,
+      "bujur": 109.1993,
+      "ditemukan": true,
+      "osm_id": 10959796905
+    },
+    "33.02.19": {
+      "nama": "Sokaraja",
+      "kabupaten_id": "33.02",
+      "kabupaten": "Kabupaten Banyumas",
+      "lintang": -7.4448,
+      "bujur": 109.3257,
+      "ditemukan": true,
+      "osm_id": 317476471
+    },
+    "33.02.20": {
+      "nama": "Kembaran",
+      "kabupaten_id": "33.02",
+      "kabupaten": "Kabupaten Banyumas",
+      "lintang": -7.4022,
+      "bujur": 109.2859,
+      "ditemukan": true,
+      "osm_id": 12394291018
+    },
+    "33.02.21": {
+      "nama": "Sumbang",
+      "kabupaten_id": "33.02",
+      "kabupaten": "Kabupaten Banyumas",
+      "lintang": -7.3803,
+      "bujur": 109.2765,
+      "ditemukan": true,
+      "osm_id": 1308679249
+    },
+    "33.02.22": {
+      "nama": "Baturraden",
+      "kabupaten_id": "33.02",
+      "kabupaten": "Kabupaten Banyumas",
+      "lintang": -7.309,
+      "bujur": 109.229,
+      "ditemukan": true,
+      "osm_id": 297126827
+    },
+    "33.02.23": {
+      "nama": "Kedungbanteng",
+      "kabupaten_id": "33.02",
+      "kabupaten": "Kabupaten Banyumas",
+      "lintang": -7.3888,
+      "bujur": 109.2012,
+      "ditemukan": true,
+      "osm_id": 11058091858
+    },
+    "33.02.24": {
+      "nama": "Purwokerto Selatan",
+      "kabupaten_id": "33.02",
+      "kabupaten": "Kabupaten Banyumas",
+      "lintang": -7.4365,
+      "bujur": 109.2674,
+      "ditemukan": true,
+      "osm_id": 288757007
+    },
+    "33.02.25": {
+      "nama": "Purwokerto Barat",
+      "kabupaten_id": "33.02",
+      "kabupaten": "Kabupaten Banyumas",
+      "lintang": -7.4195,
+      "bujur": 109.2218,
+      "ditemukan": true,
+      "osm_id": 12048382009
+    },
+    "33.02.26": {
+      "nama": "Purwokerto Timur",
+      "kabupaten_id": "33.02",
+      "kabupaten": "Kabupaten Banyumas",
+      "lintang": -7.4241,
+      "bujur": 109.2394,
+      "ditemukan": true,
+      "osm_id": 929382932
+    },
+    "33.02.27": {
+      "nama": "Purwokerto Utara",
+      "kabupaten_id": "33.02",
+      "kabupaten": "Kabupaten Banyumas",
+      "lintang": -7.4165,
+      "bujur": 109.2434,
+      "ditemukan": true,
+      "osm_id": 996838510
+    },
+    "33.03.01": {
+      "nama": "Kemangkon",
+      "kabupaten_id": "33.03",
+      "kabupaten": "Kabupaten Purbalingga",
+      "lintang": -7.4498,
+      "bujur": 109.3926,
+      "ditemukan": true,
+      "osm_id": 10862231622
+    },
+    "33.03.02": {
+      "nama": "Bukateja",
+      "kabupaten_id": "33.03",
+      "kabupaten": "Kabupaten Purbalingga",
+      "lintang": -7.4286,
+      "bujur": 109.4336,
+      "ditemukan": true,
+      "osm_id": 10990073216
+    },
+    "33.03.03": {
+      "nama": "Kejobong",
+      "kabupaten_id": "33.03",
+      "kabupaten": "Kabupaten Purbalingga",
+      "lintang": -7.3908,
+      "bujur": 109.5107,
+      "ditemukan": true,
+      "osm_id": 1308673566
+    },
+    "33.03.04": {
+      "nama": "Kaligondang",
+      "kabupaten_id": "33.03",
+      "kabupaten": "Kabupaten Purbalingga",
+      "lintang": -7.3805,
+      "bujur": 109.3813,
+      "ditemukan": true,
+      "osm_id": 845908724
+    },
+    "33.03.05": {
+      "nama": "Purbalingga",
+      "kabupaten_id": "33.03",
+      "kabupaten": "Kabupaten Purbalingga",
+      "lintang": -7.3894,
+      "bujur": 109.3633,
+      "ditemukan": true,
+      "osm_id": 10957525369
+    },
+    "33.03.06": {
+      "nama": "Kalimanah",
+      "kabupaten_id": "33.03",
+      "kabupaten": "Kabupaten Purbalingga",
+      "lintang": -7.413,
+      "bujur": 109.339,
+      "ditemukan": true,
+      "osm_id": 10862270468
+    },
+    "33.03.07": {
+      "nama": "Kutasari",
+      "kabupaten_id": "33.03",
+      "kabupaten": "Kabupaten Purbalingga",
+      "lintang": -7.3488,
+      "bujur": 109.3198,
+      "ditemukan": true,
+      "osm_id": 9820300405
+    },
+    "33.03.08": {
+      "nama": "Mrebet",
+      "kabupaten_id": "33.03",
+      "kabupaten": "Kabupaten Purbalingga",
+      "lintang": -7.3321,
+      "bujur": 109.3551,
+      "ditemukan": true,
+      "osm_id": 9804393422
+    },
+    "33.03.09": {
+      "nama": "Bobotsari",
+      "kabupaten_id": "33.03",
+      "kabupaten": "Kabupaten Purbalingga",
+      "lintang": -7.3045,
+      "bujur": 109.3684,
+      "ditemukan": true,
+      "osm_id": 13723065282
+    },
+    "33.03.10": {
+      "nama": "Karangreja",
+      "kabupaten_id": "33.03",
+      "kabupaten": "Kabupaten Purbalingga",
+      "lintang": -7.2268,
+      "bujur": 109.3366,
+      "ditemukan": true,
+      "osm_id": 9805830757
+    },
+    "33.03.11": {
+      "nama": "Karanganyar",
+      "kabupaten_id": "33.03",
+      "kabupaten": "Kabupaten Purbalingga",
+      "lintang": -7.3047,
+      "bujur": 109.4132,
+      "ditemukan": true,
+      "osm_id": 623060095
+    },
+    "33.03.12": {
+      "nama": "Karangmoncol",
+      "kabupaten_id": "33.03",
+      "kabupaten": "Kabupaten Purbalingga",
+      "lintang": -7.3243,
+      "bujur": 109.4662,
+      "ditemukan": true,
+      "osm_id": 1308704687
+    },
+    "33.03.13": {
+      "nama": "Rembang",
+      "kabupaten_id": "33.03",
+      "kabupaten": "Kabupaten Purbalingga",
+      "lintang": -7.3273,
+      "bujur": 109.3999,
+      "ditemukan": false,
+      "keterangan": "Memakai titik tengah kabupaten karena tidak ditemukan di Nominatim"
+    },
+    "33.03.14": {
+      "nama": "Bojongsari",
+      "kabupaten_id": "33.03",
+      "kabupaten": "Kabupaten Purbalingga",
+      "lintang": -7.3476,
+      "bujur": 109.355,
+      "ditemukan": true,
+      "osm_id": 630697060
+    },
+    "33.03.15": {
+      "nama": "Padamara",
+      "kabupaten_id": "33.03",
+      "kabupaten": "Kabupaten Purbalingga",
+      "lintang": -7.3816,
+      "bujur": 109.3182,
+      "ditemukan": true,
+      "osm_id": 1308669871
+    },
+    "33.03.16": {
+      "nama": "Pengadegan",
+      "kabupaten_id": "33.03",
+      "kabupaten": "Kabupaten Purbalingga",
+      "lintang": -7.3661,
+      "bujur": 109.4693,
+      "ditemukan": true,
+      "osm_id": 12394467726
+    },
+    "33.03.17": {
+      "nama": "Karangjambu",
+      "kabupaten_id": "33.03",
+      "kabupaten": "Kabupaten Purbalingga",
+      "lintang": -7.2219,
+      "bujur": 109.3871,
+      "ditemukan": true,
+      "osm_id": 426225578
+    },
+    "33.03.18": {
+      "nama": "Kertanegara",
+      "kabupaten_id": "33.03",
+      "kabupaten": "Kabupaten Purbalingga",
+      "lintang": -7.3174,
+      "bujur": 109.438,
+      "ditemukan": true,
+      "osm_id": 1308680851
+    },
+    "33.04.01": {
+      "nama": "Susukan",
+      "kabupaten_id": "33.04",
+      "kabupaten": "Kabupaten Banjarnegara",
+      "lintang": -7.2427,
+      "bujur": 109.669,
+      "ditemukan": true,
+      "osm_id": 10943661955
+    },
+    "33.04.02": {
+      "nama": "Purworeja Klampok",
+      "kabupaten_id": "33.04",
+      "kabupaten": "Kabupaten Banjarnegara",
+      "lintang": -7.3559,
+      "bujur": 109.6601,
+      "ditemukan": false,
+      "keterangan": "Memakai titik tengah kabupaten karena tidak ditemukan di Nominatim"
+    },
+    "33.04.03": {
+      "nama": "Mandiraja",
+      "kabupaten_id": "33.04",
+      "kabupaten": "Kabupaten Banjarnegara",
+      "lintang": -7.4496,
+      "bujur": 109.5205,
+      "ditemukan": true,
+      "osm_id": 2059434778
+    },
+    "33.04.04": {
+      "nama": "Purwanegara",
+      "kabupaten_id": "33.04",
+      "kabupaten": "Kabupaten Banjarnegara",
+      "lintang": -7.4354,
+      "bujur": 109.5593,
+      "ditemukan": true,
+      "osm_id": 1308698919
+    },
+    "33.04.05": {
+      "nama": "Bawang",
+      "kabupaten_id": "33.04",
+      "kabupaten": "Kabupaten Banjarnegara",
+      "lintang": -7.4,
+      "bujur": 109.6159,
+      "ditemukan": true,
+      "osm_id": 1308687576
+    },
+    "33.04.06": {
+      "nama": "Banjarnegara",
+      "kabupaten_id": "33.04",
+      "kabupaten": "Kabupaten Banjarnegara",
+      "lintang": -7.3963,
+      "bujur": 109.6951,
+      "ditemukan": true,
+      "osm_id": 10957525362
+    },
+    "33.04.07": {
+      "nama": "Sigaluh",
+      "kabupaten_id": "33.04",
+      "kabupaten": "Kabupaten Banjarnegara",
+      "lintang": -7.395,
+      "bujur": 109.765,
+      "ditemukan": true,
+      "osm_id": 304341985
+    },
+    "33.04.08": {
+      "nama": "Madukara",
+      "kabupaten_id": "33.04",
+      "kabupaten": "Kabupaten Banjarnegara",
+      "lintang": -7.3791,
+      "bujur": 109.7462,
+      "ditemukan": true,
+      "osm_id": 11067969708
+    },
+    "33.04.09": {
+      "nama": "Banjarmangu",
+      "kabupaten_id": "33.04",
+      "kabupaten": "Kabupaten Banjarnegara",
+      "lintang": -7.3629,
+      "bujur": 109.685,
+      "ditemukan": true,
+      "osm_id": 1308673750
+    },
+    "33.04.10": {
+      "nama": "Wanadadi",
+      "kabupaten_id": "33.04",
+      "kabupaten": "Kabupaten Banjarnegara",
+      "lintang": -7.368,
+      "bujur": 109.6249,
+      "ditemukan": true,
+      "osm_id": 883718074
+    },
+    "33.04.11": {
+      "nama": "Rakit",
+      "kabupaten_id": "33.04",
+      "kabupaten": "Kabupaten Banjarnegara",
+      "lintang": -7.4351,
+      "bujur": 109.5297,
+      "ditemukan": true,
+      "osm_id": 1308678269
+    },
+    "33.04.12": {
+      "nama": "Punggelan",
+      "kabupaten_id": "33.04",
+      "kabupaten": "Kabupaten Banjarnegara",
+      "lintang": -7.3381,
+      "bujur": 109.5845,
+      "ditemukan": true,
+      "osm_id": 1308659364
+    },
+    "33.04.13": {
+      "nama": "Karangkobar",
+      "kabupaten_id": "33.04",
+      "kabupaten": "Kabupaten Banjarnegara",
+      "lintang": -7.252,
+      "bujur": 109.7468,
+      "ditemukan": true,
+      "osm_id": 11905932310
+    },
+    "33.04.14": {
+      "nama": "Pagentan",
+      "kabupaten_id": "33.04",
+      "kabupaten": "Kabupaten Banjarnegara",
+      "lintang": -7.3019,
+      "bujur": 109.8102,
+      "ditemukan": true,
+      "osm_id": 10960135655
+    },
+    "33.04.15": {
+      "nama": "Pejawaran",
+      "kabupaten_id": "33.04",
+      "kabupaten": "Kabupaten Banjarnegara",
+      "lintang": -7.2536,
+      "bujur": 109.8111,
+      "ditemukan": true,
+      "osm_id": 10942391035
+    },
+    "33.04.16": {
+      "nama": "Batur",
+      "kabupaten_id": "33.04",
+      "kabupaten": "Kabupaten Banjarnegara",
+      "lintang": -7.2063,
+      "bujur": 109.8272,
+      "ditemukan": true,
+      "osm_id": 5387490768
+    },
+    "33.04.17": {
+      "nama": "Wanayasa",
+      "kabupaten_id": "33.04",
+      "kabupaten": "Kabupaten Banjarnegara",
+      "lintang": -7.252,
+      "bujur": 109.7468,
+      "ditemukan": true,
+      "osm_id": 11905932310
+    },
+    "33.04.18": {
+      "nama": "Kalibening",
+      "kabupaten_id": "33.04",
+      "kabupaten": "Kabupaten Banjarnegara",
+      "lintang": -7.2214,
+      "bujur": 109.638,
+      "ditemukan": true,
+      "osm_id": 10960135653
+    },
+    "33.04.19": {
+      "nama": "Pandanarum",
+      "kabupaten_id": "33.04",
+      "kabupaten": "Kabupaten Banjarnegara",
+      "lintang": -7.2503,
+      "bujur": 109.602,
+      "ditemukan": true,
+      "osm_id": 12394129085
+    },
+    "33.04.20": {
+      "nama": "Pagedongan",
+      "kabupaten_id": "33.04",
+      "kabupaten": "Kabupaten Banjarnegara",
+      "lintang": -7.4398,
+      "bujur": 109.6924,
+      "ditemukan": true,
+      "osm_id": 1308648950
+    },
+    "33.05.01": {
+      "nama": "Ayah",
+      "kabupaten_id": "33.05",
+      "kabupaten": "Kabupaten Kebumen",
+      "lintang": -7.6595,
+      "bujur": 109.4029,
+      "ditemukan": true,
+      "osm_id": 730936448
+    },
+    "33.05.02": {
+      "nama": "Buayan",
+      "kabupaten_id": "33.05",
+      "kabupaten": "Kabupaten Kebumen",
+      "lintang": -7.682,
+      "bujur": 109.4899,
+      "ditemukan": true,
+      "osm_id": 11043554996
+    },
+    "33.05.03": {
+      "nama": "Puring",
+      "kabupaten_id": "33.05",
+      "kabupaten": "Kabupaten Kebumen",
+      "lintang": -7.7353,
+      "bujur": 109.523,
+      "ditemukan": true,
+      "osm_id": 10957525381
+    },
+    "33.05.04": {
+      "nama": "Petanahan",
+      "kabupaten_id": "33.05",
+      "kabupaten": "Kabupaten Kebumen",
+      "lintang": -7.7451,
+      "bujur": 109.5889,
+      "ditemukan": true,
+      "osm_id": 13946559113
+    },
+    "33.05.05": {
+      "nama": "Klirong",
+      "kabupaten_id": "33.05",
+      "kabupaten": "Kabupaten Kebumen",
+      "lintang": -7.7407,
+      "bujur": 109.6281,
+      "ditemukan": true,
+      "osm_id": 10957525379
+    },
+    "33.05.06": {
+      "nama": "Buluspesantren",
+      "kabupaten_id": "33.05",
+      "kabupaten": "Kabupaten Kebumen",
+      "lintang": -7.7724,
+      "bujur": 109.6664,
+      "ditemukan": true,
+      "osm_id": 700238132
+    },
+    "33.05.07": {
+      "nama": "Ambal",
+      "kabupaten_id": "33.05",
+      "kabupaten": "Kabupaten Kebumen",
+      "lintang": -7.7855,
+      "bujur": 109.7193,
+      "ditemukan": true,
+      "osm_id": 952566107
+    },
+    "33.05.08": {
+      "nama": "Mirit",
+      "kabupaten_id": "33.05",
+      "kabupaten": "Kabupaten Kebumen",
+      "lintang": -7.7763,
+      "bujur": 109.7721,
+      "ditemukan": true,
+      "osm_id": 948131901
+    },
+    "33.05.09": {
+      "nama": "Prembun",
+      "kabupaten_id": "33.05",
+      "kabupaten": "Kabupaten Kebumen",
+      "lintang": -7.7235,
+      "bujur": 109.8004,
+      "ditemukan": true,
+      "osm_id": 600113362
+    },
+    "33.05.10": {
+      "nama": "Kutowinangun",
+      "kabupaten_id": "33.05",
+      "kabupaten": "Kabupaten Kebumen",
+      "lintang": -7.7161,
+      "bujur": 109.7326,
+      "ditemukan": true,
+      "osm_id": 1259618968
+    },
+    "33.05.11": {
+      "nama": "Alian",
+      "kabupaten_id": "33.05",
+      "kabupaten": "Kabupaten Kebumen",
+      "lintang": -7.6133,
+      "bujur": 109.7028,
+      "ditemukan": true,
+      "osm_id": 12394359287
+    },
+    "33.05.12": {
+      "nama": "Kebumen",
+      "kabupaten_id": "33.05",
+      "kabupaten": "Kabupaten Kebumen",
+      "lintang": -7.6687,
+      "bujur": 109.6519,
+      "ditemukan": true,
+      "osm_id": 448090107
+    },
+    "33.05.13": {
+      "nama": "Pejagoan",
+      "kabupaten_id": "33.05",
+      "kabupaten": "Kabupaten Kebumen",
+      "lintang": -7.6724,
+      "bujur": 109.6469,
+      "ditemukan": true,
+      "osm_id": 1308646036
+    },
+    "33.05.14": {
+      "nama": "Sruweng",
+      "kabupaten_id": "33.05",
+      "kabupaten": "Kabupaten Kebumen",
+      "lintang": -7.6606,
+      "bujur": 109.6044,
+      "ditemukan": true,
+      "osm_id": 11041538711
+    },
+    "33.05.15": {
+      "nama": "Adimulyo",
+      "kabupaten_id": "33.05",
+      "kabupaten": "Kabupaten Kebumen",
+      "lintang": -7.6676,
+      "bujur": 109.5752,
+      "ditemukan": true,
+      "osm_id": 1308671744
+    },
+    "33.05.16": {
+      "nama": "Kuwarasan",
+      "kabupaten_id": "33.05",
+      "kabupaten": "Kabupaten Kebumen",
+      "lintang": -7.6622,
+      "bujur": 109.5095,
+      "ditemukan": true,
+      "osm_id": 10959766407
+    },
+    "33.05.17": {
+      "nama": "Rowokele",
+      "kabupaten_id": "33.05",
+      "kabupaten": "Kabupaten Kebumen",
+      "lintang": -7.6411,
+      "bujur": 109.4325,
+      "ditemukan": true,
+      "osm_id": 1308670832
+    },
+    "33.05.18": {
+      "nama": "Sempor",
+      "kabupaten_id": "33.05",
+      "kabupaten": "Kabupaten Kebumen",
+      "lintang": -7.5621,
+      "bujur": 109.4792,
+      "ditemukan": true,
+      "osm_id": 1308725099
+    },
+    "33.05.19": {
+      "nama": "Gombong",
+      "kabupaten_id": "33.05",
+      "kabupaten": "Kabupaten Kebumen",
+      "lintang": -7.6109,
+      "bujur": 109.5067,
+      "ditemukan": true,
+      "osm_id": 5333585222
+    },
+    "33.05.20": {
+      "nama": "Karanganyar",
+      "kabupaten_id": "33.05",
+      "kabupaten": "Kabupaten Kebumen",
+      "lintang": -7.6331,
+      "bujur": 109.5731,
+      "ditemukan": true,
+      "osm_id": 1259619016
+    },
+    "33.05.21": {
+      "nama": "Karanggayam",
+      "kabupaten_id": "33.05",
+      "kabupaten": "Kabupaten Kebumen",
+      "lintang": -7.5903,
+      "bujur": 109.5791,
+      "ditemukan": true,
+      "osm_id": 1308696508
+    },
+    "33.05.22": {
+      "nama": "Sadang",
+      "kabupaten_id": "33.05",
+      "kabupaten": "Kabupaten Kebumen",
+      "lintang": -7.5211,
+      "bujur": 109.6975,
+      "ditemukan": true,
+      "osm_id": 12396079122
+    },
+    "33.05.23": {
+      "nama": "Bonorowo",
+      "kabupaten_id": "33.05",
+      "kabupaten": "Kabupaten Kebumen",
+      "lintang": -7.7524,
+      "bujur": 109.8075,
+      "ditemukan": true,
+      "osm_id": 11057779285
+    },
+    "33.05.24": {
+      "nama": "Padureso",
+      "kabupaten_id": "33.05",
+      "kabupaten": "Kabupaten Kebumen",
+      "lintang": -7.6117,
+      "bujur": 109.7907,
+      "ditemukan": true,
+      "osm_id": 12394356359
+    },
+    "33.05.25": {
+      "nama": "Poncowarno",
+      "kabupaten_id": "33.05",
+      "kabupaten": "Kabupaten Kebumen",
+      "lintang": -7.6804,
+      "bujur": 109.7431,
+      "ditemukan": true,
+      "osm_id": 1308696626
+    },
+    "33.05.26": {
+      "nama": "Karangsambung",
+      "kabupaten_id": "33.05",
+      "kabupaten": "Kabupaten Kebumen",
+      "lintang": -7.5859,
+      "bujur": 109.6756,
+      "ditemukan": true,
+      "osm_id": 12394359288
+    },
+    "33.06.01": {
+      "nama": "Grabag",
+      "kabupaten_id": "33.06",
+      "kabupaten": "Kabupaten Purworejo",
+      "lintang": -7.8102,
+      "bujur": 109.8762,
+      "ditemukan": true,
+      "osm_id": 17699896
+    },
+    "33.06.02": {
+      "nama": "Ngombol",
+      "kabupaten_id": "33.06",
+      "kabupaten": "Kabupaten Purworejo",
+      "lintang": -7.8249,
+      "bujur": 109.9661,
+      "ditemukan": true,
+      "osm_id": 539186946
+    },
+    "33.06.03": {
+      "nama": "Purwodadi",
+      "kabupaten_id": "33.06",
+      "kabupaten": "Kabupaten Purworejo",
+      "lintang": -7.8104,
+      "bujur": 109.9965,
+      "ditemukan": true,
+      "osm_id": 10178928145
+    },
+    "33.06.04": {
+      "nama": "Bagelen",
+      "kabupaten_id": "33.06",
+      "kabupaten": "Kabupaten Purworejo",
+      "lintang": -7.8174,
+      "bujur": 110.0309,
+      "ditemukan": true,
+      "osm_id": 17701265
+    },
+    "33.06.05": {
+      "nama": "Kaligesing",
+      "kabupaten_id": "33.06",
+      "kabupaten": "Kabupaten Purworejo",
+      "lintang": -7.7309,
+      "bujur": 110.0955,
+      "ditemukan": true,
+      "osm_id": 17701264
+    },
+    "33.06.06": {
+      "nama": "Purworejo",
+      "kabupaten_id": "33.06",
+      "kabupaten": "Kabupaten Purworejo",
+      "lintang": -7.7131,
+      "bujur": 110.0091,
+      "ditemukan": true,
+      "osm_id": 17701262
+    },
+    "33.06.07": {
+      "nama": "Banyuurip",
+      "kabupaten_id": "33.06",
+      "kabupaten": "Kabupaten Purworejo",
+      "lintang": -7.7489,
+      "bujur": 109.9745,
+      "ditemukan": true,
+      "osm_id": 17701263
+    },
+    "33.06.08": {
+      "nama": "Bayan",
+      "kabupaten_id": "33.06",
+      "kabupaten": "Kabupaten Purworejo",
+      "lintang": -7.7261,
+      "bujur": 109.9392,
+      "ditemukan": true,
+      "osm_id": 17705266
+    },
+    "33.06.09": {
+      "nama": "Kutoarjo",
+      "kabupaten_id": "33.06",
+      "kabupaten": "Kabupaten Purworejo",
+      "lintang": -7.7261,
+      "bujur": 109.9072,
+      "ditemukan": true,
+      "osm_id": 1259618910
+    },
+    "33.06.10": {
+      "nama": "Butuh",
+      "kabupaten_id": "33.06",
+      "kabupaten": "Kabupaten Purworejo",
+      "lintang": -7.724,
+      "bujur": 109.8694,
+      "ditemukan": true,
+      "osm_id": 949581393
+    },
+    "33.06.11": {
+      "nama": "Pituruh",
+      "kabupaten_id": "33.06",
+      "kabupaten": "Kabupaten Purworejo",
+      "lintang": -7.6207,
+      "bujur": 109.8357,
+      "ditemukan": true,
+      "osm_id": 17699898
+    },
+    "33.06.12": {
+      "nama": "Kemiri",
+      "kabupaten_id": "33.06",
+      "kabupaten": "Kabupaten Purworejo",
+      "lintang": -7.6489,
+      "bujur": 109.9068,
+      "ditemukan": true,
+      "osm_id": 17701299
+    },
+    "33.06.13": {
+      "nama": "Bruno",
+      "kabupaten_id": "33.06",
+      "kabupaten": "Kabupaten Purworejo",
+      "lintang": -7.5712,
+      "bujur": 109.9198,
+      "ditemukan": true,
+      "osm_id": 17701261
+    },
+    "33.06.14": {
+      "nama": "Gebang",
+      "kabupaten_id": "33.06",
+      "kabupaten": "Kabupaten Purworejo",
+      "lintang": -7.6386,
+      "bujur": 109.9884,
+      "ditemukan": true,
+      "osm_id": 17701300
+    },
+    "33.06.15": {
+      "nama": "Loano",
+      "kabupaten_id": "33.06",
+      "kabupaten": "Kabupaten Purworejo",
+      "lintang": -7.6384,
+      "bujur": 110.0519,
+      "ditemukan": true,
+      "osm_id": 572221413
+    },
+    "33.06.16": {
+      "nama": "Bener",
+      "kabupaten_id": "33.06",
+      "kabupaten": "Kabupaten Purworejo",
+      "lintang": -7.6384,
+      "bujur": 110.0519,
+      "ditemukan": true,
+      "osm_id": 572221413
+    },
+    "33.07.01": {
+      "nama": "Wadaslintang",
+      "kabupaten_id": "33.07",
+      "kabupaten": "Kabupaten Wonosobo",
+      "lintang": -7.5501,
+      "bujur": 109.8092,
+      "ditemukan": true,
+      "osm_id": 12394356357
+    },
+    "33.07.02": {
+      "nama": "Kepil",
+      "kabupaten_id": "33.07",
+      "kabupaten": "Kabupaten Wonosobo",
+      "lintang": -7.5178,
+      "bujur": 110.003,
+      "ditemukan": true,
+      "osm_id": 11045622509
+    },
+    "33.07.03": {
+      "nama": "Sapuran",
+      "kabupaten_id": "33.07",
+      "kabupaten": "Kabupaten Wonosobo",
+      "lintang": -7.459,
+      "bujur": 109.9809,
+      "ditemukan": true,
+      "osm_id": 11079907008
+    },
+    "33.07.04": {
+      "nama": "Kaliwiro",
+      "kabupaten_id": "33.07",
+      "kabupaten": "Kabupaten Wonosobo",
+      "lintang": -7.4673,
+      "bujur": 109.8529,
+      "ditemukan": true,
+      "osm_id": 10942385261
+    },
+    "33.07.05": {
+      "nama": "Leksono",
+      "kabupaten_id": "33.07",
+      "kabupaten": "Kabupaten Wonosobo",
+      "lintang": -7.4177,
+      "bujur": 109.8549,
+      "ditemukan": true,
+      "osm_id": 11082525672
+    },
+    "33.07.06": {
+      "nama": "Selomerto",
+      "kabupaten_id": "33.07",
+      "kabupaten": "Kabupaten Wonosobo",
+      "lintang": -7.4133,
+      "bujur": 109.8851,
+      "ditemukan": true,
+      "osm_id": 11085095352
+    },
+    "33.07.07": {
+      "nama": "Kalikajar",
+      "kabupaten_id": "33.07",
+      "kabupaten": "Kabupaten Wonosobo",
+      "lintang": -7.4136,
+      "bujur": 109.9708,
+      "ditemukan": true,
+      "osm_id": 10960135659
+    },
+    "33.07.08": {
+      "nama": "Kertek",
+      "kabupaten_id": "33.07",
+      "kabupaten": "Kabupaten Wonosobo",
+      "lintang": -7.3838,
+      "bujur": 109.9691,
+      "ditemukan": true,
+      "osm_id": 5880914906
+    },
+    "33.07.09": {
+      "nama": "Wonosobo",
+      "kabupaten_id": "33.07",
+      "kabupaten": "Kabupaten Wonosobo",
+      "lintang": -7.3595,
+      "bujur": 109.9028,
+      "ditemukan": true,
+      "osm_id": 448090119
+    },
+    "33.07.10": {
+      "nama": "Watumalang",
+      "kabupaten_id": "33.07",
+      "kabupaten": "Kabupaten Wonosobo",
+      "lintang": -7.3139,
+      "bujur": 109.8182,
+      "ditemukan": true,
+      "osm_id": 10942405105
+    },
+    "33.07.11": {
+      "nama": "Mojotengah",
+      "kabupaten_id": "33.07",
+      "kabupaten": "Kabupaten Wonosobo",
+      "lintang": -7.3312,
+      "bujur": 109.9018,
+      "ditemukan": true,
+      "osm_id": 3458670241
+    },
+    "33.07.12": {
+      "nama": "Garung",
+      "kabupaten_id": "33.07",
+      "kabupaten": "Kabupaten Wonosobo",
+      "lintang": -7.2941,
+      "bujur": 109.9228,
+      "ditemukan": true,
+      "osm_id": 5950567627
+    },
+    "33.07.13": {
+      "nama": "Kejajar",
+      "kabupaten_id": "33.07",
+      "kabupaten": "Kabupaten Wonosobo",
+      "lintang": -7.2472,
+      "bujur": 109.9528,
+      "ditemukan": true,
+      "osm_id": 10982117226
+    },
+    "33.07.14": {
+      "nama": "Sukoharjo",
+      "kabupaten_id": "33.07",
+      "kabupaten": "Kabupaten Wonosobo",
+      "lintang": -7.404,
+      "bujur": 109.7872,
+      "ditemukan": true,
+      "osm_id": 10942343174
+    },
+    "33.07.15": {
+      "nama": "Kalibawang",
+      "kabupaten_id": "33.07",
+      "kabupaten": "Kabupaten Wonosobo",
+      "lintang": -7.5015,
+      "bujur": 109.9308,
+      "ditemukan": true,
+      "osm_id": 12379461245
+    },
+    "33.08.01": {
+      "nama": "Salaman",
+      "kabupaten_id": "33.08",
+      "kabupaten": "Kabupaten Magelang",
+      "lintang": -7.5981,
+      "bujur": 110.1825,
+      "ditemukan": true,
+      "osm_id": 1001018276
+    },
+    "33.08.02": {
+      "nama": "Borobudur",
+      "kabupaten_id": "33.08",
+      "kabupaten": "Kabupaten Magelang",
+      "lintang": -7.608,
+      "bujur": 110.2038,
+      "ditemukan": true,
+      "osm_id": 122741626
+    },
+    "33.08.03": {
+      "nama": "Ngluwar",
+      "kabupaten_id": "33.08",
+      "kabupaten": "Kabupaten Magelang",
+      "lintang": -7.6253,
+      "bujur": 110.3138,
+      "ditemukan": true,
+      "osm_id": 532106832
+    },
+    "33.08.04": {
+      "nama": "Salam",
+      "kabupaten_id": "33.08",
+      "kabupaten": "Kabupaten Magelang",
+      "lintang": -7.6254,
+      "bujur": 110.314,
+      "ditemukan": true,
+      "osm_id": 532106830
+    },
+    "33.08.05": {
+      "nama": "Srumbung",
+      "kabupaten_id": "33.08",
+      "kabupaten": "Kabupaten Magelang",
+      "lintang": -7.5973,
+      "bujur": 110.3307,
+      "ditemukan": true,
+      "osm_id": 367932188
+    },
+    "33.08.06": {
+      "nama": "Dukun",
+      "kabupaten_id": "33.08",
+      "kabupaten": "Kabupaten Magelang",
+      "lintang": -7.5435,
+      "bujur": 110.3315,
+      "ditemukan": true,
+      "osm_id": 9801179302
+    },
+    "33.08.07": {
+      "nama": "Sawangan",
+      "kabupaten_id": "33.08",
+      "kabupaten": "Kabupaten Magelang",
+      "lintang": -7.5435,
+      "bujur": 110.3315,
+      "ditemukan": true,
+      "osm_id": 9801179302
+    },
+    "33.08.08": {
+      "nama": "Muntilan",
+      "kabupaten_id": "33.08",
+      "kabupaten": "Kabupaten Magelang",
+      "lintang": -7.5828,
+      "bujur": 110.2899,
+      "ditemukan": true,
+      "osm_id": 364116039
+    },
+    "33.08.09": {
+      "nama": "Mungkid",
+      "kabupaten_id": "33.08",
+      "kabupaten": "Kabupaten Magelang",
+      "lintang": -7.5918,
+      "bujur": 110.2199,
+      "ditemukan": true,
+      "osm_id": 3054993666
+    },
+    "33.08.10": {
+      "nama": "Mertoyudan",
+      "kabupaten_id": "33.08",
+      "kabupaten": "Kabupaten Magelang",
+      "lintang": -7.5108,
+      "bujur": 110.2242,
+      "ditemukan": true,
+      "osm_id": 1308728049
+    },
+    "33.08.11": {
+      "nama": "Tempuran",
+      "kabupaten_id": "33.08",
+      "kabupaten": "Kabupaten Magelang",
+      "lintang": -7.5491,
+      "bujur": 110.1613,
+      "ditemukan": true,
+      "osm_id": 12394005217
+    },
+    "33.08.12": {
+      "nama": "Kajoran",
+      "kabupaten_id": "33.08",
+      "kabupaten": "Kabupaten Magelang",
+      "lintang": -7.5027,
+      "bujur": 110.0974,
+      "ditemukan": true,
+      "osm_id": 10960135664
+    },
+    "33.08.13": {
+      "nama": "Kaliangkrik",
+      "kabupaten_id": "33.08",
+      "kabupaten": "Kabupaten Magelang",
+      "lintang": -7.4637,
+      "bujur": 110.114,
+      "ditemukan": true,
+      "osm_id": 210376105
+    },
+    "33.08.14": {
+      "nama": "Bandongan",
+      "kabupaten_id": "33.08",
+      "kabupaten": "Kabupaten Magelang",
+      "lintang": -7.4637,
+      "bujur": 110.1887,
+      "ditemukan": true,
+      "osm_id": 11965077411
+    },
+    "33.08.15": {
+      "nama": "Candimulyo",
+      "kabupaten_id": "33.08",
+      "kabupaten": "Kabupaten Magelang",
+      "lintang": -7.4931,
+      "bujur": 110.2733,
+      "ditemukan": true,
+      "osm_id": 10951571614
+    },
+    "33.08.16": {
+      "nama": "Pakis",
+      "kabupaten_id": "33.08",
+      "kabupaten": "Kabupaten Magelang",
+      "lintang": -7.4522,
+      "bujur": 110.3324,
+      "ditemukan": true,
+      "osm_id": 10981969179
+    },
+    "33.08.17": {
+      "nama": "Ngablak",
+      "kabupaten_id": "33.08",
+      "kabupaten": "Kabupaten Magelang",
+      "lintang": -7.4939,
+      "bujur": 110.464,
+      "ditemukan": true,
+      "osm_id": 9776303367
+    },
+    "33.08.18": {
+      "nama": "Grabag",
+      "kabupaten_id": "33.08",
+      "kabupaten": "Kabupaten Magelang",
+      "lintang": -7.3714,
+      "bujur": 110.3257,
+      "ditemukan": true,
+      "osm_id": 10951571619
+    },
+    "33.08.19": {
+      "nama": "Tegalrejo",
+      "kabupaten_id": "33.08",
+      "kabupaten": "Kabupaten Magelang",
+      "lintang": -7.461,
+      "bujur": 110.2713,
+      "ditemukan": true,
+      "osm_id": 10981969172
+    },
+    "33.08.20": {
+      "nama": "Secang",
+      "kabupaten_id": "33.08",
+      "kabupaten": "Kabupaten Magelang",
+      "lintang": -7.3919,
+      "bujur": 110.2467,
+      "ditemukan": true,
+      "osm_id": 10951571617
+    },
+    "33.08.21": {
+      "nama": "Windusari",
+      "kabupaten_id": "33.08",
+      "kabupaten": "Kabupaten Magelang",
+      "lintang": -7.4018,
+      "bujur": 110.1816,
+      "ditemukan": true,
+      "osm_id": 10982066406
+    },
+    "33.09.01": {
+      "nama": "Selo",
+      "kabupaten_id": "33.09",
+      "kabupaten": "Kabupaten Boyolali",
+      "lintang": -7.5011,
+      "bujur": 110.4602,
+      "ditemukan": true,
+      "osm_id": 5317278
+    },
+    "33.09.02": {
+      "nama": "Ampel",
+      "kabupaten_id": "33.09",
+      "kabupaten": "Kabupaten Boyolali",
+      "lintang": -7.4519,
+      "bujur": 110.5436,
+      "ditemukan": true,
+      "osm_id": 10951094624
+    },
+    "33.09.03": {
+      "nama": "Cepogo",
+      "kabupaten_id": "33.09",
+      "kabupaten": "Kabupaten Boyolali",
+      "lintang": -7.5152,
+      "bujur": 110.5232,
+      "ditemukan": true,
+      "osm_id": 9771042833
+    },
+    "33.09.04": {
+      "nama": "Musuk",
+      "kabupaten_id": "33.09",
+      "kabupaten": "Kabupaten Boyolali",
+      "lintang": -7.5799,
+      "bujur": 110.5428,
+      "ditemukan": true,
+      "osm_id": 1500633055
+    },
+    "33.09.05": {
+      "nama": "Boyolali",
+      "kabupaten_id": "33.09",
+      "kabupaten": "Kabupaten Boyolali",
+      "lintang": -7.5314,
+      "bujur": 110.5973,
+      "ditemukan": true,
+      "osm_id": 10957525358
+    },
+    "33.09.06": {
+      "nama": "Mojosongo",
+      "kabupaten_id": "33.09",
+      "kabupaten": "Kabupaten Boyolali",
+      "lintang": -7.5377,
+      "bujur": 110.6189,
+      "ditemukan": true,
+      "osm_id": 996906214
+    },
+    "33.09.07": {
+      "nama": "Teras",
+      "kabupaten_id": "33.09",
+      "kabupaten": "Kabupaten Boyolali",
+      "lintang": -7.5355,
+      "bujur": 110.6598,
+      "ditemukan": true,
+      "osm_id": 1063125523
+    },
+    "33.09.08": {
+      "nama": "Sawit",
+      "kabupaten_id": "33.09",
+      "kabupaten": "Kabupaten Boyolali",
+      "lintang": -7.5769,
+      "bujur": 110.6786,
+      "ditemukan": true,
+      "osm_id": 10951571610
+    },
+    "33.09.09": {
+      "nama": "Banyudono",
+      "kabupaten_id": "33.09",
+      "kabupaten": "Kabupaten Boyolali",
+      "lintang": -7.5473,
+      "bujur": 110.6788,
+      "ditemukan": true,
+      "osm_id": 10951571611
+    },
+    "33.09.10": {
+      "nama": "Sambi",
+      "kabupaten_id": "33.09",
+      "kabupaten": "Kabupaten Boyolali",
+      "lintang": -7.4865,
+      "bujur": 110.6955,
+      "ditemukan": true,
+      "osm_id": 9765898250
+    },
+    "33.09.11": {
+      "nama": "Ngemplak",
+      "kabupaten_id": "33.09",
+      "kabupaten": "Kabupaten Boyolali",
+      "lintang": -7.5079,
+      "bujur": 110.7653,
+      "ditemukan": true,
+      "osm_id": 9678191
+    },
+    "33.09.12": {
+      "nama": "Nogosari",
+      "kabupaten_id": "33.09",
+      "kabupaten": "Kabupaten Boyolali",
+      "lintang": -7.4445,
+      "bujur": 110.7544,
+      "ditemukan": true,
+      "osm_id": 10951571608
+    },
+    "33.09.13": {
+      "nama": "Simo",
+      "kabupaten_id": "33.09",
+      "kabupaten": "Kabupaten Boyolali",
+      "lintang": -7.437,
+      "bujur": 110.6781,
+      "ditemukan": true,
+      "osm_id": 702472412
+    },
+    "33.09.14": {
+      "nama": "Karanggede",
+      "kabupaten_id": "33.09",
+      "kabupaten": "Kabupaten Boyolali",
+      "lintang": -7.3591,
+      "bujur": 110.6397,
+      "ditemukan": true,
+      "osm_id": 9765801430
+    },
+    "33.09.15": {
+      "nama": "Klego",
+      "kabupaten_id": "33.09",
+      "kabupaten": "Kabupaten Boyolali",
+      "lintang": -7.3549,
+      "bujur": 110.6925,
+      "ditemukan": true,
+      "osm_id": 9765043942
+    },
+    "33.09.16": {
+      "nama": "Andong",
+      "kabupaten_id": "33.09",
+      "kabupaten": "Kabupaten Boyolali",
+      "lintang": -7.3746,
+      "bujur": 110.7633,
+      "ditemukan": true,
+      "osm_id": 9765743237
+    },
+    "33.09.17": {
+      "nama": "Kemusu",
+      "kabupaten_id": "33.09",
+      "kabupaten": "Kabupaten Boyolali",
+      "lintang": -7.3058,
+      "bujur": 110.7517,
+      "ditemukan": true,
+      "osm_id": 9768543643
+    },
+    "33.09.18": {
+      "nama": "Wonosegoro",
+      "kabupaten_id": "33.09",
+      "kabupaten": "Kabupaten Boyolali",
+      "lintang": -7.3114,
+      "bujur": 110.6599,
+      "ditemukan": true,
+      "osm_id": 929275251
+    },
+    "33.09.19": {
+      "nama": "Juwangi",
+      "kabupaten_id": "33.09",
+      "kabupaten": "Kabupaten Boyolali",
+      "lintang": -7.1726,
+      "bujur": 110.7551,
+      "ditemukan": true,
+      "osm_id": 11070553224
+    },
+    "33.09.20": {
+      "nama": "Gladagsari",
+      "kabupaten_id": "33.09",
+      "kabupaten": "Kabupaten Boyolali",
+      "lintang": -7.4574,
+      "bujur": 110.5456,
+      "ditemukan": true,
+      "osm_id": 11068103799
+    },
+    "33.09.21": {
+      "nama": "Tamansari",
+      "kabupaten_id": "33.09",
+      "kabupaten": "Kabupaten Boyolali",
+      "lintang": -7.5799,
+      "bujur": 110.5428,
+      "ditemukan": true,
+      "osm_id": 1500633055
+    },
+    "33.09.22": {
+      "nama": "Wonosamodro",
+      "kabupaten_id": "33.09",
+      "kabupaten": "Kabupaten Boyolali",
+      "lintang": -7.2808,
+      "bujur": 110.6515,
+      "ditemukan": true,
+      "osm_id": 12394312780
+    },
+    "33.10.01": {
+      "nama": "Prambanan",
+      "kabupaten_id": "33.10",
+      "kabupaten": "Kabupaten Klaten",
+      "lintang": -7.7568,
+      "bujur": 110.4902,
+      "ditemukan": true,
+      "osm_id": 364061874
+    },
+    "33.10.02": {
+      "nama": "Gantiwarno",
+      "kabupaten_id": "33.10",
+      "kabupaten": "Kabupaten Klaten",
+      "lintang": -7.7691,
+      "bujur": 110.5668,
+      "ditemukan": true,
+      "osm_id": 3601816682
+    },
+    "33.10.03": {
+      "nama": "Wedi",
+      "kabupaten_id": "33.10",
+      "kabupaten": "Kabupaten Klaten",
+      "lintang": -7.7887,
+      "bujur": 110.6114,
+      "ditemukan": true,
+      "osm_id": 249869953
+    },
+    "33.10.04": {
+      "nama": "Bayat",
+      "kabupaten_id": "33.10",
+      "kabupaten": "Kabupaten Klaten",
+      "lintang": -7.7858,
+      "bujur": 110.6385,
+      "ditemukan": true,
+      "osm_id": 10959875445
+    },
+    "33.10.05": {
+      "nama": "Cawas",
+      "kabupaten_id": "33.10",
+      "kabupaten": "Kabupaten Klaten",
+      "lintang": -7.7577,
+      "bujur": 110.6948,
+      "ditemukan": true,
+      "osm_id": 11043112766
+    },
+    "33.10.06": {
+      "nama": "Trucuk",
+      "kabupaten_id": "33.10",
+      "kabupaten": "Kabupaten Klaten",
+      "lintang": -7.7249,
+      "bujur": 110.6339,
+      "ditemukan": true,
+      "osm_id": 168541473
+    },
+    "33.10.07": {
+      "nama": "Kebonarum",
+      "kabupaten_id": "33.10",
+      "kabupaten": "Kabupaten Klaten",
+      "lintang": -7.697,
+      "bujur": 110.5639,
+      "ditemukan": true,
+      "osm_id": 12394469840
+    },
+    "33.10.08": {
+      "nama": "Jogonalan",
+      "kabupaten_id": "33.10",
+      "kabupaten": "Kabupaten Klaten",
+      "lintang": -7.7238,
+      "bujur": 110.558,
+      "ditemukan": true,
+      "osm_id": 12394389855
+    },
+    "33.10.09": {
+      "nama": "Manisrenggo",
+      "kabupaten_id": "33.10",
+      "kabupaten": "Kabupaten Klaten",
+      "lintang": -7.6955,
+      "bujur": 110.492,
+      "ditemukan": true,
+      "osm_id": 10959875441
+    },
+    "33.10.10": {
+      "nama": "Karangnongko",
+      "kabupaten_id": "33.10",
+      "kabupaten": "Kabupaten Klaten",
+      "lintang": -7.6732,
+      "bujur": 110.5543,
+      "ditemukan": true,
+      "osm_id": 10959875439
+    },
+    "33.10.11": {
+      "nama": "Ceper",
+      "kabupaten_id": "33.10",
+      "kabupaten": "Kabupaten Klaten",
+      "lintang": -7.669,
+      "bujur": 110.6749,
+      "ditemukan": true,
+      "osm_id": 298610038
+    },
+    "33.10.12": {
+      "nama": "Pedan",
+      "kabupaten_id": "33.10",
+      "kabupaten": "Kabupaten Klaten",
+      "lintang": -7.6905,
+      "bujur": 110.6986,
+      "ditemukan": true,
+      "osm_id": 7798388756
+    },
+    "33.10.13": {
+      "nama": "Karangdowo",
+      "kabupaten_id": "33.10",
+      "kabupaten": "Kabupaten Klaten",
+      "lintang": -7.7081,
+      "bujur": 110.7371,
+      "ditemukan": true,
+      "osm_id": 9084911146
+    },
+    "33.10.14": {
+      "nama": "Juwiring",
+      "kabupaten_id": "33.10",
+      "kabupaten": "Kabupaten Klaten",
+      "lintang": -7.6517,
+      "bujur": 110.7245,
+      "ditemukan": true,
+      "osm_id": 18986011
+    },
+    "33.10.15": {
+      "nama": "Wonosari",
+      "kabupaten_id": "33.10",
+      "kabupaten": "Kabupaten Klaten",
+      "lintang": -7.6184,
+      "bujur": 110.7184,
+      "ditemukan": true,
+      "osm_id": 7162022334
+    },
+    "33.10.16": {
+      "nama": "Delanggu",
+      "kabupaten_id": "33.10",
+      "kabupaten": "Kabupaten Klaten",
+      "lintang": -7.6194,
+      "bujur": 110.6993,
+      "ditemukan": true,
+      "osm_id": 18644883
+    },
+    "33.10.17": {
+      "nama": "Polanharjo",
+      "kabupaten_id": "33.10",
+      "kabupaten": "Kabupaten Klaten",
+      "lintang": -7.6108,
+      "bujur": 110.66,
+      "ditemukan": true,
+      "osm_id": 10980867037
+    },
+    "33.10.18": {
+      "nama": "Karanganom",
+      "kabupaten_id": "33.10",
+      "kabupaten": "Kabupaten Klaten",
+      "lintang": -7.6464,
+      "bujur": 110.6245,
+      "ditemukan": true,
+      "osm_id": 10959875437
+    },
+    "33.10.19": {
+      "nama": "Tulung",
+      "kabupaten_id": "33.10",
+      "kabupaten": "Kabupaten Klaten",
+      "lintang": -7.5907,
+      "bujur": 110.6211,
+      "ditemukan": true,
+      "osm_id": 10980867062
+    },
+    "33.10.20": {
+      "nama": "Jatinom",
+      "kabupaten_id": "33.10",
+      "kabupaten": "Kabupaten Klaten",
+      "lintang": -7.6332,
+      "bujur": 110.5999,
+      "ditemukan": true,
+      "osm_id": 10959875438
+    },
+    "33.10.21": {
+      "nama": "Kemalang",
+      "kabupaten_id": "33.10",
+      "kabupaten": "Kabupaten Klaten",
+      "lintang": -7.666,
+      "bujur": 110.5205,
+      "ditemukan": true,
+      "osm_id": 10959875440
+    },
+    "33.10.22": {
+      "nama": "Ngawen",
+      "kabupaten_id": "33.10",
+      "kabupaten": "Kabupaten Klaten",
+      "lintang": -7.6681,
+      "bujur": 110.5971,
+      "ditemukan": true,
+      "osm_id": 11052136801
+    },
+    "33.10.23": {
+      "nama": "Kalikotes",
+      "kabupaten_id": "33.10",
+      "kabupaten": "Kabupaten Klaten",
+      "lintang": -7.7249,
+      "bujur": 110.6339,
+      "ditemukan": true,
+      "osm_id": 168541473
+    },
+    "33.10.24": {
+      "nama": "Klaten Utara",
+      "kabupaten_id": "33.10",
+      "kabupaten": "Kabupaten Klaten",
+      "lintang": -7.6815,
+      "bujur": 110.6061,
+      "ditemukan": true,
+      "osm_id": 535210714
+    },
+    "33.10.25": {
+      "nama": "Klaten Tengah",
+      "kabupaten_id": "33.10",
+      "kabupaten": "Kabupaten Klaten",
+      "lintang": -7.705,
+      "bujur": 110.6018,
+      "ditemukan": true,
+      "osm_id": 2565961463
+    },
+    "33.10.26": {
+      "nama": "Klaten Selatan",
+      "kabupaten_id": "33.10",
+      "kabupaten": "Kabupaten Klaten",
+      "lintang": -7.718,
+      "bujur": 110.5784,
+      "ditemukan": true,
+      "osm_id": 9947858017
+    },
+    "33.11.01": {
+      "nama": "Weru",
+      "kabupaten_id": "33.11",
+      "kabupaten": "Kabupaten Sukoharjo",
+      "lintang": -7.7591,
+      "bujur": 110.7599,
+      "ditemukan": true,
+      "osm_id": 12396104463
+    },
+    "33.11.02": {
+      "nama": "Bulu",
+      "kabupaten_id": "33.11",
+      "kabupaten": "Kabupaten Sukoharjo",
+      "lintang": -7.765,
+      "bujur": 110.8328,
+      "ditemukan": true,
+      "osm_id": 13020815
+    },
+    "33.11.03": {
+      "nama": "Tawangsari",
+      "kabupaten_id": "33.11",
+      "kabupaten": "Kabupaten Sukoharjo",
+      "lintang": -7.7357,
+      "bujur": 110.7957,
+      "ditemukan": true,
+      "osm_id": 10951565573
+    },
+    "33.11.04": {
+      "nama": "Sukoharjo",
+      "kabupaten_id": "33.11",
+      "kabupaten": "Kabupaten Sukoharjo",
+      "lintang": -7.765,
+      "bujur": 110.8328,
+      "ditemukan": true,
+      "osm_id": 13020815
+    },
+    "33.11.05": {
+      "nama": "Nguter",
+      "kabupaten_id": "33.11",
+      "kabupaten": "Kabupaten Sukoharjo",
+      "lintang": -7.7391,
+      "bujur": 110.8737,
+      "ditemukan": true,
+      "osm_id": 427936899
+    },
+    "33.11.06": {
+      "nama": "Bendosari",
+      "kabupaten_id": "33.11",
+      "kabupaten": "Kabupaten Sukoharjo",
+      "lintang": -7.6916,
+      "bujur": 110.8738,
+      "ditemukan": true,
+      "osm_id": 10951565593
+    },
+    "33.11.07": {
+      "nama": "Polokarto",
+      "kabupaten_id": "33.11",
+      "kabupaten": "Kabupaten Sukoharjo",
+      "lintang": -7.6388,
+      "bujur": 110.923,
+      "ditemukan": true,
+      "osm_id": 1308669815
+    },
+    "33.11.08": {
+      "nama": "Mojolaban",
+      "kabupaten_id": "33.11",
+      "kabupaten": "Kabupaten Sukoharjo",
+      "lintang": -7.5997,
+      "bujur": 110.8465,
+      "ditemukan": true,
+      "osm_id": 1358959618
+    },
+    "33.11.09": {
+      "nama": "Grogol",
+      "kabupaten_id": "33.11",
+      "kabupaten": "Kabupaten Sukoharjo",
+      "lintang": -7.602,
+      "bujur": 110.8189,
+      "ditemukan": true,
+      "osm_id": 13154903172
+    },
+    "33.11.10": {
+      "nama": "Baki",
+      "kabupaten_id": "33.11",
+      "kabupaten": "Kabupaten Sukoharjo",
+      "lintang": -7.6111,
+      "bujur": 110.7838,
+      "ditemukan": true,
+      "osm_id": 1157781979
+    },
+    "33.11.11": {
+      "nama": "Gatak",
+      "kabupaten_id": "33.11",
+      "kabupaten": "Kabupaten Sukoharjo",
+      "lintang": -7.5908,
+      "bujur": 110.7451,
+      "ditemukan": true,
+      "osm_id": 1092355091
+    },
+    "33.11.12": {
+      "nama": "Kartasura",
+      "kabupaten_id": "33.11",
+      "kabupaten": "Kabupaten Sukoharjo",
+      "lintang": -7.5469,
+      "bujur": 110.7439,
+      "ditemukan": true,
+      "osm_id": 12556248796
+    },
+    "33.12.01": {
+      "nama": "Pracimantoro",
+      "kabupaten_id": "33.12",
+      "kabupaten": "Kabupaten Wonogiri",
+      "lintang": -8.0552,
+      "bujur": 110.8089,
+      "ditemukan": true,
+      "osm_id": 10951602031
+    },
+    "33.12.02": {
+      "nama": "Giritontro",
+      "kabupaten_id": "33.12",
+      "kabupaten": "Kabupaten Wonogiri",
+      "lintang": -8.0683,
+      "bujur": 110.8722,
+      "ditemukan": true,
+      "osm_id": 11068132173
+    },
+    "33.12.03": {
+      "nama": "Giriwoyo",
+      "kabupaten_id": "33.12",
+      "kabupaten": "Kabupaten Wonogiri",
+      "lintang": -8.0282,
+      "bujur": 110.939,
+      "ditemukan": true,
+      "osm_id": 11056128001
+    },
+    "33.12.04": {
+      "nama": "Batuwarno",
+      "kabupaten_id": "33.12",
+      "kabupaten": "Kabupaten Wonogiri",
+      "lintang": -7.9859,
+      "bujur": 111.0075,
+      "ditemukan": true,
+      "osm_id": 10951602027
+    },
+    "33.12.05": {
+      "nama": "Tirtomoyo",
+      "kabupaten_id": "33.12",
+      "kabupaten": "Kabupaten Wonogiri",
+      "lintang": -7.948,
+      "bujur": 111.0585,
+      "ditemukan": true,
+      "osm_id": 10959875456
+    },
+    "33.12.06": {
+      "nama": "Nguntoronadi",
+      "kabupaten_id": "33.12",
+      "kabupaten": "Kabupaten Wonogiri",
+      "lintang": -7.922,
+      "bujur": 110.9517,
+      "ditemukan": true,
+      "osm_id": 10951602026
+    },
+    "33.12.07": {
+      "nama": "Baturetno",
+      "kabupaten_id": "33.12",
+      "kabupaten": "Kabupaten Wonogiri",
+      "lintang": -7.9839,
+      "bujur": 110.9347,
+      "ditemukan": true,
+      "osm_id": 1308714739
+    },
+    "33.12.08": {
+      "nama": "Eromoko",
+      "kabupaten_id": "33.12",
+      "kabupaten": "Kabupaten Wonogiri",
+      "lintang": -7.9623,
+      "bujur": 110.845,
+      "ditemukan": true,
+      "osm_id": 10951602029
+    },
+    "33.12.09": {
+      "nama": "Wuryantoro",
+      "kabupaten_id": "33.12",
+      "kabupaten": "Kabupaten Wonogiri",
+      "lintang": -7.8992,
+      "bujur": 110.8647,
+      "ditemukan": true,
+      "osm_id": 1308637257
+    },
+    "33.12.10": {
+      "nama": "Manyaran",
+      "kabupaten_id": "33.12",
+      "kabupaten": "Kabupaten Wonogiri",
+      "lintang": -7.828,
+      "bujur": 110.8097,
+      "ditemukan": true,
+      "osm_id": 10951565571
+    },
+    "33.12.11": {
+      "nama": "Selogiri",
+      "kabupaten_id": "33.12",
+      "kabupaten": "Kabupaten Wonogiri",
+      "lintang": -7.7799,
+      "bujur": 110.8919,
+      "ditemukan": true,
+      "osm_id": 10951602035
+    },
+    "33.12.12": {
+      "nama": "Wonogiri",
+      "kabupaten_id": "33.12",
+      "kabupaten": "Kabupaten Wonogiri",
+      "lintang": -7.8142,
+      "bujur": 110.926,
+      "ditemukan": true,
+      "osm_id": 10951602023
+    },
+    "33.12.13": {
+      "nama": "Ngadirojo",
+      "kabupaten_id": "33.12",
+      "kabupaten": "Kabupaten Wonogiri",
+      "lintang": -7.8194,
+      "bujur": 110.9945,
+      "ditemukan": true,
+      "osm_id": 14003807420
+    },
+    "33.12.14": {
+      "nama": "Sidoharjo",
+      "kabupaten_id": "33.12",
+      "kabupaten": "Kabupaten Wonogiri",
+      "lintang": -7.7894,
+      "bujur": 111.0823,
+      "ditemukan": true,
+      "osm_id": 12246247873
+    },
+    "33.12.15": {
+      "nama": "Jatiroto",
+      "kabupaten_id": "33.12",
+      "kabupaten": "Kabupaten Wonogiri",
+      "lintang": -7.8819,
+      "bujur": 111.1012,
+      "ditemukan": true,
+      "osm_id": 10951602022
+    },
+    "33.12.16": {
+      "nama": "Kismantoro",
+      "kabupaten_id": "33.12",
+      "kabupaten": "Kabupaten Wonogiri",
+      "lintang": -7.9088,
+      "bujur": 111.2495,
+      "ditemukan": true,
+      "osm_id": 1308669781
+    },
+    "33.12.17": {
+      "nama": "Purwantoro",
+      "kabupaten_id": "33.12",
+      "kabupaten": "Kabupaten Wonogiri",
+      "lintang": -7.8349,
+      "bujur": 111.245,
+      "ditemukan": true,
+      "osm_id": 1308656327
+    },
+    "33.12.18": {
+      "nama": "Bulukerto",
+      "kabupaten_id": "33.12",
+      "kabupaten": "Kabupaten Wonogiri",
+      "lintang": -7.7759,
+      "bujur": 111.2434,
+      "ditemukan": true,
+      "osm_id": 1308663553
+    },
+    "33.12.19": {
+      "nama": "Slogohimo",
+      "kabupaten_id": "33.12",
+      "kabupaten": "Kabupaten Wonogiri",
+      "lintang": -7.8277,
+      "bujur": 111.1785,
+      "ditemukan": true,
+      "osm_id": 14003807423
+    },
+    "33.12.20": {
+      "nama": "Jatisrono",
+      "kabupaten_id": "33.12",
+      "kabupaten": "Kabupaten Wonogiri",
+      "lintang": -7.8264,
+      "bujur": 111.1288,
+      "ditemukan": true,
+      "osm_id": 255174613
+    },
+    "33.12.21": {
+      "nama": "Jatipurno",
+      "kabupaten_id": "33.12",
+      "kabupaten": "Kabupaten Wonogiri",
+      "lintang": -7.7982,
+      "bujur": 111.1346,
+      "ditemukan": true,
+      "osm_id": 255511320
+    },
+    "33.12.22": {
+      "nama": "Girimarto",
+      "kabupaten_id": "33.12",
+      "kabupaten": "Kabupaten Wonogiri",
+      "lintang": -7.7879,
+      "bujur": 111.082,
+      "ditemukan": true,
+      "osm_id": 884114449
+    },
+    "33.12.23": {
+      "nama": "Karangtengah",
+      "kabupaten_id": "33.12",
+      "kabupaten": "Kabupaten Wonogiri",
+      "lintang": -8.0134,
+      "bujur": 111.0681,
+      "ditemukan": true,
+      "osm_id": 10951602018
+    },
+    "33.12.24": {
+      "nama": "Paranggupito",
+      "kabupaten_id": "33.12",
+      "kabupaten": "Kabupaten Wonogiri",
+      "lintang": -8.1639,
+      "bujur": 110.8524,
+      "ditemukan": true,
+      "osm_id": 10951602034
+    },
+    "33.12.25": {
+      "nama": "Puhpelem",
+      "kabupaten_id": "33.12",
+      "kabupaten": "Kabupaten Wonogiri",
+      "lintang": -7.7963,
+      "bujur": 111.2821,
+      "ditemukan": true,
+      "osm_id": 1308658035
+    },
+    "33.13.01": {
+      "nama": "Jatipuro",
+      "kabupaten_id": "33.13",
+      "kabupaten": "Kabupaten Karanganyar",
+      "lintang": -7.7521,
+      "bujur": 111.0182,
+      "ditemukan": true,
+      "osm_id": 10951630656
+    },
+    "33.13.02": {
+      "nama": "Jatiyoso",
+      "kabupaten_id": "33.13",
+      "kabupaten": "Kabupaten Karanganyar",
+      "lintang": -7.7297,
+      "bujur": 111.086,
+      "ditemukan": true,
+      "osm_id": 1308675553
+    },
+    "33.13.03": {
+      "nama": "Jumapolo",
+      "kabupaten_id": "33.13",
+      "kabupaten": "Kabupaten Karanganyar",
+      "lintang": -7.704,
+      "bujur": 111.0079,
+      "ditemukan": true,
+      "osm_id": 10951565586
+    },
+    "33.13.04": {
+      "nama": "Jumantono",
+      "kabupaten_id": "33.13",
+      "kabupaten": "Kabupaten Karanganyar",
+      "lintang": -7.6545,
+      "bujur": 110.9954,
+      "ditemukan": true,
+      "osm_id": 10951565590
+    },
+    "33.13.05": {
+      "nama": "Matesih",
+      "kabupaten_id": "33.13",
+      "kabupaten": "Kabupaten Karanganyar",
+      "lintang": -7.6465,
+      "bujur": 111.048,
+      "ditemukan": true,
+      "osm_id": 10951565589
+    },
+    "33.13.06": {
+      "nama": "Tawangmangu",
+      "kabupaten_id": "33.13",
+      "kabupaten": "Kabupaten Karanganyar",
+      "lintang": -7.6679,
+      "bujur": 111.1194,
+      "ditemukan": true,
+      "osm_id": 10951565584
+    },
+    "33.13.07": {
+      "nama": "Ngargoyoso",
+      "kabupaten_id": "33.13",
+      "kabupaten": "Kabupaten Karanganyar",
+      "lintang": -7.5853,
+      "bujur": 111.1044,
+      "ditemukan": true,
+      "osm_id": 1308669896
+    },
+    "33.13.08": {
+      "nama": "Karangpandan",
+      "kabupaten_id": "33.13",
+      "kabupaten": "Kabupaten Karanganyar",
+      "lintang": -7.6149,
+      "bujur": 111.0769,
+      "ditemukan": true,
+      "osm_id": 11068132177
+    },
+    "33.13.09": {
+      "nama": "Karanganyar",
+      "kabupaten_id": "33.13",
+      "kabupaten": "Kabupaten Karanganyar",
+      "lintang": -7.5976,
+      "bujur": 110.9469,
+      "ditemukan": true,
+      "osm_id": 3056671337
+    },
+    "33.13.10": {
+      "nama": "Tasikmadu",
+      "kabupaten_id": "33.13",
+      "kabupaten": "Kabupaten Karanganyar",
+      "lintang": -7.5798,
+      "bujur": 110.9307,
+      "ditemukan": true,
+      "osm_id": 10951565591
+    },
+    "33.13.11": {
+      "nama": "Jaten",
+      "kabupaten_id": "33.13",
+      "kabupaten": "Kabupaten Karanganyar",
+      "lintang": -7.5776,
+      "bujur": 110.8956,
+      "ditemukan": true,
+      "osm_id": 10951565592
+    },
+    "33.13.12": {
+      "nama": "Colomadu",
+      "kabupaten_id": "33.13",
+      "kabupaten": "Kabupaten Karanganyar",
+      "lintang": -7.5324,
+      "bujur": 110.7489,
+      "ditemukan": true,
+      "osm_id": 5476808484
+    },
+    "33.13.13": {
+      "nama": "Gondangrejo",
+      "kabupaten_id": "33.13",
+      "kabupaten": "Kabupaten Karanganyar",
+      "lintang": -7.468,
+      "bujur": 110.8072,
+      "ditemukan": true,
+      "osm_id": 10951565604
+    },
+    "33.13.14": {
+      "nama": "Kebakkramat",
+      "kabupaten_id": "33.13",
+      "kabupaten": "Kabupaten Karanganyar",
+      "lintang": -7.5313,
+      "bujur": 110.9009,
+      "ditemukan": true,
+      "osm_id": 1110517512
+    },
+    "33.13.15": {
+      "nama": "Mojogedang",
+      "kabupaten_id": "33.13",
+      "kabupaten": "Kabupaten Karanganyar",
+      "lintang": -7.5717,
+      "bujur": 111.0227,
+      "ditemukan": true,
+      "osm_id": 255185021
+    },
+    "33.13.16": {
+      "nama": "Kerjo",
+      "kabupaten_id": "33.13",
+      "kabupaten": "Kabupaten Karanganyar",
+      "lintang": -7.5366,
+      "bujur": 111.0627,
+      "ditemukan": true,
+      "osm_id": 10951630653
+    },
+    "33.13.17": {
+      "nama": "Jenawi",
+      "kabupaten_id": "33.13",
+      "kabupaten": "Kabupaten Karanganyar",
+      "lintang": -7.5749,
+      "bujur": 111.1346,
+      "ditemukan": true,
+      "osm_id": 11056044222
+    },
+    "33.14.01": {
+      "nama": "Kalijambe",
+      "kabupaten_id": "33.14",
+      "kabupaten": "Kabupaten Sragen",
+      "lintang": -7.4455,
+      "bujur": 110.8098,
+      "ditemukan": true,
+      "osm_id": 3134592566
+    },
+    "33.14.02": {
+      "nama": "Plupuh",
+      "kabupaten_id": "33.14",
+      "kabupaten": "Kabupaten Sragen",
+      "lintang": -7.4375,
+      "bujur": 110.8894,
+      "ditemukan": true,
+      "osm_id": 1308640801
+    },
+    "33.14.03": {
+      "nama": "Masaran",
+      "kabupaten_id": "33.14",
+      "kabupaten": "Kabupaten Sragen",
+      "lintang": -7.4682,
+      "bujur": 110.9477,
+      "ditemukan": true,
+      "osm_id": 1347352065
+    },
+    "33.14.04": {
+      "nama": "Kedawung",
+      "kabupaten_id": "33.14",
+      "kabupaten": "Kabupaten Sragen",
+      "lintang": -7.4801,
+      "bujur": 111.0478,
+      "ditemukan": true,
+      "osm_id": 10951630652
+    },
+    "33.14.05": {
+      "nama": "Sambirejo",
+      "kabupaten_id": "33.14",
+      "kabupaten": "Kabupaten Sragen",
+      "lintang": -7.4752,
+      "bujur": 111.1335,
+      "ditemukan": true,
+      "osm_id": 21186385
+    },
+    "33.14.06": {
+      "nama": "Gondang",
+      "kabupaten_id": "33.14",
+      "kabupaten": "Kabupaten Sragen",
+      "lintang": -7.4064,
+      "bujur": 111.1092,
+      "ditemukan": true,
+      "osm_id": 1244804847
+    },
+    "33.14.07": {
+      "nama": "Sambungmacan",
+      "kabupaten_id": "33.14",
+      "kabupaten": "Kabupaten Sragen",
+      "lintang": -7.3595,
+      "bujur": 111.1121,
+      "ditemukan": true,
+      "osm_id": 1308725746
+    },
+    "33.14.08": {
+      "nama": "Ngrampal",
+      "kabupaten_id": "33.14",
+      "kabupaten": "Kabupaten Sragen",
+      "lintang": -7.4046,
+      "bujur": 111.0564,
+      "ditemukan": true,
+      "osm_id": 10951630647
+    },
+    "33.14.09": {
+      "nama": "Karangmalang",
+      "kabupaten_id": "33.14",
+      "kabupaten": "Kabupaten Sragen",
+      "lintang": -7.4453,
+      "bujur": 111.0286,
+      "ditemukan": true,
+      "osm_id": 1076724344
+    },
+    "33.14.10": {
+      "nama": "Sragen",
+      "kabupaten_id": "33.14",
+      "kabupaten": "Kabupaten Sragen",
+      "lintang": -7.4277,
+      "bujur": 111.0235,
+      "ditemukan": true,
+      "osm_id": 1347352076
+    },
+    "33.14.11": {
+      "nama": "Sidoharjo",
+      "kabupaten_id": "33.14",
+      "kabupaten": "Kabupaten Sragen",
+      "lintang": -7.433,
+      "bujur": 110.9979,
+      "ditemukan": true,
+      "osm_id": 10959875449
+    },
+    "33.14.12": {
+      "nama": "Tanon",
+      "kabupaten_id": "33.14",
+      "kabupaten": "Kabupaten Sragen",
+      "lintang": -7.3704,
+      "bujur": 110.9349,
+      "ditemukan": true,
+      "osm_id": 11070363500
+    },
+    "33.14.13": {
+      "nama": "Gemolong",
+      "kabupaten_id": "33.14",
+      "kabupaten": "Kabupaten Sragen",
+      "lintang": -7.3996,
+      "bujur": 110.8355,
+      "ditemukan": true,
+      "osm_id": 10951571606
+    },
+    "33.14.14": {
+      "nama": "Miri",
+      "kabupaten_id": "33.14",
+      "kabupaten": "Kabupaten Sragen",
+      "lintang": -7.3583,
+      "bujur": 110.8267,
+      "ditemukan": true,
+      "osm_id": 10951630644
+    },
+    "33.14.15": {
+      "nama": "Sumberlawang",
+      "kabupaten_id": "33.14",
+      "kabupaten": "Kabupaten Sragen",
+      "lintang": -7.3311,
+      "bujur": 110.8583,
+      "ditemukan": true,
+      "osm_id": 10951630643
+    },
+    "33.14.16": {
+      "nama": "Mondokan",
+      "kabupaten_id": "33.14",
+      "kabupaten": "Kabupaten Sragen",
+      "lintang": -7.3185,
+      "bujur": 110.9341,
+      "ditemukan": true,
+      "osm_id": 10951630635
+    },
+    "33.14.17": {
+      "nama": "Sukodono",
+      "kabupaten_id": "33.14",
+      "kabupaten": "Kabupaten Sragen",
+      "lintang": -7.3294,
+      "bujur": 110.9612,
+      "ditemukan": true,
+      "osm_id": 10951630636
+    },
+    "33.14.18": {
+      "nama": "Gesi",
+      "kabupaten_id": "33.14",
+      "kabupaten": "Kabupaten Sragen",
+      "lintang": -7.3348,
+      "bujur": 111.0077,
+      "ditemukan": true,
+      "osm_id": 10951630642
+    },
+    "33.14.19": {
+      "nama": "Tangen",
+      "kabupaten_id": "33.14",
+      "kabupaten": "Kabupaten Sragen",
+      "lintang": -7.3326,
+      "bujur": 111.0579,
+      "ditemukan": true,
+      "osm_id": 10951630637
+    },
+    "33.14.20": {
+      "nama": "Jenar",
+      "kabupaten_id": "33.14",
+      "kabupaten": "Kabupaten Sragen",
+      "lintang": -7.2985,
+      "bujur": 111.1259,
+      "ditemukan": true,
+      "osm_id": 11055932286
+    },
+    "33.15.01": {
+      "nama": "Kedungjati",
+      "kabupaten_id": "33.15",
+      "kabupaten": "Kabupaten Grobogan",
+      "lintang": -7.1636,
+      "bujur": 110.6357,
+      "ditemukan": true,
+      "osm_id": 969249891
+    },
+    "33.15.02": {
+      "nama": "Karangrayung",
+      "kabupaten_id": "33.15",
+      "kabupaten": "Kabupaten Grobogan",
+      "lintang": -7.1119,
+      "bujur": 110.7798,
+      "ditemukan": true,
+      "osm_id": 1010647122
+    },
+    "33.15.03": {
+      "nama": "Penawangan",
+      "kabupaten_id": "33.15",
+      "kabupaten": "Kabupaten Grobogan",
+      "lintang": -7.0492,
+      "bujur": 110.8414,
+      "ditemukan": true,
+      "osm_id": 10951650614
+    },
+    "33.15.04": {
+      "nama": "Toroh",
+      "kabupaten_id": "33.15",
+      "kabupaten": "Kabupaten Grobogan",
+      "lintang": -7.1634,
+      "bujur": 110.903,
+      "ditemukan": true,
+      "osm_id": 10951630633
+    },
+    "33.15.05": {
+      "nama": "Geyer",
+      "kabupaten_id": "33.15",
+      "kabupaten": "Kabupaten Grobogan",
+      "lintang": -7.2109,
+      "bujur": 110.9032,
+      "ditemukan": true,
+      "osm_id": 10951630634
+    },
+    "33.15.06": {
+      "nama": "Pulokulon",
+      "kabupaten_id": "33.15",
+      "kabupaten": "Kabupaten Grobogan",
+      "lintang": -7.1243,
+      "bujur": 111.0333,
+      "ditemukan": true,
+      "osm_id": 1308661840
+    },
+    "33.15.07": {
+      "nama": "Kradenan",
+      "kabupaten_id": "33.15",
+      "kabupaten": "Kabupaten Grobogan",
+      "lintang": -7.1504,
+      "bujur": 111.1468,
+      "ditemukan": true,
+      "osm_id": 7898644685
+    },
+    "33.15.08": {
+      "nama": "Gabus",
+      "kabupaten_id": "33.15",
+      "kabupaten": "Kabupaten Grobogan",
+      "lintang": -7.1697,
+      "bujur": 111.1874,
+      "ditemukan": true,
+      "osm_id": 11045897496
+    },
+    "33.15.09": {
+      "nama": "Ngaringan",
+      "kabupaten_id": "33.15",
+      "kabupaten": "Kabupaten Grobogan",
+      "lintang": -7.0506,
+      "bujur": 111.1916,
+      "ditemukan": true,
+      "osm_id": 10951702782
+    },
+    "33.15.10": {
+      "nama": "Wirosari",
+      "kabupaten_id": "33.15",
+      "kabupaten": "Kabupaten Grobogan",
+      "lintang": -7.0776,
+      "bujur": 111.0915,
+      "ditemukan": true,
+      "osm_id": 10951702766
+    },
+    "33.15.11": {
+      "nama": "Tawangharjo",
+      "kabupaten_id": "33.15",
+      "kabupaten": "Kabupaten Grobogan",
+      "lintang": -7.086,
+      "bujur": 111.0038,
+      "ditemukan": true,
+      "osm_id": 10951650609
+    },
+    "33.15.12": {
+      "nama": "Grobogan",
+      "kabupaten_id": "33.15",
+      "kabupaten": "Kabupaten Grobogan",
+      "lintang": -7.0811,
+      "bujur": 110.9173,
+      "ditemukan": true,
+      "osm_id": 1308712305
+    },
+    "33.15.13": {
+      "nama": "Purwodadi",
+      "kabupaten_id": "33.15",
+      "kabupaten": "Kabupaten Grobogan",
+      "lintang": -7.0811,
+      "bujur": 110.9173,
+      "ditemukan": true,
+      "osm_id": 1308712305
+    },
+    "33.15.14": {
+      "nama": "Brati",
+      "kabupaten_id": "33.15",
+      "kabupaten": "Kabupaten Grobogan",
+      "lintang": -7.0226,
+      "bujur": 110.8743,
+      "ditemukan": true,
+      "osm_id": 10951650611
+    },
+    "33.15.15": {
+      "nama": "Klambu",
+      "kabupaten_id": "33.15",
+      "kabupaten": "Kabupaten Grobogan",
+      "lintang": -7.0082,
+      "bujur": 110.795,
+      "ditemukan": true,
+      "osm_id": 10951650612
+    },
+    "33.15.16": {
+      "nama": "Godong",
+      "kabupaten_id": "33.15",
+      "kabupaten": "Kabupaten Grobogan",
+      "lintang": -7.1119,
+      "bujur": 110.7798,
+      "ditemukan": true,
+      "osm_id": 1010647122
+    },
+    "33.15.17": {
+      "nama": "Gubug",
+      "kabupaten_id": "33.15",
+      "kabupaten": "Kabupaten Grobogan",
+      "lintang": -7.061,
+      "bujur": 110.6695,
+      "ditemukan": true,
+      "osm_id": 12189448986
+    },
+    "33.15.18": {
+      "nama": "Tegowanu",
+      "kabupaten_id": "33.15",
+      "kabupaten": "Kabupaten Grobogan",
+      "lintang": -7.0505,
+      "bujur": 110.6215,
+      "ditemukan": true,
+      "osm_id": 10939603645
+    },
+    "33.15.19": {
+      "nama": "Tanggungharjo",
+      "kabupaten_id": "33.15",
+      "kabupaten": "Kabupaten Grobogan",
+      "lintang": -7.094,
+      "bujur": 110.6032,
+      "ditemukan": true,
+      "osm_id": 10951571628
+    },
+    "33.16.01": {
+      "nama": "Jati",
+      "kabupaten_id": "33.16",
+      "kabupaten": "Kabupaten Blora",
+      "lintang": -7.2007,
+      "bujur": 111.2786,
+      "ditemukan": true,
+      "osm_id": 11082222629
+    },
+    "33.16.02": {
+      "nama": "Randublatung",
+      "kabupaten_id": "33.16",
+      "kabupaten": "Kabupaten Blora",
+      "lintang": -7.2036,
+      "bujur": 111.3868,
+      "ditemukan": true,
+      "osm_id": 10951702771
+    },
+    "33.16.03": {
+      "nama": "Kradenan",
+      "kabupaten_id": "33.16",
+      "kabupaten": "Kabupaten Blora",
+      "lintang": -7.2462,
+      "bujur": 111.4554,
+      "ditemukan": true,
+      "osm_id": 636521507
+    },
+    "33.16.04": {
+      "nama": "Kedungtuban",
+      "kabupaten_id": "33.16",
+      "kabupaten": "Kabupaten Blora",
+      "lintang": -7.1662,
+      "bujur": 111.5039,
+      "ditemukan": true,
+      "osm_id": 12394268880
+    },
+    "33.16.05": {
+      "nama": "Cepu",
+      "kabupaten_id": "33.16",
+      "kabupaten": "Kabupaten Blora",
+      "lintang": -7.1545,
+      "bujur": 111.5909,
+      "ditemukan": true,
+      "osm_id": 1362217419
+    },
+    "33.16.06": {
+      "nama": "Sambong",
+      "kabupaten_id": "33.16",
+      "kabupaten": "Kabupaten Blora",
+      "lintang": -7.1155,
+      "bujur": 111.5706,
+      "ditemukan": true,
+      "osm_id": 12394312783
+    },
+    "33.16.07": {
+      "nama": "Jiken",
+      "kabupaten_id": "33.16",
+      "kabupaten": "Kabupaten Blora",
+      "lintang": -7.0027,
+      "bujur": 111.5101,
+      "ditemukan": true,
+      "osm_id": 1308675559
+    },
+    "33.16.08": {
+      "nama": "Jepon",
+      "kabupaten_id": "33.16",
+      "kabupaten": "Kabupaten Blora",
+      "lintang": -6.9729,
+      "bujur": 111.4792,
+      "ditemukan": true,
+      "osm_id": 11045632021
+    },
+    "33.16.09": {
+      "nama": "Blora",
+      "kabupaten_id": "33.16",
+      "kabupaten": "Kabupaten Blora",
+      "lintang": -6.9692,
+      "bujur": 111.4131,
+      "ditemukan": true,
+      "osm_id": 450552097
+    },
+    "33.16.10": {
+      "nama": "Tunjungan",
+      "kabupaten_id": "33.16",
+      "kabupaten": "Kabupaten Blora",
+      "lintang": -6.9228,
+      "bujur": 111.3702,
+      "ditemukan": true,
+      "osm_id": 10951704910
+    },
+    "33.16.11": {
+      "nama": "Banjarejo",
+      "kabupaten_id": "33.16",
+      "kabupaten": "Kabupaten Blora",
+      "lintang": -7.0349,
+      "bujur": 111.3456,
+      "ditemukan": true,
+      "osm_id": 10951704907
+    },
+    "33.16.12": {
+      "nama": "Ngawen",
+      "kabupaten_id": "33.16",
+      "kabupaten": "Kabupaten Blora",
+      "lintang": -7.0038,
+      "bujur": 111.3144,
+      "ditemukan": true,
+      "osm_id": 10951704908
+    },
+    "33.16.13": {
+      "nama": "Kunduran",
+      "kabupaten_id": "33.16",
+      "kabupaten": "Kabupaten Blora",
+      "lintang": -7.0506,
+      "bujur": 111.2396,
+      "ditemukan": true,
+      "osm_id": 11068066538
+    },
+    "33.16.14": {
+      "nama": "Todanan",
+      "kabupaten_id": "33.16",
+      "kabupaten": "Kabupaten Blora",
+      "lintang": -6.9387,
+      "bujur": 111.1812,
+      "ditemukan": true,
+      "osm_id": 11082167337
+    },
+    "33.16.15": {
+      "nama": "Bogorejo",
+      "kabupaten_id": "33.16",
+      "kabupaten": "Kabupaten Blora",
+      "lintang": -6.9407,
+      "bujur": 111.5173,
+      "ditemukan": true,
+      "osm_id": 1308673203
+    },
+    "33.16.16": {
+      "nama": "Japah",
+      "kabupaten_id": "33.16",
+      "kabupaten": "Kabupaten Blora",
+      "lintang": -6.9421,
+      "bujur": 111.2904,
+      "ditemukan": true,
+      "osm_id": 10951704909
+    },
+    "33.17.01": {
+      "nama": "Sumber",
+      "kabupaten_id": "33.17",
+      "kabupaten": "Kabupaten Rembang",
+      "lintang": -6.7975,
+      "bujur": 111.2565,
+      "ditemukan": true,
+      "osm_id": 10951702779
+    },
+    "33.17.02": {
+      "nama": "Bulu",
+      "kabupaten_id": "33.17",
+      "kabupaten": "Kabupaten Rembang",
+      "lintang": -6.86,
+      "bujur": 111.4074,
+      "ditemukan": true,
+      "osm_id": 10951704912
+    },
+    "33.17.03": {
+      "nama": "Gunem",
+      "kabupaten_id": "33.17",
+      "kabupaten": "Kabupaten Rembang",
+      "lintang": -6.8098,
+      "bujur": 111.4693,
+      "ditemukan": true,
+      "osm_id": 1308640995
+    },
+    "33.17.04": {
+      "nama": "Sale",
+      "kabupaten_id": "33.17",
+      "kabupaten": "Kabupaten Rembang",
+      "lintang": -6.8635,
+      "bujur": 111.6039,
+      "ditemukan": true,
+      "osm_id": 1308686929
+    },
+    "33.17.05": {
+      "nama": "Sarang",
+      "kabupaten_id": "33.17",
+      "kabupaten": "Kabupaten Rembang",
+      "lintang": -6.7241,
+      "bujur": 111.6551,
+      "ditemukan": true,
+      "osm_id": 12396104465
+    },
+    "33.17.06": {
+      "nama": "Sedan",
+      "kabupaten_id": "33.17",
+      "kabupaten": "Kabupaten Rembang",
+      "lintang": -6.7736,
+      "bujur": 111.5634,
+      "ditemukan": true,
+      "osm_id": 10951704916
+    },
+    "33.17.07": {
+      "nama": "Pamotan",
+      "kabupaten_id": "33.17",
+      "kabupaten": "Kabupaten Rembang",
+      "lintang": -6.7572,
+      "bujur": 111.4883,
+      "ditemukan": true,
+      "osm_id": 10951704918
+    },
+    "33.17.08": {
+      "nama": "Sulang",
+      "kabupaten_id": "33.17",
+      "kabupaten": "Kabupaten Rembang",
+      "lintang": -6.8073,
+      "bujur": 111.3806,
+      "ditemukan": true,
+      "osm_id": 10951704913
+    },
+    "33.17.09": {
+      "nama": "Kaliori",
+      "kabupaten_id": "33.17",
+      "kabupaten": "Kabupaten Rembang",
+      "lintang": -6.7022,
+      "bujur": 111.2467,
+      "ditemukan": true,
+      "osm_id": 10951702778
+    },
+    "33.17.10": {
+      "nama": "Rembang",
+      "kabupaten_id": "33.17",
+      "kabupaten": "Kabupaten Rembang",
+      "lintang": -6.7057,
+      "bujur": 111.3486,
+      "ditemukan": true,
+      "osm_id": 5645200572
+    },
+    "33.17.11": {
+      "nama": "Pancur",
+      "kabupaten_id": "33.17",
+      "kabupaten": "Kabupaten Rembang",
+      "lintang": -6.7221,
+      "bujur": 111.4683,
+      "ditemukan": true,
+      "osm_id": 10951704915
+    },
+    "33.17.12": {
+      "nama": "Kragan",
+      "kabupaten_id": "33.17",
+      "kabupaten": "Kabupaten Rembang",
+      "lintang": -6.6968,
+      "bujur": 111.6208,
+      "ditemukan": true,
+      "osm_id": 1308656871
+    },
+    "33.17.13": {
+      "nama": "Sluke",
+      "kabupaten_id": "33.17",
+      "kabupaten": "Kabupaten Rembang",
+      "lintang": -6.6377,
+      "bujur": 111.5027,
+      "ditemukan": true,
+      "osm_id": 11052308555
+    },
+    "33.17.14": {
+      "nama": "Lasem",
+      "kabupaten_id": "33.17",
+      "kabupaten": "Kabupaten Rembang",
+      "lintang": -6.6921,
+      "bujur": 111.4516,
+      "ditemukan": true,
+      "osm_id": 10951704914
+    },
+    "33.18.01": {
+      "nama": "Sukolilo",
+      "kabupaten_id": "33.18",
+      "kabupaten": "Kabupaten Pati",
+      "lintang": -6.9334,
+      "bujur": 110.9167,
+      "ditemukan": true,
+      "osm_id": 19024718
+    },
+    "33.18.02": {
+      "nama": "Kayen",
+      "kabupaten_id": "33.18",
+      "kabupaten": "Kabupaten Pati",
+      "lintang": -6.8949,
+      "bujur": 110.9857,
+      "ditemukan": true,
+      "osm_id": 19024717
+    },
+    "33.18.03": {
+      "nama": "Tambakromo",
+      "kabupaten_id": "33.18",
+      "kabupaten": "Kabupaten Pati",
+      "lintang": -6.874,
+      "bujur": 111.0458,
+      "ditemukan": true,
+      "osm_id": 19024716
+    },
+    "33.18.04": {
+      "nama": "Winong",
+      "kabupaten_id": "33.18",
+      "kabupaten": "Kabupaten Pati",
+      "lintang": -6.8093,
+      "bujur": 111.1016,
+      "ditemukan": true,
+      "osm_id": 19013848
+    },
+    "33.18.05": {
+      "nama": "Pucakwangi",
+      "kabupaten_id": "33.18",
+      "kabupaten": "Kabupaten Pati",
+      "lintang": -6.8372,
+      "bujur": 111.1713,
+      "ditemukan": true,
+      "osm_id": 19013849
+    },
+    "33.18.06": {
+      "nama": "Jaken",
+      "kabupaten_id": "33.18",
+      "kabupaten": "Kabupaten Pati",
+      "lintang": -6.7735,
+      "bujur": 111.2237,
+      "ditemukan": true,
+      "osm_id": 19013850
+    },
+    "33.18.07": {
+      "nama": "Batangan",
+      "kabupaten_id": "33.18",
+      "kabupaten": "Kabupaten Pati",
+      "lintang": -6.7123,
+      "bujur": 111.2077,
+      "ditemukan": true,
+      "osm_id": 18988203
+    },
+    "33.18.08": {
+      "nama": "Juwana",
+      "kabupaten_id": "33.18",
+      "kabupaten": "Kabupaten Pati",
+      "lintang": -6.7117,
+      "bujur": 111.1515,
+      "ditemukan": true,
+      "osm_id": 18970996
+    },
+    "33.18.09": {
+      "nama": "Jakenan",
+      "kabupaten_id": "33.18",
+      "kabupaten": "Kabupaten Pati",
+      "lintang": -6.7623,
+      "bujur": 111.164,
+      "ditemukan": true,
+      "osm_id": 18970997
+    },
+    "33.18.10": {
+      "nama": "Pati",
+      "kabupaten_id": "33.18",
+      "kabupaten": "Kabupaten Pati",
+      "lintang": -6.7534,
+      "bujur": 111.04,
+      "ditemukan": true,
+      "osm_id": 18959145
+    },
+    "33.18.11": {
+      "nama": "Gabus",
+      "kabupaten_id": "33.18",
+      "kabupaten": "Kabupaten Pati",
+      "lintang": -6.8331,
+      "bujur": 111.0539,
+      "ditemukan": true,
+      "osm_id": 18970998
+    },
+    "33.18.12": {
+      "nama": "Margorejo",
+      "kabupaten_id": "33.18",
+      "kabupaten": "Kabupaten Pati",
+      "lintang": -6.7768,
+      "bujur": 111.0003,
+      "ditemukan": true,
+      "osm_id": 18961393
+    },
+    "33.18.13": {
+      "nama": "Gembong",
+      "kabupaten_id": "33.18",
+      "kabupaten": "Kabupaten Pati",
+      "lintang": -6.7035,
+      "bujur": 110.9447,
+      "ditemukan": true,
+      "osm_id": 18961392
+    },
+    "33.18.14": {
+      "nama": "Tlogowungu",
+      "kabupaten_id": "33.18",
+      "kabupaten": "Kabupaten Pati",
+      "lintang": -6.7013,
+      "bujur": 111.0112,
+      "ditemukan": true,
+      "osm_id": 813745336
+    },
+    "33.18.15": {
+      "nama": "Wedarijaksa",
+      "kabupaten_id": "33.18",
+      "kabupaten": "Kabupaten Pati",
+      "lintang": -6.6823,
+      "bujur": 111.0716,
+      "ditemukan": true,
+      "osm_id": 18961394
+    },
+    "33.18.16": {
+      "nama": "Margoyoso",
+      "kabupaten_id": "33.18",
+      "kabupaten": "Kabupaten Pati",
+      "lintang": -6.6029,
+      "bujur": 111.0527,
+      "ditemukan": true,
+      "osm_id": 18988201
+    },
+    "33.18.17": {
+      "nama": "Gunungwungkal",
+      "kabupaten_id": "33.18",
+      "kabupaten": "Kabupaten Pati",
+      "lintang": -6.5686,
+      "bujur": 110.9882,
+      "ditemukan": true,
+      "osm_id": 18988200
+    },
+    "33.18.18": {
+      "nama": "Cluwak",
+      "kabupaten_id": "33.18",
+      "kabupaten": "Kabupaten Pati",
+      "lintang": -6.5344,
+      "bujur": 110.9449,
+      "ditemukan": true,
+      "osm_id": 19011615
+    },
+    "33.18.19": {
+      "nama": "Tayu",
+      "kabupaten_id": "33.18",
+      "kabupaten": "Kabupaten Pati",
+      "lintang": -6.54,
+      "bujur": 111.0538,
+      "ditemukan": true,
+      "osm_id": 19011617
+    },
+    "33.18.20": {
+      "nama": "Dukuhseti",
+      "kabupaten_id": "33.18",
+      "kabupaten": "Kabupaten Pati",
+      "lintang": -6.4759,
+      "bujur": 111.0381,
+      "ditemukan": true,
+      "osm_id": 19011616
+    },
+    "33.18.21": {
+      "nama": "Trangkil",
+      "kabupaten_id": "33.18",
+      "kabupaten": "Kabupaten Pati",
+      "lintang": -6.6604,
+      "bujur": 111.0631,
+      "ditemukan": true,
+      "osm_id": 18988202
+    },
+    "33.19.01": {
+      "nama": "Kaliwungu",
+      "kabupaten_id": "33.19",
+      "kabupaten": "Kabupaten Kudus",
+      "lintang": -6.7722,
+      "bujur": 110.7955,
+      "ditemukan": true,
+      "osm_id": 11085203002
+    },
+    "33.19.02": {
+      "nama": "Kota Kudus",
+      "kabupaten_id": "33.19",
+      "kabupaten": "Kabupaten Kudus",
+      "lintang": -6.8078,
+      "bujur": 110.8417,
+      "ditemukan": true,
+      "osm_id": 262265665
+    },
+    "33.19.03": {
+      "nama": "Jati",
+      "kabupaten_id": "33.19",
+      "kabupaten": "Kabupaten Kudus",
+      "lintang": -6.8414,
+      "bujur": 110.8234,
+      "ditemukan": true,
+      "osm_id": 11024848151
+    },
+    "33.19.04": {
+      "nama": "Undaan",
+      "kabupaten_id": "33.19",
+      "kabupaten": "Kabupaten Kudus",
+      "lintang": -6.8935,
+      "bujur": 110.8076,
+      "ditemukan": true,
+      "osm_id": 10951702739
+    },
+    "33.19.05": {
+      "nama": "Mejobo",
+      "kabupaten_id": "33.19",
+      "kabupaten": "Kabupaten Kudus",
+      "lintang": -6.8285,
+      "bujur": 110.8896,
+      "ditemukan": true,
+      "osm_id": 1308645174
+    },
+    "33.19.06": {
+      "nama": "Jekulo",
+      "kabupaten_id": "33.19",
+      "kabupaten": "Kabupaten Kudus",
+      "lintang": -6.8058,
+      "bujur": 110.9173,
+      "ditemukan": true,
+      "osm_id": 10960085962
+    },
+    "33.19.07": {
+      "nama": "Bae",
+      "kabupaten_id": "33.19",
+      "kabupaten": "Kabupaten Kudus",
+      "lintang": -6.7692,
+      "bujur": 110.8541,
+      "ditemukan": true,
+      "osm_id": 1308637447
+    },
+    "33.19.08": {
+      "nama": "Gebog",
+      "kabupaten_id": "33.19",
+      "kabupaten": "Kabupaten Kudus",
+      "lintang": -6.7351,
+      "bujur": 110.8441,
+      "ditemukan": true,
+      "osm_id": 10951702746
+    },
+    "33.19.09": {
+      "nama": "Dawe",
+      "kabupaten_id": "33.19",
+      "kabupaten": "Kabupaten Kudus",
+      "lintang": -6.7334,
+      "bujur": 110.869,
+      "ditemukan": true,
+      "osm_id": 477675285
+    },
+    "33.20.01": {
+      "nama": "Kedung",
+      "kabupaten_id": "33.20",
+      "kabupaten": "Kabupaten Jepara",
+      "lintang": -6.6689,
+      "bujur": 110.6651,
+      "ditemukan": true,
+      "osm_id": 10951702750
+    },
+    "33.20.02": {
+      "nama": "Pecangaan",
+      "kabupaten_id": "33.20",
+      "kabupaten": "Kabupaten Jepara",
+      "lintang": -6.6984,
+      "bujur": 110.7102,
+      "ditemukan": true,
+      "osm_id": 304632182
+    },
+    "33.20.03": {
+      "nama": "Welahan",
+      "kabupaten_id": "33.20",
+      "kabupaten": "Kabupaten Jepara",
+      "lintang": -6.7551,
+      "bujur": 110.7244,
+      "ditemukan": true,
+      "osm_id": 1540891771
+    },
+    "33.20.04": {
+      "nama": "Mayong",
+      "kabupaten_id": "33.20",
+      "kabupaten": "Kabupaten Jepara",
+      "lintang": -6.7506,
+      "bujur": 110.7624,
+      "ditemukan": true,
+      "osm_id": 304629745
+    },
+    "33.20.05": {
+      "nama": "Batealit",
+      "kabupaten_id": "33.20",
+      "kabupaten": "Kabupaten Jepara",
+      "lintang": -6.6316,
+      "bujur": 110.7554,
+      "ditemukan": true,
+      "osm_id": 13946991214
+    },
+    "33.20.06": {
+      "nama": "Jepara",
+      "kabupaten_id": "33.20",
+      "kabupaten": "Kabupaten Jepara",
+      "lintang": -6.5899,
+      "bujur": 110.6673,
+      "ditemukan": true,
+      "osm_id": 1811389215
+    },
+    "33.20.07": {
+      "nama": "Mlonggo",
+      "kabupaten_id": "33.20",
+      "kabupaten": "Kabupaten Jepara",
+      "lintang": -6.5275,
+      "bujur": 110.7059,
+      "ditemukan": true,
+      "osm_id": 13947407440
+    },
+    "33.20.08": {
+      "nama": "Bangsri",
+      "kabupaten_id": "33.20",
+      "kabupaten": "Kabupaten Jepara",
+      "lintang": -6.5206,
+      "bujur": 110.7669,
+      "ditemukan": true,
+      "osm_id": 13919026151
+    },
+    "33.20.09": {
+      "nama": "Keling",
+      "kabupaten_id": "33.20",
+      "kabupaten": "Kabupaten Jepara",
+      "lintang": -6.4851,
+      "bujur": 110.8913,
+      "ditemukan": true,
+      "osm_id": 1537960600
+    },
+    "33.20.10": {
+      "nama": "Karimunjawa",
+      "kabupaten_id": "33.20",
+      "kabupaten": "Kabupaten Jepara",
+      "lintang": -5.8796,
+      "bujur": 110.4329,
+      "ditemukan": true,
+      "osm_id": 450714446
+    },
+    "33.20.11": {
+      "nama": "Tahunan",
+      "kabupaten_id": "33.20",
+      "kabupaten": "Kabupaten Jepara",
+      "lintang": -6.6315,
+      "bujur": 110.7045,
+      "ditemukan": true,
+      "osm_id": 1083735227
+    },
+    "33.20.12": {
+      "nama": "Nalumsari",
+      "kabupaten_id": "33.20",
+      "kabupaten": "Kabupaten Jepara",
+      "lintang": -6.7433,
+      "bujur": 110.7957,
+      "ditemukan": true,
+      "osm_id": 1308672915
+    },
+    "33.20.13": {
+      "nama": "Kalinyamatan",
+      "kabupaten_id": "33.20",
+      "kabupaten": "Kabupaten Jepara",
+      "lintang": -6.6984,
+      "bujur": 110.7102,
+      "ditemukan": true,
+      "osm_id": 304632182
+    },
+    "33.20.14": {
+      "nama": "Kembang",
+      "kabupaten_id": "33.20",
+      "kabupaten": "Kabupaten Jepara",
+      "lintang": -6.5038,
+      "bujur": 110.8048,
+      "ditemukan": true,
+      "osm_id": 1529302292
+    },
+    "33.20.15": {
+      "nama": "Pakis Aji",
+      "kabupaten_id": "33.20",
+      "kabupaten": "Kabupaten Jepara",
+      "lintang": -6.5878,
+      "bujur": 110.7448,
+      "ditemukan": true,
+      "osm_id": 12396104466
+    },
+    "33.20.16": {
+      "nama": "Donorojo",
+      "kabupaten_id": "33.20",
+      "kabupaten": "Kabupaten Jepara",
+      "lintang": -6.4581,
+      "bujur": 110.8854,
+      "ditemukan": true,
+      "osm_id": 1537965078
+    },
+    "33.21.01": {
+      "nama": "Mranggen",
+      "kabupaten_id": "33.21",
+      "kabupaten": "Kabupaten Demak",
+      "lintang": -7.0268,
+      "bujur": 110.512,
+      "ditemukan": true,
+      "osm_id": 655859539
+    },
+    "33.21.02": {
+      "nama": "Karangawen",
+      "kabupaten_id": "33.21",
+      "kabupaten": "Kabupaten Demak",
+      "lintang": -7.0443,
+      "bujur": 110.575,
+      "ditemukan": true,
+      "osm_id": 11082505303
+    },
+    "33.21.03": {
+      "nama": "Guntur",
+      "kabupaten_id": "33.21",
+      "kabupaten": "Kabupaten Demak",
+      "lintang": -6.9787,
+      "bujur": 110.6145,
+      "ditemukan": true,
+      "osm_id": 10969510138
+    },
+    "33.21.04": {
+      "nama": "Sayung",
+      "kabupaten_id": "33.21",
+      "kabupaten": "Kabupaten Demak",
+      "lintang": -6.942,
+      "bujur": 110.5086,
+      "ditemukan": true,
+      "osm_id": 636181151
+    },
+    "33.21.05": {
+      "nama": "Karangtengah",
+      "kabupaten_id": "33.21",
+      "kabupaten": "Kabupaten Demak",
+      "lintang": -6.919,
+      "bujur": 110.6002,
+      "ditemukan": true,
+      "osm_id": 10939575428
+    },
+    "33.21.06": {
+      "nama": "Wonosalam",
+      "kabupaten_id": "33.21",
+      "kabupaten": "Kabupaten Demak",
+      "lintang": -6.9274,
+      "bujur": 110.628,
+      "ditemukan": true,
+      "osm_id": 10939575422
+    },
+    "33.21.07": {
+      "nama": "Dempet",
+      "kabupaten_id": "33.21",
+      "kabupaten": "Kabupaten Demak",
+      "lintang": -6.9546,
+      "bujur": 110.6976,
+      "ditemukan": true,
+      "osm_id": 11079757423
+    },
+    "33.21.08": {
+      "nama": "Gajah",
+      "kabupaten_id": "33.21",
+      "kabupaten": "Kabupaten Demak",
+      "lintang": -6.8709,
+      "bujur": 110.7331,
+      "ditemukan": true,
+      "osm_id": 10951702740
+    },
+    "33.21.09": {
+      "nama": "Karanganyar",
+      "kabupaten_id": "33.21",
+      "kabupaten": "Kabupaten Demak",
+      "lintang": -6.8438,
+      "bujur": 110.7713,
+      "ditemukan": true,
+      "osm_id": 17241445
+    },
+    "33.21.10": {
+      "nama": "Mijen",
+      "kabupaten_id": "33.21",
+      "kabupaten": "Kabupaten Demak",
+      "lintang": -6.8143,
+      "bujur": 110.7036,
+      "ditemukan": true,
+      "osm_id": 17241367
+    },
+    "33.21.11": {
+      "nama": "Demak",
+      "kabupaten_id": "33.21",
+      "kabupaten": "Kabupaten Demak",
+      "lintang": -6.8948,
+      "bujur": 110.6385,
+      "ditemukan": true,
+      "osm_id": 262265672
+    },
+    "33.21.12": {
+      "nama": "Bonang",
+      "kabupaten_id": "33.21",
+      "kabupaten": "Kabupaten Demak",
+      "lintang": -6.8531,
+      "bujur": 110.5805,
+      "ditemukan": true,
+      "osm_id": 17241317
+    },
+    "33.21.13": {
+      "nama": "Wedung",
+      "kabupaten_id": "33.21",
+      "kabupaten": "Kabupaten Demak",
+      "lintang": -6.7706,
+      "bujur": 110.6246,
+      "ditemukan": true,
+      "osm_id": 17241293
+    },
+    "33.21.14": {
+      "nama": "Kebonagung",
+      "kabupaten_id": "33.21",
+      "kabupaten": "Kabupaten Demak",
+      "lintang": -7.0164,
+      "bujur": 110.6968,
+      "ditemukan": true,
+      "osm_id": 11066527645
+    },
+    "33.22.01": {
+      "nama": "Getasan",
+      "kabupaten_id": "33.22",
+      "kabupaten": "Kabupaten Semarang",
+      "lintang": -7.3763,
+      "bujur": 110.4405,
+      "ditemukan": true,
+      "osm_id": 10951571621
+    },
+    "33.22.02": {
+      "nama": "Tengaran",
+      "kabupaten_id": "33.22",
+      "kabupaten": "Kabupaten Semarang",
+      "lintang": -7.4202,
+      "bujur": 110.5219,
+      "ditemukan": true,
+      "osm_id": 10951571636
+    },
+    "33.22.03": {
+      "nama": "Susukan",
+      "kabupaten_id": "33.22",
+      "kabupaten": "Kabupaten Semarang",
+      "lintang": -7.1101,
+      "bujur": 110.4147,
+      "ditemukan": true,
+      "osm_id": 13909769267
+    },
+    "33.22.04": {
+      "nama": "Suruh",
+      "kabupaten_id": "33.22",
+      "kabupaten": "Kabupaten Semarang",
+      "lintang": -7.3673,
+      "bujur": 110.5727,
+      "ditemukan": true,
+      "osm_id": 9769624513
+    },
+    "33.22.05": {
+      "nama": "Pabelan",
+      "kabupaten_id": "33.22",
+      "kabupaten": "Kabupaten Semarang",
+      "lintang": -7.2962,
+      "bujur": 110.5119,
+      "ditemukan": true,
+      "osm_id": 676570956
+    },
+    "33.22.06": {
+      "nama": "Tuntang",
+      "kabupaten_id": "33.22",
+      "kabupaten": "Kabupaten Semarang",
+      "lintang": -7.2608,
+      "bujur": 110.454,
+      "ditemukan": true,
+      "osm_id": 1363024328
+    },
+    "33.22.07": {
+      "nama": "Banyubiru",
+      "kabupaten_id": "33.22",
+      "kabupaten": "Kabupaten Semarang",
+      "lintang": -7.2935,
+      "bujur": 110.404,
+      "ditemukan": true,
+      "osm_id": 2636730144
+    },
+    "33.22.08": {
+      "nama": "Jambu",
+      "kabupaten_id": "33.22",
+      "kabupaten": "Kabupaten Semarang",
+      "lintang": -7.2757,
+      "bujur": 110.3724,
+      "ditemukan": true,
+      "osm_id": 10960085976
+    },
+    "33.22.09": {
+      "nama": "Sumowono",
+      "kabupaten_id": "33.22",
+      "kabupaten": "Kabupaten Semarang",
+      "lintang": -7.2245,
+      "bujur": 110.3206,
+      "ditemukan": true,
+      "osm_id": 4755856721
+    },
+    "33.22.10": {
+      "nama": "Ambarawa",
+      "kabupaten_id": "33.22",
+      "kabupaten": "Kabupaten Semarang",
+      "lintang": -7.2655,
+      "bujur": 110.4017,
+      "ditemukan": true,
+      "osm_id": 1363024308
+    },
+    "33.22.11": {
+      "nama": "Bawen",
+      "kabupaten_id": "33.22",
+      "kabupaten": "Kabupaten Semarang",
+      "lintang": -7.2442,
+      "bujur": 110.433,
+      "ditemukan": true,
+      "osm_id": 11038411476
+    },
+    "33.22.12": {
+      "nama": "Bringin",
+      "kabupaten_id": "33.22",
+      "kabupaten": "Kabupaten Semarang",
+      "lintang": -7.002,
+      "bujur": 110.3329,
+      "ditemukan": true,
+      "osm_id": 8311187
+    },
+    "33.22.13": {
+      "nama": "Bergas",
+      "kabupaten_id": "33.22",
+      "kabupaten": "Kabupaten Semarang",
+      "lintang": -7.1889,
+      "bujur": 110.4259,
+      "ditemukan": true,
+      "osm_id": 12394467725
+    },
+    "33.22.15": {
+      "nama": "Pringapus",
+      "kabupaten_id": "33.22",
+      "kabupaten": "Kabupaten Semarang",
+      "lintang": -7.1892,
+      "bujur": 110.4644,
+      "ditemukan": true,
+      "osm_id": 405590756
+    },
+    "33.22.16": {
+      "nama": "Bancak",
+      "kabupaten_id": "33.22",
+      "kabupaten": "Kabupaten Semarang",
+      "lintang": -7.2381,
+      "bujur": 110.5918,
+      "ditemukan": true,
+      "osm_id": 12396087611
+    },
+    "33.22.17": {
+      "nama": "Kaliwungu",
+      "kabupaten_id": "33.22",
+      "kabupaten": "Kabupaten Semarang",
+      "lintang": -6.9744,
+      "bujur": 110.2844,
+      "ditemukan": true,
+      "osm_id": 4909836114
+    },
+    "33.22.18": {
+      "nama": "Ungaran Barat",
+      "kabupaten_id": "33.22",
+      "kabupaten": "Kabupaten Semarang",
+      "lintang": -7.0069,
+      "bujur": 110.3871,
+      "ditemukan": true,
+      "osm_id": 667613079
+    },
+    "33.22.19": {
+      "nama": "Ungaran Timur",
+      "kabupaten_id": "33.22",
+      "kabupaten": "Kabupaten Semarang",
+      "lintang": -7.1332,
+      "bujur": 110.4483,
+      "ditemukan": true,
+      "osm_id": 1876247949
+    },
+    "33.22.20": {
+      "nama": "Bandungan",
+      "kabupaten_id": "33.22",
+      "kabupaten": "Kabupaten Semarang",
+      "lintang": -7.2227,
+      "bujur": 110.3665,
+      "ditemukan": true,
+      "osm_id": 258962233
+    },
+    "33.23.01": {
+      "nama": "Bulu",
+      "kabupaten_id": "33.23",
+      "kabupaten": "Kabupaten Temanggung",
+      "lintang": -7.2941,
+      "bujur": 110.1274,
+      "ditemukan": true,
+      "osm_id": 1308656471
+    },
+    "33.23.02": {
+      "nama": "Tembarak",
+      "kabupaten_id": "33.23",
+      "kabupaten": "Kabupaten Temanggung",
+      "lintang": -7.3593,
+      "bujur": 110.1807,
+      "ditemukan": true,
+      "osm_id": 11056179047
+    },
+    "33.23.03": {
+      "nama": "Temanggung",
+      "kabupaten_id": "33.23",
+      "kabupaten": "Kabupaten Temanggung",
+      "lintang": -7.3163,
+      "bujur": 110.1756,
+      "ditemukan": true,
+      "osm_id": 10957525360
+    },
+    "33.23.04": {
+      "nama": "Pringsurat",
+      "kabupaten_id": "33.23",
+      "kabupaten": "Kabupaten Temanggung",
+      "lintang": -7.3579,
+      "bujur": 110.2881,
+      "ditemukan": true,
+      "osm_id": 10981969147
+    },
+    "33.23.05": {
+      "nama": "Kaloran",
+      "kabupaten_id": "33.23",
+      "kabupaten": "Kabupaten Temanggung",
+      "lintang": -7.2688,
+      "bujur": 110.2429,
+      "ditemukan": true,
+      "osm_id": 10960135643
+    },
+    "33.23.06": {
+      "nama": "Kandangan",
+      "kabupaten_id": "33.23",
+      "kabupaten": "Kabupaten Temanggung",
+      "lintang": -7.2542,
+      "bujur": 110.1857,
+      "ditemukan": true,
+      "osm_id": 10960135644
+    },
+    "33.23.07": {
+      "nama": "Kedu",
+      "kabupaten_id": "33.23",
+      "kabupaten": "Kabupaten Temanggung",
+      "lintang": -7.2755,
+      "bujur": 110.1588,
+      "ditemukan": true,
+      "osm_id": 11068250201
+    },
+    "33.23.08": {
+      "nama": "Parakan",
+      "kabupaten_id": "33.23",
+      "kabupaten": "Kabupaten Temanggung",
+      "lintang": -7.2835,
+      "bujur": 110.1022,
+      "ditemukan": true,
+      "osm_id": 2017932092
+    },
+    "33.23.09": {
+      "nama": "Ngadirejo",
+      "kabupaten_id": "33.23",
+      "kabupaten": "Kabupaten Temanggung",
+      "lintang": -7.2364,
+      "bujur": 110.0558,
+      "ditemukan": true,
+      "osm_id": 12299408844
+    },
+    "33.23.10": {
+      "nama": "Jumo",
+      "kabupaten_id": "33.23",
+      "kabupaten": "Kabupaten Temanggung",
+      "lintang": -7.2281,
+      "bujur": 110.1107,
+      "ditemukan": true,
+      "osm_id": 10960135645
+    },
+    "33.23.11": {
+      "nama": "Tretep",
+      "kabupaten_id": "33.23",
+      "kabupaten": "Kabupaten Temanggung",
+      "lintang": -7.1734,
+      "bujur": 110.009,
+      "ditemukan": true,
+      "osm_id": 1308665262
+    },
+    "33.23.12": {
+      "nama": "Candiroto",
+      "kabupaten_id": "33.23",
+      "kabupaten": "Kabupaten Temanggung",
+      "lintang": -7.1753,
+      "bujur": 110.0655,
+      "ditemukan": true,
+      "osm_id": 10960135646
+    },
+    "33.23.13": {
+      "nama": "Kranggan",
+      "kabupaten_id": "33.23",
+      "kabupaten": "Kabupaten Temanggung",
+      "lintang": -7.345,
+      "bujur": 110.2129,
+      "ditemukan": true,
+      "osm_id": 10960135667
+    },
+    "33.23.14": {
+      "nama": "Tlogomulyo",
+      "kabupaten_id": "33.23",
+      "kabupaten": "Kabupaten Temanggung",
+      "lintang": -7.3344,
+      "bujur": 110.1547,
+      "ditemukan": true,
+      "osm_id": 2751246296
+    },
+    "33.23.15": {
+      "nama": "Selopampang",
+      "kabupaten_id": "33.23",
+      "kabupaten": "Kabupaten Temanggung",
+      "lintang": -7.3788,
+      "bujur": 110.1731,
+      "ditemukan": true,
+      "osm_id": 11056038934
+    },
+    "33.23.16": {
+      "nama": "Bansari",
+      "kabupaten_id": "33.23",
+      "kabupaten": "Kabupaten Temanggung",
+      "lintang": -7.2846,
+      "bujur": 110.059,
+      "ditemukan": true,
+      "osm_id": 12394199857
+    },
+    "33.23.17": {
+      "nama": "Kledung",
+      "kabupaten_id": "33.23",
+      "kabupaten": "Kabupaten Temanggung",
+      "lintang": -7.3405,
+      "bujur": 110.0322,
+      "ditemukan": true,
+      "osm_id": 10982262585
+    },
+    "33.23.18": {
+      "nama": "Bejen",
+      "kabupaten_id": "33.23",
+      "kabupaten": "Kabupaten Temanggung",
+      "lintang": -7.1187,
+      "bujur": 110.0844,
+      "ditemukan": true,
+      "osm_id": 9480700016
+    },
+    "33.23.19": {
+      "nama": "Wonoboyo",
+      "kabupaten_id": "33.23",
+      "kabupaten": "Kabupaten Temanggung",
+      "lintang": -7.2008,
+      "bujur": 110.024,
+      "ditemukan": true,
+      "osm_id": 12394199856
+    },
+    "33.23.20": {
+      "nama": "Gemawang",
+      "kabupaten_id": "33.23",
+      "kabupaten": "Kabupaten Temanggung",
+      "lintang": -7.1909,
+      "bujur": 110.154,
+      "ditemukan": true,
+      "osm_id": 724398127
+    },
+    "33.24.01": {
+      "nama": "Plantungan",
+      "kabupaten_id": "33.24",
+      "kabupaten": "Kabupaten Kendal",
+      "lintang": -7.0993,
+      "bujur": 109.9683,
+      "ditemukan": true,
+      "osm_id": 10960135670
+    },
+    "33.24.02": {
+      "nama": "Pageruyung",
+      "kabupaten_id": "33.24",
+      "kabupaten": "Kabupaten Kendal",
+      "lintang": -7.0437,
+      "bujur": 110.0429,
+      "ditemukan": true,
+      "osm_id": 10960135649
+    },
+    "33.24.03": {
+      "nama": "Sukorejo",
+      "kabupaten_id": "33.24",
+      "kabupaten": "Kabupaten Kendal",
+      "lintang": -7.0893,
+      "bujur": 110.043,
+      "ditemukan": true,
+      "osm_id": 10960135648
+    },
+    "33.24.04": {
+      "nama": "Patean",
+      "kabupaten_id": "33.24",
+      "kabupaten": "Kabupaten Kendal",
+      "lintang": -7.0908,
+      "bujur": 110.0908,
+      "ditemukan": true,
+      "osm_id": 12894115366
+    },
+    "33.24.05": {
+      "nama": "Singorojo",
+      "kabupaten_id": "33.24",
+      "kabupaten": "Kabupaten Kendal",
+      "lintang": -7.0869,
+      "bujur": 110.2209,
+      "ditemukan": true,
+      "osm_id": 12889265038
+    },
+    "33.24.06": {
+      "nama": "Limbangan",
+      "kabupaten_id": "33.24",
+      "kabupaten": "Kabupaten Kendal",
+      "lintang": -7.15,
+      "bujur": 110.2853,
+      "ditemukan": true,
+      "osm_id": 10960085972
+    },
+    "33.24.07": {
+      "nama": "Boja",
+      "kabupaten_id": "33.24",
+      "kabupaten": "Kabupaten Kendal",
+      "lintang": -7.1051,
+      "bujur": 110.2775,
+      "ditemukan": true,
+      "osm_id": 9471766131
+    },
+    "33.24.08": {
+      "nama": "Kaliwungu",
+      "kabupaten_id": "33.24",
+      "kabupaten": "Kabupaten Kendal",
+      "lintang": -6.9552,
+      "bujur": 110.2476,
+      "ditemukan": true,
+      "osm_id": 824797218
+    },
+    "33.24.09": {
+      "nama": "Brangsong",
+      "kabupaten_id": "33.24",
+      "kabupaten": "Kabupaten Kendal",
+      "lintang": -6.948,
+      "bujur": 110.229,
+      "ditemukan": true,
+      "osm_id": 11052101084
+    },
+    "33.24.10": {
+      "nama": "Pegandon",
+      "kabupaten_id": "33.24",
+      "kabupaten": "Kabupaten Kendal",
+      "lintang": -6.9644,
+      "bujur": 110.1516,
+      "ditemukan": true,
+      "osm_id": 12394101002
+    },
+    "33.24.11": {
+      "nama": "Gemuh",
+      "kabupaten_id": "33.24",
+      "kabupaten": "Kabupaten Kendal",
+      "lintang": -6.9662,
+      "bujur": 110.1415,
+      "ditemukan": true,
+      "osm_id": 11082215594
+    },
+    "33.24.12": {
+      "nama": "Weleri",
+      "kabupaten_id": "33.24",
+      "kabupaten": "Kabupaten Kendal",
+      "lintang": -6.9724,
+      "bujur": 110.0686,
+      "ditemukan": true,
+      "osm_id": 13307646280
+    },
+    "33.24.13": {
+      "nama": "Cepiring",
+      "kabupaten_id": "33.24",
+      "kabupaten": "Kabupaten Kendal",
+      "lintang": -6.9251,
+      "bujur": 110.1524,
+      "ditemukan": true,
+      "osm_id": 3311258111
+    },
+    "33.24.14": {
+      "nama": "Patebon",
+      "kabupaten_id": "33.24",
+      "kabupaten": "Kabupaten Kendal",
+      "lintang": -6.9261,
+      "bujur": 110.1684,
+      "ditemukan": true,
+      "osm_id": 12394093400
+    },
+    "33.24.15": {
+      "nama": "Kendal",
+      "kabupaten_id": "33.24",
+      "kabupaten": "Kabupaten Kendal",
+      "lintang": -6.9217,
+      "bujur": 110.204,
+      "ditemukan": true,
+      "osm_id": 275792450
+    },
+    "33.24.16": {
+      "nama": "Rowosari",
+      "kabupaten_id": "33.24",
+      "kabupaten": "Kabupaten Kendal",
+      "lintang": -6.933,
+      "bujur": 110.0507,
+      "ditemukan": true,
+      "osm_id": 10946126933
+    },
+    "33.24.17": {
+      "nama": "Kangkung",
+      "kabupaten_id": "33.24",
+      "kabupaten": "Kabupaten Kendal",
+      "lintang": -6.9188,
+      "bujur": 110.1252,
+      "ditemukan": true,
+      "osm_id": 10943762808
+    },
+    "33.24.18": {
+      "nama": "Ringinarum",
+      "kabupaten_id": "33.24",
+      "kabupaten": "Kabupaten Kendal",
+      "lintang": -6.9913,
+      "bujur": 110.1088,
+      "ditemukan": true,
+      "osm_id": 11043495875
+    },
+    "33.24.19": {
+      "nama": "Ngampel",
+      "kabupaten_id": "33.24",
+      "kabupaten": "Kabupaten Kendal",
+      "lintang": -6.974,
+      "bujur": 110.1905,
+      "ditemukan": true,
+      "osm_id": 12394101001
+    },
+    "33.24.20": {
+      "nama": "Kaliwungu Selatan",
+      "kabupaten_id": "33.24",
+      "kabupaten": "Kabupaten Kendal",
+      "lintang": -6.9442,
+      "bujur": 110.2419,
+      "ditemukan": true,
+      "osm_id": 195750538
+    },
+    "33.25.01": {
+      "nama": "Wonotunggal",
+      "kabupaten_id": "33.25",
+      "kabupaten": "Kabupaten Batang",
+      "lintang": -7.0038,
+      "bujur": 109.7556,
+      "ditemukan": true,
+      "osm_id": 10826316162
+    },
+    "33.25.02": {
+      "nama": "Bandar",
+      "kabupaten_id": "33.25",
+      "kabupaten": "Kabupaten Batang",
+      "lintang": -7.0322,
+      "bujur": 109.7989,
+      "ditemukan": true,
+      "osm_id": 10960135685
+    },
+    "33.25.03": {
+      "nama": "Blado",
+      "kabupaten_id": "33.25",
+      "kabupaten": "Kabupaten Batang",
+      "lintang": -7.0709,
+      "bujur": 109.8339,
+      "ditemukan": true,
+      "osm_id": 10960135686
+    },
+    "33.25.04": {
+      "nama": "Reban",
+      "kabupaten_id": "33.25",
+      "kabupaten": "Kabupaten Batang",
+      "lintang": -7.0813,
+      "bujur": 109.8719,
+      "ditemukan": true,
+      "osm_id": 11070598773
+    },
+    "33.25.05": {
+      "nama": "Bawang",
+      "kabupaten_id": "33.25",
+      "kabupaten": "Kabupaten Batang",
+      "lintang": -7.1048,
+      "bujur": 109.9182,
+      "ditemukan": true,
+      "osm_id": 10960135688
+    },
+    "33.25.06": {
+      "nama": "Tersono",
+      "kabupaten_id": "33.25",
+      "kabupaten": "Kabupaten Batang",
+      "lintang": -7.0239,
+      "bujur": 109.9645,
+      "ditemukan": true,
+      "osm_id": 11068126501
+    },
+    "33.25.07": {
+      "nama": "Gringsing",
+      "kabupaten_id": "33.25",
+      "kabupaten": "Kabupaten Batang",
+      "lintang": -6.9596,
+      "bujur": 110.0111,
+      "ditemukan": true,
+      "osm_id": 19847755
+    },
+    "33.25.08": {
+      "nama": "Limpung",
+      "kabupaten_id": "33.25",
+      "kabupaten": "Kabupaten Batang",
+      "lintang": -7.0173,
+      "bujur": 109.9213,
+      "ditemukan": true,
+      "osm_id": 10826316029
+    },
+    "33.25.09": {
+      "nama": "Subah",
+      "kabupaten_id": "33.25",
+      "kabupaten": "Kabupaten Batang",
+      "lintang": -6.9706,
+      "bujur": 109.8735,
+      "ditemukan": true,
+      "osm_id": 11068139210
+    },
+    "33.25.10": {
+      "nama": "Tulis",
+      "kabupaten_id": "33.25",
+      "kabupaten": "Kabupaten Batang",
+      "lintang": -6.9473,
+      "bujur": 109.7827,
+      "ditemukan": true,
+      "osm_id": 10826316039
+    },
+    "33.25.11": {
+      "nama": "Batang",
+      "kabupaten_id": "33.25",
+      "kabupaten": "Kabupaten Batang",
+      "lintang": -6.9098,
+      "bujur": 109.7476,
+      "ditemukan": true,
+      "osm_id": 5333585229
+    },
+    "33.25.12": {
+      "nama": "Warungasem",
+      "kabupaten_id": "33.25",
+      "kabupaten": "Kabupaten Batang",
+      "lintang": -6.9402,
+      "bujur": 109.6817,
+      "ditemukan": true,
+      "osm_id": 10826316157
+    },
+    "33.25.13": {
+      "nama": "Kandeman",
+      "kabupaten_id": "33.25",
+      "kabupaten": "Kabupaten Batang",
+      "lintang": -6.9248,
+      "bujur": 109.7608,
+      "ditemukan": true,
+      "osm_id": 10826316234
+    },
+    "33.25.14": {
+      "nama": "Pecalungan",
+      "kabupaten_id": "33.25",
+      "kabupaten": "Kabupaten Batang",
+      "lintang": -7.0192,
+      "bujur": 109.8554,
+      "ditemukan": true,
+      "osm_id": 10978622032
+    },
+    "33.25.15": {
+      "nama": "Banyuputih",
+      "kabupaten_id": "33.25",
+      "kabupaten": "Kabupaten Batang",
+      "lintang": -6.973,
+      "bujur": 109.9284,
+      "ditemukan": true,
+      "osm_id": 12393591669
+    },
+    "33.26.01": {
+      "nama": "Kandangserang",
+      "kabupaten_id": "33.26",
+      "kabupaten": "Kabupaten Pekalongan",
+      "lintang": -7.1235,
+      "bujur": 109.5205,
+      "ditemukan": true,
+      "osm_id": 11052201840
+    },
+    "33.26.02": {
+      "nama": "Paninggaran",
+      "kabupaten_id": "33.26",
+      "kabupaten": "Kabupaten Pekalongan",
+      "lintang": -7.168,
+      "bujur": 109.5887,
+      "ditemukan": true,
+      "osm_id": 11082401131
+    },
+    "33.26.03": {
+      "nama": "Lebakbarang",
+      "kabupaten_id": "33.26",
+      "kabupaten": "Kabupaten Pekalongan",
+      "lintang": -7.0418,
+      "bujur": 109.6199,
+      "ditemukan": false,
+      "keterangan": "Memakai titik tengah kabupaten karena tidak ditemukan di Nominatim"
+    },
+    "33.26.04": {
+      "nama": "Petungkriyono",
+      "kabupaten_id": "33.26",
+      "kabupaten": "Kabupaten Pekalongan",
+      "lintang": -7.1082,
+      "bujur": 109.7316,
+      "ditemukan": true,
+      "osm_id": 1353114765
+    },
+    "33.26.05": {
+      "nama": "Talun",
+      "kabupaten_id": "33.26",
+      "kabupaten": "Kabupaten Pekalongan",
+      "lintang": -7.007,
+      "bujur": 109.7211,
+      "ditemukan": true,
+      "osm_id": 12394129091
+    },
+    "33.26.06": {
+      "nama": "Doro",
+      "kabupaten_id": "33.26",
+      "kabupaten": "Kabupaten Pekalongan",
+      "lintang": -7.0267,
+      "bujur": 109.6906,
+      "ditemukan": true,
+      "osm_id": 10960135681
+    },
+    "33.26.07": {
+      "nama": "Karanganyar",
+      "kabupaten_id": "33.26",
+      "kabupaten": "Kabupaten Pekalongan",
+      "lintang": -7.0315,
+      "bujur": 109.6231,
+      "ditemukan": true,
+      "osm_id": 10960135673
+    },
+    "33.26.08": {
+      "nama": "Kajen",
+      "kabupaten_id": "33.26",
+      "kabupaten": "Kabupaten Pekalongan",
+      "lintang": -7.0311,
+      "bujur": 109.5784,
+      "ditemukan": true,
+      "osm_id": 1308637616
+    },
+    "33.26.09": {
+      "nama": "Kesesi",
+      "kabupaten_id": "33.26",
+      "kabupaten": "Kabupaten Pekalongan",
+      "lintang": -7.0135,
+      "bujur": 109.4991,
+      "ditemukan": true,
+      "osm_id": 603847025
+    },
+    "33.26.10": {
+      "nama": "Sragi",
+      "kabupaten_id": "33.26",
+      "kabupaten": "Kabupaten Pekalongan",
+      "lintang": -6.9279,
+      "bujur": 109.5653,
+      "ditemukan": true,
+      "osm_id": 1308636344
+    },
+    "33.26.11": {
+      "nama": "Bojong",
+      "kabupaten_id": "33.26",
+      "kabupaten": "Kabupaten Pekalongan",
+      "lintang": -6.9425,
+      "bujur": 109.6062,
+      "ditemukan": true,
+      "osm_id": 7265380340
+    },
+    "33.26.12": {
+      "nama": "Wonopringgo",
+      "kabupaten_id": "33.26",
+      "kabupaten": "Kabupaten Pekalongan",
+      "lintang": -6.9859,
+      "bujur": 109.6349,
+      "ditemukan": true,
+      "osm_id": 1308667367
+    },
+    "33.26.13": {
+      "nama": "Kedungwuni",
+      "kabupaten_id": "33.26",
+      "kabupaten": "Kabupaten Pekalongan",
+      "lintang": -6.9592,
+      "bujur": 109.6399,
+      "ditemukan": true,
+      "osm_id": 637416790
+    },
+    "33.26.14": {
+      "nama": "Buaran",
+      "kabupaten_id": "33.26",
+      "kabupaten": "Kabupaten Pekalongan",
+      "lintang": -6.9338,
+      "bujur": 109.6541,
+      "ditemukan": true,
+      "osm_id": 12394129089
+    },
+    "33.26.15": {
+      "nama": "Tirto",
+      "kabupaten_id": "33.26",
+      "kabupaten": "Kabupaten Pekalongan",
+      "lintang": -6.8928,
+      "bujur": 109.6364,
+      "ditemukan": true,
+      "osm_id": 12396104464
+    },
+    "33.26.16": {
+      "nama": "Wiradesa",
+      "kabupaten_id": "33.26",
+      "kabupaten": "Kabupaten Pekalongan",
+      "lintang": -6.9139,
+      "bujur": 109.6096,
+      "ditemukan": true,
+      "osm_id": 1308645864
+    },
+    "33.26.17": {
+      "nama": "Siwalan",
+      "kabupaten_id": "33.26",
+      "kabupaten": "Kabupaten Pekalongan",
+      "lintang": -6.893,
+      "bujur": 109.599,
+      "ditemukan": true,
+      "osm_id": 1308712871
+    },
+    "33.26.18": {
+      "nama": "Karangdadap",
+      "kabupaten_id": "33.26",
+      "kabupaten": "Kabupaten Pekalongan",
+      "lintang": -6.977,
+      "bujur": 109.6964,
+      "ditemukan": true,
+      "osm_id": 1308670086
+    },
+    "33.26.19": {
+      "nama": "Wonokerto",
+      "kabupaten_id": "33.26",
+      "kabupaten": "Kabupaten Pekalongan",
+      "lintang": -6.8702,
+      "bujur": 109.6237,
+      "ditemukan": true,
+      "osm_id": 12394129088
+    },
+    "33.27.01": {
+      "nama": "Moga",
+      "kabupaten_id": "33.27",
+      "kabupaten": "Kabupaten Pemalang",
+      "lintang": -7.1252,
+      "bujur": 109.2454,
+      "ditemukan": true,
+      "osm_id": 1025554676
+    },
+    "33.27.02": {
+      "nama": "Pulosari",
+      "kabupaten_id": "33.27",
+      "kabupaten": "Kabupaten Pemalang",
+      "lintang": -7.1252,
+      "bujur": 109.2454,
+      "ditemukan": true,
+      "osm_id": 1025554676
+    },
+    "33.27.03": {
+      "nama": "Belik",
+      "kabupaten_id": "33.27",
+      "kabupaten": "Kabupaten Pemalang",
+      "lintang": -7.1858,
+      "bujur": 109.3297,
+      "ditemukan": true,
+      "osm_id": 11082343115
+    },
+    "33.27.04": {
+      "nama": "Watukumpul",
+      "kabupaten_id": "33.27",
+      "kabupaten": "Kabupaten Pemalang",
+      "lintang": -7.1568,
+      "bujur": 109.4202,
+      "ditemukan": true,
+      "osm_id": 10959796907
+    },
+    "33.27.05": {
+      "nama": "Bodeh",
+      "kabupaten_id": "33.27",
+      "kabupaten": "Kabupaten Pemalang",
+      "lintang": -6.9564,
+      "bujur": 109.5073,
+      "ditemukan": true,
+      "osm_id": 10960135679
+    },
+    "33.27.06": {
+      "nama": "Bantarbolang",
+      "kabupaten_id": "33.27",
+      "kabupaten": "Kabupaten Pemalang",
+      "lintang": -7.0378,
+      "bujur": 109.3752,
+      "ditemukan": true,
+      "osm_id": 11080343567
+    },
+    "33.27.07": {
+      "nama": "Randudongkal",
+      "kabupaten_id": "33.27",
+      "kabupaten": "Kabupaten Pemalang",
+      "lintang": -7.0999,
+      "bujur": 109.3236,
+      "ditemukan": true,
+      "osm_id": 1308702308
+    },
+    "33.27.08": {
+      "nama": "Pemalang",
+      "kabupaten_id": "33.27",
+      "kabupaten": "Kabupaten Pemalang",
+      "lintang": -6.8904,
+      "bujur": 109.3806,
+      "ditemukan": true,
+      "osm_id": 10957525365
+    },
+    "33.27.09": {
+      "nama": "Taman",
+      "kabupaten_id": "33.27",
+      "kabupaten": "Kabupaten Pemalang",
+      "lintang": -6.9013,
+      "bujur": 109.4058,
+      "ditemukan": true,
+      "osm_id": 1308696310
+    },
+    "33.27.10": {
+      "nama": "Petarukan",
+      "kabupaten_id": "33.27",
+      "kabupaten": "Kabupaten Pemalang",
+      "lintang": -6.8976,
+      "bujur": 109.4497,
+      "ditemukan": true,
+      "osm_id": 1244940788
+    },
+    "33.27.11": {
+      "nama": "Ampelgading",
+      "kabupaten_id": "33.27",
+      "kabupaten": "Kabupaten Pemalang",
+      "lintang": -6.9319,
+      "bujur": 109.5035,
+      "ditemukan": true,
+      "osm_id": 1308691976
+    },
+    "33.27.12": {
+      "nama": "Comal",
+      "kabupaten_id": "33.27",
+      "kabupaten": "Kabupaten Pemalang",
+      "lintang": -6.9064,
+      "bujur": 109.5331,
+      "ditemukan": true,
+      "osm_id": 10960135677
+    },
+    "33.27.13": {
+      "nama": "Ulujami",
+      "kabupaten_id": "33.27",
+      "kabupaten": "Kabupaten Pemalang",
+      "lintang": -6.8835,
+      "bujur": 109.5656,
+      "ditemukan": true,
+      "osm_id": 10960135676
+    },
+    "33.27.14": {
+      "nama": "Warungpring",
+      "kabupaten_id": "33.27",
+      "kabupaten": "Kabupaten Pemalang",
+      "lintang": -7.0878,
+      "bujur": 109.2523,
+      "ditemukan": true,
+      "osm_id": 11056263963
+    },
+    "33.28.01": {
+      "nama": "Margasari",
+      "kabupaten_id": "33.28",
+      "kabupaten": "Kabupaten Tegal",
+      "lintang": -7.0928,
+      "bujur": 109.0273,
+      "ditemukan": true,
+      "osm_id": 10957696588
+    },
+    "33.28.02": {
+      "nama": "Bumijawa",
+      "kabupaten_id": "33.28",
+      "kabupaten": "Kabupaten Tegal",
+      "lintang": -7.1723,
+      "bujur": 109.1302,
+      "ditemukan": true,
+      "osm_id": 11045649358
+    },
+    "33.28.03": {
+      "nama": "Bojong",
+      "kabupaten_id": "33.28",
+      "kabupaten": "Kabupaten Tegal",
+      "lintang": -7.1333,
+      "bujur": 109.1479,
+      "ditemukan": true,
+      "osm_id": 10957696585
+    },
+    "33.28.04": {
+      "nama": "Balapulang",
+      "kabupaten_id": "33.28",
+      "kabupaten": "Kabupaten Tegal",
+      "lintang": -7.0498,
+      "bujur": 109.0978,
+      "ditemukan": true,
+      "osm_id": 10957696587
+    },
+    "33.28.05": {
+      "nama": "Pagerbarang",
+      "kabupaten_id": "33.28",
+      "kabupaten": "Kabupaten Tegal",
+      "lintang": -7.0043,
+      "bujur": 109.0536,
+      "ditemukan": true,
+      "osm_id": 12394401137
+    },
+    "33.28.06": {
+      "nama": "Lebaksiu",
+      "kabupaten_id": "33.28",
+      "kabupaten": "Kabupaten Tegal",
+      "lintang": -7.0469,
+      "bujur": 109.1468,
+      "ditemukan": true,
+      "osm_id": 10957696584
+    },
+    "33.28.07": {
+      "nama": "Jatinegara",
+      "kabupaten_id": "33.28",
+      "kabupaten": "Kabupaten Tegal",
+      "lintang": -7.0613,
+      "bujur": 109.2452,
+      "ditemukan": true,
+      "osm_id": 336892712
+    },
+    "33.28.08": {
+      "nama": "Kedungbanteng",
+      "kabupaten_id": "33.28",
+      "kabupaten": "Kabupaten Tegal",
+      "lintang": -6.969,
+      "bujur": 109.182,
+      "ditemukan": true,
+      "osm_id": 1308683841
+    },
+    "33.28.09": {
+      "nama": "Pangkah",
+      "kabupaten_id": "33.28",
+      "kabupaten": "Kabupaten Tegal",
+      "lintang": -6.9762,
+      "bujur": 109.1699,
+      "ditemukan": true,
+      "osm_id": 10960135689
+    },
+    "33.28.10": {
+      "nama": "Slawi",
+      "kabupaten_id": "33.28",
+      "kabupaten": "Kabupaten Tegal",
+      "lintang": -6.9829,
+      "bujur": 109.1364,
+      "ditemukan": true,
+      "osm_id": 10957525366
+    },
+    "33.28.11": {
+      "nama": "Adiwerna",
+      "kabupaten_id": "33.28",
+      "kabupaten": "Kabupaten Tegal",
+      "lintang": -6.9312,
+      "bujur": 109.1347,
+      "ditemukan": true,
+      "osm_id": 12396110125
+    },
+    "33.28.12": {
+      "nama": "Talang",
+      "kabupaten_id": "33.28",
+      "kabupaten": "Kabupaten Tegal",
+      "lintang": -6.9193,
+      "bujur": 109.14,
+      "ditemukan": true,
+      "osm_id": 965123566
+    },
+    "33.28.13": {
+      "nama": "Dukuhturi",
+      "kabupaten_id": "33.28",
+      "kabupaten": "Kabupaten Tegal",
+      "lintang": -6.9047,
+      "bujur": 109.1252,
+      "ditemukan": true,
+      "osm_id": 10951571641
+    },
+    "33.28.14": {
+      "nama": "Tarub",
+      "kabupaten_id": "33.28",
+      "kabupaten": "Kabupaten Tegal",
+      "lintang": -6.9262,
+      "bujur": 109.1857,
+      "ditemukan": true,
+      "osm_id": 764269217
+    },
+    "33.28.15": {
+      "nama": "Kramat",
+      "kabupaten_id": "33.28",
+      "kabupaten": "Kabupaten Tegal",
+      "lintang": -6.8958,
+      "bujur": 109.1876,
+      "ditemukan": true,
+      "osm_id": 863657558
+    },
+    "33.28.16": {
+      "nama": "Suradadi",
+      "kabupaten_id": "33.28",
+      "kabupaten": "Kabupaten Tegal",
+      "lintang": -6.8769,
+      "bujur": 109.277,
+      "ditemukan": true,
+      "osm_id": 1308673969
+    },
+    "33.28.17": {
+      "nama": "Warureja",
+      "kabupaten_id": "33.28",
+      "kabupaten": "Kabupaten Tegal",
+      "lintang": -6.9215,
+      "bujur": 109.3251,
+      "ditemukan": true,
+      "osm_id": 862885704
+    },
+    "33.28.18": {
+      "nama": "Dukuhwaru",
+      "kabupaten_id": "33.28",
+      "kabupaten": "Kabupaten Tegal",
+      "lintang": -6.9811,
+      "bujur": 109.0891,
+      "ditemukan": true,
+      "osm_id": 1308686997
+    },
+    "33.29.01": {
+      "nama": "Salem",
+      "kabupaten_id": "33.29",
+      "kabupaten": "Kabupaten Brebes",
+      "lintang": -7.1813,
+      "bujur": 108.8055,
+      "ditemukan": true,
+      "osm_id": 11082347094
+    },
+    "33.29.02": {
+      "nama": "Bantarkawung",
+      "kabupaten_id": "33.29",
+      "kabupaten": "Kabupaten Brebes",
+      "lintang": -7.2208,
+      "bujur": 108.9209,
+      "ditemukan": true,
+      "osm_id": 11070544130
+    },
+    "33.29.03": {
+      "nama": "Bumiayu",
+      "kabupaten_id": "33.29",
+      "kabupaten": "Kabupaten Brebes",
+      "lintang": -7.2373,
+      "bujur": 109.0099,
+      "ditemukan": true,
+      "osm_id": 7849153594
+    },
+    "33.29.04": {
+      "nama": "Paguyangan",
+      "kabupaten_id": "33.29",
+      "kabupaten": "Kabupaten Brebes",
+      "lintang": -7.3004,
+      "bujur": 109.0375,
+      "ditemukan": true,
+      "osm_id": 10957696594
+    },
+    "33.29.05": {
+      "nama": "Sirampog",
+      "kabupaten_id": "33.29",
+      "kabupaten": "Kabupaten Brebes",
+      "lintang": -7.2043,
+      "bujur": 109.0618,
+      "ditemukan": true,
+      "osm_id": 10957696591
+    },
+    "33.29.06": {
+      "nama": "Tonjong",
+      "kabupaten_id": "33.29",
+      "kabupaten": "Kabupaten Brebes",
+      "lintang": -7.1753,
+      "bujur": 109.0266,
+      "ditemukan": true,
+      "osm_id": 174019162
+    },
+    "33.29.07": {
+      "nama": "Jatibarang",
+      "kabupaten_id": "33.29",
+      "kabupaten": "Kabupaten Brebes",
+      "lintang": -6.966,
+      "bujur": 109.0564,
+      "ditemukan": true,
+      "osm_id": 10957696583
+    },
+    "33.29.08": {
+      "nama": "Wanasari",
+      "kabupaten_id": "33.29",
+      "kabupaten": "Kabupaten Brebes",
+      "lintang": -6.8652,
+      "bujur": 109.0035,
+      "ditemukan": true,
+      "osm_id": 10951571647
+    },
+    "33.29.09": {
+      "nama": "Brebes",
+      "kabupaten_id": "33.29",
+      "kabupaten": "Kabupaten Brebes",
+      "lintang": -6.8706,
+      "bujur": 109.0369,
+      "ditemukan": true,
+      "osm_id": 10957525368
+    },
+    "33.29.10": {
+      "nama": "Songgom",
+      "kabupaten_id": "33.29",
+      "kabupaten": "Kabupaten Brebes",
+      "lintang": -7.0343,
+      "bujur": 108.9942,
+      "ditemukan": true,
+      "osm_id": 1308657112
+    },
+    "33.29.11": {
+      "nama": "Kersana",
+      "kabupaten_id": "33.29",
+      "kabupaten": "Kabupaten Brebes",
+      "lintang": -6.9225,
+      "bujur": 108.8642,
+      "ditemukan": true,
+      "osm_id": 11052050613
+    },
+    "33.29.12": {
+      "nama": "Losari",
+      "kabupaten_id": "33.29",
+      "kabupaten": "Kabupaten Brebes",
+      "lintang": -6.8489,
+      "bujur": 108.8152,
+      "ditemukan": true,
+      "osm_id": 10951571649
+    },
+    "33.29.13": {
+      "nama": "Tanjung",
+      "kabupaten_id": "33.29",
+      "kabupaten": "Kabupaten Brebes",
+      "lintang": -6.877,
+      "bujur": 108.8604,
+      "ditemukan": true,
+      "osm_id": 1236835797
+    },
+    "33.29.14": {
+      "nama": "Bulakamba",
+      "kabupaten_id": "33.29",
+      "kabupaten": "Kabupaten Brebes",
+      "lintang": -6.8638,
+      "bujur": 108.9477,
+      "ditemukan": true,
+      "osm_id": 11079931954
+    },
+    "33.29.15": {
+      "nama": "Larangan",
+      "kabupaten_id": "33.29",
+      "kabupaten": "Kabupaten Brebes",
+      "lintang": -7.0019,
+      "bujur": 108.9484,
+      "ditemukan": true,
+      "osm_id": 10957696582
+    },
+    "33.29.16": {
+      "nama": "Ketanggungan",
+      "kabupaten_id": "33.29",
+      "kabupaten": "Kabupaten Brebes",
+      "lintang": -6.9384,
+      "bujur": 108.8843,
+      "ditemukan": true,
+      "osm_id": 12048382011
+    },
+    "33.29.17": {
+      "nama": "Banjarharjo",
+      "kabupaten_id": "33.29",
+      "kabupaten": "Kabupaten Brebes",
+      "lintang": -6.9857,
+      "bujur": 108.8547,
+      "ditemukan": true,
+      "osm_id": 10959763402
+    },
+    "33.71.01": {
+      "nama": "Magelang Selatan",
+      "kabupaten_id": "33.71",
+      "kabupaten": "Kota Magelang",
+      "lintang": -7.5001,
+      "bujur": 110.2068,
+      "ditemukan": true,
+      "osm_id": 10961642311
+    },
+    "33.71.02": {
+      "nama": "Magelang Utara",
+      "kabupaten_id": "33.71",
+      "kabupaten": "Kota Magelang",
+      "lintang": -7.4842,
+      "bujur": 110.2347,
+      "ditemukan": true,
+      "osm_id": 1334906772
+    },
+    "33.71.03": {
+      "nama": "Magelang Tengah",
+      "kabupaten_id": "33.71",
+      "kabupaten": "Kota Magelang",
+      "lintang": -7.474,
+      "bujur": 110.2178,
+      "ditemukan": true,
+      "osm_id": 301420555
+    },
+    "33.72.01": {
+      "nama": "Laweyan",
+      "kabupaten_id": "33.72",
+      "kabupaten": "Kota Surakarta",
+      "lintang": -7.5712,
+      "bujur": 110.8089,
+      "ditemukan": true,
+      "osm_id": 10105429010
+    },
+    "33.72.02": {
+      "nama": "Serengan",
+      "kabupaten_id": "33.72",
+      "kabupaten": "Kota Surakarta",
+      "lintang": -7.5808,
+      "bujur": 110.8152,
+      "ditemukan": true,
+      "osm_id": 534584372
+    },
+    "33.72.03": {
+      "nama": "Pasar Kliwon",
+      "kabupaten_id": "33.72",
+      "kabupaten": "Kota Surakarta",
+      "lintang": -7.5759,
+      "bujur": 110.8403,
+      "ditemukan": true,
+      "osm_id": 455190855
+    },
+    "33.72.04": {
+      "nama": "Jebres",
+      "kabupaten_id": "33.72",
+      "kabupaten": "Kota Surakarta",
+      "lintang": -7.5538,
+      "bujur": 110.8534,
+      "ditemukan": true,
+      "osm_id": 785648102
+    },
+    "33.72.05": {
+      "nama": "Banjarsari",
+      "kabupaten_id": "33.72",
+      "kabupaten": "Kota Surakarta",
+      "lintang": -7.5422,
+      "bujur": 110.8104,
+      "ditemukan": true,
+      "osm_id": 10951565578
+    },
+    "33.73.01": {
+      "nama": "Sidorejo",
+      "kabupaten_id": "33.73",
+      "kabupaten": "Kota Salatiga",
+      "lintang": -7.3077,
+      "bujur": 110.4943,
+      "ditemukan": true,
+      "osm_id": 516666218
+    },
+    "33.73.02": {
+      "nama": "Tingkir",
+      "kabupaten_id": "33.73",
+      "kabupaten": "Kota Salatiga",
+      "lintang": -7.3377,
+      "bujur": 110.5184,
+      "ditemukan": true,
+      "osm_id": 298232094
+    },
+    "33.73.03": {
+      "nama": "Argomulyo",
+      "kabupaten_id": "33.73",
+      "kabupaten": "Kota Salatiga",
+      "lintang": -7.3557,
+      "bujur": 110.5054,
+      "ditemukan": true,
+      "osm_id": 304934967
+    },
+    "33.73.04": {
+      "nama": "Sidomukti",
+      "kabupaten_id": "33.73",
+      "kabupaten": "Kota Salatiga",
+      "lintang": -7.3476,
+      "bujur": 110.4897,
+      "ditemukan": true,
+      "osm_id": 304934968
+    },
+    "33.74.01": {
+      "nama": "Semarang Tengah",
+      "kabupaten_id": "33.74",
+      "kabupaten": "Kota Semarang",
+      "lintang": -6.9787,
+      "bujur": 110.4218,
+      "ditemukan": true,
+      "osm_id": 8222496
+    },
+    "33.74.02": {
+      "nama": "Semarang Utara",
+      "kabupaten_id": "33.74",
+      "kabupaten": "Kota Semarang",
+      "lintang": -6.9625,
+      "bujur": 110.4186,
+      "ditemukan": true,
+      "osm_id": 8201936
+    },
+    "33.74.03": {
+      "nama": "Semarang Timur",
+      "kabupaten_id": "33.74",
+      "kabupaten": "Kota Semarang",
+      "lintang": -6.974,
+      "bujur": 110.4366,
+      "ditemukan": true,
+      "osm_id": 8201927
+    },
+    "33.74.04": {
+      "nama": "Gayamsari",
+      "kabupaten_id": "33.74",
+      "kabupaten": "Kota Semarang",
+      "lintang": -6.978,
+      "bujur": 110.4463,
+      "ditemukan": true,
+      "osm_id": 8110792
+    },
+    "33.74.05": {
+      "nama": "Genuk",
+      "kabupaten_id": "33.74",
+      "kabupaten": "Kota Semarang",
+      "lintang": -6.9614,
+      "bujur": 110.4784,
+      "ditemukan": true,
+      "osm_id": 8350713
+    },
+    "33.74.06": {
+      "nama": "Pedurungan",
+      "kabupaten_id": "33.74",
+      "kabupaten": "Kota Semarang",
+      "lintang": -7.0012,
+      "bujur": 110.4761,
+      "ditemukan": true,
+      "osm_id": 8350849
+    },
+    "33.74.07": {
+      "nama": "Semarang Selatan",
+      "kabupaten_id": "33.74",
+      "kabupaten": "Kota Semarang",
+      "lintang": -6.9969,
+      "bujur": 110.4257,
+      "ditemukan": true,
+      "osm_id": 8132993
+    },
+    "33.74.08": {
+      "nama": "Candisari",
+      "kabupaten_id": "33.74",
+      "kabupaten": "Kota Semarang",
+      "lintang": -7.0159,
+      "bujur": 110.4289,
+      "ditemukan": true,
+      "osm_id": 8178535
+    },
+    "33.74.09": {
+      "nama": "Gajahmungkur",
+      "kabupaten_id": "33.74",
+      "kabupaten": "Kota Semarang",
+      "lintang": -7.0171,
+      "bujur": 110.3986,
+      "ditemukan": true,
+      "osm_id": 567311045
+    },
+    "33.74.10": {
+      "nama": "Tembalang",
+      "kabupaten_id": "33.74",
+      "kabupaten": "Kota Semarang",
+      "lintang": -7.0601,
+      "bujur": 110.4466,
+      "ditemukan": true,
+      "osm_id": 19773268
+    },
+    "33.74.11": {
+      "nama": "Banyumanik",
+      "kabupaten_id": "33.74",
+      "kabupaten": "Kota Semarang",
+      "lintang": -7.0607,
+      "bujur": 110.4189,
+      "ditemukan": true,
+      "osm_id": 8408785
+    },
+    "33.74.12": {
+      "nama": "Gunungpati",
+      "kabupaten_id": "33.74",
+      "kabupaten": "Kota Semarang",
+      "lintang": -7.0656,
+      "bujur": 110.3751,
+      "ditemukan": true,
+      "osm_id": 8357367
+    },
+    "33.74.13": {
+      "nama": "Semarang Barat",
+      "kabupaten_id": "33.74",
+      "kabupaten": "Kota Semarang",
+      "lintang": -6.9834,
+      "bujur": 110.3887,
+      "ditemukan": true,
+      "osm_id": 8244965
+    },
+    "33.74.14": {
+      "nama": "Mijen",
+      "kabupaten_id": "33.74",
+      "kabupaten": "Kota Semarang",
+      "lintang": -7.0534,
+      "bujur": 110.3163,
+      "ditemukan": true,
+      "osm_id": 8365248
+    },
+    "33.74.15": {
+      "nama": "Ngaliyan",
+      "kabupaten_id": "33.74",
+      "kabupaten": "Kota Semarang",
+      "lintang": -7.0008,
+      "bujur": 110.3365,
+      "ditemukan": true,
+      "osm_id": 8409086
+    },
+    "33.74.16": {
+      "nama": "Tugu",
+      "kabupaten_id": "33.74",
+      "kabupaten": "Kota Semarang",
+      "lintang": -6.9635,
+      "bujur": 110.3346,
+      "ditemukan": true,
+      "osm_id": 8351759
+    },
+    "33.75.01": {
+      "nama": "Pekalongan Barat",
+      "kabupaten_id": "33.75",
+      "kabupaten": "Kota Pekalongan",
+      "lintang": -6.897,
+      "bujur": 109.6716,
+      "ditemukan": true,
+      "osm_id": 12223623208
+    },
+    "33.75.02": {
+      "nama": "Pekalongan Timur",
+      "kabupaten_id": "33.75",
+      "kabupaten": "Kota Pekalongan",
+      "lintang": -6.9669,
+      "bujur": 109.6533,
+      "ditemukan": true,
+      "osm_id": 637429700
+    },
+    "33.75.03": {
+      "nama": "Pekalongan Utara",
+      "kabupaten_id": "33.75",
+      "kabupaten": "Kota Pekalongan",
+      "lintang": -6.8814,
+      "bujur": 109.6674,
+      "ditemukan": true,
+      "osm_id": 7362478658
+    },
+    "33.75.04": {
+      "nama": "Pekalongan Selatan",
+      "kabupaten_id": "33.75",
+      "kabupaten": "Kota Pekalongan",
+      "lintang": -6.8905,
+      "bujur": 109.6761,
+      "ditemukan": false,
+      "keterangan": "Memakai titik tengah kabupaten karena tidak ditemukan di Nominatim"
+    },
+    "33.76.01": {
+      "nama": "Tegal Barat",
+      "kabupaten_id": "33.76",
+      "kabupaten": "Kota Tegal",
+      "lintang": -6.8674,
+      "bujur": 109.1378,
+      "ditemukan": false,
+      "keterangan": "Memakai titik tengah kabupaten karena tidak ditemukan di Nominatim"
+    },
+    "33.76.02": {
+      "nama": "Tegal Timur",
+      "kabupaten_id": "33.76",
+      "kabupaten": "Kota Tegal",
+      "lintang": -6.8691,
+      "bujur": 109.1467,
+      "ditemukan": true,
+      "osm_id": 12229142895
+    },
+    "33.76.03": {
+      "nama": "Tegal Selatan",
+      "kabupaten_id": "33.76",
+      "kabupaten": "Kota Tegal",
+      "lintang": -6.885,
+      "bujur": 109.1338,
+      "ditemukan": true,
+      "osm_id": 12388046588
+    },
+    "33.76.04": {
+      "nama": "Margadana",
+      "kabupaten_id": "33.76",
+      "kabupaten": "Kota Tegal",
+      "lintang": -6.867,
+      "bujur": 109.1018,
+      "ditemukan": true,
+      "osm_id": 1180735702
+    }
+  },
+  "tidak_ditemukan": [
+    {
+      "kode": "33.03.13",
+      "nama": "Rembang",
+      "kabupaten": "Kabupaten Purbalingga"
+    },
+    {
+      "kode": "33.04.02",
+      "nama": "Purworeja Klampok",
+      "kabupaten": "Kabupaten Banjarnegara"
+    },
+    {
+      "kode": "33.26.03",
+      "nama": "Lebakbarang",
+      "kabupaten": "Kabupaten Pekalongan"
+    },
+    {
+      "kode": "33.75.04",
+      "nama": "Pekalongan Selatan",
+      "kabupaten": "Kota Pekalongan"
+    },
+    {
+      "kode": "33.76.01",
+      "nama": "Tegal Barat",
+      "kabupaten": "Kota Tegal"
+    }
+  ]
+}

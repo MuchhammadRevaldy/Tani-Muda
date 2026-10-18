@@ -116,9 +116,9 @@ const ENUM_KONTRAK = [
 
 it('pembaca kontrak menemukan semua tabel data bagian 2', function () {
     expect(array_keys(bacaKontrak()))->toEqualCanonicalizing([
-        'pengguna', 'profil_pembeli', 'catatan_petani', 'wilayah', 'komoditas', 'metode_tanam',
-        'sistem_hidroponik', 'konversi_satuan', 'input_pertanian', 'merek_input', 'laporan_harga',
-        'kelayakan_subsidi', 'promo', 'resep_tanam', 'resep_input', 'resep_tugas', 'permintaan_resep',
+        'pengguna', 'profil_pembeli', 'catatan_petani', 'wilayah', 'wilayah_kabupaten', 'wilayah_kecamatan',
+        'komoditas', 'metode_tanam', 'sistem_hidroponik', 'konversi_satuan', 'input_pertanian', 'merek_input',
+        'laporan_harga', 'kelayakan_subsidi', 'promo', 'resep_tanam', 'resep_input', 'resep_tugas', 'permintaan_resep',
         'lahan', 'siklus_tanam', 'rencana_item', 'tugas', 'hasil_pengukuran', 'pengeluaran', 'jurnal',
         'pengaturan_pengingat', 'modul', 'pesanan', 'alokasi_pesanan', 'pengiriman', 'pembayaran',
         'rating', 'sengketa', 'stok', 'pesanan_stok', 'percakapan', 'pesan', 'harga_berita',

@@ -183,6 +183,10 @@ export function buatKlienHttp(o: OpsiKlienHttp = {}): {
     },
     wilayah: {
       daftar: (p = {}) => h.halaman(denganKueri('/wilayah', { ...p })),
+      kabupaten: () => h.get('/wilayah/kabupaten'),
+      kecamatan: (kabupatenId) => h.get('/wilayah/kecamatan', { kabupaten: kabupatenId }),
+      desa: (kecamatanId, cari) =>
+        h.get('/wilayah/desa', { kecamatan: kecamatanId, ...(cari ? { cari } : {}) }),
       terdekat: (lintang, bujur) =>
         h.get(denganKueri('/wilayah/terdekat', { lintang, bujur })),
       ambil: (id) => h.get(`/wilayah/${e(id)}`),

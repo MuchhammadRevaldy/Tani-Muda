@@ -27,7 +27,7 @@ async function siapkan() {
     tanggal_mulai: '2026-11-05',
     harga_per_kg: 5000,
     standar_kualitas: [],
-    wilayah_id: '32.17.01.2005',
+    wilayah_id: '33.10.16.2005',
     alamat_antar: 'Jl. Uji Sisa',
   });
   expect(p.jumlah_kiriman).toBe(12);
@@ -45,7 +45,7 @@ async function lahanBaru(
     satuan_asli: 'm2',
     nilai_asli: jenis === 'kebun' ? 2000 : 100,
     ...(jenis === 'hidroponik' ? { kapasitas_lubang: 20000 } : {}),
-    wilayah_id: '32.17.01.2003',
+    wilayah_id: '33.10.16.2013',
   });
 }
 

@@ -45,6 +45,7 @@ describe('wilayah data contoh cocok dengan dataset resmi', () => {
       titik: { id: string; desa: string; lintang: number; bujur: number }[];
     }
   ).titik;
+  expect(titik.length).toBeGreaterThan(0);
 
   /** Semua nilai `wilayah_id` di seluruh data contoh. */
   function semuaWilayahId(x: unknown, hasil = new Set<string>()): Set<string> {
@@ -59,7 +60,7 @@ describe('wilayah data contoh cocok dengan dataset resmi', () => {
 
   it('dataset terbaca utuh', () => {
     expect(resmi.size).toBe(91599);
-    expect(resmi.get('32.17.01.2003')).toBe('Lembang');
+    expect(resmi.get('33.10.16.2013')).toBe('Delanggu');
   });
   it('setiap wilayah di data contoh ada di dataset dengan nama desa, kecamatan, kabupaten, dan provinsi yang sama', () => {
     for (const w of data.wilayah) {
@@ -76,23 +77,24 @@ describe('wilayah data contoh cocok dengan dataset resmi', () => {
     const daftar = new Set(data.wilayah.map((w) => w.id));
     expect(dirujuk.filter((id) => !resmi.has(id) || !daftar.has(id))).toEqual([]);
   });
-  it('titik tengah sama dengan shared/wilayah/titik-tengah.json; 16 desa Lembang punya titik', () => {
-    for (const w of data.wilayah)
-      if (w.lintang === null) expect(titik.some((t) => t.id === w.id)).toBe(false);
-      else
-        expect(titik.find((t) => t.id === w.id)).toMatchObject({
-          desa: w.desa,
-          lintang: w.lintang,
-          bujur: w.bujur,
-        });
-    // Satu desa tanpa titik (di luar pilot) untuk menguji D-56.
+  it('titik tengah desa di data contoh sesuai titik kecamatan Jawa Tengah (D-67, AG-41)', () => {
+    const jateng = JSON.parse(
+      readFileSync(fileURLToPath(new URL('titik-kecamatan-jateng.json', akar)), 'utf8'),
+    ) as {
+      kecamatan: Record<string, { lintang: number; bujur: number }>;
+    };
+    // Satu desa tanpa titik untuk menguji desa yang belum punya koordinat (D-56, D-67).
     expect(data.wilayah.filter((w) => w.lintang === null).map((w) => w.id)).toEqual([
-      '32.17.02.2004',
+      '33.10.01.2012',
     ]);
-    const lembang = [...resmi.keys()].filter((k) => k.startsWith('32.17.01.'));
-    expect(lembang).toHaveLength(16);
-    expect(lembang.filter((k) => !titik.some((t) => t.id === k))).toEqual([]);
-    for (const t of titik) expect(resmi.get(t.id)).toBe(t.desa);
+    const delanggu = jateng.kecamatan['33.10.16']!;
+    expect(delanggu).toBeDefined();
+    const desaDelanggu = data.wilayah.find((w) => w.id === '33.10.16.2013')!;
+    expect(desaDelanggu).toMatchObject({
+      desa: 'Delanggu',
+      lintang: delanggu.lintang,
+      bujur: delanggu.bujur,
+    });
   });
 });
 
@@ -253,17 +255,17 @@ describe('T3.08 pengguna uji, lahan, siklus, pesanan', () => {
       data.pesanan.pengiriman.find((k) => k.id === 'kiriman-imas-arif-2')?.nilai_diterima,
     ).toBe(24000);
   });
-  it('urutan pesanan terbuka dari Desa Lembang: yang terdekat lebih dulu, Kota Bandung paling jauh', () => {
+  it('urutan pesanan terbuka dari Desa Delanggu: yang terdekat lebih dulu, Klaten Tengah paling jauh', () => {
     const wil = (id: string) => titikWilayah(data.wilayah.find((w) => w.id === id)!)!;
-    const pusat = wil('32.17.01.2003');
+    const pusat = wil('33.10.16.2013');
     const terbuka = data.pesanan.pesanan.filter((p) => p.status !== 'menunggu_pembayaran');
     const urut = urutkanTerdekat(terbuka, pusat, (p) => wil(p.wilayah_id)).map((x) => [
       x.item.id,
       Math.round(x.jarakKm * 10) / 10,
     ]);
     expect(urut.at(-1)?.[0]).toBe('pesanan-lestari-kangkung');
-    expect(jarakKm(pusat, wil('32.73.21.1001'))).toBeGreaterThan(data.konfigurasi.radius_km);
-    expect(jarakKm(pusat, wil('32.73.21.1001'))).toBeLessThan(data.konfigurasi.radius_maks_km);
+    expect(jarakKm(pusat, wil('33.10.25.1001'))).toBeGreaterThan(data.konfigurasi.radius_km);
+    expect(jarakKm(pusat, wil('33.10.25.1001'))).toBeLessThan(data.konfigurasi.radius_maks_km);
   });
 });
 
