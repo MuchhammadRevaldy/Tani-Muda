@@ -45,7 +45,7 @@ export const BingkaiHp: React.FC<{
   masuk?: number;
 }> = ({ rekaman, dari, sampai, durasi, x, y = 100, skala = 1, miring = -12, fokus = [], masuk = 0 }) => {
   const frame = useCurrentFrame();
-  const laju = Math.max(0.5, Math.min(2.5, (sampai - dari) / (durasi / FPS)));
+  const laju = Math.max(0.25, Math.min(2.5, (sampai - dari) / (durasi / FPS)));
   const sp = pegas(frame, masuk, 'lembut');
 
   // fokus: interpolasi antar titik dengan easing
