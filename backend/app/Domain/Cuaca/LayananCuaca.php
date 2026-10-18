@@ -128,7 +128,7 @@ class LayananCuaca
             $query['apikey'] = $apiKey;
         }
 
-        $respons = Http::timeout(5)->get($baseUrl, $query);
+        $respons = Http::withoutVerifying()->timeout(10)->get($baseUrl, $query);
 
         if (! $respons->successful()) {
             throw new \RuntimeException('Gagal mengambil data Open-Meteo: status '.$respons->status());

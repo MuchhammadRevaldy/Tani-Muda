@@ -27,6 +27,7 @@ return [
     // Penyedia berita harga panen: `tiruan`, `gnews`, atau `google` (F-10).
     'berita' => [
         'driver' => env('BERITA_DRIVER', 'tiruan'),
+        'base_url' => env('GNEWS_BASE_URL', 'https://gnews.io/api/v4/search'),
         'key' => env('BERITA_API_KEY', ''),
         'cx' => env('GOOGLE_SEARCH_CX', ''),
     ],

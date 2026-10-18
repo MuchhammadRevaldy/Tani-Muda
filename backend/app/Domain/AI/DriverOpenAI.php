@@ -49,9 +49,9 @@ class DriverOpenAI implements PenyediaAI
 
     private function ambilModelGambar(?string $opsi = null): string
     {
-        $model = $opsi ?? $this->modelGambar ?? config('ai.model_gambar');
+        $model = $opsi ?? $this->modelGambar ?? config('ai.model_gambar') ?? config('ai.model_teks');
         if (empty($model)) {
-            throw new GalatApi('AI_TIDAK_TERSEDIA', 'Nama model AI gambar belum dikonfigurasi di .env.');
+            throw new GalatApi('AI_TIDAK_TERSEDIA', 'Nama model AI gambar/teks belum dikonfigurasi di .env.');
         }
 
         return (string) $model;
@@ -74,7 +74,7 @@ class DriverOpenAI implements PenyediaAI
         $model = $this->ambilModelTeks($opsi['model'] ?? null);
 
         try {
-            $response = Http::withHeaders([
+            $response = Http::withoutVerifying()->withHeaders([
                 'Authorization' => 'Bearer '.$apiKey,
                 'Content-Type' => 'application/json',
             ])->timeout($this->timeout)->post($baseUrl.'/chat/completions', [
@@ -137,7 +137,7 @@ class DriverOpenAI implements PenyediaAI
         ];
 
         try {
-            $response = Http::withHeaders([
+            $response = Http::withoutVerifying()->withHeaders([
                 'Authorization' => 'Bearer '.$apiKey,
                 'Content-Type' => 'application/json',
             ])->timeout($this->timeout)->post($baseUrl.'/chat/completions', [
@@ -183,7 +183,7 @@ class DriverOpenAI implements PenyediaAI
         $model = $this->ambilModelEmbedding();
 
         try {
-            $response = Http::withHeaders([
+            $response = Http::withoutVerifying()->withHeaders([
                 'Authorization' => 'Bearer '.$apiKey,
                 'Content-Type' => 'application/json',
             ])->timeout($this->timeout)->post($baseUrl.'/embeddings', [

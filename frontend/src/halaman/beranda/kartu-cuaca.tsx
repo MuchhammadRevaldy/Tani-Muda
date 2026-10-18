@@ -1,14 +1,29 @@
 /**
  * Kartu Cuaca dan Kecocokan Suhu di Beranda Petani (PRD Tambahan F-06).
  */
-import { useCuaca } from '../../api/kueri';
+import { useState } from 'react';
+import { useCuaca, useKomoditas, useDaftarResep } from '../../api/kueri';
 import { Ikon } from '../../komponen/ikon';
 import { Kartu } from '../../komponen/kartu';
+import { PilihanDropdown } from '../../komponen/pilihan-dropdown';
 import { fiturAktif } from '../../lib/fitur';
+import { kecocokanSuhu } from '../../lib/suhu';
+
+interface ItemTanamanCuaca {
+  id: string;
+  nama: string;
+  cocok: boolean;
+  label: string;
+  saran: string | null;
+  aktifDiKebun: boolean;
+}
 
 export function KartuCuaca() {
   const aktif = fiturAktif('CUACA');
   const { data, isPending, isError } = useCuaca();
+  const komoditasQ = useKomoditas();
+  const resepQ = useDaftarResep();
+  const [pilihanTanaman, setPilihanTanaman] = useState<string>('');
 
   if (!aktif) {
     return null;
@@ -16,7 +31,7 @@ export function KartuCuaca() {
 
   if (isPending) {
     return (
-      <Kartu judul="Cuaca dan suhu hari ini">
+      <Kartu id="kartu-cuaca" judul="Cuaca dan suhu hari ini">
         <div className="flex animate-pulse items-center gap-4 py-2">
           <div className="h-10 w-10 rounded-full bg-garis" />
           <div className="flex flex-1 flex-col gap-2">
@@ -30,7 +45,7 @@ export function KartuCuaca() {
 
   if (isError || !data) {
     return (
-      <Kartu judul="Cuaca dan suhu hari ini">
+      <Kartu id="kartu-cuaca" judul="Cuaca dan suhu hari ini">
         <div className="flex items-start gap-2.5 py-1 text-keterangan text-teks-pendukung">
           <Ikon nama="info" ukuran={18} className="mt-0.5 flex-none" />
           <p className="m-0">
@@ -41,9 +56,86 @@ export function KartuCuaca() {
     );
   }
 
+  const semuaKomoditas = komoditasQ.data ?? [];
+  const semuaResep = resepQ.data ?? [];
+  const siklusList = data.siklus ?? [];
+
+  // Peta kecocokan dari siklus aktif milik petani
+  const mapSiklusAktif = new Map<string, (typeof siklusList)[0]>();
+  for (const s of siklusList) {
+    if (!mapSiklusAktif.has(s.nama_tanaman.toLowerCase())) {
+      mapSiklusAktif.set(s.nama_tanaman.toLowerCase(), s);
+    }
+  }
+
+  let daftarTanaman: ItemTanamanCuaca[] = [];
+  if (semuaKomoditas.length > 0) {
+    const list: ItemTanamanCuaca[] = semuaKomoditas.map((k) => {
+      const siklusAktif = mapSiklusAktif.get(k.nama.toLowerCase());
+      if (siklusAktif) {
+        return {
+          id: k.id,
+          nama: k.nama,
+          cocok: siklusAktif.cocok,
+          label: siklusAktif.label,
+          saran: siklusAktif.saran,
+          aktifDiKebun: true,
+        };
+      }
+
+      const resep = semuaResep.find((r) => r.komoditas_id === k.id);
+      const hasil = kecocokanSuhu(data.suhu_sekarang, resep ?? null);
+      return {
+        id: k.id,
+        nama: k.nama,
+        cocok: hasil.cocok,
+        label: hasil.label,
+        saran: hasil.saran,
+        aktifDiKebun: false,
+      };
+    });
+
+    list.sort((a, b) => {
+      if (a.aktifDiKebun && !b.aktifDiKebun) return -1;
+      if (!a.aktifDiKebun && b.aktifDiKebun) return 1;
+      return a.nama.localeCompare(b.nama);
+    });
+
+    daftarTanaman = list;
+  } else if (siklusList.length > 0) {
+    const mapFallback = new Map<string, ItemTanamanCuaca>();
+    for (const s of siklusList) {
+      if (!mapFallback.has(s.nama_tanaman)) {
+        mapFallback.set(s.nama_tanaman, {
+          id: s.siklus_id,
+          nama: s.nama_tanaman,
+          cocok: s.cocok,
+          label: s.label,
+          saran: s.saran,
+          aktifDiKebun: true,
+        });
+      }
+    }
+    daftarTanaman = Array.from(mapFallback.values());
+  }
+
+  const itemAktif =
+    daftarTanaman.find((t) => t.id === pilihanTanaman || t.nama === pilihanTanaman) ??
+    daftarTanaman[0];
+
+  const opsiTanaman = daftarTanaman.map((t) => ({
+    nilai: t.id,
+    label: t.nama,
+    keterangan: t.aktifDiKebun
+      ? `Aktif di kebun · ${t.cocok ? 'Suhu Cocok' : 'Perlu Perhatian'}`
+      : t.cocok
+        ? 'Suhu Cocok'
+        : 'Perlu Perhatian',
+  }));
+
   return (
-    <Kartu judul="Cuaca dan suhu desa" keterangan={data.desa}>
-      <div className="flex flex-col gap-3">
+    <Kartu id="kartu-cuaca" judul="Cuaca dan suhu desa" keterangan={data.desa} className="overflow-visible">
+      <div className="flex flex-col gap-3.5">
         <div className="flex items-center justify-between border-b border-garis pb-3">
           <div className="flex items-center gap-3">
             <div className="flex h-11 w-11 items-center justify-center rounded-lg bg-matahari-lembut text-matahari-teks">
@@ -59,43 +151,63 @@ export function KartuCuaca() {
                   {data.suhu_min}°C – {data.suhu_maks}°C
                 </span>
               </div>
-              <p className="m-0 text-keterangan text-teks-pendukung">Sumber: {data.sumber}</p>
             </div>
           </div>
         </div>
 
-        {data.siklus && data.siklus.length > 0 ? (
-          <div className="flex flex-col gap-2 pt-1">
-            <p className="m-0 text-keterangan font-semibold uppercase tracking-wider text-teks-pendukung">
-              Kecocokan Tanaman Aktif:
-            </p>
-            {data.siklus.map((s) => (
+        {daftarTanaman.length > 0 ? (
+          <div className="flex flex-col gap-2.5 pt-0.5">
+            <div className="flex flex-col gap-1">
+              <label
+                htmlFor="pilih-tanaman-cuaca-tombol"
+                className="text-keterangan font-medium text-teks-pendukung"
+              >
+                Cek Kecocokan Tanaman:
+              </label>
+              <PilihanDropdown
+                id="pilih-tanaman-cuaca"
+                label="Pilih Tanaman"
+                labelTersembunyi
+                nilai={itemAktif?.id ?? ''}
+                onChange={(val) => setPilihanTanaman(val)}
+                pilihan={opsiTanaman}
+                placeholder="Pilih tanaman..."
+              />
+            </div>
+
+            {itemAktif ? (
               <div
-                key={s.siklus_id}
-                className={`flex flex-col gap-1 rounded-lg border p-3 text-keterangan ${
-                  s.cocok
+                className={`flex flex-col gap-1 rounded-lg border p-3 text-keterangan transition-colors ${
+                  itemAktif.cocok
                     ? 'border-garis bg-daun-lembut text-daun-tua'
                     : 'border-garis bg-matahari-lembut text-matahari-teks'
                 }`}
               >
                 <div className="flex items-center justify-between font-medium">
-                  <span>{s.nama_tanaman}</span>
+                  <div className="flex items-center gap-2">
+                    <span className="font-semibold text-teks">{itemAktif.nama}</span>
+                    {itemAktif.aktifDiKebun ? (
+                      <span className="rounded bg-daun-tua/10 px-1.5 py-0.5 text-keterangan font-semibold text-daun-tua">
+                        Aktif di Kebun
+                      </span>
+                    ) : null}
+                  </div>
                   <span
-                    className={`rounded-full px-2 py-0.5 text-keterangan font-semibold ${
-                      s.cocok
+                    className={`rounded-full px-2.5 py-0.5 text-keterangan font-semibold ${
+                      itemAktif.cocok
                         ? 'bg-putih text-daun-tua'
                         : 'bg-putih text-matahari-teks'
                     }`}
                   >
-                    {s.cocok ? 'Suhu Cocok' : 'Perlu Perhatian'}
+                    {itemAktif.cocok ? 'Suhu Cocok' : 'Perlu Perhatian'}
                   </span>
                 </div>
-                <p className="m-0 text-teks">{s.label}</p>
-                {s.saran && (
-                  <p className="m-0 mt-1 italic text-teks-pendukung">Saran: {s.saran}</p>
+                <p className="m-0 text-teks">{itemAktif.label}</p>
+                {itemAktif.saran && (
+                  <p className="m-0 mt-1 italic text-teks-pendukung">Saran: {itemAktif.saran}</p>
                 )}
               </div>
-            ))}
+            ) : null}
           </div>
         ) : (
           <p className="m-0 text-keterangan text-teks-pendukung">

@@ -190,7 +190,7 @@ export function PilihanDropdown<T extends string = string>({
                     </div>
                   </div>
                 ) : null}
-                <div className="overflow-y-auto p-1">
+                <div className="min-h-0 flex-1 max-h-56 overflow-y-auto p-1 overscroll-contain">
                   {opsiTersaring.length === 0 ? (
                     <div className="px-4 py-3 text-center text-keterangan text-teks-pendukung">
                       Pilihan tidak ditemukan
@@ -286,7 +286,7 @@ export function PilihanDropdown<T extends string = string>({
                         </div>
                       ) : null}
 
-                      <div className="overflow-y-auto">
+                      <div className="min-h-0 flex-1 max-h-[60vh] overflow-y-auto overscroll-contain">
                         {opsiTersaring.length === 0 ? (
                           <div className="px-4 py-6 text-center text-keterangan text-teks-pendukung">
                             Pilihan tidak ditemukan

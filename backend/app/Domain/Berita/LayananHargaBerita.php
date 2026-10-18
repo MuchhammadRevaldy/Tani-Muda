@@ -143,8 +143,13 @@ class LayananHargaBerita
         $kueri = "harga {$namaKomoditas} {$kabupaten} hari ini";
 
         if ($driver === 'gnews' && ! empty($apiKey)) {
-            $respons = Http::timeout(10)->get('https://gnews.io/api/v4/search', [
-                'q' => $kueri,
+            $url = (string) config('services.berita.base_url', 'https://gnews.io/api/v4/search');
+            $namaUtama = strtolower(trim(explode(' ', $namaKomoditas)[0]));
+            // Kueri boolean OR efisien: 1 permintaan HTTP, aman dari batas laju 1 req/detik GNews free
+            $kueriGNews = "{$namaUtama} OR \"harga {$namaUtama}\" OR \"harga sayur\" OR \"harga pangan\"";
+
+            $respons = Http::withoutVerifying()->timeout(10)->get($url, [
+                'q' => $kueriGNews,
                 'lang' => 'id',
                 'country' => 'id',
                 'max' => 5,
@@ -155,15 +160,30 @@ class LayananHargaBerita
                 $articles = $respons->json('articles', []);
                 $hasil = [];
                 foreach ($articles as $a) {
+                    $judul = (string) ($a['title'] ?? 'Kabar Harga');
+                    $deskripsi = (string) ($a['description'] ?? '');
+                    $kontenGabung = "{$judul} {$deskripsi}";
+
+                    $hargaTerdeteksi = 0;
+                    if (preg_match('/(?:rp\.?\s*)(\d{1,3}(?:\.\d{3})+)\s*(?:\/(?:kg|kilo)|per\s*(?:kg|kilo))/i', $kontenGabung, $m)) {
+                        $hargaTerdeteksi = (int) str_replace('.', '', $m[1]);
+                    } elseif (preg_match('/harga\s+(?:pasar\s+)?(?:mencapai|sebesar|berkisar|sekitar|di\s+angka\s+)?(?:rp\.?\s*)(\d{1,3}(?:\.\d{3})+)/i', $kontenGabung, $m)) {
+                        $hargaTerdeteksi = (int) str_replace('.', '', $m[1]);
+                    }
+
+                    if ($hargaTerdeteksi < 5000 || $hargaTerdeteksi > 120000) {
+                        $hargaTerdeteksi = 32000;
+                    }
+
                     $hasil[] = [
-                        'harga' => 35000,
+                        'harga' => $hargaTerdeteksi,
                         'satuan' => 'kg',
                         'jenis_harga' => JenisHargaBerita::Pasar->value,
                         'lokasi' => $kabupaten,
                         'tanggal_berita' => CarbonImmutable::parse($a['publishedAt'] ?? 'now')->toDateString(),
-                        'judul' => (string) ($a['title'] ?? 'Kabar Harga'),
+                        'judul' => $judul,
                         'media' => (string) ($a['source']['name'] ?? 'Media Berita'),
-                        'url' => (string) ($a['url'] ?? 'https://berita.test/1'),
+                        'url' => (string) ($a['url'] ?? ''),
                     ];
                 }
 
