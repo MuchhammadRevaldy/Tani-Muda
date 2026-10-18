@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" role="img" aria-label="Pakcoy">
+  <title>Pakcoy</title>
+  <defs>
+    <radialGradient id="pakcoy-bayang" cx="50%" cy="50%" r="50%"><stop offset="0.00" stop-color="rgba(46,53,71,.30)"/><stop offset="1.00" stop-color="rgba(46,53,71,0)"/></radialGradient>
+    <linearGradient id="pakcoy-d1" x1="0" y1="1" x2="0.35" y2="0"><stop offset="0.00" stop-color="#3E9B1F"/><stop offset="0.50" stop-color="#7CCB2B"/><stop offset="1.00" stop-color="#C9F23E"/></linearGradient>
+    <linearGradient id="pakcoy-d2" x1="0" y1="1" x2="0.35" y2="0"><stop offset="0.00" stop-color="#2B7516"/><stop offset="0.50" stop-color="#5DAE25"/><stop offset="1.00" stop-color="#9BD836"/></linearGradient>
+    <linearGradient id="pakcoy-d3" x1="0" y1="1" x2="0.35" y2="0"><stop offset="0.00" stop-color="#1D5A15"/><stop offset="0.50" stop-color="#3B8F24"/><stop offset="1.00" stop-color="#79C23A"/></linearGradient>
+    <linearGradient id="pakcoy-batang" x1="0" y1="1" x2="0" y2="0"><stop offset="0.00" stop-color="#4E9A2A"/><stop offset="1.00" stop-color="#8CCB4A"/></linearGradient>
+    <linearGradient id="pakcoy-tangkai" x1="0" y1="1" x2="0" y2="0"><stop offset="0.00" stop-color="#DDEFC7"/><stop offset="1.00" stop-color="#FFFFFF"/></linearGradient>
+  </defs>
+  <ellipse cx="120" cy="212" rx="72" ry="10" fill="url(#pakcoy-bayang)"/>
+  <ellipse cx="120" cy="206" rx="23.04" ry="4.5" fill="#6B4A2E" opacity=".55"/>
+  <g transform="rotate(-24 120 204) translate(120 204) scale(0.9)">
+    <path d="M-9 0 C-9 -30 -5.3999999999999995 -55 -2 -70 L2 -70 C5.3999999999999995 -55 9 -30 9 0 Z" fill="url(#pakcoy-tangkai)"/>
+    
+    <g transform="translate(0 -62) rotate(0)">
+      <path d="M0 0 C-31.5 -7.800000000000001 -34.5 -62.400000000000006 -7.5 -76.44 C-3 -79.56 3 -79.56 7.5 -76.44 C34.5 -62.400000000000006 31.5 -7.800000000000001 0 0 Z" fill="url(#pakcoy-d3)"/>
+      <path d="M0 -3.12 C1.2 -31.200000000000003 0 -54.599999999999994 -1.5 -71.76" stroke="#EFFFD0" stroke-opacity=".7" stroke-width="3.5999999999999996" fill="none" stroke-linecap="round"/>
+      <path d="M-13.5 -23.4 C-18 -39 -15 -54.599999999999994 -9 -63.959999999999994" stroke="#fff" stroke-opacity=".32" stroke-width="5.3999999999999995" fill="none" stroke-linecap="round"/>
+    </g>
+  </g>
+  <g transform="rotate(24 120 204) translate(120 204) scale(0.9)">
+    <path d="M-9 0 C-9 -30 -5.3999999999999995 -55 -2 -70 L2 -70 C5.3999999999999995 -55 9 -30 9 0 Z" fill="url(#pakcoy-tangkai)"/>
+    
+    <g transform="translate(0 -62) rotate(0)">
+      <path d="M0 0 C-31.5 -7.800000000000001 -34.5 -62.400000000000006 -7.5 -76.44 C-3 -79.56 3 -79.56 7.5 -76.44 C34.5 -62.400000000000006 31.5 -7.800000000000001 0 0 Z" fill="url(#pakcoy-d3)"/>
+      <path d="M0 -3.12 C1.2 -31.200000000000003 0 -54.599999999999994 -1.5 -71.76" stroke="#EFFFD0" stroke-opacity=".7" stroke-width="3.5999999999999996" fill="none" stroke-linecap="round"/>
+      <path d="M-13.5 -23.4 C-18 -39 -15 -54.599999999999994 -9 -63.959999999999994" stroke="#fff" stroke-opacity=".32" stroke-width="5.3999999999999995" fill="none" stroke-linecap="round"/>
+    </g>
+  </g>
+  <g transform="rotate(-50 120 204) translate(120 204) scale(0.84)">
+    <path d="M-9 0 C-9 -30 -5.3999999999999995 -55 -2 -70 L2 -70 C5.3999999999999995 -55 9 -30 9 0 Z" fill="url(#pakcoy-tangkai)"/>
+    
+    <g transform="translate(0 -62) rotate(0)">
+      <path d="M0 0 C-31.5 -7.800000000000001 -34.5 -62.400000000000006 -7.5 -76.44 C-3 -79.56 3 -79.56 7.5 -76.44 C34.5 -62.400000000000006 31.5 -7.800000000000001 0 0 Z" fill="url(#pakcoy-d3)"/>
+      <path d="M0 -3.12 C1.2 -31.200000000000003 0 -54.599999999999994 -1.5 -71.76" stroke="#EFFFD0" stroke-opacity=".7" stroke-width="3.5999999999999996" fill="none" stroke-linecap="round"/>
+      <path d="M-13.5 -23.4 C-18 -39 -15 -54.599999999999994 -9 -63.959999999999994" stroke="#fff" stroke-opacity=".32" stroke-width="5.3999999999999995" fill="none" stroke-linecap="round"/>
+    </g>
+  </g>
+  <g transform="rotate(48 120 204) translate(120 204) scale(0.84)">
+    <path d="M-9 0 C-9 -30 -5.3999999999999995 -55 -2 -70 L2 -70 C5.3999999999999995 -55 9 -30 9 0 Z" fill="url(#pakcoy-tangkai)"/>
+    
+    <g transform="translate(0 -62) rotate(0)">
+      <path d="M0 0 C-31.5 -7.800000000000001 -34.5 -62.400000000000006 -7.5 -76.44 C-3 -79.56 3 -79.56 7.5 -76.44 C34.5 -62.400000000000006 31.5 -7.800000000000001 0 0 Z" fill="url(#pakcoy-d3)"/>
+      <path d="M0 -3.12 C1.2 -31.200000000000003 0 -54.599999999999994 -1.5 -71.76" stroke="#EFFFD0" stroke-opacity=".7" stroke-width="3.5999999999999996" fill="none" stroke-linecap="round"/>
+      <path d="M-13.5 -23.4 C-18 -39 -15 -54.599999999999994 -9 -63.959999999999994" stroke="#fff" stroke-opacity=".32" stroke-width="5.3999999999999995" fill="none" stroke-linecap="round"/>
+    </g>
+  </g>
+  <g transform="rotate(-4 120 204) translate(120 204) scale(1)">
+    <path d="M-9 0 C-9 -30 -5.3999999999999995 -55 -2 -70 L2 -70 C5.3999999999999995 -55 9 -30 9 0 Z" fill="url(#pakcoy-tangkai)"/>
+    
+    <g transform="translate(0 -62) rotate(0)">
+      <path d="M0 0 C-31.5 -7.800000000000001 -34.5 -62.400000000000006 -7.5 -76.44 C-3 -79.56 3 -79.56 7.5 -76.44 C34.5 -62.400000000000006 31.5 -7.800000000000001 0 0 Z" fill="url(#pakcoy-d3)"/>
+      <path d="M0 -3.12 C1.2 -31.200000000000003 0 -54.599999999999994 -1.5 -71.76" stroke="#EFFFD0" stroke-opacity=".7" stroke-width="3.5999999999999996" fill="none" stroke-linecap="round"/>
+      <path d="M-13.5 -23.4 C-18 -39 -15 -54.599999999999994 -9 -63.959999999999994" stroke="#fff" stroke-opacity=".32" stroke-width="5.3999999999999995" fill="none" stroke-linecap="round"/>
+    </g>
+  </g>
+</svg>

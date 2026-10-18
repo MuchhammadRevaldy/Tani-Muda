@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" role="img" aria-label="Terong">
+  <title>Terong</title>
+  <defs>
+    <radialGradient id="terong-bayang" cx="50%" cy="50%" r="50%"><stop offset="0.00" stop-color="rgba(46,53,71,.30)"/><stop offset="1.00" stop-color="rgba(46,53,71,0)"/></radialGradient>
+    <linearGradient id="terong-d1" x1="0" y1="1" x2="0.35" y2="0"><stop offset="0.00" stop-color="#3E9B1F"/><stop offset="0.50" stop-color="#7CCB2B"/><stop offset="1.00" stop-color="#C9F23E"/></linearGradient>
+    <linearGradient id="terong-d2" x1="0" y1="1" x2="0.35" y2="0"><stop offset="0.00" stop-color="#2B7516"/><stop offset="0.50" stop-color="#5DAE25"/><stop offset="1.00" stop-color="#9BD836"/></linearGradient>
+    <linearGradient id="terong-d3" x1="0" y1="1" x2="0.35" y2="0"><stop offset="0.00" stop-color="#1D5A15"/><stop offset="0.50" stop-color="#3B8F24"/><stop offset="1.00" stop-color="#79C23A"/></linearGradient>
+    <linearGradient id="terong-batang" x1="0" y1="1" x2="0" y2="0"><stop offset="0.00" stop-color="#4E9A2A"/><stop offset="1.00" stop-color="#8CCB4A"/></linearGradient>
+    <linearGradient id="terong-buah" x1="0" y1="0" x2="1" y2="0.2"><stop offset="0.00" stop-color="#3A1452"/><stop offset="0.50" stop-color="#6B2A8C"/><stop offset="1.00" stop-color="#A45CC4"/></linearGradient>
+  </defs>
+  <ellipse cx="120" cy="212" rx="72" ry="10" fill="url(#terong-bayang)"/>
+  <ellipse cx="120" cy="206" rx="23.04" ry="4.5" fill="#6B4A2E" opacity=".55"/>
+  <path d="M120 204 C120 170 118 130 120 84" stroke="url(#terong-batang)" stroke-width="6" fill="none" stroke-linecap="round"/>
+  <path d="M120 150 C96 140 78 126 70 110" stroke="url(#terong-batang)" stroke-width="4" fill="none" stroke-linecap="round"/>
+  <path d="M120 130 C142 120 160 106 168 90" stroke="url(#terong-batang)" stroke-width="4" fill="none" stroke-linecap="round"/>
+  <g transform="translate(70 112) rotate(-50)">
+    <path d="M0 0 C-20.9 -10.08 -22 -34.72 0 -56 C22 -34.72 20.9 -10.08 0 0 Z" fill="url(#terong-d3)"/>
+    <path d="M0 -2.24 C0.88 -22.400000000000002 0 -39.199999999999996 -1.1 -51.52" stroke="#EFFFD0" stroke-opacity=".7" stroke-width="2.6399999999999997" fill="none" stroke-linecap="round"/>
+    <path d="M-9.9 -16.8 C-13.2 -28 -11 -39.199999999999996 -6.6 -45.919999999999995" stroke="#fff" stroke-opacity=".32" stroke-width="3.96" fill="none" stroke-linecap="round"/>
+  </g>
+  <g transform="translate(168 92) rotate(50)">
+    <path d="M0 0 C-20.9 -10.08 -22 -34.72 0 -56 C22 -34.72 20.9 -10.08 0 0 Z" fill="url(#terong-d3)"/>
+    <path d="M0 -2.24 C0.88 -22.400000000000002 0 -39.199999999999996 -1.1 -51.52" stroke="#EFFFD0" stroke-opacity=".7" stroke-width="2.6399999999999997" fill="none" stroke-linecap="round"/>
+    <path d="M-9.9 -16.8 C-13.2 -28 -11 -39.199999999999996 -6.6 -45.919999999999995" stroke="#fff" stroke-opacity=".32" stroke-width="3.96" fill="none" stroke-linecap="round"/>
+  </g>
+  <g transform="translate(120 88) rotate(0)">
+    <path d="M0 0 C-20.9 -10.44 -22 -35.96 0 -58 C22 -35.96 20.9 -10.44 0 0 Z" fill="url(#terong-d1)"/>
+    <path d="M0 -2.32 C0.88 -23.200000000000003 0 -40.599999999999994 -1.1 -53.36" stroke="#EFFFD0" stroke-opacity=".7" stroke-width="2.6399999999999997" fill="none" stroke-linecap="round"/>
+    <path d="M-9.9 -17.4 C-13.2 -29 -11 -40.599999999999994 -6.6 -47.559999999999995" stroke="#fff" stroke-opacity=".32" stroke-width="3.96" fill="none" stroke-linecap="round"/>
+  </g>
+  <g transform="translate(90 128) rotate(-100)">
+    <path d="M0 0 C-17.099999999999998 -8.28 -18 -28.52 0 -46 C18 -28.52 17.099999999999998 -8.28 0 0 Z" fill="url(#terong-d1)"/>
+    <path d="M0 -1.84 C0.72 -18.400000000000002 0 -32.199999999999996 -0.9 -42.32" stroke="#EFFFD0" stroke-opacity=".7" stroke-width="2.16" fill="none" stroke-linecap="round"/>
+    <path d="M-8.1 -13.799999999999999 C-10.799999999999999 -23 -9 -32.199999999999996 -5.3999999999999995 -37.72" stroke="#fff" stroke-opacity=".32" stroke-width="3.2399999999999998" fill="none" stroke-linecap="round"/>
+  </g>
+  <g transform="translate(150 114) rotate(100)">
+    <path d="M0 0 C-17.099999999999998 -8.28 -18 -28.52 0 -46 C18 -28.52 17.099999999999998 -8.28 0 0 Z" fill="url(#terong-d1)"/>
+    <path d="M0 -1.84 C0.72 -18.400000000000002 0 -32.199999999999996 -0.9 -42.32" stroke="#EFFFD0" stroke-opacity=".7" stroke-width="2.16" fill="none" stroke-linecap="round"/>
+    <path d="M-8.1 -13.799999999999999 C-10.799999999999999 -23 -9 -32.199999999999996 -5.3999999999999995 -37.72" stroke="#fff" stroke-opacity=".32" stroke-width="3.2399999999999998" fill="none" stroke-linecap="round"/>
+  </g>
+  <g transform="translate(80 140) rotate(22)">
+    <path d="M0 0 C14 2 14.700000000000001 29.700000000000003 7.700000000000001 48.6 C4.2 55.08 -4.2 55.08 -7.700000000000001 48.6 C-14.700000000000001 29.700000000000003 -14 2 0 0 Z" fill="url(#terong-buah)"/>
+    <path d="M-6.3 9.719999999999999 C-8.4 21.6 -7.700000000000001 32.4 -4.8999999999999995 42.120000000000005" stroke="#fff" stroke-opacity=".45" stroke-width="3.9200000000000004" fill="none" stroke-linecap="round"/>
+    
+    <path d="M-9.799999999999999 3 Q0 -4 9.799999999999999 3 Q4.8999999999999995 9 0 7 Q-4.8999999999999995 9 -9.799999999999999 3 Z" fill="#4E9A2A"/>
+    <path d="M0 -1 L0 -9" stroke="#4E9A2A" stroke-width="3" stroke-linecap="round"/>
+  </g>
+  <g transform="translate(156 124) rotate(-18)">
+    <path d="M0 0 C12 2 12.600000000000001 26.400000000000002 6.6000000000000005 43.2 C3.5999999999999996 48.96 -3.5999999999999996 48.96 -6.6000000000000005 43.2 C-12.600000000000001 26.400000000000002 -12 2 0 0 Z" fill="url(#terong-buah)"/>
+    <path d="M-5.4 8.64 C-7.199999999999999 19.200000000000003 -6.6000000000000005 28.799999999999997 -4.199999999999999 37.44" stroke="#fff" stroke-opacity=".45" stroke-width="3.3600000000000003" fill="none" stroke-linecap="round"/>
+    
+    <path d="M-8.399999999999999 3 Q0 -4 8.399999999999999 3 Q4.199999999999999 9 0 7 Q-4.199999999999999 9 -8.399999999999999 3 Z" fill="#4E9A2A"/>
+    <path d="M0 -1 L0 -9" stroke="#4E9A2A" stroke-width="3" stroke-linecap="round"/>
+  </g>
+</svg>

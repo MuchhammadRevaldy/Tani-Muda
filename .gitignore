@@ -30,3 +30,10 @@ Thumbs.db
 frontend/uji-*/
 catatan-*/
 frontend/catatan-*/
+
+# Video teaser Remotion (AG-42): rekaman mentah Playwright dan hasil render
+video/rekaman/
+video/public/rekaman/
+video/keluaran/
+video/node_modules/
+video/.remotion/

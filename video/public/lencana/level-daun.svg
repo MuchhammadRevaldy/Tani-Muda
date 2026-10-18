@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-label="Level Daun">
+  <title>Level Daun</title>
+  <defs>
+    <linearGradient id="level-daun-tepi" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7CCB2B"/><stop offset="1" stop-color="#2B7516"/></linearGradient>
+    <linearGradient id="level-daun-muka" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8FD13A"/><stop offset="1" stop-color="#3E9B1F"/></linearGradient>
+    <radialGradient id="level-daun-bayang" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#2E3547" stop-opacity=".28"/><stop offset="1" stop-color="#2E3547" stop-opacity="0"/></radialGradient>
+    <linearGradient id="level-daun-kilau" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".55"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+  </defs>
+  <ellipse cx="60" cy="113" rx="34" ry="5" fill="url(#level-daun-bayang)"/>
+  <path d="M60 8 L102 32 L102 84 L60 108 L18 84 L18 32 Z" fill="url(#level-daun-tepi)" stroke="url(#level-daun-tepi)" stroke-width="8" stroke-linejoin="round"/>
+  <path d="M60 19 L93 38 L93 78 L60 97 L27 78 L27 38 Z" fill="url(#level-daun-muka)" stroke="url(#level-daun-muka)" stroke-width="6" stroke-linejoin="round"/>
+  <ellipse cx="60" cy="36" rx="30" ry="14" fill="url(#level-daun-kilau)"/>
+  <g transform="translate(31.2 29.2) scale(2.4)" fill="none" stroke="#2E3547" stroke-opacity=".22" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" transform-origin="0 0"><g transform="translate(.4 .6)"><path d="M5 19C5 10 10 5 19 5c0 9-5 14-14 14z"/><path d="M5 19L14 10"/></g></g>
+  <g transform="translate(31.2 29.2) scale(2.4)" fill="none" stroke="#FFFFFF" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M5 19C5 10 10 5 19 5c0 9-5 14-14 14z"/><path d="M5 19L14 10"/></g>
+</svg>

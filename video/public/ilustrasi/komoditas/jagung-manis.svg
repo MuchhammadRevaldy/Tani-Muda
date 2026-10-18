@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" role="img" aria-label="Jagung manis">
+  <title>Jagung manis</title>
+  <defs>
+    <radialGradient id="jagung-bayang" cx="50%" cy="50%" r="50%"><stop offset="0.00" stop-color="rgba(46,53,71,.30)"/><stop offset="1.00" stop-color="rgba(46,53,71,0)"/></radialGradient>
+    <linearGradient id="jagung-d1" x1="0" y1="1" x2="0.35" y2="0"><stop offset="0.00" stop-color="#3E9B1F"/><stop offset="0.50" stop-color="#7CCB2B"/><stop offset="1.00" stop-color="#C9F23E"/></linearGradient>
+    <linearGradient id="jagung-d2" x1="0" y1="1" x2="0.35" y2="0"><stop offset="0.00" stop-color="#2B7516"/><stop offset="0.50" stop-color="#5DAE25"/><stop offset="1.00" stop-color="#9BD836"/></linearGradient>
+    <linearGradient id="jagung-d3" x1="0" y1="1" x2="0.35" y2="0"><stop offset="0.00" stop-color="#1D5A15"/><stop offset="0.50" stop-color="#3B8F24"/><stop offset="1.00" stop-color="#79C23A"/></linearGradient>
+    <linearGradient id="jagung-batang" x1="0" y1="1" x2="0" y2="0"><stop offset="0.00" stop-color="#4E9A2A"/><stop offset="1.00" stop-color="#8CCB4A"/></linearGradient>
+    <linearGradient id="jagung-kelobot" x1="0" y1="0" x2="1" y2="0"><stop offset="0.00" stop-color="#7FB83A"/><stop offset="0.50" stop-color="#B8E070"/><stop offset="1.00" stop-color="#E3F5B4"/></linearGradient>
+    <radialGradient id="jagung-biji" cx="40%" cy="35%" r="70%"><stop offset="0.00" stop-color="#FFF2B0"/><stop offset="0.50" stop-color="#F7C934"/><stop offset="1.00" stop-color="#D99A1E"/></radialGradient>
+  </defs>
+  <ellipse cx="120" cy="212" rx="70" ry="10" fill="url(#jagung-bayang)"/>
+  <ellipse cx="120" cy="206" rx="22.400000000000002" ry="4.5" fill="#6B4A2E" opacity=".55"/>
+  <path d="M120 204 C120 160 122 100 120 40" stroke="url(#jagung-batang)" stroke-width="8" fill="none" stroke-linecap="round"/>
+  <path d="M120 180 C90 170 58 150 36 170" stroke="url(#jagung-d2)" stroke-width="10" fill="none" stroke-linecap="round"/>
+  <path d="M120 160 C154 148 186 128 206 150" stroke="url(#jagung-d2)" stroke-width="10" fill="none" stroke-linecap="round"/>
+  <path d="M120 130 C90 110 64 96 46 112" stroke="url(#jagung-d1)" stroke-width="9" fill="none" stroke-linecap="round"/>
+  <path d="M120 104 C150 86 172 74 190 90" stroke="url(#jagung-d1)" stroke-width="9" fill="none" stroke-linecap="round"/>
+  <path d="M120 78 C96 62 76 56 64 70" stroke="url(#jagung-d1)" stroke-width="8" fill="none" stroke-linecap="round"/>
+  <g transform="translate(130 116) rotate(-22)">
+    <path d="M-9 4 C-12 24 -10 46 0 58 C10 46 12 24 9 4 Z" fill="#F2C24C"/>
+    <circle cx="-5.2" cy="8" r="3" fill="url(#jagung-biji)"/><circle cx="0" cy="8" r="3" fill="url(#jagung-biji)"/><circle cx="5.2" cy="8" r="3" fill="url(#jagung-biji)"/><circle cx="-5.2" cy="14.2" r="3" fill="url(#jagung-biji)"/><circle cx="0" cy="14.2" r="3" fill="url(#jagung-biji)"/><circle cx="5.2" cy="14.2" r="3" fill="url(#jagung-biji)"/><circle cx="-5.2" cy="20.4" r="3" fill="url(#jagung-biji)"/><circle cx="0" cy="20.4" r="3" fill="url(#jagung-biji)"/><circle cx="5.2" cy="20.4" r="3" fill="url(#jagung-biji)"/><circle cx="-5.2" cy="26.6" r="3" fill="url(#jagung-biji)"/><circle cx="0" cy="26.6" r="3" fill="url(#jagung-biji)"/><circle cx="5.2" cy="26.6" r="3" fill="url(#jagung-biji)"/><circle cx="-5.2" cy="32.8" r="3" fill="url(#jagung-biji)"/><circle cx="0" cy="32.8" r="3" fill="url(#jagung-biji)"/><circle cx="5.2" cy="32.8" r="3" fill="url(#jagung-biji)"/><circle cx="-5.2" cy="39" r="3" fill="url(#jagung-biji)"/><circle cx="0" cy="39" r="3" fill="url(#jagung-biji)"/><circle cx="5.2" cy="39" r="3" fill="url(#jagung-biji)"/><circle cx="-5.2" cy="45.2" r="3" fill="url(#jagung-biji)"/><circle cx="0" cy="45.2" r="3" fill="url(#jagung-biji)"/><circle cx="5.2" cy="45.2" r="3" fill="url(#jagung-biji)"/>
+    <path d="M-2 2 C-22 14 -26 40 -12 64 C-16 40 -12 20 -2 2 Z" fill="url(#jagung-kelobot)"/>
+    <path d="M2 2 C22 14 26 40 12 64 C16 40 12 20 2 2 Z" fill="url(#jagung-kelobot)"/>
+    <path d="M0 2 C-4 -6 -10 -10 -14 -16 M0 2 C2 -8 6 -12 10 -18" stroke="#C9783A" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+  </g>
+  <g stroke="#D9B04A" stroke-width="2.4" fill="none" stroke-linecap="round"><path d="M120 42 C112 30 104 24 98 26"/><path d="M120 42 C128 30 136 24 142 28"/><path d="M120 42 L120 20"/></g>
+</svg>

@@ -1,0 +1,253 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 1000" role="img" aria-label="Kebun sayur di pagi hari">
+  <title>Kebun sayur di pagi hari</title>
+  <defs>
+    
+    <radialGradient id="sawi-bayang" cx="50%" cy="50%" r="50%"><stop offset="0.00" stop-color="rgba(46,53,71,.30)"/><stop offset="1.00" stop-color="rgba(46,53,71,0)"/></radialGradient>
+    <linearGradient id="sawi-d1" x1="0" y1="1" x2="0.35" y2="0"><stop offset="0.00" stop-color="#3E9B1F"/><stop offset="0.50" stop-color="#7CCB2B"/><stop offset="1.00" stop-color="#C9F23E"/></linearGradient>
+    <linearGradient id="sawi-d2" x1="0" y1="1" x2="0.35" y2="0"><stop offset="0.00" stop-color="#2B7516"/><stop offset="0.50" stop-color="#5DAE25"/><stop offset="1.00" stop-color="#9BD836"/></linearGradient>
+    <linearGradient id="sawi-d3" x1="0" y1="1" x2="0.35" y2="0"><stop offset="0.00" stop-color="#1D5A15"/><stop offset="0.50" stop-color="#3B8F24"/><stop offset="1.00" stop-color="#79C23A"/></linearGradient>
+    <linearGradient id="sawi-batang" x1="0" y1="1" x2="0" y2="0"><stop offset="0.00" stop-color="#4E9A2A"/><stop offset="1.00" stop-color="#8CCB4A"/></linearGradient>
+    <linearGradient id="sawi-tangkai" x1="0" y1="1" x2="0" y2="0"><stop offset="0.00" stop-color="#C8E88E"/><stop offset="1.00" stop-color="#F6FDE6"/></linearGradient>
+  
+    <radialGradient id="padi-bayang" cx="50%" cy="50%" r="50%"><stop offset="0.00" stop-color="rgba(46,53,71,.30)"/><stop offset="1.00" stop-color="rgba(46,53,71,0)"/></radialGradient>
+    <linearGradient id="padi-d1" x1="0" y1="1" x2="0.35" y2="0"><stop offset="0.00" stop-color="#3E9B1F"/><stop offset="0.50" stop-color="#7CCB2B"/><stop offset="1.00" stop-color="#C9F23E"/></linearGradient>
+    <linearGradient id="padi-d2" x1="0" y1="1" x2="0.35" y2="0"><stop offset="0.00" stop-color="#2B7516"/><stop offset="0.50" stop-color="#5DAE25"/><stop offset="1.00" stop-color="#9BD836"/></linearGradient>
+    <linearGradient id="padi-d3" x1="0" y1="1" x2="0.35" y2="0"><stop offset="0.00" stop-color="#1D5A15"/><stop offset="0.50" stop-color="#3B8F24"/><stop offset="1.00" stop-color="#79C23A"/></linearGradient>
+    <linearGradient id="padi-batang" x1="0" y1="1" x2="0" y2="0"><stop offset="0.00" stop-color="#4E9A2A"/><stop offset="1.00" stop-color="#8CCB4A"/></linearGradient>
+    <linearGradient id="padi-helai" gradientUnits="userSpaceOnUse" x1="0" y1="204" x2="0" y2="40"><stop offset="0" stop-color="#3E9B1F"/><stop offset=".6" stop-color="#7CCB2B"/><stop offset="1" stop-color="#C9F23E"/></linearGradient>
+    <linearGradient id="padi-helai2" gradientUnits="userSpaceOnUse" x1="0" y1="204" x2="0" y2="40"><stop offset="0" stop-color="#2B7516"/><stop offset="1" stop-color="#8CCB33"/></linearGradient>
+    <radialGradient id="padi-bulir" cx="38%" cy="32%" r="70%"><stop offset="0.00" stop-color="#FFEBA6"/><stop offset="0.50" stop-color="#F2C24C"/><stop offset="1.00" stop-color="#C98A1B"/></radialGradient>
+  
+    <radialGradient id="bayam-bayang" cx="50%" cy="50%" r="50%"><stop offset="0.00" stop-color="rgba(46,53,71,.30)"/><stop offset="1.00" stop-color="rgba(46,53,71,0)"/></radialGradient>
+    <linearGradient id="bayam-d1" x1="0" y1="1" x2="0.35" y2="0"><stop offset="0.00" stop-color="#3E9B1F"/><stop offset="0.50" stop-color="#7CCB2B"/><stop offset="1.00" stop-color="#C9F23E"/></linearGradient>
+    <linearGradient id="bayam-d2" x1="0" y1="1" x2="0.35" y2="0"><stop offset="0.00" stop-color="#2B7516"/><stop offset="0.50" stop-color="#5DAE25"/><stop offset="1.00" stop-color="#9BD836"/></linearGradient>
+    <linearGradient id="bayam-d3" x1="0" y1="1" x2="0.35" y2="0"><stop offset="0.00" stop-color="#1D5A15"/><stop offset="0.50" stop-color="#3B8F24"/><stop offset="1.00" stop-color="#79C23A"/></linearGradient>
+    <linearGradient id="bayam-batang" x1="0" y1="1" x2="0" y2="0"><stop offset="0.00" stop-color="#4E9A2A"/><stop offset="1.00" stop-color="#8CCB4A"/></linearGradient>
+    
+  
+    <linearGradient id="g-langit" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F3FAE6"/><stop offset=".55" stop-color="#FFF7EC"/><stop offset="1" stop-color="#FFFFFF"/></linearGradient>
+    <radialGradient id="g-matahari" cx="40%" cy="35%" r="70%"><stop offset="0" stop-color="#FFF1C2"/><stop offset=".55" stop-color="#FFC94D"/><stop offset="1" stop-color="#F29A2E"/></radialGradient>
+    <radialGradient id="g-pendar" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#FFD978" stop-opacity=".55"/><stop offset="1" stop-color="#FFD978" stop-opacity="0"/></radialGradient>
+    <linearGradient id="g-bukit1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#B9E35A"/><stop offset="1" stop-color="#86C232"/></linearGradient>
+    <linearGradient id="g-bukit2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9BD836"/><stop offset="1" stop-color="#5DAE25"/></linearGradient>
+    <linearGradient id="g-rumput" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#C9EE7A"/><stop offset="1" stop-color="#A6DD45"/></linearGradient>
+    <linearGradient id="g-tanah" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#B07A52"/><stop offset="1" stop-color="#8A5434"/></linearGradient>
+    <linearGradient id="g-tanah-atas" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#C98F63"/><stop offset=".5" stop-color="#DDA779"/><stop offset="1" stop-color="#B97C52"/></linearGradient>
+    <linearGradient id="g-tunas" x1="0" y1="1" x2=".4" y2="0"><stop offset="0" stop-color="#3E9B1F"/><stop offset=".55" stop-color="#7CCB2B"/><stop offset="1" stop-color="#C9F23E"/></linearGradient>
+    <radialGradient id="g-awan" cx="45%" cy="30%" r="75%"><stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#EEF1F6"/></radialGradient>
+    <radialGradient id="g-bayang" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#2E3547" stop-opacity=".22"/><stop offset="1" stop-color="#2E3547" stop-opacity="0"/></radialGradient>
+    
+    <symbol id="tunas" viewBox="-30 -50 60 56">
+      <ellipse cx="0" cy="2" rx="16" ry="4" fill="#7A4A2E" opacity=".35"/>
+      <path d="M0 2 C0 -8 0 -16 0 -22" stroke="#5FAE34" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+      <path d="M0 -20 C-6 -34 -22 -36 -27 -28 C-20 -18 -8 -17 0 -20 Z" fill="url(#g-tunas)"/>
+      <path d="M0 -22 C6 -38 22 -42 27 -33 C21 -22 8 -20 0 -22 Z" fill="url(#g-tunas)"/>
+      <path d="M-3 -21 C-9 -26 -15 -28 -21 -28" stroke="#fff" stroke-opacity=".45" stroke-width="2" fill="none" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="tanaman-sawi" viewBox="0 0 240 240">
+  <ellipse cx="120" cy="212" rx="72" ry="10" fill="url(#sawi-bayang)"/>
+  <ellipse cx="120" cy="206" rx="23.04" ry="4.5" fill="#6B4A2E" opacity=".55"/>
+  <g transform="rotate(-24 120 204) translate(120 204) scale(0.9)">
+    <path d="M-5.5 0 C-5.5 -30 -3.3 -55 -2 -70 L2 -70 C3.3 -55 5.5 -30 5.5 0 Z" fill="url(#sawi-tangkai)"/>
+    
+    <g transform="translate(0 -62) rotate(0)">
+      <path d="M0 0 C-28.35 -9.200000000000001 -31.049999999999997 -73.60000000000001 -6.75 -90.16 C-2.7 -93.84 2.7 -93.84 6.75 -90.16 C31.049999999999997 -73.60000000000001 28.35 -9.200000000000001 0 0 Z" fill="url(#sawi-d2)"/>
+      <path d="M0 -3.68 C1.08 -36.800000000000004 0 -64.39999999999999 -1.35 -84.64" stroke="#EFFFD0" stroke-opacity=".7" stroke-width="3.2399999999999998" fill="none" stroke-linecap="round"/>
+      <path d="M-12.15 -27.599999999999998 C-16.2 -46 -13.5 -64.39999999999999 -8.1 -75.44" stroke="#fff" stroke-opacity=".32" stroke-width="4.859999999999999" fill="none" stroke-linecap="round"/>
+    </g>
+  </g>
+  <g transform="rotate(24 120 204) translate(120 204) scale(0.9)">
+    <path d="M-5.5 0 C-5.5 -30 -3.3 -55 -2 -70 L2 -70 C3.3 -55 5.5 -30 5.5 0 Z" fill="url(#sawi-tangkai)"/>
+    
+    <g transform="translate(0 -62) rotate(0)">
+      <path d="M0 0 C-28.35 -9.200000000000001 -31.049999999999997 -73.60000000000001 -6.75 -90.16 C-2.7 -93.84 2.7 -93.84 6.75 -90.16 C31.049999999999997 -73.60000000000001 28.35 -9.200000000000001 0 0 Z" fill="url(#sawi-d2)"/>
+      <path d="M0 -3.68 C1.08 -36.800000000000004 0 -64.39999999999999 -1.35 -84.64" stroke="#EFFFD0" stroke-opacity=".7" stroke-width="3.2399999999999998" fill="none" stroke-linecap="round"/>
+      <path d="M-12.15 -27.599999999999998 C-16.2 -46 -13.5 -64.39999999999999 -8.1 -75.44" stroke="#fff" stroke-opacity=".32" stroke-width="4.859999999999999" fill="none" stroke-linecap="round"/>
+    </g>
+  </g>
+  <g transform="rotate(-50 120 204) translate(120 204) scale(0.84)">
+    <path d="M-5.5 0 C-5.5 -30 -3.3 -55 -2 -70 L2 -70 C3.3 -55 5.5 -30 5.5 0 Z" fill="url(#sawi-tangkai)"/>
+    
+    <g transform="translate(0 -62) rotate(0)">
+      <path d="M0 0 C-28.35 -9.200000000000001 -31.049999999999997 -73.60000000000001 -6.75 -90.16 C-2.7 -93.84 2.7 -93.84 6.75 -90.16 C31.049999999999997 -73.60000000000001 28.35 -9.200000000000001 0 0 Z" fill="url(#sawi-d1)"/>
+      <path d="M0 -3.68 C1.08 -36.800000000000004 0 -64.39999999999999 -1.35 -84.64" stroke="#EFFFD0" stroke-opacity=".7" stroke-width="3.2399999999999998" fill="none" stroke-linecap="round"/>
+      <path d="M-12.15 -27.599999999999998 C-16.2 -46 -13.5 -64.39999999999999 -8.1 -75.44" stroke="#fff" stroke-opacity=".32" stroke-width="4.859999999999999" fill="none" stroke-linecap="round"/>
+    </g>
+  </g>
+  <g transform="rotate(48 120 204) translate(120 204) scale(0.84)">
+    <path d="M-5.5 0 C-5.5 -30 -3.3 -55 -2 -70 L2 -70 C3.3 -55 5.5 -30 5.5 0 Z" fill="url(#sawi-tangkai)"/>
+    
+    <g transform="translate(0 -62) rotate(0)">
+      <path d="M0 0 C-28.35 -9.200000000000001 -31.049999999999997 -73.60000000000001 -6.75 -90.16 C-2.7 -93.84 2.7 -93.84 6.75 -90.16 C31.049999999999997 -73.60000000000001 28.35 -9.200000000000001 0 0 Z" fill="url(#sawi-d1)"/>
+      <path d="M0 -3.68 C1.08 -36.800000000000004 0 -64.39999999999999 -1.35 -84.64" stroke="#EFFFD0" stroke-opacity=".7" stroke-width="3.2399999999999998" fill="none" stroke-linecap="round"/>
+      <path d="M-12.15 -27.599999999999998 C-16.2 -46 -13.5 -64.39999999999999 -8.1 -75.44" stroke="#fff" stroke-opacity=".32" stroke-width="4.859999999999999" fill="none" stroke-linecap="round"/>
+    </g>
+  </g>
+  <g transform="rotate(-4 120 204) translate(120 204) scale(1)">
+    <path d="M-5.5 0 C-5.5 -30 -3.3 -55 -2 -70 L2 -70 C3.3 -55 5.5 -30 5.5 0 Z" fill="url(#sawi-tangkai)"/>
+    
+    <g transform="translate(0 -62) rotate(0)">
+      <path d="M0 0 C-28.35 -9.200000000000001 -31.049999999999997 -73.60000000000001 -6.75 -90.16 C-2.7 -93.84 2.7 -93.84 6.75 -90.16 C31.049999999999997 -73.60000000000001 28.35 -9.200000000000001 0 0 Z" fill="url(#sawi-d1)"/>
+      <path d="M0 -3.68 C1.08 -36.800000000000004 0 -64.39999999999999 -1.35 -84.64" stroke="#EFFFD0" stroke-opacity=".7" stroke-width="3.2399999999999998" fill="none" stroke-linecap="round"/>
+      <path d="M-12.15 -27.599999999999998 C-16.2 -46 -13.5 -64.39999999999999 -8.1 -75.44" stroke="#fff" stroke-opacity=".32" stroke-width="4.859999999999999" fill="none" stroke-linecap="round"/>
+    </g>
+  </g>
+</symbol><symbol id="tanaman-padi" viewBox="0 0 240 240">
+  <ellipse cx="120" cy="212" rx="76" ry="10" fill="url(#padi-bayang)"/>
+  <ellipse cx="120" cy="206" rx="24.32" ry="4.5" fill="#6B4A2E" opacity=".55"/>
+  <path d="M116 204 C108 170 80 150 42 148" stroke="url(#padi-helai2)" stroke-width="7" fill="none" stroke-linecap="round"/>
+  <path d="M124 204 C132 170 160 150 200 150" stroke="url(#padi-helai2)" stroke-width="7" fill="none" stroke-linecap="round"/>
+  <path d="M117 204 C112 150 86 110 54 88" stroke="url(#padi-helai)" stroke-width="8" fill="none" stroke-linecap="round"/>
+  <path d="M123 204 C128 150 154 112 184 86" stroke="url(#padi-helai)" stroke-width="8" fill="none" stroke-linecap="round"/>
+  <path d="M119 204 C118 140 110 90 98 46" stroke="url(#padi-helai)" stroke-width="8" fill="none" stroke-linecap="round"/>
+  <path d="M121 204 C123 140 132 92 146 50" stroke="url(#padi-helai)" stroke-width="8" fill="none" stroke-linecap="round"/>
+  <path d="M118 190 C116 120 106 70 90 56 C74 50 64 74 62 110" stroke="#B9A04A" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <ellipse cx="84" cy="54" rx="5" ry="8" transform="rotate(-60 84 54)" fill="url(#padi-bulir)"/>
+  <ellipse cx="76" cy="59" rx="5" ry="8" transform="rotate(-40 76 59)" fill="url(#padi-bulir)"/>
+  <ellipse cx="70" cy="67" rx="5" ry="8" transform="rotate(-25 70 67)" fill="url(#padi-bulir)"/>
+  <ellipse cx="66" cy="76" rx="5" ry="8" transform="rotate(-12 66 76)" fill="url(#padi-bulir)"/>
+  <ellipse cx="64" cy="85" rx="5" ry="8" transform="rotate(-5 64 85)" fill="url(#padi-bulir)"/>
+  <ellipse cx="63" cy="94" rx="5" ry="8" transform="rotate(0 63 94)" fill="url(#padi-bulir)"/>
+  <ellipse cx="63" cy="103" rx="5" ry="8" transform="rotate(3 63 103)" fill="url(#padi-bulir)"/>
+  <ellipse cx="80" cy="64" rx="5" ry="8" transform="rotate(-35 80 64)" fill="url(#padi-bulir)"/>
+  <ellipse cx="74" cy="72" rx="5" ry="8" transform="rotate(-20 74 72)" fill="url(#padi-bulir)"/>
+  <ellipse cx="71" cy="81" rx="5" ry="8" transform="rotate(-8 71 81)" fill="url(#padi-bulir)"/>
+  <ellipse cx="70" cy="90" rx="5" ry="8" transform="rotate(-2 70 90)" fill="url(#padi-bulir)"/>
+  <path d="M122 190 C124 116 136 66 154 54 C170 48 180 74 182 110" stroke="#B9A04A" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <ellipse cx="160" cy="52" rx="5" ry="8" transform="rotate(60 160 52)" fill="url(#padi-bulir)"/>
+  <ellipse cx="168" cy="57" rx="5" ry="8" transform="rotate(40 168 57)" fill="url(#padi-bulir)"/>
+  <ellipse cx="174" cy="65" rx="5" ry="8" transform="rotate(25 174 65)" fill="url(#padi-bulir)"/>
+  <ellipse cx="178" cy="74" rx="5" ry="8" transform="rotate(12 178 74)" fill="url(#padi-bulir)"/>
+  <ellipse cx="180" cy="83" rx="5" ry="8" transform="rotate(5 180 83)" fill="url(#padi-bulir)"/>
+  <ellipse cx="181" cy="92" rx="5" ry="8" transform="rotate(0 181 92)" fill="url(#padi-bulir)"/>
+  <ellipse cx="181" cy="101" rx="5" ry="8" transform="rotate(-3 181 101)" fill="url(#padi-bulir)"/>
+  <ellipse cx="164" cy="62" rx="5" ry="8" transform="rotate(35 164 62)" fill="url(#padi-bulir)"/>
+  <ellipse cx="170" cy="70" rx="5" ry="8" transform="rotate(20 170 70)" fill="url(#padi-bulir)"/>
+  <ellipse cx="173" cy="79" rx="5" ry="8" transform="rotate(8 173 79)" fill="url(#padi-bulir)"/>
+  <ellipse cx="174" cy="88" rx="5" ry="8" transform="rotate(2 174 88)" fill="url(#padi-bulir)"/>
+</symbol><symbol id="tanaman-bayam" viewBox="0 0 240 240">
+  <ellipse cx="120" cy="212" rx="74" ry="10" fill="url(#bayam-bayang)"/>
+  <ellipse cx="120" cy="206" rx="23.68" ry="4.5" fill="#6B4A2E" opacity=".55"/>
+  <g transform="rotate(-34 120 204)">
+  <path d="M120 204 L120 134" stroke="#5FAE34" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+    
+  <g transform="translate(120 140) rotate(0)">
+    <path d="M0 0 C-20.1875 -11.934 -21.25 -41.105999999999995 0 -66.3 C21.25 -41.105999999999995 20.1875 -11.934 0 0 Z" fill="url(#bayam-d3)"/>
+    <path d="M0 -2.652 C0.85 -26.52 0 -46.41 -1.0625 -60.996" stroke="#EFFFD0" stroke-opacity=".7" stroke-width="2.55" fill="none" stroke-linecap="round"/>
+    <path d="M-9.5625 -19.889999999999997 C-12.75 -33.15 -10.625 -46.41 -6.375 -54.36599999999999" stroke="#fff" stroke-opacity=".32" stroke-width="3.8249999999999997" fill="none" stroke-linecap="round"/>
+  </g>
+  </g>
+  <g transform="rotate(34 120 204)">
+  <path d="M120 204 L120 134" stroke="#5FAE34" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+    
+  <g transform="translate(120 140) rotate(0)">
+    <path d="M0 0 C-20.1875 -11.934 -21.25 -41.105999999999995 0 -66.3 C21.25 -41.105999999999995 20.1875 -11.934 0 0 Z" fill="url(#bayam-d3)"/>
+    <path d="M0 -2.652 C0.85 -26.52 0 -46.41 -1.0625 -60.996" stroke="#EFFFD0" stroke-opacity=".7" stroke-width="2.55" fill="none" stroke-linecap="round"/>
+    <path d="M-9.5625 -19.889999999999997 C-12.75 -33.15 -10.625 -46.41 -6.375 -54.36599999999999" stroke="#fff" stroke-opacity=".32" stroke-width="3.8249999999999997" fill="none" stroke-linecap="round"/>
+  </g>
+  </g>
+  <g transform="rotate(-14 120 204)">
+  <path d="M120 204 L120 116" stroke="#5FAE34" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+    
+  <g transform="translate(120 122) rotate(0)">
+    <path d="M0 0 C-21.375 -12.636 -22.5 -43.524 0 -70.2 C22.5 -43.524 21.375 -12.636 0 0 Z" fill="url(#bayam-d3)"/>
+    <path d="M0 -2.8080000000000003 C0.9 -28.080000000000002 0 -49.14 -1.125 -64.584" stroke="#EFFFD0" stroke-opacity=".7" stroke-width="2.6999999999999997" fill="none" stroke-linecap="round"/>
+    <path d="M-10.125 -21.06 C-13.5 -35.1 -11.25 -49.14 -6.75 -57.564" stroke="#fff" stroke-opacity=".32" stroke-width="4.05" fill="none" stroke-linecap="round"/>
+  </g>
+  </g>
+  <g transform="rotate(14 120 204)">
+  <path d="M120 204 L120 116" stroke="#5FAE34" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+    
+  <g transform="translate(120 122) rotate(0)">
+    <path d="M0 0 C-21.375 -12.636 -22.5 -43.524 0 -70.2 C22.5 -43.524 21.375 -12.636 0 0 Z" fill="url(#bayam-d3)"/>
+    <path d="M0 -2.8080000000000003 C0.9 -28.080000000000002 0 -49.14 -1.125 -64.584" stroke="#EFFFD0" stroke-opacity=".7" stroke-width="2.6999999999999997" fill="none" stroke-linecap="round"/>
+    <path d="M-10.125 -21.06 C-13.5 -35.1 -11.25 -49.14 -6.75 -57.564" stroke="#fff" stroke-opacity=".32" stroke-width="4.05" fill="none" stroke-linecap="round"/>
+  </g>
+  </g>
+  <g transform="rotate(-60 120 204)">
+  <path d="M120 204 L120 152" stroke="#5FAE34" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+    
+  <g transform="translate(120 158) rotate(0)">
+    <path d="M0 0 C-18.525 -10.9512 -19.5 -37.720800000000004 0 -60.84 C19.5 -37.720800000000004 18.525 -10.9512 0 0 Z" fill="url(#bayam-d1)"/>
+    <path d="M0 -2.4336 C0.78 -24.336000000000002 0 -42.588 -0.9750000000000001 -55.97280000000001" stroke="#EFFFD0" stroke-opacity=".7" stroke-width="2.34" fill="none" stroke-linecap="round"/>
+    <path d="M-8.775 -18.252 C-11.7 -30.42 -9.75 -42.588 -5.85 -49.8888" stroke="#fff" stroke-opacity=".32" stroke-width="3.51" fill="none" stroke-linecap="round"/>
+  </g>
+  </g>
+  <g transform="rotate(58 120 204)">
+  <path d="M120 204 L120 152" stroke="#5FAE34" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+    
+  <g transform="translate(120 158) rotate(0)">
+    <path d="M0 0 C-18.525 -10.9512 -19.5 -37.720800000000004 0 -60.84 C19.5 -37.720800000000004 18.525 -10.9512 0 0 Z" fill="url(#bayam-d1)"/>
+    <path d="M0 -2.4336 C0.78 -24.336000000000002 0 -42.588 -0.9750000000000001 -55.97280000000001" stroke="#EFFFD0" stroke-opacity=".7" stroke-width="2.34" fill="none" stroke-linecap="round"/>
+    <path d="M-8.775 -18.252 C-11.7 -30.42 -9.75 -42.588 -5.85 -49.8888" stroke="#fff" stroke-opacity=".32" stroke-width="3.51" fill="none" stroke-linecap="round"/>
+  </g>
+  </g>
+  <g transform="rotate(-36 120 204)">
+  <path d="M120 204 L120 142" stroke="#5FAE34" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+    
+  <g transform="translate(120 148) rotate(0)">
+    <path d="M0 0 C-20.9 -12.3552 -22 -42.5568 0 -68.64 C22 -42.5568 20.9 -12.3552 0 0 Z" fill="url(#bayam-d1)"/>
+    <path d="M0 -2.7456 C0.88 -27.456000000000003 0 -48.047999999999995 -1.1 -63.1488" stroke="#EFFFD0" stroke-opacity=".7" stroke-width="2.6399999999999997" fill="none" stroke-linecap="round"/>
+    <path d="M-9.9 -20.592 C-13.2 -34.32 -11 -48.047999999999995 -6.6 -56.2848" stroke="#fff" stroke-opacity=".32" stroke-width="3.96" fill="none" stroke-linecap="round"/>
+  </g>
+  </g>
+  <g transform="rotate(34 120 204)">
+  <path d="M120 204 L120 142" stroke="#5FAE34" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+    
+  <g transform="translate(120 148) rotate(0)">
+    <path d="M0 0 C-20.9 -12.3552 -22 -42.5568 0 -68.64 C22 -42.5568 20.9 -12.3552 0 0 Z" fill="url(#bayam-d1)"/>
+    <path d="M0 -2.7456 C0.88 -27.456000000000003 0 -48.047999999999995 -1.1 -63.1488" stroke="#EFFFD0" stroke-opacity=".7" stroke-width="2.6399999999999997" fill="none" stroke-linecap="round"/>
+    <path d="M-9.9 -20.592 C-13.2 -34.32 -11 -48.047999999999995 -6.6 -56.2848" stroke="#fff" stroke-opacity=".32" stroke-width="3.96" fill="none" stroke-linecap="round"/>
+  </g>
+  </g>
+  <g transform="rotate(0 120 204)">
+  <path d="M120 204 L120 126" stroke="#5FAE34" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+    
+  <g transform="translate(120 132) rotate(0)">
+    <path d="M0 0 C-23.275 -13.7592 -24.5 -47.3928 0 -76.44 C24.5 -47.3928 23.275 -13.7592 0 0 Z" fill="url(#bayam-d1)"/>
+    <path d="M0 -3.0576 C0.98 -30.576 0 -53.507999999999996 -1.225 -70.3248" stroke="#EFFFD0" stroke-opacity=".7" stroke-width="2.94" fill="none" stroke-linecap="round"/>
+    <path d="M-11.025 -22.932 C-14.7 -38.22 -12.25 -53.507999999999996 -7.35 -62.6808" stroke="#fff" stroke-opacity=".32" stroke-width="4.41" fill="none" stroke-linecap="round"/>
+  </g>
+  </g>
+</symbol>
+  </defs>
+  <rect width="900" height="1000" fill="url(#g-langit)"/>
+  <circle cx="610" cy="300" r="210" fill="url(#g-pendar)"/>
+  <circle cx="610" cy="300" r="112" fill="url(#g-matahari)"/>
+  <ellipse cx="572" cy="262" rx="34" ry="22" transform="rotate(-30 572 262)" fill="#fff" opacity=".45"/>
+  <g>
+    <ellipse cx="230" cy="232" rx="78" ry="34" fill="url(#g-awan)"/>
+    <ellipse cx="192" cy="214" rx="44" ry="36" fill="url(#g-awan)"/>
+    <ellipse cx="260" cy="206" rx="50" ry="44" fill="url(#g-awan)"/>
+    <ellipse cx="740" cy="170" rx="60" ry="24" fill="url(#g-awan)"/>
+    <ellipse cx="712" cy="156" rx="34" ry="26" fill="url(#g-awan)"/>
+    <ellipse cx="764" cy="150" rx="36" ry="30" fill="url(#g-awan)"/>
+  </g>
+  <path d="M0 470 C150 380 300 400 430 440 C560 480 700 380 900 420 L900 560 L0 560 Z" fill="url(#g-bukit1)"/>
+  <path d="M0 500 C180 450 330 470 470 490 C620 512 760 450 900 470 L900 600 L0 600 Z" fill="url(#g-bukit2)"/>
+  <path d="M0 480 L900 480 L900 1000 L0 1000 Z" fill="url(#g-rumput)" transform="translate(0 0)"/>
+  <path d="M0 480 C200 470 700 470 900 480" stroke="#fff" stroke-opacity=".5" stroke-width="3" fill="none"/>
+  <path d="M359.5 480 L411.2 480 L330 900 Q250 925 170 900 Z" fill="url(#g-tanah)"/>
+      <path d="M359.5 480 L411.2 480 L330 900 Q250 912 170 900 Z" fill="url(#g-tanah-atas)" opacity=".9"/>
+  <path d="M424.1 480 L475.9 480 L530 900 Q450 925 370 900 Z" fill="url(#g-tanah)"/>
+      <path d="M424.1 480 L475.9 480 L530 900 Q450 912 370 900 Z" fill="url(#g-tanah-atas)" opacity=".9"/>
+  <path d="M488.8 480 L540.5 480 L730 900 Q650 925 570 900 Z" fill="url(#g-tanah)"/>
+      <path d="M488.8 480 L540.5 480 L730 900 Q650 912 570 900 Z" fill="url(#g-tanah-atas)" opacity=".9"/>
+  <use href="#tunas" x="354.3" y="504.8" width="27.0" height="25.2"/>
+  <use href="#tunas" x="436.5" y="504.8" width="27.0" height="25.2"/>
+  <use href="#tunas" x="518.7" y="504.8" width="27.0" height="25.2"/>
+  <use href="#tunas" x="331.6" y="551.4" width="36.0" height="33.6"/>
+  <use href="#tunas" x="432.0" y="551.4" width="36.0" height="33.6"/>
+  <use href="#tunas" x="532.5" y="551.4" width="36.0" height="33.6"/>
+  <use href="#tunas" x="300.7" y="615.2" width="48.0" height="44.8"/>
+  <use href="#tunas" x="426.0" y="615.2" width="48.0" height="44.8"/>
+  <use href="#tunas" x="551.3" y="615.2" width="48.0" height="44.8"/>
+  <use href="#tunas" x="260.0" y="701.2" width="63.0" height="58.8"/>
+  <use href="#tunas" x="418.5" y="701.2" width="63.0" height="58.8"/>
+  <use href="#tunas" x="577.0" y="701.2" width="63.0" height="58.8"/>
+  <ellipse cx="160" cy="948" rx="120" ry="16" fill="url(#g-bayang)"/>
+  <use href="#tanaman-sawi" x="20" y="700" width="280" height="280"/>
+  <ellipse cx="760" cy="950" rx="110" ry="16" fill="url(#g-bayang)"/>
+  <use href="#tanaman-padi" x="620" y="660" width="300" height="300"/>
+  <use href="#tanaman-bayam" x="300" y="830" width="150" height="150"/>
+</svg>

@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-/* global document -- dipakai di dalam page.evaluate (berjalan di browser) */
+/* global document, window -- dipakai di dalam page.evaluate / addInitScript (berjalan di browser) */
 /**
  * Jalankan docs/naskah-demo.md di peramban sungguhan (Chrome/Edge terpasang, playwright-core),
  * diawali "Atur ulang data demo". Dipakai untuk mode tiruan maupun mode backend (D-57, [AG-11]).
@@ -23,9 +23,13 @@
  *             390px dengan cookie yang sama, lalu potret seluruh halaman. Keadaan sama hanya di mode
  *             backend (data di server); di mode tiruan data ada di peramban masing-masing.
  */
-import { existsSync, mkdirSync, writeFileSync } from 'node:fs';
-import { join } from 'node:path';
+import { copyFileSync, existsSync, mkdirSync, writeFileSync } from 'node:fs';
+import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { chromium } from 'playwright-core';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const argumen = process.argv.slice(2);
 const nilai = (nama, bawaan) => {
@@ -38,12 +42,36 @@ const FOLDER = nilai('--catatan', null) ?? nilai('--layar', null);
 const LAYAR_SEMUA = argumen.includes('--layar');
 const DINGIN = argumen.includes('--dingin');
 const TAMPIL = argumen.includes('--tampil');
-const PILIH_SKENARIO = nilai('--skenario', 'naskah');
+const REKAM = argumen.includes('--rekam');
+const PILIH_SKENARIO = nilai('--skenario', REKAM ? 'semua-rekam' : 'naskah');
 const LEBAR = Number(nilai('--lebar', '1440'));
 const LAYAR_HP = argumen.includes('--layar-hp');
 const TANPA_ANIMASI = argumen.includes('--tanpa-animasi');
 /** Opsi konteks peramban bersama: gerak dikurangi bila --tanpa-animasi. */
 const GERAK = TANPA_ANIMASI ? { reducedMotion: 'reduce' } : {};
+
+const FOLDER_REKAM = nilai('--folder-rekam', join(__dirname, '..', '..', 'video', 'rekaman'));
+const FOLDER_PUBLIC_REKAM = join(__dirname, '..', '..', 'video', 'public', 'rekaman');
+const FOLDER_REKAM_TEMP = join(FOLDER_REKAM, '.temp');
+
+if (REKAM) {
+  mkdirSync(FOLDER_REKAM, { recursive: true });
+  mkdirSync(FOLDER_PUBLIC_REKAM, { recursive: true });
+  mkdirSync(FOLDER_REKAM_TEMP, { recursive: true });
+}
+
+const BERKAS_SKENARIO_REKAM = {
+  'rekam-hitung': '04-hitung',
+  'rekam-rawat': '05-rawat',
+  'rekam-jual': '06-jual',
+  'rekam-deteksi': '07-deteksi',
+  'rekam-chatbot': '07-chatbot',
+  'rekam-cuaca': '07-cuaca',
+  'rekam-peta': '07-peta',
+  'rekam-stok': '07-stok',
+  'rekam-chat': '07-chat',
+  'rekam-level': '08-level',
+};
 
 const executablePath = [
   process.env.CHROME_PATH,
@@ -95,11 +123,88 @@ async function tungguAnimasi(locator) {
     .catch(() => undefined);
 }
 
+/** Suntikkan penunjuk kursor dan efek klik yang terlihat natural saat perekaman video. */
+async function pasangKursorRekaman(page) {
+  await page.addInitScript(() => {
+    window.addEventListener('DOMContentLoaded', () => {
+      if (document.getElementById('penunjuk-kursor-rekaman')) return;
+      const kursor = document.createElement('div');
+      kursor.id = 'penunjuk-kursor-rekaman';
+      kursor.style.cssText = `
+        position: fixed;
+        top: -100px;
+        left: -100px;
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
+        background: rgba(34, 197, 94, 0.9);
+        border: 2.5px solid #ffffff;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
+        pointer-events: none;
+        z-index: 2147483647;
+        transform: translate(-50%, -50%);
+        transition: transform 0.08s ease-out, background 0.15s ease;
+      `;
+      document.body.appendChild(kursor);
+
+      window.addEventListener('mousemove', (e) => {
+        kursor.style.left = e.clientX + 'px';
+        kursor.style.top = e.clientY + 'px';
+      });
+
+      window.addEventListener('mousedown', (e) => {
+        kursor.style.transform = 'translate(-50%, -50%) scale(0.8)';
+        kursor.style.background = 'rgba(234, 179, 8, 0.95)';
+        const riak = document.createElement('div');
+        riak.style.cssText = `
+          position: fixed;
+          left: ${e.clientX}px;
+          top: ${e.clientY}px;
+          width: 14px;
+          height: 14px;
+          border-radius: 50%;
+          border: 2px solid #22c55e;
+          pointer-events: none;
+          z-index: 2147483646;
+          transform: translate(-50%, -50%) scale(1);
+          animation: anim-riak 0.45s ease-out forwards;
+        `;
+        document.body.appendChild(riak);
+        setTimeout(() => riak.remove(), 500);
+      });
+
+      window.addEventListener('mouseup', () => {
+        kursor.style.transform = 'translate(-50%, -50%) scale(1)';
+        kursor.style.background = 'rgba(34, 197, 94, 0.9)';
+      });
+
+      const style = document.createElement('style');
+      style.innerHTML = `
+        @keyframes anim-riak {
+          0% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+          100% { transform: translate(-50%, -50%) scale(3.5); opacity: 0; }
+        }
+      `;
+      document.head.appendChild(style);
+    });
+  });
+}
+
 async function klik(page, nama) {
   const t = tombol(page, nama);
   await t.waitFor({ state: 'visible', timeout: TUNGGU });
   await tungguAnimasi(t);
+  if (REKAM) {
+    const box = await t.boundingBox().catch(() => null);
+    if (box) {
+      await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2, { steps: 10 });
+      await page.waitForTimeout(150);
+    }
+  }
   await t.click({ timeout: TUNGGU });
+  if (REKAM) {
+    await page.waitForTimeout(400);
+  }
 }
 
 async function lihat(page, teks) {
@@ -606,6 +711,327 @@ async function navigasiPembeliHp(page, langkah) {
   });
 }
 
+// ---------------------------------------------------------------- skenario rekaman teaser
+
+async function rekamHitung(page, langkah) {
+  await langkah('1. Masuk sebagai Arif & buka Beranda', async () => {
+    await aturUlang(page);
+    await page.goto(`${URL_DASAR}/akun-demo`);
+    await klik(page, 'Masuk sebagai Arif');
+    await page.waitForURL(/\/beranda/, { timeout: TUNGGU });
+    await page.waitForTimeout(800);
+  });
+  await langkah('2. Buka kalkulator rencana dan pilih sawi hijau', async () => {
+    await klik(page, 'Buat siklus baru');
+    await page.waitForTimeout(600);
+    await klik(page, /Sawi hijau/);
+    await page.waitForTimeout(600);
+    await klik(page, 'Lanjut pilih metode');
+  });
+  await langkah('3. Tentukan luas lahan dan hitung modal', async () => {
+    const inputLuas = page.getByLabel(/Luas lahan/).first();
+    await inputLuas.fill('20');
+    await page.waitForTimeout(600);
+    await klik(page, 'Lanjut hitung modal');
+    await lihat(page, /impas/i);
+    await page.waitForTimeout(1500);
+  });
+  await langkah('4. Simpan rencana tanam ke jadwal', async () => {
+    await klik(page, 'Simpan rencana');
+    await page.waitForTimeout(400);
+    await klik(page, /Kebun belakang rumah/);
+    await page.waitForTimeout(400);
+    await klik(page, 'Hari ini');
+    await page.waitForTimeout(400);
+    await klik(page, 'Simpan dan buat jadwal');
+    await page.waitForURL(/\/beranda\?siklus=/, { timeout: TUNGGU });
+    await page.waitForTimeout(1200);
+  });
+}
+
+async function rekamRawat(page, langkah) {
+  await langkah('1. Masuk dan buka Beranda', async () => {
+    await page.goto(`${URL_DASAR}/akun-demo`);
+    await klik(page, 'Masuk sebagai Arif');
+    await page.waitForURL(/\/beranda/, { timeout: TUNGGU });
+    await page.waitForTimeout(800);
+  });
+  await langkah('2. Cek penggaris umur dan selesaikan tugas harian', async () => {
+    await lihat(page, /hari ke-13/i);
+    await page.mouse.move(500, 240, { steps: 10 });
+    await page.waitForTimeout(1000);
+    const ceklis = page.locator('input[type="checkbox"]').first();
+    if (await ceklis.isVisible().catch(() => false)) {
+      await ceklis.click();
+      await page.waitForTimeout(800);
+    }
+  });
+  await langkah('3. Buka detail siklus dan fitur ukur pH PPM', async () => {
+    await klik(page, /Sawi hijau · Rak hidroponik teras/);
+    await klik(page, 'Lihat jadwal, modal, dan jurnal');
+    await lihat(page, 'Cek pH dan PPM');
+    await klik(page, 'Isi angka');
+    await page.waitForTimeout(600);
+  });
+  await langkah('4. Isi angka sensor dan lihat rekomendasi nutrisi instan', async () => {
+    await page.getByLabel('pH larutan').fill('6,2');
+    await page.waitForTimeout(400);
+    await page.getByLabel('PPM (kepekatan nutrisi)').fill('600');
+    await lihat(page, /PPM terlalu rendah/i);
+    await page.waitForTimeout(1200);
+    await klik(page, 'Simpan hasil');
+    await lihat(page, 'Hasil ukur tersimpan.');
+    await page.waitForTimeout(1200);
+  });
+}
+
+async function rekamJual(page, langkah) {
+  await langkah('1. Masuk sebagai pembeli (Imas) dan buat pesanan ber-DP', async () => {
+    await page.goto(`${URL_DASAR}/akun-demo`);
+    await klik(page, 'Masuk sebagai Imas');
+    await page.waitForURL(/\/pembeli/, { timeout: TUNGGU });
+    await klik(page, 'Buat pesanan');
+    await klik(page, /Sawi hijau/);
+    await page.getByLabel('Jumlah per kiriman').fill('10');
+    await page.getByLabel(/Harga per kg/).fill('5000');
+    await page.waitForTimeout(500);
+    await klik(page, /^Lanjut bayar Rp/);
+    await klik(page, 'Berhasil');
+    await page.waitForTimeout(500);
+    await klik(page, /^Bayar Rp/);
+    await lihat(page, 'Uang muka sudah masuk');
+    await page.waitForTimeout(1000);
+  });
+  await langkah('2. Masuk sebagai petani (Arif) dan terima kesepakatan pesanan', async () => {
+    await page.goto(`${URL_DASAR}/akun-demo`);
+    await klik(page, 'Masuk sebagai Arif');
+    await page.waitForURL(/\/beranda/, { timeout: TUNGGU });
+    await klik(page, /^Pesanan/);
+    await klik(page, /Kafe Daun Pagi/);
+    const lihatPesanan = tombol(page, 'Lihat pesanan');
+    if (await lihatPesanan.isVisible().catch(() => false)) await lihatPesanan.click();
+    await page.waitForTimeout(500);
+    await klik(page, /^Ambil .* kg/);
+    await page.getByRole('checkbox').first().check();
+    await page.waitForTimeout(400);
+    await klik(page, 'Setuju');
+    await lihat(page, /Kesepakatan sudah disetujui|Kiriman saya/);
+    await page.waitForTimeout(1000);
+  });
+  await langkah('3. Pembeli konfirmasi terima kiriman dan beri bintang 5', async () => {
+    await page.goto(`${URL_DASAR}/akun-demo`);
+    await klik(page, 'Masuk sebagai Imas');
+    await page.waitForURL(/\/pembeli/, { timeout: TUNGGU });
+    await klik(page, /Pesanan aktif/);
+    await klik(page, 'Periksa kiriman');
+    await page.waitForTimeout(500);
+    await klik(page, 'Terima semua');
+    await page.waitForTimeout(500);
+    await klik(page, /^Konfirmasi terima .* kg/);
+    await page.waitForTimeout(500);
+    await klik(page, '5 bintang');
+    await page.waitForTimeout(400);
+    await klik(page, 'Kirim nilai');
+    await lihat(page, /Terima kasih. Anda memberi 5 bintang/);
+    await page.waitForTimeout(1200);
+  });
+  await langkah('4. Periksa riwayat pembayaran dan kepastian dana', async () => {
+    await klik(page, /Pesanan aktif/);
+    await klik(page, /^Pembayaran/);
+    await lihat(page, /Ref\. /);
+    await page.waitForTimeout(1200);
+  });
+}
+
+async function rekamDeteksi(page, langkah) {
+  await langkah('1. Masuk sebagai Arif & buka Jurnal Tanaman', async () => {
+    await page.goto(`${URL_DASAR}/akun-demo`);
+    await klik(page, 'Masuk sebagai Arif');
+    await page.waitForURL(/\/beranda/, { timeout: TUNGGU });
+    await klik(page, /Sawi hijau · Rak hidroponik teras/);
+    await klik(page, 'Lihat jadwal, modal, dan jurnal');
+    await page
+      .locator(
+        'nav[aria-label="Bagian siklus kebun"] a[href$="/jurnal"], a:has-text("Jurnal"), button:has-text("Jurnal")',
+      )
+      .first()
+      .click();
+    await lihat(page, 'Deteksi Gejala Tanaman (AI)');
+    await page.waitForTimeout(600);
+  });
+  await langkah('2. Buka modal deteksi tanaman AI dan setujui fitur', async () => {
+    await klik(page, 'Deteksi Gejala Tanaman (AI)');
+    const modal = page.getByRole('dialog');
+    await modal.waitFor({ state: 'visible', timeout: TUNGGU });
+    const centang = modal.locator('input[type="checkbox"]');
+    if (await centang.isVisible().catch(() => false)) {
+      await centang.check();
+      await page.waitForTimeout(400);
+      await klik(page, 'Saya Setuju & Mulai');
+      await page.waitForTimeout(600);
+    }
+  });
+  await langkah('3. Unggah foto daun dan lakukan analisis AI', async () => {
+    const inputFoto = page.locator('input[type="file"]');
+    const fotoPath = join(__dirname, '..', 'public', 'foto', 'komoditas', 'sawi.webp');
+    await inputFoto.setInputFiles(fotoPath);
+    await page.waitForTimeout(600);
+    const textarea = page.locator('#catatan-gejala');
+    if (await textarea.isVisible().catch(() => false)) {
+      await textarea.fill('Bercak kuning kecokelatan di tepi daun.');
+      await page.waitForTimeout(400);
+    }
+    await klik(page, 'Analisis Gejala (AI)');
+  });
+  await langkah('4. Periksa hasil dugaan masalah dan tindakan aman', async () => {
+    await lihat(page, /Dugaan Masalah/i);
+    await page.waitForTimeout(1000);
+    await page.evaluate(() => {
+      const el = document.querySelector('[role="dialog"]');
+      if (el) el.scrollTop += 200;
+    });
+    await page.waitForTimeout(1500);
+  });
+}
+
+async function rekamChatbot(page, langkah) {
+  await langkah('1. Masuk dan buka asisten chatbot', async () => {
+    await page.goto(`${URL_DASAR}/akun-demo`);
+    await klik(page, 'Masuk sebagai Arif');
+    await page.waitForURL(/\/beranda/, { timeout: TUNGGU });
+    await page.waitForTimeout(800);
+    const tombolBot = page.locator('#tombol-buka-chatbot');
+    await tombolBot.waitFor({ state: 'visible', timeout: TUNGGU });
+    await tombolBot.click();
+    const panel = page.locator('#panel-chatbot');
+    await panel.waitFor({ state: 'visible', timeout: TUNGGU });
+    const centang = panel.locator('input[type="checkbox"]');
+    if (await centang.isVisible().catch(() => false)) {
+      await centang.check();
+      await klik(page, 'Saya Setuju & Mulai Tanya');
+      await page.waitForTimeout(500);
+    }
+  });
+  await langkah('2. Ketuk contoh pertanyaan cepat dan terima jawaban', async () => {
+    await klik(page, /Kapan pupuk pertama sawi\?/);
+    await lihat(page, /Kapan pupuk pertama sawi\?/);
+    await page.waitForTimeout(1500);
+  });
+  await langkah('3. Ketik pertanyaan takaran nutrisi PPM', async () => {
+    const input = page.locator('#input-chatbot');
+    await input.fill('Berapa PPM ideal sawi hidroponik?');
+    await page.waitForTimeout(500);
+    await page.locator('#tombol-kirim-chatbot').click();
+    await page.waitForTimeout(2000);
+  });
+}
+
+async function rekamCuaca(page, langkah) {
+  await langkah('1. Masuk ke Beranda dan lihat widget cuaca BMKG 3 hari', async () => {
+    await page.goto(`${URL_DASAR}/akun-demo`);
+    await klik(page, 'Masuk sebagai Arif');
+    await page.waitForURL(/\/beranda/, { timeout: TUNGGU });
+    await page.waitForTimeout(800);
+    const kartu = page.locator('#kartu-cuaca, section:has-text("Cuaca dan suhu")').first();
+    await kartu.waitFor({ state: 'visible', timeout: TUNGGU });
+    await kartu.scrollIntoViewIfNeeded();
+    await page.waitForTimeout(1000);
+  });
+  await langkah('2. Sorot rekomendasi siram dan suhu desa', async () => {
+    await lihat(page, /Cuaca dan suhu/i);
+    await page.mouse.move(195, 320, { steps: 10 });
+    await page.waitForTimeout(2000);
+  });
+}
+
+async function rekamPeta(page, langkah) {
+  await langkah('1. Buka peta sebaran petani lokal', async () => {
+    await page.goto(`${URL_DASAR}/akun-demo`);
+    await klik(page, 'Masuk sebagai Ratna');
+    await page.waitForURL(/\/pembeli/, { timeout: TUNGGU });
+    await page.goto(`${URL_DASAR}/pembeli/peta`);
+    await lihat(page, 'Peta Petani Sekitar');
+    await page.waitForTimeout(1000);
+  });
+  await langkah('2. Tampilkan pin peta dan beralih ke daftar petani', async () => {
+    await page.mouse.move(600, 450, { steps: 15 });
+    await page.waitForTimeout(1000);
+    const tombolDaftar = page.locator('button:has-text("Daftar")').first();
+    if (await tombolDaftar.isVisible().catch(() => false)) {
+      await tombolDaftar.click();
+      await page.waitForTimeout(1500);
+    } else {
+      await page.waitForTimeout(1500);
+    }
+  });
+}
+
+async function rekamStok(page, langkah) {
+  await langkah('1. Buka stok siap jual sekitar', async () => {
+    await page.goto(`${URL_DASAR}/akun-demo`);
+    await klik(page, 'Masuk sebagai Ratna');
+    await page.waitForURL(/\/pembeli/, { timeout: TUNGGU });
+    await page.goto(`${URL_DASAR}/pembeli/stok`);
+    await lihat(page, 'Stok Siap Jual di Sekitar Anda');
+    await page.waitForTimeout(1000);
+  });
+  await langkah('2. Pilih komoditas panen segar dan lihat opsi COD', async () => {
+    const kartuStok = page.locator('article, [class*="kartu"]').first();
+    await kartuStok.waitFor({ state: 'visible', timeout: TUNGGU });
+    await kartuStok.scrollIntoViewIfNeeded();
+    await page.waitForTimeout(800);
+    await page.mouse.move(195, 300, { steps: 10 });
+    await page.waitForTimeout(1500);
+  });
+}
+
+async function rekamChat(page, langkah) {
+  await langkah('1. Buka menu chat percakapan pembeli-petani', async () => {
+    await page.goto(`${URL_DASAR}/akun-demo`);
+    await klik(page, 'Masuk sebagai Ratna');
+    await page.waitForURL(/\/pembeli/, { timeout: TUNGGU });
+    await page.goto(`${URL_DASAR}/pembeli/chat`);
+    await lihat(page, 'Chat & Pesan');
+    await page.waitForTimeout(800);
+  });
+  await langkah('2. Kirim pesan tanya kesiapan panen', async () => {
+    const kontak = page
+      .locator(
+        'button:has-text("Arif"), button:has-text("Kebun"), [role="button"]:has-text("Arif")',
+      )
+      .first();
+    if (await kontak.isVisible().catch(() => false)) {
+      await kontak.click();
+      await page.waitForTimeout(600);
+    }
+    const input = page.locator('#masukan-pesan-chat');
+    await input.waitFor({ state: 'visible', timeout: TUNGGU });
+    await input.fill('Halo Pak Arif, apa sawi hijaunya bisa dikirim besok pagi?');
+    await page.waitForTimeout(500);
+    await input.press('Enter');
+    await lihat(page, 'Halo Pak Arif, apa sawi hijaunya bisa dikirim besok pagi?');
+    await page.waitForTimeout(1500);
+  });
+}
+
+async function rekamLevel(page, langkah) {
+  await langkah('1. Masuk sebagai Arif & buka Profil', async () => {
+    await page.goto(`${URL_DASAR}/akun-demo`);
+    await klik(page, 'Masuk sebagai Arif');
+    await page.waitForURL(/\/beranda/, { timeout: TUNGGU });
+    await page.goto(`${URL_DASAR}/profil`);
+    await page.waitForTimeout(800);
+  });
+  await langkah('2. Sorot level petani, poin capaian, dan lencana 3D', async () => {
+    await lihat(page, /Level|Poin|Lencana/i);
+    await page.waitForTimeout(1000);
+    await page.evaluate(() => window.scrollBy({ top: 300, behavior: 'smooth' }));
+    await page.waitForTimeout(1500);
+    await page.evaluate(() => window.scrollBy({ top: 300, behavior: 'smooth' }));
+    await page.waitForTimeout(1500);
+  });
+}
+
 const SKENARIO = {
   naskah,
   'daftar-petani': daftarPetani,
@@ -616,12 +1042,27 @@ const SKENARIO = {
   chat: skenarioChat,
   'chat-nomor': chatNomor,
   'navigasi-pembeli-hp': navigasiPembeliHp,
+  'rekam-hitung': rekamHitung,
+  'rekam-rawat': rekamRawat,
+  'rekam-jual': rekamJual,
+  'rekam-deteksi': rekamDeteksi,
+  'rekam-chatbot': rekamChatbot,
+  'rekam-cuaca': rekamCuaca,
+  'rekam-peta': rekamPeta,
+  'rekam-stok': rekamStok,
+  'rekam-chat': rekamChat,
+  'rekam-level': rekamLevel,
 };
-const DAFTAR_SKENARIO = PILIH_SKENARIO === 'semua' ? Object.keys(SKENARIO) : [PILIH_SKENARIO];
+const DAFTAR_SKENARIO =
+  PILIH_SKENARIO === 'semua-rekam'
+    ? Object.keys(BERKAS_SKENARIO_REKAM)
+    : PILIH_SKENARIO === 'semua'
+      ? Object.keys(SKENARIO)
+      : [PILIH_SKENARIO];
 for (const s of DAFTAR_SKENARIO)
   if (!SKENARIO[s]) {
     console.error(
-      `Skenario tidak dikenal: ${s}. Pilih: ${Object.keys(SKENARIO).join(', ')}, semua.`,
+      `Skenario tidak dikenal: ${s}. Pilih: ${Object.keys(SKENARIO).join(', ')}, semua, semua-rekam.`,
     );
     process.exit(1);
   }
@@ -655,11 +1096,33 @@ async function potretHp(browser, utama, alamat, berkas) {
 
 /** Satu skenario di konteks peramban baru (cache kosong); kembalikan waktu tiap langkah. */
 async function jalankan(browser, nama, putaran) {
-  const konteks = await browser.newContext({
-    viewport: { width: LEBAR, height: LEBAR < 768 ? 844 : 900 },
+  const hpSkenario =
+    [
+      'rekam-deteksi',
+      'rekam-chatbot',
+      'rekam-cuaca',
+      'rekam-stok',
+      'rekam-chat',
+      'rekam-level',
+      'navigasi-pembeli-hp',
+    ].includes(nama) || LEBAR < 768;
+  const lebarSkenario = REKAM ? (hpSkenario ? 390 : 1920) : LEBAR;
+  const tinggiSkenario = REKAM ? (hpSkenario ? 844 : 1080) : LEBAR < 768 ? 844 : 900;
+
+  const opsiKonteks = {
+    viewport: { width: lebarSkenario, height: tinggiSkenario },
     ...GERAK,
-  });
+  };
+  if (REKAM && BERKAS_SKENARIO_REKAM[nama]) {
+    opsiKonteks.recordVideo = {
+      dir: FOLDER_REKAM_TEMP,
+      size: { width: lebarSkenario, height: tinggiSkenario },
+    };
+  }
+
+  const konteks = await browser.newContext(opsiKonteks);
   const page = await konteks.newPage();
+  if (REKAM) await pasangKursorRekaman(page);
   const awal = Date.now();
   const konsol = [];
   const api = [];
@@ -764,7 +1227,18 @@ async function jalankan(browser, nama, putaran) {
   };
 
   await SKENARIO[nama](page, langkah);
+  const videoObj = REKAM ? page.video() : null;
   await konteks.close();
+
+  if (videoObj && BERKAS_SKENARIO_REKAM[nama]) {
+    const namaTarget = `${BERKAS_SKENARIO_REKAM[nama]}.webm`;
+    const berkas1 = join(FOLDER_REKAM, namaTarget);
+    const berkas2 = join(FOLDER_PUBLIC_REKAM, namaTarget);
+    await videoObj.saveAs(berkas1);
+    copyFileSync(berkas1, berkas2);
+    console.log(`  🎥 Video rekaman tersimpan: ${berkas1}`);
+  }
+
   const lambat = api.filter((x) => x.ms >= 1000);
   return { waktu, galatApi, lambat };
 }

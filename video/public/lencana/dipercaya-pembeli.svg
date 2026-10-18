@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-label="Dipercaya pembeli">
+  <title>Dipercaya pembeli</title>
+  <defs>
+    <linearGradient id="dipercaya-pembeli-tepi" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7CCB2B"/><stop offset="1" stop-color="#2B7516"/></linearGradient>
+    <linearGradient id="dipercaya-pembeli-muka" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8FD13A"/><stop offset="1" stop-color="#3E9B1F"/></linearGradient>
+    <radialGradient id="dipercaya-pembeli-bayang" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#2E3547" stop-opacity=".28"/><stop offset="1" stop-color="#2E3547" stop-opacity="0"/></radialGradient>
+    <linearGradient id="dipercaya-pembeli-kilau" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".55"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+  </defs>
+  <ellipse cx="60" cy="113" rx="34" ry="5" fill="url(#dipercaya-pembeli-bayang)"/>
+  <circle cx="60" cy="58" r="50" fill="url(#dipercaya-pembeli-tepi)"/>
+  <circle cx="60" cy="58" r="40" fill="url(#dipercaya-pembeli-muka)"/>
+  <ellipse cx="60" cy="36" rx="30" ry="14" fill="url(#dipercaya-pembeli-kilau)"/>
+  <g transform="translate(31.2 29.2) scale(2.4)" fill="none" stroke="#2E3547" stroke-opacity=".22" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" transform-origin="0 0"><g transform="translate(.4 .6)"><path d="M12 3l7 3v5c0 5-3.2 8.3-7 10-3.8-1.7-7-5-7-10V6z"/><path d="M8.7 12.2l2.3 2.3 4.4-4.6"/></g></g>
+  <g transform="translate(31.2 29.2) scale(2.4)" fill="none" stroke="#FFFFFF" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 5-3.2 8.3-7 10-3.8-1.7-7-5-7-10V6z"/><path d="M8.7 12.2l2.3 2.3 4.4-4.6"/></g>
+</svg>
