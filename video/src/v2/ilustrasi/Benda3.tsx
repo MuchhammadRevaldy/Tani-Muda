@@ -100,15 +100,15 @@ export const SkalaJarum: React.FC<{ nilai: number; lebar?: number }> = ({ nilai,
     return `M${x0} ${y0} A${r} ${r} 0 0 1 ${x1} ${y1}`;
   };
   return (
-    <svg viewBox="0 0 460 300" width={lebar} height={(lebar * 300) / 460} style={{ overflow: 'visible' }}>
-      <rect x="0" y="0" width="460" height="300" rx="26" fill={W.putih} />
+    <svg viewBox="0 0 460 340" width={lebar} height={(lebar * 340) / 460} style={{ overflow: 'visible' }}>
+      <rect x="0" y="0" width="460" height="340" rx="26" fill={W.putih} />
       <path d={busur(-90, 90)} stroke="#E4E7EC" strokeWidth="30" fill="none" strokeLinecap="round" />
       <path d={busur(-90 + (1.5 / 4) * 180, -90 + (2.5 / 4) * 180)} stroke={W.limau} strokeWidth="30" fill="none" />
       <g transform={`rotate(${sudut} 230 240)`}>
         <path d="M222 240 L230 90 L238 240 Z" fill={W.teks} />
       </g>
       <circle cx="230" cy="240" r="20" fill={W.teks} />
-      <text x="230" y="200" textAnchor="middle" fontFamily="Outfit" fontWeight={800} fontSize="44" fill={W.daun}>
+      <text x="230" y="310" textAnchor="middle" fontFamily="Outfit" fontWeight={800} fontSize="44" fill={W.daun}>
         pH {nilai.toFixed(1).replace('.', ',')}
       </text>
     </svg>

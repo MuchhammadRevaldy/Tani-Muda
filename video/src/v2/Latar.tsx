@@ -104,7 +104,7 @@ export const Latar: React.FC<Props> = ({ jenis, kamera: k, hujan = 0, senja = 0,
 
       {/* matahari */}
       <Lapis k={k} dalam={0.08}>
-        <g opacity={1 - hujan} transform={`translate(1700 ${yMatahari})`}>
+        <g opacity={1 - hujan} transform={`translate(1790 ${yMatahari - 40})`}>
           <circle r="120" fill={W.matahariLembut} opacity="0.7" />
           <circle r="76" fill={interpolateColors(senja, [0, 1], [W.matahari, W.oranye])} />
           <circle r="76" fill="none" stroke={W.matahariLembut} strokeWidth="6" opacity="0.6" transform={`rotate(${frame * 0.4})`} strokeDasharray="20 28" />

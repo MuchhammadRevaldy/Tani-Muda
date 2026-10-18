@@ -96,7 +96,7 @@ export const S08_2: React.FC<PropsShot> = ({ shot }) => {
               </svg>
             </div>
           </KeluarDariLayar>
-          <div style={{ position: 'absolute', left: 760, top: 830, fontFamily: HURUF, fontWeight: 800, fontSize: 64, color: W.teks, opacity: maju(frame, fDugaan - 6, 10), transform: `translateY(${(1 - pegas(frame, fDugaan - 6, 'pantul')) * 30}px)` }}>
+          <div style={{ position: 'absolute', left: 760, top: 820, fontFamily: HURUF, fontWeight: 800, fontSize: 64, color: W.teks, textShadow: '0 0 12px #fff, 0 0 4px #fff, 0 0 2px #fff', opacity: maju(frame, fDugaan - 6, 10), transform: `translateY(${(1 - pegas(frame, fDugaan - 6, 'pantul')) * 30}px)` }}>
             <span style={{ color: W.oranye }}>dugaan:</span> bercak daun
           </div>
           <svg viewBox="0 0 1920 1080" width={1920} height={1080} style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }}>
