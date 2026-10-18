@@ -179,6 +179,8 @@ export const teksHitung = {
     isian: 'Harga isianmu.',
     kesepakatan: (nama: string) => `Harga kesepakatan pesanan ${nama}.`,
     pesanan_terdekat: (nama: string) => `Dari pesanan ${nama}. Ubah bila harga di desamu beda.`,
+    berita: (media: string) =>
+      `Harga pasar dari berita (${media}). Ubah bila harga di desamu beda.`,
     contoh: 'Harga contoh. Ubah sesuai harga di desamu.',
   },
   hargaJualBantuan: 'Isi harga jual di desamu untuk melihat perkiraan untung.',

@@ -20,7 +20,7 @@ import {
 } from '../api/kueri';
 import { useKeluarSesi, useSesi } from '../api/sesi';
 import type { Pengguna, Wilayah } from '../api/tipe';
-import { bulatkanLokasi } from '../lib/jarak';
+import { ambilLokasiPerangkat, type InfoLokasiPerangkat } from '../lib/lokasi-perangkat';
 import { Avatar } from '../komponen/avatar';
 import { cx } from '../komponen/gabung-kelas';
 import { Ikon } from '../komponen/ikon';
@@ -192,52 +192,42 @@ function KartuPetaPetani({ p }: { p: Pengguna }) {
   const mutasi = usePerbaruiLokasi();
   const [pesanGalat, setPesanGalat] = useState<string | null>(null);
   const [sedangMinta, setSedangMinta] = useState(false);
+  const [infoLokasi, setInfoLokasi] = useState<InfoLokasiPerangkat | null>(null);
 
   const aktif = Boolean(p.tampil_di_peta);
+
+  const sinkronLokasi = async (mode: 'otomatis' | 'jaringan' = 'otomatis') => {
+    setPesanGalat(null);
+    setSedangMinta(true);
+    try {
+      const hasil = await ambilLokasiPerangkat({ mode });
+      setInfoLokasi(hasil);
+      await mutasi.mutateAsync({
+        tampil_di_peta: true,
+        lintang: hasil.lintang,
+        bujur: hasil.bujur,
+        nama_tempat: hasil.namaTempat,
+      });
+    } catch {
+      setPesanGalat('Gagal mendeteksi lokasi atau menyimpan ke server.');
+    } finally {
+      setSedangMinta(false);
+    }
+  };
 
   const tanganiUbahSakelar = async (aktifBaru: boolean) => {
     setPesanGalat(null);
     if (!aktifBaru) {
       try {
         await mutasi.mutateAsync({ tampil_di_peta: false });
+        setInfoLokasi(null);
       } catch {
         setPesanGalat('Gagal menyimpan pengaturan.');
       }
       return;
     }
 
-    if (!navigator.geolocation) {
-      setPesanGalat('Peramban tidak mendukung fitur lokasi GPS.');
-      return;
-    }
-
-    setSedangMinta(true);
-    navigator.geolocation.getCurrentPosition(
-      async (pos) => {
-        try {
-          const lintang = bulatkanLokasi(pos.coords.latitude);
-          const bujur = bulatkanLokasi(pos.coords.longitude);
-          await mutasi.mutateAsync({
-            tampil_di_peta: true,
-            lintang,
-            bujur,
-          });
-        } catch {
-          setPesanGalat('Gagal menyimpan lokasi ke server.');
-        } finally {
-          setSedangMinta(false);
-        }
-      },
-      (err) => {
-        setSedangMinta(false);
-        if (err.code === err.PERMISSION_DENIED) {
-          setPesanGalat('Izin lokasi ditolak di peramban.');
-        } else {
-          setPesanGalat('Gagal membaca sinyal GPS.');
-        }
-      },
-      { timeout: 10000, enableHighAccuracy: false },
-    );
+    await sinkronLokasi('otomatis');
   };
 
   return (
@@ -263,15 +253,41 @@ function KartuPetaPetani({ p }: { p: Pengguna }) {
           </div>
         </label>
         {sedangMinta ? (
-          <p className="m-0 text-keterangan text-tanah">Membaca lokasi GPS perangkat...</p>
+          <p className="m-0 text-keterangan text-tanah">
+            Mendeteksi lokasi (GPS / jaringan Wi-Fi)...
+          </p>
         ) : null}
         {pesanGalat ? (
           <p className="m-0 text-keterangan text-tomat">{pesanGalat}</p>
         ) : null}
         {aktif && p.lokasi_kira_lintang != null ? (
-          <p className="m-0 text-keterangan text-daun">
-            Perkiraan lokasi aktif ({p.lokasi_kira_lintang}, {p.lokasi_kira_bujur}).
-          </p>
+          <div className="flex flex-col gap-1.5 rounded-sm border border-garis bg-latar p-3">
+            <p className="m-0 text-keterangan font-medium text-daun-tua">
+              Perkiraan lokasi aktif ({p.lokasi_kira_lintang}, {p.lokasi_kira_bujur})
+            </p>
+            <p className="m-0 text-keterangan text-teks-pendukung">
+              {infoLokasi?.keterangan ?? 'Menggunakan perkiraan koordinat tersimpan.'}
+            </p>
+            <div className="mt-1 flex flex-wrap gap-2">
+              <button
+                type="button"
+                disabled={sedangMinta || mutasi.isPending}
+                onClick={() => sinkronLokasi('jaringan')}
+                className="cursor-pointer text-keterangan font-medium text-daun underline hover:text-daun-tua disabled:opacity-50"
+              >
+                Perbarui via jaringan Wi-Fi / ISP
+              </button>
+              <span className="text-keterangan text-teks-pendukung">·</span>
+              <button
+                type="button"
+                disabled={sedangMinta || mutasi.isPending}
+                onClick={() => sinkronLokasi('otomatis')}
+                className="cursor-pointer text-keterangan font-medium text-daun underline hover:text-daun-tua disabled:opacity-50"
+              >
+                Coba GPS perangkat
+              </button>
+            </div>
+          </div>
         ) : null}
       </div>
     </Kartu>

@@ -6,6 +6,7 @@
  */
 import {
   useDaftarResep,
+  useHargaBerita,
   useHargaSekitarBanyak,
   useKelayakanSubsidi,
   useKomoditas,
@@ -15,6 +16,7 @@ import {
   usePesananUntukPetani,
   useSistemHidroponik,
 } from '../../api/kueri';
+import { fiturAktif } from '../../lib/fitur';
 import { kelayakanKeDomain, resepKeDomain } from '../../api/peta';
 import { useHariIni, useSesi } from '../../api/sesi';
 import type { Komoditas, MetodeTanam, ResepTanam, SistemHidroponik } from '../../api/tipe';
@@ -94,6 +96,7 @@ export function useRencana(p: PilihanHitung): Rencana {
   const kelayakanQ = useKelayakanSubsidi(p.komoditas);
   const pesananQ = usePesananSekitar({});
   const kesepakatanQ = usePesananUntukPetani(p.pesanan);
+  const beritaQ = useHargaBerita(p.komoditas ?? undefined, fiturAktif('HARGA_BERITA'));
 
   const komoditas = komoditasQ.data?.find((k) => k.id === p.komoditas) ?? null;
   const metode = metodeQ.data?.find((m) => m.id === p.metode) ?? null;
@@ -165,10 +168,12 @@ export function useRencana(p: PilihanHitung): Rencana {
   const pesananTerdekat = (pesananQ.data?.data ?? []).find((x) => x.komoditas_id === p.komoditas);
   const kesepakatan =
     kesepakatanQ.data && kesepakatanQ.data.komoditas_id === p.komoditas ? kesepakatanQ.data : null;
+  const beritaTerbaru = (beritaQ.data ?? [])[0];
   const jual = pilihHargaJual({
     isian: sunting.hargaJual,
     kesepakatan: kesepakatan?.harga_per_kg ?? null,
     pesananTerdekat: pesananTerdekat?.harga_per_kg ?? null,
+    berita: beritaTerbaru?.harga ?? null,
     contoh: komoditas?.harga_jual_contoh ?? null,
   });
   const hargaJualDari =
@@ -176,7 +181,9 @@ export function useRencana(p: PilihanHitung): Rencana {
       ? (kesepakatan?.nama_pembeli ?? null)
       : jual.sumber === 'pesanan_terdekat'
         ? (pesananTerdekat?.nama_pembeli ?? null)
-        : null;
+        : jual.sumber === 'berita'
+          ? (beritaTerbaru?.media ?? 'berita hari ini')
+          : null;
   const kgJelek = perkiraan?.ok ? panenJelekKg(perkiraan.nilai, resep?.persenPanenJelek) : null;
   const ringkasan =
     modal?.ok && perkiraan?.ok && jual.harga !== null

@@ -14,6 +14,7 @@ import { PilPilihan } from '../../komponen/pilihan';
 import { Tombol } from '../../komponen/tombol';
 import { formatDesimal } from '../../lib/format';
 import { teksBantuanLuas, type KonversiLuas } from '../../lib/konversi-satuan';
+import { ambilLokasiPerangkat } from '../../lib/lokasi-perangkat';
 import { teksGalat } from '../../teks/galat';
 import { teksHitung } from '../../teks/hitung';
 import { teksLahan as t } from '../../teks/lahan';
@@ -60,20 +61,22 @@ export function FormLahan({
   const bantuan = teksBantuanLuas(angka, satuan, konversi, 'ru');
   const sedang = buat.isPending || ubah.isPending;
 
-  function pakaiLokasi() {
-    if (!navigator.geolocation) return setGalat((g) => ({ ...g, titik: t.lokasiGagal }));
+  async function pakaiLokasi() {
     setMencari(true);
-    navigator.geolocation.getCurrentPosition(
-      (pos) => {
-        setLintang(pos.coords.latitude.toFixed(5));
-        setBujur(pos.coords.longitude.toFixed(5));
-        setMencari(false);
-      },
-      () => {
-        setGalat((g) => ({ ...g, titik: t.lokasiGagal }));
-        setMencari(false);
-      },
-    );
+    setGalat((g) => {
+      const salin = { ...g };
+      delete salin.titik;
+      return salin;
+    });
+    try {
+      const pos = await ambilLokasiPerangkat({ mode: 'otomatis' });
+      setLintang(pos.lintang.toFixed(5));
+      setBujur(pos.bujur.toFixed(5));
+    } catch {
+      setGalat((g) => ({ ...g, titik: t.lokasiGagal }));
+    } finally {
+      setMencari(false);
+    }
   }
 
   async function kirim(e: FormEvent) {

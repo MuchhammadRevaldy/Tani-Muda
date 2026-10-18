@@ -287,35 +287,37 @@ export function HalamanPilihTanaman() {
           </Tombol>
         </div>
       ) : (
-        URUTAN_KATEGORI.map((kat) => {
-          const isi = tampil.filter((k) => k.kategori === kat);
-          if (!isi.length) return null;
-          return (
-            <section key={kat} className="flex flex-col gap-3" aria-labelledby={`kategori-${kat}`}>
-              <div className="flex items-baseline justify-between gap-3 lg:justify-start">
-                <h2 id={`kategori-${kat}`} className="m-0 text-judul-bagian font-semibold">
-                  {t.namaKategori[kat]}
-                </h2>
-                <span className="text-teks-pendukung">{t.jumlahTanaman(isi.length)}</span>
-              </div>
-              <GrupRadio label={t.namaKategori[kat]} className="grid gap-3 md:grid-cols-2">
-                {isi.map((k) => (
-                  <BarisKomoditas
-                    key={k.id}
-                    k={k}
-                    dipilih={dipilih?.id === k.id}
-                    infoSuhu={kecocokanMap[k.id] ?? null}
-                    onPilih={() =>
-                      k.status_resep === 'tersedia'
-                        ? ubahPilihan({ komoditas: k.id, metode: null })
-                        : setSegera(k)
-                    }
-                  />
-                ))}
-              </GrupRadio>
-            </section>
-          );
-        })
+        <div key={`daftar-tanaman-${lahan}-${cari}`} className="flex flex-col gap-6 animate-kartu-muncul">
+          {URUTAN_KATEGORI.map((kat) => {
+            const isi = tampil.filter((k) => k.kategori === kat);
+            if (!isi.length) return null;
+            return (
+              <section key={kat} className="flex flex-col gap-3" aria-labelledby={`kategori-${kat}`}>
+                <div className="flex items-baseline justify-between gap-3 lg:justify-start">
+                  <h2 id={`kategori-${kat}`} className="m-0 text-judul-bagian font-semibold">
+                    {t.namaKategori[kat]}
+                  </h2>
+                  <span className="text-teks-pendukung">{t.jumlahTanaman(isi.length)}</span>
+                </div>
+                <GrupRadio label={t.namaKategori[kat]} className="grid gap-3 md:grid-cols-2 stagger-kartu">
+                  {isi.map((k) => (
+                    <BarisKomoditas
+                      key={k.id}
+                      k={k}
+                      dipilih={dipilih?.id === k.id}
+                      infoSuhu={kecocokanMap[k.id] ?? null}
+                      onPilih={() =>
+                        k.status_resep === 'tersedia'
+                          ? ubahPilihan({ komoditas: k.id, metode: null })
+                          : setSegera(k)
+                      }
+                    />
+                  ))}
+                </GrupRadio>
+              </section>
+            );
+          })}
+        </div>
       )}
 
       {segera ? (

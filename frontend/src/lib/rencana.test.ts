@@ -157,18 +157,33 @@ describe('subsidi bawaan, panen jelek, harga jual (D-38)', () => {
     const dasar = { isian: null, kesepakatan: null, pesananTerdekat: null, contoh: null };
     expect(pilihHargaJual(dasar)).toEqual({ harga: null, sumber: 'belum_ada' });
     expect(pilihHargaJual({ ...dasar, contoh: 5000 })).toEqual({ harga: 5000, sumber: 'contoh' });
-    expect(pilihHargaJual({ ...dasar, contoh: 5000, pesananTerdekat: 5500 }).sumber).toBe(
-      'pesanan_terdekat',
-    );
+    expect(pilihHargaJual({ ...dasar, contoh: 5000, berita: 5200 })).toEqual({
+      harga: 5200,
+      sumber: 'berita',
+    });
     expect(
-      pilihHargaJual({ ...dasar, contoh: 5000, pesananTerdekat: 5500, kesepakatan: 6000 }),
+      pilihHargaJual({ ...dasar, contoh: 5000, berita: 5200, pesananTerdekat: 5500 }).sumber,
+    ).toBe('pesanan_terdekat');
+    expect(
+      pilihHargaJual({
+        ...dasar,
+        contoh: 5000,
+        berita: 5200,
+        pesananTerdekat: 5500,
+        kesepakatan: 6000,
+      }),
     ).toEqual({
       harga: 6000,
       sumber: 'kesepakatan',
     });
     expect(
-      pilihHargaJual({ isian: 7000, contoh: 5000, pesananTerdekat: 5500, kesepakatan: 6000 })
-        .sumber,
+      pilihHargaJual({
+        isian: 7000,
+        contoh: 5000,
+        berita: 5200,
+        pesananTerdekat: 5500,
+        kesepakatan: 6000,
+      }).sumber,
     ).toBe('isian');
   });
 });

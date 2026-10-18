@@ -32,6 +32,7 @@ import { LembarMerek } from './lembar-merek';
 import { ringkasPilihan } from './pilih-metode';
 import { alamatLangkah, usePilihanHitung } from './pilihan';
 import { KartuRingkasan, RingkasBawah } from './ringkasan-hasil';
+import { WidgetHargaBerita } from '../../komponen/WidgetHargaBerita';
 import { useRencana, type Rencana } from './use-rencana';
 
 /** "Sawi hijau bedengan"; nama komoditas yang sudah memuat cara tanam tidak diulang ("Padi sawah"). */
@@ -149,6 +150,11 @@ export function HalamanKalkulator() {
         lebar ? (
           <>
             <KartuRingkasan r={r} />
+            <WidgetHargaBerita
+              komoditasId={pilihan.komoditas ?? undefined}
+              namaKomoditas={r.komoditas?.nama}
+              onGunakanHarga={(h) => r.setHargaJual(h)}
+            />
             {pesanSimpan}
             {tombolSimpan}
             <p className="m-0 text-keterangan text-teks-pendukung">{t.langkahBerikut}</p>
@@ -250,7 +256,16 @@ export function HalamanKalkulator() {
         </section>
       ) : null}
 
-      {lebar ? null : <KartuRingkasan r={r} />}
+      {lebar ? null : (
+        <>
+          <KartuRingkasan r={r} />
+          <WidgetHargaBerita
+            komoditasId={pilihan.komoditas ?? undefined}
+            namaKomoditas={r.komoditas?.nama}
+            onGunakanHarga={(h) => r.setHargaJual(h)}
+          />
+        </>
+      )}
       <BagianPromo />
       <KartuJadwal
         r={r}

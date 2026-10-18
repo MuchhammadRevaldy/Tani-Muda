@@ -37,4 +37,5 @@ export interface PermintaanPerbaruiLokasi {
   lintang?: number;
   bujur?: number;
   tampil_di_peta?: boolean;
+  nama_tempat?: string;
 }

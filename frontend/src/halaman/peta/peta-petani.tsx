@@ -17,6 +17,7 @@ import { Ikon } from '../../komponen/ikon';
 import { Kartu } from '../../komponen/kartu';
 import { Tombol, kelasTombol } from '../../komponen/tombol';
 import { formatJarak, formatRupiah } from '../../lib/format';
+import { ambilLokasiPerangkat } from '../../lib/lokasi-perangkat';
 
 // Perbaiki ikon penanda bawaan Leaflet untuk bundler Vite
 const ikonPetaniSvg = `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="36" height="36" fill="%232c6e49"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>`;
@@ -47,6 +48,7 @@ export function HalamanPetaPetani() {
     lintang: number;
     bujur: number;
     waktu: string;
+    sumber?: string;
   } | null>(null);
   const [pesanIzinDitolak, setPesanIzinDitolak] = useState<string | null>(null);
   const [sedangMencariGps, setSedangMencariGps] = useState(false);
@@ -76,37 +78,30 @@ export function HalamanPetaPetani() {
     wilayahQ.data?.kecamatan ??
     'Delanggu';
   const sumberLokasi = lokasiGps
-    ? `dari GPS perangkat, pukul ${lokasiGps.waktu}`
+    ? `dari ${lokasiGps.sumber ?? 'GPS perangkat'}, pukul ${lokasiGps.waktu}`
     : 'dari alamat usaha';
 
-  function mintaLokasiGps() {
-    if (typeof navigator === 'undefined' || !navigator.geolocation) {
-      setPesanIzinDitolak(
-        'Izinkan lokasi untuk melihat petani terdekat, atau kami pakai alamat usaha Anda.',
-      );
-      return;
-    }
+  async function mintaLokasiGps() {
     setSedangMencariGps(true);
     setPesanIzinDitolak(null);
-    navigator.geolocation.getCurrentPosition(
-      (pos) => {
-        setSedangMencariGps(false);
-        // Koordinat dibulatkan 2 desimal (~1 km) sebelum dikirim
-        const lat = Math.round(pos.coords.latitude * 100) / 100;
-        const lng = Math.round(pos.coords.longitude * 100) / 100;
-        const now = new Date();
-        const jam = `${String(now.getHours()).padStart(2, '0')}.${String(now.getMinutes()).padStart(2, '0')}`;
-        setLokasiGps({ lintang: lat, bujur: lng, waktu: jam });
-        setPesanIzinDitolak(null);
-      },
-      () => {
-        setSedangMencariGps(false);
-        setPesanIzinDitolak(
-          'Izinkan lokasi untuk melihat petani terdekat, atau kami pakai alamat usaha Anda.',
-        );
-      },
-      { enableHighAccuracy: true, timeout: 10000 },
-    );
+    try {
+      const hasil = await ambilLokasiPerangkat({ mode: 'otomatis' });
+      const now = new Date();
+      const jam = `${String(now.getHours()).padStart(2, '0')}.${String(now.getMinutes()).padStart(2, '0')}`;
+      setLokasiGps({
+        lintang: hasil.lintang,
+        bujur: hasil.bujur,
+        waktu: jam,
+        sumber: hasil.sumber === 'jaringan' ? 'jaringan Wi-Fi/ISP' : 'GPS perangkat',
+      });
+      setPesanIzinDitolak(null);
+    } catch {
+      setPesanIzinDitolak(
+        'Tidak dapat membaca lokasi GPS atau Wi-Fi, menggunakan alamat usaha Anda.',
+      );
+    } finally {
+      setSedangMencariGps(false);
+    }
   }
 
   const petaQ = usePetaPetani(
@@ -182,7 +177,13 @@ export function HalamanPetaPetani() {
       });
     }
 
+    // Pastikan peta me-render seluruh ubin OpenStreetMap setelah DOM terpasang
+    const timer = setTimeout(() => {
+      map.invalidateSize();
+    }, 150);
+
     return () => {
+      clearTimeout(timer);
       map.remove();
       petaInstanceRef.current = null;
     };
@@ -345,11 +346,11 @@ export function HalamanPetaPetani() {
       {/* Tampilan Peta */}
       {tampilan === 'peta' ? (
         <div className="flex flex-col gap-6 lg:flex-row animate-masuk-halaman">
-          <div className="relative min-h-96 flex-1 overflow-hidden rounded-2xl border border-garis bg-putih">
+          <div className="relative flex-1 overflow-hidden rounded-2xl border border-garis bg-putih shadow-kartu">
             <div
               id="wadah-leaflet"
               ref={wadahPetaRef}
-              className="h-96 w-full z-0"
+              className="h-peta min-h-peta w-full z-0"
             />
             <div className="border-t border-garis bg-putih p-3 text-keterangan text-teks-pendukung">
               Penanda hijau: Petani mitra (~1 km). Penanda cokelat: Lokasimu sekarang.
@@ -357,7 +358,7 @@ export function HalamanPetaPetani() {
           </div>
 
           {/* Panel detail petani terpilih */}
-          <div className="w-full lg:w-80">
+          <div className="w-full lg:w-panel lg:flex-none">
             {petaniTerpilih ? (
               <div key={petaniTerpilih.id} className="animate-masuk-halaman">
                 <Kartu judul={petaniTerpilih.nama} tingkatJudul={2}>

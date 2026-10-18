@@ -101,6 +101,7 @@ const ukuranBernama = {
   'tab-siklus': '360px',
   panel: '360px', // panel samping desktop alur Hitung (papan 10–19)
   dialog: '480px',
+  peta: '460px', // tinggi wadah peta Leaflet (PRD F-08, D-64)
   // Kartu pemilih siklus di Beranda (AG-17): HP memperlihatkan tepi kartu berikutnya.
   'kartu-siklus': '264px',
   'kartu-siklus-lebar': '288px',

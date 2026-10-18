@@ -193,21 +193,31 @@ export function panenJelekKg(
   return Math.round(perkiraanKg * Math.min(persen, 100)) / 100;
 }
 
-export type SumberHargaJual = 'isian' | 'kesepakatan' | 'pesanan_terdekat' | 'contoh' | 'belum_ada';
+export type SumberHargaJual =
+  | 'isian'
+  | 'kesepakatan'
+  | 'pesanan_terdekat'
+  | 'berita'
+  | 'contoh'
+  | 'belum_ada';
 
 /**
- * Harga jual di kalkulator (D-38, P-21): isian petani menang; lalu harga kesepakatan bila siklus
- * terhubung pesanan; lalu harga pesanan terdekat untuk komoditas itu; lalu harga jual contoh.
+ * Harga jual di kalkulator (D-38, P-21, F-10): isian petani menang; lalu harga kesepakatan bila
+ * siklus terhubung pesanan; lalu harga pesanan terdekat; lalu harga pantauan berita; lalu harga contoh.
  */
 export function pilihHargaJual(m: {
   isian: number | null;
   kesepakatan: number | null;
   pesananTerdekat: number | null;
+  berita?: number | null;
   contoh: number | null;
 }): { harga: number | null; sumber: SumberHargaJual } {
   if (m.isian !== null) return { harga: m.isian, sumber: 'isian' };
   if (m.kesepakatan !== null) return { harga: m.kesepakatan, sumber: 'kesepakatan' };
   if (m.pesananTerdekat !== null) return { harga: m.pesananTerdekat, sumber: 'pesanan_terdekat' };
+  if (m.berita !== null && m.berita !== undefined && m.berita > 0) {
+    return { harga: m.berita, sumber: 'berita' };
+  }
   if (m.contoh !== null) return { harga: m.contoh, sumber: 'contoh' };
   return { harga: null, sumber: 'belum_ada' };
 }

@@ -4,7 +4,7 @@
  */
 import type { TitikPeta } from '../../api/tipe';
 import { Kartu } from '../../komponen/kartu';
-import { posisiPeta } from '../../lib/pesanan-tampil';
+import { tataTitikPeta } from '../../lib/pesanan-tampil';
 import { teksPesanan as t } from '../../teks/pesanan';
 
 /** Pusat dan jari-jari lingkaran radius di viewBox 400×280. */
@@ -68,26 +68,22 @@ export function PetaPembeli({
           {t.kebunmu}
         </text>
         {/* Titik terpilih digambar terakhir supaya tidak tertutup titik lain. */}
-        {[...titik]
+        {tataTitikPeta(pusat, titik, radius, CX, CY, R)
           .sort((a, b) => Number(a.id === dipilihId) - Number(b.id === dipilihId))
           .map((x) => {
-            if (!x.titik) return null;
-            const pos = posisiPeta(pusat, x.titik, radius);
             const dipilih = x.id === dipilihId;
-            const cx = CX + pos.x * R;
-            const cy = CY + pos.y * R;
             return (
               <g key={x.id}>
                 <circle
-                  cx={cx}
-                  cy={cy}
+                  cx={x.cx}
+                  cy={x.cy}
                   r="15"
                   strokeWidth="2.5"
                   className={dipilih ? 'fill-daun-tua stroke-putih' : 'fill-putih stroke-daun-tua'}
                 />
                 <text
-                  x={cx}
-                  y={cy + 6}
+                  x={x.cx}
+                  y={x.cy + 6}
                   textAnchor="middle"
                   fontSize="18"
                   fontWeight="600"

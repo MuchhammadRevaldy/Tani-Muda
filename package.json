@@ -6,7 +6,10 @@
     "dev": "npm --prefix frontend run dev:lengkap",
     "demo": "npm --prefix frontend run demo",
     "demo:backend": "npm --prefix frontend run demo:backend",
+    "build": "npm --prefix frontend run build",
     "build:demo": "npm --prefix frontend run build:demo",
+    "typecheck": "npm --prefix frontend run typecheck",
+    "lint": "npm --prefix frontend run lint",
     "preview:demo": "npm --prefix frontend run preview:demo",
     "uji:naskah": "npm --prefix frontend run uji:naskah --"
   }

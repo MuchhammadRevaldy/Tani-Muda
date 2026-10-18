@@ -2,14 +2,26 @@ import { Ikon } from './ikon';
 import { Kartu } from './kartu';
 import { fiturAktif } from '../lib/fitur';
 import { useHargaBerita } from '../api/kueri';
-import { formatRupiah } from '../lib/format';
+import { formatRupiah, formatTanggal } from '../lib/format';
+
+function formatTanggalAman(tgl?: string | null): string {
+  if (!tgl) return '';
+  try {
+    const potong = tgl.slice(0, 10);
+    return formatTanggal(potong, { tanpaHari: true, denganTahun: true });
+  } catch {
+    return tgl;
+  }
+}
 
 export function WidgetHargaBerita({
   komoditasId,
   namaKomoditas,
+  onGunakanHarga,
 }: {
   komoditasId?: string;
   namaKomoditas?: string;
+  onGunakanHarga?: (harga: number) => void;
 }) {
   const aktif = fiturAktif('HARGA_BERITA');
   const beritaQ = useHargaBerita(komoditasId, aktif);
@@ -31,6 +43,7 @@ export function WidgetHargaBerita({
         <div className="flex flex-col gap-3">
           {beritaTerbaru ? (
             <>
+              {/* Baris Harga & Jenis */}
               <div className="flex items-baseline justify-between gap-2 border-b border-garis pb-2.5">
                 <div className="flex flex-col">
                   <span className="text-keterangan text-teks-pendukung">
@@ -48,25 +61,52 @@ export function WidgetHargaBerita({
                 </span>
               </div>
 
-              <div className="flex flex-col gap-1.5 text-keterangan text-teks-pendukung">
-                <div className="flex items-center gap-1.5">
-                  <Ikon nama="peta" ukuran={14} />
-                  <span>{beritaTerbaru.lokasi}</span>
-                  <span>·</span>
-                  <span>{beritaTerbaru.tanggal_berita}</span>
+              {/* Rincian Lokasi, Tanggal, dan Media */}
+              <div className="flex flex-col gap-2 pt-0.5 text-keterangan">
+                {/* Lokasi mandiri dengan ikon pin agar tidak bertabrakan */}
+                <div className="flex min-w-0 items-center gap-1.5 text-teks">
+                  <Ikon nama="pin" ukuran={15} className="shrink-0 text-daun-tua" />
+                  <span className="truncate font-medium">{beritaTerbaru.lokasi}</span>
                 </div>
-                <div className="flex items-center justify-between gap-2 pt-1">
-                  <span className="truncate font-medium text-teks">{beritaTerbaru.media}</span>
+
+                {/* Tanggal & Sumber Media */}
+                <div className="flex items-center justify-between gap-2 text-teks-pendukung">
+                  <div className="flex shrink-0 items-center gap-1.5">
+                    <Ikon nama="kalender" ukuran={14} className="shrink-0" />
+                    <span>{formatTanggalAman(beritaTerbaru.tanggal_berita)}</span>
+                  </div>
+                  <span className="max-w-40 truncate rounded bg-embun-pagi px-2 py-0.5 font-medium text-teks-pendukung">
+                    {beritaTerbaru.media}
+                  </span>
+                </div>
+
+                {/* Tautan Berita Portal Resmi */}
+                <div className="flex items-center justify-between gap-2 border-t border-garis/60 pt-2">
+                  <span className="truncate text-teks font-medium" title={beritaTerbaru.judul}>
+                    {beritaTerbaru.judul}
+                  </span>
                   <a
                     href={beritaTerbaru.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="fokus-cincin inline-flex items-center gap-1 font-semibold text-daun-tua hover:underline"
+                    className="fokus-cincin inline-flex shrink-0 items-center gap-1 font-semibold text-daun-tua hover:underline"
                   >
                     <span>Baca berita</span>
                     <Ikon nama="panah-kanan" ukuran={14} />
                   </a>
                 </div>
+
+                {/* Tombol Terapkan ke Kalkulator (bila handler tersedia) */}
+                {onGunakanHarga ? (
+                  <button
+                    type="button"
+                    onClick={() => onGunakanHarga(beritaTerbaru.harga)}
+                    className="fokus-cincin mt-1 flex w-full items-center justify-center gap-1.5 rounded-md border border-daun-tua/20 bg-daun-lembut px-3 py-1.5 font-semibold text-daun-tua transition hover:bg-daun-lembut/80"
+                  >
+                    <Ikon nama="uang" ukuran={16} />
+                    <span>Pakai harga ini di kalkulator</span>
+                  </button>
+                ) : null}
               </div>
             </>
           ) : (

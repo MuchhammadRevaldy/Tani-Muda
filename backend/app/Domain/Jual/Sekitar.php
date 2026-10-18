@@ -37,10 +37,12 @@ final class Sekitar
         return in_array($p->status, [StatusPesanan::MencariPetani, StatusPesanan::Berjalan], true) && self::sisaKg($p) > 0;
     }
 
-    /** Jarak (km, satu desimal) titik tengah desa petani ke desa titik antar; null bila tak bertitik. */
+    /** Jarak (km, satu desimal) titik tengah desa atau lokasi aktif petani ke desa titik antar; null bila tak bertitik. */
     public static function jarakKm(Pengguna $petani, Pesanan $p): ?float
     {
-        $a = Jarak::titik(Wilayah::find($petani->wilayah_id));
+        $a = ($petani->lokasi_kira_lintang !== null && $petani->lokasi_kira_bujur !== null)
+            ? ['lintang' => (float) $petani->lokasi_kira_lintang, 'bujur' => (float) $petani->lokasi_kira_bujur]
+            : Jarak::titik(Wilayah::find($petani->wilayah_id));
         $b = Jarak::titik(Wilayah::find($p->wilayah_id));
 
         return $a && $b ? Angka::bulat(Jarak::jarakKm($a, $b), 1) : null;

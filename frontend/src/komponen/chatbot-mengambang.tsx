@@ -12,6 +12,7 @@ import { useAkun, useKonfigurasi, useRiwayatChatbot, useSetujuAi, useTanyaChatbo
 import type { PesanObrolanBot } from '../api/tipe';
 import { fiturAktif } from '../lib/fitur';
 import { Banner } from './banner';
+import { cx } from './gabung-kelas';
 import { Ikon } from './ikon';
 import { Tombol } from './tombol';
 
@@ -33,6 +34,7 @@ export function ChatbotMengambang() {
   const kueriRiwayat = useRiwayatChatbot(undefined, Boolean(akun?.pengguna.id));
 
   const [terbuka, setTerbuka] = useState(false);
+  const [sedangTutup, setSedangTutup] = useState(false);
   const [pesan, setPesan] = useState('');
   const [pesanLokal, setPesanLokal] = useState<PesanObrolanBot[]>([]);
   const [galat, setGalat] = useState<string | null>(null);
@@ -40,12 +42,21 @@ export function ChatbotMengambang() {
   const akhirObrolanRef = useRef<HTMLDivElement>(null);
   const idPesanRef = useRef(1);
 
+  const tutupChatbot = () => {
+    if (sedangTutup) return;
+    setSedangTutup(true);
+    setTimeout(() => {
+      setTerbuka(false);
+      setSedangTutup(false);
+    }, 240);
+  };
+
   const sudahSetuju = Boolean(akun?.pengguna.setuju_ai_pada);
   const daftarPesan = [...(kueriRiwayat.data ?? []), ...pesanLokal];
   const noWa = (konfigurasi?.kontak_admin?.whatsapp ?? '+62 812-0000-0099').replace(/\D/g, '');
 
   useEffect(() => {
-    if (terbuka) {
+    if (terbuka && !sedangTutup) {
       document.documentElement.classList.add('chat-mobile-terbuka');
       akhirObrolanRef.current?.scrollIntoView({ behavior: 'smooth' });
     } else {
@@ -54,7 +65,7 @@ export function ChatbotMengambang() {
     return () => {
       document.documentElement.classList.remove('chat-mobile-terbuka');
     };
-  }, [daftarPesan.length, terbuka]);
+  }, [daftarPesan.length, terbuka, sedangTutup]);
 
   async function setujuiFitur() {
     try {
@@ -131,11 +142,11 @@ export function ChatbotMengambang() {
         <button
           id="tombol-buka-chatbot"
           type="button"
-          onClick={() => setTerbuka(!terbuka)}
+          onClick={() => (terbuka ? tutupChatbot() : setTerbuka(true))}
           aria-label={terbuka ? 'Tutup Tanya Tani Muda' : 'Buka Tanya Tani Muda'}
           className="flex h-14 w-14 cursor-pointer items-center justify-center rounded-full bg-daun-tua text-putih shadow-kartu transition duration-cepat ease-keluar hover:-translate-y-px active:translate-y-px focus:outline-none"
         >
-          {terbuka ? (
+          {terbuka && !sedangTutup ? (
             <Ikon nama="silang" ukuran={24} />
           ) : (
             <svg
@@ -155,12 +166,15 @@ export function ChatbotMengambang() {
       </div>
 
       {/* Jendela Obrolan (Panel layar penuh di HP, panel melayang di desktop) */}
-      {terbuka && (
+      {(terbuka || sedangTutup) && (
         <div
           id="panel-chatbot"
           role="dialog"
           aria-label="Panel Tanya Tani Muda"
-          className="fixed inset-0 z-50 flex flex-col overflow-hidden bg-putih shadow-kartu-angkat animate-masuk-halaman md:inset-auto md:bottom-22 md:right-6 md:h-tab-siklus md:w-panel md:max-w-dialog md:rounded-3xl md:border md:border-garis"
+          className={cx(
+            'fixed inset-0 z-50 flex flex-col overflow-hidden bg-putih shadow-kartu-angkat md:inset-auto md:bottom-22 md:right-6 md:h-tab-siklus md:w-panel md:max-w-dialog md:rounded-3xl md:border md:border-garis',
+            sedangTutup ? 'animate-panel-keluar pointer-events-none' : 'animate-masuk-halaman',
+          )}
         >
           {/* Header */}
           <div
@@ -178,7 +192,7 @@ export function ChatbotMengambang() {
             <button
               id="tombol-tutup-chatbot"
               type="button"
-              onClick={() => setTerbuka(false)}
+              onClick={tutupChatbot}
               aria-label="Tutup Tanya Tani Muda"
               className="flex h-12 w-12 min-h-sentuh min-w-sentuh cursor-pointer items-center justify-center rounded-full text-putih hover:bg-daun-tekan focus:outline-none transition-colors"
             >

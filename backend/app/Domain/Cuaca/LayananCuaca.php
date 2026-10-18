@@ -3,6 +3,7 @@
 namespace App\Domain\Cuaca;
 
 use App\Domain\Hitung\Cuaca;
+use App\Domain\Hitung\Jarak;
 use App\Http\Galat\GalatApi;
 use App\Models\Pengguna;
 use Illuminate\Support\Carbon;
@@ -37,13 +38,33 @@ class LayananCuaca
      */
     public function ambilCuacaPetani(Pengguna $petani): array
     {
+        $lintang = $petani->lokasi_kira_lintang !== null ? (float) $petani->lokasi_kira_lintang : null;
+        $bujur = $petani->lokasi_kira_bujur !== null ? (float) $petani->lokasi_kira_bujur : null;
         $wilayahId = $petani->wilayah_id;
         $wilayah = ! empty($wilayahId) ? DB::table('wilayah')->where('id', $wilayahId)->first() : null;
-        $lintang = $wilayah instanceof \stdClass && isset($wilayah->lintang) ? (float) $wilayah->lintang : -6.8186;
-        $bujur = $wilayah instanceof \stdClass && isset($wilayah->bujur) ? (float) $wilayah->bujur : 107.6198;
+
+        if ($lintang !== null && $bujur !== null && $wilayah === null) {
+            $daftarWilayah = DB::table('wilayah')->whereNotNull('lintang')->whereNotNull('bujur')->get();
+            $terdekat = null;
+            $jarakTerkecil = INF;
+            foreach ($daftarWilayah as $w) {
+                $jarak = Jarak::jarakKm(
+                    ['lintang' => $lintang, 'bujur' => $bujur],
+                    ['lintang' => (float) $w->lintang, 'bujur' => (float) $w->bujur]
+                );
+                if ($jarak < $jarakTerkecil) {
+                    $jarakTerkecil = $jarak;
+                    $terdekat = $w;
+                }
+            }
+            $wilayah = $terdekat;
+        }
+
+        $lintang = $lintang ?? ($wilayah instanceof \stdClass && isset($wilayah->lintang) ? (float) $wilayah->lintang : -6.8186);
+        $bujur = $bujur ?? ($wilayah instanceof \stdClass && isset($wilayah->bujur) ? (float) $wilayah->bujur : 107.6198);
         $namaDesa = $wilayah instanceof \stdClass && isset($wilayah->desa) ? (string) $wilayah->desa : 'Desa Petani';
 
-        $kunciCache = 'cuaca:desa:'.($wilayahId ?? 'bawaan');
+        $kunciCache = 'cuaca:lokasi:'.round($lintang, 2).':'.round($bujur, 2);
 
         try {
             $dataCuaca = Cache::remember($kunciCache, self::DURASI_CACHE_DETIK, function () use ($lintang, $bujur) {

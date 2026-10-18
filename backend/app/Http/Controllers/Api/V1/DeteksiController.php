@@ -46,13 +46,51 @@ class DeteksiController extends Controller
         }
 
         $berkasId = $request->input('berkas_id');
-        if (empty($berkasId) || ! is_string($berkasId)) {
-            throw GalatApi::validasi(['berkas_id' => 'VALIDASI']);
-        }
+        $fotoBase64 = $request->input('foto_base64') ?? $request->input('foto');
 
         /** @var Berkas|null $berkas */
-        $berkas = Berkas::find($berkasId);
-        if ($berkas === null) {
+        $berkas = null;
+
+        if (! empty($berkasId) && is_string($berkasId)) {
+            $berkas = Berkas::find($berkasId);
+            if ($berkas === null) {
+                throw GalatApi::validasi(['berkas_id' => 'VALIDASI']);
+            }
+        } elseif (! empty($fotoBase64) && is_string($fotoBase64)) {
+            $isiBiner = null;
+            $jenis = 'image/jpeg';
+            $ekstensi = 'jpg';
+
+            if (str_starts_with($fotoBase64, 'data:')) {
+                if (preg_match('/^data:([^;]+);base64,(.+)$/', $fotoBase64, $cocok)) {
+                    $jenis = $cocok[1];
+                    $isiBiner = base64_decode($cocok[2], true);
+                    $ekstensi = match ($jenis) {
+                        'image/png' => 'png',
+                        'image/webp' => 'webp',
+                        default => 'jpg',
+                    };
+                }
+            } else {
+                $isiBiner = base64_decode($fotoBase64, true);
+            }
+
+            if ($isiBiner === false || empty($isiBiner)) {
+                throw GalatApi::validasi(['foto_base64' => 'VALIDASI']);
+            }
+
+            $namaBerkas = Str::random(40).'.'.$ekstensi;
+            $jalurSimpan = 'berkas/'.$namaBerkas;
+            Storage::disk('local')->put($jalurSimpan, $isiBiner);
+
+            $berkas = Berkas::forceCreate([
+                'pemilik_id' => $p->id,
+                'jalur' => $jalurSimpan,
+                'jenis' => $jenis,
+                'ukuran_byte' => strlen($isiBiner),
+            ]);
+            $berkasId = $berkas->id;
+        } else {
             throw GalatApi::validasi(['berkas_id' => 'VALIDASI']);
         }
 
@@ -77,6 +115,12 @@ class DeteksiController extends Controller
             file_put_contents($jalurFisik, 'dummy-image-content');
         }
 
+        $catatanTambahan = $request->input('catatan');
+        $petunjukPrompt = 'Analisis gejala kesehatan tanaman pada foto ini dan berikan output dalam format JSON.';
+        if (! empty($catatanTambahan) && is_string($catatanTambahan)) {
+            $petunjukPrompt .= ' Catatan gejala dari petani: '.$catatanTambahan;
+        }
+
         $pesanPrompt = [
             [
                 'role' => 'system',
@@ -85,7 +129,9 @@ class DeteksiController extends Controller
         ];
 
         // Panggil layanan AI gambar
-        $jawaban = $this->layananAI->gambar('deteksi_tanaman', $p->id, $jalurFisik, $pesanPrompt);
+        $jawaban = $this->layananAI->gambar('deteksi_tanaman', $p->id, $jalurFisik, $pesanPrompt, [
+            'petunjuk' => $petunjukPrompt,
+        ]);
 
         $dataHasil = $jawaban->dataTerstruktur;
         if (! is_array($dataHasil)) {

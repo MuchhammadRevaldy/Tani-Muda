@@ -31,7 +31,11 @@ export function Kartu({
   const Judul = tingkatJudul === 2 ? 'h2' : 'h3';
   return (
     <section
-      className={cx('overflow-hidden rounded-kartu bg-putih shadow-kartu', className)}
+      className={cx(
+        !className?.includes('overflow-') && 'overflow-hidden',
+        'rounded-kartu bg-putih shadow-kartu',
+        className,
+      )}
       {...lain}
     >
       {adaKepala ? (

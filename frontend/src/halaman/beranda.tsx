@@ -4,7 +4,7 @@
  * Petak satu pesanan rutin tampil sebagai satu pil dan satu kelompok tugas (D-40); kartunya
  * menampilkan petak yang paling mendesak, atau yang sudah ditanam dan paling dulu dipanen.
  */
-import { useState } from 'react';
+import { useState, lazy, Suspense } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import {
   useDaftarSiklus,
@@ -60,7 +60,10 @@ import { KartuSiklus } from './beranda/kartu-siklus';
 import { PemilihSiklus, type OpsiKartuSiklus } from './beranda/pemilih-siklus';
 import { angkaUkur, KartuHasilUkur, KartuModal, KartuTawaran } from './beranda/kartu-samping';
 import { useDaring, useIzinNotifikasi } from './beranda/keadaan-perangkat';
-import { KartuCuaca } from './beranda/kartu-cuaca';
+
+const KartuCuaca = lazy(() =>
+  import('./beranda/kartu-cuaca').then((m) => ({ default: m.KartuCuaca })),
+);
 
 function Kepala({
   nama,
@@ -418,7 +421,9 @@ export function HalamanBeranda() {
             bertahap && 'bertahap-anak',
           )}
         >
-          <KartuCuaca />
+          <Suspense fallback={null}>
+            <KartuCuaca />
+          </Suspense>
           <WidgetHargaBerita
             komoditasId={dipilih.komoditas_id}
             namaKomoditas={

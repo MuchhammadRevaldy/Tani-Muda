@@ -28,6 +28,8 @@ function teksSumberJual(r: Rencana): string {
       return t.sumberHargaJual.kesepakatan(r.hargaJualDari ?? '');
     case 'pesanan_terdekat':
       return t.sumberHargaJual.pesanan_terdekat(r.hargaJualDari ?? '');
+    case 'berita':
+      return t.sumberHargaJual.berita(r.hargaJualDari ?? 'pantauan pasar');
     case 'contoh':
       return t.sumberHargaJual.contoh;
     default:

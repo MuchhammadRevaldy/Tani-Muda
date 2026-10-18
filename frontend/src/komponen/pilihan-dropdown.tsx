@@ -167,10 +167,10 @@ export function PilihanDropdown<T extends string = string>({
             {open && isLayarLebar ? (
               <ListboxOptions
                 static
-                className="absolute left-0 right-0 top-full z-40 mt-1.5 flex max-h-64 flex-col overflow-hidden rounded-2xl border border-garis bg-putih shadow-kartu focus:outline-none animate-masuk-halaman"
+                className="absolute left-0 right-0 top-full z-40 mt-1.5 flex max-h-72 flex-col overflow-hidden rounded-2xl border border-garis bg-putih shadow-kartu focus:outline-none animate-dropdown-muncul origin-top"
               >
                 {perluCari ? (
-                  <div className="border-b border-garis p-2 bg-embun-pagi/50">
+                  <div className="flex-none border-b border-garis p-2 bg-embun-pagi/50">
                     <div className="relative flex items-center">
                       <Ikon
                         nama="cari"
@@ -190,7 +190,10 @@ export function PilihanDropdown<T extends string = string>({
                     </div>
                   </div>
                 ) : null}
-                <div className="min-h-0 flex-1 max-h-56 overflow-y-auto p-1 overscroll-contain">
+                <div
+                  className="min-h-0 flex-1 overflow-y-auto p-1"
+                  style={{ maxHeight: '220px' }}
+                >
                   {opsiTersaring.length === 0 ? (
                     <div className="px-4 py-3 text-center text-keterangan text-teks-pendukung">
                       Pilihan tidak ditemukan

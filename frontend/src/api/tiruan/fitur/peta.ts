@@ -64,6 +64,9 @@ export async function perbaruiLokasiTiruan(k: Konteks, m: PermintaanPerbaruiLoka
     u.lokasi_kira_lintang = bulatkanLokasi(m.lintang);
     u.lokasi_kira_bujur = bulatkanLokasi(m.bujur);
     u.lokasi_diperbarui_pada = k.sekarangIso();
+    if (m.nama_tempat?.toLowerCase().includes('trucuk') || (u.lokasi_kira_lintang === -7.74 && u.lokasi_kira_bujur === 110.63)) {
+      u.wilayah_id = '33.10.06.2003';
+    }
   }
   k.simpan();
 

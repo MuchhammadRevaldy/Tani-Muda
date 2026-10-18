@@ -366,7 +366,7 @@ export const useBatalkanPesananStok = () =>
 export const usePetaPetani = (params?: T.ParameterPetaPetani, aktif = true) =>
   q(kk('peta', 'petani', params?.radius_km ?? 10, params?.lintang ?? null, params?.bujur ?? null), (k) => k.peta.petaniSekitar(params), aktif);
 export const usePerbaruiLokasi = () =>
-  m((k, x: T.PermintaanPerbaruiLokasi) => k.akun.perbaruiLokasi(x), ['akun', 'peta']);
+  m((k, x: T.PermintaanPerbaruiLokasi) => k.akun.perbaruiLokasi(x), ['akun', 'peta', 'cuaca', 'pesanan', 'wilayah']);
 
 // ---------------------------------------------------------------- chat petani & pembeli (F-09)
 export const useDaftarPercakapan = (opsi?: boolean | { enabled?: boolean; refetchInterval?: number }) =>

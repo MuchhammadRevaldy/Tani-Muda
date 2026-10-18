@@ -11,6 +11,7 @@ import { Dialog } from './dialog';
 import { Ikon } from './ikon';
 import { LabelKecil } from './label-kecil';
 import { Tombol } from './tombol';
+import { unduhLaporanDeteksiPdf } from '../lib/ekspor-deteksi-pdf';
 
 interface Props {
   terbuka: boolean;
@@ -135,10 +136,10 @@ export function ModalDeteksiTanaman({ terbuka, onTutup, siklusId, tugasId }: Pro
               <div className="mt-2 flex flex-col gap-2">
                 {hasil.hasil.dugaan.map((d, idx) => (
                   <div key={idx} className="rounded-xl border border-garis bg-embun-pagi p-3">
-                    <div className="flex items-center justify-between gap-2">
-                      <span className="font-semibold text-teks">{d.nama}</span>
+                    <div className="flex items-start justify-between gap-3">
+                      <span className="flex-1 font-semibold leading-snug text-teks">{d.nama}</span>
                       <span
-                        className={`rounded-full px-2 py-0.5 text-keterangan font-medium ${
+                        className={`inline-flex shrink-0 items-center whitespace-nowrap rounded-full px-2.5 py-1 text-keterangan font-medium self-start ${
                           d.keyakinan === 'tinggi'
                             ? 'bg-daun-lembut text-daun-tua'
                             : d.keyakinan === 'sedang'
@@ -196,7 +197,14 @@ export function ModalDeteksiTanaman({ terbuka, onTutup, siklusId, tugasId }: Pro
               </Banner>
             )}
 
-            <div className="flex justify-end gap-2 pt-2">
+            <div className="flex flex-wrap items-center justify-end gap-2 pt-2">
+              <Tombol
+                varian="sekunder"
+                ikon="unduh"
+                onClick={() => unduhLaporanDeteksiPdf(hasil, catatan)}
+              >
+                Simpan PDF
+              </Tombol>
               <Tombol varian="sekunder" onClick={resetState}>
                 Periksa Foto Lain
               </Tombol>
@@ -227,11 +235,48 @@ export function ModalDeteksiTanaman({ terbuka, onTutup, siklusId, tugasId }: Pro
                 </button>
               </div>
             ) : (
-              <AmbilFoto
-                label="Ambil Foto Tanaman"
-                labelMemuat="Mengecilkan foto..."
-                onFoto={setFoto}
-              />
+              <div className="flex flex-col gap-2">
+                <AmbilFoto
+                  label="Ambil Foto Tanaman"
+                  labelMemuat="Mengecilkan foto..."
+                  onFoto={setFoto}
+                />
+                <button
+                  type="button"
+                  id="tombol-foto-contoh"
+                  onClick={() => {
+                    const canvas = document.createElement('canvas');
+                    canvas.width = 400;
+                    canvas.height = 300;
+                    const ctx = canvas.getContext('2d');
+                    if (ctx) {
+                      ctx.fillStyle = 'forestgreen';
+                      ctx.fillRect(0, 0, 400, 300);
+                      ctx.fillStyle = 'darkgreen';
+                      ctx.beginPath();
+                      ctx.ellipse(200, 150, 140, 90, 0, 0, Math.PI * 2);
+                      ctx.fill();
+                      ctx.fillStyle = 'white';
+                      ctx.beginPath();
+                      ctx.arc(170, 130, 25, 0, Math.PI * 2);
+                      ctx.arc(220, 160, 20, 0, Math.PI * 2);
+                      ctx.fill();
+                      ctx.fillStyle = 'gold';
+                      ctx.beginPath();
+                      ctx.arc(260, 140, 15, 0, Math.PI * 2);
+                      ctx.fill();
+                    }
+                    setFoto({
+                      dataUrl: canvas.toDataURL('image/jpeg', 0.8),
+                      nama: 'contoh-daun-berlubang.jpg',
+                      jenis: 'image/jpeg',
+                    });
+                  }}
+                  className="self-center text-keterangan font-medium text-daun-tua hover:underline"
+                >
+                  Gunakan foto contoh daun bergejala
+                </button>
+              </div>
             )}
 
             <div className="flex flex-col gap-1.5">

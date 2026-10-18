@@ -20,6 +20,7 @@ use App\Support\NomorHp;
 use DateTimeZone;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 
 /** Akun pengguna yang sedang masuk (kontrak-api.md 3.1). */
@@ -396,6 +397,33 @@ class AkunController extends Controller
             $p->lokasi_kira_lintang = Jarak::bulatkanLokasi($lintang);
             $p->lokasi_kira_bujur = Jarak::bulatkanLokasi($bujur);
             $p->lokasi_diperbarui_pada = now();
+
+            // Sinkronkan wilayah_id dengan desa/wilayah terdekat
+            $daftarWilayah = Wilayah::query()
+                ->whereNotNull('lintang')
+                ->whereNotNull('bujur')
+                ->get();
+
+            $terdekat = null;
+            $jarakTerkecil = INF;
+            foreach ($daftarWilayah as $w) {
+                $jarak = Jarak::jarakKm(
+                    ['lintang' => (float) $p->lokasi_kira_lintang, 'bujur' => (float) $p->lokasi_kira_bujur],
+                    ['lintang' => (float) $w->lintang, 'bujur' => (float) $w->bujur]
+                );
+                if ($jarak < $jarakTerkecil) {
+                    $jarakTerkecil = $jarak;
+                    $terdekat = $w;
+                }
+            }
+
+            if ($terdekat) {
+                $p->wilayah_id = $terdekat->id;
+            }
+
+            Cache::forget('cuaca:petani:'.$p->id);
+            Cache::forget('cuaca:desa:'.($p->wilayah_id ?? 'bawaan'));
+            Cache::forget('cuaca:lokasi:'.$p->lokasi_kira_lintang.':'.$p->lokasi_kira_bujur);
         }
 
         $p->save();

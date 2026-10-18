@@ -8,6 +8,7 @@ import {
   pilihanJumlah,
   posisiPeta,
   tahapUang,
+  tataTitikPeta,
   type StatusKirimanTampil,
 } from './pesanan-tampil';
 
@@ -67,6 +68,43 @@ describe('posisiPeta', () => {
   it('titik di luar radius ditahan di tepi lingkaran', () => {
     const p = posisiPeta(pusat, { lintang: -6.8, bujur: 107.9 }, 10);
     expect(p).toEqual({ x: 1, y: 0 });
+  });
+});
+
+describe('tataTitikPeta (anti-tabrakan dan sebar titik)', () => {
+  const pusat = { lintang: -7.628, bujur: 110.702 };
+
+  it('menyebarkan titik yang identik dengan titik kebun agar tidak menumpuk', () => {
+    const titik = [
+      { id: '1', nomor: 1, titik: pusat },
+      { id: '2', nomor: 2, titik: pusat },
+      { id: '3', nomor: 3, titik: pusat },
+    ];
+
+    const hasil = tataTitikPeta(pusat, titik, 10);
+    expect(hasil).toHaveLength(3);
+
+    // Pastikan tidak ada titik yang persis di (200, 140) menutupi kebun
+    for (const h of hasil) {
+      expect(Math.hypot(h.cx - 200, h.cy - 140)).toBeGreaterThan(25);
+    }
+
+    // Pastikan titik 1, 2, dan 3 berjarak satu sama lain (tidak bertumpuk)
+    const p0 = hasil[0]!;
+    const p1 = hasil[1]!;
+    const p2 = hasil[2]!;
+    const d12 = Math.hypot(p0.cx - p1.cx, p0.cy - p1.cy);
+    const d23 = Math.hypot(p1.cx - p2.cx, p1.cy - p2.cy);
+    expect(d12).toBeGreaterThan(20);
+    expect(d23).toBeGreaterThan(20);
+  });
+
+  it('titik tunggal di kebun diposisikan rapi di atas kebun', () => {
+    const hasil = tataTitikPeta(pusat, [{ id: '1', nomor: 1, titik: pusat }], 10);
+    expect(hasil).toHaveLength(1);
+    const p0 = hasil[0]!;
+    expect(p0.cx).toBe(200);
+    expect(p0.cy).toBe(106); // 140 - 34
   });
 });
 

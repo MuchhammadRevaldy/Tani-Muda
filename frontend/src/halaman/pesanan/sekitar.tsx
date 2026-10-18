@@ -312,7 +312,12 @@ export function HalamanPesananSekitar() {
   const semua = pesananQ.data?.data ?? [];
   const tampil = semua.filter((p) => filter === 'semua' || p.jenis === filter);
   const desa = wilayahQ.data?.desa ?? null;
-  const pusat = wilayahQ.data ? titikWilayah(wilayahQ.data) : null;
+  const pusat =
+    akun?.pengguna.lokasi_kira_lintang != null && akun?.pengguna.lokasi_kira_bujur != null
+      ? { lintang: akun.pengguna.lokasi_kira_lintang, bujur: akun.pengguna.lokasi_kira_bujur }
+      : wilayahQ.data
+        ? titikWilayah(wilayahQ.data)
+        : null;
   const ket =
     radius === null
       ? null

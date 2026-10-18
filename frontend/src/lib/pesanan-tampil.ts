@@ -66,6 +66,104 @@ export function posisiPeta(pusat: Titik, titik: Titik, radiusKm: number): { x: n
   return { x: bulat(x), y: bulat(y) };
 }
 
+/**
+ * Menghitung koordinat SVG (cx, cy) untuk titik-titik pembeli di peta SVG (viewBox 400×280),
+ * dengan penguraian tabrakan (anti-collision / radial spread) agar titik yang berjarak sangat
+ * dekat tidak saling menutupi kebunmu dan nomor pesanan lain (D-06, PRD P0-20).
+ */
+export function tataTitikPeta(
+  pusat: Titik,
+  titikDaftar: { id: string; nomor: number; titik: Titik | null }[],
+  radiusKm: number,
+  cxPusat = 200,
+  cyPusat = 140,
+  radiusPx = 120,
+): { id: string; nomor: number; cx: number; cy: number }[] {
+  const dasar = titikDaftar.map((item) => {
+    if (!item.titik) return null;
+    const pos = posisiPeta(pusat, item.titik, radiusKm);
+    return {
+      id: item.id,
+      nomor: item.nomor,
+      cx: cxPusat + pos.x * radiusPx,
+      cy: cyPusat + pos.y * radiusPx,
+    };
+  });
+
+  const valid = dasar.filter((x): x is NonNullable<typeof x> => x !== null);
+  const hasil: { id: string; nomor: number; cx: number; cy: number }[] = [];
+
+  // Pisahkan titik yang sangat dekat dengan kebunmu (jarak ke pusat < 30px)
+  const dekatKebun = valid.filter(
+    (p) => Math.hypot(p.cx - cxPusat, p.cy - cyPusat) < 30,
+  );
+  const jauhKebun = valid.filter(
+    (p) => Math.hypot(p.cx - cxPusat, p.cy - cyPusat) >= 30,
+  );
+
+  // Jika dekat kebun, sebar mengelilingi bagian atas & samping kebun (hindari bagian bawah karena teks "Kebunmu")
+  const pertamaDekat = dekatKebun[0];
+  if (dekatKebun.length === 1 && pertamaDekat) {
+    hasil.push({
+      id: pertamaDekat.id,
+      nomor: pertamaDekat.nomor,
+      cx: cxPusat,
+      cy: cyPusat - 34,
+    });
+  } else if (dekatKebun.length > 1) {
+    const total = dekatKebun.length;
+    const rentangAwalRad = (-150 * Math.PI) / 180;
+    const rentangAkhirRad = (-30 * Math.PI) / 180;
+    const langkah =
+      total > 1 ? (rentangAkhirRad - rentangAwalRad) / (total - 1) : 0;
+    const rSebar = 36;
+
+    dekatKebun.forEach((p, idx) => {
+      const sudut = rentangAwalRad + idx * langkah;
+      hasil.push({
+        id: p.id,
+        nomor: p.nomor,
+        cx: Math.round((cxPusat + Math.cos(sudut) * rSebar) * 10) / 10,
+        cy: Math.round((cyPusat + Math.sin(sudut) * rSebar) * 10) / 10,
+      });
+    });
+  }
+
+  // Untuk titik-titik di luar kebun, sebar klaster yang bertabrakan (< 28px)
+  const tersisa = [...jauhKebun];
+  while (tersisa.length > 0) {
+    const induk = tersisa.shift();
+    if (!induk) break;
+    const klaster: typeof valid = [induk];
+    for (let i = tersisa.length - 1; i >= 0; i--) {
+      const kandidat = tersisa[i];
+      if (kandidat && Math.hypot(kandidat.cx - induk.cx, kandidat.cy - induk.cy) < 28) {
+        klaster.push(kandidat);
+        tersisa.splice(i, 1);
+      }
+    }
+
+    if (klaster.length === 1) {
+      const satu = klaster[0];
+      if (satu) hasil.push(satu);
+    } else {
+      const kTotal = klaster.length;
+      const rOffset = 18;
+      klaster.forEach((p, idx) => {
+        const sudut = (idx * 2 * Math.PI) / kTotal;
+        hasil.push({
+          id: p.id,
+          nomor: p.nomor,
+          cx: Math.round((p.cx + Math.cos(sudut) * rOffset) * 10) / 10,
+          cy: Math.round((p.cy + Math.sin(sudut) * rOffset) * 10) / 10,
+        });
+      });
+    }
+  }
+
+  return hasil;
+}
+
 // ---------------------------------------------------------------- kiriman
 
 export type StatusKirimanTampil =

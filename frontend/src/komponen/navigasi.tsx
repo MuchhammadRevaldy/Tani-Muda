@@ -235,7 +235,7 @@ function MenuAkun({
       role="menu"
       aria-label={teksKomponen.nav.menuAkun}
       className={cx(
-        'absolute z-30 flex flex-col rounded-2xl border border-garis bg-putih p-2 shadow-kartu-angkat',
+        'absolute z-30 flex flex-col rounded-2xl border border-garis bg-putih p-2 shadow-kartu-angkat animate-dropdown-muncul origin-bottom-left',
         className,
       )}
     >
