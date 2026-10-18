@@ -1,0 +1,218 @@
+{
+ "hitung": {
+  "berkas": "rekaman/hp-hitung.webm",
+  "durasi": 27.96,
+  "langkah": [
+   {
+    "nama": "pilih-tanaman",
+    "detik": 3.26
+   },
+   {
+    "nama": "isi-luas",
+    "detik": 8.15
+   },
+   {
+    "nama": "modal",
+    "detik": 10.68
+   },
+   {
+    "nama": "impas",
+    "detik": 14.15
+   },
+   {
+    "nama": "saran",
+    "detik": 17.57
+   },
+   {
+    "nama": "simpan",
+    "detik": 22.2
+   },
+   {
+    "nama": "jadwal",
+    "detik": 25.45
+   }
+  ]
+ },
+ "rawat": {
+  "berkas": "rekaman/hp-rawat.webm",
+  "durasi": 26.65,
+  "langkah": [
+   {
+    "nama": "beranda",
+    "detik": 3.03
+   },
+   {
+    "nama": "tugas",
+    "detik": 9.2
+   },
+   {
+    "nama": "centang",
+    "detik": 11.02
+   },
+   {
+    "nama": "ph",
+    "detik": 19.08
+   },
+   {
+    "nama": "saran-ph",
+    "detik": 21.03
+   }
+  ]
+ },
+ "pembeli": {
+  "berkas": "rekaman/hp-pembeli.webm",
+  "durasi": 13.73,
+  "langkah": [
+   {
+    "nama": "dasbor",
+    "detik": 3.04
+   },
+   {
+    "nama": "pesan",
+    "detik": 5.33
+   },
+   {
+    "nama": "bayar",
+    "detik": 7.39
+   },
+   {
+    "nama": "uang-muka-masuk",
+    "detik": 10.22
+   }
+  ]
+ },
+ "petani": {
+  "berkas": "rekaman/hp-petani.webm",
+  "durasi": 18.11,
+  "langkah": [
+   {
+    "nama": "pesanan-sekitar",
+    "detik": 3.35
+   },
+   {
+    "nama": "detail",
+    "detik": 8.6
+   },
+   {
+    "nama": "kesepakatan",
+    "detik": 11.55
+   },
+   {
+    "nama": "disetujui",
+    "detik": 15.1
+   }
+  ]
+ },
+ "konfirmasi": {
+  "berkas": "rekaman/hp-konfirmasi.webm",
+  "durasi": 13.97,
+  "langkah": [
+   {
+    "nama": "periksa",
+    "detik": 4.06
+   },
+   {
+    "nama": "dikonfirmasi",
+    "detik": 7.77
+   },
+   {
+    "nama": "dana-cair",
+    "detik": 11.46
+   }
+  ]
+ },
+ "deteksi": {
+  "berkas": "rekaman/hp-deteksi.webm",
+  "durasi": 19.91,
+  "langkah": [
+   {
+    "nama": "foto",
+    "detik": 13.74
+   },
+   {
+    "nama": "foto-siap",
+    "detik": 16.91
+   }
+  ]
+ },
+ "chatbot": {
+  "berkas": "rekaman/hp-chatbot.webm",
+  "durasi": 10.41,
+  "langkah": [
+   {
+    "nama": "tanya",
+    "detik": 4.24
+   },
+   {
+    "nama": "jawaban",
+    "detik": 8.9
+   }
+  ]
+ },
+ "chat": {
+  "berkas": "rekaman/hp-chat.webm",
+  "durasi": 11.14,
+  "langkah": [
+   {
+    "nama": "daftar",
+    "detik": 4.02
+   },
+   {
+    "nama": "ketik",
+    "detik": 6.14
+   },
+   {
+    "nama": "terkirim",
+    "detik": 8.64
+   }
+  ]
+ },
+ "cuaca": {
+  "berkas": "rekaman/hp-cuaca.webm",
+  "durasi": 7.74,
+  "langkah": [
+   {
+    "nama": "cuaca",
+    "detik": 3.74
+   }
+  ]
+ },
+ "peta": {
+  "berkas": "rekaman/hp-peta.webm",
+  "durasi": 10.42,
+  "langkah": [
+   {
+    "nama": "peta",
+    "detik": 3.85
+   },
+   {
+    "nama": "daftar",
+    "detik": 7.92
+   }
+  ]
+ },
+ "stok": {
+  "berkas": "rekaman/hp-stok.webm",
+  "durasi": 8.7,
+  "langkah": [
+   {
+    "nama": "stok",
+    "detik": 3.88
+   }
+  ]
+ },
+ "level": {
+  "berkas": "rekaman/hp-level.webm",
+  "durasi": 9.16,
+  "langkah": [
+   {
+    "nama": "level",
+    "detik": 3.81
+   },
+   {
+    "nama": "lencana",
+    "detik": 6.15
+   }
+  ]
+ }
+}

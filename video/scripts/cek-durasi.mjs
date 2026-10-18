@@ -1,10 +1,11 @@
 #!/usr/bin/env node
 /**
- * Pemeriksaan otomatis sebelum render [AG-44]. Gagal bila:
- *  - total durasi video lebih dari 3:00;
- *  - berkas narasi tidak ada, atau isinya nada/hening (tidak ada jeda bicara);
- *  - kecepatan bicara suatu adegan di atas 160 kata per menit.
- * Rumus durasi sama dengan src/linimasa.ts.
+ * Pemeriksaan sebelum render [AG-45]. Gagal bila:
+ *  - rekaman suara public/audio/narasi/rekaman.wav tidak ada;
+ *  - durasi rekaman di src/data/waktu-kalimat.json tidak cocok dengan berkasnya;
+ *  - total video (rekaman + ekor penutup) lebih dari 3:00, atau ekor lebih dari 3 detik;
+ *  - jumlah kalimat bukan 35, atau ada kalimat tanpa komponen shot.
+ * Rumus total sama dengan src/v2/linimasa.ts.
  */
 import { spawnSync } from 'node:child_process';
 import { existsSync, readFileSync } from 'node:fs';
@@ -13,55 +14,31 @@ import { fileURLToPath } from 'node:url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const VIDEO = join(__dirname, '..');
-const BIN = join(VIDEO, 'node_modules', '@remotion', 'compositor-win32-x64-msvc');
 const BATAS_DETIK = 180;
-const TARGET_MIN_DETIK = 160;
-const MAKS_KPM = 160;
-
-const data = JSON.parse(readFileSync(join(VIDEO, 'src', 'data', 'narasi.json'), 'utf-8'));
 const kesalahan = [];
 
-function ukur(berkas) {
-  const r = spawnSync(join(BIN, 'ffprobe.exe'), ['-v', 'error', '-show_entries', 'format=duration', '-of', 'csv=p=0', berkas], { encoding: 'utf-8' });
-  return Number(r.stdout.trim());
-}
+const data = JSON.parse(readFileSync(join(VIDEO, 'src', 'data', 'waktu-kalimat.json'), 'utf-8'));
+const linimasa = readFileSync(join(VIDEO, 'src', 'v2', 'linimasa.ts'), 'utf-8');
+const ekor = Number(linimasa.match(/EKOR_DETIK = ([\d.]+)/)[1]);
+const daftarShot = readFileSync(join(VIDEO, 'src', 'v2', 'shot', 'index.ts'), 'utf-8');
 
-/** Jumlah jeda hening (>= 0,15 dtk di bawah -35 dB) dan total heningnya. */
-function jedaHening(berkas) {
-  const r = spawnSync(join(BIN, 'ffmpeg.exe'), ['-hide_banner', '-i', berkas, '-af', 'silencedetect=noise=-35dB:d=0.15', '-f', 'null', '-'], { encoding: 'utf-8' });
-  const durasi = [...r.stderr.matchAll(/silence_duration: ([\d.]+)/g)].map((m) => Number(m[1]));
-  return { jumlah: durasi.length, total: durasi.reduce((a, b) => a + b, 0) };
+const wav = join(VIDEO, 'public', 'audio', 'narasi', 'rekaman.wav');
+if (!existsSync(wav)) kesalahan.push('public/audio/narasi/rekaman.wav tidak ada. Jalankan: npm run suara');
+else {
+  const ffprobe = join(VIDEO, 'node_modules', '@remotion', 'compositor-win32-x64-msvc', 'ffprobe.exe');
+  const terukur = Number(spawnSync(ffprobe, ['-v', 'error', '-show_entries', 'format=duration', '-of', 'csv=p=0', wav], { encoding: 'utf-8' }).stdout.trim());
+  if (Math.abs(terukur - data.durasiRekamanDetik) > 0.1)
+    kesalahan.push(`Durasi rekaman ${terukur.toFixed(2)} dtk berbeda dengan waktu-kalimat.json (${data.durasiRekamanDetik}). Jalankan: npm run selaraskan`);
 }
+if (ekor > 3) kesalahan.push(`Ekor penutup ${ekor} dtk, maksimal 3 dtk`);
+if (data.kalimat.length !== 35) kesalahan.push(`Ada ${data.kalimat.length} kalimat, seharusnya 35`);
+for (const k of data.kalimat) if (!daftarShot.includes(`'${k.id}':`)) kesalahan.push(`Kalimat ${k.id} belum punya shot`);
 
-console.log('Adegan  Narasi   Adegan   Kata/mnt  Jeda  Sumber');
-let totalFrame = 0;
-for (const a of data.adegan) {
-  const berkas = join(VIDEO, 'public', 'audio', 'narasi', `${a.id}.mp3`);
-  let narasi = a.durasiDetik;
-  let catatan = '';
-  if (!existsSync(berkas)) {
-    kesalahan.push(`Narasi ${a.id}.mp3 tidak ada. Jalankan: npm run narasi`);
-  } else {
-    narasi = Math.max(narasi, ukur(berkas));
-    const hening = jedaHening(berkas);
-    const kpm = Math.round((a.kata / narasi) * 60);
-    if (a.kalimat.length > 1 && hening.jumlah === 0) {
-      kesalahan.push(`Narasi ${a.id} tidak punya jeda bicara sama sekali (nada atau suara rusak?)`);
-    }
-    if (hening.total > narasi * 0.6) kesalahan.push(`Narasi ${a.id} sebagian besar hening`);
-    if (kpm > MAKS_KPM) kesalahan.push(`Narasi ${a.id} terlalu cepat: ${kpm} kata/menit (maks ${MAKS_KPM})`);
-    catatan = `${String(kpm).padStart(8)}  ${String(hening.jumlah).padStart(4)}  ${a.sumber}`;
-  }
-  const detik = Math.max(a.minimumDetik, data.awalNarasiDetik + narasi + data.ekorDetik);
-  totalFrame += Math.ceil(detik * data.fps);
-  console.log(`${a.id}      ${narasi.toFixed(1).padStart(5)}s  ${detik.toFixed(1).padStart(6)}s ${catatan}`);
-}
-
-const total = totalFrame / data.fps;
-const mmss = `${Math.floor(total / 60)}:${String(Math.floor(total % 60)).padStart(2, '0')}`;
-console.log(`\nTotal ${total.toFixed(1)} detik (${mmss}), batas ${BATAS_DETIK} detik (3:00)`);
+const total = data.durasiRekamanDetik + ekor;
+const mmss = `${Math.floor(total / 60)}:${(total % 60).toFixed(1).padStart(4, '0')}`;
+console.log(`Rekaman ${data.durasiRekamanDetik} dtk + ekor ${ekor} dtk = ${total.toFixed(2)} dtk (${mmss}), batas 3:00`);
+console.log(`${data.kalimat.length} kalimat, ${data.kalimat.length} shot`);
 if (total > BATAS_DETIK) kesalahan.push(`Durasi ${mmss} melebihi 3:00`);
-if (total < TARGET_MIN_DETIK) console.warn(`Peringatan: durasi di bawah target 2:40`);
 
 if (kesalahan.length) {
   console.error('\nGAGAL:\n- ' + kesalahan.join('\n- '));

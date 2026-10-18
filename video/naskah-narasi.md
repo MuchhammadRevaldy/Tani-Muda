@@ -1,94 +1,81 @@
 # Naskah narasi teaser Tani Muda
 
-Berkas ini dibuat otomatis oleh `npm run narasi` dari `scripts/naskah.mjs`. Ubah teks di sana, bukan di sini.
+Transkrip rekaman suara pemilik produk (`record-voiceover.mpeg`). Satu kalimat = satu shot.
+Waktu adalah detik mulai diucapkan di rekaman; video mulai bersamaan dengan rekaman.
+Dibuat ulang oleh `npm run selaraskan`; teks naskah ada di `scripts/naskah.mjs`.
 
-Gaya bicara: santai dan jelas, seperti menjelaskan ke teman. Kalimat pendek, tempo sekitar 120–150 kata per menit,
-beri napas di setiap titik. Untuk merekam sendiri: satu berkas per adegan, simpan sebagai
-`public/audio/narasi/NN.mp3`, lalu jalankan `npm run narasi` (rekaman tidak akan ditimpa).
+## 01. Pembuka
 
-## 01. Pembuka (0:00–0:12)
+- **01.1** (0:00.1) Bertani itu bisa untung.
+- **01.2** (0:02.1) Asal tahu apa yang ditanam, berapa modalnya, dan siapa pembelinya.
+- **01.3** (0:06.8) Inilah Tani Muda.
 
-Suara: edge-tts:id-ID-ArdiNeural, 10.1 detik, 101 kata/menit
+## 02. Data
 
-- (0.5 dtk) Bertani itu bisa untung.
-- (3.3 dtk) Asal tahu apa yang ditanam, berapa modalnya, dan siapa pembelinya.
-- (9.3 dtk) Inilah Tani Muda.
+- **02.1** (0:08.9) Menurut Sensus Pertanian 2023, petani berumur 19 sampai 39 tahun cuma 21,93 persen.
+- **02.2** (0:17.7) Sekitar satu dari lima.
+- **02.3** (0:19.6) Padahal, bonus demografi ada di tangan anak muda.
 
-## 02. Data (0:12–0:27)
+## 03. Masalah
 
-Suara: edge-tts:id-ID-ArdiNeural, 14.2 detik, 105 kata/menit
+- **03.1** (0:23.1) Kenapa anak muda ragu bertani?
+- **03.2** (0:25.1) Harga jatuh pas panen raya.
+- **03.3** (0:27.2) Hama datang, tapi tidak tahu cara menanganinya.
+- **03.4** (0:30.4) Hasil panen lewat banyak tangan sebelum sampai ke pembeli.
+- **03.5** (0:33.6) Dan sering, panennya belum ada yang beli.
 
-- (0.5 dtk) Menurut Sensus Pertanian 2023, petani berumur 19 sampai 39 tahun cuma 21,93 persen.
-- (9.2 dtk) Sekitar satu dari lima.
-- (11.3 dtk) Padahal, bonus demografi ada di tangan anak muda.
+## 04. Solusi
 
-## 03. Masalah (0:27–0:45)
+- **04.1** (0:36.5) Tani Muda menemani dalam satu siklus.
+- **04.2** (0:39.3) Belajar caranya, hitung modalnya, rawat tanamannya, lalu jual hasilnya.
 
-Suara: edge-tts:id-ID-ArdiNeural, 16.7 detik, 118 kata/menit
+## 05. Hitung
 
-- (0.5 dtk) Kenapa anak muda ragu bertani?
-- (3.5 dtk) Harga jatuh pas panen raya.
-- (6.3 dtk) Hama datang, tapi tidak tahu cara menanganinya.
-- (10.4 dtk) Hasil panen lewat banyak tangan sebelum sampai ke pembeli.
-- (14.7 dtk) Dan sering, panennya belum ada yang beli.
+- **05.1** (0:44.5) Pilih tanaman yang cocok di daerahmu.
+- **05.2** (0:46.9) Masukkan luas lahan, dan Tani Muda menghitung modal, perkiraan untung, dan titik impasnya.
+- **05.3** (0:52.7) Kalau rencananya berpotensi rugi, ada saran supaya untungnya naik.
+- **05.4** (0:56.6) Jadi kamu tahu hitungannya sebelum mulai menanam.
 
-## 04. Solusi (0:45–0:58)
+## 06. Rawat
 
-Suara: edge-tts:id-ID-ArdiNeural, 9.0 detik, 100 kata/menit
+- **06.1** (0:59.9) Setelah menanam, Beranda menunjukkan umur tanaman hari ini dan tugas yang perlu dikerjakan.
+- **06.2** (1:05.3) Tandai yang sudah selesai.
+- **06.3** (1:07.0) Cek pH air pakai kertas pH, masukkan angkanya, dan dapat saran yang jelas.
 
-- (0.5 dtk) Tani Muda menemani dalam satu siklus.
-- (4.0 dtk) Belajar caranya, hitung modalnya, rawat tanamannya, lalu jual hasilnya.
+## 07. Jual
 
-## 05. Hitung (0:58–1:20)
+- **07.1** (1:12.0) Bagian terpentingnya: pembeli memesan sebelum panen, dan membayar uang muka.
+- **07.2** (1:17.1) Uangnya ditahan dulu dengan aman.
+- **07.3** (1:19.3) Petani mengambil pesanan itu, merawat tanamannya, lalu mengirim hasil panen.
+- **07.4** (1:24.2) Begitu pembeli mengonfirmasi kiriman, dana cair ke petani.
+- **07.5** (1:27.9) Tanam dengan pembeli yang pasti.
 
-Suara: edge-tts:id-ID-ArdiNeural, 18.5 detik, 113 kata/menit
+## 08. Fitur pintar
 
-- (0.5 dtk) Pilih tanaman yang cocok di daerahmu.
-- (3.9 dtk) Masukkan luas lahan, dan Tani Muda menghitung modal, perkiraan untung, dan titik impasnya.
-- (11.2 dtk) Kalau rencananya berpotensi rugi, ada saran supaya untungnya naik.
-- (16.4 dtk) Jadi kamu tahu hitungannya sebelum mulai menanam.
+- **08.1** (1:30.1) Ada juga bantuan sehari-hari.
+- **08.2** (1:32.1) Foto daun yang sakit untuk melihat dugaan penyakitnya, lalu tanyakan ke penyuluh.
+- **08.3** (1:36.7) Tanya soal budidaya ke asisten, dan ngobrol langsung dengan pembeli.
+- **08.4** (1:40.5) Lihat perkiraan cuaca di kebunmu.
+- **08.5** (1:42.7) Temukan petani lain di sekitarmu, tanpa membuka lokasi persis.
+- **08.6** (1:46.5) Dan tawarkan stok yang siap jual.
 
-## 06. Rawat (1:20–1:39)
+## 09. Bertahan
 
-Suara: edge-tts:id-ID-ArdiNeural, 14.6 detik, 123 kata/menit
+- **09.1** (1:48.7) Makin rajin merawat, levelmu naik, dari Benih sampai Panen Raya.
+- **09.2** (1:53.4) Setiap pencapaian dapat lencana, dari tanam pertama sampai pembeli setia.
 
-- (0.5 dtk) Setelah menanam, Beranda menunjukkan umur tanaman hari ini dan tugas yang perlu dikerjakan.
-- (7.0 dtk) Tandai yang sudah selesai.
-- (9.9 dtk) Cek pH air pakai kertas pH, masukkan angkanya, dan dapat saran yang jelas.
+## 10. Penutup
 
-## 07. Jual (1:39–2:06)
+- **10.1** (1:58.1) Tani Muda.
+- **10.2** (1:59.2) Aplikasi kepemudaan menyongsong bonus demografi, menuju Generasi Emas 2045.
 
-Suara: edge-tts:id-ID-ArdiNeural, 22.6 detik, 101 kata/menit
+Durasi rekaman 125.23 detik.
 
-- (0.5 dtk) Bagian terpentingnya: pembeli memesan sebelum panen, dan membayar uang muka.
-- (6.8 dtk) Uangnya ditahan dulu dengan aman.
-- (10.0 dtk) Petani mengambil pesanan itu, merawat tanamannya, lalu mengirim hasil panen.
-- (16.1 dtk) Begitu pembeli mengonfirmasi kiriman, dana cair ke petani.
-- (21.3 dtk) Tanam dengan pembeli yang pasti.
+## Perbedaan transkrip whisper dengan naskah
 
-## 08. Fitur pintar (2:06–2:28)
-
-Suara: edge-tts:id-ID-ArdiNeural, 20.7 detik, 133 kata/menit
-
-- (0.5 dtk) Ada juga bantuan sehari-hari.
-- (3.0 dtk) Foto daun yang sakit untuk melihat dugaan penyakitnya, lalu tanyakan ke penyuluh.
-- (8.1 dtk) Tanya soal budidaya ke asisten, dan ngobrol langsung dengan pembeli.
-- (12.3 dtk) Lihat prakiraan cuaca di kebunmu.
-- (14.9 dtk) Temukan petani lain di sekitarmu, tanpa membuka lokasi persis.
-- (19.3 dtk) Dan tawarkan stok yang siap jual.
-
-## 09. Bertahan (2:28–2:41)
-
-Suara: edge-tts:id-ID-ArdiNeural, 10.1 detik, 119 kata/menit
-
-- (0.5 dtk) Makin rajin merawat, levelmu naik, dari Benih sampai Panen Raya.
-- (6.2 dtk) Setiap pencapaian dapat lencana, dari tanam pertama sampai pembeli setia.
-
-## 10. Penutup (2:41–2:50)
-
-Suara: edge-tts:id-ID-ArdiNeural, 7.7 detik, 85 kata/menit
-
-- (0.5 dtk) Tani Muda.
-- (2.1 dtk) Aplikasi kepemudaan menyongsong bonus demografi, menuju Generasi Emas 2045.
-
-Total: 170.7 detik (2:50).
+- 02.1: naskah "Menurut Sensus Pertanian 2023, petani berumur 19 sampai 39 tahun cuma 21,93 persen.", whisper "Menurut sensus pertanian 2023, pertani berumur 19 sampai 39 tahun cuma 21,93 persen,"
+- 02.2: naskah "Sekitar satu dari lima.", whisper "sekitar 1 dari 5."
+- 03.3: naskah "Hama datang, tapi tidak tahu cara menanganinya.", whisper "Hama datang, tapi tidak tahu cara menangannya."
+- 07.4: naskah "Begitu pembeli mengonfirmasi kiriman, dana cair ke petani.", whisper "Begitu pembeli mengonfirmasi kiriman, dan acayir ke petani."
+- 08.3: naskah "Tanya soal budidaya ke asisten, dan ngobrol langsung dengan pembeli.", whisper "Tanya soal budhidaya keasisten, dan ngobrol langsung dengan pembeli."
+- 08.6: naskah "Dan tawarkan stok yang siap jual.", whisper "dan tawarkan stock yang siap jual."

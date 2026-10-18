@@ -1,0 +1,1401 @@
+{
+ "sumber": "record-voiceover.mpeg",
+ "durasiRekamanDetik": 125.23,
+ "kalimat": [
+  {
+   "id": "01.1",
+   "adegan": "01",
+   "teks": "Bertani itu bisa untung.",
+   "mulai": 0.12,
+   "selesai": 2.14,
+   "kata": [
+    {
+     "teks": "Bertani",
+     "mulai": 0.12
+    },
+    {
+     "teks": "itu",
+     "mulai": 0.72
+    },
+    {
+     "teks": "bisa",
+     "mulai": 0.99
+    },
+    {
+     "teks": "untung.",
+     "mulai": 1.39
+    }
+   ]
+  },
+  {
+   "id": "01.2",
+   "adegan": "01",
+   "teks": "Asal tahu apa yang ditanam, berapa modalnya, dan siapa pembelinya.",
+   "mulai": 2.14,
+   "selesai": 6.76,
+   "kata": [
+    {
+     "teks": "Asal",
+     "mulai": 2.14
+    },
+    {
+     "teks": "tahu",
+     "mulai": 2.45
+    },
+    {
+     "teks": "apa",
+     "mulai": 2.7
+    },
+    {
+     "teks": "yang",
+     "mulai": 2.91
+    },
+    {
+     "teks": "ditanam,",
+     "mulai": 3.19
+    },
+    {
+     "teks": "berapa",
+     "mulai": 3.92
+    },
+    {
+     "teks": "modalnya,",
+     "mulai": 4.32
+    },
+    {
+     "teks": "dan",
+     "mulai": 5.16
+    },
+    {
+     "teks": "siapa",
+     "mulai": 5.41
+    },
+    {
+     "teks": "pembelinya.",
+     "mulai": 5.86
+    }
+   ]
+  },
+  {
+   "id": "01.3",
+   "adegan": "01",
+   "teks": "Inilah Tani Muda.",
+   "mulai": 6.85,
+   "selesai": 8.46,
+   "kata": [
+    {
+     "teks": "Inilah",
+     "mulai": 6.85
+    },
+    {
+     "teks": "Tani",
+     "mulai": 7.6
+    },
+    {
+     "teks": "Muda.",
+     "mulai": 7.96
+    }
+   ]
+  },
+  {
+   "id": "02.1",
+   "adegan": "02",
+   "teks": "Menurut Sensus Pertanian 2023, petani berumur 19 sampai 39 tahun cuma 21,93 persen.",
+   "mulai": 8.91,
+   "selesai": 17.62,
+   "kata": [
+    {
+     "teks": "Menurut",
+     "mulai": 8.91
+    },
+    {
+     "teks": "Sensus",
+     "mulai": 9.38
+    },
+    {
+     "teks": "Pertanian",
+     "mulai": 9.86
+    },
+    {
+     "teks": "2023,",
+     "mulai": 10.58
+    },
+    {
+     "teks": "petani",
+     "mulai": 11.69
+    },
+    {
+     "teks": "berumur",
+     "mulai": 12.3
+    },
+    {
+     "teks": "19",
+     "mulai": 12.97
+    },
+    {
+     "teks": "sampai",
+     "mulai": 13.55
+    },
+    {
+     "teks": "39",
+     "mulai": 14.13
+    },
+    {
+     "teks": "tahun",
+     "mulai": 14.76
+    },
+    {
+     "teks": "cuma",
+     "mulai": 15.2
+    },
+    {
+     "teks": "21,93",
+     "mulai": 15.59
+    },
+    {
+     "teks": "persen.",
+     "mulai": 16.94
+    }
+   ]
+  },
+  {
+   "id": "02.2",
+   "adegan": "02",
+   "teks": "Sekitar satu dari lima.",
+   "mulai": 17.66,
+   "selesai": 19.52,
+   "kata": [
+    {
+     "teks": "Sekitar",
+     "mulai": 17.66
+    },
+    {
+     "teks": "satu",
+     "mulai": 18.27
+    },
+    {
+     "teks": "dari",
+     "mulai": 18.55
+    },
+    {
+     "teks": "lima.",
+     "mulai": 18.93
+    }
+   ]
+  },
+  {
+   "id": "02.3",
+   "adegan": "02",
+   "teks": "Padahal, bonus demografi ada di tangan anak muda.",
+   "mulai": 19.6,
+   "selesai": 22.96,
+   "kata": [
+    {
+     "teks": "Padahal,",
+     "mulai": 19.6
+    },
+    {
+     "teks": "bonus",
+     "mulai": 20.33
+    },
+    {
+     "teks": "demografi",
+     "mulai": 20.57
+    },
+    {
+     "teks": "ada",
+     "mulai": 21.24
+    },
+    {
+     "teks": "di",
+     "mulai": 21.46
+    },
+    {
+     "teks": "tangan",
+     "mulai": 21.61
+    },
+    {
+     "teks": "anak",
+     "mulai": 22.06
+    },
+    {
+     "teks": "muda.",
+     "mulai": 22.36
+    }
+   ]
+  },
+  {
+   "id": "03.1",
+   "adegan": "03",
+   "teks": "Kenapa anak muda ragu bertani?",
+   "mulai": 23.05,
+   "selesai": 25.02,
+   "kata": [
+    {
+     "teks": "Kenapa",
+     "mulai": 23.05
+    },
+    {
+     "teks": "anak",
+     "mulai": 23.4
+    },
+    {
+     "teks": "muda",
+     "mulai": 23.7
+    },
+    {
+     "teks": "ragu",
+     "mulai": 23.98
+    },
+    {
+     "teks": "bertani?",
+     "mulai": 24.27
+    }
+   ]
+  },
+  {
+   "id": "03.2",
+   "adegan": "03",
+   "teks": "Harga jatuh pas panen raya.",
+   "mulai": 25.11,
+   "selesai": 27.1,
+   "kata": [
+    {
+     "teks": "Harga",
+     "mulai": 25.11
+    },
+    {
+     "teks": "jatuh",
+     "mulai": 25.5
+    },
+    {
+     "teks": "pas",
+     "mulai": 26.01
+    },
+    {
+     "teks": "panen",
+     "mulai": 26.21
+    },
+    {
+     "teks": "raya.",
+     "mulai": 26.67
+    }
+   ]
+  },
+  {
+   "id": "03.3",
+   "adegan": "03",
+   "teks": "Hama datang, tapi tidak tahu cara menanganinya.",
+   "mulai": 27.17,
+   "selesai": 29.95,
+   "kata": [
+    {
+     "teks": "Hama",
+     "mulai": 27.17
+    },
+    {
+     "teks": "datang,",
+     "mulai": 27.38
+    },
+    {
+     "teks": "tapi",
+     "mulai": 27.94
+    },
+    {
+     "teks": "tidak",
+     "mulai": 28.29
+    },
+    {
+     "teks": "tahu",
+     "mulai": 28.59
+    },
+    {
+     "teks": "cara",
+     "mulai": 28.88
+    },
+    {
+     "teks": "menanganinya.",
+     "mulai": 29.17
+    }
+   ]
+  },
+  {
+   "id": "03.4",
+   "adegan": "03",
+   "teks": "Hasil panen lewat banyak tangan sebelum sampai ke pembeli.",
+   "mulai": 30.39,
+   "selesai": 33.63,
+   "kata": [
+    {
+     "teks": "Hasil",
+     "mulai": 30.39
+    },
+    {
+     "teks": "panen",
+     "mulai": 30.56
+    },
+    {
+     "teks": "lewat",
+     "mulai": 30.88
+    },
+    {
+     "teks": "banyak",
+     "mulai": 31.2
+    },
+    {
+     "teks": "tangan",
+     "mulai": 31.72
+    },
+    {
+     "teks": "sebelum",
+     "mulai": 31.98
+    },
+    {
+     "teks": "sampai",
+     "mulai": 32.44
+    },
+    {
+     "teks": "ke",
+     "mulai": 32.83
+    },
+    {
+     "teks": "pembeli.",
+     "mulai": 32.96
+    }
+   ]
+  },
+  {
+   "id": "03.5",
+   "adegan": "03",
+   "teks": "Dan sering, panennya belum ada yang beli.",
+   "mulai": 33.63,
+   "selesai": 36.2,
+   "kata": [
+    {
+     "teks": "Dan",
+     "mulai": 33.63
+    },
+    {
+     "teks": "sering,",
+     "mulai": 33.86
+    },
+    {
+     "teks": "panennya",
+     "mulai": 34.3
+    },
+    {
+     "teks": "belum",
+     "mulai": 34.93
+    },
+    {
+     "teks": "ada",
+     "mulai": 35.31
+    },
+    {
+     "teks": "yang",
+     "mulai": 35.54
+    },
+    {
+     "teks": "beli.",
+     "mulai": 35.85
+    }
+   ]
+  },
+  {
+   "id": "04.1",
+   "adegan": "04",
+   "teks": "Tani Muda menemani dalam satu siklus.",
+   "mulai": 36.52,
+   "selesai": 39.18,
+   "kata": [
+    {
+     "teks": "Tani",
+     "mulai": 36.52
+    },
+    {
+     "teks": "Muda",
+     "mulai": 36.78
+    },
+    {
+     "teks": "menemani",
+     "mulai": 37.12
+    },
+    {
+     "teks": "dalam",
+     "mulai": 37.81
+    },
+    {
+     "teks": "satu",
+     "mulai": 38.24
+    },
+    {
+     "teks": "siklus.",
+     "mulai": 38.62
+    }
+   ]
+  },
+  {
+   "id": "04.2",
+   "adegan": "04",
+   "teks": "Belajar caranya, hitung modalnya, rawat tanamannya, lalu jual hasilnya.",
+   "mulai": 39.31,
+   "selesai": 44.2,
+   "kata": [
+    {
+     "teks": "Belajar",
+     "mulai": 39.31
+    },
+    {
+     "teks": "caranya,",
+     "mulai": 39.74
+    },
+    {
+     "teks": "hitung",
+     "mulai": 40.66
+    },
+    {
+     "teks": "modalnya,",
+     "mulai": 40.98
+    },
+    {
+     "teks": "rawat",
+     "mulai": 41.8
+    },
+    {
+     "teks": "tanamannya,",
+     "mulai": 42.07
+    },
+    {
+     "teks": "lalu",
+     "mulai": 42.96
+    },
+    {
+     "teks": "jual",
+     "mulai": 43.2
+    },
+    {
+     "teks": "hasilnya.",
+     "mulai": 43.52
+    }
+   ]
+  },
+  {
+   "id": "05.1",
+   "adegan": "05",
+   "teks": "Pilih tanaman yang cocok di daerahmu.",
+   "mulai": 44.5,
+   "selesai": 46.46,
+   "kata": [
+    {
+     "teks": "Pilih",
+     "mulai": 44.5
+    },
+    {
+     "teks": "tanaman",
+     "mulai": 44.75
+    },
+    {
+     "teks": "yang",
+     "mulai": 45.2
+    },
+    {
+     "teks": "cocok",
+     "mulai": 45.46
+    },
+    {
+     "teks": "di",
+     "mulai": 45.84
+    },
+    {
+     "teks": "daerahmu.",
+     "mulai": 45.91
+    }
+   ]
+  },
+  {
+   "id": "05.2",
+   "adegan": "05",
+   "teks": "Masukkan luas lahan, dan Tani Muda menghitung modal, perkiraan untung, dan titik impasnya.",
+   "mulai": 46.86,
+   "selesai": 52.29,
+   "kata": [
+    {
+     "teks": "Masukkan",
+     "mulai": 46.86
+    },
+    {
+     "teks": "luas",
+     "mulai": 47.26
+    },
+    {
+     "teks": "lahan,",
+     "mulai": 47.56
+    },
+    {
+     "teks": "dan",
+     "mulai": 48.17
+    },
+    {
+     "teks": "Tani",
+     "mulai": 48.3
+    },
+    {
+     "teks": "Muda",
+     "mulai": 48.56
+    },
+    {
+     "teks": "menghitung",
+     "mulai": 48.82
+    },
+    {
+     "teks": "modal,",
+     "mulai": 49.47
+    },
+    {
+     "teks": "perkiraan",
+     "mulai": 50.08
+    },
+    {
+     "teks": "untung,",
+     "mulai": 50.61
+    },
+    {
+     "teks": "dan",
+     "mulai": 51.17
+    },
+    {
+     "teks": "titik",
+     "mulai": 51.46
+    },
+    {
+     "teks": "impasnya.",
+     "mulai": 51.75
+    }
+   ]
+  },
+  {
+   "id": "05.3",
+   "adegan": "05",
+   "teks": "Kalau rencananya berpotensi rugi, ada saran supaya untungnya naik.",
+   "mulai": 52.69,
+   "selesai": 56.4,
+   "kata": [
+    {
+     "teks": "Kalau",
+     "mulai": 52.69
+    },
+    {
+     "teks": "rencananya",
+     "mulai": 52.83
+    },
+    {
+     "teks": "berpotensi",
+     "mulai": 53.46
+    },
+    {
+     "teks": "rugi,",
+     "mulai": 54.08
+    },
+    {
+     "teks": "ada",
+     "mulai": 54.59
+    },
+    {
+     "teks": "saran",
+     "mulai": 54.65
+    },
+    {
+     "teks": "supaya",
+     "mulai": 54.96
+    },
+    {
+     "teks": "untungnya",
+     "mulai": 55.38
+    },
+    {
+     "teks": "naik.",
+     "mulai": 55.91
+    }
+   ]
+  },
+  {
+   "id": "05.4",
+   "adegan": "05",
+   "teks": "Jadi kamu tahu hitungannya sebelum mulai menanam.",
+   "mulai": 56.59,
+   "selesai": 59.54,
+   "kata": [
+    {
+     "teks": "Jadi",
+     "mulai": 56.59
+    },
+    {
+     "teks": "kamu",
+     "mulai": 56.83
+    },
+    {
+     "teks": "tahu",
+     "mulai": 57.2
+    },
+    {
+     "teks": "hitungannya",
+     "mulai": 57.52
+    },
+    {
+     "teks": "sebelum",
+     "mulai": 58.19
+    },
+    {
+     "teks": "mulai",
+     "mulai": 58.69
+    },
+    {
+     "teks": "menanam.",
+     "mulai": 59.04
+    }
+   ]
+  },
+  {
+   "id": "06.1",
+   "adegan": "06",
+   "teks": "Setelah menanam, Beranda menunjukkan umur tanaman hari ini dan tugas yang perlu dikerjakan.",
+   "mulai": 59.92,
+   "selesai": 65.28,
+   "kata": [
+    {
+     "teks": "Setelah",
+     "mulai": 59.92
+    },
+    {
+     "teks": "menanam,",
+     "mulai": 60.27
+    },
+    {
+     "teks": "Beranda",
+     "mulai": 60.99
+    },
+    {
+     "teks": "menunjukkan",
+     "mulai": 61.3
+    },
+    {
+     "teks": "umur",
+     "mulai": 62
+    },
+    {
+     "teks": "tanaman",
+     "mulai": 62.3
+    },
+    {
+     "teks": "hari",
+     "mulai": 62.71
+    },
+    {
+     "teks": "ini",
+     "mulai": 62.97
+    },
+    {
+     "teks": "dan",
+     "mulai": 63.26
+    },
+    {
+     "teks": "tugas",
+     "mulai": 63.44
+    },
+    {
+     "teks": "yang",
+     "mulai": 63.77
+    },
+    {
+     "teks": "perlu",
+     "mulai": 64.04
+    },
+    {
+     "teks": "dikerjakan.",
+     "mulai": 64.38
+    }
+   ]
+  },
+  {
+   "id": "06.2",
+   "adegan": "06",
+   "teks": "Tandai yang sudah selesai.",
+   "mulai": 65.34,
+   "selesai": 66.92,
+   "kata": [
+    {
+     "teks": "Tandai",
+     "mulai": 65.34
+    },
+    {
+     "teks": "yang",
+     "mulai": 65.66
+    },
+    {
+     "teks": "sudah",
+     "mulai": 65.91
+    },
+    {
+     "teks": "selesai.",
+     "mulai": 66.24
+    }
+   ]
+  },
+  {
+   "id": "06.3",
+   "adegan": "06",
+   "teks": "Cek pH air pakai kertas pH, masukkan angkanya, dan dapat saran yang jelas.",
+   "mulai": 67,
+   "selesai": 71.62,
+   "kata": [
+    {
+     "teks": "Cek",
+     "mulai": 67
+    },
+    {
+     "teks": "pH",
+     "mulai": 67.28
+    },
+    {
+     "teks": "air",
+     "mulai": 67.34
+    },
+    {
+     "teks": "pakai",
+     "mulai": 67.6
+    },
+    {
+     "teks": "kertas",
+     "mulai": 68.04
+    },
+    {
+     "teks": "pH,",
+     "mulai": 68.64
+    },
+    {
+     "teks": "masukkan",
+     "mulai": 69.06
+    },
+    {
+     "teks": "angkanya,",
+     "mulai": 69.48
+    },
+    {
+     "teks": "dan",
+     "mulai": 70.17
+    },
+    {
+     "teks": "dapat",
+     "mulai": 70.31
+    },
+    {
+     "teks": "saran",
+     "mulai": 70.64
+    },
+    {
+     "teks": "yang",
+     "mulai": 70.96
+    },
+    {
+     "teks": "jelas.",
+     "mulai": 71.22
+    }
+   ]
+  },
+  {
+   "id": "07.1",
+   "adegan": "07",
+   "teks": "Bagian terpentingnya: pembeli memesan sebelum panen, dan membayar uang muka.",
+   "mulai": 71.96,
+   "selesai": 76.78,
+   "kata": [
+    {
+     "teks": "Bagian",
+     "mulai": 71.96
+    },
+    {
+     "teks": "terpentingnya:",
+     "mulai": 72.28
+    },
+    {
+     "teks": "pembeli",
+     "mulai": 73.66
+    },
+    {
+     "teks": "memesan",
+     "mulai": 73.99
+    },
+    {
+     "teks": "sebelum",
+     "mulai": 74.49
+    },
+    {
+     "teks": "panen,",
+     "mulai": 74.99
+    },
+    {
+     "teks": "dan",
+     "mulai": 75.34
+    },
+    {
+     "teks": "membayar",
+     "mulai": 75.57
+    },
+    {
+     "teks": "uang",
+     "mulai": 76.14
+    },
+    {
+     "teks": "muka.",
+     "mulai": 76.43
+    }
+   ]
+  },
+  {
+   "id": "07.2",
+   "adegan": "07",
+   "teks": "Uangnya ditahan dulu dengan aman.",
+   "mulai": 77.09,
+   "selesai": 78.93,
+   "kata": [
+    {
+     "teks": "Uangnya",
+     "mulai": 77.09
+    },
+    {
+     "teks": "ditahan",
+     "mulai": 77.49
+    },
+    {
+     "teks": "dulu",
+     "mulai": 77.96
+    },
+    {
+     "teks": "dengan",
+     "mulai": 78.23
+    },
+    {
+     "teks": "aman.",
+     "mulai": 78.63
+    }
+   ]
+  },
+  {
+   "id": "07.3",
+   "adegan": "07",
+   "teks": "Petani mengambil pesanan itu, merawat tanamannya, lalu mengirim hasil panen.",
+   "mulai": 79.31,
+   "selesai": 83.85,
+   "kata": [
+    {
+     "teks": "Petani",
+     "mulai": 79.31
+    },
+    {
+     "teks": "mengambil",
+     "mulai": 79.57
+    },
+    {
+     "teks": "pesanan",
+     "mulai": 80.15
+    },
+    {
+     "teks": "itu,",
+     "mulai": 80.65
+    },
+    {
+     "teks": "merawat",
+     "mulai": 81.13
+    },
+    {
+     "teks": "tanamannya,",
+     "mulai": 81.47
+    },
+    {
+     "teks": "lalu",
+     "mulai": 82.38
+    },
+    {
+     "teks": "mengirim",
+     "mulai": 82.59
+    },
+    {
+     "teks": "hasil",
+     "mulai": 83.15
+    },
+    {
+     "teks": "panen.",
+     "mulai": 83.51
+    }
+   ]
+  },
+  {
+   "id": "07.4",
+   "adegan": "07",
+   "teks": "Begitu pembeli mengonfirmasi kiriman, dana cair ke petani.",
+   "mulai": 84.19,
+   "selesai": 87.5,
+   "kata": [
+    {
+     "teks": "Begitu",
+     "mulai": 84.19
+    },
+    {
+     "teks": "pembeli",
+     "mulai": 84.5
+    },
+    {
+     "teks": "mengonfirmasi",
+     "mulai": 84.92
+    },
+    {
+     "teks": "kiriman,",
+     "mulai": 85.76
+    },
+    {
+     "teks": "dana",
+     "mulai": 86.35
+    },
+    {
+     "teks": "cair",
+     "mulai": 86.62
+    },
+    {
+     "teks": "ke",
+     "mulai": 86.99
+    },
+    {
+     "teks": "petani.",
+     "mulai": 87.09
+    }
+   ]
+  },
+  {
+   "id": "07.5",
+   "adegan": "07",
+   "teks": "Tanam dengan pembeli yang pasti.",
+   "mulai": 87.89,
+   "selesai": 90,
+   "kata": [
+    {
+     "teks": "Tanam",
+     "mulai": 87.89
+    },
+    {
+     "teks": "dengan",
+     "mulai": 88.12
+    },
+    {
+     "teks": "pembeli",
+     "mulai": 88.58
+    },
+    {
+     "teks": "yang",
+     "mulai": 89.07
+    },
+    {
+     "teks": "pasti.",
+     "mulai": 89.36
+    }
+   ]
+  },
+  {
+   "id": "08.1",
+   "adegan": "08",
+   "teks": "Ada juga bantuan sehari-hari.",
+   "mulai": 90.12,
+   "selesai": 92.04,
+   "kata": [
+    {
+     "teks": "Ada",
+     "mulai": 90.12
+    },
+    {
+     "teks": "juga",
+     "mulai": 90.21
+    },
+    {
+     "teks": "bantuan",
+     "mulai": 90.5
+    },
+    {
+     "teks": "sehari-hari.",
+     "mulai": 90.99
+    }
+   ]
+  },
+  {
+   "id": "08.2",
+   "adegan": "08",
+   "teks": "Foto daun yang sakit untuk melihat dugaan penyakitnya, lalu tanyakan ke penyuluh.",
+   "mulai": 92.1,
+   "selesai": 96.64,
+   "kata": [
+    {
+     "teks": "Foto",
+     "mulai": 92.1
+    },
+    {
+     "teks": "daun",
+     "mulai": 92.31
+    },
+    {
+     "teks": "yang",
+     "mulai": 92.52
+    },
+    {
+     "teks": "sakit",
+     "mulai": 92.74
+    },
+    {
+     "teks": "untuk",
+     "mulai": 93.06
+    },
+    {
+     "teks": "melihat",
+     "mulai": 93.36
+    },
+    {
+     "teks": "dugaan",
+     "mulai": 93.81
+    },
+    {
+     "teks": "penyakitnya,",
+     "mulai": 94.18
+    },
+    {
+     "teks": "lalu",
+     "mulai": 95.03
+    },
+    {
+     "teks": "tanyakan",
+     "mulai": 95.25
+    },
+    {
+     "teks": "ke",
+     "mulai": 95.86
+    },
+    {
+     "teks": "penyuluh.",
+     "mulai": 95.99
+    }
+   ]
+  },
+  {
+   "id": "08.3",
+   "adegan": "08",
+   "teks": "Tanya soal budidaya ke asisten, dan ngobrol langsung dengan pembeli.",
+   "mulai": 96.7,
+   "selesai": 100.44,
+   "kata": [
+    {
+     "teks": "Tanya",
+     "mulai": 96.7
+    },
+    {
+     "teks": "soal",
+     "mulai": 96.94
+    },
+    {
+     "teks": "budidaya",
+     "mulai": 97.18
+    },
+    {
+     "teks": "ke",
+     "mulai": 97.18
+    },
+    {
+     "teks": "asisten,",
+     "mulai": 97.74
+    },
+    {
+     "teks": "dan",
+     "mulai": 98.38
+    },
+    {
+     "teks": "ngobrol",
+     "mulai": 98.56
+    },
+    {
+     "teks": "langsung",
+     "mulai": 98.98
+    },
+    {
+     "teks": "dengan",
+     "mulai": 99.46
+    },
+    {
+     "teks": "pembeli.",
+     "mulai": 99.82
+    }
+   ]
+  },
+  {
+   "id": "08.4",
+   "adegan": "08",
+   "teks": "Lihat perkiraan cuaca di kebunmu.",
+   "mulai": 100.5,
+   "selesai": 102.3,
+   "kata": [
+    {
+     "teks": "Lihat",
+     "mulai": 100.5
+    },
+    {
+     "teks": "prakiraan",
+     "mulai": 100.77
+    },
+    {
+     "teks": "cuaca",
+     "mulai": 101.36
+    },
+    {
+     "teks": "di",
+     "mulai": 101.69
+    },
+    {
+     "teks": "kebunmu.",
+     "mulai": 101.83
+    }
+   ]
+  },
+  {
+   "id": "08.5",
+   "adegan": "08",
+   "teks": "Temukan petani lain di sekitarmu, tanpa membuka lokasi persis.",
+   "mulai": 102.67,
+   "selesai": 106.46,
+   "kata": [
+    {
+     "teks": "Temukan",
+     "mulai": 102.67
+    },
+    {
+     "teks": "petani",
+     "mulai": 103.07
+    },
+    {
+     "teks": "lain",
+     "mulai": 103.47
+    },
+    {
+     "teks": "di",
+     "mulai": 103.75
+    },
+    {
+     "teks": "sekitarmu,",
+     "mulai": 103.89
+    },
+    {
+     "teks": "tanpa",
+     "mulai": 104.56
+    },
+    {
+     "teks": "membuka",
+     "mulai": 104.87
+    },
+    {
+     "teks": "lokasi",
+     "mulai": 105.36
+    },
+    {
+     "teks": "persis.",
+     "mulai": 105.78
+    }
+   ]
+  },
+  {
+   "id": "08.6",
+   "adegan": "08",
+   "teks": "Dan tawarkan stok yang siap jual.",
+   "mulai": 106.46,
+   "selesai": 108.66,
+   "kata": [
+    {
+     "teks": "Dan",
+     "mulai": 106.46
+    },
+    {
+     "teks": "tawarkan",
+     "mulai": 106.67
+    },
+    {
+     "teks": "stok",
+     "mulai": 107.23
+    },
+    {
+     "teks": "yang",
+     "mulai": 107.61
+    },
+    {
+     "teks": "siap",
+     "mulai": 107.86
+    },
+    {
+     "teks": "jual.",
+     "mulai": 108.14
+    }
+   ]
+  },
+  {
+   "id": "09.1",
+   "adegan": "09",
+   "teks": "Makin rajin merawat, levelmu naik, dari Benih sampai Panen Raya.",
+   "mulai": 108.74,
+   "selesai": 113,
+   "kata": [
+    {
+     "teks": "Makin",
+     "mulai": 108.74
+    },
+    {
+     "teks": "rajin",
+     "mulai": 109.07
+    },
+    {
+     "teks": "merawat,",
+     "mulai": 109.46
+    },
+    {
+     "teks": "levelmu",
+     "mulai": 110.18
+    },
+    {
+     "teks": "naik,",
+     "mulai": 110.74
+    },
+    {
+     "teks": "dari",
+     "mulai": 111.16
+    },
+    {
+     "teks": "Benih",
+     "mulai": 111.38
+    },
+    {
+     "teks": "sampai",
+     "mulai": 111.95
+    },
+    {
+     "teks": "Panen",
+     "mulai": 112.27
+    },
+    {
+     "teks": "Raya.",
+     "mulai": 112.67
+    }
+   ]
+  },
+  {
+   "id": "09.2",
+   "adegan": "09",
+   "teks": "Setiap pencapaian dapat lencana, dari tanam pertama sampai pembeli setia.",
+   "mulai": 113.42,
+   "selesai": 117.77,
+   "kata": [
+    {
+     "teks": "Setiap",
+     "mulai": 113.42
+    },
+    {
+     "teks": "pencapaian",
+     "mulai": 113.72
+    },
+    {
+     "teks": "dapat",
+     "mulai": 114.39
+    },
+    {
+     "teks": "lencana,",
+     "mulai": 114.74
+    },
+    {
+     "teks": "dari",
+     "mulai": 115.53
+    },
+    {
+     "teks": "tanam",
+     "mulai": 115.69
+    },
+    {
+     "teks": "pertama",
+     "mulai": 116.03
+    },
+    {
+     "teks": "sampai",
+     "mulai": 116.5
+    },
+    {
+     "teks": "pembeli",
+     "mulai": 116.94
+    },
+    {
+     "teks": "setia.",
+     "mulai": 117.37
+    }
+   ]
+  },
+  {
+   "id": "10.1",
+   "adegan": "10",
+   "teks": "Tani Muda.",
+   "mulai": 118.13,
+   "selesai": 119.16,
+   "kata": [
+    {
+     "teks": "Tani",
+     "mulai": 118.13
+    },
+    {
+     "teks": "Muda.",
+     "mulai": 118.54
+    }
+   ]
+  },
+  {
+   "id": "10.2",
+   "adegan": "10",
+   "teks": "Aplikasi kepemudaan menyongsong bonus demografi, menuju Generasi Emas 2045.",
+   "mulai": 119.22,
+   "selesai": 125.16,
+   "kata": [
+    {
+     "teks": "Aplikasi",
+     "mulai": 119.22
+    },
+    {
+     "teks": "kepemudaan",
+     "mulai": 119.68
+    },
+    {
+     "teks": "menyongsong",
+     "mulai": 120.33
+    },
+    {
+     "teks": "bonus",
+     "mulai": 121.07
+    },
+    {
+     "teks": "demografi,",
+     "mulai": 121.41
+    },
+    {
+     "teks": "menuju",
+     "mulai": 122.23
+    },
+    {
+     "teks": "Generasi",
+     "mulai": 122.7
+    },
+    {
+     "teks": "Emas",
+     "mulai": 123.51
+    },
+    {
+     "teks": "2045.",
+     "mulai": 123.91
+    }
+   ]
+  }
+ ]
+}

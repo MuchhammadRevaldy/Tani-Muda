@@ -4,14 +4,17 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "start": "remotion preview src/index.ts",
-    "siapkan-tts": "python -m venv .venv-tts && .venv-tts\\Scripts\\python -m pip install edge-tts==7.2.3 imageio-ffmpeg==0.6.0",
-    "narasi": "node scripts/buat-narasi.mjs",
+    "start": "remotion studio src/index.ts",
+    "siapkan-alat": "python -m venv .venv-tts && .venv-tts\\Scripts\\python -m pip install imageio-ffmpeg==0.6.0",
+    "suara": "node scripts/siapkan-suara.mjs",
+    "transkrip": "node scripts/transkrip-whisper.mjs",
+    "selaraskan": "node scripts/selaraskan-narasi.mjs",
+    "rekam": "node scripts/rekam-hp.mjs",
+    "peta": "node scripts/siapkan-peta.mjs",
     "musik": "node scripts/buat-musik.mjs",
-    "cek": "node scripts/cek-ikon-aplikasi.mjs && node scripts/cek-durasi.mjs",
+    "cek": "node scripts/cek-logo.mjs && node scripts/cek-durasi.mjs",
     "cek-durasi": "node scripts/cek-durasi.mjs",
-    "pratinjau-ikon": "remotion still src/index.ts PratinjauIkon keluaran/pratinjau-ikon.png",
-    "papan-gaya": "node scripts/buat-papan-gaya.mjs",
+    "lembar-kontak": "node scripts/lembar-kontak.mjs",
     "pratinjau": "node scripts/render-teaser.mjs --pratinjau",
     "render": "node scripts/render-teaser.mjs"
   },
@@ -24,6 +27,7 @@
     "remotion": "4.0.536"
   },
   "devDependencies": {
+    "@remotion/install-whisper-cpp": "4.0.536",
     "@types/react": "19.3.0",
     "@types/react-dom": "19.3.0",
     "typescript": "^5.6.3"

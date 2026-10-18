@@ -40,4 +40,8 @@ video/.remotion/
 # AG-44: alat suara (Edge TTS + ffmpeg) dan berkas sementara pembuat narasi
 video/.venv-tts/
 video/.narasi-sementara/
+# AG-45: alat whisper, suara olahan (dibuat ulang dengan npm run suara)
+video/.whisper/
+video/public/audio/narasi/rekaman.wav
+video/scripts/_gabung.sh
 video/.env
