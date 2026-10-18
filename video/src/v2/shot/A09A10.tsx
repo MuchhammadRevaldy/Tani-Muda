@@ -146,7 +146,7 @@ export const S10_2: React.FC<{ shot: Shot }> = ({ shot }) => {
   const akhirTema = Math.max(...kataTema.map((k) => k.f));
   const sIdentitas = pegas(frame, Math.min(shot.durasiFrame - 50, akhirTema + 12), 'lembut');
   return (
-    <Panggung shot={shot} latar="sawah" horizon={220} kamera={{ dari: { zoom: 1.0 }, ke: { zoom: 0.96, y: 10 } }} aksen={['daun', 'benih', 'tetes', 'koin', 'sawi', 'matahari']}>
+    <Panggung shot={shot} latar="sawah" horizon={220} kamera={{ dari: { zoom: 1.0 }, ke: { zoom: 0.96, y: 10 } }} aksen={['daun', null, 'tetes', 'koin', null, 'matahari']}>
       {() => (
         <>
           <div style={{ position: 'absolute', left: 960 - 330, top: 70, display: 'flex', alignItems: 'center', gap: 20 }}>

@@ -120,7 +120,7 @@ export const S08_3: React.FC<PropsShot> = ({ shot }) => {
     <Panggung shot={shot} latar="sawah" kamera={{ dari: { zoom: 1.0, x: 20 }, ke: { zoom: 1.06, x: -20 } }} aksen={['daun', 'benih', 'sawi', 'tomat']} atas={<JudulKanan shot={shot} frasa="Tanya asisten, ngobrol dengan pembeli" sorot={['asisten', 'pembeli']} />}>
       {() => (
         <>
-          <BingkaiHp rekaman="chatbot" dari={detikPenanda('chatbot', 'tanya', -0.5)} sampai={detikPenanda('chatbot', 'jawaban', 0.8)} durasi={d} x={HP.x} y={HP.y} miring={-10} fokus={[{ f: 0, x: 0.5, y: 0.35, zoom: 1.15 }]} />
+          <BingkaiHp rekaman="chatbot" dari={detikPenanda('chatbot', 'tanya', 1.0)} sampai={detikPenanda('chatbot', 'jawaban', 1.4)} durasi={d} x={HP.x} y={HP.y} miring={-10} fokus={[{ f: 0, x: 0.5, y: 0.35, zoom: 1.15 }]} />
           <KeluarDariLayar mulai={4} dari={ASAL} ke={{ x: 1180, y: 600 }}>
             <TumpukChat muncul={maju(frame, 6, d * 0.7)} frame={frame} lebar={720} />
           </KeluarDariLayar>

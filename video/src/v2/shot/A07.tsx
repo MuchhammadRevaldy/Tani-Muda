@@ -47,7 +47,7 @@ export const S07_1: React.FC<PropsShot> = ({ shot }) => {
       {() => (
         <>
           <BingkaiHp rekaman="pembeli" dari={detikPenanda('pembeli', 'pesan', -0.5)} sampai={detikPenanda('pembeli', 'uang-muka-masuk', 1.2)} durasi={d} x={KIRI.x} y={KIRI.y} skala={SKALA} miring={14} fokus={[{ f: 0, x: 0.5, y: 0.45, zoom: 1.1 }, { f: fUang, x: 0.5, y: 0.4, zoom: 1.25 }]} />
-          <BingkaiHp rekaman="petani" dari={detikPenanda('petani', 'pesanan-sekitar', 1.3)} sampai={detikPenanda('petani', 'pesanan-sekitar', 3.1)} durasi={d} x={KANAN.x} y={KANAN.y} skala={SKALA} miring={-14} />
+          <BingkaiHp rekaman="petani" dari={detikPenanda('petani', 'pesanan-sekitar', 3.9)} sampai={detikPenanda('petani', 'detail', 0.8)} durasi={d} x={KANAN.x} y={KANAN.y} skala={SKALA} miring={-14} />
           <div style={{ position: 'absolute', left: TENGAH.x - 170, top: TENGAH.y - 150, transform: `scale(${pegas(frame, 6, 'berat')})` }}>
             <Brankas lebar={340} kunci={0} />
           </div>
@@ -92,7 +92,7 @@ export const S07_3: React.FC<PropsShot> = ({ shot }) => {
       {() => (
         <>
           <BingkaiHp rekaman="pembeli" dari={detikPenanda('pembeli', 'uang-muka-masuk', 1)} sampai={detikPenanda('pembeli', 'uang-muka-masuk', 3)} durasi={d} x={KIRI.x} y={KIRI.y} skala={SKALA} miring={14} />
-          <BingkaiHp rekaman="petani" dari={detikPenanda('petani', 'kesepakatan', 0.4)} sampai={detikPenanda('petani', 'disetujui', 2)} durasi={d} x={KANAN.x} y={KANAN.y} skala={SKALA} miring={-14} fokus={[{ f: 0, x: 0.5, y: 0.5, zoom: 1.1 }, { f: d * 0.6, x: 0.5, y: 0.6, zoom: 1.25 }]} />
+          <BingkaiHp rekaman="petani" dari={detikPenanda('petani', 'kesepakatan', 1.0)} sampai={detikPenanda('petani', 'disetujui', 2)} durasi={d} x={KANAN.x} y={KANAN.y} skala={SKALA} miring={-14} fokus={[{ f: 0, x: 0.5, y: 0.5, zoom: 1.1 }, { f: d * 0.6, x: 0.5, y: 0.6, zoom: 1.25 }]} />
           <div style={{ position: 'absolute', left: TENGAH.x - 140, top: 250 }}>
             <Brankas lebar={280} kunci={1} />
           </div>

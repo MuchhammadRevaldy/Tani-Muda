@@ -28,7 +28,7 @@ export const S05_1: React.FC<PropsShot> = ({ shot }) => {
     <Panggung shot={shot} latar="bedengan" kamera={{ dari: { zoom: 1.0, x: 30 }, ke: { zoom: 1.06, x: -20 } }} aksen={['sawi', 'tomat', 'cabai', 'benih', 'daun']} atas={<JudulKanan shot={shot} frasa="Pilih tanaman yang cocok" sorot={['cocok']} />}>
       {() => (
         <>
-          <BingkaiHp rekaman="hitung" dari={detikPenanda('hitung', 'pilih-tanaman', 0.9)} sampai={detikPenanda('hitung', 'isi-luas', 0.2)} durasi={d} x={HP.x} y={HP.y} fokus={[{ f: 0, x: 0.5, y: 0.4, zoom: 1.05 }, { f: d, x: 0.5, y: 0.45, zoom: 1.25 }]} />
+          <BingkaiHp rekaman="hitung" dari={detikPenanda('hitung', 'pilih-tanaman', 1.8)} sampai={detikPenanda('hitung', 'isi-luas', -0.8)} durasi={d} x={HP.x} y={HP.y} fokus={[{ f: 0, x: 0.5, y: 0.4, zoom: 1.05 }, { f: d, x: 0.5, y: 0.45, zoom: 1.25 }]} />
           {(['sawi', 'tomat', 'cabai'] as const).map((n, i) => (
             <KeluarDariLayar key={n} mulai={8 + i * 6} dari={ASAL} ke={{ x: 1100 + i * 250, y: 560 + (i % 2) * 90 }}>
               <IkonTani nama={n} ukuran={230} />

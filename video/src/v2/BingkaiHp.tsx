@@ -1,5 +1,5 @@
 import React from 'react';
-import { OffthreadVideo, staticFile, useCurrentFrame } from 'remotion';
+import { OffthreadVideo, Sequence, staticFile, useCurrentFrame } from 'remotion';
 import penanda from '../data/penanda-rekaman.json';
 import { antara, ayun, maju, pegas, EASE } from './gerak';
 import { FPS, W } from './tema';
@@ -91,13 +91,16 @@ export const BingkaiHp: React.FC<{
       />
       <div style={{ position: 'absolute', left: TEPI, top: TEPI, width: LEBAR_LAYAR, height: TINGGI_LAYAR, borderRadius: 50, overflow: 'hidden', background: W.embun }}>
         <div style={{ width: '100%', height: '100%', transform: `translate(${geserX}px, ${geserY}px) scale(${z})`, transformOrigin: '50% 50%' }}>
-          <OffthreadVideo
-            src={staticFile(penanda[rekaman].berkas)}
-            trimBefore={Math.round(dari * FPS)}
-            playbackRate={laju}
-            muted
-            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-          />
+          {/* Sequence dimulai lebih awal sebanyak dari/laju: waktu sumber = dari + frame × laju.
+              (trimBefore ikut dikalikan playbackRate, jadi tidak dipakai.) */}
+          <Sequence from={-Math.round((dari * FPS) / laju)} layout="none">
+            <OffthreadVideo
+              src={staticFile(penanda[rekaman].berkas)}
+              playbackRate={laju}
+              muted
+              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+            />
+          </Sequence>
         </div>
       </div>
       <div style={{ position: 'absolute', left: '50%', top: TEPI + 10, width: 90, height: 24, marginLeft: -45, borderRadius: 14, background: '#1E2230' }} />

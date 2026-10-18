@@ -22,11 +22,13 @@ const SLOT = [
   { x: 1480, y: 900 },
 ];
 
-export const AksenMelayang: React.FC<{ ikon: NamaIkonTani[]; k: Kamera; muncul?: number }> = ({ ikon, k, muncul = 0 }) => {
+/** `null` di daftar ikon = tempat itu dikosongkan (mis. di belakang teks panjang). */
+export const AksenMelayang: React.FC<{ ikon: (NamaIkonTani | null)[]; k: Kamera; muncul?: number }> = ({ ikon, k, muncul = 0 }) => {
   const frame = useCurrentFrame();
   return (
     <AbsoluteFill style={{ pointerEvents: 'none' }}>
       {ikon.map((nama, i) => {
+        if (!nama) return null;
         const slot = SLOT[i % SLOT.length];
         const dalam = 0.5 + acak(i + 17) * 0.9; // 0,5–1,4: makin besar makin dekat
         const ukuran = 64 + dalam * 64;
@@ -138,7 +140,7 @@ export const Panggung: React.FC<{
   shot: Shot;
   latar: JenisLatar;
   kamera?: AturKamera;
-  aksen?: NamaIkonTani[];
+  aksen?: (NamaIkonTani | null)[];
   hujan?: number;
   senja?: number;
   horizon?: number;
