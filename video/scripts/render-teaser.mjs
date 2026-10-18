@@ -35,13 +35,20 @@ cek.on('exit', (kode) => {
     process.platform === 'win32' ? 'remotion.cmd' : 'remotion',
   )}"`;
 
+  const isPratinjau = process.argv.includes('--pratinjau') || process.argv.includes('--scale=0.5');
+  const targetFile = isPratinjau ? 'keluaran/pratinjau-teaser-0.5x.mp4' : 'keluaran/teaser-tani-muda.mp4';
+
   const argumen = [
     'render',
     'src/index.ts',
     'TeaserTaniMuda',
-    'keluaran/teaser-tani-muda.mp4',
+    targetFile,
     '--concurrency=1',
   ];
+
+  if (isPratinjau) {
+    argumen.push('--scale=0.5');
+  }
 
   const render = spawn(remotionBin, argumen, {
     stdio: 'inherit',

@@ -6,12 +6,15 @@
   "scripts": {
     "start": "remotion preview src/index.ts",
     "render": "node scripts/render-teaser.mjs",
+    "pratinjau": "node scripts/render-teaser.mjs --pratinjau",
     "cek-durasi": "node scripts/cek-durasi.mjs",
-    "buat-audio": "node scripts/buat-audio.mjs"
+    "buat-audio": "node scripts/buat-audio.mjs",
+    "papan-gaya": "node scripts/buat-papan-gaya.mjs"
   },
   "dependencies": {
     "@remotion/cli": "4.0.536",
     "@remotion/media-utils": "4.0.536",
+    "@remotion/paths": "^4.0.536",
     "react": "19.3.0",
     "react-dom": "19.3.0",
     "remotion": "4.0.536"

@@ -1,30 +1,31 @@
 import React from 'react';
 import { Sequence, staticFile } from 'remotion';
-import { ADEGAN } from './konfigurasi';
+import { ADEGAN_CONFIG, TOKEN_WARNA } from './konfigurasi';
 import { AudioTerkontrol } from './komponen/AudioTerkontrol';
-import { AdeganPembuka } from './adegan/01-Pembuka';
-import { AdeganMasalah } from './adegan/02-Masalah';
-import { AdeganSolusi } from './adegan/03-Solusi';
-import { AdeganHitung } from './adegan/04-Hitung';
-import { AdeganRawat } from './adegan/05-Rawat';
-import { AdeganJual } from './adegan/06-Jual';
-import { AdeganFiturPintar } from './adegan/07-FiturPintar';
-import { AdeganPetaniBertahan } from './adegan/08-PetaniBertahan';
-import { AdeganPenutup } from './adegan/09-Penutup';
+import { SapuanTransisi } from './komponen/SapuanTransisi';
+import { Adegan01Pembuka } from './adegan/01-Pembuka';
+import { Adegan02Data } from './adegan/02-Data';
+import { Adegan03Masalah } from './adegan/03-Masalah';
+import { Adegan04Solusi } from './adegan/04-Solusi';
+import { Adegan05Hitung } from './adegan/05-Hitung';
+import { Adegan06Rawat } from './adegan/06-Rawat';
+import { Adegan07Jual } from './adegan/07-Jual';
+import { Adegan08FiturPintar } from './adegan/08-FiturPintar';
+import { Adegan09Bertahan } from './adegan/09-Bertahan';
+import { Adegan10Penutup } from './adegan/10-Penutup';
 
 export const KomposisiTeaser: React.FC = () => {
   return (
     <div
       style={{
-        width: '100%',
-        height: '100%',
-        backgroundColor: '#081c15',
+        width: 1920,
+        height: 1080,
+        backgroundColor: TOKEN_WARNA.latarKrem,
         position: 'relative',
         overflow: 'hidden',
         fontFamily: "'Outfit', sans-serif",
       }}
     >
-      {/* Definisi Font Outfit Lokal */}
       <style>
         {`
           @font-face {
@@ -40,88 +41,66 @@ export const KomposisiTeaser: React.FC = () => {
         `}
       </style>
 
-      {/* Kontrol Audio (Narasi + Musik dengan Ducking) */}
+      {/* Kontrol Musik & Narasi dengan Ducking Dinamis */}
       <AudioTerkontrol />
 
-      {/* Adegan 1: Pembuka (0 - 12 detik | 0 - 360 frame) */}
-      <Sequence
-        from={ADEGAN.pembuka.mulaiFrame}
-        durationInFrames={ADEGAN.pembuka.durasiFrame}
-        name={ADEGAN.pembuka.judul}
-      >
-        <AdeganPembuka />
+      {/* 01. Pembuka (0 - 360) */}
+      <Sequence from={ADEGAN_CONFIG[1].mulaiFrame} durationInFrames={ADEGAN_CONFIG[1].durasiFrame} name={ADEGAN_CONFIG[1].judul}>
+        <Adegan01Pembuka />
+        <SapuanTransisi mulaiFrame={ADEGAN_CONFIG[1].durasiFrame - 15} durasiFrame={15} warna={TOKEN_WARNA.daunTua} />
       </Sequence>
 
-      {/* Adegan 2: Masalah (12 - 30 detik | 360 - 900 frame) */}
-      <Sequence
-        from={ADEGAN.masalah.mulaiFrame}
-        durationInFrames={ADEGAN.masalah.durasiFrame}
-        name={ADEGAN.masalah.judul}
-      >
-        <AdeganMasalah />
+      {/* 02. Data Sensus (360 - 810) */}
+      <Sequence from={ADEGAN_CONFIG[2].mulaiFrame} durationInFrames={ADEGAN_CONFIG[2].durasiFrame} name={ADEGAN_CONFIG[2].judul}>
+        <Adegan02Data />
+        <SapuanTransisi mulaiFrame={ADEGAN_CONFIG[2].durasiFrame - 15} durasiFrame={15} warna={TOKEN_WARNA.tanah} />
       </Sequence>
 
-      {/* Adegan 3: Solusi 4 Pilar (30 - 42 detik | 900 - 1260 frame) */}
-      <Sequence
-        from={ADEGAN.solusi.mulaiFrame}
-        durationInFrames={ADEGAN.solusi.durasiFrame}
-        name={ADEGAN.solusi.judul}
-      >
-        <AdeganSolusi />
+      {/* 03. Masalah Pertanian (810 - 1350) */}
+      <Sequence from={ADEGAN_CONFIG[3].mulaiFrame} durationInFrames={ADEGAN_CONFIG[3].durasiFrame} name={ADEGAN_CONFIG[3].judul}>
+        <Adegan03Masalah />
+        <SapuanTransisi mulaiFrame={ADEGAN_CONFIG[3].durasiFrame - 15} durasiFrame={15} warna={TOKEN_WARNA.daunTua} />
       </Sequence>
 
-      {/* Adegan 4: Hitung Modal & BEP (42 - 65 detik | 1260 - 1950 frame) */}
-      <Sequence
-        from={ADEGAN.hitung.mulaiFrame}
-        durationInFrames={ADEGAN.hitung.durasiFrame}
-        name={ADEGAN.hitung.judul}
-      >
-        <AdeganHitung />
+      {/* 04. Solusi Empat Pilar (1350 - 1740) */}
+      <Sequence from={ADEGAN_CONFIG[4].mulaiFrame} durationInFrames={ADEGAN_CONFIG[4].durasiFrame} name={ADEGAN_CONFIG[4].judul}>
+        <Adegan04Solusi />
+        <SapuanTransisi mulaiFrame={ADEGAN_CONFIG[4].durasiFrame - 15} durasiFrame={15} warna={TOKEN_WARNA.daunTerang} />
       </Sequence>
 
-      {/* Adegan 5: Rawat Tanaman Presisi (65 - 85 detik | 1950 - 2550 frame) */}
-      <Sequence
-        from={ADEGAN.rawat.mulaiFrame}
-        durationInFrames={ADEGAN.rawat.durasiFrame}
-        name={ADEGAN.rawat.judul}
-      >
-        <AdeganRawat />
+      {/* 05. Hitung Modal & BEP (1740 - 2400) */}
+      <Sequence from={ADEGAN_CONFIG[5].mulaiFrame} durationInFrames={ADEGAN_CONFIG[5].durasiFrame} name={ADEGAN_CONFIG[5].judul}>
+        <Adegan05Hitung />
+        <SapuanTransisi mulaiFrame={ADEGAN_CONFIG[5].durasiFrame - 15} durasiFrame={15} warna={TOKEN_WARNA.daunTua} />
       </Sequence>
 
-      {/* Adegan 6: Jual Panen Pasti (85 - 115 detik | 2550 - 3450 frame) */}
-      <Sequence
-        from={ADEGAN.jual.mulaiFrame}
-        durationInFrames={ADEGAN.jual.durasiFrame}
-        name={ADEGAN.jual.judul}
-      >
-        <AdeganJual />
+      {/* 06. Rawat Tanaman Presisi (2400 - 2970) */}
+      <Sequence from={ADEGAN_CONFIG[6].mulaiFrame} durationInFrames={ADEGAN_CONFIG[6].durasiFrame} name={ADEGAN_CONFIG[6].judul}>
+        <Adegan06Rawat />
+        <SapuanTransisi mulaiFrame={ADEGAN_CONFIG[6].durasiFrame - 15} durasiFrame={15} warna={TOKEN_WARNA.tanah} />
       </Sequence>
 
-      {/* Adegan 7: Fitur Pintar AI & IoT (115 - 145 detik | 3450 - 4350 frame) */}
-      <Sequence
-        from={ADEGAN.fiturPintar.mulaiFrame}
-        durationInFrames={ADEGAN.fiturPintar.durasiFrame}
-        name={ADEGAN.fiturPintar.judul}
-      >
-        <AdeganFiturPintar />
+      {/* 07. Jual Panen Pasti (2970 - 3780) */}
+      <Sequence from={ADEGAN_CONFIG[7].mulaiFrame} durationInFrames={ADEGAN_CONFIG[7].durasiFrame} name={ADEGAN_CONFIG[7].judul}>
+        <Adegan07Jual />
+        <SapuanTransisi mulaiFrame={ADEGAN_CONFIG[7].durasiFrame - 15} durasiFrame={15} warna={TOKEN_WARNA.daunTua} />
       </Sequence>
 
-      {/* Adegan 8: Petani Bertahan & Gamifikasi (145 - 160 detik | 4350 - 4800 frame) */}
-      <Sequence
-        from={ADEGAN.petaniBertahan.mulaiFrame}
-        durationInFrames={ADEGAN.petaniBertahan.durasiFrame}
-        name={ADEGAN.petaniBertahan.judul}
-      >
-        <AdeganPetaniBertahan />
+      {/* 08. Fitur Pintar Agrikultur (3780 - 4440) */}
+      <Sequence from={ADEGAN_CONFIG[8].mulaiFrame} durationInFrames={ADEGAN_CONFIG[8].durasiFrame} name={ADEGAN_CONFIG[8].judul}>
+        <Adegan08FiturPintar />
+        <SapuanTransisi mulaiFrame={ADEGAN_CONFIG[8].durasiFrame - 15} durasiFrame={15} warna={TOKEN_WARNA.daunTerang} />
       </Sequence>
 
-      {/* Adegan 9: Penutup & Identitas Peserta (160 - 170 detik | 4800 - 5100 frame) */}
-      <Sequence
-        from={ADEGAN.penutup.mulaiFrame}
-        durationInFrames={ADEGAN.penutup.durasiFrame}
-        name={ADEGAN.penutup.judul}
-      >
-        <AdeganPenutup />
+      {/* 09. Bertahan & Gamifikasi (4440 - 4830) */}
+      <Sequence from={ADEGAN_CONFIG[9].mulaiFrame} durationInFrames={ADEGAN_CONFIG[9].durasiFrame} name={ADEGAN_CONFIG[9].judul}>
+        <Adegan09Bertahan />
+        <SapuanTransisi mulaiFrame={ADEGAN_CONFIG[9].durasiFrame - 15} durasiFrame={15} warna={TOKEN_WARNA.daunTua} />
+      </Sequence>
+
+      {/* 10. Penutup & Identitas (4830 - 5100) */}
+      <Sequence from={ADEGAN_CONFIG[10].mulaiFrame} durationInFrames={ADEGAN_CONFIG[10].durasiFrame} name={ADEGAN_CONFIG[10].judul}>
+        <Adegan10Penutup />
       </Sequence>
     </div>
   );
