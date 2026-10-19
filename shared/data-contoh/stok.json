@@ -9,7 +9,7 @@
       "sisa_kg": 50,
       "harga_per_kg": 8000,
       "tanggal_panen": "H-1",
-      "foto": "/contoh/foto/sawi-daun-hari-10.svg",
+      "foto": null,
       "status": "tersedia",
       "dibuat_pada": "H-2T08:00",
       "diperbarui_pada": "H-2T08:00"
@@ -23,7 +23,7 @@
       "sisa_kg": 30,
       "harga_per_kg": 9000,
       "tanggal_panen": "H+0",
-      "foto": "/contoh/foto/contoh-foto-panen.svg",
+      "foto": null,
       "status": "tersedia",
       "dibuat_pada": "H-1T07:30",
       "diperbarui_pada": "H-1T07:30"
@@ -65,7 +65,7 @@
       "sisa_kg": 60,
       "harga_per_kg": 12000,
       "tanggal_panen": "H+0",
-      "foto": "/contoh/foto/bayam-kiriman-1.svg",
+      "foto": null,
       "status": "tersedia",
       "dibuat_pada": "H-1T08:15",
       "diperbarui_pada": "H-1T08:15"
