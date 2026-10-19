@@ -255,6 +255,81 @@ final class LayananJual
         ];
     }
 
+    // ------------------------------------------------------------ sengketa [AG-51]
+
+    /**
+     * Admin memutus sengketa penolakan sebagian (P0-25, D-03, D-46). Dipanggil di dalam transaksi
+     * dengan baris sengketa sudah dikunci. Sengketa hanya bisa diputus sekali (STATUS_TIDAK_SESUAI).
+     * - cairkan_ke_petani: sisa dana kiriman yang ditahan + bagian uang muka untuk jumlah yang
+     *   ditolak cair ke petani, jadi bagian yang ditolak dibayar penuh;
+     * - kembalikan_ke_pembeli: sisa dana kiriman dikembalikan ke pembeli.
+     * Sisa dana dihitung dari tabel pembayaran (bukan angka di permintaan), dan penyedia pembayaran
+     * menolak pencairan melebihi saldo, jadi tidak ada pencairan ganda.
+     *
+     * @return array<string, mixed> `SengketaUntukAdmin`
+     */
+    public function putuskanSengketa(Sengketa $sengketa, string $keputusan, ?string $catatan): array
+    {
+        if ($sengketa->status->value !== 'terbuka') {
+            throw new GalatApi('STATUS_TIDAK_SESUAI');
+        }
+        $kiriman = Pengiriman::lockForUpdate()->findOrFail($sengketa->pengiriman_id);
+        $pesanan = Pesanan::lockForUpdate()->findOrFail($kiriman->pesanan_id);
+        $baris = Pembayaran::where('pengiriman_id', $kiriman->id)->where('jenis', 'kiriman')->lockForUpdate()->first();
+        if ($baris) {
+            $terpakai = (int) Pembayaran::where('referensi', $baris->referensi)->whereIn('jenis', ['pencairan', 'pengembalian'])->sum('nominal');
+            $sisa = max(0, $baris->nominal - $terpakai);
+            $catat = fn (string $jenis, int $nominal, string $referensi) => $this->catatBayar([
+                'pesanan_id' => $pesanan->id, 'pengiriman_id' => $kiriman->id, 'jenis' => $jenis, 'nominal' => $nominal,
+                'status' => $jenis === 'pencairan' ? 'cair' : 'dikembalikan', 'referensi' => $referensi,
+            ]);
+            if ($keputusan === 'cairkan_ke_petani') {
+                $bagianUm = min($pesanan->saldo_uang_muka, Angka::rupiah(
+                    (float) $kiriman->jumlah_ditolak_kg * $kiriman->harga_per_kg * Konfigurasi::angka('persen_uang_muka') / 100,
+                ));
+                if ($sisa > 0) {
+                    $this->bayar->cairkan($baris->referensi, $sisa);
+                    $catat('pencairan', $sisa, $baris->referensi);
+                }
+                $um = self::refUangMuka($pesanan->id);
+                if ($um && $bagianUm > 0) {
+                    $this->bayar->cairkan($um, $bagianUm);
+                    $catat('pencairan', $bagianUm, $um);
+                    $pesanan->forceFill(['saldo_uang_muka' => $pesanan->saldo_uang_muka - $bagianUm])->save();
+                } else {
+                    $bagianUm = 0;
+                }
+                $kiriman->forceFill(['nilai_diterima' => ($kiriman->nilai_diterima ?? 0) + $sisa + $bagianUm])->save();
+            } elseif ($sisa > 0) {
+                $this->bayar->kembalikan($baris->referensi, $sisa);
+                $catat('pengembalian', $sisa, $baris->referensi);
+            }
+            $baris->forceFill(['status' => $keputusan === 'cairkan_ke_petani' ? 'cair' : 'dikembalikan'])->save();
+        }
+        $sengketa->forceFill([
+            'status' => 'diputuskan',
+            'keputusan' => $keputusan,
+            'catatan' => trim((string) $catatan) ?: null,
+            'diputuskan_pada' => now(),
+        ])->save();
+
+        return self::bentukSengketa($sengketa->refresh());
+    }
+
+    /** @return array<string, mixed> `SengketaUntukAdmin`: sengketa + kiriman + nama petani dan pembeli */
+    public static function bentukSengketa(Sengketa $s): array
+    {
+        $kiriman = Pengiriman::findOrFail($s->pengiriman_id);
+        $alokasi = AlokasiPesanan::find($kiriman->alokasi_id);
+        $pesanan = Pesanan::find($kiriman->pesanan_id);
+
+        return $s->withoutRelations()->toArray() + [
+            'pengiriman' => self::bentukKiriman($kiriman, null),
+            'nama_petani' => (string) ($alokasi ? Pengguna::find($alokasi->petani_id)?->nama : ''),
+            'nama_pembeli' => (string) ($pesanan ? Pengguna::find($pesanan->pembeli_id)?->nama : ''),
+        ];
+    }
+
     /** Kiriman yang melewati batas periksa dianggap diterima (D-01); dijalankan sebelum membaca. */
     public function prosesOtomatis(): void
     {

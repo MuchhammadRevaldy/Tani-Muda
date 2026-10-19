@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use App\Domain\Jual\LayananJual;
 use App\Enums\JenisCatatan;
 use App\Enums\StatusAkun;
 use App\Http\Controllers\Controller;
@@ -11,6 +12,7 @@ use App\Models\CatatanPetani;
 use App\Models\Pengguna;
 use App\Models\Pengiriman;
 use App\Models\ProfilPembeli;
+use App\Models\Sengketa;
 use App\Models\SiklusTanam;
 use App\Models\Wilayah;
 use Illuminate\Http\JsonResponse;
@@ -20,11 +22,15 @@ use Illuminate\Support\Facades\DB;
 
 /**
  * Panel admin (kontrak 3.10, D-03, D-13, D-46, D-47): verifikasi pembeli (P0-02), daftar dan
- * detail petani, catatan dan status petani [AG-51]. Semua rute di grup `peran:admin`; peran lain 403.
+ * detail petani, catatan dan status petani, serta sengketa kiriman [AG-51]. Semua rute di grup `peran:admin`; peran lain 403.
  */
 class AdminController extends Controller
 {
     private const ISI_CATATAN_MAKS = 1000;
+
+    private const CATATAN_SENGKETA_MAKS = 1000;
+
+    public function __construct(private readonly LayananJual $jual) {}
 
     /** GET /admin/pembeli?status=menunggu */
     public function pembeliMenunggu(): JsonResponse
@@ -48,6 +54,47 @@ class AdminController extends Controller
         $profil->forceFill(['status_verifikasi' => $keputusan, 'alasan_ditolak' => $keputusan === 'ditolak' ? $alasan : null])->save();
 
         return Respons::data(self::bentuk($profil->refresh()));
+    }
+
+    // ------------------------------------------------------------ sengketa [AG-51]
+
+    /** GET /admin/sengketa?status= → `SengketaUntukAdmin[]`, terlama dulu; status lain → 422. */
+    public function sengketa(Request $request): JsonResponse
+    {
+        $status = $request->query('status');
+        if ($status !== null && $status !== '' && ! in_array($status, ['terbuka', 'diputuskan'], true)) {
+            throw GalatApi::validasi(['status' => 'VALIDASI']);
+        }
+        $daftar = Sengketa::when($status, fn ($q) => $q->where('status', $status))->orderBy('dibuat_pada')->orderBy('id')->get();
+
+        return Respons::data($daftar->map(fn (Sengketa $s) => LayananJual::bentukSengketa($s))->values()->all());
+    }
+
+    /**
+     * POST /admin/sengketa/{id}/putuskan `{ keputusan, catatan? }` → `SengketaUntukAdmin`.
+     * Hanya bisa diputus sekali; baris sengketa dikunci sehingga permintaan ganda tidak membuat
+     * pencairan ganda (yang kedua mendapat 409 STATUS_TIDAK_SESUAI).
+     */
+    public function putuskanSengketa(Request $request, string $id): JsonResponse
+    {
+        $keputusan = $request->input('keputusan');
+        $catatan = $request->input('catatan');
+        $salah = [];
+        if (! in_array($keputusan, ['cairkan_ke_petani', 'kembalikan_ke_pembeli'], true)) {
+            $salah['keputusan'] = 'VALIDASI';
+        }
+        if ($catatan !== null && (! is_string($catatan) || mb_strlen(trim($catatan)) > self::CATATAN_SENGKETA_MAKS)) {
+            $salah['catatan'] = 'VALIDASI';
+        }
+
+        return Respons::data(DB::transaction(function () use ($id, $keputusan, $catatan, $salah) {
+            $sengketa = Sengketa::lockForUpdate()->find($id) ?? throw new GalatApi('TIDAK_DITEMUKAN');
+            if ($salah) {
+                throw GalatApi::validasi($salah);
+            }
+
+            return $this->jual->putuskanSengketa($sengketa, (string) $keputusan, is_string($catatan) ? $catatan : null);
+        }));
     }
 
     // ------------------------------------------------------------ petani [AG-51]

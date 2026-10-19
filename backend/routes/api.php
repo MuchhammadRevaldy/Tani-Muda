@@ -33,8 +33,6 @@ $endpointBelumTersedia = [
     ['POST', '/laporan-harga'],
     ['POST', '/notifikasi/langganan'],
     ['DELETE', '/notifikasi/langganan'],
-    ['GET', '/admin/sengketa'],
-    ['POST', '/admin/sengketa/{id}/putuskan'],
     ['GET', '/mentor/resep'],
     ['POST', '/mentor/resep'],
     ['POST', '/mentor/resep/{id}/validasi'],
@@ -206,6 +204,9 @@ Route::middleware('auth:sanctum')->group(function () use ($endpointBelumTersedia
     Route::middleware('peran:admin')->group(function () {
         Route::get('/admin/pembeli', [AdminController::class, 'pembeliMenunggu']);
         Route::post('/admin/pembeli/{id}/verifikasi', [AdminController::class, 'verifikasi']);
+        // [AG-51] sengketa kiriman: daftar dan putuskan sekali (P0-25, D-46)
+        Route::get('/admin/sengketa', [AdminController::class, 'sengketa']);
+        Route::post('/admin/sengketa/{id}/putuskan', [AdminController::class, 'putuskanSengketa']);
         // [AG-51] petani: daftar, detail, catatan, status (D-03, D-13, D-46, D-47)
         Route::get('/admin/petani', [AdminController::class, 'daftarPetani']);
         Route::get('/admin/petani/{id}', [AdminController::class, 'petani']);
