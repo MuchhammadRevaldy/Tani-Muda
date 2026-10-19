@@ -45,3 +45,4 @@ video/.whisper/
 video/public/audio/narasi/rekaman.wav
 video/scripts/_gabung.sh
 video/.env
+video/public/dokumentasi/

@@ -1,0 +1,1628 @@
+{
+  "dibuat": "2026-10-19",
+  "git": {
+    "perHari": [
+      {
+        "tanggal": "2026-10-05",
+        "jumlah": 7
+      },
+      {
+        "tanggal": "2026-10-06",
+        "jumlah": 1
+      },
+      {
+        "tanggal": "2026-10-07",
+        "jumlah": 2
+      },
+      {
+        "tanggal": "2026-10-08",
+        "jumlah": 5
+      },
+      {
+        "tanggal": "2026-10-09",
+        "jumlah": 3
+      },
+      {
+        "tanggal": "2026-10-10",
+        "jumlah": 0
+      },
+      {
+        "tanggal": "2026-10-11",
+        "jumlah": 5
+      },
+      {
+        "tanggal": "2026-10-12",
+        "jumlah": 10
+      },
+      {
+        "tanggal": "2026-10-13",
+        "jumlah": 13
+      },
+      {
+        "tanggal": "2026-10-14",
+        "jumlah": 19
+      },
+      {
+        "tanggal": "2026-10-15",
+        "jumlah": 11
+      },
+      {
+        "tanggal": "2026-10-16",
+        "jumlah": 0
+      },
+      {
+        "tanggal": "2026-10-17",
+        "jumlah": 1
+      },
+      {
+        "tanggal": "2026-10-18",
+        "jumlah": 20
+      },
+      {
+        "tanggal": "2026-10-19",
+        "jumlah": 8
+      }
+    ],
+    "total": 105,
+    "puncak": {
+      "tanggal": "2026-10-18",
+      "jumlah": 20
+    },
+    "commit": [
+      {
+        "tanggal": "2026-10-05",
+        "jam": "00:16",
+        "hash": "0dc0e24",
+        "judul": "feat: initial project setup with components, routing, and design assets"
+      },
+      {
+        "tanggal": "2026-10-05",
+        "jam": "00:44",
+        "hash": "b1d7a9d",
+        "judul": "test: add component unit tests and format utilities with corresponding test suite"
+      },
+      {
+        "tanggal": "2026-10-05",
+        "jam": "03:24",
+        "hash": "1536d8f",
+        "judul": "Fondasi tampilan, rencana kerja, dan arsitektur"
+      },
+      {
+        "tanggal": "2026-10-05",
+        "jam": "03:44",
+        "hash": "a20b655",
+        "judul": "Tahap 2: logika inti"
+      },
+      {
+        "tanggal": "2026-10-05",
+        "jam": "10:13",
+        "hash": "f6f6b61",
+        "judul": "Tahap 2: perbaikan kapasitas lahan dan nilai pengukuran"
+      },
+      {
+        "tanggal": "2026-10-05",
+        "jam": "10:54",
+        "hash": "4f49936",
+        "judul": "Tahap 3: kontrak API dan data tiruan"
+      },
+      {
+        "tanggal": "2026-10-05",
+        "jam": "21:12",
+        "hash": "e949417",
+        "judul": "Tahap 4 gelombang 1: akun demo, penjaga rute, Masuk, pilih peran, Beranda petani"
+      },
+      {
+        "tanggal": "2026-10-06",
+        "jam": "03:27",
+        "hash": "dc30f26",
+        "judul": "Tahap 4 gelombang 2: alur Hitung (tanaman, cara tanam, kalkulator, simpan rencana) dan Lahan saya"
+      },
+      {
+        "tanggal": "2026-10-07",
+        "jam": "02:12",
+        "hash": "611860f",
+        "judul": "Tahap 4 gelombang 3: menu Kebun, jadwal, detail tugas, cek pH/PPM, pengingat, modal, jurnal, akhir siklus; tanggapan D-38"
+      },
+      {
+        "tanggal": "2026-10-07",
+        "jam": "21:42",
+        "hash": "23e22ab",
+        "judul": "Tahap 4 gelombang 4: Pesanan di sekitar, lencana Pesanan, detail dan ambil sebagian, kesepakatan, Kiriman saya; tafsiran D-39"
+      },
+      {
+        "tanggal": "2026-10-08",
+        "jam": "04:10",
+        "hash": "04c7892",
+        "judul": "Tanggapan gelombang 4 (D-40): tanam bertahap per kiriman, ubah jumlah sebelum setuju, dua foto kiriman, batas jam antar; perbaikan akar tes yang sempat gagal"
+      },
+      {
+        "tanggal": "2026-10-08",
+        "jam": "12:08",
+        "hash": "3fbc597",
+        "judul": "Tahap 4 gelombang 5: dasbor pembeli, buat pesanan rutin dan sekali panen, bayar uang muka (mode uji coba), konfirmasi kiriman, rating dua arah, gagal panen, data usaha pembeli; tafsiran D-41"
+      },
+      {
+        "tanggal": "2026-10-08",
+        "jam": "12:09",
+        "hash": "07b6b19",
+        "judul": "Rapikan format Prettier"
+      },
+      {
+        "tanggal": "2026-10-08",
+        "jam": "22:22",
+        "hash": "44f18de",
+        "judul": "Tahap 4 gelombang 6: daftar modul belajar dan pemutar modul [DEMO]; tafsiran D-43"
+      },
+      {
+        "tanggal": "2026-10-08",
+        "jam": "23:56",
+        "hash": "58aad70",
+        "judul": "Tahap 4 gelombang 7: halaman depan, profil, ubah profil, halaman statis; tanggapan D-43 dan tafsiran D-44"
+      },
+      {
+        "tanggal": "2026-10-09",
+        "jam": "03:15",
+        "hash": "2b5c814",
+        "judul": "Tahap 4 gelombang 8: panel admin dan mentor, pemeriksaan menyeluruh, naskah demo; tanggapan D-44 dan tafsiran D-46"
+      },
+      {
+        "tanggal": "2026-10-09",
+        "jam": "04:25",
+        "hash": "2e16dec",
+        "judul": "Tanggapan D-46 (D-47): Tahap 4 disetujui; cari dan paginasi daftar petani admin; adegan demo bergantung jam relatif terhadap atur ulang"
+      },
+      {
+        "tanggal": "2026-10-09",
+        "jam": "05:31",
+        "hash": "64d8f11",
+        "judul": "Perbaikan sebelum Tahap 5 (D-48): jam sadar hari, cadangan demo lokal build:demo, pemecahan bundel per halaman"
+      },
+      {
+        "tanggal": "2026-10-11",
+        "jam": "22:48",
+        "hash": "f7499db",
+        "judul": "Tahap 5 gelombang 5.1: PHP 8.5, susun ulang repositori, kerangka Laravel, kasus uji bersama (D-49 s.d. D-51)"
+      },
+      {
+        "tanggal": "2026-10-11",
+        "jam": "23:17",
+        "hash": "d3a7b4c",
+        "judul": "Tanggapan D-51: 419 memakai kode SESI_KEDALUWARSA; rincian galat opsional di kontrak; P-20 s.d. P-22 terjawab"
+      },
+      {
+        "tanggal": "2026-10-11",
+        "jam": "23:26",
+        "hash": "c7cf6a8",
+        "judul": "Tahap 5 gelombang 5.2 (sebagian): data contoh pindah ke shared/data-contoh, enum dan pembantu skema backend, daftar cek kode wilayah"
+      },
+      {
+        "tanggal": "2026-10-11",
+        "jam": "23:56",
+        "hash": "f5a0962",
+        "judul": "Tahap 5 gelombang 5.2 bagian pertama: data contoh bersama, migrasi semua tabel kontrak, daftar cek wilayah (D-52)"
+      },
+      {
+        "tanggal": "2026-10-11",
+        "jam": "23:57",
+        "hash": "5c5035e",
+        "judul": "Hapus empat berkas PHP kosong yang tidak sengaja tertulis di shared/data-contoh/"
+      },
+      {
+        "tanggal": "2026-10-12",
+        "jam": "00:39",
+        "hash": "d85bc5d",
+        "judul": "Tanggapan D-52 (D-53): aturan hapus RESTRICT untuk transaksi, ID ascii_bin, invarian kolom turunan, PHP target 8.3"
+      },
+      {
+        "tanggal": "2026-10-12",
+        "jam": "03:19",
+        "hash": "8be9a5c",
+        "judul": "Tanggapan D-53 (D-54): kunci idempoten tanpa BENTROK, Larastan, kode wilayah resmi; usulan D-55 dan D-56"
+      },
+      {
+        "tanggal": "2026-10-12",
+        "jam": "04:34",
+        "hash": "77911eb",
+        "judul": "D-57: keputusan D-55/D-56 dan rencana lomba; D-56 di kontrak, klien tiruan, dan pemilih desa"
+      },
+      {
+        "tanggal": "2026-10-12",
+        "jam": "04:42",
+        "hash": "22a6da5",
+        "judul": "T5.08: seeder data contoh dan perintah demo:atur-ulang"
+      },
+      {
+        "tanggal": "2026-10-12",
+        "jam": "05:09",
+        "hash": "4ecae2f",
+        "judul": "T5.09 dan T6.01: masuk OTP (driver log), akun, endpoint demo lokal, klien HTTP, uji naskah"
+      },
+      {
+        "tanggal": "2026-10-12",
+        "jam": "13:07",
+        "hash": "ed6cc50",
+        "judul": "Endpoint naskah demo: referensi, resep, kebun, Jual dengan kunci baris, pembayaran tiruan; rumus PHP lolos kasus bersama"
+      },
+      {
+        "tanggal": "2026-10-12",
+        "jam": "16:55",
+        "hash": "8d1aa04",
+        "judul": "[AG-11] demo:backend, diagnosis uji naskah, daftar akun dan verifikasi pembeli di mode backend, naskah baru"
+      },
+      {
+        "tanggal": "2026-10-12",
+        "jam": "17:21",
+        "hash": "b9703a7",
+        "judul": "[AG-11] Tes kontrak terhadap backend, jam uji lokal, kode uji ganti nomor, hasil uji naskah"
+      },
+      {
+        "tanggal": "2026-10-12",
+        "jam": "23:43",
+        "hash": "3c621c2",
+        "judul": "[AG-11] uji:naskah bisa dijalankan dari akar; perintah naskah hari-H dalam PowerShell"
+      },
+      {
+        "tanggal": "2026-10-12",
+        "jam": "23:49",
+        "hash": "c769086",
+        "judul": "[AG-11] naskah-demo: hasil 3 putaran setelah laptop dinyalakan ulang"
+      },
+      {
+        "tanggal": "2026-10-13",
+        "jam": "00:44",
+        "hash": "adf5ace",
+        "judul": "[AG-15] D-59 tema baru: token, Outfit, bayangan bernama, komponen dasar, ilustrasi komoditas 3D"
+      },
+      {
+        "tanggal": "2026-10-13",
+        "jam": "00:55",
+        "hash": "c7313ae",
+        "judul": "[AG-15] D-59 (d): hero halaman depan dan kartu siklus Beranda mengikuti papan; /komponen sebagai pembanding"
+      },
+      {
+        "tanggal": "2026-10-13",
+        "jam": "01:02",
+        "hash": "dce60bf",
+        "judul": "[AG-15] uji:naskah: --lebar dan --layar-hp untuk tangkapan layar HP dengan keadaan yang sama (mode backend)"
+      },
+      {
+        "tanggal": "2026-10-13",
+        "jam": "03:31",
+        "hash": "257bffe",
+        "judul": "[AG-17] Masuk berilustrasi, contoh foto panen berlabel, pemilih siklus berupa kartu bergambar"
+      },
+      {
+        "tanggal": "2026-10-13",
+        "jam": "13:36",
+        "hash": "5404b13",
+        "judul": "[AG-19] (a) Endpoint kontrak yang belum dikerjakan menjawab 501 BELUM_TERSEDIA: \"Fitur ini belum tersedia di versi demo\""
+      },
+      {
+        "tanggal": "2026-10-13",
+        "jam": "13:48",
+        "hash": "a37b0b9",
+        "judul": "[AG-19] (b) Endpoint backend: PUT pengingat, GET merek, POST jurnal, POST pengeluaran (idempoten), POST tunda tugas"
+      },
+      {
+        "tanggal": "2026-10-13",
+        "jam": "14:00",
+        "hash": "b39b83a",
+        "judul": "[AG-19] Pusat notifikasi /profil/notifikasi; Sementara dan segeraDibangun dihapus"
+      },
+      {
+        "tanggal": "2026-10-13",
+        "jam": "14:01",
+        "hash": "37c3b28",
+        "judul": "[AG-19] D-60: celah backend demo, endpoint baru, pusat notifikasi, hasil tes kontrak 43/19 menjadi 47/15"
+      },
+      {
+        "tanggal": "2026-10-13",
+        "jam": "14:29",
+        "hash": "cd889a6",
+        "judul": "[AG-15] Syarat gabung: uji:naskah 5/5 dengan demo:backend, tangkapan layar naskah desktop dan HP di docs/tema-baru/tangkapan"
+      },
+      {
+        "tanggal": "2026-10-13",
+        "jam": "17:10",
+        "hash": "8e65b63",
+        "judul": "[AG-21] Notifikasi tanpa langganan push, elipsis di kartu pemilih siklus, huruf kapital tombol"
+      },
+      {
+        "tanggal": "2026-10-13",
+        "jam": "17:14",
+        "hash": "6f9420c",
+        "judul": "[AG-21] Uji 5/5 dengan demo:backend; tangkapan Beranda dan Notifikasi diambil ulang; versi lomba di naskah"
+      },
+      {
+        "tanggal": "2026-10-13",
+        "jam": "19:02",
+        "hash": "cc3b880",
+        "judul": "[AG-22] Garis tahap uang dari tepi ke tepi lingkaran; POST /berkas dengan URL bertanda tangan 10 menit"
+      },
+      {
+        "tanggal": "2026-10-13",
+        "jam": "19:18",
+        "hash": "ca383fd",
+        "judul": "[AG-22] Animasi CSS bertoken (D-61): sawi bergoyang, memuat tunas, muncul saat digulir, masuk halaman, kartu bertahap, hover, tanya jawab"
+      },
+      {
+        "tanggal": "2026-10-14",
+        "jam": "00:26",
+        "hash": "7367bdc",
+        "judul": "[AG-23] Menu akun dan profil pembeli, ubah profil varian pembeli, sakelar animasi, skenario uji akun-pembeli"
+      },
+      {
+        "tanggal": "2026-10-14",
+        "jam": "00:36",
+        "hash": "5221947",
+        "judul": "[AG-22] [AG-23] Syarat gabung terpenuhi: uji 5/5 dingin dengan animasi, semua skenario lolos, tangkapan halaman depan dan Kiriman saya; perbandingan waktu"
+      },
+      {
+        "tanggal": "2026-10-14",
+        "jam": "01:39",
+        "hash": "dd2f8d3",
+        "judul": "[AG-24] Logo baru di semua kerangka; favicon dan ikon PWA dari SVG logo (D-63)"
+      },
+      {
+        "tanggal": "2026-10-14",
+        "jam": "01:44",
+        "hash": "c115ce6",
+        "judul": "[AG-24] Uji 3/3 dingin dengan demo:backend; tangkapan logo di sidebar, header pembeli, halaman depan, Masuk, dan tab peramban; versi lomba demo-logo"
+      },
+      {
+        "tanggal": "2026-10-14",
+        "jam": "04:40",
+        "hash": "49d6255",
+        "judul": "[AG-28] Salin acuan PRD tambahan 12 fitur, serah terima sesi, dan lencana ke docs/"
+      },
+      {
+        "tanggal": "2026-10-14",
+        "jam": "04:43",
+        "hash": "28ecb97",
+        "judul": "[AG-28] Catat D-64, tambahkan Tahap 7 di rencana kerja, dan perbarui acuan proyek serta naskah demo"
+      },
+      {
+        "tanggal": "2026-10-14",
+        "jam": "04:51",
+        "hash": "976e5bb",
+        "judul": "[AG-28] Sakelar fitur Tahap 7, konfigurasi AI Dattio, dan lencana SVG 3D di public/"
+      },
+      {
+        "tanggal": "2026-10-14",
+        "jam": "11:41",
+        "hash": "86c827d",
+        "judul": "[AG-28] F-00: Fondasi AI (PenyediaAI, driver openai Dattio + tiruan, log_ai, persetujuan privasi)"
+      },
+      {
+        "tanggal": "2026-10-14",
+        "jam": "12:11",
+        "hash": "d4e539e",
+        "judul": "[AG-28] F-01: Saran memperbanyak untung, item opsional resep, dan panduan cek pH"
+      },
+      {
+        "tanggal": "2026-10-14",
+        "jam": "12:26",
+        "hash": "1e7363e",
+        "judul": "[AG-28] F-02: Tanaman baru cabai rawit, tomat, selada beserta resep contoh dan ilustrasi"
+      },
+      {
+        "tanggal": "2026-10-14",
+        "jam": "13:10",
+        "hash": "3432de6",
+        "judul": "[AG-28] F-03: Level dan lencana 3D pengguna"
+      },
+      {
+        "tanggal": "2026-10-14",
+        "jam": "13:12",
+        "hash": "93cd88c",
+        "judul": "[AG-28] Perbarui status penyelesaian Gelombang Rabu di rencana-kerja.md"
+      },
+      {
+        "tanggal": "2026-10-14",
+        "jam": "13:59",
+        "hash": "e6df69b",
+        "judul": "[AG-29] Konfigurasi penyedia AI fleksibel lewat .env, hilangkan rujukan pihak ketiga"
+      },
+      {
+        "tanggal": "2026-10-14",
+        "jam": "14:21",
+        "hash": "a9893b3",
+        "judul": "[AG-29] Sinkronkan ID merek data contoh dan sesuaikan ekspektasi tes pasca penambahan F-02"
+      },
+      {
+        "tanggal": "2026-10-14",
+        "jam": "14:33",
+        "hash": "edf1601",
+        "judul": "[AG-29] Rapikan format Pint, perbaiki tipe nullsafe PHPStan, dan daftarkan lencana_pengguna ke BOLEH_CASCADE"
+      },
+      {
+        "tanggal": "2026-10-14",
+        "jam": "19:28",
+        "hash": "9f77ed9",
+        "judul": "[AG-30] Gelombang Kamis: deteksi penyakit foto (F-04), chatbot Tanya Tani Muda (F-05), dan cuaca kecocokan suhu (F-06)"
+      },
+      {
+        "tanggal": "2026-10-14",
+        "jam": "21:37",
+        "hash": "60ed811",
+        "judul": "[AG-31] F-07: Stok siap jual dan COD"
+      },
+      {
+        "tanggal": "2026-10-14",
+        "jam": "22:04",
+        "hash": "afd1578",
+        "judul": "[AG-31] F-08: Peta petani sekitar pembeli"
+      },
+      {
+        "tanggal": "2026-10-14",
+        "jam": "22:35",
+        "hash": "1d02d15",
+        "judul": "[AG-31] F-09: Chat petani dan pembeli"
+      },
+      {
+        "tanggal": "2026-10-15",
+        "jam": "01:28",
+        "hash": "1b83650",
+        "judul": "[AG-33] Skenario uji stok-cod dan chat, perbaikan race condition chat, dan gerbang jumat"
+      },
+      {
+        "tanggal": "2026-10-15",
+        "jam": "02:23",
+        "hash": "951c92f",
+        "judul": "[AG-34] Bagian A: Perbaikan invalidasi useTandaiDibaca dan tes stok serentak sungguhan"
+      },
+      {
+        "tanggal": "2026-10-15",
+        "jam": "02:49",
+        "hash": "a6ac486",
+        "judul": "[AG-34] Bagian B: Navigasi pembeli HP, menu akun, chat petani HP, chat dari stok, dan chat via nomor HP"
+      },
+      {
+        "tanggal": "2026-10-15",
+        "jam": "03:03",
+        "hash": "14b3255",
+        "judul": "[AG-34] Bagian C: Data contoh stok beragam, petani peta Lembang, dan percakapan demo"
+      },
+      {
+        "tanggal": "2026-10-15",
+        "jam": "03:12",
+        "hash": "5af10e5",
+        "judul": "[AG-34] Bagian D: Fitur F-11 saran setelah tugas selesai dan F-10 harga panen dari berita"
+      },
+      {
+        "tanggal": "2026-10-15",
+        "jam": "03:40",
+        "hash": "78d2c69",
+        "judul": "[AG-34] Bagian E: Skenario naskah baru, gerbang demo-lomba, dan pembekuan naskah demo"
+      },
+      {
+        "tanggal": "2026-10-15",
+        "jam": "04:42",
+        "hash": "9091b22",
+        "judul": "[AG-35] Foto stok, lokasi pembeli di peta, tombol mengambang, chatbot di HP"
+      },
+      {
+        "tanggal": "2026-10-15",
+        "jam": "17:13",
+        "hash": "500e43b",
+        "judul": "feat(chat): alur permintaan kontak dan persetujuan add contact via nomor HP"
+      },
+      {
+        "tanggal": "2026-10-15",
+        "jam": "17:16",
+        "hash": "d826296",
+        "judul": "feat(pembeli): akses menu pembayaran di mode mobile via dropdown akun dan dasbor"
+      },
+      {
+        "tanggal": "2026-10-15",
+        "jam": "17:31",
+        "hash": "dfbb199",
+        "judul": "fix(ui): perbaiki kontras kapsul tab dan perbarui desain dropdown modern"
+      },
+      {
+        "tanggal": "2026-10-15",
+        "jam": "17:40",
+        "hash": "dee0db0",
+        "judul": "fix(cuaca-berita-ui): perbaiki cuaca Open-Meteo, berita, dan terapkan desain rounded pada chatbot dan halaman chat"
+      },
+      {
+        "tanggal": "2026-10-17",
+        "jam": "23:54",
+        "hash": "7613a1e",
+        "judul": "[AG-36] Ganti ikon uang saja (perubahan terakhir sebelum lomba)"
+      },
+      {
+        "tanggal": "2026-10-18",
+        "jam": "00:07",
+        "hash": "462d9f7",
+        "judul": "[AG-37] Catat D-65 pengunduran lomba ke 20 Okt dan pembekuan kode 19 Okt 18.00"
+      },
+      {
+        "tanggal": "2026-10-18",
+        "jam": "00:16",
+        "hash": "925c8f5",
+        "judul": "[AG-37] Terapkan dan pertahankan perubahan stash pemilik produk (22 berkas)"
+      },
+      {
+        "tanggal": "2026-10-18",
+        "jam": "00:30",
+        "hash": "43a0d70",
+        "judul": "[AG-37] Sempurnakan fitur AG-35 (tumpukan tombol mengambang, lokasi pembeli, chatbot penuh layar di HP, dan pemeriksaan gambar utuh)"
+      },
+      {
+        "tanggal": "2026-10-18",
+        "jam": "00:31",
+        "hash": "2ac8c75",
+        "judul": "[AG-37] Tambahkan ikon pin dan perbarui ikon uang di ikon.tsx"
+      },
+      {
+        "tanggal": "2026-10-18",
+        "jam": "00:46",
+        "hash": "563d072",
+        "judul": "[AG-37] Ganti semua emoji dengan komponen Ikon dan SVG serta tambahkan aturan tolak emoji"
+      },
+      {
+        "tanggal": "2026-10-18",
+        "jam": "00:46",
+        "hash": "1bb7397",
+        "judul": "[AG-37] Format jarak format.ts, chip jarak nowrap, kalimat biasa fitur Tahap 7 (D-09), dan lint kapital kata"
+      },
+      {
+        "tanggal": "2026-10-18",
+        "jam": "01:05",
+        "hash": "c2009a8",
+        "judul": "[AG-37] Sempurnakan alur chat nomor HP, penyesuaian selektor uji naskah, dan impor peta petani"
+      },
+      {
+        "tanggal": "2026-10-18",
+        "jam": "01:20",
+        "hash": "efd99a2",
+        "judul": "[AG-37] Ambil tangkapan layar bukti 1440px dan 390px"
+      },
+      {
+        "tanggal": "2026-10-18",
+        "jam": "03:16",
+        "hash": "f9a13b8",
+        "judul": "[AG-38] Foto asli bawaan per komoditas dan unggah foto stok"
+      },
+      {
+        "tanggal": "2026-10-18",
+        "jam": "03:57",
+        "hash": "44d733e",
+        "judul": "[AG-39] Desain dropdown dan kalender Tani Muda"
+      },
+      {
+        "tanggal": "2026-10-18",
+        "jam": "13:08",
+        "hash": "b860ed0",
+        "judul": "[AG-41] Wilayah Jawa Tengah: pilihan kabupaten → kecamatan → desa, dan titik tengah"
+      },
+      {
+        "tanggal": "2026-10-18",
+        "jam": "13:59",
+        "hash": "85936cd",
+        "judul": "[AG-42] Video teaser 3 menit dengan Remotion dari rekaman aplikasi asli"
+      },
+      {
+        "tanggal": "2026-10-18",
+        "jam": "15:06",
+        "hash": "5026d60",
+        "judul": "feat(video): [AG-43] ulang video teaser motion graphic penuh dengan ikon svg buatan sendiri dan narasi terpisah"
+      },
+      {
+        "tanggal": "2026-10-18",
+        "jam": "18:56",
+        "hash": "0d4bed0",
+        "judul": "feat(integrasi): optimasi driver GNews harga berita dan interaksi tanaman cuaca"
+      },
+      {
+        "tanggal": "2026-10-18",
+        "jam": "20:54",
+        "hash": "3fec6e9",
+        "judul": "[AG-44] Narasi suara Edge TTS, durasi dan subtitel mengikuti suara, ikon aplikasi dipakai ulang"
+      },
+      {
+        "tanggal": "2026-10-18",
+        "jam": "21:40",
+        "hash": "d38e0f9",
+        "judul": "PRD gabungan terkini (docs/prd-terkini.md) dan keputusan D-68"
+      },
+      {
+        "tanggal": "2026-10-18",
+        "jam": "22:48",
+        "hash": "d0603b5",
+        "judul": "[AG-45] Teaser ulang: suara asli, satu shot per kalimat, latar terisi, logo asli, rekaman HP sungguhan"
+      },
+      {
+        "tanggal": "2026-10-18",
+        "jam": "23:06",
+        "hash": "a01bd55",
+        "judul": "[AG-45] Perbaiki pemetaan waktu rekaman HP, potongan layar memuat, dan aksen penutup"
+      },
+      {
+        "tanggal": "2026-10-18",
+        "jam": "23:14",
+        "hash": "46e6b9d",
+        "judul": "[AG-45] Rekaman HP boleh diputar lebih lambat (laju min 0,25); potongan petani 07.1 tanpa layar memuat"
+      },
+      {
+        "tanggal": "2026-10-18",
+        "jam": "23:46",
+        "hash": "5fa9c0a",
+        "judul": "[AG-45] Mockup HP: rekaman tampil utuh mengikuti layar serong"
+      },
+      {
+        "tanggal": "2026-10-19",
+        "jam": "02:44",
+        "hash": "574d1fa",
+        "judul": "[AG-46] Animasi kartu filter tanaman, penutupan chatbot, dan dropdown profil; perbaikan scroll dropdown dan sinkronisasi lokasi Trucuk"
+      },
+      {
+        "tanggal": "2026-10-19",
+        "jam": "02:52",
+        "hash": "f17edff",
+        "judul": "[AG-47] feat: ganti foto default komoditas dari vector SVG ke foto tanaman asli (.webp)"
+      },
+      {
+        "tanggal": "2026-10-19",
+        "jam": "08:35",
+        "hash": "51b8e6d",
+        "judul": "[AG-48] fix: hapus foto SVG default di stok sawi, bayam, tomat agar fallback ke foto asli (.webp)"
+      },
+      {
+        "tanggal": "2026-10-19",
+        "jam": "21:01",
+        "hash": "3f269b5",
+        "judul": "[AG-49] Kembalikan ilustrasi 3D di luar stok; foto asli hanya untuk thumbnail stok"
+      },
+      {
+        "tanggal": "2026-10-19",
+        "jam": "21:11",
+        "hash": "6fd2ccd",
+        "judul": "[AG-50] Sembunyikan kapsul penafian lewat sakelar VITE_LABEL_PENAFIAN"
+      },
+      {
+        "tanggal": "2026-10-19",
+        "jam": "22:28",
+        "hash": "6e0ea96",
+        "judul": "[AG-51] Admin petani: daftar, detail, catatan, dan status (4 endpoint)"
+      },
+      {
+        "tanggal": "2026-10-19",
+        "jam": "23:34",
+        "hash": "df18d73",
+        "judul": "[AG-51] Admin sengketa: daftar dan putuskan (2 endpoint)"
+      },
+      {
+        "tanggal": "2026-10-19",
+        "jam": "23:59",
+        "hash": "2bcb56a",
+        "judul": "[AG-51] Bukti panel admin di peramban dan phpMyAdmin; status PRD terkini"
+      }
+    ],
+    "tag": [
+      {
+        "nama": "demo-aman",
+        "hash": "c769086",
+        "tanggal": "2026-10-12"
+      },
+      {
+        "nama": "demo-tema-baru",
+        "hash": "6f9420c",
+        "tanggal": "2026-10-13"
+      },
+      {
+        "nama": "demo-animasi",
+        "hash": "5221947",
+        "tanggal": "2026-10-14"
+      },
+      {
+        "nama": "demo-kamis",
+        "hash": "9f77ed9",
+        "tanggal": "2026-10-14"
+      },
+      {
+        "nama": "demo-logo",
+        "hash": "c115ce6",
+        "tanggal": "2026-10-14"
+      },
+      {
+        "nama": "demo-rabu",
+        "hash": "edf1601",
+        "tanggal": "2026-10-14"
+      },
+      {
+        "nama": "demo-jumat",
+        "hash": "1b83650",
+        "tanggal": "2026-10-15"
+      },
+      {
+        "nama": "AG-39",
+        "hash": "44d733e",
+        "tanggal": "2026-10-18"
+      },
+      {
+        "nama": "AG-41",
+        "hash": "b860ed0",
+        "tanggal": "2026-10-18"
+      },
+      {
+        "nama": "AG-42",
+        "hash": "85936cd",
+        "tanggal": "2026-10-18"
+      },
+      {
+        "nama": "AG-43",
+        "hash": "5026d60",
+        "tanggal": "2026-10-18"
+      },
+      {
+        "nama": "demo-senin-pagi",
+        "hash": "efd99a2",
+        "tanggal": "2026-10-18"
+      },
+      {
+        "nama": "demo-senin-siang",
+        "hash": "f9a13b8",
+        "tanggal": "2026-10-18"
+      },
+      {
+        "nama": "demo-lomba",
+        "hash": "6fd2ccd",
+        "tanggal": "2026-10-19"
+      }
+    ]
+  },
+  "tanggalBahan": {
+    "prd": {
+      "berkas": "docs/prd-tani-muda.md",
+      "awal": "2026-10-05",
+      "akhir": "2026-10-08"
+    },
+    "keputusan": {
+      "berkas": "docs/keputusan.md",
+      "awal": "2026-10-05",
+      "akhir": "2026-10-18"
+    },
+    "rencana": {
+      "berkas": "docs/rencana-kerja.md",
+      "awal": "2026-10-05",
+      "akhir": "2026-10-14"
+    },
+    "kontrak": {
+      "berkas": "docs/kontrak-api.md",
+      "awal": "2026-10-05",
+      "akhir": "2026-10-18"
+    },
+    "desain": {
+      "berkas": "design/desain-tani-muda.html",
+      "awal": "2026-10-05",
+      "akhir": "2026-10-05"
+    },
+    "kerangka": {
+      "berkas": "docs/tangkapan/arsip/tahap-1/00-kerangka-petani-desktop.png",
+      "awal": "2026-10-09",
+      "akhir": "2026-10-09"
+    },
+    "temaLama": {
+      "berkas": "docs/tangkapan/aplikasi/03-beranda-petani-desktop.png",
+      "awal": "2026-10-05",
+      "akhir": "2026-10-09"
+    },
+    "temaBaru": {
+      "berkas": "docs/tema-baru/tangkapan/halaman-beranda-desktop.png",
+      "awal": "2026-10-13",
+      "akhir": "2026-10-13"
+    },
+    "logo": {
+      "berkas": "frontend/public/logo/logo-tanda.svg",
+      "awal": "2026-10-14",
+      "akhir": "2026-10-14"
+    },
+    "logoIkon": {
+      "berkas": "frontend/public/logo/logo-ikon.svg",
+      "awal": "2026-10-14",
+      "akhir": "2026-10-14"
+    },
+    "logoSatuWarna": {
+      "berkas": "frontend/public/logo/logo-satu-warna.svg",
+      "awal": "2026-10-14",
+      "akhir": "2026-10-14"
+    },
+    "logoMaskable": {
+      "berkas": "frontend/public/logo/logo-ikon-maskable.svg",
+      "awal": "2026-10-14",
+      "akhir": "2026-10-14"
+    },
+    "ilustrasi": {
+      "berkas": "frontend/public/ilustrasi/komoditas",
+      "awal": "2026-10-13",
+      "akhir": "2026-10-14"
+    },
+    "lencana": {
+      "berkas": "frontend/public/lencana/panen-pertama.svg",
+      "awal": "2026-10-14",
+      "akhir": "2026-10-14"
+    },
+    "ikon": {
+      "berkas": "design/icons",
+      "awal": "2026-10-05",
+      "akhir": "2026-10-05"
+    },
+    "ide": {
+      "berkas": "video/dokumentasi/layar-pengguna/IDE.png",
+      "awal": null,
+      "akhir": null
+    },
+    "xampp": {
+      "berkas": "video/dokumentasi/layar-pengguna/XAMPP.png",
+      "awal": null,
+      "akhir": null
+    },
+    "phpmyadmin": {
+      "berkas": "video/dokumentasi/layar-pengguna/phpmyadmin.png",
+      "awal": null,
+      "akhir": null
+    },
+    "ujiNaskah": {
+      "berkas": "frontend/scripts/uji-naskah.mjs",
+      "awal": "2026-10-12",
+      "akhir": "2026-10-18"
+    },
+    "ujiBackend": {
+      "berkas": "backend/tests",
+      "awal": "2026-10-11",
+      "akhir": "2026-10-19"
+    },
+    "naskahDemo": {
+      "berkas": "docs/naskah-demo.md",
+      "awal": "2026-10-09",
+      "akhir": "2026-10-18"
+    },
+    "panelAdmin": {
+      "berkas": "docs/tangkapan/ag-51/01-daftar-petani.png",
+      "awal": "2026-10-19",
+      "akhir": "2026-10-19"
+    }
+  },
+  "keputusanTerakhir": "D-68",
+  "jumlahPapan": 64,
+  "dokumen": {
+    "prd": {
+      "gambar": "dokumentasi/dok-prd.png",
+      "lebar": 920,
+      "tinggi": 16000,
+      "judul": [
+        {
+          "teks": "PRD Tani Muda v1: Belajar, Hitung, dan Jual",
+          "tingkat": 1,
+          "y": 64,
+          "tinggi": 101
+        },
+        {
+          "teks": "Ringkasan",
+          "tingkat": 2,
+          "y": 257,
+          "tinggi": 71
+        },
+        {
+          "teks": "Latar Belakang Masalah",
+          "tingkat": 2,
+          "y": 864,
+          "tinggi": 71
+        },
+        {
+          "teks": "Tujuan",
+          "tingkat": 2,
+          "y": 1457,
+          "tinggi": 71
+        },
+        {
+          "teks": "Di Luar Cakupan",
+          "tingkat": 2,
+          "y": 2090,
+          "tinggi": 71
+        },
+        {
+          "teks": "Persona dan User Stories",
+          "tingkat": 2,
+          "y": 3138,
+          "tinggi": 71
+        },
+        {
+          "teks": "Kebutuhan Wajib (P0)",
+          "tingkat": 2,
+          "y": 6004,
+          "tinggi": 71
+        },
+        {
+          "teks": "A. Akun dan Peran",
+          "tingkat": 3,
+          "y": 6174,
+          "tinggi": 36
+        },
+        {
+          "teks": "B. Resep Tanam",
+          "tingkat": 3,
+          "y": 6485,
+          "tinggi": 36
+        },
+        {
+          "teks": "C. Belajar",
+          "tingkat": 3,
+          "y": 7708,
+          "tinggi": 36
+        },
+        {
+          "teks": "D. Kalkulator Modal",
+          "tingkat": 3,
+          "y": 8079,
+          "tinggi": 36
+        },
+        {
+          "teks": "E. Jadwal dan Pengingat",
+          "tingkat": 3,
+          "y": 9562,
+          "tinggi": 36
+        },
+        {
+          "teks": "F. Jurnal dan Pengeluaran",
+          "tingkat": 3,
+          "y": 10781,
+          "tinggi": 36
+        },
+        {
+          "teks": "G. Marketplace: Pesan Sebelum Tanam",
+          "tingkat": 3,
+          "y": 10980,
+          "tinggi": 36
+        },
+        {
+          "teks": "H. Akses Offline",
+          "tingkat": 3,
+          "y": 12396,
+          "tinggi": 36
+        },
+        {
+          "teks": "Kebutuhan Tambahan (P1) dan Masa Depan (P2)",
+          "tingkat": 2,
+          "y": 12582,
+          "tinggi": 71
+        },
+        {
+          "teks": "Alur dan Logika Sistem",
+          "tingkat": 2,
+          "y": 14438,
+          "tinggi": 71
+        }
+      ]
+    },
+    "keputusan": {
+      "gambar": "dokumentasi/dok-keputusan.png",
+      "lebar": 920,
+      "tinggi": 16000,
+      "judul": [
+        {
+          "teks": "Keputusan Produk dan Teknis Tani Muda",
+          "tingkat": 1,
+          "y": 64,
+          "tinggi": 101
+        },
+        {
+          "teks": "D-01. Batas periksa kiriman",
+          "tingkat": 2,
+          "y": 528,
+          "tinggi": 71
+        },
+        {
+          "teks": "D-02. Pembayaran uang muka dan per kiriman",
+          "tingkat": 2,
+          "y": 871,
+          "tinggi": 71
+        },
+        {
+          "teks": "D-03. Gagal panen dan pembatalan",
+          "tingkat": 2,
+          "y": 1244,
+          "tinggi": 71
+        },
+        {
+          "teks": "D-04. Login",
+          "tingkat": 2,
+          "y": 1852,
+          "tinggi": 71
+        },
+        {
+          "teks": "D-05. Hidroponik hanya sawi",
+          "tingkat": 2,
+          "y": 2117,
+          "tinggi": 71
+        },
+        {
+          "teks": "D-06. Tambahan Model Data",
+          "tingkat": 2,
+          "y": 2410,
+          "tinggi": 71
+        },
+        {
+          "teks": "D-07. Halaman tanpa desain dan tata letak",
+          "tingkat": 2,
+          "y": 3398,
+          "tinggi": 71
+        },
+        {
+          "teks": "D-08. Angka dan rumus",
+          "tingkat": 2,
+          "y": 3888,
+          "tinggi": 71
+        },
+        {
+          "teks": "D-09. Aturan bahasa (lengkap)",
+          "tingkat": 2,
+          "y": 4320,
+          "tinggi": 71
+        },
+        {
+          "teks": "D-10. Hambatan PRD tidak menghentikan pekerjaan",
+          "tingkat": 2,
+          "y": 4909,
+          "tinggi": 71
+        },
+        {
+          "teks": "D-11. Resep draf tetap tampil di demo (dikonfirmasi di D-12)",
+          "tingkat": 2,
+          "y": 5360,
+          "tinggi": 117
+        },
+        {
+          "teks": "D-12. Resep contoh: label dan pengaturan (jawaban P-1)",
+          "tingkat": 2,
+          "y": 5911,
+          "tinggi": 71
+        },
+        {
+          "teks": "D-13. Petani dinonaktifkan sementara (jawaban P-2)",
+          "tingkat": 2,
+          "y": 6489,
+          "tinggi": 71
+        },
+        {
+          "teks": "D-14. Alasan penolakan kiriman (jawaban P-3)",
+          "tingkat": 2,
+          "y": 7009,
+          "tinggi": 71
+        },
+        {
+          "teks": "D-15. Lahan, siklus, dan kapasitas (jawaban P-4)",
+          "tingkat": 2,
+          "y": 7578,
+          "tinggi": 71
+        },
+        {
+          "teks": "D-16. Titik patah layar (jawaban P-5)",
+          "tingkat": 2,
+          "y": 8107,
+          "tinggi": 71
+        },
+        {
+          "teks": "D-17. Keputusan teknis Tahap 1",
+          "tingkat": 2,
+          "y": 8421,
+          "tinggi": 71
+        },
+        {
+          "teks": "D-18. Penamaan file dan kerapian repositori",
+          "tingkat": 2,
+          "y": 8862,
+          "tinggi": 71
+        },
+        {
+          "teks": "D-19. Backend Laravel dan MariaDB, tanpa Docker",
+          "tingkat": 2,
+          "y": 9691,
+          "tinggi": 71
+        },
+        {
+          "teks": "D-20. Tampilan dulu, backend setelah semua halaman selesai",
+          "tingkat": 2,
+          "y": 10614,
+          "tinggi": 117
+        },
+        {
+          "teks": "D-21. Sesi login: cookie Sanctum untuk web, token untuk aplikasi seluler",
+          "tingkat": 2,
+          "y": 11392,
+          "tinggi": 117
+        },
+        {
+          "teks": "D-22. Data milik pengguna lain dijawab 404",
+          "tingkat": 2,
+          "y": 11860,
+          "tinggi": 71
+        },
+        {
+          "teks": "D-23. Konfirmasi otomatis kiriman setiap 15 menit",
+          "tingkat": 2,
+          "y": 12222,
+          "tinggi": 71
+        },
+        {
+          "teks": "D-24. Demo dari laptop, siap deploy ke VPS",
+          "tingkat": 2,
+          "y": 12516,
+          "tinggi": 71
+        },
+        {
+          "teks": "D-25. PHP 8.3+ dipasang terpisah, MariaDB XAMPP tetap",
+          "tingkat": 2,
+          "y": 12957,
+          "tinggi": 117
+        },
+        {
+          "teks": "D-26. Menu Kebun (jawaban P-6)",
+          "tingkat": 2,
+          "y": 13410,
+          "tinggi": 71
+        },
+        {
+          "teks": "D-27. Data wilayah (jawaban P-7)",
+          "tingkat": 2,
+          "y": 13832,
+          "tinggi": 71
+        },
+        {
+          "teks": "D-28. Konfigurasi bisnis (jawaban P-8)",
+          "tingkat": 2,
+          "y": 14283,
+          "tinggi": 71
+        },
+        {
+          "teks": "D-29. Video modul (jawaban P-9)",
+          "tingkat": 2,
+          "y": 14576,
+          "tinggi": 71
+        },
+        {
+          "teks": "D-30. Persetujuan kebijakan privasi (jawaban P-10)",
+          "tingkat": 2,
+          "y": 14909,
+          "tinggi": 71
+        },
+        {
+          "teks": "D-31. Zona waktu (jawaban P-11)",
+          "tingkat": 2,
+          "y": 15243,
+          "tinggi": 71
+        },
+        {
+          "teks": "D-32. iPhone (jawaban P-12)",
+          "tingkat": 2,
+          "y": 15576,
+          "tinggi": 71
+        },
+        {
+          "teks": "D-33. Repositori dan pemeriksaan visual (jawaban P-13, P-14)",
+          "tingkat": 2,
+          "y": 15869,
+          "tinggi": 117
+        }
+      ]
+    },
+    "rencana": {
+      "gambar": "dokumentasi/dok-rencana.png",
+      "lebar": 920,
+      "tinggi": 16000,
+      "judul": [
+        {
+          "teks": "Rencana Kerja Tani Muda",
+          "tingkat": 1,
+          "y": 64,
+          "tinggi": 51
+        },
+        {
+          "teks": "Cara membaca",
+          "tingkat": 2,
+          "y": 422,
+          "tinggi": 71
+        },
+        {
+          "teks": "Jalur demo lomba (definisi [DEMO])",
+          "tingkat": 2,
+          "y": 1080,
+          "tinggi": 71
+        },
+        {
+          "teks": "Keputusan awal yang saya ambil (ubah di sini bila tidak setuju)",
+          "tingkat": 2,
+          "y": 1722,
+          "tinggi": 117
+        },
+        {
+          "teks": "Tahap 1. Fondasi",
+          "tingkat": 1,
+          "y": 2497,
+          "tinggi": 51
+        },
+        {
+          "teks": "[x] T1.01 Setup proyek [DEMO]",
+          "tingkat": 3,
+          "y": 2653,
+          "tinggi": 36
+        },
+        {
+          "teks": "[x] T1.02 Token Tailwind dan font [DEMO]",
+          "tingkat": 3,
+          "y": 3216,
+          "tinggi": 36
+        },
+        {
+          "teks": "[x] T1.03 Lint pelindung aturan",
+          "tingkat": 3,
+          "y": 3867,
+          "tinggi": 36
+        },
+        {
+          "teks": "[x] T1.04 Teks UI dan kerangka rute",
+          "tingkat": 3,
+          "y": 4490,
+          "tinggi": 36
+        },
+        {
+          "teks": "[x] T1.05 Fungsi format angka dan tanggal (frontend/src/lib/format.ts) [DEMO]",
+          "tingkat": 3,
+          "y": 4994,
+          "tinggi": 71
+        },
+        {
+          "teks": "[x] T1.06 Set ikon [DEMO]",
+          "tingkat": 3,
+          "y": 5563,
+          "tinggi": 36
+        },
+        {
+          "teks": "[x] T1.07 Tombol dan Kartu [DEMO]",
+          "tingkat": 3,
+          "y": 6097,
+          "tinggi": 36
+        },
+        {
+          "teks": "[x] T1.08 KolomIsian, InputRupiah, Uang [DEMO]",
+          "tingkat": 3,
+          "y": 6484,
+          "tinggi": 36
+        },
+        {
+          "teks": "[x] T1.09 ChipStatus, Banner, LabelKecil [DEMO]",
+          "tingkat": 3,
+          "y": 6959,
+          "tinggi": 36
+        },
+        {
+          "teks": "[x] T1.10 BarisTugas [DEMO]",
+          "tingkat": 3,
+          "y": 7345,
+          "tinggi": 36
+        },
+        {
+          "teks": "[x] T1.11 Pil pilihan, KartuPilihan, Saklar [DEMO]",
+          "tingkat": 3,
+          "y": 7761,
+          "tinggi": 36
+        },
+        {
+          "teks": "[x] T1.12 Dialog dan LembarBawah",
+          "tingkat": 3,
+          "y": 8177,
+          "tinggi": 36
+        },
+        {
+          "teks": "[x] T1.13 Tata letak penggaris umur tanam (frontend/src/lib/tata-letak-penggaris.ts) [DEMO]",
+          "tingkat": 3,
+          "y": 8534,
+          "tinggi": 71
+        },
+        {
+          "teks": "[x] T1.14 PenggarisUmurTanam [DEMO]",
+          "tingkat": 3,
+          "y": 9104,
+          "tinggi": 36
+        },
+        {
+          "teks": "[x] T1.15 Kerangka halaman (nav, sidebar, header) [DEMO]",
+          "tingkat": 3,
+          "y": 9520,
+          "tinggi": 36
+        },
+        {
+          "teks": "[x] T1.16 Komponen pelengkap",
+          "tingkat": 3,
+          "y": 10112,
+          "tinggi": 36
+        },
+        {
+          "teks": "[x] T1.17 Halaman /komponen untuk dicek terhadap desain [DEMO]",
+          "tingkat": 3,
+          "y": 10528,
+          "tinggi": 36
+        },
+        {
+          "teks": "Tahap 2. Logika inti (frontend/src/lib) dan test",
+          "tingkat": 1,
+          "y": 11136,
+          "tinggi": 101
+        },
+        {
+          "teks": "[x] T2.01 Tipe domain dan fixture contoh resep [DEMO]",
+          "tingkat": 3,
+          "y": 11401,
+          "tinggi": 36
+        },
+        {
+          "teks": "[x] T2.02 Konversi satuan luas konversi-satuan.ts [DEMO]",
+          "tingkat": 3,
+          "y": 12053,
+          "tinggi": 36
+        },
+        {
+          "teks": "[x] T2.03 Kebutuhan input kebutuhan.ts [DEMO]",
+          "tingkat": 3,
+          "y": 12557,
+          "tinggi": 36
+        },
+        {
+          "teks": "[x] T2.04 Harga item: subsidi dan merek harga-item.ts [DEMO]",
+          "tingkat": 3,
+          "y": 13120,
+          "tinggi": 36
+        },
+        {
+          "teks": "[x] T2.05 Total modal modal.ts [DEMO]",
+          "tingkat": 3,
+          "y": 13713,
+          "tinggi": 36
+        },
+        {
+          "teks": "[x] T2.06 Ringkasan hasil ringkasan.ts [DEMO]",
+          "tingkat": 3,
+          "y": 14188,
+          "tinggi": 36
+        },
+        {
+          "teks": "[x] T2.07 Perkiraan panen dan ukuran hidroponik ukuran-metode.ts [DEMO]",
+          "tingkat": 3,
+          "y": 14663,
+          "tinggi": 71
+        },
+        {
+          "teks": "[x] T2.08 Jadwal otomatis jadwal-buat.ts [DEMO]",
+          "tingkat": 3,
+          "y": 15144,
+          "tinggi": 36
+        },
+        {
+          "teks": "[x] T2.09 Ubah jadwal jadwal-ubah.ts [DEMO]",
+          "tingkat": 3,
+          "y": 15678,
+          "tinggi": 36
+        }
+      ]
+    },
+    "kontrak": {
+      "gambar": "dokumentasi/dok-kontrak.png",
+      "lebar": 920,
+      "tinggi": 16000,
+      "judul": [
+        {
+          "teks": "Kontrak API Tani Muda",
+          "tingkat": 1,
+          "y": 64,
+          "tinggi": 51
+        },
+        {
+          "teks": "1. Konvensi",
+          "tingkat": 2,
+          "y": 486,
+          "tinggi": 71
+        },
+        {
+          "teks": "1.1 Dasar",
+          "tingkat": 3,
+          "y": 584,
+          "tinggi": 36
+        },
+        {
+          "teks": "1.2 Respons sukses",
+          "tingkat": 3,
+          "y": 882,
+          "tinggi": 36
+        },
+        {
+          "teks": "1.3 Paginasi",
+          "tingkat": 3,
+          "y": 1084,
+          "tinggi": 36
+        },
+        {
+          "teks": "1.4 Galat",
+          "tingkat": 3,
+          "y": 1389,
+          "tinggi": 36
+        },
+        {
+          "teks": "1.5 Tipe nilai",
+          "tingkat": 3,
+          "y": 3221,
+          "tinggi": 36
+        },
+        {
+          "teks": "1.6 Autentikasi",
+          "tingkat": 3,
+          "y": 3640,
+          "tinggi": 36
+        },
+        {
+          "teks": "1.7 Kunci idempoten",
+          "tingkat": 3,
+          "y": 3997,
+          "tinggi": 36
+        },
+        {
+          "teks": "1.8 Angka dihitung server",
+          "tingkat": 3,
+          "y": 4186,
+          "tinggi": 36
+        },
+        {
+          "teks": "1.9 Resep contoh",
+          "tingkat": 3,
+          "y": 4376,
+          "tinggi": 36
+        },
+        {
+          "teks": "2. Bentuk data",
+          "tingkat": 2,
+          "y": 4581,
+          "tinggi": 71
+        },
+        {
+          "teks": "2.1 pengguna (Pengguna)",
+          "tingkat": 3,
+          "y": 4750,
+          "tinggi": 36
+        },
+        {
+          "teks": "2.2 profil_pembeli (ProfilPembeli)",
+          "tingkat": 3,
+          "y": 6076,
+          "tinggi": 36
+        },
+        {
+          "teks": "2.3 catatan_petani (CatatanPetani), wilayah (Wilayah)",
+          "tingkat": 3,
+          "y": 6574,
+          "tinggi": 36
+        },
+        {
+          "teks": "2.4 Referensi",
+          "tingkat": 3,
+          "y": 7862,
+          "tinggi": 36
+        },
+        {
+          "teks": "2.5 Resep",
+          "tingkat": 3,
+          "y": 10226,
+          "tinggi": 36
+        },
+        {
+          "teks": "2.6 Lahan dan siklus",
+          "tingkat": 3,
+          "y": 12204,
+          "tinggi": 36
+        },
+        {
+          "teks": "2.7 Tugas, pengukuran, pengeluaran, jurnal, pengingat",
+          "tingkat": 3,
+          "y": 14535,
+          "tinggi": 36
+        }
+      ]
+    }
+  },
+  "papan": [
+    {
+      "nama": "00-sistem-desain-desktop",
+      "gambar": "dokumentasi/papan-00-sistem-desain-desktop.png",
+      "hp": false
+    },
+    {
+      "nama": "01-halaman-depan-desktop",
+      "gambar": "dokumentasi/papan-01-halaman-depan-desktop.png",
+      "hp": false
+    },
+    {
+      "nama": "03-beranda-petani-desktop",
+      "gambar": "dokumentasi/papan-03-beranda-petani-desktop.png",
+      "hp": false
+    },
+    {
+      "nama": "08-belajar-hidroponik-desktop",
+      "gambar": "dokumentasi/papan-08-belajar-hidroponik-desktop.png",
+      "hp": false
+    },
+    {
+      "nama": "16-hitung-modal-sawi-bedengan-desktop",
+      "gambar": "dokumentasi/papan-16-hitung-modal-sawi-bedengan-desktop.png",
+      "hp": false
+    },
+    {
+      "nama": "20-jadwal-sawi-bedengan-desktop",
+      "gambar": "dokumentasi/papan-20-jadwal-sawi-bedengan-desktop.png",
+      "hp": false
+    },
+    {
+      "nama": "29-pesanan-di-sekitar-desktop",
+      "gambar": "dokumentasi/papan-29-pesanan-di-sekitar-desktop.png",
+      "hp": false
+    },
+    {
+      "nama": "03-beranda-petani-mobile",
+      "gambar": "dokumentasi/papan-03-beranda-petani-mobile.png",
+      "hp": true
+    },
+    {
+      "nama": "10-hitung-pilih-tanaman-mobile",
+      "gambar": "dokumentasi/papan-10-hitung-pilih-tanaman-mobile.png",
+      "hp": true
+    },
+    {
+      "nama": "31-detail-pesanan-mobile",
+      "gambar": "dokumentasi/papan-31-detail-pesanan-mobile.png",
+      "hp": true
+    }
+  ],
+  "ikonResmi": [
+    "belajar.svg",
+    "beranda.svg",
+    "centang.svg",
+    "jam-pasir.svg",
+    "jam.svg",
+    "kamera.svg",
+    "kebun.svg",
+    "kunci.svg",
+    "lonceng.svg",
+    "offline.svg",
+    "panah-kanan.svg",
+    "panah-kiri.svg",
+    "panen.svg",
+    "peringatan.svg",
+    "pesanan.svg",
+    "uang.svg"
+  ],
+  "aplikasi": {
+    "demoAman": {
+      "hash": "c769086",
+      "tanggal": "2026-10-12",
+      "gambar": [
+        "demo-aman-beranda-desktop.png",
+        "demo-aman-beranda-mobile.png"
+      ]
+    },
+    "sekarang": {
+      "hash": "2bcb56a",
+      "tanggal": "2026-10-19",
+      "gambar": [
+        "sekarang-beranda-desktop.png",
+        "sekarang-belajar-desktop.png",
+        "sekarang-hitung-desktop.png",
+        "sekarang-rawat-desktop.png",
+        "sekarang-jual-desktop.png",
+        "sekarang-beranda-mobile.png",
+        "sekarang-belajar-mobile.png",
+        "sekarang-hitung-mobile.png",
+        "sekarang-rawat-mobile.png",
+        "sekarang-jual-mobile.png"
+      ]
+    }
+  }
+}

@@ -16,7 +16,11 @@
     "cek-durasi": "node scripts/cek-durasi.mjs",
     "lembar-kontak": "node scripts/lembar-kontak.mjs",
     "pratinjau": "node scripts/render-teaser.mjs --pratinjau",
-    "render": "node scripts/render-teaser.mjs"
+    "render": "node scripts/render-teaser.mjs",
+    "bahan:dokumentasi": "node scripts/siapkan-dokumentasi.mjs",
+    "lembar-kontak:dokumentasi": "node scripts/lembar-kontak-dokumentasi.mjs",
+    "pratinjau:dokumentasi": "node scripts/render-dokumentasi.mjs --pratinjau",
+    "render:dokumentasi": "node scripts/render-dokumentasi.mjs"
   },
   "dependencies": {
     "@remotion/cli": "4.0.536",
