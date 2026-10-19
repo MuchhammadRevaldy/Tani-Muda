@@ -361,11 +361,11 @@ describe('PenggarisUmurTanam', () => {
 });
 
 describe('IlustrasiKomoditas (D-59)', () => {
-  it('memuat foto asli lewat <img> dengan alt', () => {
+  it('memuat SVG 3D lewat <img> dengan alt', () => {
     render(<IlustrasiKomoditas nama="cabai" />);
     const g = screen.getByRole('img', { name: 'Ilustrasi cabai rawit' });
     expect(g.tagName).toBe('IMG');
-    expect(g).toHaveAttribute('src', '/foto/komoditas/cabai-rawit.webp');
+    expect(g).toHaveAttribute('src', '/ilustrasi/komoditas/cabai-rawit.svg');
   });
   it('alt kosong menjadikannya hiasan; segera hadir tampil redup', () => {
     const { container } = render(<IlustrasiKomoditas nama="padi" alt="" segera />);
