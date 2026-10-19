@@ -35,10 +35,6 @@ $endpointBelumTersedia = [
     ['DELETE', '/notifikasi/langganan'],
     ['GET', '/admin/sengketa'],
     ['POST', '/admin/sengketa/{id}/putuskan'],
-    ['GET', '/admin/petani'],
-    ['GET', '/admin/petani/{id}'],
-    ['POST', '/admin/petani/{id}/catatan'],
-    ['POST', '/admin/petani/{id}/status'],
     ['GET', '/mentor/resep'],
     ['POST', '/mentor/resep'],
     ['POST', '/mentor/resep/{id}/validasi'],
@@ -210,6 +206,11 @@ Route::middleware('auth:sanctum')->group(function () use ($endpointBelumTersedia
     Route::middleware('peran:admin')->group(function () {
         Route::get('/admin/pembeli', [AdminController::class, 'pembeliMenunggu']);
         Route::post('/admin/pembeli/{id}/verifikasi', [AdminController::class, 'verifikasi']);
+        // [AG-51] petani: daftar, detail, catatan, status (D-03, D-13, D-46, D-47)
+        Route::get('/admin/petani', [AdminController::class, 'daftarPetani']);
+        Route::get('/admin/petani/{id}', [AdminController::class, 'petani']);
+        Route::post('/admin/petani/{id}/catatan', [AdminController::class, 'tulisCatatan']);
+        Route::post('/admin/petani/{id}/status', [AdminController::class, 'ubahStatusPetani']);
     });
 
     // Endpoint kontrak yang belum dikerjakan: 501 BELUM_TERSEDIA, "Fitur ini belum tersedia di versi
