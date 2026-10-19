@@ -5,7 +5,7 @@ import { HURUF, W } from '../../v2/tema';
 import { DATA, hariKe, tgl } from '../data';
 import { Gores, IsiLayar, Judul, Keterangan, Laptop, PanggungDok, TeksKecil, jalurGarisBawah } from '../dasar';
 
-/** Adegan Coding [AG-52]: IDE, grafik commit, daftar commit dan tag, bantuan AI. */
+/** Adegan Coding [AG-52]: IDE, grafik commit, daftar commit dan tag. */
 
 const MONO = "Consolas, 'Cascadia Mono', monospace";
 
@@ -13,7 +13,7 @@ export const S17: React.FC<{ d: number }> = ({ d }) => (
   <PanggungDok durasi={d} latar="kota" dari={{ zoom: 1.02, x: -20 }} ke={{ zoom: 1.07, x: 30 }} aksen={['daun', null, null, 'koin', null, null, 'benih']}>
     {() => (
       <>
-        <Judul frasa="Ditulis di Antigravity IDE" mulai={4} top={40} ukuran={80} sorot={['Antigravity']} />
+        <Judul frasa="Kode ditulis di IDE" mulai={4} top={40} ukuran={80} sorot={['IDE']} />
         <Laptop x={440} y={175} lebar={1000} rasio={1516 / 1078} miring={7}>
           <IsiLayar
             src="dokumentasi/ide.png"
@@ -139,46 +139,6 @@ export const S19: React.FC<{ d: number }> = ({ d }) => {
             </div>
           </div>
           <Keterangan>git log dan git tag · {DATA.git.total} commit, {DATA.git.tag.length} tag · {tgl(DATA.git.tag[0].tanggal, true)} sampai {tgl(DATA.git.tag[DATA.git.tag.length - 1].tanggal)}</Keterangan>
-        </>
-      )}
-    </PanggungDok>
-  );
-};
-
-export const S20: React.FC<{ d: number }> = ({ d }) => {
-  const frame = useCurrentFrame();
-  const ag = DATA.git.commit.filter((c) => /^\[AG-\d+\]/.test(c.judul));
-  const n = Math.round(maju(frame, 8, 60, EASE.keluar) * ag.length);
-  const gulir = interpolate(frame, [0, d], [0, Math.max(0, ag.length * 52 - 560)], { easing: EASE.halus });
-  const sp = pegas(frame, 4, 'berat');
-  return (
-    <PanggungDok durasi={d} latar="sawah" dari={{ zoom: 1.06, x: 20 }} ke={{ zoom: 1.02, x: -20 }} aksen={['daun', null, 'tetes', null, null, null, 'benih']}>
-      {() => (
-        <>
-          <Judul frasa="Dibantu Antigravity dan Claude" mulai={4} left={100} top={120} lebar={800} ukuran={84} rata="left" sorot={['Antigravity', 'Claude']} />
-          <div style={{ position: 'absolute', left: 104, top: 330, fontFamily: HURUF, fontWeight: 800, fontSize: 130, color: W.daun, lineHeight: 1 }}>{n}</div>
-          <TeksKecil style={{ position: 'absolute', left: 110, top: 470, width: 760, color: W.teks, fontSize: 30, lineHeight: 1.4 }}>
-            commit bertanda [AG-nn] dari perintah tertulis bernomor.
-          </TeksKecil>
-          <TeksKecil style={{ position: 'absolute', left: 110, top: 580, width: 760, color: W.teks, fontSize: 28, lineHeight: 1.45, opacity: maju(frame, 40, 16) }}>
-            Pengembangan Tani Muda dibantu AI, yaitu Antigravity dan Claude, sesuai Lampiran 2 surat pernyataan.
-          </TeksKecil>
-          <div style={{ position: 'absolute', left: 980, top: 170, width: 840, height: 640, perspective: 1600 }}>
-            <div style={{ width: '100%', height: '100%', borderRadius: 18, overflow: 'hidden', background: W.kertas, boxShadow: '0 40px 70px rgba(46,53,71,0.25)', transform: `translateY(${(1 - sp) * 500}px) rotateY(${-12 + ayun(frame, 0, 2, 150)}deg) rotateX(5deg)` }}>
-              <div style={{ position: 'absolute', left: 0, top: 30 - gulir, width: '100%' }}>
-                {ag.map((c, i) => {
-                  const m = c.judul.match(/^(\[AG-\d+\])\s*(.*)$/);
-                  return (
-                    <div key={c.hash} style={{ height: 52, display: 'flex', alignItems: 'center', gap: 16, padding: '0 28px', fontFamily: HURUF, fontSize: 23, color: W.teks, whiteSpace: 'nowrap' }}>
-                      <span style={{ fontWeight: 800, color: W.oranye, width: 96 }}>{m?.[1]}</span>
-                      <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', opacity: 0.85 }}>{m?.[2]}</span>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          </div>
-          <Keterangan>git log · commit [AG-nn] pertama {tgl(ag[0]?.tanggal)}, terakhir {tgl(ag[ag.length - 1]?.tanggal)}</Keterangan>
         </>
       )}
     </PanggungDok>

@@ -39,16 +39,15 @@ const DAFTAR: [id: string, adegan: string, detik: number, ringkas: string][] = [
   ['14', 'alur', 3.5, 'Kotak alur jadi layar Hitung'],
   ['15', 'alur', 5, 'Flowchart naskah demo 6–10'],
   ['16', 'alur', 3.5, 'Kotak alur jadi layar Pesanan'],
-  ['17', 'kode', 5.5, 'Antigravity IDE'],
+  ['17', 'kode', 5.5, 'Layar IDE'],
   ['18', 'kode', 6, 'Grafik commit per hari'],
   ['19', 'kode', 5, 'Daftar commit dan tag'],
-  ['20', 'kode', 5, 'Dibantu AI: Antigravity dan Claude'],
-  ['21', 'uji', 6, 'Terminal: tes otomatis'],
-  ['22', 'uji', 5, 'Terminal: uji naskah'],
-  ['23', 'uji', 6, 'XAMPP dan phpMyAdmin'],
-  ['24', 'hasil', 6, 'HP dan laptop: Belajar, Hitung, Rawat, Jual'],
-  ['25', 'hasil', 5, 'Panel admin'],
-  ['26', 'tutup', 6, 'Penutup'],
+  ['20', 'uji', 6, 'Terminal: tes otomatis'],
+  ['21', 'uji', 5, 'Terminal: uji naskah'],
+  ['22', 'uji', 6, 'XAMPP dan phpMyAdmin'],
+  ['23', 'hasil', 6, 'HP dan laptop: Belajar, Hitung, Rawat, Jual'],
+  ['24', 'hasil', 5, 'Panel admin'],
+  ['25', 'tutup', 6, 'Penutup'],
 ];
 
 export interface ShotDok {

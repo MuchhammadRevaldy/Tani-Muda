@@ -223,7 +223,7 @@ export const S26: React.FC<{ d: number }> = ({ d }) => {
           </div>
           <Judul frasa="Belajar, Hitung, Rawat, Jual" mulai={50} top={670} ukuran={64} />
           <TeksKecil style={{ position: 'absolute', left: 0, width: 1920, top: 800, textAlign: 'center', color: W.teks, opacity: maju(frame, 80, 16) }}>
-            {DATA.git.total} commit · 5–19 Oktober 2026 · dikembangkan dengan bantuan AI (Antigravity dan Claude)
+            {DATA.git.total} commit · 5–19 Oktober 2026
           </TeksKecil>
         </>
       )}

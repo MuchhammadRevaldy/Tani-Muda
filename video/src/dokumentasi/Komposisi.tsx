@@ -7,7 +7,7 @@ import { PitaTanggal } from './Pita';
 import { S01, S02, S03, S04, S05, S06, S07 } from './shot/Awal';
 import { S08, S09, S10, S11, S12 } from './shot/Desain';
 import { S13, S14, S15, S16 } from './shot/Alur';
-import { S17, S18, S19, S20 } from './shot/Kode';
+import { S17, S18, S19 } from './shot/Kode';
 import { S21, S22, S23, S24, S25, S26 } from './shot/Akhir';
 
 /**
@@ -19,8 +19,8 @@ const SHOT: Record<string, React.FC<{ d: number }>> = {
   '01': S01, '02': S02, '03': S03, '04': S04, '05': S05, '06': S06, '07': S07,
   '08': S08, '09': S09, '10': S10, '11': S11, '12': S12,
   '13': S13, '14': S14, '15': S15, '16': S16,
-  '17': S17, '18': S18, '19': S19, '20': S20,
-  '21': S21, '22': S22, '23': S23, '24': S24, '25': S25, '26': S26,
+  '17': S17, '18': S18, '19': S19,
+  '20': S21, '21': S22, '22': S23, '23': S24, '24': S25, '25': S26,
 };
 
 const LAMA_SAPUAN = 18;
