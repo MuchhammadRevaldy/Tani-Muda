@@ -171,8 +171,8 @@ Resep yang tersedia di demo: sawi, bayam, kangkung (bedengan), sawi (hidroponik)
 | P0-26 | Dana kiriman cair ke petani sebesar harga kesepakatan; pembeli membayar 80% nilai kiriman dan 20% diambil dari saldo uang muka. | Tiruan | D-02, D-34 |
 | P0-27 | Gagal panen: petani wajib mengabari paling lambat 3 hari sebelum jadwal kirim; bagiannya ditawarkan ke petani lain, bila tidak ada, uang muka bagian itu kembali ke pembeli. Tanpa denda. Pembatalan pembeli setelah tanam: uang muka menjadi kompensasi petani. | Jalan | D-03 |
 | P0-28 | Rating dua arah setelah setiap kiriman. | Jalan | |
-| — | Sengketa penolakan diputuskan admin. | Sebagian (data sengketa tercatat; panel admin 501) | D-46 |
-| — | Catatan admin dan nonaktif sementara untuk petani yang tidak memberi kabar; petani nonaktif tidak bisa mengambil pesanan baru. | Sebagian (catatan tampil ke petani; endpoint admin 501) | D-03, D-13 |
+| — | Sengketa penolakan diputuskan admin, hanya sekali dan tanpa pencairan ganda. | Jalan (cabang admin-lokasi, AG-51) | D-46 |
+| — | Catatan admin dan nonaktif sementara untuk petani yang tidak memberi kabar; petani nonaktif tidak bisa mengambil pesanan baru. | Jalan (cabang admin-lokasi, AG-51) | D-03, D-13 |
 
 ### 5.7 Jual: stok siap jual, peta, chat
 
@@ -199,8 +199,8 @@ Poin dihitung server dari peristiwa nyata: tugas tepat waktu +10, terlambat lalu
 | Kebutuhan | Status |
 | --- | --- |
 | Verifikasi pembeli (setujui, tolak dengan alasan) | Jalan |
-| Daftar petani dengan cari dan paginasi, catatan, nonaktif sementara | Sebagian (tampilan ada, endpoint 501) |
-| Sengketa | Sebagian (tampilan ada, endpoint 501) |
+| Daftar petani dengan cari dan paginasi, catatan, nonaktif sementara | Jalan (cabang admin-lokasi, AG-51) |
+| Sengketa | Jalan (cabang admin-lokasi, AG-51) |
 | Editor resep, validasi, permintaan resep terbanyak | Sebagian (tampilan ada, endpoint 501) |
 
 Panel cukup versi desktop dengan tabel sederhana (D-07, D-46, D-47).
@@ -313,7 +313,7 @@ Rincian kolom ada di `docs/kontrak-api.md` bagian 2. ID memakai string `VARCHAR(
 
 1. Service worker dan akses tanpa sinyal (P0-29), termasuk pemutaran video yang diunduh.
 2. Web push notifikasi pagi dan penjadwal (konfirmasi otomatis tiap 15 menit, pengingat).
-3. Endpoint panel admin (petani, catatan, sengketa) dan mentor (resep, validasi, permintaan resep).
+3. Endpoint panel mentor (resep, validasi, permintaan resep). Panel admin petani, catatan, dan sengketa sudah jalan di cabang admin-lokasi (AG-51).
 4. Laporan harga dari petani (`POST /laporan-harga`).
 5. Model sisa pesanan rutin per kiriman (D-55, disetujui di D-57): kapasitas per kiriman, baris pengiriman sejak diambil, pengembalian uang muka ditunda sampai kiriman tidak terkejar.
 6. Resep dan rentang pH/PPM divalidasi penyuluh; ganti semua angka contoh.
