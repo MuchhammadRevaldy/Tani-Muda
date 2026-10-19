@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
 import { cx } from './gabung-kelas';
 import { Ikon, type NamaIkon } from './ikon';
+import { labelPenafianTampil } from '../lib/label-penafian';
 
 /**
  * Label kecil (bukan tombol) seperti di halaman desain:
@@ -9,7 +10,8 @@ import { Ikon, type NamaIkon } from './ikon';
  * - garis: "Subsidi", "Nonsubsidi", hasil ukur terakhir
  * - promo: "Promo" (selalu terlihat sebagai iklan, P0-35)
  * - polos: "Resep tersedia" (teks hijau dengan ikon)
- * - contoh: "CONTOH, belum divalidasi penyuluh" (D-10, D-11)
+ * - contoh: "CONTOH, belum divalidasi penyuluh" (D-10, D-11); juga "Draf, belum ditinjau ahli
+ *   hukum" dan "Mode uji coba". Tidak dirender saat VITE_LABEL_PENAFIAN mati ([AG-50]).
  * - sorot: label berjarak huruf oranye di atas judul, mis. nama lahan (papan Sistem tema D-59)
  */
 export type NadaLabel = 'hijau' | 'segera' | 'garis' | 'promo' | 'polos' | 'contoh' | 'sorot';
@@ -38,6 +40,7 @@ export function LabelKecil({
   children: ReactNode;
   className?: string;
 }) {
+  if (nada === 'contoh' && !labelPenafianTampil()) return null;
   return (
     <span className={cx('inline-flex items-center gap-1.5 leading-5.5', NADA[nada], className)}>
       {ikon ? <Ikon nama={ikon} ukuran={16} /> : null}

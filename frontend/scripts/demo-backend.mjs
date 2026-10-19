@@ -18,7 +18,7 @@ import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { gagal, jalankanApi, periksaPrasyarat } from './backend-lokal.mjs';
-import { ANIMASI_DEMO, FITUR_DEMO } from './pengaturan-demo.mjs';
+import { ANIMASI_DEMO, FITUR_DEMO, LABEL_PENAFIAN_DEMO } from './pengaturan-demo.mjs';
 
 export const PORT_DEMO_BACKEND = 4174;
 const akar = fileURLToPath(new URL('..', import.meta.url));
@@ -28,6 +28,7 @@ const argumen = process.argv.slice(2);
 process.env.VITE_SUMBER_DATA = 'http';
 process.env.VITE_TAMPILKAN_RESEP_CONTOH = 'true';
 process.env.VITE_ANIMASI = ANIMASI_DEMO;
+process.env.VITE_LABEL_PENAFIAN = LABEL_PENAFIAN_DEMO;
 Object.assign(process.env, FITUR_DEMO);
 
 // Build di proses anak (`--hanya-build`) yang selesai sendiri, supaya memori bundler tidak tertahan

@@ -7,6 +7,8 @@ interface ImportMetaEnv {
   readonly VITE_TAMPILKAN_RESEP_CONTOH?: string;
   /** Sakelar animasi D-61: `mati` mematikan semua animasi ([AG-23]). */
   readonly VITE_ANIMASI?: 'nyala' | 'mati' | '';
+  /** Kapsul penafian (CONTOH, Draf, Mode uji coba, Foto contoh) [AG-50]. */
+  readonly VITE_LABEL_PENAFIAN?: 'nyala' | 'mati' | '';
 }
 
 interface ImportMeta {

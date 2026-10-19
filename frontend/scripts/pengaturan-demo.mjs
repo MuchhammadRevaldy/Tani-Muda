@@ -9,6 +9,13 @@
  */
 export const ANIMASI_DEMO = process.env.VITE_ANIMASI ?? 'nyala';
 
+/**
+ * Sakelar kapsul penafian [AG-50] untuk semua build demo: bawaannya `mati` (kapsul CONTOH, Draf,
+ * Mode uji coba, Foto contoh tidak dirender). Di tes dan pengembangan biasa bawaannya nyala.
+ * Bisa ditimpa: `$env:VITE_LABEL_PENAFIAN='nyala'; npm run demo:backend`.
+ */
+export const LABEL_PENAFIAN_DEMO = process.env.VITE_LABEL_PENAFIAN ?? 'mati';
+
 import { existsSync, readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 
@@ -46,5 +53,6 @@ export const PENGATURAN_DEMO = {
   VITE_SUMBER_DATA: 'tiruan',
   VITE_TAMPILKAN_RESEP_CONTOH: 'true',
   VITE_ANIMASI: ANIMASI_DEMO,
+  VITE_LABEL_PENAFIAN: LABEL_PENAFIAN_DEMO,
   ...FITUR_DEMO,
 };

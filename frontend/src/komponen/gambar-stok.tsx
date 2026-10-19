@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { adaIlustrasiKomoditas, alamatIlustrasiKomoditas, alamatFotoKomoditas } from './ilustrasi';
+import { labelPenafianTampil } from '../lib/label-penafian';
 import { cx } from './gabung-kelas';
 
 export interface PropertiGambarStok {
@@ -76,7 +77,7 @@ export function GambarStok({
         className={cx('h-full w-full object-contain p-2 transition-transform duration-200', className)}
         onError={handleGalat}
       />
-      {tahap === 'bawaan' ? (
+      {tahap === 'bawaan' && labelPenafianTampil() ? (
         <span
           data-testid="label-foto-contoh"
           className="pointer-events-none absolute bottom-2 left-2 rounded-md bg-teks/75 px-2 py-0.5 text-keterangan font-medium text-putih backdrop-blur-sm"

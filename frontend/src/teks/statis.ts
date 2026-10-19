@@ -97,7 +97,8 @@ export const teksStatis = {
         judul: 'Masih uji coba',
         butir: [
           'Tani Muda sedang diuji coba bersama petani dan pembeli di daerah pilot.',
-          'Resep yang berlabel CONTOH masih menunggu validasi penyuluh pertanian.',
+          'Resep dan angka modal di aplikasi masih contoh yang menunggu validasi penyuluh pertanian.',
+          'Aturan pakai dan kebijakan privasi masih draf yang belum ditinjau ahli hukum.',
         ],
       },
       {
