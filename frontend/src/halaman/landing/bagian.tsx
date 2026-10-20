@@ -25,6 +25,11 @@ import { teksLanding as t } from '../../teks/landing';
 import { kelasWadah } from '../statis/kerangka-publik';
 import { AngkaNaik } from './angka-naik';
 import type { DataLanding } from './data-landing';
+import {
+  IlustrasiKartu,
+  type JenisIlustrasiKartu,
+  type WarnaBlob,
+} from '../../komponen/ilustrasi/kartu';
 import { FITUR_LANDING, idBagian, type IdBagian } from './gulir';
 import { usePutaranLangkah } from './putaran';
 
@@ -136,19 +141,20 @@ function KepalaBagian({
 
 // ---------------------------------------------------------------- Masalah
 
-/** Ikon medali muka (masalah) dan belakang (jawaban Tani Muda) [AG-56]. */
-const IKON_MASALAH: { muka: NamaIkon; belakang: NamaIkon }[] = [
-  { muka: 'cari', belakang: 'belajar' },
-  { muka: 'uang', belakang: 'luas' },
-  { muka: 'jam', belakang: 'lonceng' },
-  { muka: 'pesanan', belakang: 'kunci' },
+/** Ilustrasi dan warna blob setiap kartu masalah [AG-58]. */
+const ILUSTRASI_MASALAH: { jenis: JenisIlustrasiKartu; warna: WarnaBlob }[] = [
+  { jenis: 'pengetahuan', warna: 'matahari' },
+  { jenis: 'modal', warna: 'tanah' },
+  { jenis: 'jadwal', warna: 'matahari' },
+  { jenis: 'pasar', warna: 'tanah' },
 ];
 
 /**
  * Kartu masalah [AG-57]: tetap menghadap depan. Disorot (perangkat berkursor), difokus papan ketik,
  * atau diketuk di HP: kartu terangkat sedikit dengan bayangan lembut, latar daun-lembut naik dari
- * bawah, teks masalah memudar ke atas lalu jawaban Tani Muda masuk dari bawah, dan medali berganti
- * dari oranye (ikon masalah) ke hijau (ikon jawaban) dengan memudar silang. Lepas: urutan terbalik.
+ * bawah, teks masalah memudar ke atas lalu jawaban Tani Muda masuk dari bawah. [AG-58] Ilustrasi
+ * berlatar blob bergerak sesuai maknanya dan warna blob bergeser ke daun-lembut saat jawaban
+ * muncul (menggantikan pergantian warna medali). Lepas: urutan terbalik.
  * Semua gerak di src/index.css (`.kartu-masalah`, `km-*`). Teks masalah dan jawaban menempati sel
  * grid yang sama, jadi tinggi kartu tidak berubah.
  */
@@ -164,7 +170,7 @@ function KartuMasalah({
   jawaban: string;
 }) {
   const [aktif, setAktif] = useState(false);
-  const ikon = IKON_MASALAH[i] ?? { muka: 'info', belakang: 'centang' };
+  const ilu = ILUSTRASI_MASALAH[i] ?? { jenis: 'pengetahuan', warna: 'matahari' };
   // Ketukan hanya mengunci keadaan di layar sentuh; di perangkat berkursor cukup disorot.
   const ketuk = () => {
     if (typeof window.matchMedia === 'function' && window.matchMedia('(hover: hover)').matches)
@@ -177,21 +183,20 @@ function KartuMasalah({
       aria-pressed={aktif}
       onClick={ketuk}
       className={cx(
-        'kartu-masalah fokus-cincin relative block h-full w-full cursor-pointer rounded-lg border-0 bg-transparent p-0 text-left text-isi text-teks',
+        'kartu-masalah pemicu-ilu fokus-cincin relative block h-full w-full cursor-pointer rounded-lg border-0 bg-transparent p-0 text-left text-isi text-teks',
         aktif && 'aktif',
       )}
     >
       <span aria-hidden="true" className="km-bayang absolute inset-0 rounded-lg shadow-kartu" />
       <span className="relative flex h-full gap-4 overflow-hidden rounded-lg border border-garis bg-embun-pagi p-4 lg:flex-col lg:p-5">
         <span aria-hidden="true" className="km-isi absolute inset-0 bg-daun-lembut" />
-        <span className="relative grid flex-none">
-          <span className="km-medali-masalah col-start-1 row-start-1">
-            <Medali ikon={ikon.muka} warna="oranye" />
-          </span>
-          <span aria-hidden="true" className="km-medali-jawaban col-start-1 row-start-1">
-            <Medali ikon={ikon.belakang} warna="daun" />
-          </span>
-        </span>
+        <IlustrasiKartu
+          jenis={ilu.jenis}
+          warna={ilu.warna}
+          bentuk={i}
+          blobJawaban
+          className="relative h-24 w-24 flex-none lg:h-ilustrasi-kartu lg:w-ilustrasi-kartu"
+        />
         <span className="relative grid">
           <span className="km-masalah col-start-1 row-start-1 flex flex-col gap-1">
             <span className="text-judul-bagian font-semibold">{judul}</span>
@@ -243,40 +248,12 @@ export function BagianMasalah() {
 
 // ---------------------------------------------------------------- Siklus Tani Muda
 
-/**
- * Medali 3D seragam untuk keempat langkah siklus [AG-55]: lingkaran bergradasi (token `medali-*`),
- * kilap di atas, dan ikon garis putih dari komponen/ikon.tsx. Ukuran dan bingkai sama untuk semua.
- */
-export type WarnaMedali = 'daun' | 'matahari' | 'limau' | 'oranye';
-const KELAS_MEDALI: Record<WarnaMedali, string> = {
-  daun: 'bg-medali-daun',
-  matahari: 'bg-medali-matahari',
-  limau: 'bg-medali-limau',
-  oranye: 'bg-medali-oranye',
-};
-
-export function Medali({ ikon, warna }: { ikon: NamaIkon; warna: WarnaMedali }) {
-  return (
-    <span
-      className={cx(
-        'relative grid h-20 w-20 flex-none place-items-center overflow-hidden rounded-full border-4 border-putih text-putih shadow-ikon lg:h-24 lg:w-24',
-        KELAS_MEDALI[warna],
-      )}
-    >
-      <span
-        aria-hidden="true"
-        className="absolute left-3 right-3 top-1.5 h-6 rounded-full bg-putih opacity-30"
-      />
-      <Ikon nama={ikon} ukuran={40} tebal={2} className="ikon-medali relative" />
-    </span>
-  );
-}
-
-const SIKLUS: { ikon: NamaIkon; warna: WarnaMedali; judul: string; isi: string }[] = [
-  { ikon: 'belajar', warna: 'daun', judul: t.belajar, isi: t.isiBelajar },
-  { ikon: 'uang', warna: 'matahari', judul: t.hitung, isi: t.isiHitung },
-  { ikon: 'kebun', warna: 'limau', judul: t.rawat, isi: t.isiRawat },
-  { ikon: 'panen', warna: 'oranye', judul: t.jual, isi: t.isiJual },
+/** Langkah siklus dengan ilustrasi berlatar blob [AG-58]. */
+const SIKLUS: { jenis: JenisIlustrasiKartu; warna: WarnaBlob; judul: string; isi: string }[] = [
+  { jenis: 'belajar', warna: 'daun', judul: t.belajar, isi: t.isiBelajar },
+  { jenis: 'hitung', warna: 'matahari', judul: t.hitung, isi: t.isiHitung },
+  { jenis: 'rawat', warna: 'daun', judul: t.rawat, isi: t.isiRawat },
+  { jenis: 'jual', warna: 'tanah', judul: t.jual, isi: t.isiJual },
 ];
 
 export function BagianSiklus({ d }: { d: DataLanding }) {
@@ -291,30 +268,33 @@ export function BagianSiklus({ d }: { d: DataLanding }) {
       />
       <ol className="group/siklus m-0 grid list-none p-0 lg:grid-cols-4">
         {SIKLUS.map((s, i) => (
+          // Bisa difokus papan ketik atau diketuk di HP untuk efek yang sama dengan disorot [AG-58].
           <li
             key={s.judul}
-            className="giliran group/langkah relative flex gap-4 pb-8 lg:flex-col lg:items-center lg:px-3 lg:pb-0"
+            tabIndex={0}
+            className="giliran group/langkah pemicu-ilu fokus-cincin relative flex gap-4 rounded-md pb-8 outline-none lg:flex-col lg:items-center lg:px-3 lg:pb-0"
             style={urutan(i)}
           >
             {i < SIKLUS.length - 1 ? (
-              // Garis ke langkah berikutnya: tegak di HP (dari bawah medali), mendatar di desktop
-              // (dari tengah medali ke tengah medali berikutnya). Tergambar bergiliran.
+              // Garis ke langkah berikutnya: tegak di HP (dari bawah ilustrasi), mendatar di desktop
+              // (dari tengah ilustrasi ke tengah berikutnya, lewat di belakang blob). Tergambar bergiliran.
               <span
                 aria-hidden="true"
-                className="garis-tumbuh absolute bottom-0 left-10 top-20 w-1 -translate-x-1/2 overflow-hidden rounded-full bg-limau lg:left-1/2 lg:top-12 lg:h-1 lg:w-full lg:translate-x-0"
+                className="garis-tumbuh absolute bottom-0 left-12 top-24 w-1 -translate-x-1/2 overflow-hidden rounded-full bg-limau lg:left-1/2 lg:top-16 lg:h-1 lg:w-full lg:translate-x-0"
                 style={urutan(i + 1)}
               >
                 {/* Cahaya yang mengalir di garis saat langkah ini disorot [AG-56]. */}
                 <span className="aliran-cahaya absolute inset-y-0 left-0 w-1/3 rounded-full bg-putih opacity-0" />
               </span>
             ) : null}
-            <div className="relative">
-              {/* Alas yang tidak ikut meredup, supaya garis tidak terlihat menembus medali. */}
-              <span aria-hidden="true" className="absolute inset-0 rounded-full bg-embun-pagi" />
-              <div className="relative transition duration-cepat ease-keluar group-hover/siklus:opacity-50 group-hover/langkah:!opacity-100 group-hover/langkah:scale-110">
-                <Medali ikon={s.ikon} warna={s.warna} />
-              </div>
-            </div>
+            {/* Alas blob berwarna latar tidak ikut meredup, jadi garis tetap tertutup. */}
+            <IlustrasiKartu
+              jenis={s.jenis}
+              warna={s.warna}
+              bentuk={i + 1}
+              alas="embun"
+              className="relative h-24 w-24 flex-none lg:h-ilustrasi-kartu lg:w-ilustrasi-kartu"
+            />
             <div className="flex min-w-0 flex-1 flex-col gap-2 transition duration-cepat ease-keluar group-hover/siklus:opacity-50 group-hover/langkah:!opacity-100 lg:items-center lg:text-center">
               <p className="m-0 font-semibold text-daun-tua">{t.langkahKe(i + 1)}</p>
               <h3 className="m-0 text-tampil-1 font-semibold">{s.judul}</h3>

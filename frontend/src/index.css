@@ -336,21 +336,14 @@ html.js-gulir .muncul-gulir:not(.terlihat) .penggaris-penanda {
     opacity theme('transitionDuration.cepat') theme('transitionTimingFunction.keluar'),
     transform theme('transitionDuration.cepat') theme('transitionTimingFunction.keluar');
 }
-.km-medali-jawaban {
-  opacity: 0;
-  transition: opacity theme('transitionDuration.sedang') theme('transitionTimingFunction.keluar');
-}
-.km-medali-masalah {
-  transition: opacity theme('transitionDuration.sedang') theme('transitionTimingFunction.keluar');
-}
 .kartu-masalah.aktif ,
 .kartu-masalah:focus-visible  {
   transform: translateY(-3px);
 }
 .kartu-masalah.aktif .km-bayang,
 .kartu-masalah:focus-visible .km-bayang,
-.kartu-masalah.aktif .km-medali-jawaban,
-.kartu-masalah:focus-visible .km-medali-jawaban {
+.kartu-masalah.aktif .ilu-blob-jawaban,
+.kartu-masalah:focus-visible .ilu-blob-jawaban {
   opacity: 1;
 }
 .kartu-masalah.aktif .km-isi,
@@ -370,16 +363,12 @@ html.js-gulir .muncul-gulir:not(.terlihat) .penggaris-penanda {
   transform: none;
   transition-delay: 200ms;
 }
-.kartu-masalah.aktif .km-medali-masalah,
-.kartu-masalah:focus-visible .km-medali-masalah {
-  opacity: 0;
-}
 @media (hover: hover) {
   .kartu-masalah:hover {
     transform: translateY(-3px);
   }
   .kartu-masalah:hover .km-bayang,
-  .kartu-masalah:hover .km-medali-jawaban {
+  .kartu-masalah:hover .ilu-blob-jawaban {
     opacity: 1;
   }
   .kartu-masalah:hover .km-isi {
@@ -395,9 +384,6 @@ html.js-gulir .muncul-gulir:not(.terlihat) .penggaris-penanda {
     opacity: 1;
     transform: none;
     transition-delay: 200ms;
-  }
-  .kartu-masalah:hover .km-medali-masalah {
-    opacity: 0;
   }
 }
 
@@ -473,11 +459,6 @@ html.js-gulir .muncul-gulir:not(.terlihat) .penggaris-penanda {
   }
   to {
     transform: translateX(300%);
-  }
-}
-@media (hover: hover) {
-  .group\/langkah:hover .ikon-medali {
-    animation: tunas-pantul theme('transitionDuration.sedang') theme('transitionTimingFunction.keluar');
   }
 }
 @media (hover: hover) and (min-width: 1024px) {
@@ -836,6 +817,160 @@ html.js-gulir .muncul-gulir:not(.terlihat) .penggaris-penanda {
 /* Tab tidak terlihat: gerak berulang dijeda (hemat CPU di laptop dengan RAM terbatas). */
 .sawah-pagi.jeda * {
   animation-play-state: paused !important;
+}
+
+/* Ilustrasi berlatar blob di kartu Masalah dan langkah Siklus [AG-58]. Dipicu `pemicu-ilu` pada
+   kartunya: disorot (perangkat berkursor), difokus papan ketik, atau diketuk (.aktif / :focus di HP).
+   Blob berputar dan membesar pelan; bagian gambar bergerak sesuai maknanya. */
+.ilu-isi,
+.ilu-blob,
+.ilu-tanya,
+.ilu-koin,
+.ilu-layu,
+.ilu-video,
+.ilu-peti,
+.ilu-tetes {
+  transform-box: fill-box;
+}
+.ilu-isi {
+  transition: opacity theme('transitionDuration.cepat') theme('transitionTimingFunction.keluar');
+}
+.ilu-blob {
+  transform-origin: center;
+  transition: transform theme('transitionDuration.sedang') theme('transitionTimingFunction.keluar');
+}
+.ilu-blob-jawaban {
+  opacity: 0;
+  transition: opacity theme('transitionDuration.sedang') theme('transitionTimingFunction.keluar');
+}
+.ilu-tanya {
+  transform-origin: bottom center;
+}
+.ilu-layu {
+  transform-origin: bottom center;
+  transform: rotate(58deg);
+  transition: transform theme('transitionDuration.sedang') theme('transitionTimingFunction.keluar');
+}
+.ilu-panah-stabil {
+  opacity: 0;
+}
+.ilu-panah-goyah,
+.ilu-panah-stabil {
+  transition: opacity theme('transitionDuration.cepat') theme('transitionTimingFunction.keluar');
+}
+.ilu-video {
+  transform-origin: center;
+}
+.ilu-peti {
+  transition: transform theme('transitionDuration.sedang') theme('transitionTimingFunction.keluar');
+}
+.ilu-tetes {
+  opacity: 0;
+}
+@keyframes ilu-goyang-tanya {
+  0%,
+  100% {
+    transform: none;
+  }
+  25% {
+    transform: rotate(-12deg);
+  }
+  60% {
+    transform: rotate(9deg);
+  }
+}
+@keyframes ilu-tetes {
+  0% {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  30% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+}
+.pemicu-ilu.aktif .ilu-blob,
+.pemicu-ilu:focus-visible .ilu-blob,
+li.pemicu-ilu:focus .ilu-blob {
+  transform: rotate(-5deg) scale(1.06);
+}
+.pemicu-ilu.aktif .ilu-tanya,
+.pemicu-ilu:focus-visible .ilu-tanya,
+li.pemicu-ilu:focus .ilu-tanya {
+  animation: ilu-goyang-tanya theme('transitionDuration.sedang') theme('transitionTimingFunction.keluar');
+}
+.pemicu-ilu.aktif .ilu-koin,
+.pemicu-ilu:focus-visible .ilu-koin,
+li.pemicu-ilu:focus .ilu-koin {
+  animation: koin-jatuh theme('transitionDuration.sedang') theme('transitionTimingFunction.keluar') backwards;
+}
+.pemicu-ilu.aktif .ilu-layu,
+.pemicu-ilu:focus-visible .ilu-layu,
+li.pemicu-ilu:focus .ilu-layu {
+  transform: none;
+}
+.pemicu-ilu.aktif .ilu-panah-goyah,
+.pemicu-ilu:focus-visible .ilu-panah-goyah,
+li.pemicu-ilu:focus .ilu-panah-goyah {
+  opacity: 0;
+}
+.pemicu-ilu.aktif .ilu-panah-stabil,
+.pemicu-ilu:focus-visible .ilu-panah-stabil,
+li.pemicu-ilu:focus .ilu-panah-stabil {
+  opacity: 1;
+}
+.pemicu-ilu.aktif .ilu-video,
+.pemicu-ilu:focus-visible .ilu-video,
+li.pemicu-ilu:focus .ilu-video {
+  animation: denyut-skala theme('transitionDuration.sedang') ease-in-out infinite;
+}
+.pemicu-ilu.aktif .ilu-tetes,
+.pemicu-ilu:focus-visible .ilu-tetes,
+li.pemicu-ilu:focus .ilu-tetes {
+  animation: ilu-tetes 900ms ease-in infinite;
+}
+.pemicu-ilu.aktif .ilu-peti,
+.pemicu-ilu:focus-visible .ilu-peti,
+li.pemicu-ilu:focus .ilu-peti {
+  transform: translateY(-5px);
+}
+@media (hover: hover) {
+  .pemicu-ilu:hover .ilu-blob {
+    transform: rotate(-5deg) scale(1.06);
+  }
+  .pemicu-ilu:hover .ilu-tanya {
+    animation: ilu-goyang-tanya theme('transitionDuration.sedang') theme('transitionTimingFunction.keluar');
+  }
+  .pemicu-ilu:hover .ilu-koin {
+    animation: koin-jatuh theme('transitionDuration.sedang') theme('transitionTimingFunction.keluar') backwards;
+  }
+  .pemicu-ilu:hover .ilu-layu {
+    transform: none;
+  }
+  .pemicu-ilu:hover .ilu-panah-goyah {
+    opacity: 0;
+  }
+  .pemicu-ilu:hover .ilu-panah-stabil {
+    opacity: 1;
+  }
+  .pemicu-ilu:hover .ilu-video {
+    animation: denyut-skala theme('transitionDuration.sedang') ease-in-out infinite;
+  }
+  .pemicu-ilu:hover .ilu-tetes {
+    animation: ilu-tetes 900ms ease-in infinite;
+  }
+  .pemicu-ilu:hover .ilu-peti {
+    transform: translateY(-5px);
+  }
+}
+/* Siklus: langkah lain meredup saat satu disorot; alas blob tidak ikut meredup. */
+@media (hover: hover) {
+  .group\/siklus:hover .group\/langkah:not(:hover) .ilu-isi {
+    opacity: 0.5;
+  }
 }
 
 /* Kartu dan baris bertahap: --urutan diisi 0–7 (item ke-8 dan seterusnya 0, langsung). */
