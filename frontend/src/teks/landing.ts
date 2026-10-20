@@ -187,21 +187,78 @@ export const teksLanding = {
   // ---- tanya jawab
   judulFaq: 'Tanya jawab',
   ketFaq: 'Pertanyaan yang paling sering muncul sebelum mulai.',
-  faq: (hariKembali: number, hariKabar: number) => [
-    {
-      tanya: 'Apakah uang muka saya aman?',
-      jawab: `Uang muka ditahan Tani Muda, tidak langsung diberikan ke petani. Dana baru cair setelah sayur diterima dan dikonfirmasi pembeli. Kalau tidak ada petani yang mengambil pesanan dalam ${hariKembali} hari, uang muka kembali utuh.`,
-    },
-    {
-      tanya: 'Bagaimana kalau gagal panen?',
-      jawab: `Petani mengabari paling lambat ${hariKabar} hari sebelum jadwal kirim, tanpa denda. Bagian yang tidak terpenuhi ditawarkan ke petani lain; kalau tidak ada pengganti, sisa uang muka bagian itu dikembalikan ke pembeli.`,
-    },
-    {
-      tanya: 'Apakah harus punya lahan luas?',
-      jawab:
-        'Tidak. Mulai dari pekarangan beberapa meter persegi atau rak hidroponik di teras. Kalkulator menghitung modal dan kemampuan lahanmu, dan kamu boleh mengambil sebagian pesanan saja.',
-    },
-  ],
+  // Tanya jawab [AG-55]: dua kelompok, semua angka dari konfigurasi; fakta dari D-02, D-03 (P0-27),
+  // D-06, F-04, dan F-08. Tidak ada klaim resep sudah divalidasi penyuluh.
+  kelompokPetani: 'Untuk petani',
+  kelompokPembeli: 'Untuk pembeli',
+  faq: (k: {
+    persenUangMuka: number;
+    persenLayanan: number;
+    jamRutin: number;
+    jamSekali: number;
+    hariKabar: number;
+    hariKembali: number;
+  }) => ({
+    petani: [
+      {
+        tanya: 'Apakah harus punya lahan luas?',
+        jawab:
+          'Tidak. Mulai dari pekarangan beberapa meter persegi atau rak hidroponik di teras. Kalkulator menghitung modal dan kemampuan lahanmu, dan kamu boleh mengambil sebagian pesanan saja.',
+      },
+      {
+        tanya: 'Kapan dana dari pembeli cair?',
+        jawab: `Setelah pembeli mengonfirmasi kiriman. Kalau pembeli tidak memeriksa sampai batas waktunya, kiriman dianggap diterima dan dana cair otomatis: ${k.jamRutin} jam untuk pesanan rutin, ${k.jamSekali} jam untuk pesanan sekali panen.`,
+      },
+      {
+        tanya: 'Bagaimana kalau gagal panen?',
+        jawab: `Kabari paling lambat ${k.hariKabar} hari sebelum jadwal kirim, tanpa denda. Bagian yang tidak terpenuhi ditawarkan ke petani lain; kalau tidak ada pengganti, sisa uang muka bagian itu dikembalikan ke pembeli.`,
+      },
+      {
+        tanya: 'Bagaimana kalau pembeli membatalkan setelah saya menanam?',
+        jawab:
+          'Uang muka menjadi kompensasi untukmu. Kalau pembeli membatalkan sebelum kamu mulai menanam, uang muka kembali ke pembeli.',
+      },
+      {
+        tanya: 'Apakah hasil deteksi penyakit pasti benar?',
+        jawab:
+          'Tidak. Hasilnya berupa dugaan dengan tingkat keyakinan, disertai langkah aman tanpa dosis atau merek pestisida. Untuk kepastian, tanyakan ke penyuluh.',
+      },
+      {
+        tanya: 'Apakah pembeli bisa melihat lokasi lahan saya?',
+        jawab:
+          'Pembeli hanya melihat nama desa dan jarak. Di peta petani sekitar, kamu sendiri yang memilih tampil atau tidak, dan lokasinya dibulatkan sekitar 1 km.',
+      },
+    ],
+    pembeli: [
+      {
+        tanya: 'Apakah uang muka saya aman?',
+        jawab: `Uang muka ditahan Tani Muda, tidak langsung diberikan ke petani. Dana baru cair setelah sayur diterima dan dikonfirmasi pembeli. Kalau tidak ada petani yang mengambil pesanan dalam ${k.hariKembali} hari, uang muka kembali utuh.`,
+      },
+      {
+        tanya: 'Berapa yang saya bayar di awal?',
+        jawab: `Uang muka ${k.persenUangMuka}% dari nilai pesanan ditambah biaya layanan ${k.persenLayanan}%. Biaya layanan dibayar pembeli dan tidak memotong bagian petani.`,
+      },
+      {
+        tanya: 'Berapa lama waktu memeriksa kiriman?',
+        jawab: `${k.jamRutin} jam untuk pesanan rutin dan ${k.jamSekali} jam untuk pesanan sekali panen, sejak sayur tiba. Lewat dari itu, kiriman dianggap diterima semua dan dana cair ke petani.`,
+      },
+      {
+        tanya: 'Bagaimana kalau sayur yang datang tidak sesuai?',
+        jawab:
+          'Bagian yang tidak sesuai standar boleh ditolak dengan foto. Bagian itu masuk proses sengketa yang diputuskan admin Tani Muda.',
+      },
+      {
+        tanya: 'Bisakah saya membatalkan pesanan?',
+        jawab:
+          'Bisa. Kalau petani belum mulai menanam, uang muka kembali ke Anda. Kalau petani sudah menanam, uang muka menjadi kompensasi untuk petani.',
+      },
+      {
+        tanya: 'Bagaimana cara masuk?',
+        jawab:
+          'Cukup dengan nomor HP. Kode 6 angka dikirim lewat SMS, tanpa kata sandi. Di mode demo, kodenya tampil di layar.',
+      },
+    ],
+  }),
 
   // ---- ajakan penutup [AG-54]
   judulAjakan: 'Siap menanam dengan rencana?',

@@ -135,6 +135,26 @@ describe('navbar dan bagian halaman depan [AG-54]', () => {
     expect(screen.getByText(/Lokasi dibulatkan sekitar 1 km/)).toBeInTheDocument();
   });
 
+  it('tanya jawab: 12 pertanyaan dalam dua kelompok, angka dari konfigurasi [AG-55]', async () => {
+    await buka('/');
+    const bagian = await screen.findByRole('region', { name: 'Tanya jawab' });
+    await within(bagian).findByText('Untuk petani');
+    expect(within(bagian).getByText('Untuk pembeli')).toBeInTheDocument();
+    expect(within(bagian).getAllByRole('button')).toHaveLength(12);
+    for (const pola of [
+      /biaya layanan 5%/,
+      /Uang muka 20% dari nilai pesanan/,
+      /6 jam untuk pesanan rutin, 24 jam untuk pesanan sekali panen/,
+      /paling lambat 3 hari sebelum jadwal kirim, tanpa denda/,
+      /dibulatkan sekitar 1 km/,
+      /berupa dugaan/,
+      /uang muka menjadi kompensasi/i,
+      /Kode 6 angka dikirim lewat SMS/,
+    ])
+      expect(within(bagian).getAllByText(pola, { exact: false }).length).toBeGreaterThan(0);
+    expect(within(bagian).queryByText(/divalidasi penyuluh/)).not.toBeInTheDocument();
+  });
+
   it('di halaman statis tautan bagian menuju /#id', async () => {
     await buka('/tentang');
     const nav = (await screen.findAllByRole('navigation', { name: 'Bagian halaman depan' }))[0]!;

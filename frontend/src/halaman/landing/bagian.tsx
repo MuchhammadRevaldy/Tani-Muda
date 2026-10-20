@@ -512,19 +512,35 @@ export function BagianPembeli({ d }: { d: DataLanding }) {
 // ---------------------------------------------------------------- Tanya jawab
 
 export function TanyaJawab({ d }: { d: DataLanding }) {
+  const k = d.konfigurasi;
+  const faq = k
+    ? t.faq({
+        persenUangMuka: k.persen_uang_muka,
+        persenLayanan: k.persen_layanan,
+        jamRutin: k.jam_periksa_rutin,
+        jamSekali: k.jam_periksa_sekali_panen,
+        hariKabar: k.hari_kabar_gagal_panen,
+        hariKembali: k.hari_kembali_uang_muka,
+      })
+    : null;
   return (
     <div className="grid gap-6 lg:grid-cols-3 lg:gap-12">
       <KepalaBagian id={judulIdBagian('tanyaJawab')} judul={t.judulFaq} ket={t.ketFaq} />
-      <div className="lg:col-span-2">
-        {d.konfigurasi ? (
-          <FaqLipat
-            butir={t.faq(
-              d.konfigurasi.hari_kembali_uang_muka,
-              d.konfigurasi.hari_kabar_gagal_panen,
-            )}
-          />
-        ) : null}
-      </div>
+      {faq ? (
+        <div className="flex flex-col gap-8 lg:col-span-2">
+          {(
+            [
+              [t.kelompokPetani, faq.petani],
+              [t.kelompokPembeli, faq.pembeli],
+            ] as const
+          ).map(([judul, butir], i) => (
+            <div key={judul} className="giliran flex flex-col gap-3" style={urutan(i)}>
+              <p className="m-0 text-judul-bagian font-semibold text-daun-tua">{judul}</p>
+              <FaqLipat butir={butir} />
+            </div>
+          ))}
+        </div>
+      ) : null}
     </div>
   );
 }
