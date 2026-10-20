@@ -59,22 +59,28 @@ export const teksLanding = {
   ketAngkaMasalah: 'petani di Indonesia berusia 19–39 tahun',
   sumberAngkaMasalah: 'Sumber: Sensus Pertanian 2023, BPS',
   ketMasalah: 'Anak muda enggan bertani karena empat ketidakpastian sekaligus.',
+  lihatJawaban: 'Lihat jawaban Tani Muda',
+  jawabanTaniMuda: 'Jawaban Tani Muda',
   masalah: [
     {
       judul: 'Pengetahuan terbatas',
       isi: 'Penyuluhan jarang menjangkau anak muda yang terbiasa belajar lewat HP, jadi pemula menanam dengan coba-coba.',
+      jawaban: 'Modul video singkat per tahap, bisa ditonton tanpa sinyal.',
     },
     {
       judul: 'Modal tidak terukur',
       isi: 'Pemula tidak tahu berapa benih dan pupuk yang dibutuhkan lahannya, dan berapa total biayanya.',
+      jawaban: 'Kalkulator modal dan titik impas sebelum menanam.',
     },
     {
       judul: 'Jadwal perawatan terlupa',
       isi: 'Pupuk susulan dan cek hama punya hari yang pasti. Terlambat sedikit bisa menurunkan hasil.',
+      jawaban: 'Jadwal dan pengingat tugas dibuat otomatis dari resep.',
     },
     {
       judul: 'Pasar tidak pasti',
       isi: 'Penjualan bergantung pada tengkulak, sehingga bagian harga yang diterima petani kecil.',
+      jawaban: 'Pembeli memesan dan membayar uang muka sebelum kamu menanam.',
     },
   ],
 

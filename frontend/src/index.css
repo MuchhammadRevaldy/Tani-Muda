@@ -309,6 +309,29 @@ html.js-gulir .muncul-gulir:not(.terlihat) .penggaris-penanda {
   }
 }
 
+/* Kartu masalah yang berbalik [AG-56]: disorot (perangkat berkursor), difokus papan ketik, atau
+   diketuk (.terbalik). Medali miring 3D mengikuti kursor lewat --miring-x/--miring-y. */
+.kartu-balik-isi {
+  transform-style: preserve-3d;
+  transition: transform theme('transitionDuration.sedang') theme('transitionTimingFunction.keluar');
+}
+.kartu-balik-isi .muka-belakang {
+  transform: rotateY(180deg);
+}
+.kartu-balik-isi.terbalik,
+.kartu-balik:focus-visible .kartu-balik-isi {
+  transform: rotateY(180deg);
+}
+.kartu-balik .medali-miring {
+  transform: perspective(400px) rotateX(var(--miring-y, 0deg)) rotateY(var(--miring-x, 0deg));
+  transition: transform theme('transitionDuration.cepat') theme('transitionTimingFunction.keluar');
+}
+@media (hover: hover) {
+  .kartu-balik:hover .kartu-balik-isi {
+    transform: rotateY(180deg);
+  }
+}
+
 /* Kartu dan baris bertahap: --urutan diisi 0–7 (item ke-8 dan seterusnya 0, langsung). */
 .muncul-bertahap {
   animation: theme('animation.muncul-bertahap');

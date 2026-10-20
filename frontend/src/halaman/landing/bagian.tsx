@@ -5,7 +5,13 @@
  * bukit sebagai pemisah. Angka dari konfigurasi dan fungsi src/lib (D-08). Gambar hanya aset yang
  * sudah ada di public/ (ilustrasi, lencana, foto komoditas).
  */
-import { useRef, type CSSProperties, type ReactNode } from 'react';
+import {
+  useRef,
+  useState,
+  type CSSProperties,
+  type MouseEvent as ReactMouseEvent,
+  type ReactNode,
+} from 'react';
 import { Link } from 'react-router-dom';
 import { ChipStatus } from '../../komponen/chip-status';
 import { cx } from '../../komponen/gabung-kelas';
@@ -131,12 +137,72 @@ function KepalaBagian({
 
 // ---------------------------------------------------------------- Masalah
 
-const GAMBAR_MASALAH = [
-  '/lencana/level-tunas.svg',
-  '/lencana/level-benih.svg',
-  '/lencana/tepat-waktu-7-hari.svg',
-  '/lencana/panen-pertama.svg',
+/** Ikon medali muka (masalah) dan belakang (jawaban Tani Muda) [AG-56]. */
+const IKON_MASALAH: { muka: NamaIkon; belakang: NamaIkon }[] = [
+  { muka: 'cari', belakang: 'belajar' },
+  { muka: 'uang', belakang: 'luas' },
+  { muka: 'jam', belakang: 'lonceng' },
+  { muka: 'pesanan', belakang: 'kunci' },
 ];
+
+/**
+ * Kartu masalah yang bisa dibalik [AG-56]: muka = masalah, belakang = jawaban Tani Muda dalam satu
+ * kalimat. Berbalik saat disorot (perangkat berkursor) atau difokus papan ketik, dan dengan ketukan
+ * di HP (tombol, aria-pressed). Kedua muka menempati sel grid yang sama, jadi tinggi kartu tetap.
+ * Medali miring 3D mengikuti posisi kursor lewat variabel CSS (tanpa render ulang).
+ */
+function KartuMasalah({ i, judul, isi, jawaban }: { i: number; judul: string; isi: string; jawaban: string }) {
+  const [dibalik, setDibalik] = useState(false);
+  const ikon = IKON_MASALAH[i] ?? { muka: 'info', belakang: 'centang' };
+  const miring = (e: ReactMouseEvent<HTMLButtonElement>) => {
+    const r = e.currentTarget.getBoundingClientRect();
+    e.currentTarget.style.setProperty('--miring-x', `${((e.clientX - r.left) / r.width - 0.5) * 24}deg`);
+    e.currentTarget.style.setProperty('--miring-y', `${-((e.clientY - r.top) / r.height - 0.5) * 24}deg`);
+  };
+  const lurus = (e: ReactMouseEvent<HTMLButtonElement>) => {
+    e.currentTarget.style.setProperty('--miring-x', '0deg');
+    e.currentTarget.style.setProperty('--miring-y', '0deg');
+  };
+  const muka = 'col-start-1 row-start-1 flex gap-4 rounded-lg p-4 [backface-visibility:hidden] lg:p-5';
+  return (
+    <button
+      type="button"
+      aria-pressed={dibalik}
+      onClick={() => setDibalik((x) => !x)}
+      onMouseMove={miring}
+      onMouseLeave={lurus}
+      className="kartu-balik fokus-cincin block h-full w-full cursor-pointer rounded-lg border-0 bg-transparent p-0 text-left text-isi text-teks [perspective:1200px]"
+    >
+      <span className={cx('kartu-balik-isi grid h-full', dibalik && 'terbalik')}>
+        <span className={cx(muka, 'border border-garis bg-embun-pagi lg:flex-col')}>
+          <span className="medali-miring block flex-none">
+            <Medali ikon={ikon.muka} warna="oranye" />
+          </span>
+          <span className="flex flex-col gap-1">
+            <span className="text-judul-bagian font-semibold">{judul}</span>
+            <span className="text-teks-pendukung">{isi}</span>
+            <span className="flex items-center gap-1 pt-1 text-keterangan font-medium text-daun-tua">
+              <span>{t.lihatJawaban}</span>
+              <Ikon nama="panah-kanan" ukuran={18} />
+            </span>
+          </span>
+        </span>
+        <span
+          aria-hidden={!dibalik}
+          className={cx(muka, 'muka-belakang border border-limau bg-daun-lembut lg:flex-col')}
+        >
+          <span className="medali-miring block flex-none">
+            <Medali ikon={ikon.belakang} warna="daun" />
+          </span>
+          <span className="flex flex-col gap-1">
+            <span className="text-keterangan font-semibold text-daun-tua">{t.jawabanTaniMuda}</span>
+            <span className="text-judul-bagian font-semibold">{jawaban}</span>
+          </span>
+        </span>
+      </span>
+    </button>
+  );
+}
 
 export function BagianMasalah() {
   return (
@@ -159,22 +225,8 @@ export function BagianMasalah() {
       </div>
       <ul className="m-0 grid list-none gap-4 p-0 md:grid-cols-2 lg:col-span-7">
         {t.masalah.map((m, i) => (
-          <li
-            key={m.judul}
-            className="giliran flex gap-4 rounded-lg border border-garis bg-embun-pagi p-4 lg:flex-col lg:p-5"
-            style={urutan(i)}
-          >
-            <img
-              src={GAMBAR_MASALAH[i]}
-              alt=""
-              width={64}
-              height={64}
-              className="block h-16 w-16 flex-none"
-            />
-            <div className="flex flex-col gap-1">
-              <h3 className="m-0 text-judul-bagian font-semibold">{m.judul}</h3>
-              <p className="m-0 text-teks-pendukung">{m.isi}</p>
-            </div>
+          <li key={m.judul} className="giliran" style={urutan(i)}>
+            <KartuMasalah i={i} judul={m.judul} isi={m.isi} jawaban={m.jawaban} />
           </li>
         ))}
       </ul>
