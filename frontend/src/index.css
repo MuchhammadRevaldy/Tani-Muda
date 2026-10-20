@@ -154,10 +154,7 @@ html.js-gulir .muncul-gulir:not(.terlihat) .garis-tumbuh {
   .garis-tumbuh {
     transform-origin: left center;
   }
-  html.js-gulir .muncul-gulir:not(.terlihat) .garis-tumbuh,
-  html.js-gulir .muncul-gulir:not(.terlihat) .penggaris-isi,
-  html.js-gulir .muncul-gulir:not(.terlihat) .penggaris-pin,
-  html.js-gulir .muncul-gulir:not(.terlihat) .penggaris-penanda {
+  html.js-gulir .muncul-gulir:not(.terlihat) .garis-tumbuh {
     transform: scaleX(0);
   }
 }
@@ -385,7 +382,10 @@ html.tanpa-animasi.js-gulir .muncul-gulir:not(.terlihat) .penggaris-penanda {
   }
   html.js-gulir .muncul-gulir:not(.terlihat),
   html.js-gulir .muncul-gulir:not(.terlihat) .giliran,
-  html.js-gulir .muncul-gulir:not(.terlihat) .garis-tumbuh {
+  html.js-gulir .muncul-gulir:not(.terlihat) .garis-tumbuh,
+  html.js-gulir .muncul-gulir:not(.terlihat) .penggaris-isi,
+  html.js-gulir .muncul-gulir:not(.terlihat) .penggaris-pin,
+  html.js-gulir .muncul-gulir:not(.terlihat) .penggaris-penanda {
     opacity: 1;
     transform: none;
   }
