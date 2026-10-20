@@ -7,6 +7,7 @@ import {
   type UkurTeks,
   type VarianPenggaris,
 } from '../lib/tata-letak-penggaris';
+import { formatTanggalPendek } from '../lib/format';
 import { teksKomponen } from '../teks/komponen';
 import { cx } from './gabung-kelas';
 import { Ikon, type NamaIkon } from './ikon';
@@ -163,6 +164,28 @@ export function PenggarisUmurTanam({
   const tundaPin = (x: number) =>
     `${Math.round((Math.max(0, x - tata.jalur.kiri) / Math.max(1, tata.jalur.lebarIsi)) * LAMA_TUMBUH_MS)}ms`;
   const terlewati = (x: number) => x <= tata.jalur.kiri + tata.jalur.lebarIsi + 1;
+  // [AG-56] Penggaris beranimasi di halaman depan juga interaktif: penanda hari mengikuti kursor
+  // di sepanjang garis, dan pin yang disorot menukar baris "Hari ke-n" dengan tanggalnya.
+  const [kursor, setKursor] = useState<number | null>(null);
+  const [pinSorot, setPinSorot] = useState<number | null>(null);
+  const hariKursor =
+    kursor === null
+      ? null
+      : Math.round(
+          (Math.min(Math.max(kursor - tata.jalur.kiri, 0), tata.jalur.lebar) /
+            Math.max(1, tata.jalur.lebar)) *
+            hariPanen,
+        );
+  const geserPenanda =
+    hariKursor === null
+      ? 0
+      : tata.jalur.kiri + (hariKursor / Math.max(1, hariPanen)) * tata.jalur.lebar - tata.penanda.x;
+  const tanggalHari = (hari: number) => {
+    const d = new Date();
+    d.setDate(d.getDate() + hari - hariIni);
+    const dua = (n: number) => String(n).padStart(2, '0');
+    return formatTanggalPendek(`${d.getFullYear()}-${dua(d.getMonth() + 1)}-${dua(d.getDate())}`);
+  };
 
   return (
     <div
@@ -175,6 +198,12 @@ export function PenggarisUmurTanam({
         style={{ height: tata.tinggi }}
         role="img"
         aria-label={tata.ringkasan}
+        onMouseMove={
+          animasi
+            ? (e) => setKursor(e.clientX - e.currentTarget.getBoundingClientRect().left)
+            : undefined
+        }
+        onMouseLeave={animasi ? () => setKursor(null) : undefined}
       >
         {lebar > 0 ? (
           <>
@@ -229,7 +258,12 @@ export function PenggarisUmurTanam({
                     height: tata.jalur.atas - (p.yPin + pinU),
                   }}
                 />
-                <span className="absolute" style={{ left: p.x - pinU / 2, top: p.yPin }}>
+                <span
+                  className="absolute"
+                  style={{ left: p.x - pinU / 2, top: p.yPin }}
+                  onMouseEnter={animasi ? () => setPinSorot(i) : undefined}
+                  onMouseLeave={animasi ? () => setPinSorot(null) : undefined}
+                >
                   <Pin status={p.status} ukuran={pinU} />
                 </span>
                 {lebarL ? (
@@ -245,9 +279,31 @@ export function PenggarisUmurTanam({
                     style={{ left: p.kiri, width: p.lebar, top: p.yPin - 72 + 2 }}
                   >
                     <span className="text-isi font-semibold text-teks">{p.jadwal.label}</span>
-                    <span className="text-keterangan tabular-nums text-teks-pendukung">
-                      {t.hariKe(p.jadwal.hari)}
-                    </span>
+                    {animasi ? (
+                      <span className="relative text-keterangan tabular-nums">
+                        <span
+                          className={cx(
+                            'block text-teks-pendukung transition-opacity duration-cepat ease-keluar',
+                            pinSorot === i && 'opacity-0',
+                          )}
+                        >
+                          {t.hariKe(p.jadwal.hari)}
+                        </span>
+                        <span
+                          aria-hidden="true"
+                          className={cx(
+                            'absolute inset-x-0 top-0 whitespace-nowrap font-semibold text-daun-tua transition-opacity duration-cepat ease-keluar',
+                            pinSorot === i ? 'opacity-100' : 'opacity-0',
+                          )}
+                        >
+                          {tanggalHari(p.jadwal.hari)}
+                        </span>
+                      </span>
+                    ) : (
+                      <span className="text-keterangan tabular-nums text-teks-pendukung">
+                        {t.hariKe(p.jadwal.hari)}
+                      </span>
+                    )}
                     {p.frasa ? (
                       <span className={cx('text-keterangan tabular-nums', KELAS_KALIMAT[p.status])}>
                         {p.frasa}
@@ -257,18 +313,24 @@ export function PenggarisUmurTanam({
                 ) : null}
               </span>
             ))}
+            {/* Penanda hari ini; di halaman depan ikut kursor di sepanjang garis [AG-56]. */}
             <span
-              className={cx('absolute w-1 rounded-xs bg-teks', animasi && 'penggaris-penanda')}
-              style={{ left: tata.penanda.x, top: tata.penanda.atas, height: tata.penanda.tinggi }}
-            />
-            <span
-              className={cx(
-                'absolute h-8 whitespace-nowrap rounded-full bg-teks px-3 text-isi font-semibold leading-8 tabular-nums text-putih',
-                animasi && 'penggaris-penanda',
-              )}
-              style={{ left: tata.labelHariIni.kiri, top: tata.labelHariIni.atas }}
+              className="pointer-events-none absolute inset-0 transition-transform duration-cepat ease-keluar"
+              style={geserPenanda ? { transform: `translateX(${geserPenanda}px)` } : undefined}
             >
-              {tata.labelHariIni.teks}
+              <span
+                className={cx('absolute w-1 rounded-xs bg-teks', animasi && 'penggaris-penanda')}
+                style={{ left: tata.penanda.x, top: tata.penanda.atas, height: tata.penanda.tinggi }}
+              />
+              <span
+                className={cx(
+                  'absolute h-8 whitespace-nowrap rounded-full bg-teks px-3 text-isi font-semibold leading-8 tabular-nums text-putih',
+                  animasi && 'penggaris-penanda',
+                )}
+                style={{ left: tata.labelHariIni.kiri, top: tata.labelHariIni.atas }}
+              >
+                {hariKursor !== null && hariKursor !== hariIni ? t.hariKe(hariKursor) : tata.labelHariIni.teks}
+              </span>
             </span>
           </>
         ) : null}
