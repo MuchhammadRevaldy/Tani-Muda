@@ -3,7 +3,7 @@
  * lewat klien API; di mode tiruan kode dibuat `PenyediaOtp` tiruan (D-10). Pengguna baru wajib
  * mencentang persetujuan kebijakan privasi berteks draf (D-30).
  */
-import { lazy, Suspense, useEffect, useState, type FormEvent } from 'react';
+import { lazy, Suspense, useEffect, useState, type CSSProperties, type FormEvent } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { adalahGalatApi } from '../api/galat';
 import { useKirimOtp, useVerifikasiOtp } from '../api/kueri';
@@ -12,6 +12,7 @@ import { Dialog } from '../komponen/dialog';
 import { cx } from '../komponen/gabung-kelas';
 import { Ikon } from '../komponen/ikon';
 import { IlustrasiMasukHp } from '../komponen/ilustrasi-hero';
+import { IlustrasiSawahPagi } from '../komponen/ilustrasi-sawah-pagi';
 import { KolomIsian } from '../komponen/kolom-isian';
 import { LabelKecil } from '../komponen/label-kecil';
 import { Logo } from '../komponen/navigasi';
@@ -34,6 +35,9 @@ interface Terkirim {
   /** Ganti nilai untuk mengosongkan kotak kode (kirim ulang). */
   putaran: number;
 }
+
+/** Urutan muncul bergiliran elemen halaman Masuk (kelas `masuk-bertahap`, jeda 120 ms) [AG-57]. */
+const urutan = (i: number) => ({ '--urutan': i }) as CSSProperties;
 
 export function HalamanMasuk() {
   const kirim = useKirimOtp();
@@ -114,13 +118,21 @@ export function HalamanMasuk() {
   const formulir = (
     <form onSubmit={kirimForm} noValidate className="flex flex-1 flex-col gap-5">
       <div className="flex flex-col gap-1 lg:gap-1.5">
-        <h1 className="m-0 text-judul-halaman font-semibold lg:text-judul-masuk lg:tracking-rapat">
+        <h1
+          className="masuk-bertahap m-0 text-judul-halaman font-semibold lg:text-judul-masuk lg:tracking-rapat"
+          style={urutan(1)}
+        >
           {t.judul}
         </h1>
-        <p className="m-0 text-keterangan text-teks-pendukung lg:text-isi">{t.sub}</p>
+        <p
+          className="masuk-bertahap m-0 text-keterangan text-teks-pendukung lg:text-isi"
+          style={urutan(2)}
+        >
+          {t.sub}
+        </p>
       </div>
 
-      <div className="flex flex-col gap-2">
+      <div className="masuk-bertahap flex flex-col gap-2" style={urutan(3)}>
         <KolomIsian
           label={t.labelNomor}
           type="tel"
@@ -209,14 +221,22 @@ export function HalamanMasuk() {
       ) : null}
 
       {PanelPengembangan ? (
-        <Suspense fallback={null}>
-          <PanelPengembangan nomorHp={terkirim?.nomor ?? null} />
-        </Suspense>
+        <div className="masuk-bertahap" style={urutan(4)}>
+          <Suspense fallback={null}>
+            <PanelPengembangan nomorHp={terkirim?.nomor ?? null} />
+          </Suspense>
+        </div>
       ) : null}
 
       <div className="flex-1 lg:hidden" />
       <div className="flex flex-col gap-3">
-        <Tombol type="submit" penuh disabled={kirim.isPending || verifikasi.isPending}>
+        <Tombol
+          type="submit"
+          penuh
+          disabled={kirim.isPending || verifikasi.isPending}
+          className="masuk-bertahap"
+          style={urutan(5)}
+        >
           {terkirim
             ? verifikasi.isPending
               ? t.memeriksa
@@ -225,7 +245,10 @@ export function HalamanMasuk() {
               ? t.mengirim
               : t.kirimKode}
         </Tombol>
-        <p className="m-0 text-center text-keterangan text-teks-pendukung lg:text-left">
+        <p
+          className="masuk-bertahap m-0 text-center text-keterangan text-teks-pendukung lg:text-left"
+          style={urutan(6)}
+        >
           {t.aturan.awal}
           <Link to="/aturan-pakai" className="underline underline-offset-3">
             {t.aturan.tautan}
@@ -240,7 +263,7 @@ export function HalamanMasuk() {
     <div className="flex min-h-layar flex-col bg-embun-pagi text-teks lg:flex-row lg:bg-putih">
       <div className="flex min-w-0 flex-1 flex-col px-4 pb-6 pt-2 lg:px-14 lg:pb-10 lg:pt-8">
         {/* HP: tombol kembali + logo di tengah; desktop: logo di kiri atas. */}
-        <div className="flex items-center justify-between gap-3 lg:hidden">
+        <div className="masuk-bertahap flex items-center justify-between gap-3 lg:hidden">
           <Link
             to="/"
             aria-label={t.kembaliKeAwal}
@@ -253,11 +276,13 @@ export function HalamanMasuk() {
         </div>
         <Link
           to="/"
-          className="fokus-cincin hidden min-h-sentuh items-center self-start rounded-md no-underline lg:inline-flex"
+          className="masuk-bertahap fokus-cincin hidden min-h-sentuh items-center self-start rounded-md no-underline lg:inline-flex"
         >
           <Logo besar />
         </Link>
-        <IlustrasiMasukHp className="mt-3 lg:hidden" />
+        <div className="masuk-bertahap lg:hidden" style={urutan(1)}>
+          <IlustrasiMasukHp className="mt-3" />
+        </div>
 
         <div className="mt-4 flex flex-1 flex-col lg:mt-0 lg:justify-center lg:py-8">
           <div className={cx('mx-auto flex w-full flex-1 flex-col lg:max-w-dialog lg:flex-none')}>
@@ -271,11 +296,7 @@ export function HalamanMasuk() {
 
       {/* Panel kanan desktop (AG-17): ilustrasi mengisi panel di 1280 dan 1440. */}
       <div className="relative hidden min-w-0 flex-1 overflow-hidden bg-daun-lembut lg:block">
-        <img
-          src="/ilustrasi/ilustrasi-masuk.svg"
-          alt={t.altIlustrasi}
-          className="absolute inset-0 h-full w-full object-cover"
-        />
+        <IlustrasiSawahPagi label={t.altIlustrasi} className="absolute inset-0" />
       </div>
 
       <Dialog

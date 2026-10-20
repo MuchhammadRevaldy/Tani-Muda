@@ -197,8 +197,16 @@ export function FaqLipat({ butir }: { butir: { tanya: string; jawab: ReactNode }
         const buka = terbuka.has(i);
         const idIsi = `${idDasar}-${i}`;
         return (
-          <div key={i} className={cx('px-4', i > 0 && 'border-t border-garis')}>
-            <h3 className="m-0 text-isi">
+          // Baris yang disorot atau difokus berlatar lembut, ikon tambah berputar; terbuka = silang [AG-56].
+          <div
+            key={i}
+            className={cx('group/tanya relative px-4', i > 0 && 'border-t border-garis')}
+          >
+            <span
+              aria-hidden="true"
+              className="absolute inset-0 bg-daun-lembut opacity-0 transition-opacity duration-cepat ease-keluar group-focus-within/tanya:opacity-60 group-hover/tanya:opacity-60"
+            />
+            <h3 className="relative m-0 text-isi">
               <button
                 type="button"
                 aria-expanded={buka}
@@ -208,15 +216,17 @@ export function FaqLipat({ butir }: { butir: { tanya: string; jawab: ReactNode }
               >
                 <span>{b.tanya}</span>
                 <Ikon
-                  nama="panah-kanan"
+                  nama="tambah"
                   className={cx(
-                    'rotate-90 text-teks-pendukung transition-transform duration-lambat ease-keluar',
-                    buka && '-rotate-90',
+                    'transition-transform duration-sedang ease-keluar',
+                    buka
+                      ? 'rotate-45 text-daun-tua'
+                      : 'text-teks-pendukung group-hover/tanya:rotate-90 group-focus-within/tanya:rotate-90',
                   )}
                 />
               </button>
             </h3>
-            <div id={idIsi} className="lipatan" data-terbuka={buka} inert={!buka}>
+            <div id={idIsi} className="lipatan relative" data-terbuka={buka} inert={!buka}>
               <div>
                 <p className="mb-4 mt-0 text-teks-pendukung">{b.jawab}</p>
               </div>

@@ -129,6 +129,850 @@ html.js-gulir .muncul-gulir:not(.terlihat) {
   transform: translateY(16px);
 }
 
+/* Halaman depan [AG-54]: anak sebuah .muncul-gulir yang ikut muncul bergiliran saat bagiannya
+   terlihat (--urutan 0, 1, …, jeda token bertahap), dan garis siklus yang tergambar (scale dari
+   ujung awal: mendatar di desktop, tegak di HP). Hanya transform dan opacity. */
+.giliran {
+  transition:
+    opacity theme('transitionDuration.bertahap') theme('transitionTimingFunction.keluar'),
+    transform theme('transitionDuration.bertahap') theme('transitionTimingFunction.keluar');
+  transition-delay: calc(var(--urutan, 0) * theme('transitionDelay.bertahap'));
+}
+html.js-gulir .muncul-gulir:not(.terlihat) .giliran {
+  opacity: 0;
+  transform: translateY(16px);
+}
+.garis-tumbuh {
+  transform-origin: top center;
+  transition: transform theme('transitionDuration.lambat') theme('transitionTimingFunction.keluar');
+  transition-delay: calc(var(--urutan, 0) * theme('transitionDelay.bertahap'));
+}
+html.js-gulir .muncul-gulir:not(.terlihat) .garis-tumbuh {
+  transform: scaleY(0);
+}
+@media (min-width: 1024px) {
+  .garis-tumbuh {
+    transform-origin: left center;
+  }
+  html.js-gulir .muncul-gulir:not(.terlihat) .garis-tumbuh {
+    transform: scaleX(0);
+  }
+}
+
+/* Garis cara kerja yang berjalan berulang [AG-55]: --kemajuan 0..1 dan lama transisi diatur
+   src/halaman/landing/putaran.ts (linear supaya setiap langkah dicapai pada jarak waktu yang sama). */
+.isi-putaran {
+  transform-origin: top center;
+  transform: scaleY(var(--kemajuan, 1));
+  transition-property: transform;
+  transition-timing-function: linear;
+}
+@media (min-width: 1024px) {
+  .isi-putaran {
+    transform-origin: left center;
+    transform: scaleX(var(--kemajuan, 1));
+  }
+}
+
+/* Penggaris umur tanam beranimasi di halaman depan [AG-55]: garis hijau tumbuh dari kiri (linear,
+   --lama-tumbuh), pin yang dilewati muncul saat garis sampai (--tunda), penanda hari ini terakhir. */
+.penggaris-beranimasi .penggaris-isi {
+  transform-origin: left center;
+  transition: transform var(--lama-tumbuh, 1800ms) linear;
+}
+.penggaris-beranimasi .penggaris-pin {
+  transition: opacity theme('transitionDuration.cepat') theme('transitionTimingFunction.keluar');
+  transition-delay: var(--tunda, 0ms);
+}
+.penggaris-beranimasi .penggaris-penanda {
+  transition:
+    opacity theme('transitionDuration.cepat') theme('transitionTimingFunction.keluar'),
+    transform theme('transitionDuration.cepat') theme('transitionTimingFunction.keluar');
+  transition-delay: var(--lama-tumbuh, 1800ms);
+}
+html.js-gulir .muncul-gulir:not(.terlihat) .penggaris-isi {
+  transform: scaleX(0);
+}
+html.js-gulir .muncul-gulir:not(.terlihat) .penggaris-pin,
+html.js-gulir .muncul-gulir:not(.terlihat) .penggaris-penanda {
+  opacity: 0;
+}
+html.js-gulir .muncul-gulir:not(.terlihat) .penggaris-penanda {
+  transform: translateY(8px);
+}
+
+/* Reset instan saat bagian keluar layar [AG-55] (src/halaman/landing/muncul-gulir.ts). */
+.muncul-gulir.reset-gerak,
+.muncul-gulir.reset-gerak * {
+  transition: none !important;
+}
+
+/* Navbar halaman publik [AG-56]: garis penanda yang meluncur, garis progres gulir, tunas mini di
+   atas tautan aktif, dan logo yang bergoyang saat disorot (hanya perangkat berkursor) atau difokus. */
+.penanda-geser {
+  transition:
+    transform theme('transitionDuration.sedang') theme('transitionTimingFunction.keluar'),
+    opacity theme('transitionDuration.cepat') theme('transitionTimingFunction.keluar');
+}
+.garis-progres {
+  transform: scaleX(var(--kemajuan-gulir, 0));
+}
+.tunas-mini {
+  translate: -50% 0;
+  transform-origin: 50% 90%;
+  animation:
+    tunas-tumbuh theme('transitionDuration.sedang') theme('transitionTimingFunction.keluar') both,
+    tunas-goyang 3s ease-in-out theme('transitionDuration.sedang') infinite;
+}
+@keyframes tunas-tumbuh {
+  from {
+    opacity: 0;
+    transform: scale(0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes tunas-goyang {
+  0%,
+  100% {
+    transform: none;
+  }
+  25% {
+    transform: rotate(-8deg);
+  }
+  75% {
+    transform: rotate(8deg);
+  }
+}
+.logo-daun-kiri {
+  transform-origin: 49% 47.5%;
+}
+.logo-daun-kanan {
+  transform-origin: 51% 47.5%;
+}
+@keyframes daun-kiri {
+  0%,
+  100% {
+    transform: none;
+  }
+  35% {
+    transform: rotate(-12deg);
+  }
+  70% {
+    transform: rotate(5deg);
+  }
+}
+@keyframes daun-kanan {
+  0%,
+  100% {
+    transform: none;
+  }
+  35% {
+    transform: rotate(12deg);
+  }
+  70% {
+    transform: rotate(-5deg);
+  }
+}
+@keyframes tunas-pantul {
+  0%,
+  100% {
+    transform: none;
+  }
+  40% {
+    transform: translateY(-3px);
+  }
+  70% {
+    transform: translateY(1px);
+  }
+}
+.logo-navbar:focus-visible .logo-daun-kiri {
+  animation: daun-kiri theme('transitionDuration.sedang') theme('transitionTimingFunction.keluar');
+}
+.logo-navbar:focus-visible .logo-daun-kanan {
+  animation: daun-kanan theme('transitionDuration.sedang') theme('transitionTimingFunction.keluar');
+}
+.logo-navbar:focus-visible .logo-tunas {
+  animation: tunas-pantul theme('transitionDuration.cepat') theme('transitionTimingFunction.keluar');
+}
+@media (hover: hover) {
+  .logo-navbar:hover .logo-daun-kiri {
+    animation: daun-kiri theme('transitionDuration.sedang') theme('transitionTimingFunction.keluar');
+  }
+  .logo-navbar:hover .logo-daun-kanan {
+    animation: daun-kanan theme('transitionDuration.sedang') theme('transitionTimingFunction.keluar');
+  }
+  .logo-navbar:hover .logo-tunas {
+    animation: tunas-pantul theme('transitionDuration.cepat') theme('transitionTimingFunction.keluar');
+  }
+}
+
+/* Kartu masalah [AG-57]: transisi tenang dari masalah ke jawaban (tanpa berbalik). Keadaan aktif =
+   disorot (perangkat berkursor), difokus papan ketik, atau diketuk (.aktif). Masuk: latar naik,
+   teks masalah keluar, jeda, jawaban masuk; keluar: urutan terbalik lewat jeda yang ditukar. */
+.kartu-masalah {
+  transition: transform theme('transitionDuration.sedang') theme('transitionTimingFunction.keluar');
+}
+.km-bayang {
+  opacity: 0;
+  transition: opacity theme('transitionDuration.sedang') theme('transitionTimingFunction.keluar');
+}
+.km-isi {
+  transform: scaleY(0);
+  transform-origin: bottom center;
+  transition: transform theme('transitionDuration.sedang') theme('transitionTimingFunction.keluar') 100ms;
+}
+.km-masalah {
+  transition:
+    opacity theme('transitionDuration.cepat') theme('transitionTimingFunction.keluar') 200ms,
+    transform theme('transitionDuration.cepat') theme('transitionTimingFunction.keluar') 200ms;
+}
+.km-jawaban {
+  opacity: 0;
+  transform: translateY(8px);
+  transition:
+    opacity theme('transitionDuration.cepat') theme('transitionTimingFunction.keluar'),
+    transform theme('transitionDuration.cepat') theme('transitionTimingFunction.keluar');
+}
+.kartu-masalah.aktif ,
+.kartu-masalah:focus-visible  {
+  transform: translateY(-3px);
+}
+.kartu-masalah.aktif .km-bayang,
+.kartu-masalah:focus-visible .km-bayang,
+.kartu-masalah.aktif .ilu-blob-jawaban,
+.kartu-masalah:focus-visible .ilu-blob-jawaban {
+  opacity: 1;
+}
+.kartu-masalah.aktif .km-isi,
+.kartu-masalah:focus-visible .km-isi {
+  transform: none;
+  transition-delay: 0ms;
+}
+.kartu-masalah.aktif .km-masalah,
+.kartu-masalah:focus-visible .km-masalah {
+  opacity: 0;
+  transform: translateY(-6px);
+  transition-delay: 0ms;
+}
+.kartu-masalah.aktif .km-jawaban,
+.kartu-masalah:focus-visible .km-jawaban {
+  opacity: 1;
+  transform: none;
+  transition-delay: 200ms;
+}
+@media (hover: hover) {
+  .kartu-masalah:hover {
+    transform: translateY(-3px);
+  }
+  .kartu-masalah:hover .km-bayang,
+  .kartu-masalah:hover .ilu-blob-jawaban {
+    opacity: 1;
+  }
+  .kartu-masalah:hover .km-isi {
+    transform: none;
+    transition-delay: 0ms;
+  }
+  .kartu-masalah:hover .km-masalah {
+    opacity: 0;
+    transform: translateY(-6px);
+    transition-delay: 0ms;
+  }
+  .kartu-masalah:hover .km-jawaban {
+    opacity: 1;
+    transform: none;
+    transition-delay: 200ms;
+  }
+}
+
+/* Ikon contoh perhitungan di hero bergerak sesuai maknanya saat barisnya disorot [AG-56]. */
+@keyframes koin-jatuh {
+  0% {
+    opacity: 0;
+    transform: translateY(-14px);
+  }
+  45% {
+    opacity: 1;
+    transform: translateY(2px);
+  }
+  70% {
+    transform: translateY(-3px);
+  }
+  100% {
+    transform: none;
+  }
+}
+@keyframes ganti-lembar {
+  0%,
+  100% {
+    transform: none;
+  }
+  50% {
+    transform: perspective(120px) rotateX(90deg);
+  }
+}
+@keyframes naik-turun {
+  0%,
+  100% {
+    transform: none;
+  }
+  30% {
+    transform: translateY(-4px);
+  }
+  65% {
+    transform: translateY(3px);
+  }
+}
+@keyframes keranjang-goyang {
+  0%,
+  100% {
+    transform: none;
+  }
+  25% {
+    transform: rotate(-10deg);
+  }
+  60% {
+    transform: rotate(8deg);
+  }
+}
+@media (hover: hover) {
+  .group\/baris:hover .gerak-koin .ikon-gerak {
+    animation: koin-jatuh theme('transitionDuration.sedang') theme('transitionTimingFunction.keluar');
+  }
+  .group\/baris:hover .gerak-kalender .ikon-gerak {
+    animation: ganti-lembar theme('transitionDuration.sedang') theme('transitionTimingFunction.keluar');
+  }
+  .group\/baris:hover .gerak-impas .ikon-gerak {
+    animation: naik-turun theme('transitionDuration.sedang') theme('transitionTimingFunction.keluar');
+  }
+  .group\/baris:hover .gerak-keranjang .ikon-gerak {
+    animation: keranjang-goyang theme('transitionDuration.sedang') theme('transitionTimingFunction.keluar');
+  }
+}
+
+/* Siklus: langkah yang disorot, ikon medalinya memantul dan garisnya teraliri cahaya [AG-56]. */
+@keyframes alir {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(300%);
+  }
+}
+@media (hover: hover) and (min-width: 1024px) {
+  .group\/langkah:hover .aliran-cahaya {
+    opacity: 0.7;
+    animation: alir 900ms linear infinite;
+  }
+}
+
+/* Fitur pendukung: ikon beranimasi sesuai fiturnya saat kartu disorot atau tautannya difokus;
+   lencana level berkilau [AG-56]. */
+@keyframes kilat {
+  0%,
+  100% {
+    opacity: 0;
+  }
+  30% {
+    opacity: 0.85;
+  }
+}
+@keyframes titik-ketik {
+  0%,
+  100% {
+    transform: none;
+  }
+  50% {
+    transform: translateY(-2px);
+  }
+}
+@keyframes putar {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes denyut-skala {
+  0%,
+  100% {
+    transform: none;
+  }
+  50% {
+    transform: scale(1.15);
+  }
+}
+.titik-ketik > span:nth-child(2) {
+  animation-delay: 120ms;
+}
+.titik-ketik > span:nth-child(3) {
+  animation-delay: 240ms;
+}
+.ikon-fitur {
+  transition: transform theme('transitionDuration.cepat') theme('transitionTimingFunction.keluar'), opacity theme('transitionDuration.cepat') theme('transitionTimingFunction.keluar');
+}
+.kilau-lencana {
+  transform: translateX(-120%);
+}
+.group\/fitur:focus-within .fitur-deteksi .kilat {
+  animation: kilat theme('transitionDuration.cepat') theme('transitionTimingFunction.keluar');
+}
+.group\/fitur:focus-within .fitur-chat .ikon-fitur {
+  opacity: 0.35;
+}
+.group\/fitur:focus-within .fitur-chat .titik-ketik {
+  opacity: 1;
+}
+.group\/fitur:focus-within .fitur-stok .ikon-fitur {
+  transform: translateY(-4px);
+}
+@media (hover: hover) {
+  .group\/fitur:hover .fitur-deteksi .kilat {
+    animation: kilat theme('transitionDuration.cepat') theme('transitionTimingFunction.keluar');
+  }
+  .group\/fitur:hover .fitur-chat .ikon-fitur {
+    opacity: 0.35;
+  }
+  .group\/fitur:hover .fitur-chat .titik-ketik,
+  .group\/fitur:focus-within .fitur-chat .titik-ketik {
+    opacity: 1;
+  }
+  .group\/fitur:hover .fitur-chat .titik-ketik > span,
+  .group\/fitur:focus-within .fitur-chat .titik-ketik > span {
+    animation: titik-ketik theme('transitionDuration.sedang') ease-in-out infinite;
+  }
+  .group\/fitur:hover .fitur-cuaca .ikon-fitur,
+  .group\/fitur:focus-within .fitur-cuaca .ikon-fitur {
+    animation: putar 2.4s linear infinite;
+  }
+  .group\/fitur:hover .fitur-peta .ikon-fitur,
+  .group\/fitur:focus-within .fitur-peta .ikon-fitur {
+    animation: tunas-pantul theme('transitionDuration.sedang') theme('transitionTimingFunction.keluar') infinite;
+  }
+  .group\/fitur:hover .fitur-stok .ikon-fitur {
+    transform: translateY(-4px);
+  }
+  .group\/fitur:hover .fitur-asisten .ikon-fitur,
+  .group\/fitur:focus-within .fitur-asisten .ikon-fitur {
+    animation: denyut-skala theme('transitionDuration.sedang') ease-in-out infinite;
+  }
+  .group\/lencana:hover .kilau-lencana {
+    opacity: 0.6;
+    transform: translateX(320%);
+    transition: transform theme('transitionDuration.sedang') theme('transitionTimingFunction.keluar'), opacity theme('transitionDuration.cepat') theme('transitionTimingFunction.keluar');
+  }
+}
+
+/* Kilau tipis yang menyapu tombol ajakan, dan garis bawah tautan kaki yang tumbuh dari kiri [AG-56]. */
+.kilau-tombol {
+  position: relative;
+  overflow: hidden;
+}
+.kilau-tombol::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg, transparent 35%, theme('colors.putih') 50%, transparent 65%);
+  opacity: 0;
+  transform: translateX(-100%);
+  pointer-events: none;
+}
+.kilau-tombol:focus-visible::after {
+  opacity: 0.45;
+  transform: translateX(100%);
+  transition:
+    transform theme('transitionDuration.sedang') theme('transitionTimingFunction.keluar'),
+    opacity theme('transitionDuration.cepat') theme('transitionTimingFunction.keluar');
+}
+.tautan-kaki > span::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -2px;
+  height: 2px;
+  border-radius: 9999px;
+  background: theme('colors.daun-tua');
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform theme('transitionDuration.cepat') theme('transitionTimingFunction.keluar');
+}
+.tautan-kaki:focus-visible > span::after {
+  transform: scaleX(1);
+}
+@media (hover: hover) {
+  .kilau-tombol:hover::after {
+    opacity: 0.45;
+    transform: translateX(100%);
+    transition:
+      transform theme('transitionDuration.sedang') theme('transitionTimingFunction.keluar'),
+      opacity theme('transitionDuration.cepat') theme('transitionTimingFunction.keluar');
+  }
+  .tautan-kaki:hover > span::after {
+    transform: scaleX(1);
+  }
+}
+
+/* Halaman Masuk [AG-57]: elemen formulir muncul bergiliran (jeda 120 ms, memudar sambil naik),
+   dan ilustrasi sawah pagi dianimasikan per aset (komponen IlustrasiSawahPagi). Setiap animasi
+   berakhir di `transform: none`, jadi keadaan akhir sama dengan gambar diam. */
+@keyframes masuk-naik {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.masuk-bertahap {
+  animation: masuk-naik 900ms theme('transitionTimingFunction.keluar') backwards;
+  animation-delay: calc(var(--urutan, 0) * 120ms);
+}
+@keyframes sp-pudar {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes sp-terbit {
+  from {
+    opacity: 0;
+    transform: translateY(150px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes sp-pendar {
+  0%,
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+  50% {
+    opacity: 0.75;
+    transform: scale(1.04);
+  }
+}
+@keyframes sp-dari-kiri {
+  from {
+    opacity: 0;
+    transform: translateX(-320px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes sp-dari-kanan {
+  from {
+    opacity: 0;
+    transform: translateX(320px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes sp-awan-kiri {
+  0%,
+  100% {
+    transform: none;
+  }
+  50% {
+    transform: translateX(36px);
+  }
+}
+@keyframes sp-awan-kanan {
+  0%,
+  100% {
+    transform: none;
+  }
+  50% {
+    transform: translateX(-30px);
+  }
+}
+@keyframes sp-naik {
+  from {
+    opacity: 0;
+    transform: translateY(60px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes sp-bentang {
+  from {
+    opacity: 0;
+    transform: scaleY(0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes sp-tumbuh {
+  from {
+    opacity: 0;
+    transform: scale(0.15);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes sp-angin {
+  0%,
+  100% {
+    transform: none;
+  }
+  30% {
+    transform: rotate(-2deg);
+  }
+  70% {
+    transform: rotate(2deg);
+  }
+}
+.sawah-pagi g,
+.sawah-pagi use,
+.sawah-pagi circle {
+  transform-box: fill-box;
+}
+.sawah-pagi .sp-langit,
+.sawah-pagi .sp-dasar {
+  animation: sp-pudar 560ms theme('transitionTimingFunction.keluar') both;
+}
+.sawah-pagi .sp-matahari {
+  transform-origin: center;
+  animation: sp-terbit 840ms theme('transitionTimingFunction.keluar') 140ms both;
+}
+.sawah-pagi .sp-pendar {
+  transform-origin: center;
+  animation: sp-pendar 4s ease-in-out 980ms infinite;
+}
+.sawah-pagi .sp-awan-kiri {
+  animation: sp-dari-kiri 700ms theme('transitionTimingFunction.keluar') 280ms both;
+}
+.sawah-pagi .sp-awan-kanan {
+  animation: sp-dari-kanan 700ms theme('transitionTimingFunction.keluar') 350ms both;
+}
+.sawah-pagi .sp-awan-kiri .sp-awan-gerak {
+  animation: sp-awan-kiri 16s ease-in-out 980ms infinite;
+}
+.sawah-pagi .sp-awan-kanan .sp-awan-gerak {
+  animation: sp-awan-kanan 19s ease-in-out 1050ms infinite;
+}
+.sawah-pagi .sp-bukit {
+  animation: sp-naik 630ms theme('transitionTimingFunction.keluar') 420ms both;
+}
+.sawah-pagi .sp-bedeng {
+  transform-origin: bottom center;
+  animation: sp-bentang 700ms theme('transitionTimingFunction.keluar') both;
+}
+.sawah-pagi .sp-bedeng-1 {
+  animation-delay: 660ms;
+}
+.sawah-pagi .sp-bedeng-2 {
+  animation-delay: 740ms;
+}
+.sawah-pagi .sp-bedeng-3 {
+  animation-delay: 800ms;
+}
+.sawah-pagi .sp-tunas {
+  transform-origin: bottom center;
+  animation: sp-tumbuh 490ms theme('transitionTimingFunction.keluar') both;
+}
+.sawah-pagi .sp-baris-1 {
+  animation-delay: 1050ms;
+}
+.sawah-pagi .sp-baris-2 {
+  animation-delay: 1130ms;
+}
+.sawah-pagi .sp-baris-3 {
+  animation-delay: 1220ms;
+}
+.sawah-pagi .sp-baris-4 {
+  animation-delay: 1300ms;
+}
+.sawah-pagi .sp-tanaman {
+  transform-origin: bottom center;
+  animation: sp-tumbuh 700ms theme('transitionTimingFunction.keluar') both;
+}
+.sawah-pagi .sp-tanaman-1 {
+  animation-delay: 1220ms;
+}
+.sawah-pagi .sp-tanaman-2 {
+  animation-delay: 1300ms;
+}
+.sawah-pagi .sp-tanaman-3 {
+  animation-delay: 1360ms;
+}
+.sawah-pagi .sp-goyang {
+  transform-origin: bottom center;
+  animation: sp-angin 5s ease-in-out 2060ms infinite;
+}
+/* Tab tidak terlihat: gerak berulang dijeda (hemat CPU di laptop dengan RAM terbatas). */
+.sawah-pagi.jeda * {
+  animation-play-state: paused !important;
+}
+
+/* Ilustrasi berlatar blob di kartu Masalah dan langkah Siklus [AG-58]. Dipicu `pemicu-ilu` pada
+   kartunya: disorot (perangkat berkursor), difokus papan ketik, atau diketuk (.aktif / :focus di HP).
+   Blob berputar dan membesar pelan; bagian gambar bergerak sesuai maknanya. */
+.ilu-isi,
+.ilu-blob,
+.ilu-tanya,
+.ilu-koin,
+.ilu-layu,
+.ilu-video,
+.ilu-peti,
+.ilu-tetes {
+  transform-box: fill-box;
+}
+.ilu-isi {
+  transition: opacity theme('transitionDuration.cepat') theme('transitionTimingFunction.keluar');
+}
+.ilu-blob {
+  transform-origin: center;
+  transition: transform theme('transitionDuration.sedang') theme('transitionTimingFunction.keluar');
+}
+.ilu-blob-jawaban {
+  opacity: 0;
+  transition: opacity theme('transitionDuration.sedang') theme('transitionTimingFunction.keluar');
+}
+.ilu-tanya {
+  transform-origin: bottom center;
+}
+.ilu-layu {
+  transform-origin: bottom center;
+  transform: rotate(58deg);
+  transition: transform theme('transitionDuration.sedang') theme('transitionTimingFunction.keluar');
+}
+.ilu-panah-stabil {
+  opacity: 0;
+}
+.ilu-panah-goyah,
+.ilu-panah-stabil {
+  transition: opacity theme('transitionDuration.cepat') theme('transitionTimingFunction.keluar');
+}
+.ilu-video {
+  transform-origin: center;
+}
+.ilu-peti {
+  transition: transform theme('transitionDuration.sedang') theme('transitionTimingFunction.keluar');
+}
+.ilu-tetes {
+  opacity: 0;
+}
+@keyframes ilu-goyang-tanya {
+  0%,
+  100% {
+    transform: none;
+  }
+  25% {
+    transform: rotate(-12deg);
+  }
+  60% {
+    transform: rotate(9deg);
+  }
+}
+@keyframes ilu-tetes {
+  0% {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  30% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+}
+.pemicu-ilu.aktif .ilu-blob,
+.pemicu-ilu:focus-visible .ilu-blob,
+li.pemicu-ilu:focus .ilu-blob {
+  transform: rotate(-5deg) scale(1.06);
+}
+.pemicu-ilu.aktif .ilu-tanya,
+.pemicu-ilu:focus-visible .ilu-tanya,
+li.pemicu-ilu:focus .ilu-tanya {
+  animation: ilu-goyang-tanya theme('transitionDuration.sedang') theme('transitionTimingFunction.keluar');
+}
+.pemicu-ilu.aktif .ilu-koin,
+.pemicu-ilu:focus-visible .ilu-koin,
+li.pemicu-ilu:focus .ilu-koin {
+  animation: koin-jatuh theme('transitionDuration.sedang') theme('transitionTimingFunction.keluar') backwards;
+}
+.pemicu-ilu.aktif .ilu-layu,
+.pemicu-ilu:focus-visible .ilu-layu,
+li.pemicu-ilu:focus .ilu-layu {
+  transform: none;
+}
+.pemicu-ilu.aktif .ilu-panah-goyah,
+.pemicu-ilu:focus-visible .ilu-panah-goyah,
+li.pemicu-ilu:focus .ilu-panah-goyah {
+  opacity: 0;
+}
+.pemicu-ilu.aktif .ilu-panah-stabil,
+.pemicu-ilu:focus-visible .ilu-panah-stabil,
+li.pemicu-ilu:focus .ilu-panah-stabil {
+  opacity: 1;
+}
+.pemicu-ilu.aktif .ilu-video,
+.pemicu-ilu:focus-visible .ilu-video,
+li.pemicu-ilu:focus .ilu-video {
+  animation: denyut-skala theme('transitionDuration.sedang') ease-in-out infinite;
+}
+.pemicu-ilu.aktif .ilu-tetes,
+.pemicu-ilu:focus-visible .ilu-tetes,
+li.pemicu-ilu:focus .ilu-tetes {
+  animation: ilu-tetes 900ms ease-in infinite;
+}
+.pemicu-ilu.aktif .ilu-peti,
+.pemicu-ilu:focus-visible .ilu-peti,
+li.pemicu-ilu:focus .ilu-peti {
+  transform: translateY(-5px);
+}
+@media (hover: hover) {
+  .pemicu-ilu:hover .ilu-blob {
+    transform: rotate(-5deg) scale(1.06);
+  }
+  .pemicu-ilu:hover .ilu-tanya {
+    animation: ilu-goyang-tanya theme('transitionDuration.sedang') theme('transitionTimingFunction.keluar');
+  }
+  .pemicu-ilu:hover .ilu-koin {
+    animation: koin-jatuh theme('transitionDuration.sedang') theme('transitionTimingFunction.keluar') backwards;
+  }
+  .pemicu-ilu:hover .ilu-layu {
+    transform: none;
+  }
+  .pemicu-ilu:hover .ilu-panah-goyah {
+    opacity: 0;
+  }
+  .pemicu-ilu:hover .ilu-panah-stabil {
+    opacity: 1;
+  }
+  .pemicu-ilu:hover .ilu-video {
+    animation: denyut-skala theme('transitionDuration.sedang') ease-in-out infinite;
+  }
+  .pemicu-ilu:hover .ilu-tetes {
+    animation: ilu-tetes 900ms ease-in infinite;
+  }
+  .pemicu-ilu:hover .ilu-peti {
+    transform: translateY(-5px);
+  }
+}
+/* Siklus: langkah lain meredup saat satu disorot; alas blob tidak ikut meredup. */
+@media (hover: hover) {
+  .group\/siklus:hover .group\/langkah:not(:hover) .ilu-isi {
+    opacity: 0.5;
+  }
+}
+
 /* Kartu dan baris bertahap: --urutan diisi 0–7 (item ke-8 dan seterusnya 0, langsung). */
 .muncul-bertahap {
   animation: theme('animation.muncul-bertahap');
@@ -238,8 +1082,8 @@ html.js-gulir .muncul-gulir:not(.terlihat) {
   grid-template-rows: 0fr;
   opacity: 0;
   transition:
-    grid-template-rows theme('transitionDuration.lambat') theme('transitionTimingFunction.keluar'),
-    opacity theme('transitionDuration.lambat') theme('transitionTimingFunction.keluar');
+    grid-template-rows theme('transitionDuration.sedang') theme('transitionTimingFunction.keluar'),
+    opacity theme('transitionDuration.sedang') theme('transitionTimingFunction.keluar');
 }
 .lipatan[data-terbuka='true'] {
   grid-template-rows: 1fr;
@@ -282,7 +1126,12 @@ html.tanpa-animasi *::after {
   transition-delay: 0ms !important;
   scroll-behavior: auto !important;
 }
-html.tanpa-animasi.js-gulir .muncul-gulir:not(.terlihat) {
+html.tanpa-animasi.js-gulir .muncul-gulir:not(.terlihat),
+html.tanpa-animasi.js-gulir .muncul-gulir:not(.terlihat) .giliran,
+html.tanpa-animasi.js-gulir .muncul-gulir:not(.terlihat) .garis-tumbuh,
+html.tanpa-animasi.js-gulir .muncul-gulir:not(.terlihat) .penggaris-isi,
+html.tanpa-animasi.js-gulir .muncul-gulir:not(.terlihat) .penggaris-pin,
+html.tanpa-animasi.js-gulir .muncul-gulir:not(.terlihat) .penggaris-penanda {
   opacity: 1;
   transform: none;
 }
@@ -297,7 +1146,12 @@ html.tanpa-animasi.js-gulir .muncul-gulir:not(.terlihat) {
     transition-delay: 0ms !important;
     scroll-behavior: auto !important;
   }
-  html.js-gulir .muncul-gulir:not(.terlihat) {
+  html.js-gulir .muncul-gulir:not(.terlihat),
+  html.js-gulir .muncul-gulir:not(.terlihat) .giliran,
+  html.js-gulir .muncul-gulir:not(.terlihat) .garis-tumbuh,
+  html.js-gulir .muncul-gulir:not(.terlihat) .penggaris-isi,
+  html.js-gulir .muncul-gulir:not(.terlihat) .penggaris-pin,
+  html.js-gulir .muncul-gulir:not(.terlihat) .penggaris-penanda {
     opacity: 1;
     transform: none;
   }

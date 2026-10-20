@@ -1,0 +1,68 @@
+/**
+ * Angka yang berhitung naik saat terlihat [AG-54]; [AG-55] diulang setiap kali dilihat lagi (kembali
+ * ke 0 begitu keluar layar). Hanya teks yang berganti (angka tabular dengan lebar tetap, tidak
+ * menggeser tata letak). Langsung angka akhir bila gerak dikurangi, sakelar animasi mati, atau
+ * IntersectionObserver tidak ada. Pembaca layar selalu mendapat angka akhir.
+ */
+import { useEffect, useRef, useState } from 'react';
+import { formatDesimal } from '../../lib/format';
+import { geraknyaDikurangi } from './gulir';
+
+const LAMA_MS = 1400;
+
+export function AngkaNaik({
+  nilai,
+  desimal,
+  akhiran = '',
+}: {
+  nilai: number;
+  desimal: number;
+  akhiran?: string;
+}) {
+  const el = useRef<HTMLSpanElement>(null);
+  const [tampil, setTampil] = useState(() =>
+    typeof IntersectionObserver === 'undefined' || geraknyaDikurangi() ? nilai : 0,
+  );
+  useEffect(() => {
+    if (typeof IntersectionObserver === 'undefined' || geraknyaDikurangi() || !el.current) {
+      setTampil(nilai);
+      return;
+    }
+    let bingkai = 0;
+    let berjalan = false;
+    const mulai = () => {
+      if (berjalan) return;
+      berjalan = true;
+      const awal = performance.now();
+      const langkah = (kini: number) => {
+        const t = Math.min(1, (kini - awal) / LAMA_MS);
+        // Melambat di akhir (kubik keluar), seperti kurva token `keluar`.
+        setTampil(nilai * (1 - (1 - t) ** 3));
+        if (t < 1) bingkai = requestAnimationFrame(langkah);
+      };
+      bingkai = requestAnimationFrame(langkah);
+    };
+    const masuk = new IntersectionObserver(([e]) => e?.isIntersecting && mulai(), {
+      threshold: 0.6,
+    });
+    const keluar = new IntersectionObserver(([e]) => {
+      if (e?.isIntersecting) return;
+      cancelAnimationFrame(bingkai);
+      berjalan = false;
+      setTampil(0);
+    });
+    masuk.observe(el.current);
+    keluar.observe(el.current);
+    return () => {
+      masuk.disconnect();
+      keluar.disconnect();
+      cancelAnimationFrame(bingkai);
+    };
+  }, [nilai]);
+  return (
+    <span ref={el} className="tabular-nums">
+      <span className="sr-saja">{formatDesimal(nilai, desimal, true) + akhiran}</span>
+      <span aria-hidden="true">{formatDesimal(tampil, desimal, true) + akhiran}</span>
+    </span>
+  );
+}

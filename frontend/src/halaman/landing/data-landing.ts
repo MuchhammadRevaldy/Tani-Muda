@@ -30,9 +30,6 @@ export interface BarisHitung {
 
 export interface DataLanding {
   konfigurasi: Konfigurasi | null;
-  /** Nama komoditas berpanduan dan yang menyusul, untuk kalimat di bawah tombol hero. */
-  siap: string[];
-  menyusul: string[];
   petani: (ContohSiklus & { angka: AngkaContoh | null; luasM2: number }) | null;
   hitung: BarisHitung[];
   pembeli: ContohSiklus | null;
@@ -88,11 +85,6 @@ export function useDataLanding(): DataLanding {
 
   return {
     konfigurasi: konfigurasiQ.data ?? null,
-    siap: komoditas.filter((k) => k.status_resep === 'tersedia').map((k) => k.nama),
-    menyusul: komoditas
-      .filter((k) => k.status_resep === 'segera_hadir')
-      .slice(0, 3)
-      .map((k) => k.nama),
     petani: siklusPetani
       ? {
           ...siklusPetani,

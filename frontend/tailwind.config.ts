@@ -78,11 +78,24 @@ const gerak = {
       to: { opacity: '1', transform: 'none' },
     },
     denyut: { '0%, 100%': { opacity: '1' }, '50%': { opacity: '.55' } },
+    // Ilustrasi halaman depan bergoyang pelan [AG-54]; awal dan akhir `transform: none`.
+    goyang: {
+      '0%, 100%': { transform: 'none' },
+      '25%': { transform: 'rotate(-2deg)' },
+      '75%': { transform: 'rotate(2deg)' },
+    },
+    // Aset di sekitar ilustrasi hero naik-turun pelan [AG-55]; durasi dan jeda per aset di komponen.
+    melayang: {
+      '0%, 100%': { transform: 'none' },
+      '50%': { transform: 'translateY(-12px)' },
+    },
   },
   animasi: {
     'masuk-halaman': `masuk-halaman 600ms ${kurvaKeluar} both`,
     'muncul-bertahap': `muncul-bertahap 700ms ${kurvaKeluar} both`,
     denyut: 'denyut 2.4s ease-in-out infinite',
+    goyang: 'goyang 6s ease-in-out infinite',
+    melayang: 'melayang 6s ease-in-out infinite',
   },
 };
 
@@ -105,6 +118,8 @@ const ukuranBernama = {
   // Kartu pemilih siklus di Beranda (AG-17): HP memperlihatkan tepi kartu berikutnya.
   'kartu-siklus': '264px',
   'kartu-siklus-lebar': '288px',
+  // Ilustrasi berlatar blob di kartu Masalah dan langkah Siklus halaman depan [AG-58].
+  'ilustrasi-kartu': '128px',
 };
 
 /** Skala jarak dan ukuran berbasis 4px (dan 2px untuk detail kecil). */
@@ -174,6 +189,8 @@ const config: Config = {
       'tampil-3': ['34px', '42px'],
       'tampil-4': ['36px', '44px'],
       'tampil-5': ['52px', '60px'],
+      // Angka sorotan halaman depan (21,93% di bagian Masalah) [AG-54].
+      'angka-besar': ['72px', '76px'],
       // Judul halaman Masuk desktop (papan 02 desktop).
       'judul-masuk': ['32px', '40px'],
       // Hanya untuk halaman /komponen (meniru papan dokumentasi 00).

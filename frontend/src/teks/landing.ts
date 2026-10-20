@@ -7,12 +7,24 @@ import { formatDesimal, formatRupiah } from '../lib/format';
 
 const formatAngka = (n: number) => formatDesimal(n, 1);
 
-const daftarNama = (nama: string[]) =>
-  nama.length <= 1 ? (nama[0] ?? '') : `${nama.slice(0, -1).join(', ')}, dan ${nama.at(-1)}`;
-
 export const teksLanding = {
   masuk: 'Masuk',
   bukaAplikasi: 'Buka aplikasi',
+
+  // ---- navbar dan tombol penyusur [AG-54]
+  navBagian: 'Bagian halaman depan',
+  bukaMenu: 'Buka menu',
+  tutupMenu: 'Tutup menu',
+  bagian: {
+    masalah: 'Masalah',
+    siklus: 'Siklus',
+    caraKerja: 'Cara kerja',
+    fitur: 'Fitur',
+    pembeli: 'Pembeli',
+    tanyaJawab: 'Tanya jawab',
+  },
+  lihatCaraKerja: 'Lihat cara kerjanya',
+  kembaliKeAtas: 'Kembali ke atas',
 
   // ---- hero
   sapaan: 'Untuk petani muda, dari sayur kebun sampai padi sawah',
@@ -20,15 +32,6 @@ export const teksLanding = {
   isi: 'Mau menanam sawi di pekarangan atau padi di sawah, Tani Muda menemanimu belajar menanam, menghitung modal, merawat tanaman dengan pengingat, sampai menjual panen ke katering, restoran, dan koperasi yang sudah memesan sebelum kamu menanam.',
   mulaiPetani: 'Mulai sebagai petani',
   sayaPembeli: 'Saya pembeli',
-  panduanSiap: (siap: string[], menyusul: string[]) =>
-    [
-      siap.length
-        ? `Panduan sudah siap untuk ${daftarNama(siap.map((n) => n.toLowerCase()))}.`
-        : '',
-      menyusul.length ? `${daftarNama(menyusul)} menyusul.` : '',
-    ]
-      .filter(Boolean)
-      .join(' '),
 
   // ---- kartu contoh siklus
   contohPerhitungan: 'Contoh perhitungan',
@@ -48,26 +51,66 @@ export const teksLanding = {
   titikImpas: 'Titik impas',
   kg: (n: number) => `${formatAngka(n)} kg`,
   besok: (judul: string) => `Besok: ${judul.toLowerCase()}`,
+  // Penjelasan pendek yang muncul saat baris contoh disorot [AG-56].
+  penjelasanModal: 'Benih, pupuk, dan alat',
+  penjelasanPanen: 'Dihitung dari hari tanam',
+  penjelasanImpas: 'Panen minimal yang harus terjual',
+  penjelasanUntung: 'Pendapatan dikurangi modal',
 
-  // ---- tiga pilar
+  // ---- masalah [AG-54]: angka dan empat masalah dari PRD bagian Latar Belakang Masalah
+  sapaanMasalah: 'Kenapa Tani Muda ada',
+  judulMasalah: 'Petani muda makin sedikit',
+  angkaMasalah: 21.93,
+  ketAngkaMasalah: 'petani di Indonesia berusia 19–39 tahun',
+  sumberAngkaMasalah: 'Sumber: Sensus Pertanian 2023, BPS',
+  ketMasalah: 'Anak muda enggan bertani karena empat ketidakpastian sekaligus.',
+  lihatJawaban: 'Lihat jawaban Tani Muda',
+  jawabanTaniMuda: 'Jawaban Tani Muda',
+  masalah: [
+    {
+      judul: 'Pengetahuan terbatas',
+      isi: 'Penyuluhan jarang menjangkau anak muda yang terbiasa belajar lewat HP, jadi pemula menanam dengan coba-coba.',
+      jawaban: 'Modul video singkat per tahap, bisa ditonton tanpa sinyal.',
+    },
+    {
+      judul: 'Modal tidak terukur',
+      isi: 'Pemula tidak tahu berapa benih dan pupuk yang dibutuhkan lahannya, dan berapa total biayanya.',
+      jawaban: 'Kalkulator modal dan titik impas sebelum menanam.',
+    },
+    {
+      judul: 'Jadwal perawatan terlupa',
+      isi: 'Pupuk susulan dan cek hama punya hari yang pasti. Terlambat sedikit bisa menurunkan hasil.',
+      jawaban: 'Jadwal dan pengingat tugas dibuat otomatis dari resep.',
+    },
+    {
+      judul: 'Pasar tidak pasti',
+      isi: 'Penjualan bergantung pada tengkulak, sehingga bagian harga yang diterima petani kecil.',
+      jawaban: 'Pembeli memesan dan membayar uang muka sebelum kamu menanam.',
+    },
+  ],
+
+  // ---- siklus Tani Muda (menggantikan tiga pilar) [AG-54]
+  sapaanSiklus: 'Siklus Tani Muda',
   judulPilar: 'Satu aplikasi dari sayur kebun sampai padi sawah',
   ketPilar:
-    'Tiga hal yang paling sering membuat petani muda ragu memulai, dibereskan satu per satu, untuk pekarangan, kebun, maupun sawah.',
+    'Empat langkah yang paling sering membuat petani muda ragu memulai, ditemani satu per satu, untuk pekarangan, kebun, maupun sawah.',
+  rawat: 'Rawat',
+  isiRawat: 'Jadwal dan pengingat tugas dibuat otomatis dari resep.',
   belajar: 'Belajar',
-  isiBelajar:
-    'Modul video sekitar 3 menit untuk tiap tahap, dari persiapan lahan sampai pascapanen, untuk sayur di pekarangan maupun padi di sawah. Unduh sekali, tonton tanpa sinyal.',
+  isiBelajar: 'Modul video singkat per tahap, bisa ditonton tanpa sinyal.',
   contohModul: 'Padi sawah · Tanam pindah',
   ketModul: '3 menit · bisa disimpan untuk ditonton offline',
   hitung: 'Hitung',
-  isiHitung:
-    'Kalkulator modal menunjukkan titik impas sebelum menanam, dalam kg sayur atau kg gabah. Pengingat pupuk, siram, dan cek hama datang tepat pada harinya.',
+  isiHitung: 'Hitung modal dan titik impas sebelum mulai menanam.',
   barisHitung: (komoditas: string, luas: number) => `${komoditas} · ${formatAngka(luas)} m²`,
   tanpaSubsidi: 'Dihitung dengan harga tanpa subsidi',
+  // Satu baris angka di bawah langkah Hitung [AG-55].
+  barisContohHitung: (komoditas: string, luas: number, impas: number, satuan: string) =>
+    `Contoh ${komoditas.toLowerCase()} ${formatAngka(luas)} m²: impas di ${formatAngka(impas)} ${satuan}, harga tanpa subsidi`,
   modalImpas: (modal: number, impas: number, satuan: string) =>
     ({ modal: formatRupiah(modal), impas: `impas di ${formatAngka(impas)} ${satuan}` }) as const,
   jual: 'Jual',
-  isiJual:
-    'Pesan Sebelum Tanam: katering memesan sayur tiap minggu, koperasi memesan gabah untuk sekali panen. Uang muka dibayar dulu, jadi kamu menanam untuk pembeli yang sudah pasti.',
+  isiJual: 'Pembeli memesan dan membayar uang muka sebelum kamu menanam.',
   ketPembeliRutin: (komoditas: string, kg: number) =>
     `Rutin · ${komoditas.toLowerCase()} ${formatAngka(kg)} kg per minggu`,
   ketPembeliSekali: (kg: number) =>
@@ -102,6 +145,43 @@ export const teksLanding = {
     },
   ],
 
+  // ---- fitur pendukung [AG-54]
+  sapaanFitur: 'Fitur pendukung',
+  judulFitur: 'Teman di setiap tahap tanam',
+  fitur: {
+    deteksi: {
+      judul: 'Deteksi dugaan penyakit',
+      isi: 'Foto daun yang sakit, lalu dapatkan dugaan penyakit dengan tingkat keyakinan dan langkah aman. Masih ragu, tanya penyuluh.',
+    },
+    asisten: {
+      judul: 'Asisten budidaya',
+      isi: 'Tanya Tani Muda menjawab singkat dari resep dan modul, lengkap dengan sumbernya.',
+    },
+    cuaca: {
+      judul: 'Cuaca di desamu',
+      isi: 'Suhu hari ini dari titik tengah desa, dicocokkan dengan kebutuhan tanamanmu.',
+    },
+    peta: {
+      judul: 'Petani di sekitar',
+      isi: 'Pembeli menemukan petani terdekat di peta. Hanya petani yang menyalakannya yang tampil.',
+      ket: 'Lokasi dibulatkan sekitar 1 km',
+    },
+    stok: {
+      judul: 'Stok siap jual',
+      isi: 'Panen yang sudah ada bisa dijual ke pembeli terdekat, bayar di tempat atau di aplikasi.',
+    },
+    chat: {
+      judul: 'Chat petani dan pembeli',
+      isi: 'Bicarakan pesanan dan kiriman langsung di aplikasi. Hanya peserta percakapan yang bisa membacanya.',
+    },
+    level: {
+      judul: 'Level dan lencana',
+      isi: 'Setiap tugas yang selesai menambah poin, dari level benih sampai panen raya.',
+    },
+  },
+  namaLevel: ['Benih', 'Tunas', 'Daun', 'Berbunga', 'Panen raya'],
+  lihatCaranyaLabel: (fitur: string) => `Lihat caranya: ${fitur.toLowerCase()}`,
+
   // ---- pembeli
   sapaanPembeli: 'Untuk katering dan restoran',
   judulPembeli: 'Pasokan sayur segar dari petani lokal, dengan jadwal dan harga yang pasti',
@@ -113,27 +193,88 @@ export const teksLanding = {
   ],
   kartuPembeliJudul: (komoditas: string, kg: number) =>
     `${komoditas} · ${formatAngka(kg)} kg per minggu`,
-  kartuPembeliKet: 'Kebun Sekar, Cikole · contoh kebun pemenuh',
+  kartuPembeliKet: 'Kebun belakang rumah, Bowan, Klaten · contoh kebun pemenuh',
   daftarPembeli: 'Daftar sebagai pembeli',
 
   // ---- tanya jawab
   judulFaq: 'Tanya jawab',
   ketFaq: 'Pertanyaan yang paling sering muncul sebelum mulai.',
-  faq: (hariKembali: number, hariKabar: number) => [
-    {
-      tanya: 'Apakah uang muka saya aman?',
-      jawab: `Uang muka ditahan Tani Muda, tidak langsung diberikan ke petani. Dana baru cair setelah sayur diterima dan dikonfirmasi pembeli. Kalau tidak ada petani yang mengambil pesanan dalam ${hariKembali} hari, uang muka kembali utuh.`,
-    },
-    {
-      tanya: 'Bagaimana kalau gagal panen?',
-      jawab: `Petani mengabari paling lambat ${hariKabar} hari sebelum jadwal kirim, tanpa denda. Bagian yang tidak terpenuhi ditawarkan ke petani lain; kalau tidak ada pengganti, sisa uang muka bagian itu dikembalikan ke pembeli.`,
-    },
-    {
-      tanya: 'Apakah harus punya lahan luas?',
-      jawab:
-        'Tidak. Mulai dari pekarangan beberapa meter persegi atau rak hidroponik di teras. Kalkulator menghitung modal dan kemampuan lahanmu, dan kamu boleh mengambil sebagian pesanan saja.',
-    },
-  ],
+  // Tanya jawab [AG-55]: dua kelompok, semua angka dari konfigurasi; fakta dari D-02, D-03 (P0-27),
+  // D-06, F-04, dan F-08. Tidak ada klaim resep sudah divalidasi penyuluh.
+  kelompokPetani: 'Untuk petani',
+  kelompokPembeli: 'Untuk pembeli',
+  faq: (k: {
+    persenUangMuka: number;
+    persenLayanan: number;
+    jamRutin: number;
+    jamSekali: number;
+    hariKabar: number;
+    hariKembali: number;
+  }) => ({
+    petani: [
+      {
+        tanya: 'Apakah harus punya lahan luas?',
+        jawab:
+          'Tidak. Mulai dari pekarangan beberapa meter persegi atau rak hidroponik di teras. Kalkulator menghitung modal dan kemampuan lahanmu, dan kamu boleh mengambil sebagian pesanan saja.',
+      },
+      {
+        tanya: 'Kapan dana dari pembeli cair?',
+        jawab: `Setelah pembeli mengonfirmasi kiriman. Kalau pembeli tidak memeriksa sampai batas waktunya, kiriman dianggap diterima dan dana cair otomatis: ${k.jamRutin} jam untuk pesanan rutin, ${k.jamSekali} jam untuk pesanan sekali panen.`,
+      },
+      {
+        tanya: 'Bagaimana kalau gagal panen?',
+        jawab: `Kabari paling lambat ${k.hariKabar} hari sebelum jadwal kirim, tanpa denda. Bagian yang tidak terpenuhi ditawarkan ke petani lain; kalau tidak ada pengganti, sisa uang muka bagian itu dikembalikan ke pembeli.`,
+      },
+      {
+        tanya: 'Bagaimana kalau pembeli membatalkan setelah saya menanam?',
+        jawab:
+          'Uang muka menjadi kompensasi untukmu. Kalau pembeli membatalkan sebelum kamu mulai menanam, uang muka kembali ke pembeli.',
+      },
+      {
+        tanya: 'Apakah hasil deteksi penyakit pasti benar?',
+        jawab:
+          'Tidak. Hasilnya berupa dugaan dengan tingkat keyakinan, disertai langkah aman tanpa dosis atau merek pestisida. Untuk kepastian, tanyakan ke penyuluh.',
+      },
+      {
+        tanya: 'Apakah pembeli bisa melihat lokasi lahan saya?',
+        jawab:
+          'Pembeli hanya melihat nama desa dan jarak. Di peta petani sekitar, kamu sendiri yang memilih tampil atau tidak, dan lokasinya dibulatkan sekitar 1 km.',
+      },
+    ],
+    pembeli: [
+      {
+        tanya: 'Apakah uang muka saya aman?',
+        jawab: `Uang muka ditahan Tani Muda, tidak langsung diberikan ke petani. Dana baru cair setelah sayur diterima dan dikonfirmasi pembeli. Kalau tidak ada petani yang mengambil pesanan dalam ${k.hariKembali} hari, uang muka kembali utuh.`,
+      },
+      {
+        tanya: 'Berapa yang saya bayar di awal?',
+        jawab: `Uang muka ${k.persenUangMuka}% dari nilai pesanan ditambah biaya layanan ${k.persenLayanan}%. Biaya layanan dibayar pembeli dan tidak memotong bagian petani.`,
+      },
+      {
+        tanya: 'Berapa lama waktu memeriksa kiriman?',
+        jawab: `${k.jamRutin} jam untuk pesanan rutin dan ${k.jamSekali} jam untuk pesanan sekali panen, sejak sayur tiba. Lewat dari itu, kiriman dianggap diterima semua dan dana cair ke petani.`,
+      },
+      {
+        tanya: 'Bagaimana kalau sayur yang datang tidak sesuai?',
+        jawab:
+          'Bagian yang tidak sesuai standar boleh ditolak dengan foto. Bagian itu masuk proses sengketa yang diputuskan admin Tani Muda.',
+      },
+      {
+        tanya: 'Bisakah saya membatalkan pesanan?',
+        jawab:
+          'Bisa. Kalau petani belum mulai menanam, uang muka kembali ke Anda. Kalau petani sudah menanam, uang muka menjadi kompensasi untuk petani.',
+      },
+      {
+        tanya: 'Bagaimana cara masuk?',
+        jawab:
+          'Cukup dengan nomor HP. Kode 6 angka dikirim lewat SMS, tanpa kata sandi. Di mode demo, kodenya tampil di layar.',
+      },
+    ],
+  }),
+
+  // ---- ajakan penutup [AG-54]
+  judulAjakan: 'Siap menanam dengan rencana?',
+  isiAjakan: 'Daftar cukup dengan nomor HP, tanpa kata sandi.',
 
   // ---- kaki
   slogan: 'Dibuat untuk petani muda Indonesia menuju Generasi Emas 2045.',

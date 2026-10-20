@@ -8,7 +8,7 @@ export const namaPeran: Record<Peran, string> = {
   admin: 'Admin',
 };
 
-/** Keterangan akun di sidebar: "Petani · Lembang". */
+/** Keterangan akun di sidebar: "Petani · Bowan". */
 export function keteranganAkun(peran: Peran | null, desa: string | null): string {
   const p = peran ? namaPeran[peran] : '';
   return [p, desa].filter(Boolean).join(' · ');

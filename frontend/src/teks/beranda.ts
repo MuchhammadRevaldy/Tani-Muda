@@ -5,7 +5,7 @@ import { formatDesimal, formatTanggal, titikRibuan } from '../lib/format';
 export const teksBeranda = {
   /** "Selamat pagi, Arif" (D-37). */
   salam: (waktu: WaktuSalam, nama: string) => `Selamat ${waktu}, ${nama.split(/\s+/)[0] ?? nama}`,
-  /** "Sabtu, 3 Oktober · Lembang" */
+  /** "Sabtu, 3 Oktober · Bowan" */
   tanggalDesa: (tanggal: string, desa: string | null) =>
     [formatTanggal(tanggal), desa].filter(Boolean).join(' · '),
   bukaProfil: 'Buka profil',

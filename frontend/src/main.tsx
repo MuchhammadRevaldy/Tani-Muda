@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client';
 import { RouterProvider } from 'react-router-dom';
 import { PenyediaKlienApi } from './api/penyedia-klien';
 import { siapkanKlien } from './api/sumber';
+import { tutupLayarMemuat } from './lib/layar-memuat';
 import { router } from './rute';
 import './index.css';
 
@@ -31,4 +32,6 @@ void siapkanKlien(import.meta.env).then(({ klien, sumber, kontrol }) => {
       </PenyediaKlienApi>
     </StrictMode>,
   );
+  // Layar memuat dari index.html memudar setelah render pertama tergambar [AG-55].
+  requestAnimationFrame(() => requestAnimationFrame(tutupLayarMemuat));
 });

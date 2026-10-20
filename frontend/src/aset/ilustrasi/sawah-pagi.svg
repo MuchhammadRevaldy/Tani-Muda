@@ -1,4 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 1000" role="img" aria-label="Kebun sayur di pagi hari">
+  <!-- [AG-57] Setiap aset dikelompokkan (kelas sp-*) untuk animasi masuk di komponen IlustrasiSawahPagi; tampilan akhir tidak berubah. -->
   <title>Kebun sayur di pagi hari</title>
   <defs>
     
@@ -211,43 +212,61 @@
   </g>
 </symbol>
   </defs>
-  <rect width="900" height="1000" fill="url(#g-langit)"/>
-  <circle cx="610" cy="300" r="210" fill="url(#g-pendar)"/>
+  <g class="sp-langit"><rect width="900" height="1000" fill="url(#g-langit)"/></g>
+  <g class="sp-matahari">
+  <circle class="sp-pendar" cx="610" cy="300" r="210" fill="url(#g-pendar)"/>
   <circle cx="610" cy="300" r="112" fill="url(#g-matahari)"/>
   <ellipse cx="572" cy="262" rx="34" ry="22" transform="rotate(-30 572 262)" fill="#fff" opacity=".45"/>
-  <g>
+  </g>
+  <g class="sp-awan sp-awan-kiri"><g class="sp-awan-gerak">
     <ellipse cx="230" cy="232" rx="78" ry="34" fill="url(#g-awan)"/>
     <ellipse cx="192" cy="214" rx="44" ry="36" fill="url(#g-awan)"/>
     <ellipse cx="260" cy="206" rx="50" ry="44" fill="url(#g-awan)"/>
+  </g></g>
+  <g class="sp-awan sp-awan-kanan"><g class="sp-awan-gerak">
     <ellipse cx="740" cy="170" rx="60" ry="24" fill="url(#g-awan)"/>
     <ellipse cx="712" cy="156" rx="34" ry="26" fill="url(#g-awan)"/>
     <ellipse cx="764" cy="150" rx="36" ry="30" fill="url(#g-awan)"/>
-  </g>
+  </g></g>
+  <g class="sp-bukit">
   <path d="M0 470 C150 380 300 400 430 440 C560 480 700 380 900 420 L900 560 L0 560 Z" fill="url(#g-bukit1)"/>
   <path d="M0 500 C180 450 330 470 470 490 C620 512 760 450 900 470 L900 600 L0 600 Z" fill="url(#g-bukit2)"/>
+  </g>
+  <g class="sp-dasar">
   <path d="M0 480 L900 480 L900 1000 L0 1000 Z" fill="url(#g-rumput)" transform="translate(0 0)"/>
   <path d="M0 480 C200 470 700 470 900 480" stroke="#fff" stroke-opacity=".5" stroke-width="3" fill="none"/>
+  </g>
+  <g class="sp-bedeng sp-bedeng-1">
   <path d="M359.5 480 L411.2 480 L330 900 Q250 925 170 900 Z" fill="url(#g-tanah)"/>
       <path d="M359.5 480 L411.2 480 L330 900 Q250 912 170 900 Z" fill="url(#g-tanah-atas)" opacity=".9"/>
+  </g>
+  <g class="sp-bedeng sp-bedeng-2">
   <path d="M424.1 480 L475.9 480 L530 900 Q450 925 370 900 Z" fill="url(#g-tanah)"/>
       <path d="M424.1 480 L475.9 480 L530 900 Q450 912 370 900 Z" fill="url(#g-tanah-atas)" opacity=".9"/>
+  </g>
+  <g class="sp-bedeng sp-bedeng-3">
   <path d="M488.8 480 L540.5 480 L730 900 Q650 925 570 900 Z" fill="url(#g-tanah)"/>
       <path d="M488.8 480 L540.5 480 L730 900 Q650 912 570 900 Z" fill="url(#g-tanah-atas)" opacity=".9"/>
-  <use href="#tunas" x="354.3" y="504.8" width="27.0" height="25.2"/>
-  <use href="#tunas" x="436.5" y="504.8" width="27.0" height="25.2"/>
-  <use href="#tunas" x="518.7" y="504.8" width="27.0" height="25.2"/>
-  <use href="#tunas" x="331.6" y="551.4" width="36.0" height="33.6"/>
-  <use href="#tunas" x="432.0" y="551.4" width="36.0" height="33.6"/>
-  <use href="#tunas" x="532.5" y="551.4" width="36.0" height="33.6"/>
-  <use href="#tunas" x="300.7" y="615.2" width="48.0" height="44.8"/>
-  <use href="#tunas" x="426.0" y="615.2" width="48.0" height="44.8"/>
-  <use href="#tunas" x="551.3" y="615.2" width="48.0" height="44.8"/>
-  <use href="#tunas" x="260.0" y="701.2" width="63.0" height="58.8"/>
-  <use href="#tunas" x="418.5" y="701.2" width="63.0" height="58.8"/>
-  <use href="#tunas" x="577.0" y="701.2" width="63.0" height="58.8"/>
+  </g>
+  <g class="sp-tunas sp-baris-4"><use href="#tunas" x="354.3" y="504.8" width="27.0" height="25.2"/></g>
+  <g class="sp-tunas sp-baris-4"><use href="#tunas" x="436.5" y="504.8" width="27.0" height="25.2"/></g>
+  <g class="sp-tunas sp-baris-4"><use href="#tunas" x="518.7" y="504.8" width="27.0" height="25.2"/></g>
+  <g class="sp-tunas sp-baris-3"><use href="#tunas" x="331.6" y="551.4" width="36.0" height="33.6"/></g>
+  <g class="sp-tunas sp-baris-3"><use href="#tunas" x="432.0" y="551.4" width="36.0" height="33.6"/></g>
+  <g class="sp-tunas sp-baris-3"><use href="#tunas" x="532.5" y="551.4" width="36.0" height="33.6"/></g>
+  <g class="sp-tunas sp-baris-2"><use href="#tunas" x="300.7" y="615.2" width="48.0" height="44.8"/></g>
+  <g class="sp-tunas sp-baris-2"><use href="#tunas" x="426.0" y="615.2" width="48.0" height="44.8"/></g>
+  <g class="sp-tunas sp-baris-2"><use href="#tunas" x="551.3" y="615.2" width="48.0" height="44.8"/></g>
+  <g class="sp-tunas sp-baris-1"><use href="#tunas" x="260.0" y="701.2" width="63.0" height="58.8"/></g>
+  <g class="sp-tunas sp-baris-1"><use href="#tunas" x="418.5" y="701.2" width="63.0" height="58.8"/></g>
+  <g class="sp-tunas sp-baris-1"><use href="#tunas" x="577.0" y="701.2" width="63.0" height="58.8"/></g>
+  <g class="sp-tanaman sp-tanaman-1">
   <ellipse cx="160" cy="948" rx="120" ry="16" fill="url(#g-bayang)"/>
-  <use href="#tanaman-sawi" x="20" y="700" width="280" height="280"/>
+  <g class="sp-goyang"><use href="#tanaman-sawi" x="20" y="700" width="280" height="280"/></g>
+  </g>
+  <g class="sp-tanaman sp-tanaman-3">
   <ellipse cx="760" cy="950" rx="110" ry="16" fill="url(#g-bayang)"/>
-  <use href="#tanaman-padi" x="620" y="660" width="300" height="300"/>
-  <use href="#tanaman-bayam" x="300" y="830" width="150" height="150"/>
+  <g class="sp-goyang"><use href="#tanaman-padi" x="620" y="660" width="300" height="300"/></g>
+  </g>
+  <g class="sp-tanaman sp-tanaman-2"><g class="sp-goyang"><use href="#tanaman-bayam" x="300" y="830" width="150" height="150"/></g></g>
 </svg>

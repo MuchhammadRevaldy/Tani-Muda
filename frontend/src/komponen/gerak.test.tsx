@@ -46,15 +46,14 @@ describe('muncul saat digulir', () => {
     renderHook(() => useMunculGulir());
     expect(document.documentElement.classList.contains('js-gulir')).toBe(false);
   });
-  it('dengan observer: tiap bagian ditandai terlihat sekali, lalu tidak diamati lagi', () => {
-    let panggil: IntersectionObserverCallback = () => {};
-    const lepas = vi.fn();
+  it('dengan observer: ditandai terlihat saat masuk, dilepas saat keluar layar, lalu diulang [AG-55]', () => {
+    const pengamat: IntersectionObserverCallback[] = [];
     class PengamatTiruan {
       constructor(cb: IntersectionObserverCallback) {
-        panggil = cb;
+        pengamat.push(cb);
       }
       observe = vi.fn();
-      unobserve = lepas;
+      unobserve = vi.fn();
       disconnect = vi.fn();
     }
     vi.stubGlobal('IntersectionObserver', PengamatTiruan);
@@ -62,14 +61,20 @@ describe('muncul saat digulir', () => {
     renderHook(() => useMunculGulir());
     expect(document.documentElement.classList.contains('js-gulir')).toBe(true);
     const el = container.firstElementChild!;
-    act(() =>
-      panggil(
-        [{ isIntersecting: true, target: el } as unknown as IntersectionObserverEntry],
-        {} as IntersectionObserver,
-      ),
-    );
+    const [masuk, keluar] = pengamat;
+    const kirim = (cb: IntersectionObserverCallback | undefined, isIntersecting: boolean) =>
+      act(() =>
+        cb?.(
+          [{ isIntersecting, target: el } as unknown as IntersectionObserverEntry],
+          {} as IntersectionObserver,
+        ),
+      );
+    kirim(masuk, true);
     expect(el.classList.contains('terlihat')).toBe(true);
-    expect(lepas).toHaveBeenCalledWith(el);
+    kirim(keluar, false);
+    expect(el.classList.contains('terlihat')).toBe(false);
+    kirim(masuk, true);
+    expect(el.classList.contains('terlihat')).toBe(true);
   });
 });
 
