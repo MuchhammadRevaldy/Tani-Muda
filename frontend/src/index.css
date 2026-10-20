@@ -397,6 +397,27 @@ html.js-gulir .muncul-gulir:not(.terlihat) .penggaris-penanda {
   }
 }
 
+/* Siklus: langkah yang disorot, ikon medalinya memantul dan garisnya teraliri cahaya [AG-56]. */
+@keyframes alir {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(300%);
+  }
+}
+@media (hover: hover) {
+  .group\/langkah:hover .ikon-medali {
+    animation: tunas-pantul theme('transitionDuration.sedang') theme('transitionTimingFunction.keluar');
+  }
+}
+@media (hover: hover) and (min-width: 1024px) {
+  .group\/langkah:hover .aliran-cahaya {
+    opacity: 0.7;
+    animation: alir 900ms linear infinite;
+  }
+}
+
 /* Kartu dan baris bertahap: --urutan diisi 0–7 (item ke-8 dan seterusnya 0, langsung). */
 .muncul-bertahap {
   animation: theme('animation.muncul-bertahap');

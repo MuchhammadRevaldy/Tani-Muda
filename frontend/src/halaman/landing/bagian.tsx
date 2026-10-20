@@ -260,7 +260,7 @@ export function Medali({ ikon, warna }: { ikon: NamaIkon; warna: WarnaMedali }) 
         aria-hidden="true"
         className="absolute left-3 right-3 top-1.5 h-6 rounded-full bg-putih opacity-30"
       />
-      <Ikon nama={ikon} ukuran={40} tebal={2} className="relative" />
+      <Ikon nama={ikon} ukuran={40} tebal={2} className="ikon-medali relative" />
     </span>
   );
 }
@@ -282,11 +282,11 @@ export function BagianSiklus({ d }: { d: DataLanding }) {
         judul={t.judulPilar}
         ket={t.ketPilar}
       />
-      <ol className="m-0 grid list-none p-0 lg:grid-cols-4">
+      <ol className="group/siklus m-0 grid list-none p-0 lg:grid-cols-4">
         {SIKLUS.map((s, i) => (
           <li
             key={s.judul}
-            className="giliran relative flex gap-4 pb-8 lg:flex-col lg:items-center lg:px-3 lg:pb-0"
+            className="giliran group/langkah relative flex gap-4 pb-8 lg:flex-col lg:items-center lg:px-3 lg:pb-0"
             style={urutan(i)}
           >
             {i < SIKLUS.length - 1 ? (
@@ -294,14 +294,21 @@ export function BagianSiklus({ d }: { d: DataLanding }) {
               // (dari tengah medali ke tengah medali berikutnya). Tergambar bergiliran.
               <span
                 aria-hidden="true"
-                className="garis-tumbuh absolute bottom-0 left-10 top-20 w-1 -translate-x-1/2 rounded-full bg-limau lg:left-1/2 lg:top-12 lg:h-1 lg:w-full lg:translate-x-0"
+                className="garis-tumbuh absolute bottom-0 left-10 top-20 w-1 -translate-x-1/2 overflow-hidden rounded-full bg-limau lg:left-1/2 lg:top-12 lg:h-1 lg:w-full lg:translate-x-0"
                 style={urutan(i + 1)}
-              />
+              >
+                {/* Cahaya yang mengalir di garis saat langkah ini disorot [AG-56]. */}
+                <span className="aliran-cahaya absolute inset-y-0 left-0 w-1/3 rounded-full bg-putih opacity-0" />
+              </span>
             ) : null}
             <div className="relative">
-              <Medali ikon={s.ikon} warna={s.warna} />
+              {/* Alas yang tidak ikut meredup, supaya garis tidak terlihat menembus medali. */}
+              <span aria-hidden="true" className="absolute inset-0 rounded-full bg-embun-pagi" />
+              <div className="relative transition duration-cepat ease-keluar group-hover/siklus:opacity-50 group-hover/langkah:!opacity-100 group-hover/langkah:scale-110">
+                <Medali ikon={s.ikon} warna={s.warna} />
+              </div>
             </div>
-            <div className="flex min-w-0 flex-1 flex-col gap-2 lg:items-center lg:text-center">
+            <div className="flex min-w-0 flex-1 flex-col gap-2 transition duration-cepat ease-keluar group-hover/siklus:opacity-50 group-hover/langkah:!opacity-100 lg:items-center lg:text-center">
               <p className="m-0 font-semibold text-daun-tua">{t.langkahKe(i + 1)}</p>
               <h3 className="m-0 text-tampil-1 font-semibold">{s.judul}</h3>
               <p className="m-0 text-teks-pendukung">{s.isi}</p>
@@ -338,7 +345,7 @@ export function CaraKerja({ d }: { d: DataLanding }) {
     ? t.langkah(d.konfigurasi.persen_uang_muka, d.konfigurasi.jam_periksa_rutin)
     : null;
   const ref = useRef<HTMLOListElement>(null);
-  const putaran = usePutaranLangkah(ref, langkah?.length ?? 0);
+  const [putaran, sorotLangkah] = usePutaranLangkah(ref, langkah?.length ?? 0);
   return (
     <>
       <KepalaBagian id={judulIdBagian('caraKerja')} sapaan={t.sapaanCara} judul={t.judulCara} />
@@ -364,9 +371,15 @@ export function CaraKerja({ d }: { d: DataLanding }) {
             const sampai = putaran.langkah >= i;
             const aktif = putaran.langkah === i;
             return (
+              // Disorot atau difokus: putaran berhenti dan garis melompat ke langkah ini [AG-56].
               <li
                 key={l.judul}
-                className="giliran relative flex gap-4 lg:flex-col lg:items-center lg:gap-3 lg:text-center"
+                tabIndex={0}
+                onMouseEnter={() => sorotLangkah(i)}
+                onMouseLeave={() => sorotLangkah(null)}
+                onFocus={() => sorotLangkah(i)}
+                onBlur={() => sorotLangkah(null)}
+                className="giliran fokus-cincin relative flex gap-4 rounded-md outline-none lg:flex-col lg:items-center lg:gap-3 lg:text-center"
                 style={urutan(i + 1)}
               >
                 <span className="relative grid h-12 w-12 flex-none place-items-center">
