@@ -632,6 +632,212 @@ html.js-gulir .muncul-gulir:not(.terlihat) .penggaris-penanda {
   }
 }
 
+/* Halaman Masuk [AG-57]: elemen formulir muncul bergiliran (jeda 120 ms, memudar sambil naik),
+   dan ilustrasi sawah pagi dianimasikan per aset (komponen IlustrasiSawahPagi). Setiap animasi
+   berakhir di `transform: none`, jadi keadaan akhir sama dengan gambar diam. */
+@keyframes masuk-naik {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.masuk-bertahap {
+  animation: masuk-naik 900ms theme('transitionTimingFunction.keluar') backwards;
+  animation-delay: calc(var(--urutan, 0) * 120ms);
+}
+@keyframes sp-pudar {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes sp-terbit {
+  from {
+    opacity: 0;
+    transform: translateY(150px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes sp-pendar {
+  0%,
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+  50% {
+    opacity: 0.75;
+    transform: scale(1.04);
+  }
+}
+@keyframes sp-dari-kiri {
+  from {
+    opacity: 0;
+    transform: translateX(-320px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes sp-dari-kanan {
+  from {
+    opacity: 0;
+    transform: translateX(320px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes sp-awan-kiri {
+  0%,
+  100% {
+    transform: none;
+  }
+  50% {
+    transform: translateX(36px);
+  }
+}
+@keyframes sp-awan-kanan {
+  0%,
+  100% {
+    transform: none;
+  }
+  50% {
+    transform: translateX(-30px);
+  }
+}
+@keyframes sp-naik {
+  from {
+    opacity: 0;
+    transform: translateY(60px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes sp-bentang {
+  from {
+    opacity: 0;
+    transform: scaleY(0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes sp-tumbuh {
+  from {
+    opacity: 0;
+    transform: scale(0.15);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes sp-angin {
+  0%,
+  100% {
+    transform: none;
+  }
+  30% {
+    transform: rotate(-2deg);
+  }
+  70% {
+    transform: rotate(2deg);
+  }
+}
+.sawah-pagi g,
+.sawah-pagi use,
+.sawah-pagi circle {
+  transform-box: fill-box;
+}
+.sawah-pagi .sp-langit,
+.sawah-pagi .sp-dasar {
+  animation: sp-pudar 800ms theme('transitionTimingFunction.keluar') both;
+}
+.sawah-pagi .sp-matahari {
+  transform-origin: center;
+  animation: sp-terbit 1200ms theme('transitionTimingFunction.keluar') 200ms both;
+}
+.sawah-pagi .sp-pendar {
+  transform-origin: center;
+  animation: sp-pendar 4s ease-in-out 1400ms infinite;
+}
+.sawah-pagi .sp-awan-kiri {
+  animation: sp-dari-kiri 1000ms theme('transitionTimingFunction.keluar') 400ms both;
+}
+.sawah-pagi .sp-awan-kanan {
+  animation: sp-dari-kanan 1000ms theme('transitionTimingFunction.keluar') 500ms both;
+}
+.sawah-pagi .sp-awan-kiri .sp-awan-gerak {
+  animation: sp-awan-kiri 16s ease-in-out 1400ms infinite;
+}
+.sawah-pagi .sp-awan-kanan .sp-awan-gerak {
+  animation: sp-awan-kanan 19s ease-in-out 1500ms infinite;
+}
+.sawah-pagi .sp-bukit {
+  animation: sp-naik 900ms theme('transitionTimingFunction.keluar') 600ms both;
+}
+.sawah-pagi .sp-bedeng {
+  transform-origin: bottom center;
+  animation: sp-bentang 1000ms theme('transitionTimingFunction.keluar') both;
+}
+.sawah-pagi .sp-bedeng-1 {
+  animation-delay: 950ms;
+}
+.sawah-pagi .sp-bedeng-2 {
+  animation-delay: 1050ms;
+}
+.sawah-pagi .sp-bedeng-3 {
+  animation-delay: 1150ms;
+}
+.sawah-pagi .sp-tunas {
+  transform-origin: bottom center;
+  animation: sp-tumbuh 700ms theme('transitionTimingFunction.keluar') both;
+}
+.sawah-pagi .sp-baris-1 {
+  animation-delay: 1500ms;
+}
+.sawah-pagi .sp-baris-2 {
+  animation-delay: 1620ms;
+}
+.sawah-pagi .sp-baris-3 {
+  animation-delay: 1740ms;
+}
+.sawah-pagi .sp-baris-4 {
+  animation-delay: 1860ms;
+}
+.sawah-pagi .sp-tanaman {
+  transform-origin: bottom center;
+  animation: sp-tumbuh 1000ms theme('transitionTimingFunction.keluar') both;
+}
+.sawah-pagi .sp-tanaman-1 {
+  animation-delay: 1750ms;
+}
+.sawah-pagi .sp-tanaman-2 {
+  animation-delay: 1850ms;
+}
+.sawah-pagi .sp-tanaman-3 {
+  animation-delay: 1950ms;
+}
+.sawah-pagi .sp-goyang {
+  transform-origin: bottom center;
+  animation: sp-angin 5s ease-in-out 2950ms infinite;
+}
+/* Tab tidak terlihat: gerak berulang dijeda (hemat CPU di laptop dengan RAM terbatas). */
+.sawah-pagi.jeda * {
+  animation-play-state: paused !important;
+}
+
 /* Kartu dan baris bertahap: --urutan diisi 0–7 (item ke-8 dan seterusnya 0, langsung). */
 .muncul-bertahap {
   animation: theme('animation.muncul-bertahap');
