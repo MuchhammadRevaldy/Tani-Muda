@@ -1,35 +1,117 @@
 /**
- * Bagian halaman depan di bawah hero (papan 01): tiga pilar, cara kerja Pesan Sebelum Tanam lima
- * langkah, bagian pembeli, dan tanya jawab. Angka dari konfigurasi dan fungsi src/lib (D-08).
+ * Bagian halaman depan di bawah hero [AG-54]: Masalah, Siklus Tani Muda (menggantikan tiga pilar),
+ * cara kerja Pesan Sebelum Tanam, fitur pendukung, pembeli, tanya jawab, dan ajakan penutup.
+ * Setiap bagian punya id (tautan navbar), latar berselang-seling embun-pagi dan putih dengan lengkung
+ * bukit sebagai pemisah. Angka dari konfigurasi dan fungsi src/lib (D-08). Gambar hanya aset yang
+ * sudah ada di public/ (ilustrasi, lencana, foto komoditas).
  */
-import type { ReactNode } from 'react';
+import type { CSSProperties, ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 import { ChipStatus } from '../../komponen/chip-status';
 import { cx } from '../../komponen/gabung-kelas';
-import { Ikon, type NamaIkon } from '../../komponen/ikon';
+import { Ikon, IkonLingkaran, type NamaIkon } from '../../komponen/ikon';
+import { IlustrasiKomoditas } from '../../komponen/ilustrasi';
 import { LabelKecil } from '../../komponen/label-kecil';
 import { DaftarSyarat, FaqLipat } from '../../komponen/pelengkap';
 import { PenggarisUmurTanam } from '../../komponen/penggaris-umur-tanam';
 import { kelasTombol } from '../../komponen/tombol';
 import { useLayarLebar } from '../../komponen/use-layar-lebar';
 import { CONTOH_LANDING } from '../../lib/contoh-landing';
+import { animasiMati } from '../../lib/gerak';
 import { teksLanding as t } from '../../teks/landing';
 import { kelasWadah } from '../statis/kerangka-publik';
+import { AngkaNaik } from './angka-naik';
 import type { DataLanding } from './data-landing';
+import { FITUR_LANDING, idBagian, type IdBagian } from './gulir';
+
+export type Latar = 'putih' | 'embun';
+
+const KELAS_LATAR: Record<Latar, string> = { putih: 'bg-putih', embun: 'bg-embun-pagi' };
+const ISI_LATAR: Record<Latar, string> = { putih: 'fill-putih', embun: 'fill-embun-pagi' };
+
+/** Urutan gaya bergiliran (--urutan) untuk kelas `giliran` / `garis-tumbuh`. */
+const urutan = (i: number) => ({ '--urutan': i }) as CSSProperties;
+
+/** Lengkung bukit di atas bagian: warna bagian sebelumnya di atas, warna bagian ini di bawah. */
+function PemisahBukit({ dari, ke, varian }: { dari: Latar; ke: Latar; varian: number }) {
+  const d =
+    varian % 2
+      ? 'M0 22 C 260 58 560 60 860 34 S 1300 4 1440 30 V64 H0 Z'
+      : 'M0 40 C 240 4 480 4 720 28 S 1200 64 1440 16 V64 H0 Z';
+  return (
+    <div aria-hidden="true" className={KELAS_LATAR[dari]}>
+      <svg
+        viewBox="0 0 1440 64"
+        preserveAspectRatio="none"
+        className={cx('block h-10 w-full lg:h-16', ISI_LATAR[ke])}
+      >
+        <path d={d} />
+      </svg>
+    </div>
+  );
+}
+
+/**
+ * Bungkus satu bagian: pemisah bukit, lalu `<section>` berid (bisa difokus setelah tautan navbar
+ * dipilih) dengan isi yang muncul saat digulir (D-61).
+ */
+export function BagianLanding({
+  id,
+  latar,
+  urut,
+  judulId,
+  children,
+}: {
+  id: string;
+  latar: Latar;
+  urut: number;
+  judulId?: string;
+  children: ReactNode;
+}) {
+  return (
+    <>
+      <PemisahBukit dari={latar === 'putih' ? 'embun' : 'putih'} ke={latar} varian={urut} />
+      <section
+        id={id}
+        tabIndex={-1}
+        aria-labelledby={judulId}
+        className={cx('scroll-mt-18 outline-none', KELAS_LATAR[latar])}
+      >
+        <div
+          className={cx(
+            kelasWadah,
+            'muncul-gulir flex flex-col gap-8 pb-14 pt-6 lg:gap-12 lg:pb-20',
+          )}
+        >
+          {children}
+        </div>
+      </section>
+    </>
+  );
+}
+
+export const judulIdBagian = (k: IdBagian | 'ajakan') =>
+  `judul-${k === 'ajakan' ? k : idBagian(k)}`;
 
 function KepalaBagian({
+  id,
   sapaan,
   judul,
   ket,
   nadaSapaan = 'daun',
+  tengah,
 }: {
+  id: string;
   sapaan?: string;
   judul: string;
   ket?: string;
   nadaSapaan?: 'daun' | 'tanah';
+  tengah?: boolean;
 }) {
   return (
-    <div className="flex max-w-teks flex-col gap-3">
+    <div
+      className={cx('flex max-w-teks flex-col gap-3', tengah && 'mx-auto items-center text-center')}
+    >
       {sapaan ? (
         <p
           className={cx(
@@ -40,64 +122,152 @@ function KepalaBagian({
           {sapaan}
         </p>
       ) : null}
-      <h2 className="m-0 text-tampil-2 font-semibold tracking-rapat lg:text-tampil-4">{judul}</h2>
+      <h2 id={id} className="m-0 text-tampil-2 font-semibold tracking-rapat lg:text-tampil-4">
+        {judul}
+      </h2>
       {ket ? <p className="m-0 text-judul-bagian text-teks-pendukung">{ket}</p> : null}
     </div>
   );
 }
 
-function KartuPilar({
-  ikon,
-  nadaIkon,
+// ---------------------------------------------------------------- Masalah
+
+const GAMBAR_MASALAH = [
+  '/lencana/level-tunas.svg',
+  '/lencana/level-benih.svg',
+  '/lencana/tepat-waktu-7-hari.svg',
+  '/lencana/panen-pertama.svg',
+];
+
+export function BagianMasalah() {
+  return (
+    <div className="grid gap-10 lg:grid-cols-12 lg:items-center lg:gap-12">
+      <div className="flex flex-col gap-6 lg:col-span-5">
+        <KepalaBagian
+          id={judulIdBagian('masalah')}
+          sapaan={t.sapaanMasalah}
+          judul={t.judulMasalah}
+          nadaSapaan="tanah"
+        />
+        <div className="flex flex-col gap-2">
+          <p className="m-0 text-tampil-5 font-bold tracking-rapat text-tanah lg:text-angka-besar">
+            <AngkaNaik nilai={t.angkaMasalah} desimal={2} akhiran="%" />
+          </p>
+          <p className="m-0 text-judul-bagian">{t.ketAngkaMasalah}</p>
+          <p className="m-0 text-keterangan text-teks-pendukung">{t.sumberAngkaMasalah}</p>
+        </div>
+        <p className="m-0 text-judul-bagian text-teks-pendukung">{t.ketMasalah}</p>
+      </div>
+      <ul className="m-0 grid list-none gap-4 p-0 md:grid-cols-2 lg:col-span-7">
+        {t.masalah.map((m, i) => (
+          <li
+            key={m.judul}
+            className="giliran flex gap-4 rounded-lg border border-garis bg-embun-pagi p-4 lg:flex-col lg:p-5"
+            style={urutan(i)}
+          >
+            <img
+              src={GAMBAR_MASALAH[i]}
+              alt=""
+              width={64}
+              height={64}
+              className="block h-16 w-16 flex-none"
+            />
+            <div className="flex flex-col gap-1">
+              <h3 className="m-0 text-judul-bagian font-semibold">{m.judul}</h3>
+              <p className="m-0 text-teks-pendukung">{m.isi}</p>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+// ---------------------------------------------------------------- Siklus Tani Muda
+
+function GambarSiklus({ src, goyang = true }: { src: string; goyang?: boolean }) {
+  return (
+    <span className="grid h-24 w-24 flex-none place-items-center rounded-full bg-putih shadow-ikon lg:h-ilustrasi lg:w-ilustrasi">
+      <img
+        src={src}
+        alt=""
+        width={160}
+        height={160}
+        className={cx('block h-18 w-18 lg:h-26 lg:w-26', goyang && 'animate-goyang')}
+      />
+    </span>
+  );
+}
+
+function LangkahSiklus({
+  i,
+  terakhir,
+  gambar,
   judul,
   isi,
   children,
 }: {
-  ikon: NamaIkon;
-  nadaIkon: 'daun' | 'tanah';
+  i: number;
+  terakhir: boolean;
+  gambar: ReactNode;
   judul: string;
   isi: string;
   children?: ReactNode;
 }) {
   return (
-    <article className="flex flex-col gap-4 rounded-lg border border-garis bg-putih p-4 lg:p-6">
-      <div className="flex items-center gap-3">
+    <li
+      className="giliran relative flex gap-4 pb-8 lg:flex-col lg:items-center lg:px-3 lg:pb-0"
+      style={urutan(i)}
+    >
+      {!terakhir ? (
+        // Garis ke langkah berikutnya: tegak di HP (dari bawah gambar), mendatar di desktop (dari
+        // tengah gambar ke tengah gambar berikutnya). Tergambar bergiliran saat bagian terlihat.
         <span
-          className={cx(
-            'grid h-12 w-12 place-items-center rounded-md',
-            nadaIkon === 'daun' ? 'bg-daun-lembut text-daun-tua' : 'bg-tanah-lembut text-tanah',
-          )}
-        >
-          <Ikon nama={ikon} />
-        </span>
-        <h3 className="m-0 text-tampil-1 font-medium">{judul}</h3>
+          aria-hidden="true"
+          className="garis-tumbuh absolute bottom-0 left-12 top-24 w-1 -translate-x-1/2 rounded-full bg-limau lg:left-1/2 lg:top-20 lg:h-1 lg:w-full lg:translate-x-0"
+          style={urutan(i + 1)}
+        />
+      ) : null}
+      <div className="relative">{gambar}</div>
+      <div className="flex min-w-0 flex-1 flex-col gap-2 lg:items-center lg:text-center">
+        <p className="m-0 font-semibold text-daun-tua">{t.langkahKe(i + 1)}</p>
+        <h3 className="m-0 text-tampil-1 font-semibold">{judul}</h3>
+        <p className="m-0 text-teks-pendukung">{isi}</p>
+        {children}
       </div>
-      <p className="m-0">{isi}</p>
-      <div className="flex-1" />
-      {children}
-    </article>
+    </li>
   );
 }
 
-export function Pilar({ d }: { d: DataLanding }) {
+export function BagianSiklus({ d }: { d: DataLanding }) {
+  const sawiDiam = animasiMati();
   return (
-    <section className={cx(kelasWadah, 'flex flex-col gap-8 pb-14 lg:pb-20')}>
-      <KepalaBagian judul={t.judulPilar} ket={t.ketPilar} />
-      <div className="grid gap-4 lg:grid-cols-3 lg:gap-6">
-        <KartuPilar ikon="belajar" nadaIkon="daun" judul={t.belajar} isi={t.isiBelajar}>
-          <div className="flex items-center gap-3 rounded-md bg-embun-pagi p-3">
-            <span className="grid h-11 w-16 flex-none place-items-center rounded-sm bg-daun-tua text-putih">
-              <Ikon nama="putar" ukuran={20} className="fill-current" />
-            </span>
-            <div className="min-w-0">
-              <p className="m-0 font-semibold">{t.contohModul}</p>
-              <p className="m-0 text-keterangan text-teks-pendukung">{t.ketModul}</p>
-            </div>
-          </div>
-        </KartuPilar>
-        <KartuPilar ikon="uang" nadaIkon="tanah" judul={t.hitung} isi={t.isiHitung}>
+    <>
+      <KepalaBagian
+        id={judulIdBagian('siklus')}
+        sapaan={t.sapaanSiklus}
+        judul={t.judulPilar}
+        ket={t.ketPilar}
+      />
+      <ol className="m-0 grid list-none p-0 lg:grid-cols-4">
+        <LangkahSiklus
+          i={0}
+          terakhir={false}
+          gambar={<GambarSiklus src="/lencana/pelajar-rajin.svg" />}
+          judul={t.belajar}
+          isi={t.isiBelajar}
+        >
+          <p className="m-0 text-keterangan text-teks-pendukung">{t.ketModul}</p>
+        </LangkahSiklus>
+        <LangkahSiklus
+          i={1}
+          terakhir={false}
+          gambar={<GambarSiklus src="/ilustrasi/ilustrasi-masuk.svg" />}
+          judul={t.hitung}
+          isi={t.isiHitung}
+        >
           {d.hitung.length ? (
-            <div className="rounded-md bg-tanah-lembut">
+            <div className="w-full rounded-md border border-garis bg-putih text-left">
               <ul className="m-0 list-none p-0">
                 {d.hitung.map((b, i) => {
                   const a = t.modalImpas(
@@ -108,7 +278,7 @@ export function Pilar({ d }: { d: DataLanding }) {
                   return (
                     <li
                       key={b.komoditas.id}
-                      className={cx('px-3 py-3', i > 0 && 'border-t border-garis')}
+                      className={cx('px-3 py-2', i > 0 && 'border-t border-garis')}
                     >
                       <p className="m-0 font-semibold">
                         {t.barisHitung(b.komoditas.nama, b.luasM2)}
@@ -126,9 +296,42 @@ export function Pilar({ d }: { d: DataLanding }) {
               </p>
             </div>
           ) : null}
-        </KartuPilar>
-        <KartuPilar ikon="pesanan" nadaIkon="daun" judul={t.jual} isi={t.isiJual}>
-          <ul className="m-0 list-none rounded-md bg-embun-pagi p-0">
+        </LangkahSiklus>
+        <LangkahSiklus
+          i={2}
+          terakhir={false}
+          gambar={
+            // Sawi bergerak membawa animasinya sendiri di dalam SVG; saat animasi mati, versi diam.
+            <span className="grid h-24 w-24 flex-none place-items-center rounded-full bg-putih shadow-ikon lg:h-ilustrasi lg:w-ilustrasi">
+              {sawiDiam ? (
+                <IlustrasiKomoditas
+                  nama="sawi"
+                  ukuran={104}
+                  alt=""
+                  className="h-18 w-18 lg:h-26 lg:w-26"
+                />
+              ) : (
+                <img
+                  src="/ilustrasi/sawi-bergerak.svg"
+                  alt=""
+                  width={104}
+                  height={104}
+                  className="block h-18 w-18 lg:h-26 lg:w-26"
+                />
+              )}
+            </span>
+          }
+          judul={t.rawat}
+          isi={t.isiRawat}
+        />
+        <LangkahSiklus
+          i={3}
+          terakhir
+          gambar={<GambarSiklus src="/lencana/pesanan-pertama.svg" />}
+          judul={t.jual}
+          isi={t.isiJual}
+        >
+          <ul className="m-0 w-full list-none rounded-md border border-garis bg-putih p-0 text-left">
             {CONTOH_LANDING.pesanan.map((p, i) => (
               <li
                 key={p.nama}
@@ -146,11 +349,13 @@ export function Pilar({ d }: { d: DataLanding }) {
               </li>
             ))}
           </ul>
-        </KartuPilar>
-      </div>
-    </section>
+        </LangkahSiklus>
+      </ol>
+    </>
   );
 }
+
+// ---------------------------------------------------------------- Cara kerja
 
 const LANGKAH: { ikon: NamaIkon; kelas: string }[] = [
   { ikon: 'pesanan', kelas: 'border-2 border-garis-kuat bg-putih text-teks' },
@@ -161,26 +366,28 @@ const LANGKAH: { ikon: NamaIkon; kelas: string }[] = [
 ];
 
 export function CaraKerja({ d }: { d: DataLanding }) {
-  if (!d.konfigurasi) return null;
-  const langkah = t.langkah(d.konfigurasi.persen_uang_muka, d.konfigurasi.jam_periksa_rutin);
+  const langkah = d.konfigurasi
+    ? t.langkah(d.konfigurasi.persen_uang_muka, d.konfigurasi.jam_periksa_rutin)
+    : null;
   return (
-    <section className="border-y border-garis bg-putih">
-      <div className={cx(kelasWadah, 'flex flex-col gap-8 py-12 lg:gap-10 lg:py-20')}>
-        <KepalaBagian sapaan={t.sapaanCara} judul={t.judulCara} />
+    <>
+      <KepalaBagian id={judulIdBagian('caraKerja')} sapaan={t.sapaanCara} judul={t.judulCara} />
+      {langkah ? (
         <ol className="relative m-0 grid list-none gap-6 p-0 lg:grid-cols-5 lg:gap-4">
-          {/* Garis penghubung: tegak di HP, mendatar di desktop. */}
+          {/* Garis penghubung yang tergambar: tegak di HP, mendatar di desktop. */}
           <span
             aria-hidden="true"
-            className="absolute bottom-6 left-6 top-6 w-0.5 bg-garis lg:bottom-auto lg:left-24 lg:right-24 lg:top-6 lg:h-0.5 lg:w-auto"
+            className="garis-tumbuh absolute bottom-6 left-6 top-6 w-1 -translate-x-1/2 rounded-full bg-limau lg:bottom-auto lg:left-24 lg:right-24 lg:top-6 lg:h-1 lg:w-auto lg:translate-x-0"
           />
           {langkah.map((l, i) => (
             <li
               key={l.judul}
-              className="relative flex gap-4 lg:flex-col lg:items-center lg:gap-3 lg:text-center"
+              className="giliran relative flex gap-4 lg:flex-col lg:items-center lg:gap-3 lg:text-center"
+              style={urutan(i + 1)}
             >
               <span
                 className={cx(
-                  'grid h-12 w-12 flex-none place-items-center rounded-full',
+                  'relative grid h-12 w-12 flex-none place-items-center rounded-full',
                   LANGKAH[i]?.kelas,
                 )}
               >
@@ -194,18 +401,105 @@ export function CaraKerja({ d }: { d: DataLanding }) {
             </li>
           ))}
         </ol>
-      </div>
-    </section>
+      ) : null}
+    </>
   );
 }
+
+// ---------------------------------------------------------------- Fitur pendukung
+
+const LEVEL = ['level-benih', 'level-tunas', 'level-daun', 'level-berbunga', 'level-panen-raya'];
+
+function GambarFitur({ f }: { f: (typeof FITUR_LANDING)[number] }) {
+  const gambar = (src: string, bulat?: boolean) => (
+    <img
+      src={src}
+      alt=""
+      width={56}
+      height={56}
+      className={cx('block h-14 w-14 flex-none object-cover', bulat && 'rounded-full')}
+    />
+  );
+  switch (f) {
+    case 'deteksi':
+      return gambar('/lencana/kebun-terdokumentasi.svg');
+    case 'cuaca':
+      return gambar('/lencana/pengukur-teliti.svg');
+    case 'stok':
+      return gambar('/foto/komoditas/bayam.webp', true);
+    case 'asisten':
+      return <IkonLingkaran nama="info" besar />;
+    case 'peta':
+      return <IkonLingkaran nama="peta" besar />;
+    case 'chat':
+      return <IkonLingkaran nama="chat" besar />;
+    case 'level':
+      return (
+        <span className="flex -space-x-3">
+          {LEVEL.map((l) => (
+            <img
+              key={l}
+              src={`/lencana/${l}.svg`}
+              alt=""
+              width={48}
+              height={48}
+              className="block h-12 w-12"
+            />
+          ))}
+        </span>
+      );
+  }
+}
+
+export function BagianFitur() {
+  return (
+    <>
+      <KepalaBagian id={judulIdBagian('fitur')} sapaan={t.sapaanFitur} judul={t.judulFitur} />
+      <ul className="m-0 grid list-none gap-4 p-0 md:grid-cols-2 lg:grid-cols-3 lg:gap-6">
+        {FITUR_LANDING.map((f, i) => {
+          const isi = t.fitur[f];
+          return (
+            <li
+              key={f}
+              className={cx(
+                'giliran flex flex-col gap-4 rounded-lg border border-garis bg-putih p-5',
+                f === 'level' && FITUR_LANDING.length % 3 === 1 && 'lg:col-span-3',
+              )}
+              style={urutan(i)}
+            >
+              <GambarFitur f={f} />
+              <div className="flex flex-col gap-1">
+                <h3 className="m-0 text-judul-bagian font-semibold">{isi.judul}</h3>
+                <p className="m-0 text-teks-pendukung">{isi.isi}</p>
+                {'ket' in isi ? (
+                  <p className="m-0 flex items-start gap-2 pt-1 text-keterangan text-daun-tua">
+                    <Ikon nama="pin" ukuran={20} className="mt-0.5" />
+                    <span>{isi.ket}</span>
+                  </p>
+                ) : null}
+              </div>
+            </li>
+          );
+        })}
+      </ul>
+    </>
+  );
+}
+
+// ---------------------------------------------------------------- Pembeli
 
 export function BagianPembeli({ d }: { d: DataLanding }) {
   const lebar = useLayarLebar();
   const c = d.pembeli;
   return (
-    <section className={cx(kelasWadah, 'grid gap-6 py-12 lg:grid-cols-2 lg:gap-12 lg:py-20')}>
+    <div className="grid gap-6 lg:grid-cols-2 lg:gap-12">
       <div className="flex flex-col gap-6">
-        <KepalaBagian sapaan={t.sapaanPembeli} judul={t.judulPembeli} nadaSapaan="tanah" />
+        <KepalaBagian
+          id={judulIdBagian('pembeli')}
+          sapaan={t.sapaanPembeli}
+          judul={t.judulPembeli}
+          nadaSapaan="tanah"
+        />
         <DaftarSyarat butir={[...t.keunggulan]} />
         {lebar ? (
           <Link to="/masuk?peran=pembeli" className={cx(kelasTombol('utama'), 'self-start')}>
@@ -214,7 +508,7 @@ export function BagianPembeli({ d }: { d: DataLanding }) {
         ) : null}
       </div>
       {c ? (
-        <div className="flex flex-col gap-3 self-center">
+        <div className="giliran flex flex-col gap-3 self-center" style={urutan(1)}>
           <article className="flex flex-col gap-3 rounded-lg border border-garis bg-putih p-4">
             <div className="flex flex-wrap items-start justify-between gap-2">
               <div className="min-w-0">
@@ -243,25 +537,59 @@ export function BagianPembeli({ d }: { d: DataLanding }) {
           {t.daftarPembeli}
         </Link>
       ) : null}
-    </section>
+    </div>
   );
 }
 
+// ---------------------------------------------------------------- Tanya jawab
+
 export function TanyaJawab({ d }: { d: DataLanding }) {
-  if (!d.konfigurasi) return null;
   return (
-    <section className="border-t border-garis bg-putih">
-      <div className={cx(kelasWadah, 'grid gap-6 py-12 lg:grid-cols-3 lg:gap-12 lg:py-16')}>
-        <KepalaBagian judul={t.judulFaq} ket={t.ketFaq} />
-        <div className="lg:col-span-2">
+    <div className="grid gap-6 lg:grid-cols-3 lg:gap-12">
+      <KepalaBagian id={judulIdBagian('tanyaJawab')} judul={t.judulFaq} ket={t.ketFaq} />
+      <div className="lg:col-span-2">
+        {d.konfigurasi ? (
           <FaqLipat
             butir={t.faq(
               d.konfigurasi.hari_kembali_uang_muka,
               d.konfigurasi.hari_kabar_gagal_panen,
             )}
           />
-        </div>
+        ) : null}
       </div>
-    </section>
+    </div>
+  );
+}
+
+// ---------------------------------------------------------------- Ajakan penutup
+
+export function AjakanPenutup() {
+  return (
+    <div className="flex flex-col items-center gap-6 text-center">
+      <img
+        src="/ilustrasi/komoditas/sawi.svg"
+        alt=""
+        width={120}
+        height={120}
+        className="animate-goyang block h-24 w-24 lg:h-26 lg:w-26"
+      />
+      <div className="flex max-w-teks flex-col gap-3">
+        <h2
+          id={judulIdBagian('ajakan')}
+          className="m-0 text-tampil-3 font-bold tracking-rapat lg:text-tampil-5"
+        >
+          {t.judulAjakan}
+        </h2>
+        <p className="m-0 text-judul-bagian text-teks-pendukung">{t.isiAjakan}</p>
+      </div>
+      <div className="flex w-full flex-col gap-3 md:w-auto md:flex-row">
+        <Link to="/masuk?peran=petani" className={kelasTombol('utama', true) + ' md:w-auto'}>
+          {t.mulaiPetani}
+        </Link>
+        <Link to="/masuk?peran=pembeli" className={kelasTombol('sekunder', true) + ' md:w-auto'}>
+          {t.sayaPembeli}
+        </Link>
+      </div>
+    </div>
   );
 }

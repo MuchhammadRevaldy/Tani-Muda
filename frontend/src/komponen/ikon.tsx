@@ -42,6 +42,8 @@ const IKON = {
   'panah-naik-turun': '<path d="M8 9l4-4 4 4"/><path d="M8 15l4 4 4-4"/>',
   // Tambahan di luar desain: tombol tutup dialog, gaya garis yang sama.
   silang: '<path d="M6.5 6.5l11 11"/><path d="M17.5 6.5l-11 11"/>',
+  // Tombol menu navbar halaman publik di HP [AG-54], gaya garis yang sama.
+  menu: '<path d="M4 7h16"/><path d="M4 12h16"/><path d="M4 17h16"/>',
   // Ikon inline di papan Hitung (10–19): cari, pilih merek, ubah jumlah, catatan kios resmi, hapus.
   cari: '<circle cx="10.8" cy="10.8" r="6.3"/><path d="M15.4 15.4l4.6 4.6"/>',
   label:

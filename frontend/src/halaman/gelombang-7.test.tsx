@@ -49,14 +49,15 @@ describe('halaman depan (T4.32)', () => {
     expect(screen.getByText(/membayar uang muka 20%/)).toBeInTheDocument();
     expect(screen.getByText(/Paling lama 6 jam setelah sayur tiba/)).toBeInTheDocument();
     expect(screen.getByText(/dalam 7 hari, uang muka kembali utuh/)).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: 'Mulai sebagai petani' })).toHaveAttribute(
-      'href',
-      '/masuk?peran=petani',
-    );
-    expect(screen.getByRole('link', { name: 'Saya pembeli' })).toHaveAttribute(
-      'href',
-      '/masuk?peran=pembeli',
-    );
+    // Di hero dan di ajakan penutup [AG-54].
+    for (const [nama, href] of [
+      ['Mulai sebagai petani', '/masuk?peran=petani'],
+      ['Saya pembeli', '/masuk?peran=pembeli'],
+    ] as const) {
+      const tautan = screen.getAllByRole('link', { name: nama });
+      expect(tautan).toHaveLength(2);
+      for (const a of tautan) expect(a).toHaveAttribute('href', href);
+    }
     expect(screen.getByRole('link', { name: 'Masuk' })).toHaveAttribute('href', '/masuk');
     const kaki = screen.getByRole('navigation', { name: 'Informasi Tani Muda' });
     for (const nama of [
@@ -99,6 +100,70 @@ describe('halaman depan (T4.32)', () => {
       'aria-checked',
       'true',
     );
+  });
+});
+
+describe('navbar dan bagian halaman depan [AG-54]', () => {
+  const BAGIAN = [
+    ['Masalah', 'masalah'],
+    ['Siklus', 'siklus'],
+    ['Cara kerja', 'cara-kerja'],
+    ['Fitur', 'fitur'],
+    ['Pembeli', 'pembeli'],
+    ['Tanya jawab', 'tanya-jawab'],
+  ] as const;
+
+  it('setiap tautan navbar menuju bagian berid; tombol penyusur dan angka BPS ada', async () => {
+    await buka('/');
+    await screen.findByRole('heading', { level: 1 });
+    const nav = screen.getAllByRole('navigation', { name: 'Bagian halaman depan' })[0]!;
+    for (const [label, id] of BAGIAN) {
+      expect(within(nav).getByRole('link', { name: label })).toHaveAttribute('href', `#${id}`);
+      expect(document.getElementById(id)).toBeInTheDocument();
+    }
+    expect(screen.getByRole('link', { name: 'Lihat cara kerjanya' })).toHaveAttribute(
+      'href',
+      '#masalah',
+    );
+    // Tersembunyi (aria-hidden, tidak bisa difokus) sampai digulir lebih dari satu layar.
+    const keAtas = document.querySelector('button[aria-label="Kembali ke atas"]');
+    expect(keAtas).toHaveAttribute('aria-hidden', 'true');
+    expect(keAtas).toHaveAttribute('tabindex', '-1');
+    // Tanpa IntersectionObserver (jsdom) angka langsung tampil akhir.
+    expect(screen.getAllByText('21,93%').length).toBeGreaterThan(0);
+    expect(screen.getByText('Sumber: Sensus Pertanian 2023, BPS')).toBeInTheDocument();
+    expect(screen.getByText(/Lokasi dibulatkan sekitar 1 km/)).toBeInTheDocument();
+  });
+
+  it('di halaman statis tautan bagian menuju /#id', async () => {
+    await buka('/tentang');
+    const nav = (await screen.findAllByRole('navigation', { name: 'Bagian halaman depan' }))[0]!;
+    expect(within(nav).getByRole('link', { name: 'Cara kerja' })).toHaveAttribute(
+      'href',
+      '/#cara-kerja',
+    );
+  });
+
+  it('menu HP: dibuka tombol menu, ditutup Esc dengan fokus kembali, atau setelah memilih tautan', async () => {
+    const pengguna = userEvent.setup();
+    await buka('/');
+    await screen.findByRole('heading', { level: 1 });
+    const tombol = screen.getByRole('button', { name: 'Buka menu' });
+    expect(tombol).toHaveAttribute('aria-expanded', 'false');
+    await pengguna.click(tombol);
+    expect(screen.getByRole('button', { name: 'Tutup menu' })).toHaveAttribute(
+      'aria-expanded',
+      'true',
+    );
+    expect(screen.getAllByRole('navigation', { name: 'Bagian halaman depan' })).toHaveLength(2);
+    await pengguna.keyboard('{Escape}');
+    expect(screen.getAllByRole('navigation', { name: 'Bagian halaman depan' })).toHaveLength(1);
+    expect(screen.getByRole('button', { name: 'Buka menu' })).toHaveFocus();
+
+    await pengguna.click(screen.getByRole('button', { name: 'Buka menu' }));
+    const panel = screen.getAllByRole('navigation', { name: 'Bagian halaman depan' })[1]!;
+    await pengguna.click(within(panel).getByRole('link', { name: 'Fitur' }));
+    expect(screen.getAllByRole('navigation', { name: 'Bagian halaman depan' })).toHaveLength(1);
   });
 });
 
@@ -179,7 +244,9 @@ describe('ubah profil (T4.36)', () => {
       const selectDesa = screen.getByLabelText('Desa / Kelurahan') as HTMLSelectElement;
       expect(selectDesa.options.length).toBeGreaterThan(0);
     });
-    fireEvent.change(screen.getByLabelText('Desa / Kelurahan'), { target: { value: '33.10.16.2015' } });
+    fireEvent.change(screen.getByLabelText('Desa / Kelurahan'), {
+      target: { value: '33.10.16.2015' },
+    });
     await userEvent.click(
       screen.getByRole('checkbox', { name: /Saya terdaftar di kelompok tani/ }),
     );
@@ -191,9 +258,7 @@ describe('ubah profil (T4.36)', () => {
       nama: 'Arif Setiawan Putra',
       terdaftar_kelompok_tani: true,
     });
-    expect((await t.klien.wilayah.ambil(akun?.pengguna.wilayah_id as string)).desa).toBe(
-      'Segaran',
-    );
+    expect((await t.klien.wilayah.ambil(akun?.pengguna.wilayah_id as string)).desa).toBe('Segaran');
   });
 
   it('nama kosong ditolak sebelum dikirim', async () => {

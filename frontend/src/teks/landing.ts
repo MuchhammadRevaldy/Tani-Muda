@@ -14,6 +14,21 @@ export const teksLanding = {
   masuk: 'Masuk',
   bukaAplikasi: 'Buka aplikasi',
 
+  // ---- navbar dan tombol penyusur [AG-54]
+  navBagian: 'Bagian halaman depan',
+  bukaMenu: 'Buka menu',
+  tutupMenu: 'Tutup menu',
+  bagian: {
+    masalah: 'Masalah',
+    siklus: 'Siklus',
+    caraKerja: 'Cara kerja',
+    fitur: 'Fitur',
+    pembeli: 'Pembeli',
+    tanyaJawab: 'Tanya jawab',
+  },
+  lihatCaraKerja: 'Lihat cara kerjanya',
+  kembaliKeAtas: 'Kembali ke atas',
+
   // ---- hero
   sapaan: 'Untuk petani muda, dari sayur kebun sampai padi sawah',
   judul: 'Bertani itu bisa untung, asal direncanakan.',
@@ -49,10 +64,40 @@ export const teksLanding = {
   kg: (n: number) => `${formatAngka(n)} kg`,
   besok: (judul: string) => `Besok: ${judul.toLowerCase()}`,
 
-  // ---- tiga pilar
+  // ---- masalah [AG-54]: angka dan empat masalah dari PRD bagian Latar Belakang Masalah
+  sapaanMasalah: 'Kenapa Tani Muda ada',
+  judulMasalah: 'Petani muda makin sedikit',
+  angkaMasalah: 21.93,
+  ketAngkaMasalah: 'petani di Indonesia berusia 19–39 tahun',
+  sumberAngkaMasalah: 'Sumber: Sensus Pertanian 2023, BPS',
+  ketMasalah: 'Anak muda enggan bertani karena empat ketidakpastian sekaligus.',
+  masalah: [
+    {
+      judul: 'Pengetahuan terbatas',
+      isi: 'Penyuluhan jarang menjangkau anak muda yang terbiasa belajar lewat HP, jadi pemula menanam dengan coba-coba.',
+    },
+    {
+      judul: 'Modal tidak terukur',
+      isi: 'Pemula tidak tahu berapa benih dan pupuk yang dibutuhkan lahannya, dan berapa total biayanya.',
+    },
+    {
+      judul: 'Jadwal perawatan terlupa',
+      isi: 'Pupuk susulan dan cek hama punya hari yang pasti. Terlambat sedikit bisa menurunkan hasil.',
+    },
+    {
+      judul: 'Pasar tidak pasti',
+      isi: 'Penjualan bergantung pada tengkulak, sehingga bagian harga yang diterima petani kecil.',
+    },
+  ],
+
+  // ---- siklus Tani Muda (menggantikan tiga pilar) [AG-54]
+  sapaanSiklus: 'Siklus Tani Muda',
   judulPilar: 'Satu aplikasi dari sayur kebun sampai padi sawah',
   ketPilar:
-    'Tiga hal yang paling sering membuat petani muda ragu memulai, dibereskan satu per satu, untuk pekarangan, kebun, maupun sawah.',
+    'Empat langkah yang paling sering membuat petani muda ragu memulai, ditemani satu per satu, untuk pekarangan, kebun, maupun sawah.',
+  rawat: 'Rawat',
+  isiRawat:
+    'Begitu tanggal tanam diisi, jadwal tugas dibuat dari resep. Pengingat pupuk, siram, dan cek hama datang tepat pada harinya, dan hasil ukur langsung jadi saran.',
   belajar: 'Belajar',
   isiBelajar:
     'Modul video sekitar 3 menit untuk tiap tahap, dari persiapan lahan sampai pascapanen, untuk sayur di pekarangan maupun padi di sawah. Unduh sekali, tonton tanpa sinyal.',
@@ -60,7 +105,7 @@ export const teksLanding = {
   ketModul: '3 menit · bisa disimpan untuk ditonton offline',
   hitung: 'Hitung',
   isiHitung:
-    'Kalkulator modal menunjukkan titik impas sebelum menanam, dalam kg sayur atau kg gabah. Pengingat pupuk, siram, dan cek hama datang tepat pada harinya.',
+    'Kalkulator modal menunjukkan titik impas sebelum menanam, dalam kg sayur atau kg gabah.',
   barisHitung: (komoditas: string, luas: number) => `${komoditas} · ${formatAngka(luas)} m²`,
   tanpaSubsidi: 'Dihitung dengan harga tanpa subsidi',
   modalImpas: (modal: number, impas: number, satuan: string) =>
@@ -102,6 +147,41 @@ export const teksLanding = {
     },
   ],
 
+  // ---- fitur pendukung [AG-54]
+  sapaanFitur: 'Fitur pendukung',
+  judulFitur: 'Teman di setiap tahap tanam',
+  fitur: {
+    deteksi: {
+      judul: 'Deteksi dugaan penyakit',
+      isi: 'Foto daun yang sakit, lalu dapatkan dugaan penyakit dengan tingkat keyakinan dan langkah aman. Masih ragu, tanya penyuluh.',
+    },
+    asisten: {
+      judul: 'Asisten budidaya',
+      isi: 'Tanya Tani Muda menjawab singkat dari resep dan modul, lengkap dengan sumbernya.',
+    },
+    cuaca: {
+      judul: 'Cuaca di desamu',
+      isi: 'Suhu hari ini dari titik tengah desa, dicocokkan dengan kebutuhan tanamanmu.',
+    },
+    peta: {
+      judul: 'Petani di sekitar',
+      isi: 'Pembeli menemukan petani terdekat di peta. Hanya petani yang menyalakannya yang tampil.',
+      ket: 'Lokasi dibulatkan sekitar 1 km, titik lahan tidak pernah dikirim.',
+    },
+    stok: {
+      judul: 'Stok siap jual',
+      isi: 'Panen yang sudah ada bisa dijual ke pembeli terdekat, bayar di tempat atau di aplikasi.',
+    },
+    chat: {
+      judul: 'Chat petani dan pembeli',
+      isi: 'Bicarakan pesanan dan kiriman langsung di aplikasi. Hanya peserta percakapan yang bisa membacanya.',
+    },
+    level: {
+      judul: 'Level dan lencana',
+      isi: 'Setiap tugas yang selesai menambah poin, dari level benih sampai panen raya.',
+    },
+  },
+
   // ---- pembeli
   sapaanPembeli: 'Untuk katering dan restoran',
   judulPembeli: 'Pasokan sayur segar dari petani lokal, dengan jadwal dan harga yang pasti',
@@ -134,6 +214,10 @@ export const teksLanding = {
         'Tidak. Mulai dari pekarangan beberapa meter persegi atau rak hidroponik di teras. Kalkulator menghitung modal dan kemampuan lahanmu, dan kamu boleh mengambil sebagian pesanan saja.',
     },
   ],
+
+  // ---- ajakan penutup [AG-54]
+  judulAjakan: 'Siap menanam dengan rencana?',
+  isiAjakan: 'Daftar cukup dengan nomor HP, tanpa kata sandi.',
 
   // ---- kaki
   slogan: 'Dibuat untuk petani muda Indonesia menuju Generasi Emas 2045.',

@@ -129,6 +129,36 @@ html.js-gulir .muncul-gulir:not(.terlihat) {
   transform: translateY(16px);
 }
 
+/* Halaman depan [AG-54]: anak sebuah .muncul-gulir yang ikut muncul bergiliran saat bagiannya
+   terlihat (--urutan 0, 1, …, jeda token bertahap), dan garis siklus yang tergambar (scale dari
+   ujung awal: mendatar di desktop, tegak di HP). Hanya transform dan opacity. */
+.giliran {
+  transition:
+    opacity theme('transitionDuration.bertahap') theme('transitionTimingFunction.keluar'),
+    transform theme('transitionDuration.bertahap') theme('transitionTimingFunction.keluar');
+  transition-delay: calc(var(--urutan, 0) * theme('transitionDelay.bertahap'));
+}
+html.js-gulir .muncul-gulir:not(.terlihat) .giliran {
+  opacity: 0;
+  transform: translateY(16px);
+}
+.garis-tumbuh {
+  transform-origin: top center;
+  transition: transform theme('transitionDuration.lambat') theme('transitionTimingFunction.keluar');
+  transition-delay: calc(var(--urutan, 0) * theme('transitionDelay.bertahap'));
+}
+html.js-gulir .muncul-gulir:not(.terlihat) .garis-tumbuh {
+  transform: scaleY(0);
+}
+@media (min-width: 1024px) {
+  .garis-tumbuh {
+    transform-origin: left center;
+  }
+  html.js-gulir .muncul-gulir:not(.terlihat) .garis-tumbuh {
+    transform: scaleX(0);
+  }
+}
+
 /* Kartu dan baris bertahap: --urutan diisi 0–7 (item ke-8 dan seterusnya 0, langsung). */
 .muncul-bertahap {
   animation: theme('animation.muncul-bertahap');
@@ -282,7 +312,9 @@ html.tanpa-animasi *::after {
   transition-delay: 0ms !important;
   scroll-behavior: auto !important;
 }
-html.tanpa-animasi.js-gulir .muncul-gulir:not(.terlihat) {
+html.tanpa-animasi.js-gulir .muncul-gulir:not(.terlihat),
+html.tanpa-animasi.js-gulir .muncul-gulir:not(.terlihat) .giliran,
+html.tanpa-animasi.js-gulir .muncul-gulir:not(.terlihat) .garis-tumbuh {
   opacity: 1;
   transform: none;
 }
@@ -297,7 +329,9 @@ html.tanpa-animasi.js-gulir .muncul-gulir:not(.terlihat) {
     transition-delay: 0ms !important;
     scroll-behavior: auto !important;
   }
-  html.js-gulir .muncul-gulir:not(.terlihat) {
+  html.js-gulir .muncul-gulir:not(.terlihat),
+  html.js-gulir .muncul-gulir:not(.terlihat) .giliran,
+  html.js-gulir .muncul-gulir:not(.terlihat) .garis-tumbuh {
     opacity: 1;
     transform: none;
   }

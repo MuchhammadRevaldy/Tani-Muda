@@ -77,6 +77,9 @@ Ukuran lain yang **dipakai di halaman tetapi tidak ada di tabel sistem desain** 
 | 20/28 · 600 | Nama aplikasi di sidebar/header; angka uang |
 | 18/26 · 600 | Nama aplikasi di header pembeli dan Masuk HP |
 | 28/36, 48/56, 96/96 | Hanya di papan dokumentasi sistem desain, bukan di aplikasi |
+| 72/76 · 700 | Angka sorotan halaman depan, token `angka-besar` (21,93% di bagian Masalah, desktop) [AG-54] |
+
+Ukuran ilustrasi langkah Siklus Tani Muda di halaman depan desktop: 160px, token jarak `ilustrasi` [AG-54].
 
 ### 1.3 Jarak
 
