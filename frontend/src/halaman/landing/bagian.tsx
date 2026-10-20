@@ -428,13 +428,13 @@ const IKON_FITUR: Record<FiturKartu, NamaIkon> = {
 };
 
 /**
- * Warna lembut kartu bergantian (urutan diagonal supaya kolom tidak sewarna). Lingkaran ikon memakai
- * warna lembut yang sama dengan cincin putih, ikonnya warna tua sekeluarga (kontras teks terjaga).
+ * Warna lembut lingkaran ikon bergantian (urutan diagonal supaya kolom tidak sewarna); latar kartu
+ * putih [AG-58]. Ikon dan garis tepi saat disorot memakai warna tua sekeluarga.
  */
 const NADA_FITUR = [
-  { kartu: 'bg-daun-lembut', ikon: 'bg-daun-lembut text-daun-tua' },
-  { kartu: 'bg-matahari-lembut', ikon: 'bg-matahari-lembut text-matahari-teks' },
-  { kartu: 'bg-tanah-lembut', ikon: 'bg-tanah-lembut text-tanah' },
+  { ikon: 'bg-daun-lembut text-daun-tua', tepi: 'border-daun-tua' },
+  { ikon: 'bg-matahari-lembut text-matahari-teks', tepi: 'border-matahari' },
+  { ikon: 'bg-tanah-lembut text-tanah', tepi: 'border-tanah' },
 ] as const;
 const URUT_NADA = [0, 1, 2, 1, 2, 0];
 
@@ -444,71 +444,68 @@ export function BagianFitur() {
   return (
     <>
       <KepalaBagian id={judulIdBagian('fitur')} sapaan={t.sapaanFitur} judul={t.judulFitur} />
-      <ul className="m-0 grid list-none gap-4 p-0 md:grid-cols-2 lg:grid-cols-3 lg:gap-6">
+      <ul className="m-0 grid list-none items-start gap-4 p-0 md:grid-cols-2 lg:grid-cols-3 lg:gap-6">
         {kartu.map((f, i) => {
           const isi = t.fitur[f];
           const nada = NADA_FITUR[URUT_NADA[i % URUT_NADA.length] ?? 0] ?? NADA_FITUR[0];
           return (
-            // Disorot atau tautannya difokus: ikon beranimasi sesuai fitur (`fitur-*` di
-            // src/index.css), latar sedikit lebih pekat, panah tautan bergeser masuk [AG-56].
-            <li
-              key={f}
-              className={cx(
-                'giliran group/fitur relative flex flex-col gap-4 overflow-hidden rounded-lg p-5',
-                nada.kartu,
-              )}
-              style={urutan(i)}
-            >
-              <span
-                aria-hidden="true"
-                className="absolute inset-0 bg-teks opacity-0 transition-opacity duration-cepat ease-keluar group-focus-within/fitur:opacity-5 group-hover/fitur:opacity-5"
-              />
-              <span
-                className={cx(
-                  'relative grid h-14 w-14 flex-none place-items-center overflow-hidden rounded-full border-3 border-putih shadow-ikon',
-                  nada.ikon,
-                  `fitur-${f}`,
-                )}
+            // Kartu ringkas [AG-58]: seluruh kartu satu tautan. Disorot atau difokus: kartu
+            // terangkat 2px, garis tepi berwarna ikon, lingkaran ikon membesar dan ikonnya
+            // beranimasi sesuai fitur (`fitur-*`), panah kecil bergeser masuk di pojok kanan atas.
+            <li key={f} className="giliran group/fitur" style={urutan(i)}>
+              <Link
+                to="/bantuan"
+                aria-label={t.lihatCaranyaLabel(isi.judul)}
+                className="fokus-cincin relative flex items-start gap-4 rounded-lg border border-garis bg-putih p-5 text-teks no-underline transition-transform duration-cepat ease-keluar group-focus-within/fitur:-translate-y-0.5 group-hover/fitur:-translate-y-0.5"
               >
-                <span className="ikon-fitur relative">
-                  <Ikon nama={IKON_FITUR[f]} ukuran={28} tebal={1.9} />
-                </span>
-                {f === 'deteksi' ? (
-                  <span aria-hidden="true" className="kilat absolute inset-0 bg-putih opacity-0" />
-                ) : null}
-                {f === 'chat' ? (
-                  <span
-                    aria-hidden="true"
-                    className="titik-ketik absolute inset-x-0 top-1/2 flex -translate-y-1/2 justify-center gap-0.5 opacity-0"
-                  >
-                    {[0, 1, 2].map((n) => (
-                      <span key={n} className="block h-1 w-1 rounded-full bg-current" />
-                    ))}
-                  </span>
-                ) : null}
-              </span>
-              <div className="relative flex flex-1 flex-col gap-1">
-                <h3 className="m-0 text-judul-bagian font-semibold">{isi.judul}</h3>
-                <p className="m-0 text-teks">{isi.isi}</p>
-                {'ket' in isi ? (
-                  <p className="m-0 flex items-start gap-2 pt-1 text-keterangan text-daun-tua">
-                    <Ikon nama="pin" ukuran={20} className="mt-0.5" />
-                    <span>{isi.ket}</span>
-                  </p>
-                ) : null}
-                <Link
-                  to="/bantuan"
-                  className="fokus-cincin mt-auto inline-flex min-h-sentuh items-center gap-1 self-start rounded-md pt-2 font-semibold text-daun-tua no-underline"
-                  aria-label={t.lihatCaranyaLabel(isi.judul)}
+                <span
+                  aria-hidden="true"
+                  className={cx(
+                    'pointer-events-none absolute -inset-px rounded-lg border-2 opacity-0 transition-opacity duration-cepat ease-keluar group-focus-within/fitur:opacity-100 group-hover/fitur:opacity-100',
+                    nada.tepi,
+                  )}
+                />
+                <span
+                  className={cx(
+                    'relative grid h-12 w-12 flex-none place-items-center overflow-hidden rounded-full transition-transform duration-cepat ease-keluar group-focus-within/fitur:scale-110 group-hover/fitur:scale-110',
+                    nada.ikon,
+                    `fitur-${f}`,
+                  )}
                 >
-                  <span>{t.lihatCaranya}</span>
-                  <Ikon
-                    nama="panah-kanan"
-                    ukuran={18}
-                    className="-translate-x-1 opacity-0 transition duration-cepat ease-keluar group-focus-within/fitur:translate-x-0 group-focus-within/fitur:opacity-100 group-hover/fitur:translate-x-0 group-hover/fitur:opacity-100"
-                  />
-                </Link>
-              </div>
+                  <span className="ikon-fitur relative">
+                    <Ikon nama={IKON_FITUR[f]} ukuran={24} tebal={1.9} />
+                  </span>
+                  {f === 'deteksi' ? (
+                    <span aria-hidden="true" className="kilat absolute inset-0 bg-putih opacity-0" />
+                  ) : null}
+                  {f === 'chat' ? (
+                    <span
+                      aria-hidden="true"
+                      className="titik-ketik absolute inset-x-0 top-1/2 flex -translate-y-1/2 justify-center gap-0.5 opacity-0"
+                    >
+                      {[0, 1, 2].map((n) => (
+                        <span key={n} className="block h-1 w-1 rounded-full bg-current" />
+                      ))}
+                    </span>
+                  ) : null}
+                </span>
+                <span className="flex min-w-0 flex-col gap-1">
+                  {/* Ruang kanan judul untuk panah di pojok. */}
+                  <span className="pr-6 text-judul-bagian font-semibold">{isi.judul}</span>
+                  <span className="text-teks-pendukung">{isi.isi}</span>
+                  {'ket' in isi ? (
+                    <span className="flex items-center gap-1 whitespace-nowrap text-keterangan text-daun-tua">
+                      <Ikon nama="pin" ukuran={18} />
+                      <span>{isi.ket}</span>
+                    </span>
+                  ) : null}
+                </span>
+                <Ikon
+                  nama="panah-kanan"
+                  ukuran={20}
+                  className="absolute right-4 top-4 -translate-x-1 text-daun-tua opacity-0 transition duration-cepat ease-keluar group-focus-within/fitur:translate-x-0 group-focus-within/fitur:opacity-100 group-hover/fitur:translate-x-0 group-hover/fitur:opacity-100"
+                />
+              </Link>
             </li>
           );
         })}

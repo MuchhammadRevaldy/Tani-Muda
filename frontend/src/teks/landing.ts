@@ -164,7 +164,7 @@ export const teksLanding = {
     peta: {
       judul: 'Petani di sekitar',
       isi: 'Pembeli menemukan petani terdekat di peta. Hanya petani yang menyalakannya yang tampil.',
-      ket: 'Lokasi dibulatkan sekitar 1 km, titik lahan tidak pernah dikirim.',
+      ket: 'Lokasi dibulatkan sekitar 1 km',
     },
     stok: {
       judul: 'Stok siap jual',
@@ -180,7 +180,6 @@ export const teksLanding = {
     },
   },
   namaLevel: ['Benih', 'Tunas', 'Daun', 'Berbunga', 'Panen raya'],
-  lihatCaranya: 'Lihat caranya',
   lihatCaranyaLabel: (fitur: string) => `Lihat caranya: ${fitur.toLowerCase()}`,
 
   // ---- pembeli
