@@ -204,6 +204,12 @@ html.js-gulir .muncul-gulir:not(.terlihat) .penggaris-penanda {
   transform: translateY(8px);
 }
 
+/* Reset instan saat bagian keluar layar [AG-55] (src/halaman/landing/muncul-gulir.ts). */
+.muncul-gulir.reset-gerak,
+.muncul-gulir.reset-gerak * {
+  transition: none !important;
+}
+
 /* Kartu dan baris bertahap: --urutan diisi 0–7 (item ke-8 dan seterusnya 0, langsung). */
 .muncul-bertahap {
   animation: theme('animation.muncul-bertahap');

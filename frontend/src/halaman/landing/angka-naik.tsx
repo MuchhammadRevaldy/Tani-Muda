@@ -1,7 +1,8 @@
 /**
- * Angka yang berhitung naik sekali saat pertama terlihat [AG-54]. Hanya teks yang berganti (tidak
- * menggeser tata letak: angka tabular dengan lebar tetap). Langsung angka akhir bila gerak dikurangi,
- * sakelar animasi mati, atau IntersectionObserver tidak ada. Pembaca layar selalu mendapat angka akhir.
+ * Angka yang berhitung naik saat terlihat [AG-54]; [AG-55] diulang setiap kali dilihat lagi (kembali
+ * ke 0 begitu keluar layar). Hanya teks yang berganti (angka tabular dengan lebar tetap, tidak
+ * menggeser tata letak). Langsung angka akhir bila gerak dikurangi, sakelar animasi mati, atau
+ * IntersectionObserver tidak ada. Pembaca layar selalu mendapat angka akhir.
  */
 import { useEffect, useRef, useState } from 'react';
 import { formatDesimal } from '../../lib/format';
@@ -28,24 +29,33 @@ export function AngkaNaik({
       return;
     }
     let bingkai = 0;
-    const io = new IntersectionObserver(
-      ([e]) => {
-        if (!e?.isIntersecting) return;
-        io.disconnect();
-        const mulai = performance.now();
-        const langkah = (kini: number) => {
-          const t = Math.min(1, (kini - mulai) / LAMA_MS);
-          // Melambat di akhir (kubik keluar), seperti kurva token `keluar`.
-          setTampil(nilai * (1 - (1 - t) ** 3));
-          if (t < 1) bingkai = requestAnimationFrame(langkah);
-        };
-        bingkai = requestAnimationFrame(langkah);
-      },
-      { threshold: 0.6 },
-    );
-    io.observe(el.current);
+    let berjalan = false;
+    const mulai = () => {
+      if (berjalan) return;
+      berjalan = true;
+      const awal = performance.now();
+      const langkah = (kini: number) => {
+        const t = Math.min(1, (kini - awal) / LAMA_MS);
+        // Melambat di akhir (kubik keluar), seperti kurva token `keluar`.
+        setTampil(nilai * (1 - (1 - t) ** 3));
+        if (t < 1) bingkai = requestAnimationFrame(langkah);
+      };
+      bingkai = requestAnimationFrame(langkah);
+    };
+    const masuk = new IntersectionObserver(([e]) => e?.isIntersecting && mulai(), {
+      threshold: 0.6,
+    });
+    const keluar = new IntersectionObserver(([e]) => {
+      if (e?.isIntersecting) return;
+      cancelAnimationFrame(bingkai);
+      berjalan = false;
+      setTampil(0);
+    });
+    masuk.observe(el.current);
+    keluar.observe(el.current);
     return () => {
-      io.disconnect();
+      masuk.disconnect();
+      keluar.disconnect();
       cancelAnimationFrame(bingkai);
     };
   }, [nilai]);
