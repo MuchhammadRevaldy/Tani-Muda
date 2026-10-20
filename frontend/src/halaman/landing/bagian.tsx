@@ -5,7 +5,7 @@
  * bukit sebagai pemisah. Angka dari konfigurasi dan fungsi src/lib (D-08). Gambar hanya aset yang
  * sudah ada di public/ (ilustrasi, lencana, foto komoditas).
  */
-import type { CSSProperties, ReactNode } from 'react';
+import { useRef, type CSSProperties, type ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 import { ChipStatus } from '../../komponen/chip-status';
 import { cx } from '../../komponen/gabung-kelas';
@@ -21,6 +21,7 @@ import { kelasWadah } from '../statis/kerangka-publik';
 import { AngkaNaik } from './angka-naik';
 import type { DataLanding } from './data-landing';
 import { FITUR_LANDING, idBagian, type IdBagian } from './gulir';
+import { usePutaranLangkah } from './putaran';
 
 export type Latar = 'putih' | 'embun';
 
@@ -284,37 +285,74 @@ export function CaraKerja({ d }: { d: DataLanding }) {
   const langkah = d.konfigurasi
     ? t.langkah(d.konfigurasi.persen_uang_muka, d.konfigurasi.jam_periksa_rutin)
     : null;
+  const ref = useRef<HTMLOListElement>(null);
+  const putaran = usePutaranLangkah(ref, langkah?.length ?? 0);
   return (
     <>
       <KepalaBagian id={judulIdBagian('caraKerja')} sapaan={t.sapaanCara} judul={t.judulCara} />
       {langkah ? (
-        <ol className="relative m-0 grid list-none gap-6 p-0 lg:grid-cols-5 lg:gap-4">
-          {/* Garis penghubung yang tergambar: tegak di HP, mendatar di desktop. */}
+        <ol ref={ref} className="relative m-0 grid list-none gap-6 p-0 lg:grid-cols-5 lg:gap-4">
+          {/* Garis penghubung: alur abu-abu, isi hijau yang berjalan dari langkah 1 ke 5 [AG-55].
+              Tegak di HP, mendatar di desktop. */}
           <span
             aria-hidden="true"
-            className="garis-tumbuh absolute bottom-6 left-6 top-6 w-1 -translate-x-1/2 rounded-full bg-limau lg:bottom-auto lg:left-24 lg:right-24 lg:top-6 lg:h-1 lg:w-auto lg:translate-x-0"
-          />
-          {langkah.map((l, i) => (
-            <li
-              key={l.judul}
-              className="giliran relative flex gap-4 lg:flex-col lg:items-center lg:gap-3 lg:text-center"
-              style={urutan(i + 1)}
-            >
-              <span
-                className={cx(
-                  'relative grid h-12 w-12 flex-none place-items-center rounded-full',
-                  LANGKAH[i]?.kelas,
-                )}
+            className="absolute bottom-6 left-6 top-6 w-1 -translate-x-1/2 overflow-hidden rounded-full bg-garis lg:bottom-auto lg:left-24 lg:right-24 lg:top-6 lg:h-1 lg:w-auto lg:translate-x-0"
+          >
+            <span
+              className="isi-putaran absolute inset-0 rounded-full bg-limau"
+              style={
+                {
+                  '--kemajuan': putaran.kemajuan,
+                  transitionDuration: `${putaran.lamaMs}ms`,
+                } as CSSProperties
+              }
+            />
+          </span>
+          {langkah.map((l, i) => {
+            const sampai = putaran.langkah >= i;
+            const aktif = putaran.langkah === i;
+            return (
+              <li
+                key={l.judul}
+                className="giliran relative flex gap-4 lg:flex-col lg:items-center lg:gap-3 lg:text-center"
+                style={urutan(i + 1)}
               >
-                <Ikon nama={LANGKAH[i]?.ikon ?? 'centang'} />
-              </span>
-              <div className="flex flex-col gap-1">
-                <p className="m-0 text-teks-pendukung">{t.langkahKe(i + 1)}</p>
-                <h3 className="m-0 text-judul-bagian font-semibold">{l.judul}</h3>
-                <p className="m-0 text-teks-pendukung">{l.isi}</p>
-              </div>
-            </li>
-          ))}
+                <span className="relative grid h-12 w-12 flex-none place-items-center">
+                  {/* Cahaya lembut di belakang lingkaran saat garis sampai. */}
+                  <span
+                    aria-hidden="true"
+                    className={cx(
+                      'absolute inset-0 rounded-full bg-limau transition-[opacity,transform] duration-cepat ease-keluar',
+                      sampai ? 'scale-150 opacity-30' : 'scale-100 opacity-0',
+                    )}
+                  />
+                  <span
+                    className={cx(
+                      'relative grid h-12 w-12 place-items-center rounded-full transition-transform duration-cepat ease-keluar',
+                      LANGKAH[i]?.kelas,
+                      sampai ? 'scale-110' : 'scale-100',
+                    )}
+                  >
+                    <Ikon nama={LANGKAH[i]?.ikon ?? 'centang'} />
+                  </span>
+                </span>
+                <div className="flex flex-col gap-1">
+                  <p className="m-0 text-teks-pendukung">{t.langkahKe(i + 1)}</p>
+                  <h3
+                    className={cx(
+                      'm-0 text-judul-bagian',
+                      aktif ? 'font-bold text-daun-tua' : 'font-semibold',
+                    )}
+                  >
+                    {l.judul}
+                  </h3>
+                  <p className={cx('m-0', aktif ? 'font-semibold text-teks' : 'text-teks-pendukung')}>
+                    {l.isi}
+                  </p>
+                </div>
+              </li>
+            );
+          })}
         </ol>
       ) : null}
     </>
