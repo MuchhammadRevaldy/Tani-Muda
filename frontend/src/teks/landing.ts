@@ -180,6 +180,8 @@ export const teksLanding = {
     },
   },
   namaLevel: ['Benih', 'Tunas', 'Daun', 'Berbunga', 'Panen raya'],
+  lihatCaranya: 'Lihat caranya',
+  lihatCaranyaLabel: (fitur: string) => `Lihat caranya: ${fitur.toLowerCase()}`,
 
   // ---- pembeli
   sapaanPembeli: 'Untuk katering dan restoran',

@@ -418,6 +418,101 @@ html.js-gulir .muncul-gulir:not(.terlihat) .penggaris-penanda {
   }
 }
 
+/* Fitur pendukung: ikon beranimasi sesuai fiturnya saat kartu disorot atau tautannya difokus;
+   lencana level berkilau [AG-56]. */
+@keyframes kilat {
+  0%,
+  100% {
+    opacity: 0;
+  }
+  30% {
+    opacity: 0.85;
+  }
+}
+@keyframes titik-ketik {
+  0%,
+  100% {
+    transform: none;
+  }
+  50% {
+    transform: translateY(-2px);
+  }
+}
+@keyframes putar {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes denyut-skala {
+  0%,
+  100% {
+    transform: none;
+  }
+  50% {
+    transform: scale(1.15);
+  }
+}
+.titik-ketik > span:nth-child(2) {
+  animation-delay: 120ms;
+}
+.titik-ketik > span:nth-child(3) {
+  animation-delay: 240ms;
+}
+.ikon-fitur {
+  transition: transform theme('transitionDuration.cepat') theme('transitionTimingFunction.keluar'), opacity theme('transitionDuration.cepat') theme('transitionTimingFunction.keluar');
+}
+.kilau-lencana {
+  transform: translateX(-120%);
+}
+.group\/fitur:focus-within .fitur-deteksi .kilat {
+  animation: kilat theme('transitionDuration.cepat') theme('transitionTimingFunction.keluar');
+}
+.group\/fitur:focus-within .fitur-chat .ikon-fitur {
+  opacity: 0.35;
+}
+.group\/fitur:focus-within .fitur-chat .titik-ketik {
+  opacity: 1;
+}
+.group\/fitur:focus-within .fitur-stok .ikon-fitur {
+  transform: translateY(-4px);
+}
+@media (hover: hover) {
+  .group\/fitur:hover .fitur-deteksi .kilat {
+    animation: kilat theme('transitionDuration.cepat') theme('transitionTimingFunction.keluar');
+  }
+  .group\/fitur:hover .fitur-chat .ikon-fitur {
+    opacity: 0.35;
+  }
+  .group\/fitur:hover .fitur-chat .titik-ketik,
+  .group\/fitur:focus-within .fitur-chat .titik-ketik {
+    opacity: 1;
+  }
+  .group\/fitur:hover .fitur-chat .titik-ketik > span,
+  .group\/fitur:focus-within .fitur-chat .titik-ketik > span {
+    animation: titik-ketik theme('transitionDuration.sedang') ease-in-out infinite;
+  }
+  .group\/fitur:hover .fitur-cuaca .ikon-fitur,
+  .group\/fitur:focus-within .fitur-cuaca .ikon-fitur {
+    animation: putar 2.4s linear infinite;
+  }
+  .group\/fitur:hover .fitur-peta .ikon-fitur,
+  .group\/fitur:focus-within .fitur-peta .ikon-fitur {
+    animation: tunas-pantul theme('transitionDuration.sedang') theme('transitionTimingFunction.keluar') infinite;
+  }
+  .group\/fitur:hover .fitur-stok .ikon-fitur {
+    transform: translateY(-4px);
+  }
+  .group\/fitur:hover .fitur-asisten .ikon-fitur,
+  .group\/fitur:focus-within .fitur-asisten .ikon-fitur {
+    animation: denyut-skala theme('transitionDuration.sedang') ease-in-out infinite;
+  }
+  .group\/lencana:hover .kilau-lencana {
+    opacity: 0.6;
+    transform: translateX(320%);
+    transition: transform theme('transitionDuration.sedang') theme('transitionTimingFunction.keluar'), opacity theme('transitionDuration.cepat') theme('transitionTimingFunction.keluar');
+  }
+}
+
 /* Kartu dan baris bertahap: --urutan diisi 0–7 (item ke-8 dan seterusnya 0, langsung). */
 .muncul-bertahap {
   animation: theme('animation.muncul-bertahap');

@@ -434,8 +434,8 @@ type FiturKartu = Exclude<(typeof FITUR_LANDING)[number], 'level'>;
 const IKON_FITUR: Record<FiturKartu, NamaIkon> = {
   deteksi: 'kamera',
   asisten: 'info',
-  cuaca: 'pengukur',
-  peta: 'peta',
+  cuaca: 'matahari',
+  peta: 'pin',
   stok: 'panen',
   chat: 'chat',
 };
@@ -462,20 +462,45 @@ export function BagianFitur() {
           const isi = t.fitur[f];
           const nada = NADA_FITUR[URUT_NADA[i % URUT_NADA.length] ?? 0] ?? NADA_FITUR[0];
           return (
+            // Disorot atau tautannya difokus: ikon beranimasi sesuai fitur (`fitur-*` di
+            // src/index.css), latar sedikit lebih pekat, panah tautan bergeser masuk [AG-56].
             <li
               key={f}
-              className={cx('giliran flex flex-col gap-4 rounded-lg p-5', nada.kartu)}
+              className={cx(
+                'giliran group/fitur relative flex flex-col gap-4 overflow-hidden rounded-lg p-5',
+                nada.kartu,
+              )}
               style={urutan(i)}
             >
               <span
+                aria-hidden="true"
+                className="absolute inset-0 bg-teks opacity-0 transition-opacity duration-cepat ease-keluar group-focus-within/fitur:opacity-5 group-hover/fitur:opacity-5"
+              />
+              <span
                 className={cx(
-                  'grid h-14 w-14 flex-none place-items-center rounded-full border-3 border-putih shadow-ikon',
+                  'relative grid h-14 w-14 flex-none place-items-center overflow-hidden rounded-full border-3 border-putih shadow-ikon',
                   nada.ikon,
+                  `fitur-${f}`,
                 )}
               >
-                <Ikon nama={IKON_FITUR[f]} ukuran={28} tebal={1.9} />
+                <span className="ikon-fitur relative">
+                  <Ikon nama={IKON_FITUR[f]} ukuran={28} tebal={1.9} />
+                </span>
+                {f === 'deteksi' ? (
+                  <span aria-hidden="true" className="kilat absolute inset-0 bg-putih opacity-0" />
+                ) : null}
+                {f === 'chat' ? (
+                  <span
+                    aria-hidden="true"
+                    className="titik-ketik absolute inset-x-0 top-1/2 flex -translate-y-1/2 justify-center gap-0.5 opacity-0"
+                  >
+                    {[0, 1, 2].map((n) => (
+                      <span key={n} className="block h-1 w-1 rounded-full bg-current" />
+                    ))}
+                  </span>
+                ) : null}
               </span>
-              <div className="flex flex-col gap-1">
+              <div className="relative flex flex-1 flex-col gap-1">
                 <h3 className="m-0 text-judul-bagian font-semibold">{isi.judul}</h3>
                 <p className="m-0 text-teks">{isi.isi}</p>
                 {'ket' in isi ? (
@@ -484,6 +509,18 @@ export function BagianFitur() {
                     <span>{isi.ket}</span>
                   </p>
                 ) : null}
+                <Link
+                  to="/bantuan"
+                  className="fokus-cincin mt-auto inline-flex min-h-sentuh items-center gap-1 self-start rounded-md pt-2 font-semibold text-daun-tua no-underline"
+                  aria-label={t.lihatCaranyaLabel(isi.judul)}
+                >
+                  <span>{t.lihatCaranya}</span>
+                  <Ikon
+                    nama="panah-kanan"
+                    ukuran={18}
+                    className="-translate-x-1 opacity-0 transition duration-cepat ease-keluar group-focus-within/fitur:translate-x-0 group-focus-within/fitur:opacity-100 group-hover/fitur:translate-x-0 group-hover/fitur:opacity-100"
+                  />
+                </Link>
               </div>
             </li>
           );
@@ -500,15 +537,32 @@ export function BagianFitur() {
           </div>
           <ul className="m-0 grid list-none grid-cols-5 gap-2 p-0 lg:gap-4">
             {LEVEL.map((l, i) => (
-              <li key={l} className="flex flex-col items-center gap-1 text-center">
-                <img
-                  src={`/lencana/${l}.svg`}
-                  alt=""
-                  width={64}
-                  height={64}
-                  className="block h-14 w-14 lg:h-16 lg:w-16"
-                />
-                <span className="text-keterangan text-teks-pendukung">{t.namaLevel[i]}</span>
+              // Disorot: lencana terangkat, kilau tipis menyapu (dibatasi bentuk lencana lewat
+              // mask), dan nama level muncul sebagai keterangan kecil [AG-56].
+              <li key={l} className="group/lencana flex flex-col items-center gap-1 text-center">
+                <span className="relative block transition-transform duration-cepat ease-keluar group-hover/lencana:-translate-y-1">
+                  <img
+                    src={`/lencana/${l}.svg`}
+                    alt=""
+                    width={64}
+                    height={64}
+                    className="block h-14 w-14 lg:h-16 lg:w-16"
+                  />
+                  <span
+                    aria-hidden="true"
+                    className="absolute inset-0 overflow-hidden"
+                    style={{
+                      maskImage: `url(/lencana/${l}.svg)`,
+                      maskSize: 'contain',
+                      maskRepeat: 'no-repeat',
+                    }}
+                  >
+                    <span className="kilau-lencana absolute inset-y-0 left-0 w-1/3 -skew-x-12 bg-putih opacity-0" />
+                  </span>
+                </span>
+                <span className="text-keterangan text-teks-pendukung transition-opacity duration-cepat ease-keluar [@media(hover:hover)]:opacity-0 group-hover/lencana:opacity-100">
+                  {t.namaLevel[i]}
+                </span>
               </li>
             ))}
           </ul>

@@ -42,6 +42,9 @@ const IKON = {
   'panah-naik-turun': '<path d="M8 9l4-4 4 4"/><path d="M8 15l4 4 4-4"/>',
   // Tambahan di luar desain: tombol tutup dialog, gaya garis yang sama.
   silang: '<path d="M6.5 6.5l11 11"/><path d="M17.5 6.5l-11 11"/>',
+  // Matahari untuk kartu cuaca di halaman depan [AG-56], gaya garis yang sama.
+  matahari:
+    '<circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4"/>',
   // Tombol menu navbar halaman publik di HP [AG-54], gaya garis yang sama.
   menu: '<path d="M4 7h16"/><path d="M4 12h16"/><path d="M4 17h16"/>',
   // Ikon inline di papan Hitung (10–19): cari, pilih merek, ubah jumlah, catatan kios resmi, hapus.
