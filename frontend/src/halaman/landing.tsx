@@ -42,11 +42,29 @@ export function HalamanLanding() {
   const { hash } = useLocation();
   useMunculGulir();
 
-  // Datang dari halaman statis lewat /#id-bagian: gulir ke bagian itu setelah halaman tersusun.
+  // Selalu mulai dari hero [AG-56]: pemulihan posisi gulir otomatis dimatikan selama di halaman ini
+  // (juga sejak index.html), dan halaman dibuka di paling atas.
+  useEffect(() => {
+    if (!('scrollRestoration' in history)) return;
+    const sebelum = history.scrollRestoration;
+    history.scrollRestoration = 'manual';
+    return () => {
+      history.scrollRestoration = sebelum;
+    };
+  }, []);
+
+  // Datang dari halaman lain lewat /#id-bagian: gulir ke bagian itu setelah halaman tersusun, lalu
+  // hapus #id dari alamat supaya muat ulang berikutnya kembali mulai dari hero. Tanpa tujuan: ke atas.
   useEffect(() => {
     const id = decodeURIComponent(hash.replace(/^#/, ''));
-    if (!id) return;
-    const bingkai = requestAnimationFrame(() => gulirKe(id));
+    if (!id) {
+      window.scrollTo(0, 0);
+      return;
+    }
+    const bingkai = requestAnimationFrame(() => {
+      gulirKe(id);
+      history.replaceState(history.state, '', window.location.pathname + window.location.search);
+    });
     return () => cancelAnimationFrame(bingkai);
   }, [hash]);
 
