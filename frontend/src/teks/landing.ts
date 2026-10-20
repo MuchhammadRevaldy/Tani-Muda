@@ -51,6 +51,11 @@ export const teksLanding = {
   titikImpas: 'Titik impas',
   kg: (n: number) => `${formatAngka(n)} kg`,
   besok: (judul: string) => `Besok: ${judul.toLowerCase()}`,
+  // Penjelasan pendek yang muncul saat baris contoh disorot [AG-56].
+  penjelasanModal: 'Benih, pupuk, dan alat',
+  penjelasanPanen: 'Dihitung dari hari tanam',
+  penjelasanImpas: 'Panen minimal yang harus terjual',
+  penjelasanUntung: 'Pendapatan dikurangi modal',
 
   // ---- masalah [AG-54]: angka dan empat masalah dari PRD bagian Latar Belakang Masalah
   sapaanMasalah: 'Kenapa Tani Muda ada',

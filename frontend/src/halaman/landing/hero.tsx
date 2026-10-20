@@ -8,9 +8,10 @@
  * dalam SVG), dan paling banyak enam aset melayang pelan di sekitar ilustrasi dengan kedalaman
  * berbeda (ukuran, opacity, kecepatan), tidak di atas teks.
  */
+import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { cx } from '../../komponen/gabung-kelas';
-import { IkonLingkaran, type NamaIkon } from '../../komponen/ikon';
+import { Ikon, type NamaIkon } from '../../komponen/ikon';
 import { IlustrasiKomoditas } from '../../komponen/ilustrasi';
 import { LabelKecil } from '../../komponen/label-kecil';
 import { kelasTombol } from '../../komponen/tombol';
@@ -20,29 +21,80 @@ import { animasiMati } from '../../lib/gerak';
 import { teksUmum } from '../../teks/umum';
 import { kelasWadah } from '../statis/kerangka-publik';
 import type { DataLanding } from './data-landing';
+import { geraknyaDikurangi } from './gulir';
 
+export type GerakIkon = 'koin' | 'kalender' | 'impas' | 'keranjang';
+
+/**
+ * Satu baris contoh perhitungan [AG-56]. Disorot (perangkat berkursor): lingkaran ikon terisi dari
+ * bawah seperti air naik, ikon bergerak sesuai maknanya (`gerak-*` di src/index.css), angka
+ * berhitung ulang dari nol, dan satu baris penjelasan memudar masuk. Ruang baris penjelasan sudah
+ * disediakan, jadi tata letak tidak bergeser. Baris lain meredup lewat grup `daftar` di induknya.
+ */
 function BarisAngka({
   ikon,
+  gerak,
   label,
-  nilai,
+  angka,
+  format,
   uang,
   keterangan,
+  penjelasan,
 }: {
   ikon: NamaIkon;
+  gerak: GerakIkon;
   label: string;
-  nilai: string;
+  angka: number;
+  format: (n: number) => string;
   uang?: boolean;
   keterangan?: string;
+  penjelasan: string;
 }) {
+  const [tampil, setTampil] = useState<number | null>(null);
+  const bingkai = useRef(0);
+  const hitungUlang = () => {
+    if (geraknyaDikurangi()) return;
+    cancelAnimationFrame(bingkai.current);
+    const awal = performance.now();
+    const langkah = (kini: number) => {
+      const p = Math.min(1, (kini - awal) / 500);
+      // Rupiah dibulatkan ke ribuan selama berhitung supaya angka antaranya tetap rapi.
+      const langkahAngka = angka >= 10000 ? 1000 : 1;
+      const v = Math.round((angka * (1 - (1 - p) ** 3)) / langkahAngka) * langkahAngka;
+      setTampil(p < 1 ? v : null);
+      if (p < 1) bingkai.current = requestAnimationFrame(langkah);
+    };
+    bingkai.current = requestAnimationFrame(langkah);
+  };
+  useEffect(() => () => cancelAnimationFrame(bingkai.current), []);
   return (
-    <div className="flex items-center gap-4">
-      <IkonLingkaran nama={ikon} besar />
+    <div
+      onMouseEnter={hitungUlang}
+      className="group/baris flex items-center gap-4 transition duration-cepat ease-keluar hover:translate-x-1 group-hover/daftar:opacity-60 hover:!opacity-100"
+    >
+      <span
+        className={cx(
+          'relative grid h-14 w-14 flex-none place-items-center overflow-hidden rounded-full bg-putih text-teks shadow-ikon',
+          `gerak-${gerak}`,
+        )}
+      >
+        <span
+          aria-hidden="true"
+          className="absolute inset-0 origin-bottom scale-y-0 bg-daun-lembut transition-transform duration-sedang ease-keluar group-hover/baris:scale-y-100"
+        />
+        <span className="ikon-gerak relative">
+          <Ikon nama={ikon} />
+        </span>
+      </span>
       <div className="flex min-w-0 flex-col">
         <dt className="text-teks-pendukung">{label}</dt>
         <dd className={cx('m-0 text-uang font-semibold tabular-nums', uang && 'text-tanah')}>
-          {nilai}
+          {format(tampil ?? angka)}
         </dd>
         {keterangan ? <dd className="m-0 text-teks-pendukung">{keterangan}</dd> : null}
+        <dd className="m-0 text-keterangan text-daun-tua opacity-0 transition-opacity duration-cepat ease-keluar group-hover/baris:opacity-100">
+          {penjelasan}
+        </dd>
       </div>
     </div>
   );
@@ -98,19 +150,44 @@ function Contoh({ d }: { d: NonNullable<DataLanding['petani']> }) {
           <span>{t.contohPerhitungan}</span>
           <span>{' · ' + t.ringkasContoh(d.komoditas.nama, d.luasM2)}</span>
         </p>
-        <dl className="m-0 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-1">
+        <dl className="group/daftar m-0 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-1">
           {d.angka ? (
-            <BarisAngka ikon="uang" label={t.modal} nilai={formatRupiah(d.angka.modal)} uang />
+            <BarisAngka
+              ikon="uang"
+              gerak="koin"
+              label={t.modal}
+              angka={d.angka.modal}
+              format={formatRupiah}
+              uang
+              penjelasan={t.penjelasanModal}
+            />
           ) : null}
-          <BarisAngka ikon="kalender" label={t.panen} nilai={t.hariKe(d.resep.umurPanenHari)} />
+          <BarisAngka
+            ikon="kalender"
+            gerak="kalender"
+            label={t.panen}
+            angka={d.resep.umurPanenHari}
+            format={t.hariKe}
+            penjelasan={t.penjelasanPanen}
+          />
           {d.angka ? (
             <>
-              <BarisAngka ikon="luas" label={t.titikImpas} nilai={t.kg(d.angka.titikImpasKg)} />
+              <BarisAngka
+                ikon="luas"
+                gerak="impas"
+                label={t.titikImpas}
+                angka={d.angka.titikImpasKg}
+                format={t.kg}
+                penjelasan={t.penjelasanImpas}
+              />
               <BarisAngka
                 ikon="panen"
+                gerak="keranjang"
                 label={t.perkiraanUntung}
-                nilai={formatRupiah(d.angka.untung)}
+                angka={d.angka.untung}
+                format={formatRupiah}
                 keterangan={t.kalauPanen(d.angka.perkiraanKg)}
+                penjelasan={t.penjelasanUntung}
               />
             </>
           ) : null}
