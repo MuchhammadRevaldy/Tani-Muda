@@ -8,7 +8,7 @@
  * dalam SVG), dan paling banyak enam aset melayang pelan di sekitar ilustrasi dengan kedalaman
  * berbeda (ukuran, opacity, kecepatan), tidak di atas teks.
  */
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, type CSSProperties } from 'react';
 import { Link } from 'react-router-dom';
 import { cx } from '../../komponen/gabung-kelas';
 import { Ikon, type NamaIkon } from '../../komponen/ikon';
@@ -110,10 +110,40 @@ const MELAYANG: { src: string; kelas: string; durasi: string; jeda: string }[] =
   { src: '/ilustrasi/komoditas/selada.svg', kelas: 'bottom-0 left-1/4 h-11 w-11 opacity-90', durasi: '5.8s', jeda: '-4s' },
 ];
 
+/**
+ * [AG-57] Animasi tumbuh daun sawi diputar ulang setiap kali hero masuk layar lagi: setelah hero
+ * benar-benar keluar layar, gambar dimuat ulang dengan kunci baru (animasi di dalam SVG mulai dari
+ * awal). Kemunculan aset melayang ikut `.muncul-gulir` hero (reset saat keluar, diputar saat masuk).
+ */
+function usePutaranUlang() {
+  const ref = useRef<HTMLDivElement>(null);
+  const [putaran, setPutaran] = useState(0);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || typeof IntersectionObserver === 'undefined') return;
+    let pernahKeluar = false;
+    const io = new IntersectionObserver(([e]) => {
+      if (!e) return;
+      if (!e.isIntersecting) pernahKeluar = true;
+      else if (pernahKeluar) {
+        pernahKeluar = false;
+        setPutaran((n) => n + 1);
+      }
+    });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+  return [ref, putaran] as const;
+}
+
 function Contoh({ d }: { d: NonNullable<DataLanding['petani']> }) {
+  const [wadah, putaran] = usePutaranUlang();
   return (
     <>
-      <div className="relative mx-auto aspect-square w-full max-w-pilihan-kotak lg:col-span-4 lg:max-w-none">
+      <div
+        ref={wadah}
+        className="relative mx-auto aspect-square w-full max-w-pilihan-kotak lg:col-span-4 lg:max-w-none"
+      >
         <div
           aria-hidden="true"
           className="absolute inset-5 rounded-full border-2 border-dashed border-oranye-terang bg-tanah-lembut"
@@ -121,7 +151,8 @@ function Contoh({ d }: { d: NonNullable<DataLanding['petani']> }) {
         {d.komoditas.id === 'sawi' && !animasiMati() ? (
           // Daun bergoyang pelan; animasinya di dalam SVG dan mati saat gerak dikurangi (D-61).
           <img
-            src="/ilustrasi/sawi-bergerak.svg"
+            key={putaran}
+            src={`/ilustrasi/sawi-bergerak.svg${putaran ? `?putaran=${putaran}` : ''}`}
             alt="Ilustrasi sawi hijau"
             width={420}
             height={420}
@@ -134,15 +165,21 @@ function Contoh({ d }: { d: NonNullable<DataLanding['petani']> }) {
             className="relative h-full w-full"
           />
         )}
-        {MELAYANG.map((m) => (
-          <img
+        {MELAYANG.map((m, i) => (
+          // Pembungkus memunculkan aset bergiliran (giliran); gambar di dalamnya tetap melayang.
+          <span
             key={m.src}
-            src={m.src}
-            alt=""
             aria-hidden="true"
-            className={cx('pointer-events-none absolute block animate-melayang', m.kelas)}
-            style={{ animationDuration: m.durasi, animationDelay: m.jeda }}
-          />
+            className={cx('giliran pointer-events-none absolute block', m.kelas)}
+            style={{ '--urutan': i + 2 } as CSSProperties}
+          >
+            <img
+              src={m.src}
+              alt=""
+              className="block h-full w-full animate-melayang"
+              style={{ animationDuration: m.durasi, animationDelay: m.jeda }}
+            />
+          </span>
         ))}
       </div>
       <div className="flex flex-col gap-5 lg:col-span-3">
