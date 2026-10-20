@@ -9,7 +9,7 @@ import { useRef, type CSSProperties, type ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 import { ChipStatus } from '../../komponen/chip-status';
 import { cx } from '../../komponen/gabung-kelas';
-import { Ikon, IkonLingkaran, type NamaIkon } from '../../komponen/ikon';
+import { Ikon, type NamaIkon } from '../../komponen/ikon';
 import { LabelKecil } from '../../komponen/label-kecil';
 import { DaftarSyarat, FaqLipat } from '../../komponen/pelengkap';
 import { PenggarisUmurTanam } from '../../komponen/penggaris-umur-tanam';
@@ -361,69 +361,58 @@ export function CaraKerja({ d }: { d: DataLanding }) {
 
 // ---------------------------------------------------------------- Fitur pendukung
 
-const LEVEL = ['level-benih', 'level-tunas', 'level-daun', 'level-berbunga', 'level-panen-raya'];
+const LEVEL = ['level-benih', 'level-tunas', 'level-daun', 'level-berbunga', 'level-panen-raya'] as const;
 
-function GambarFitur({ f }: { f: (typeof FITUR_LANDING)[number] }) {
-  const gambar = (src: string, bulat?: boolean) => (
-    <img
-      src={src}
-      alt=""
-      width={56}
-      height={56}
-      className={cx('block h-14 w-14 flex-none object-cover', bulat && 'rounded-full')}
-    />
-  );
-  switch (f) {
-    case 'deteksi':
-      return gambar('/lencana/kebun-terdokumentasi.svg');
-    case 'cuaca':
-      return gambar('/lencana/pengukur-teliti.svg');
-    case 'stok':
-      return gambar('/foto/komoditas/bayam.webp', true);
-    case 'asisten':
-      return <IkonLingkaran nama="info" besar />;
-    case 'peta':
-      return <IkonLingkaran nama="peta" besar />;
-    case 'chat':
-      return <IkonLingkaran nama="chat" besar />;
-    case 'level':
-      return (
-        <span className="flex -space-x-3">
-          {LEVEL.map((l) => (
-            <img
-              key={l}
-              src={`/lencana/${l}.svg`}
-              alt=""
-              width={48}
-              height={48}
-              className="block h-12 w-12"
-            />
-          ))}
-        </span>
-      );
-  }
-}
+type FiturKartu = Exclude<(typeof FITUR_LANDING)[number], 'level'>;
+
+/** Ikon garis untuk setiap kartu fitur [AG-55]; semua dari komponen/ikon.tsx. */
+const IKON_FITUR: Record<FiturKartu, NamaIkon> = {
+  deteksi: 'kamera',
+  asisten: 'info',
+  cuaca: 'pengukur',
+  peta: 'peta',
+  stok: 'panen',
+  chat: 'chat',
+};
+
+/**
+ * Warna lembut kartu bergantian (urutan diagonal supaya kolom tidak sewarna). Lingkaran ikon memakai
+ * warna lembut yang sama dengan cincin putih, ikonnya warna tua sekeluarga (kontras teks terjaga).
+ */
+const NADA_FITUR = [
+  { kartu: 'bg-daun-lembut', ikon: 'bg-daun-lembut text-daun-tua' },
+  { kartu: 'bg-matahari-lembut', ikon: 'bg-matahari-lembut text-matahari-teks' },
+  { kartu: 'bg-tanah-lembut', ikon: 'bg-tanah-lembut text-tanah' },
+] as const;
+const URUT_NADA = [0, 1, 2, 1, 2, 0];
 
 export function BagianFitur() {
+  const kartu = FITUR_LANDING.filter((f): f is FiturKartu => f !== 'level');
+  const level = FITUR_LANDING.includes('level');
   return (
     <>
       <KepalaBagian id={judulIdBagian('fitur')} sapaan={t.sapaanFitur} judul={t.judulFitur} />
       <ul className="m-0 grid list-none gap-4 p-0 md:grid-cols-2 lg:grid-cols-3 lg:gap-6">
-        {FITUR_LANDING.map((f, i) => {
+        {kartu.map((f, i) => {
           const isi = t.fitur[f];
+          const nada = NADA_FITUR[URUT_NADA[i % URUT_NADA.length] ?? 0] ?? NADA_FITUR[0];
           return (
             <li
               key={f}
-              className={cx(
-                'giliran flex flex-col gap-4 rounded-lg border border-garis bg-putih p-5',
-                f === 'level' && FITUR_LANDING.length % 3 === 1 && 'lg:col-span-3',
-              )}
+              className={cx('giliran flex flex-col gap-4 rounded-lg p-5', nada.kartu)}
               style={urutan(i)}
             >
-              <GambarFitur f={f} />
+              <span
+                className={cx(
+                  'grid h-14 w-14 flex-none place-items-center rounded-full border-3 border-putih shadow-ikon',
+                  nada.ikon,
+                )}
+              >
+                <Ikon nama={IKON_FITUR[f]} ukuran={28} tebal={1.9} />
+              </span>
               <div className="flex flex-col gap-1">
                 <h3 className="m-0 text-judul-bagian font-semibold">{isi.judul}</h3>
-                <p className="m-0 text-teks-pendukung">{isi.isi}</p>
+                <p className="m-0 text-teks">{isi.isi}</p>
                 {'ket' in isi ? (
                   <p className="m-0 flex items-start gap-2 pt-1 text-keterangan text-daun-tua">
                     <Ikon nama="pin" ukuran={20} className="mt-0.5" />
@@ -435,6 +424,31 @@ export function BagianFitur() {
           );
         })}
       </ul>
+      {level ? (
+        <div
+          className="giliran flex flex-col gap-5 rounded-lg border border-garis bg-putih p-5 lg:flex-row lg:items-center lg:justify-between lg:p-6"
+          style={urutan(kartu.length)}
+        >
+          <div className="flex max-w-teks flex-col gap-1">
+            <h3 className="m-0 text-judul-bagian font-semibold">{t.fitur.level.judul}</h3>
+            <p className="m-0 text-teks-pendukung">{t.fitur.level.isi}</p>
+          </div>
+          <ul className="m-0 grid list-none grid-cols-5 gap-2 p-0 lg:gap-4">
+            {LEVEL.map((l, i) => (
+              <li key={l} className="flex flex-col items-center gap-1 text-center">
+                <img
+                  src={`/lencana/${l}.svg`}
+                  alt=""
+                  width={64}
+                  height={64}
+                  className="block h-14 w-14 lg:h-16 lg:w-16"
+                />
+                <span className="text-keterangan text-teks-pendukung">{t.namaLevel[i]}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ) : null}
     </>
   );
 }

@@ -168,6 +168,7 @@ export const teksLanding = {
       isi: 'Setiap tugas yang selesai menambah poin, dari level benih sampai panen raya.',
     },
   },
+  namaLevel: ['Benih', 'Tunas', 'Daun', 'Berbunga', 'Panen raya'],
 
   // ---- pembeli
   sapaanPembeli: 'Untuk katering dan restoran',
