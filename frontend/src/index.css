@@ -207,6 +207,108 @@ html.js-gulir .muncul-gulir:not(.terlihat) .penggaris-penanda {
   transition: none !important;
 }
 
+/* Navbar halaman publik [AG-56]: garis penanda yang meluncur, garis progres gulir, tunas mini di
+   atas tautan aktif, dan logo yang bergoyang saat disorot (hanya perangkat berkursor) atau difokus. */
+.penanda-geser {
+  transition:
+    transform theme('transitionDuration.sedang') theme('transitionTimingFunction.keluar'),
+    opacity theme('transitionDuration.cepat') theme('transitionTimingFunction.keluar');
+}
+.garis-progres {
+  transform: scaleX(var(--kemajuan-gulir, 0));
+}
+.tunas-mini {
+  translate: -50% 0;
+  transform-origin: 50% 90%;
+  animation:
+    tunas-tumbuh theme('transitionDuration.sedang') theme('transitionTimingFunction.keluar') both,
+    tunas-goyang 3s ease-in-out theme('transitionDuration.sedang') infinite;
+}
+@keyframes tunas-tumbuh {
+  from {
+    opacity: 0;
+    transform: scale(0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes tunas-goyang {
+  0%,
+  100% {
+    transform: none;
+  }
+  25% {
+    transform: rotate(-8deg);
+  }
+  75% {
+    transform: rotate(8deg);
+  }
+}
+.logo-daun-kiri {
+  transform-origin: 49% 47.5%;
+}
+.logo-daun-kanan {
+  transform-origin: 51% 47.5%;
+}
+@keyframes daun-kiri {
+  0%,
+  100% {
+    transform: none;
+  }
+  35% {
+    transform: rotate(-12deg);
+  }
+  70% {
+    transform: rotate(5deg);
+  }
+}
+@keyframes daun-kanan {
+  0%,
+  100% {
+    transform: none;
+  }
+  35% {
+    transform: rotate(12deg);
+  }
+  70% {
+    transform: rotate(-5deg);
+  }
+}
+@keyframes tunas-pantul {
+  0%,
+  100% {
+    transform: none;
+  }
+  40% {
+    transform: translateY(-3px);
+  }
+  70% {
+    transform: translateY(1px);
+  }
+}
+.logo-navbar:focus-visible .logo-daun-kiri {
+  animation: daun-kiri theme('transitionDuration.sedang') theme('transitionTimingFunction.keluar');
+}
+.logo-navbar:focus-visible .logo-daun-kanan {
+  animation: daun-kanan theme('transitionDuration.sedang') theme('transitionTimingFunction.keluar');
+}
+.logo-navbar:focus-visible .logo-tunas {
+  animation: tunas-pantul theme('transitionDuration.cepat') theme('transitionTimingFunction.keluar');
+}
+@media (hover: hover) {
+  .logo-navbar:hover .logo-daun-kiri {
+    animation: daun-kiri theme('transitionDuration.sedang') theme('transitionTimingFunction.keluar');
+  }
+  .logo-navbar:hover .logo-daun-kanan {
+    animation: daun-kanan theme('transitionDuration.sedang') theme('transitionTimingFunction.keluar');
+  }
+  .logo-navbar:hover .logo-tunas {
+    animation: tunas-pantul theme('transitionDuration.cepat') theme('transitionTimingFunction.keluar');
+  }
+}
+
 /* Kartu dan baris bertahap: --urutan diisi 0–7 (item ke-8 dan seterusnya 0, langsung). */
 .muncul-bertahap {
   animation: theme('animation.muncul-bertahap');
