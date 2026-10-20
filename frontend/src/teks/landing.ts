@@ -181,7 +181,7 @@ export const teksLanding = {
   ],
   kartuPembeliJudul: (komoditas: string, kg: number) =>
     `${komoditas} · ${formatAngka(kg)} kg per minggu`,
-  kartuPembeliKet: 'Kebun Sekar, Cikole · contoh kebun pemenuh',
+  kartuPembeliKet: 'Kebun belakang rumah, Bowan, Klaten · contoh kebun pemenuh',
   daftarPembeli: 'Daftar sebagai pembeli',
 
   // ---- tanya jawab

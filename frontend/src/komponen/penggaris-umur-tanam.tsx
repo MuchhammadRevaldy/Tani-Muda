@@ -1,4 +1,4 @@
-import { useLayoutEffect, useMemo, useRef, useState } from 'react';
+import { useLayoutEffect, useMemo, useRef, useState, type CSSProperties } from 'react';
 import {
   hitungTataLetakPenggaris,
   ukurTeksPerkiraan,
@@ -98,8 +98,17 @@ export interface PenggarisUmurTanamProps {
   jadwal: JadwalPin[];
   /** Bawaan: tampil di varian hp. */
   tampilkanDaftar?: boolean;
+  /**
+   * Halaman depan [AG-55]: garis hijau tumbuh dari kiri sampai hari ini, pin yang dilewati muncul
+   * saat garis sampai, penanda hari ini muncul terakhir. Diputar setiap kali `.muncul-gulir`
+   * pembungkusnya terlihat (src/index.css); diam bila gerak dikurangi.
+   */
+  animasi?: boolean;
   className?: string;
 }
+
+/** Lama garis tumbuh pada penggaris beranimasi. */
+const LAMA_TUMBUH_MS = 1800;
 
 /**
  * Elemen khas Tani Muda: garis dari hari ke-0 (tanam) sampai panen, bagian terlalui hijau,
@@ -111,6 +120,7 @@ export function PenggarisUmurTanam({
   hariPanen,
   jadwal,
   tampilkanDaftar,
+  animasi,
   className,
 }: PenggarisUmurTanamProps) {
   const ref = useRef<HTMLDivElement>(null);
@@ -149,9 +159,16 @@ export function PenggarisUmurTanam({
   const daftar = tampilkanDaftar ?? varian === 'hp';
   const pinU = tata.ukuranPin as 28 | 32;
   const lebarL = varian === 'lebar';
+  /** Jeda kemunculan pin = saat garis yang tumbuh rata melewatinya. */
+  const tundaPin = (x: number) =>
+    `${Math.round((Math.max(0, x - tata.jalur.kiri) / Math.max(1, tata.jalur.lebarIsi)) * LAMA_TUMBUH_MS)}ms`;
+  const terlewati = (x: number) => x <= tata.jalur.kiri + tata.jalur.lebarIsi + 1;
 
   return (
-    <div className={cx('relative', className)}>
+    <div
+      className={cx('relative', animasi && 'penggaris-beranimasi', className)}
+      style={animasi ? ({ '--lama-tumbuh': `${LAMA_TUMBUH_MS}ms` } as CSSProperties) : undefined}
+    >
       <div
         ref={ref}
         className="relative w-full"
@@ -171,7 +188,10 @@ export function PenggarisUmurTanam({
               }}
             >
               <div
-                className="absolute bottom-0 left-0 top-0 bg-limau bg-progres-limau"
+                className={cx(
+                  'absolute bottom-0 left-0 top-0 bg-limau bg-progres-limau',
+                  animasi && 'penggaris-isi',
+                )}
                 style={{ width: tata.jalur.lebarIsi }}
               />
             </div>
@@ -192,7 +212,15 @@ export function PenggarisUmurTanam({
               </span>
             ))}
             {tata.pin.map((p, i) => (
-              <span key={`p${i}`}>
+              <span
+                key={`p${i}`}
+                className={animasi && terlewati(p.x) ? 'penggaris-pin' : undefined}
+                style={
+                  animasi && terlewati(p.x)
+                    ? ({ '--tunda': tundaPin(p.x) } as CSSProperties)
+                    : undefined
+                }
+              >
                 <span
                   className={cx('absolute -ml-px w-0.5', KELAS_TANGKAI[p.status])}
                   style={{
@@ -230,11 +258,14 @@ export function PenggarisUmurTanam({
               </span>
             ))}
             <span
-              className="absolute w-1 rounded-xs bg-teks"
+              className={cx('absolute w-1 rounded-xs bg-teks', animasi && 'penggaris-penanda')}
               style={{ left: tata.penanda.x, top: tata.penanda.atas, height: tata.penanda.tinggi }}
             />
             <span
-              className="absolute h-8 whitespace-nowrap rounded-full bg-teks px-3 text-isi font-semibold leading-8 tabular-nums text-putih"
+              className={cx(
+                'absolute h-8 whitespace-nowrap rounded-full bg-teks px-3 text-isi font-semibold leading-8 tabular-nums text-putih',
+                animasi && 'penggaris-penanda',
+              )}
               style={{ left: tata.labelHariIni.kiri, top: tata.labelHariIni.atas }}
             >
               {tata.labelHariIni.teks}

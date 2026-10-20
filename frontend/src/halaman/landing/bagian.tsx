@@ -492,6 +492,7 @@ export function BagianPembeli({ d }: { d: DataLanding }) {
               hariPanen={c.resep.umurPanenHari}
               jadwal={c.pin}
               tampilkanDaftar={false}
+              animasi
             />
           </article>
           <LabelKecil nada="contoh" className="self-start">

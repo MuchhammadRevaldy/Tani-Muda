@@ -154,7 +154,10 @@ html.js-gulir .muncul-gulir:not(.terlihat) .garis-tumbuh {
   .garis-tumbuh {
     transform-origin: left center;
   }
-  html.js-gulir .muncul-gulir:not(.terlihat) .garis-tumbuh {
+  html.js-gulir .muncul-gulir:not(.terlihat) .garis-tumbuh,
+  html.js-gulir .muncul-gulir:not(.terlihat) .penggaris-isi,
+  html.js-gulir .muncul-gulir:not(.terlihat) .penggaris-pin,
+  html.js-gulir .muncul-gulir:not(.terlihat) .penggaris-penanda {
     transform: scaleX(0);
   }
 }
@@ -172,6 +175,33 @@ html.js-gulir .muncul-gulir:not(.terlihat) .garis-tumbuh {
     transform-origin: left center;
     transform: scaleX(var(--kemajuan, 1));
   }
+}
+
+/* Penggaris umur tanam beranimasi di halaman depan [AG-55]: garis hijau tumbuh dari kiri (linear,
+   --lama-tumbuh), pin yang dilewati muncul saat garis sampai (--tunda), penanda hari ini terakhir. */
+.penggaris-beranimasi .penggaris-isi {
+  transform-origin: left center;
+  transition: transform var(--lama-tumbuh, 1800ms) linear;
+}
+.penggaris-beranimasi .penggaris-pin {
+  transition: opacity theme('transitionDuration.cepat') theme('transitionTimingFunction.keluar');
+  transition-delay: var(--tunda, 0ms);
+}
+.penggaris-beranimasi .penggaris-penanda {
+  transition:
+    opacity theme('transitionDuration.cepat') theme('transitionTimingFunction.keluar'),
+    transform theme('transitionDuration.cepat') theme('transitionTimingFunction.keluar');
+  transition-delay: var(--lama-tumbuh, 1800ms);
+}
+html.js-gulir .muncul-gulir:not(.terlihat) .penggaris-isi {
+  transform: scaleX(0);
+}
+html.js-gulir .muncul-gulir:not(.terlihat) .penggaris-pin,
+html.js-gulir .muncul-gulir:not(.terlihat) .penggaris-penanda {
+  opacity: 0;
+}
+html.js-gulir .muncul-gulir:not(.terlihat) .penggaris-penanda {
+  transform: translateY(8px);
 }
 
 /* Kartu dan baris bertahap: --urutan diisi 0–7 (item ke-8 dan seterusnya 0, langsung). */
@@ -329,7 +359,10 @@ html.tanpa-animasi *::after {
 }
 html.tanpa-animasi.js-gulir .muncul-gulir:not(.terlihat),
 html.tanpa-animasi.js-gulir .muncul-gulir:not(.terlihat) .giliran,
-html.tanpa-animasi.js-gulir .muncul-gulir:not(.terlihat) .garis-tumbuh {
+html.tanpa-animasi.js-gulir .muncul-gulir:not(.terlihat) .garis-tumbuh,
+html.tanpa-animasi.js-gulir .muncul-gulir:not(.terlihat) .penggaris-isi,
+html.tanpa-animasi.js-gulir .muncul-gulir:not(.terlihat) .penggaris-pin,
+html.tanpa-animasi.js-gulir .muncul-gulir:not(.terlihat) .penggaris-penanda {
   opacity: 1;
   transform: none;
 }
