@@ -220,19 +220,23 @@ function useGarisProgres() {
   return ref;
 }
 
-/** Tombol Masuk: latar hijau menyapu dari kiri, teks menjadi putih, panah kecil masuk dari kiri. */
+/**
+ * Tombol Masuk: latar hijau menyapu dari kiri, teks menjadi putih, panah kecil masuk dari kiri.
+ * Panah diposisikan absolut supaya tidak memakan ruang: saat diam teks tepat di tengah; saat
+ * disorot teks bergeser sedikit ke kiri memberi tempat panah.
+ */
 function TombolMasuk({ ke, label }: { ke: string; label: string }) {
   const tukar = 'col-start-1 row-start-1 transition-opacity duration-cepat ease-keluar';
   return (
     <Link
       to={ke}
-      className="fokus-cincin group relative inline-flex min-h-sentuh items-center gap-1 overflow-hidden rounded-full border-2 border-teks bg-putih px-5 font-semibold no-underline transition-transform duration-cepat ease-keluar active:translate-y-px"
+      className="fokus-cincin group relative inline-flex min-h-sentuh items-center justify-center overflow-hidden rounded-full border-2 border-teks bg-putih px-6 font-semibold no-underline transition-transform duration-cepat ease-keluar active:translate-y-px"
     >
       <span
         aria-hidden="true"
         className="absolute inset-0 origin-left scale-x-0 bg-daun-tua transition-transform duration-cepat ease-keluar group-hover:scale-x-100 group-focus-visible:scale-x-100"
       />
-      <span className="relative grid">
+      <span className="relative grid transition-transform duration-cepat ease-keluar group-hover:-translate-x-2 group-focus-visible:-translate-x-2">
         <span className={cx(tukar, 'text-teks group-hover:opacity-0 group-focus-visible:opacity-0')}>
           {label}
         </span>
@@ -246,7 +250,7 @@ function TombolMasuk({ ke, label }: { ke: string; label: string }) {
       <Ikon
         nama="panah-kanan"
         ukuran={18}
-        className="relative -translate-x-2 text-putih opacity-0 transition duration-cepat ease-keluar group-hover:translate-x-0 group-hover:opacity-100 group-focus-visible:translate-x-0 group-focus-visible:opacity-100"
+        className="absolute right-3 top-1/2 -translate-x-2 -translate-y-1/2 text-putih opacity-0 transition duration-cepat ease-keluar group-hover:translate-x-0 group-hover:opacity-100 group-focus-visible:translate-x-0 group-focus-visible:opacity-100"
       />
     </Link>
   );
