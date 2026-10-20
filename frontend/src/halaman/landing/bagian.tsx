@@ -10,14 +10,12 @@ import { Link } from 'react-router-dom';
 import { ChipStatus } from '../../komponen/chip-status';
 import { cx } from '../../komponen/gabung-kelas';
 import { Ikon, IkonLingkaran, type NamaIkon } from '../../komponen/ikon';
-import { IlustrasiKomoditas } from '../../komponen/ilustrasi';
 import { LabelKecil } from '../../komponen/label-kecil';
 import { DaftarSyarat, FaqLipat } from '../../komponen/pelengkap';
 import { PenggarisUmurTanam } from '../../komponen/penggaris-umur-tanam';
 import { kelasTombol } from '../../komponen/tombol';
 import { useLayarLebar } from '../../komponen/use-layar-lebar';
 import { CONTOH_LANDING } from '../../lib/contoh-landing';
-import { animasiMati } from '../../lib/gerak';
 import { teksLanding as t } from '../../teks/landing';
 import { kelasWadah } from '../statis/kerangka-publik';
 import { AngkaNaik } from './angka-naik';
@@ -185,62 +183,44 @@ export function BagianMasalah() {
 
 // ---------------------------------------------------------------- Siklus Tani Muda
 
-function GambarSiklus({ src, goyang = true }: { src: string; goyang?: boolean }) {
+/**
+ * Medali 3D seragam untuk keempat langkah siklus [AG-55]: lingkaran bergradasi (token `medali-*`),
+ * kilap di atas, dan ikon garis putih dari komponen/ikon.tsx. Ukuran dan bingkai sama untuk semua.
+ */
+export type WarnaMedali = 'daun' | 'matahari' | 'limau' | 'oranye';
+const KELAS_MEDALI: Record<WarnaMedali, string> = {
+  daun: 'bg-medali-daun',
+  matahari: 'bg-medali-matahari',
+  limau: 'bg-medali-limau',
+  oranye: 'bg-medali-oranye',
+};
+
+export function Medali({ ikon, warna }: { ikon: NamaIkon; warna: WarnaMedali }) {
   return (
-    <span className="grid h-24 w-24 flex-none place-items-center rounded-full bg-putih shadow-ikon lg:h-ilustrasi lg:w-ilustrasi">
-      <img
-        src={src}
-        alt=""
-        width={160}
-        height={160}
-        className={cx('block h-18 w-18 lg:h-26 lg:w-26', goyang && 'animate-goyang')}
+    <span
+      className={cx(
+        'relative grid h-20 w-20 flex-none place-items-center overflow-hidden rounded-full border-4 border-putih text-putih shadow-ikon lg:h-24 lg:w-24',
+        KELAS_MEDALI[warna],
+      )}
+    >
+      <span
+        aria-hidden="true"
+        className="absolute left-3 right-3 top-1.5 h-6 rounded-full bg-putih opacity-30"
       />
+      <Ikon nama={ikon} ukuran={40} tebal={2} className="relative" />
     </span>
   );
 }
 
-function LangkahSiklus({
-  i,
-  terakhir,
-  gambar,
-  judul,
-  isi,
-  children,
-}: {
-  i: number;
-  terakhir: boolean;
-  gambar: ReactNode;
-  judul: string;
-  isi: string;
-  children?: ReactNode;
-}) {
-  return (
-    <li
-      className="giliran relative flex gap-4 pb-8 lg:flex-col lg:items-center lg:px-3 lg:pb-0"
-      style={urutan(i)}
-    >
-      {!terakhir ? (
-        // Garis ke langkah berikutnya: tegak di HP (dari bawah gambar), mendatar di desktop (dari
-        // tengah gambar ke tengah gambar berikutnya). Tergambar bergiliran saat bagian terlihat.
-        <span
-          aria-hidden="true"
-          className="garis-tumbuh absolute bottom-0 left-12 top-24 w-1 -translate-x-1/2 rounded-full bg-limau lg:left-1/2 lg:top-20 lg:h-1 lg:w-full lg:translate-x-0"
-          style={urutan(i + 1)}
-        />
-      ) : null}
-      <div className="relative">{gambar}</div>
-      <div className="flex min-w-0 flex-1 flex-col gap-2 lg:items-center lg:text-center">
-        <p className="m-0 font-semibold text-daun-tua">{t.langkahKe(i + 1)}</p>
-        <h3 className="m-0 text-tampil-1 font-semibold">{judul}</h3>
-        <p className="m-0 text-teks-pendukung">{isi}</p>
-        {children}
-      </div>
-    </li>
-  );
-}
+const SIKLUS: { ikon: NamaIkon; warna: WarnaMedali; judul: string; isi: string }[] = [
+  { ikon: 'belajar', warna: 'daun', judul: t.belajar, isi: t.isiBelajar },
+  { ikon: 'uang', warna: 'matahari', judul: t.hitung, isi: t.isiHitung },
+  { ikon: 'kebun', warna: 'limau', judul: t.rawat, isi: t.isiRawat },
+  { ikon: 'panen', warna: 'oranye', judul: t.jual, isi: t.isiJual },
+];
 
 export function BagianSiklus({ d }: { d: DataLanding }) {
-  const sawiDiam = animasiMati();
+  const contoh = d.hitung[0];
   return (
     <>
       <KepalaBagian
@@ -250,106 +230,41 @@ export function BagianSiklus({ d }: { d: DataLanding }) {
         ket={t.ketPilar}
       />
       <ol className="m-0 grid list-none p-0 lg:grid-cols-4">
-        <LangkahSiklus
-          i={0}
-          terakhir={false}
-          gambar={<GambarSiklus src="/lencana/pelajar-rajin.svg" />}
-          judul={t.belajar}
-          isi={t.isiBelajar}
-        >
-          <p className="m-0 text-keterangan text-teks-pendukung">{t.ketModul}</p>
-        </LangkahSiklus>
-        <LangkahSiklus
-          i={1}
-          terakhir={false}
-          gambar={<GambarSiklus src="/ilustrasi/ilustrasi-masuk.svg" />}
-          judul={t.hitung}
-          isi={t.isiHitung}
-        >
-          {d.hitung.length ? (
-            <div className="w-full rounded-md border border-garis bg-putih text-left">
-              <ul className="m-0 list-none p-0">
-                {d.hitung.map((b, i) => {
-                  const a = t.modalImpas(
-                    b.angka.modal,
-                    b.angka.titikImpasKg,
-                    b.komoditas.satuan_panen,
-                  );
-                  return (
-                    <li
-                      key={b.komoditas.id}
-                      className={cx('px-3 py-2', i > 0 && 'border-t border-garis')}
-                    >
-                      <p className="m-0 font-semibold">
-                        {t.barisHitung(b.komoditas.nama, b.luasM2)}
-                      </p>
-                      <p className="m-0 text-teks-pendukung">
-                        {t.modal} <span className="font-semibold text-tanah">{a.modal}</span> ·{' '}
-                        {a.impas}
-                      </p>
-                    </li>
-                  );
-                })}
-              </ul>
-              <p className="m-0 border-t border-garis px-3 py-2 text-keterangan text-teks-pendukung">
-                {t.tanpaSubsidi}
-              </p>
+        {SIKLUS.map((s, i) => (
+          <li
+            key={s.judul}
+            className="giliran relative flex gap-4 pb-8 lg:flex-col lg:items-center lg:px-3 lg:pb-0"
+            style={urutan(i)}
+          >
+            {i < SIKLUS.length - 1 ? (
+              // Garis ke langkah berikutnya: tegak di HP (dari bawah medali), mendatar di desktop
+              // (dari tengah medali ke tengah medali berikutnya). Tergambar bergiliran.
+              <span
+                aria-hidden="true"
+                className="garis-tumbuh absolute bottom-0 left-10 top-20 w-1 -translate-x-1/2 rounded-full bg-limau lg:left-1/2 lg:top-12 lg:h-1 lg:w-full lg:translate-x-0"
+                style={urutan(i + 1)}
+              />
+            ) : null}
+            <div className="relative">
+              <Medali ikon={s.ikon} warna={s.warna} />
             </div>
-          ) : null}
-        </LangkahSiklus>
-        <LangkahSiklus
-          i={2}
-          terakhir={false}
-          gambar={
-            // Sawi bergerak membawa animasinya sendiri di dalam SVG; saat animasi mati, versi diam.
-            <span className="grid h-24 w-24 flex-none place-items-center rounded-full bg-putih shadow-ikon lg:h-ilustrasi lg:w-ilustrasi">
-              {sawiDiam ? (
-                <IlustrasiKomoditas
-                  nama="sawi"
-                  ukuran={104}
-                  alt=""
-                  className="h-18 w-18 lg:h-26 lg:w-26"
-                />
-              ) : (
-                <img
-                  src="/ilustrasi/sawi-bergerak.svg"
-                  alt=""
-                  width={104}
-                  height={104}
-                  className="block h-18 w-18 lg:h-26 lg:w-26"
-                />
-              )}
-            </span>
-          }
-          judul={t.rawat}
-          isi={t.isiRawat}
-        />
-        <LangkahSiklus
-          i={3}
-          terakhir
-          gambar={<GambarSiklus src="/lencana/pesanan-pertama.svg" />}
-          judul={t.jual}
-          isi={t.isiJual}
-        >
-          <ul className="m-0 w-full list-none rounded-md border border-garis bg-putih p-0 text-left">
-            {CONTOH_LANDING.pesanan.map((p, i) => (
-              <li
-                key={p.nama}
-                className={cx('flex flex-col gap-2 p-3', i > 0 && 'border-t border-garis')}
-              >
-                <div>
-                  <p className="m-0 font-semibold">{p.nama}</p>
-                  <p className="m-0 text-teks-pendukung">
-                    {p.jenis === 'rutin'
-                      ? t.ketPembeliRutin(d.namaKomoditas(p.komoditas), p.kg)
-                      : t.ketPembeliSekali(p.kg)}
-                  </p>
-                </div>
-                <ChipStatus status="uang-muka-ditahan" className="self-start" />
-              </li>
-            ))}
-          </ul>
-        </LangkahSiklus>
+            <div className="flex min-w-0 flex-1 flex-col gap-2 lg:items-center lg:text-center">
+              <p className="m-0 font-semibold text-daun-tua">{t.langkahKe(i + 1)}</p>
+              <h3 className="m-0 text-tampil-1 font-semibold">{s.judul}</h3>
+              <p className="m-0 text-teks-pendukung">{s.isi}</p>
+              {i === 1 && contoh ? (
+                <p className="m-0 text-keterangan text-tanah">
+                  {t.barisContohHitung(
+                    contoh.komoditas.nama,
+                    contoh.luasM2,
+                    contoh.angka.titikImpasKg,
+                    contoh.komoditas.satuan_panen,
+                  )}
+                </p>
+              ) : null}
+            </div>
+          </li>
+        ))}
       </ol>
     </>
   );

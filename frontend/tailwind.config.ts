@@ -46,6 +46,10 @@ export const warna = {
   'garis-kuat': '#8A91A0',
 } as const;
 
+/** Gradasi medali 3D: titik terang di kiri atas, warna utama, tepi gelap [AG-55]. */
+const medali = (terang: string, utama: string, gelap: string) =>
+  `radial-gradient(circle at 32% 28%, ${terang} 0%, ${utama} 55%, ${gelap} 100%)`;
+
 /** Bayangan bernama (D-59). Bayangan bawaan Tailwind tetap dilarang (cek-aturan BAYANGAN). */
 const bayangan = {
   kartu: '0 24px 48px rgba(46,53,71,.10)',
@@ -118,8 +122,6 @@ const ukuranBernama = {
   // Kartu pemilih siklus di Beranda (AG-17): HP memperlihatkan tepi kartu berikutnya.
   'kartu-siklus': '264px',
   'kartu-siklus-lebar': '288px',
-  // Ilustrasi langkah Siklus Tani Muda di halaman depan desktop [AG-54].
-  ilustrasi: '160px',
 };
 
 /** Skala jarak dan ukuran berbasis 4px (dan 2px untuk detail kecil). */
@@ -271,6 +273,11 @@ const config: Config = {
       'tombol-limau': `linear-gradient(180deg, ${warna['limau-terang']} 0%, ${warna['limau-tekan']} 100%)`,
       'tombol-oranye': `linear-gradient(180deg, ${warna['oranye-terang']} 0%, ${warna['oranye-tekan']} 100%)`,
       'progres-limau': `linear-gradient(90deg, ${warna['limau-tekan']} 0%, ${warna['limau-terang']} 100%)`,
+      // Medali 3D langkah Siklus Tani Muda [AG-55]: terang di kiri atas, gelap di tepi.
+      'medali-daun': medali(warna['limau'], warna['daun'], warna['daun-tekan']),
+      'medali-matahari': medali(warna['matahari'], warna['oranye'], warna['tanah']),
+      'medali-limau': medali(warna['limau-terang'], warna['limau'], warna['limau-tekan']),
+      'medali-oranye': medali(warna['oranye-terang'], warna['oranye'], warna['oranye-tekan']),
     },
     extend: {
       transitionDuration: gerak.durasi,

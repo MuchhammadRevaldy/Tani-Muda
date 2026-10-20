@@ -79,7 +79,7 @@ Ukuran lain yang **dipakai di halaman tetapi tidak ada di tabel sistem desain** 
 | 28/36, 48/56, 96/96 | Hanya di papan dokumentasi sistem desain, bukan di aplikasi |
 | 72/76 · 700 | Angka sorotan halaman depan, token `angka-besar` (21,93% di bagian Masalah, desktop) [AG-54] |
 
-Ukuran ilustrasi langkah Siklus Tani Muda di halaman depan desktop: 160px, token jarak `ilustrasi` [AG-54].
+Medali langkah Siklus Tani Muda di halaman depan: gradasi token `medali-daun`, `medali-matahari`, `medali-limau`, `medali-oranye` (radial dari warna token) [AG-55].
 
 ### 1.3 Jarak
 

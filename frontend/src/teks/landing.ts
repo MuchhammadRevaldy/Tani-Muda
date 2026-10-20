@@ -84,23 +84,22 @@ export const teksLanding = {
   ketPilar:
     'Empat langkah yang paling sering membuat petani muda ragu memulai, ditemani satu per satu, untuk pekarangan, kebun, maupun sawah.',
   rawat: 'Rawat',
-  isiRawat:
-    'Begitu tanggal tanam diisi, jadwal tugas dibuat dari resep. Pengingat pupuk, siram, dan cek hama datang tepat pada harinya, dan hasil ukur langsung jadi saran.',
+  isiRawat: 'Jadwal dan pengingat tugas dibuat otomatis dari resep.',
   belajar: 'Belajar',
-  isiBelajar:
-    'Modul video sekitar 3 menit untuk tiap tahap, dari persiapan lahan sampai pascapanen, untuk sayur di pekarangan maupun padi di sawah. Unduh sekali, tonton tanpa sinyal.',
+  isiBelajar: 'Modul video singkat per tahap, bisa ditonton tanpa sinyal.',
   contohModul: 'Padi sawah · Tanam pindah',
   ketModul: '3 menit · bisa disimpan untuk ditonton offline',
   hitung: 'Hitung',
-  isiHitung:
-    'Kalkulator modal menunjukkan titik impas sebelum menanam, dalam kg sayur atau kg gabah.',
+  isiHitung: 'Hitung modal dan titik impas sebelum mulai menanam.',
   barisHitung: (komoditas: string, luas: number) => `${komoditas} · ${formatAngka(luas)} m²`,
   tanpaSubsidi: 'Dihitung dengan harga tanpa subsidi',
+  // Satu baris angka di bawah langkah Hitung [AG-55].
+  barisContohHitung: (komoditas: string, luas: number, impas: number, satuan: string) =>
+    `Contoh ${komoditas.toLowerCase()} ${formatAngka(luas)} m²: impas di ${formatAngka(impas)} ${satuan}, harga tanpa subsidi`,
   modalImpas: (modal: number, impas: number, satuan: string) =>
     ({ modal: formatRupiah(modal), impas: `impas di ${formatAngka(impas)} ${satuan}` }) as const,
   jual: 'Jual',
-  isiJual:
-    'Pesan Sebelum Tanam: katering memesan sayur tiap minggu, koperasi memesan gabah untuk sekali panen. Uang muka dibayar dulu, jadi kamu menanam untuk pembeli yang sudah pasti.',
+  isiJual: 'Pembeli memesan dan membayar uang muka sebelum kamu menanam.',
   ketPembeliRutin: (komoditas: string, kg: number) =>
     `Rutin · ${komoditas.toLowerCase()} ${formatAngka(kg)} kg per minggu`,
   ketPembeliSekali: (kg: number) =>

@@ -40,11 +40,11 @@ describe('halaman depan (T4.32)', () => {
     // Modal dan untung sawi 100 m² dari angkaContoh (sama dengan papan 01).
     expect((await screen.findAllByText('Rp430.000')).length).toBeGreaterThan(0);
     expect(screen.getByText('Rp320.000')).toBeInTheDocument();
-    expect(screen.getByText(/impas di 86 kg/)).toBeInTheDocument();
-    expect(screen.getByText(/impas di 264 kg gabah/)).toBeInTheDocument();
-    // D-45: kartu contoh berlabel dan angka berketerangan tanpa subsidi.
+    // Satu baris angka di langkah Hitung [AG-55]; D-45: berketerangan tanpa subsidi.
+    expect(
+      screen.getByText('Contoh sawi hijau 100 m²: impas di 86 kg, harga tanpa subsidi'),
+    ).toBeInTheDocument();
     expect(screen.getByText('Contoh perhitungan')).toBeInTheDocument();
-    expect(screen.getByText('Dihitung dengan harga tanpa subsidi')).toBeInTheDocument();
     // Persen uang muka dan jam periksa dari konfigurasi.
     expect(screen.getByText(/membayar uang muka 20%/)).toBeInTheDocument();
     expect(screen.getByText(/Paling lama 6 jam setelah sayur tiba/)).toBeInTheDocument();
