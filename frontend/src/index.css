@@ -513,6 +513,56 @@ html.js-gulir .muncul-gulir:not(.terlihat) .penggaris-penanda {
   }
 }
 
+/* Kilau tipis yang menyapu tombol ajakan, dan garis bawah tautan kaki yang tumbuh dari kiri [AG-56]. */
+.kilau-tombol {
+  position: relative;
+  overflow: hidden;
+}
+.kilau-tombol::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg, transparent 35%, theme('colors.putih') 50%, transparent 65%);
+  opacity: 0;
+  transform: translateX(-100%);
+  pointer-events: none;
+}
+.kilau-tombol:focus-visible::after {
+  opacity: 0.45;
+  transform: translateX(100%);
+  transition:
+    transform theme('transitionDuration.sedang') theme('transitionTimingFunction.keluar'),
+    opacity theme('transitionDuration.cepat') theme('transitionTimingFunction.keluar');
+}
+.tautan-kaki > span::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -2px;
+  height: 2px;
+  border-radius: 9999px;
+  background: theme('colors.daun-tua');
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform theme('transitionDuration.cepat') theme('transitionTimingFunction.keluar');
+}
+.tautan-kaki:focus-visible > span::after {
+  transform: scaleX(1);
+}
+@media (hover: hover) {
+  .kilau-tombol:hover::after {
+    opacity: 0.45;
+    transform: translateX(100%);
+    transition:
+      transform theme('transitionDuration.sedang') theme('transitionTimingFunction.keluar'),
+      opacity theme('transitionDuration.cepat') theme('transitionTimingFunction.keluar');
+  }
+  .tautan-kaki:hover > span::after {
+    transform: scaleX(1);
+  }
+}
+
 /* Kartu dan baris bertahap: --urutan diisi 0–7 (item ke-8 dan seterusnya 0, langsung). */
 .muncul-bertahap {
   animation: theme('animation.muncul-bertahap');
@@ -622,8 +672,8 @@ html.js-gulir .muncul-gulir:not(.terlihat) .penggaris-penanda {
   grid-template-rows: 0fr;
   opacity: 0;
   transition:
-    grid-template-rows theme('transitionDuration.lambat') theme('transitionTimingFunction.keluar'),
-    opacity theme('transitionDuration.lambat') theme('transitionTimingFunction.keluar');
+    grid-template-rows theme('transitionDuration.sedang') theme('transitionTimingFunction.keluar'),
+    opacity theme('transitionDuration.sedang') theme('transitionTimingFunction.keluar');
 }
 .lipatan[data-terbuka='true'] {
   grid-template-rows: 1fr;

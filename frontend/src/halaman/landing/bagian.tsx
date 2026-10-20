@@ -686,10 +686,20 @@ export function AjakanPenutup() {
         <p className="m-0 text-judul-bagian text-teks-pendukung">{t.isiAjakan}</p>
       </div>
       <div className="flex w-full flex-col gap-3 md:w-auto md:flex-row">
-        <Link to="/masuk?peran=petani" className={kelasTombol('utama', true) + ' md:w-auto'}>
+        {/* Kilau tipis menyapu tombol, tombol terangkat dengan bayangan cahaya token [AG-56]. */}
+        <Link
+          to="/masuk?peran=petani"
+          className={cx(kelasTombol('utama', true), 'kilau-tombol md:w-auto hover:-translate-y-0.5')}
+        >
           {t.mulaiPetani}
         </Link>
-        <Link to="/masuk?peran=pembeli" className={kelasTombol('sekunder', true) + ' md:w-auto'}>
+        <Link
+          to="/masuk?peran=pembeli"
+          className={cx(
+            kelasTombol('sekunder', true),
+            'kilau-tombol md:w-auto hover:-translate-y-0.5 hover:shadow-kartu-angkat',
+          )}
+        >
           {t.sayaPembeli}
         </Link>
       </div>

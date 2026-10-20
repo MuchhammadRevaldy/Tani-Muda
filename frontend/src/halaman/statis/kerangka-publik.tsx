@@ -427,11 +427,12 @@ export function KakiPublik() {
           <ul className="m-0 flex list-none flex-col gap-1 p-0 lg:flex-row lg:gap-6">
             {TAUTAN_KAKI.map((t) => (
               <li key={t.ke}>
+                {/* Garis bawah tumbuh dari kiri saat disorot atau difokus [AG-56]. */}
                 <Link
                   to={t.ke}
-                  className="fokus-cincin inline-flex min-h-sentuh items-center whitespace-nowrap rounded-md font-medium text-daun-tua underline underline-offset-3"
+                  className="tautan-kaki fokus-cincin inline-flex min-h-sentuh items-center whitespace-nowrap rounded-md font-medium text-daun-tua no-underline"
                 >
-                  {t.label}
+                  <span className="relative">{t.label}</span>
                 </Link>
               </li>
             ))}
