@@ -248,18 +248,18 @@
   <path d="M488.8 480 L540.5 480 L730 900 Q650 925 570 900 Z" fill="url(#g-tanah)"/>
       <path d="M488.8 480 L540.5 480 L730 900 Q650 912 570 900 Z" fill="url(#g-tanah-atas)" opacity=".9"/>
   </g>
-  <use class="sp-tunas sp-baris-4" href="#tunas" x="354.3" y="504.8" width="27.0" height="25.2"/>
-  <use class="sp-tunas sp-baris-4" href="#tunas" x="436.5" y="504.8" width="27.0" height="25.2"/>
-  <use class="sp-tunas sp-baris-4" href="#tunas" x="518.7" y="504.8" width="27.0" height="25.2"/>
-  <use class="sp-tunas sp-baris-3" href="#tunas" x="331.6" y="551.4" width="36.0" height="33.6"/>
-  <use class="sp-tunas sp-baris-3" href="#tunas" x="432.0" y="551.4" width="36.0" height="33.6"/>
-  <use class="sp-tunas sp-baris-3" href="#tunas" x="532.5" y="551.4" width="36.0" height="33.6"/>
-  <use class="sp-tunas sp-baris-2" href="#tunas" x="300.7" y="615.2" width="48.0" height="44.8"/>
-  <use class="sp-tunas sp-baris-2" href="#tunas" x="426.0" y="615.2" width="48.0" height="44.8"/>
-  <use class="sp-tunas sp-baris-2" href="#tunas" x="551.3" y="615.2" width="48.0" height="44.8"/>
-  <use class="sp-tunas sp-baris-1" href="#tunas" x="260.0" y="701.2" width="63.0" height="58.8"/>
-  <use class="sp-tunas sp-baris-1" href="#tunas" x="418.5" y="701.2" width="63.0" height="58.8"/>
-  <use class="sp-tunas sp-baris-1" href="#tunas" x="577.0" y="701.2" width="63.0" height="58.8"/>
+  <g class="sp-tunas sp-baris-4"><use href="#tunas" x="354.3" y="504.8" width="27.0" height="25.2"/></g>
+  <g class="sp-tunas sp-baris-4"><use href="#tunas" x="436.5" y="504.8" width="27.0" height="25.2"/></g>
+  <g class="sp-tunas sp-baris-4"><use href="#tunas" x="518.7" y="504.8" width="27.0" height="25.2"/></g>
+  <g class="sp-tunas sp-baris-3"><use href="#tunas" x="331.6" y="551.4" width="36.0" height="33.6"/></g>
+  <g class="sp-tunas sp-baris-3"><use href="#tunas" x="432.0" y="551.4" width="36.0" height="33.6"/></g>
+  <g class="sp-tunas sp-baris-3"><use href="#tunas" x="532.5" y="551.4" width="36.0" height="33.6"/></g>
+  <g class="sp-tunas sp-baris-2"><use href="#tunas" x="300.7" y="615.2" width="48.0" height="44.8"/></g>
+  <g class="sp-tunas sp-baris-2"><use href="#tunas" x="426.0" y="615.2" width="48.0" height="44.8"/></g>
+  <g class="sp-tunas sp-baris-2"><use href="#tunas" x="551.3" y="615.2" width="48.0" height="44.8"/></g>
+  <g class="sp-tunas sp-baris-1"><use href="#tunas" x="260.0" y="701.2" width="63.0" height="58.8"/></g>
+  <g class="sp-tunas sp-baris-1"><use href="#tunas" x="418.5" y="701.2" width="63.0" height="58.8"/></g>
+  <g class="sp-tunas sp-baris-1"><use href="#tunas" x="577.0" y="701.2" width="63.0" height="58.8"/></g>
   <g class="sp-tanaman sp-tanaman-1">
   <ellipse cx="160" cy="948" rx="120" ry="16" fill="url(#g-bayang)"/>
   <g class="sp-goyang"><use href="#tanaman-sawi" x="20" y="700" width="280" height="280"/></g>

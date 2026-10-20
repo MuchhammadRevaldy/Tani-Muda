@@ -4,7 +4,7 @@
  * dikelompokkan (kelas `sp-*`), sehingga tiap aset bisa dianimasikan tanpa mengubah tampilan akhir:
  * langit memudar, matahari terbit dari balik bukit lalu berdenyut, awan masuk dari kiri dan kanan
  * lalu melayang, bukit naik, bedengan terbentang, bibit muncul per baris dari depan, tanaman depan
- * tumbuh lalu bergoyang. Urutan sekitar 2,8 detik (src/index.css, `.sawah-pagi`).
+ * tumbuh lalu bergoyang. Urutan sekitar 2 detik (src/index.css, `.sawah-pagi`).
  *
  * Gerak yang berulang dijeda saat tab tidak terlihat. Semua gerak mati bila gerak dikurangi atau
  * VITE_ANIMASI=mati (keadaan akhir diam).

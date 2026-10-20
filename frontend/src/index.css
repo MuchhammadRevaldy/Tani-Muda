@@ -762,76 +762,76 @@ html.js-gulir .muncul-gulir:not(.terlihat) .penggaris-penanda {
 }
 .sawah-pagi .sp-langit,
 .sawah-pagi .sp-dasar {
-  animation: sp-pudar 800ms theme('transitionTimingFunction.keluar') both;
+  animation: sp-pudar 560ms theme('transitionTimingFunction.keluar') both;
 }
 .sawah-pagi .sp-matahari {
   transform-origin: center;
-  animation: sp-terbit 1200ms theme('transitionTimingFunction.keluar') 200ms both;
+  animation: sp-terbit 840ms theme('transitionTimingFunction.keluar') 140ms both;
 }
 .sawah-pagi .sp-pendar {
   transform-origin: center;
-  animation: sp-pendar 4s ease-in-out 1400ms infinite;
+  animation: sp-pendar 4s ease-in-out 980ms infinite;
 }
 .sawah-pagi .sp-awan-kiri {
-  animation: sp-dari-kiri 1000ms theme('transitionTimingFunction.keluar') 400ms both;
+  animation: sp-dari-kiri 700ms theme('transitionTimingFunction.keluar') 280ms both;
 }
 .sawah-pagi .sp-awan-kanan {
-  animation: sp-dari-kanan 1000ms theme('transitionTimingFunction.keluar') 500ms both;
+  animation: sp-dari-kanan 700ms theme('transitionTimingFunction.keluar') 350ms both;
 }
 .sawah-pagi .sp-awan-kiri .sp-awan-gerak {
-  animation: sp-awan-kiri 16s ease-in-out 1400ms infinite;
+  animation: sp-awan-kiri 16s ease-in-out 980ms infinite;
 }
 .sawah-pagi .sp-awan-kanan .sp-awan-gerak {
-  animation: sp-awan-kanan 19s ease-in-out 1500ms infinite;
+  animation: sp-awan-kanan 19s ease-in-out 1050ms infinite;
 }
 .sawah-pagi .sp-bukit {
-  animation: sp-naik 900ms theme('transitionTimingFunction.keluar') 600ms both;
+  animation: sp-naik 630ms theme('transitionTimingFunction.keluar') 420ms both;
 }
 .sawah-pagi .sp-bedeng {
   transform-origin: bottom center;
-  animation: sp-bentang 1000ms theme('transitionTimingFunction.keluar') both;
+  animation: sp-bentang 700ms theme('transitionTimingFunction.keluar') both;
 }
 .sawah-pagi .sp-bedeng-1 {
-  animation-delay: 950ms;
+  animation-delay: 660ms;
 }
 .sawah-pagi .sp-bedeng-2 {
-  animation-delay: 1050ms;
+  animation-delay: 740ms;
 }
 .sawah-pagi .sp-bedeng-3 {
-  animation-delay: 1150ms;
+  animation-delay: 800ms;
 }
 .sawah-pagi .sp-tunas {
   transform-origin: bottom center;
-  animation: sp-tumbuh 700ms theme('transitionTimingFunction.keluar') both;
+  animation: sp-tumbuh 490ms theme('transitionTimingFunction.keluar') both;
 }
 .sawah-pagi .sp-baris-1 {
-  animation-delay: 1500ms;
+  animation-delay: 1050ms;
 }
 .sawah-pagi .sp-baris-2 {
-  animation-delay: 1620ms;
+  animation-delay: 1130ms;
 }
 .sawah-pagi .sp-baris-3 {
-  animation-delay: 1740ms;
+  animation-delay: 1220ms;
 }
 .sawah-pagi .sp-baris-4 {
-  animation-delay: 1860ms;
+  animation-delay: 1300ms;
 }
 .sawah-pagi .sp-tanaman {
   transform-origin: bottom center;
-  animation: sp-tumbuh 1000ms theme('transitionTimingFunction.keluar') both;
+  animation: sp-tumbuh 700ms theme('transitionTimingFunction.keluar') both;
 }
 .sawah-pagi .sp-tanaman-1 {
-  animation-delay: 1750ms;
+  animation-delay: 1220ms;
 }
 .sawah-pagi .sp-tanaman-2 {
-  animation-delay: 1850ms;
+  animation-delay: 1300ms;
 }
 .sawah-pagi .sp-tanaman-3 {
-  animation-delay: 1950ms;
+  animation-delay: 1360ms;
 }
 .sawah-pagi .sp-goyang {
   transform-origin: bottom center;
-  animation: sp-angin 5s ease-in-out 2950ms infinite;
+  animation: sp-angin 5s ease-in-out 2060ms infinite;
 }
 /* Tab tidak terlihat: gerak berulang dijeda (hemat CPU di laptop dengan RAM terbatas). */
 .sawah-pagi.jeda * {
