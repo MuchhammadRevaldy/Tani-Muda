@@ -9,7 +9,6 @@ import {
   useRef,
   useState,
   type CSSProperties,
-  type MouseEvent as ReactMouseEvent,
   type ReactNode,
 } from 'react';
 import { Link } from 'react-router-dom';
@@ -146,39 +145,55 @@ const IKON_MASALAH: { muka: NamaIkon; belakang: NamaIkon }[] = [
 ];
 
 /**
- * Kartu masalah yang bisa dibalik [AG-56]: muka = masalah, belakang = jawaban Tani Muda dalam satu
- * kalimat. Berbalik saat disorot (perangkat berkursor) atau difokus papan ketik, dan dengan ketukan
- * di HP (tombol, aria-pressed). Kedua muka menempati sel grid yang sama, jadi tinggi kartu tetap.
- * Medali miring 3D mengikuti posisi kursor lewat variabel CSS (tanpa render ulang).
+ * Kartu masalah [AG-57]: tetap menghadap depan. Disorot (perangkat berkursor), difokus papan ketik,
+ * atau diketuk di HP: kartu terangkat sedikit dengan bayangan lembut, latar daun-lembut naik dari
+ * bawah, teks masalah memudar ke atas lalu jawaban Tani Muda masuk dari bawah, dan medali berganti
+ * dari oranye (ikon masalah) ke hijau (ikon jawaban) dengan memudar silang. Lepas: urutan terbalik.
+ * Semua gerak di src/index.css (`.kartu-masalah`, `km-*`). Teks masalah dan jawaban menempati sel
+ * grid yang sama, jadi tinggi kartu tidak berubah.
  */
-function KartuMasalah({ i, judul, isi, jawaban }: { i: number; judul: string; isi: string; jawaban: string }) {
-  const [dibalik, setDibalik] = useState(false);
+function KartuMasalah({
+  i,
+  judul,
+  isi,
+  jawaban,
+}: {
+  i: number;
+  judul: string;
+  isi: string;
+  jawaban: string;
+}) {
+  const [aktif, setAktif] = useState(false);
   const ikon = IKON_MASALAH[i] ?? { muka: 'info', belakang: 'centang' };
-  const miring = (e: ReactMouseEvent<HTMLButtonElement>) => {
-    const r = e.currentTarget.getBoundingClientRect();
-    e.currentTarget.style.setProperty('--miring-x', `${((e.clientX - r.left) / r.width - 0.5) * 24}deg`);
-    e.currentTarget.style.setProperty('--miring-y', `${-((e.clientY - r.top) / r.height - 0.5) * 24}deg`);
+  // Ketukan hanya mengunci keadaan di layar sentuh; di perangkat berkursor cukup disorot.
+  const ketuk = () => {
+    if (typeof window.matchMedia === 'function' && window.matchMedia('(hover: hover)').matches)
+      return;
+    setAktif((x) => !x);
   };
-  const lurus = (e: ReactMouseEvent<HTMLButtonElement>) => {
-    e.currentTarget.style.setProperty('--miring-x', '0deg');
-    e.currentTarget.style.setProperty('--miring-y', '0deg');
-  };
-  const muka = 'col-start-1 row-start-1 flex gap-4 rounded-lg p-4 [backface-visibility:hidden] lg:p-5';
   return (
     <button
       type="button"
-      aria-pressed={dibalik}
-      onClick={() => setDibalik((x) => !x)}
-      onMouseMove={miring}
-      onMouseLeave={lurus}
-      className="kartu-balik fokus-cincin block h-full w-full cursor-pointer rounded-lg border-0 bg-transparent p-0 text-left text-isi text-teks [perspective:1200px]"
+      aria-pressed={aktif}
+      onClick={ketuk}
+      className={cx(
+        'kartu-masalah fokus-cincin relative block h-full w-full cursor-pointer rounded-lg border-0 bg-transparent p-0 text-left text-isi text-teks',
+        aktif && 'aktif',
+      )}
     >
-      <span className={cx('kartu-balik-isi grid h-full', dibalik && 'terbalik')}>
-        <span className={cx(muka, 'border border-garis bg-embun-pagi lg:flex-col')}>
-          <span className="medali-miring block flex-none">
+      <span aria-hidden="true" className="km-bayang absolute inset-0 rounded-lg shadow-kartu" />
+      <span className="relative flex h-full gap-4 overflow-hidden rounded-lg border border-garis bg-embun-pagi p-4 lg:flex-col lg:p-5">
+        <span aria-hidden="true" className="km-isi absolute inset-0 bg-daun-lembut" />
+        <span className="relative grid flex-none">
+          <span className="km-medali-masalah col-start-1 row-start-1">
             <Medali ikon={ikon.muka} warna="oranye" />
           </span>
-          <span className="flex flex-col gap-1">
+          <span aria-hidden="true" className="km-medali-jawaban col-start-1 row-start-1">
+            <Medali ikon={ikon.belakang} warna="daun" />
+          </span>
+        </span>
+        <span className="relative grid">
+          <span className="km-masalah col-start-1 row-start-1 flex flex-col gap-1">
             <span className="text-judul-bagian font-semibold">{judul}</span>
             <span className="text-teks-pendukung">{isi}</span>
             <span className="flex items-center gap-1 pt-1 text-keterangan font-medium text-daun-tua">
@@ -186,15 +201,7 @@ function KartuMasalah({ i, judul, isi, jawaban }: { i: number; judul: string; is
               <Ikon nama="panah-kanan" ukuran={18} />
             </span>
           </span>
-        </span>
-        <span
-          aria-hidden={!dibalik}
-          className={cx(muka, 'muka-belakang border border-limau bg-daun-lembut lg:flex-col')}
-        >
-          <span className="medali-miring block flex-none">
-            <Medali ikon={ikon.belakang} warna="daun" />
-          </span>
-          <span className="flex flex-col gap-1">
+          <span className="km-jawaban col-start-1 row-start-1 flex flex-col justify-center gap-1">
             <span className="text-keterangan font-semibold text-daun-tua">{t.jawabanTaniMuda}</span>
             <span className="text-judul-bagian font-semibold">{jawaban}</span>
           </span>

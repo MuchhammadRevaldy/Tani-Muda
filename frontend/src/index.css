@@ -309,26 +309,95 @@ html.js-gulir .muncul-gulir:not(.terlihat) .penggaris-penanda {
   }
 }
 
-/* Kartu masalah yang berbalik [AG-56]: disorot (perangkat berkursor), difokus papan ketik, atau
-   diketuk (.terbalik). Medali miring 3D mengikuti kursor lewat --miring-x/--miring-y. */
-.kartu-balik-isi {
-  transform-style: preserve-3d;
+/* Kartu masalah [AG-57]: transisi tenang dari masalah ke jawaban (tanpa berbalik). Keadaan aktif =
+   disorot (perangkat berkursor), difokus papan ketik, atau diketuk (.aktif). Masuk: latar naik,
+   teks masalah keluar, jeda, jawaban masuk; keluar: urutan terbalik lewat jeda yang ditukar. */
+.kartu-masalah {
   transition: transform theme('transitionDuration.sedang') theme('transitionTimingFunction.keluar');
 }
-.kartu-balik-isi .muka-belakang {
-  transform: rotateY(180deg);
+.km-bayang {
+  opacity: 0;
+  transition: opacity theme('transitionDuration.sedang') theme('transitionTimingFunction.keluar');
 }
-.kartu-balik-isi.terbalik,
-.kartu-balik:focus-visible .kartu-balik-isi {
-  transform: rotateY(180deg);
+.km-isi {
+  transform: scaleY(0);
+  transform-origin: bottom center;
+  transition: transform theme('transitionDuration.sedang') theme('transitionTimingFunction.keluar') 100ms;
 }
-.kartu-balik .medali-miring {
-  transform: perspective(400px) rotateX(var(--miring-y, 0deg)) rotateY(var(--miring-x, 0deg));
-  transition: transform theme('transitionDuration.cepat') theme('transitionTimingFunction.keluar');
+.km-masalah {
+  transition:
+    opacity theme('transitionDuration.cepat') theme('transitionTimingFunction.keluar') 200ms,
+    transform theme('transitionDuration.cepat') theme('transitionTimingFunction.keluar') 200ms;
+}
+.km-jawaban {
+  opacity: 0;
+  transform: translateY(8px);
+  transition:
+    opacity theme('transitionDuration.cepat') theme('transitionTimingFunction.keluar'),
+    transform theme('transitionDuration.cepat') theme('transitionTimingFunction.keluar');
+}
+.km-medali-jawaban {
+  opacity: 0;
+  transition: opacity theme('transitionDuration.sedang') theme('transitionTimingFunction.keluar');
+}
+.km-medali-masalah {
+  transition: opacity theme('transitionDuration.sedang') theme('transitionTimingFunction.keluar');
+}
+.kartu-masalah.aktif ,
+.kartu-masalah:focus-visible  {
+  transform: translateY(-3px);
+}
+.kartu-masalah.aktif .km-bayang,
+.kartu-masalah:focus-visible .km-bayang,
+.kartu-masalah.aktif .km-medali-jawaban,
+.kartu-masalah:focus-visible .km-medali-jawaban {
+  opacity: 1;
+}
+.kartu-masalah.aktif .km-isi,
+.kartu-masalah:focus-visible .km-isi {
+  transform: none;
+  transition-delay: 0ms;
+}
+.kartu-masalah.aktif .km-masalah,
+.kartu-masalah:focus-visible .km-masalah {
+  opacity: 0;
+  transform: translateY(-6px);
+  transition-delay: 0ms;
+}
+.kartu-masalah.aktif .km-jawaban,
+.kartu-masalah:focus-visible .km-jawaban {
+  opacity: 1;
+  transform: none;
+  transition-delay: 200ms;
+}
+.kartu-masalah.aktif .km-medali-masalah,
+.kartu-masalah:focus-visible .km-medali-masalah {
+  opacity: 0;
 }
 @media (hover: hover) {
-  .kartu-balik:hover .kartu-balik-isi {
-    transform: rotateY(180deg);
+  .kartu-masalah:hover {
+    transform: translateY(-3px);
+  }
+  .kartu-masalah:hover .km-bayang,
+  .kartu-masalah:hover .km-medali-jawaban {
+    opacity: 1;
+  }
+  .kartu-masalah:hover .km-isi {
+    transform: none;
+    transition-delay: 0ms;
+  }
+  .kartu-masalah:hover .km-masalah {
+    opacity: 0;
+    transform: translateY(-6px);
+    transition-delay: 0ms;
+  }
+  .kartu-masalah:hover .km-jawaban {
+    opacity: 1;
+    transform: none;
+    transition-delay: 200ms;
+  }
+  .kartu-masalah:hover .km-medali-masalah {
+    opacity: 0;
   }
 }
 
