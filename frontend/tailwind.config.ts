@@ -84,12 +84,18 @@ const gerak = {
       '25%': { transform: 'rotate(-2deg)' },
       '75%': { transform: 'rotate(2deg)' },
     },
+    // Aset di sekitar ilustrasi hero naik-turun pelan [AG-55]; durasi dan jeda per aset di komponen.
+    melayang: {
+      '0%, 100%': { transform: 'none' },
+      '50%': { transform: 'translateY(-12px)' },
+    },
   },
   animasi: {
     'masuk-halaman': `masuk-halaman 600ms ${kurvaKeluar} both`,
     'muncul-bertahap': `muncul-bertahap 700ms ${kurvaKeluar} both`,
     denyut: 'denyut 2.4s ease-in-out infinite',
     goyang: 'goyang 6s ease-in-out infinite',
+    melayang: 'melayang 6s ease-in-out infinite',
   },
 };
 

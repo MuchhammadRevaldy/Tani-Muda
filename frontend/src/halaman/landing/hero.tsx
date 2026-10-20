@@ -3,6 +3,10 @@
  * (ke Masuk dengan peran terisi), ilustrasi komoditas contoh di lingkaran putus-putus, dan ringkasan
  * contoh perhitungan (modal, umur panen, titik impas, perkiraan untung) yang dihitung dari resep
  * contoh (D-08).
+ *
+ * [AG-55] Kalimat "Panduan sudah siap …" dihapus. Daun sawi tumbuh bergiliran lalu bergoyang (di
+ * dalam SVG), dan paling banyak enam aset melayang pelan di sekitar ilustrasi dengan kedalaman
+ * berbeda (ukuran, opacity, kecepatan), tidak di atas teks.
  */
 import { Link } from 'react-router-dom';
 import { cx } from '../../komponen/gabung-kelas';
@@ -44,6 +48,16 @@ function BarisAngka({
   );
 }
 
+/** Aset melayang di sekitar lingkaran ilustrasi; posisi dalam persen wadah ilustrasi. */
+const MELAYANG: { src: string; kelas: string; durasi: string; jeda: string }[] = [
+  { src: '/ilustrasi/komoditas/tomat.svg', kelas: 'left-0 top-6 h-14 w-14', durasi: '6.5s', jeda: '-1s' },
+  { src: '/ilustrasi/melayang/daun.svg', kelas: 'right-2 top-2 h-10 w-10 opacity-80', durasi: '5.2s', jeda: '-2.4s' },
+  { src: '/ilustrasi/melayang/koin.svg', kelas: 'right-0 top-1/2 h-12 w-12', durasi: '7s', jeda: '-3.1s' },
+  { src: '/ilustrasi/komoditas/cabai-rawit.svg', kelas: 'bottom-4 right-6 h-16 w-16', durasi: '6s', jeda: '-0.5s' },
+  { src: '/ilustrasi/melayang/tetes.svg', kelas: 'bottom-10 left-2 h-9 w-9 opacity-70', durasi: '4.8s', jeda: '-1.7s' },
+  { src: '/ilustrasi/komoditas/selada.svg', kelas: 'bottom-0 left-1/4 h-11 w-11 opacity-90', durasi: '5.8s', jeda: '-4s' },
+];
+
 function Contoh({ d }: { d: NonNullable<DataLanding['petani']> }) {
   return (
     <>
@@ -68,6 +82,16 @@ function Contoh({ d }: { d: NonNullable<DataLanding['petani']> }) {
             className="relative h-full w-full"
           />
         )}
+        {MELAYANG.map((m) => (
+          <img
+            key={m.src}
+            src={m.src}
+            alt=""
+            aria-hidden="true"
+            className={cx('pointer-events-none absolute block animate-melayang', m.kelas)}
+            style={{ animationDuration: m.durasi, animationDelay: m.jeda }}
+          />
+        ))}
       </div>
       <div className="flex flex-col gap-5 lg:col-span-3">
         <p className="m-0 text-teks-pendukung">
@@ -102,7 +126,6 @@ function Contoh({ d }: { d: NonNullable<DataLanding['petani']> }) {
 }
 
 export function Hero({ d }: { d: DataLanding }) {
-  const panduan = t.panduanSiap(d.siap, d.menyusul);
   return (
     <section
       className={cx(kelasWadah, 'grid items-center gap-10 py-8 lg:grid-cols-12 lg:gap-8 lg:py-16')}
@@ -121,7 +144,6 @@ export function Hero({ d }: { d: DataLanding }) {
             {t.sayaPembeli}
           </Link>
         </div>
-        {panduan ? <p className="m-0 text-teks-pendukung">{panduan}</p> : null}
       </div>
       {d.petani ? <Contoh d={d.petani} /> : null}
     </section>

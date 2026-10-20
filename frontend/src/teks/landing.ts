@@ -7,9 +7,6 @@ import { formatDesimal, formatRupiah } from '../lib/format';
 
 const formatAngka = (n: number) => formatDesimal(n, 1);
 
-const daftarNama = (nama: string[]) =>
-  nama.length <= 1 ? (nama[0] ?? '') : `${nama.slice(0, -1).join(', ')}, dan ${nama.at(-1)}`;
-
 export const teksLanding = {
   masuk: 'Masuk',
   bukaAplikasi: 'Buka aplikasi',
@@ -35,15 +32,6 @@ export const teksLanding = {
   isi: 'Mau menanam sawi di pekarangan atau padi di sawah, Tani Muda menemanimu belajar menanam, menghitung modal, merawat tanaman dengan pengingat, sampai menjual panen ke katering, restoran, dan koperasi yang sudah memesan sebelum kamu menanam.',
   mulaiPetani: 'Mulai sebagai petani',
   sayaPembeli: 'Saya pembeli',
-  panduanSiap: (siap: string[], menyusul: string[]) =>
-    [
-      siap.length
-        ? `Panduan sudah siap untuk ${daftarNama(siap.map((n) => n.toLowerCase()))}.`
-        : '',
-      menyusul.length ? `${daftarNama(menyusul)} menyusul.` : '',
-    ]
-      .filter(Boolean)
-      .join(' '),
 
   // ---- kartu contoh siklus
   contohPerhitungan: 'Contoh perhitungan',
